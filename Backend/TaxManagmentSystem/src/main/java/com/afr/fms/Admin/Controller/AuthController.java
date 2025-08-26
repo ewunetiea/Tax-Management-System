@@ -126,10 +126,12 @@ public class AuthController {
                 // }
 
                 // Step 2: Check if user already has an active session
-                List<UserSession> sessions = userSessionRepository.findByUserName(username);
-                if (sessions != null && sessions.size() > 0) {
-                        throw MultipleSessionsException.forUser(username, sessions.size());
-                }
+              
+              
+                // List<UserSession> sessions = userSessionRepository.findByUserName(username);
+                // if (sessions != null && sessions.size() > 0) {
+                //         throw MultipleSessionsException.forUser(username, sessions.size());
+                // }
 
                 // Step 3: Proceed with normal login
                 return doLogin(loginRequest, request);

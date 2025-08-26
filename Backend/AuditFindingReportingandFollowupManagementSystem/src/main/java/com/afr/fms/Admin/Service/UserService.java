@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.afr.fms.Admin.Entity.Role;
 import com.afr.fms.Admin.Entity.User;
-import com.afr.fms.Admin.Entity.UserTracker;
 import com.afr.fms.Admin.Mapper.RegionMapper;
 import com.afr.fms.Admin.Mapper.UserMapper;
 import com.afr.fms.Admin.Mapper.UserRoleMapper;

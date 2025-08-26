@@ -105,31 +105,33 @@ public class AuthController {
                 String username = loginRequest.getUsername();
 
                 // Step 1: AD authentication
-                try {
-                        Object userDetail = adService.getADUserDetails(loginRequest.getUsername(),
-                                        loginRequest.getPassword());
+                // try {
+                //         Object userDetail = adService.getADUserDetails(loginRequest.getUsername(),
+                //                         loginRequest.getPassword());
 
-                        if (userDetail == null) {
-                                throw new UserNotFoundException(
-                                                "Invalid credentials. Please provide the correct username and password.");
-                        }
-                } catch (UserNotFoundException e) {
-                        logger.error("User not found for username: {}", loginRequest.getUsername(),
-                                        e);
-                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse(e.getMessage()));
-                } catch (Exception e) {
-                        logger.error("Error while validating ad for username: {}",
-                                        loginRequest.getUsername(), e);
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                        .body(new MessageResponse(
-                                                        "An error occurred during authentication. Please try again later."));
-                }
+                //         if (userDetail == null) {
+                //                 throw new UserNotFoundException(
+                //                                 "Invalid credentials. Please provide the correct username and password.");
+                //         }
+                // } catch (UserNotFoundException e) {
+                //         logger.error("User not found for username: {}", loginRequest.getUsername(),
+                //                         e);
+                //         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse(e.getMessage()));
+                // } catch (Exception e) {
+                //         logger.error("Error while validating ad for username: {}",
+                //                         loginRequest.getUsername(), e);
+                //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                //                         .body(new MessageResponse(
+                //                                         "An error occurred during authentication. Please try again later."));
+                // }
 
                 // Step 2: Check if user already has an active session
-                List<UserSession> sessions = userSessionRepository.findByUserName(username);
-                if (sessions != null && sessions.size() > 0) {
-                        throw MultipleSessionsException.forUser(username, sessions.size());
-                }
+              
+              
+                // List<UserSession> sessions = userSessionRepository.findByUserName(username);
+                // if (sessions != null && sessions.size() > 0) {
+                //         throw MultipleSessionsException.forUser(username, sessions.size());
+                // }
 
                 // Step 3: Proceed with normal login
                 return doLogin(loginRequest, request);

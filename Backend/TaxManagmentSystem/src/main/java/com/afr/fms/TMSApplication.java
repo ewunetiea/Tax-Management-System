@@ -12,7 +12,7 @@ import com.afr.fms.Common.FunctionalityFileNotification.Service.FilesStorageServ
 
 @SpringBootApplication
 @EnableScheduling
-public class AFRFMSApplication extends SpringBootServletInitializer implements CommandLineRunner {
+public class TMSApplication extends SpringBootServletInitializer implements CommandLineRunner {
 	@Resource
 	FilesStorageService storageService;
 
@@ -20,12 +20,12 @@ public class AFRFMSApplication extends SpringBootServletInitializer implements C
 	FilesStorageFindingService filesStorageFindingService;
 
 	public static void main(String[] args) {
-		SpringApplication.run(AFRFMSApplication.class, args);
+		SpringApplication.run(TMSApplication.class, args);
 	}
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(AFRFMSApplication.class);
+		return application.sources(TMSApplication.class);
 	}
 
 	@Override

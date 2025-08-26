@@ -16,59 +16,25 @@ import { StepperModule } from 'primeng/stepper';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { NotifyAdmin } from '../../models/admin/notify-admin';
-import { catchError, filter, of, Subject, Subscription, switchMap, timer } from 'rxjs';
+import { catchError, filter, of, Subscription, switchMap, timer } from 'rxjs';
 import { RealTime } from '../../models/admin/real-time';
 import { NotifyMeService } from '../../pages/service/admin/notify-service';
 import { RealTimeService } from '../../pages/service/admin/real-time-service';
+import { SharedUiModule } from '../../../shared-ui';
 
 @Component({
     selector: 'app-topbar',
     standalone: true,
-    imports: [RouterModule, CommonModule, StyleClassModule, Menubar, BadgeModule, AvatarModule, InputTextModule, TabsModule, StepperModule, IconField, InputIcon, AppConfigurator],
-    template: `
-        <div class="layout-topbar w-full">
-            <p-menubar [model]="nestedMenuItems" class="w-full">
-                <ng-template #start>
-                    <div class="layout-topbar-logo-container flex items-center gap-2">
-                        <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()">
-                            <i class="pi pi-bars"></i>
-                        </button>
-                        <a class="layout-topbar-logo flex items-center gap-2" routerLink="/">
-                            <img src="assets/img/Awash_International_Bank.png" alt="Awash Bank Logo" class="mb-4 w-8 mx-auto" />
-                            <span class="font-semibold text-lg text-primary">{{ category }}</span>
-                        </a>
-                    </div>
-                </ng-template>
-                <ng-template #end>
-                    <div class="layout-config-menu flex items-center gap-4 w-full justify-end">
-                        <button type="button" class="layout-topbar-action" (click)="toggleDarkMode()">
-                            <i [ngClass]="{ pi: true, 'pi-moon': layoutService.isDarkTheme(), 'pi-sun': !layoutService.isDarkTheme() }"></i>
-                        </button>
-                        <div class="relative">
-                            <button
-                                class="layout-topbar-action layout-topbar-action-highlight"
-                                pStyleClass="@next"
-                                enterFromClass="hidden"
-                                enterActiveClass="animate-scalein"
-                                leaveToClass="hidden"
-                                leaveActiveClass="animate-fadeout"
-                                [hideOnOutsideClick]="true"
-                            >
-                                <i class="pi pi-palette"></i>
-                            </button>
-                            <app-configurator></app-configurator>
-                        </div>
-                        <p-iconfield>
-                            <p-inputicon class="pi pi-search" />
-                            <input type="text" pInputText placeholder="Search" />
-                        </p-iconfield>
-                    </div>
-                </ng-template>
-            </p-menubar>
-        </div>
-    `
+    imports: [
+    RouterModule,
+    SharedUiModule,  // ✅ brings in all PrimeNG + CommonModule + FormsModule
+    AppConfigurator  // ✅ custom standalone component
+  ],
+    templateUrl: './app.topbar.component.html'
 })
 export class AppTopbar {
+
+
     isLoggedIn = false;
     id_login_tracker?: number;
     items!: MenuItem[];
@@ -183,9 +149,9 @@ export class AppTopbar {
             }
         ];
 
-        if(this.admin){
+        if (this.admin) {
             this.nestedMenuItems = this.admin_items;
-        }else{
+        } else {
             this.nestedMenuItems = this.auditor_items;
         }
     }
@@ -207,12 +173,6 @@ export class AppTopbar {
 
     private handleLogoutSuccess(): void {
         this.storageService.clean();
-        // window.location.reload();
-        // this.reloadPageAndRedirect("https://afrfms.awashbank.com/afrfms");
-        // this.reloadPageAndRedirect('http://localhost:8082/afrfms');
-        // this.reloadPageAndRedirect('http://localhost:4200/afrfms');
-        // this.reloadPageAndRedirect('https://10.10.101.60:8082');
-        //    this.reloadPageAndRedirect('https://10.10.101.76:8443/inspection/');
         this.reloadPageAndRedirect('http://localhost:4200/');
     }
 
@@ -234,7 +194,6 @@ export class AppTopbar {
             return;
         }
 
-        // Initialize realTime object
         this.realTime = {
             ...this.realTime,
             is_saved: true,
@@ -242,12 +201,10 @@ export class AppTopbar {
             isAdmin: true
         };
 
-        // First-time fetch
         this.fetchAdminNotifications();
 
-        // Setup polling with timer
         if (this.subscription) {
-            this.subscription.unsubscribe(); // prevent multiple active subscriptions
+            this.subscription.unsubscribe();
         }
 
         this.realTimeInfo = {
@@ -260,7 +217,7 @@ export class AppTopbar {
             isAdmin: true
         };
 
-        this.subscription = timer(0, this.minutes || 60000) // fallback 60s
+        this.subscription = timer(0, this.minutes || 60000)
             .pipe(
                 switchMap(() =>
                     this.realTimeService.getRealTimeByUserId(this.realTimeInfo).pipe(
@@ -288,7 +245,6 @@ export class AppTopbar {
                     this.alertMe();
                 }
 
-                // Limit to top 3 notifications
                 this.admin_notification = this.admin_notification_list.slice(0, 3);
             },
             error: (err) => {

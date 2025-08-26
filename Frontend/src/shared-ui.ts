@@ -22,11 +22,18 @@ import { InputTextModule } from 'primeng/inputtext';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { StyleClassModule } from 'primeng/styleclass';
+import { Menubar } from 'primeng/menubar';
+import { BadgeModule } from 'primeng/badge';
+import { AvatarModule } from 'primeng/avatar';
+import { StepperModule } from 'primeng/stepper';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+
+    // PrimeNG
     TextareaModule,
     DialogModule,
     CardModule,
@@ -46,10 +53,17 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     IconFieldModule,
     InputIconModule,
     SelectButtonModule,
+    StyleClassModule,
+    Menubar,
+    BadgeModule,
+    AvatarModule,
+    StepperModule
   ],
   exports: [
     CommonModule,
     FormsModule,
+
+    // PrimeNG
     TextareaModule,
     DialogModule,
     CardModule,
@@ -69,6 +83,11 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     IconFieldModule,
     InputIconModule,
     SelectButtonModule,
+    StyleClassModule,
+    Menubar,
+    BadgeModule,
+    AvatarModule,
+    StepperModule
   ]
 })
 export class SharedUiModule {}

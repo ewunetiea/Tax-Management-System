@@ -1,34 +1,34 @@
-// export const environment = {
-//   production: true,
-//   imagesStaffApi: 'https://lms.awashbank.com/bigbackend/api/v1/staff/images/',
-//   imagesUserApi: 'https://lms.awashbank.com/bigbackend/api/user/images/',
-//   blankPic: 'assets/img/Blank-Profile-Picture.jpg',
-//   backendUrl: 'https://lms.awashbank.com/bigbackend/api',
-// };
-
-// export const environment = {
-//   production: true,
-//   imagesStaffApi: 'https://lms.awashbank.com/bigbackend/api/v1/staff/images/',
-//   imagesUserApi: 'https://lms.awashbank.com/bigbackend/api/user/images/',
-//   blankPic: 'assets/img/Blank-Profile-Picture.jpg',
-//   backendUrl: 'https://lms.awashbank.com/bigbackend/api',
-// };
-
 export const environment = {
   production: true,
-  filesAuditApi: 'http://localhost:8442/api/auditee/ism/files/',
-  imagesUserApi: 'http://localhost:8442/api/user/images/',
+  auditorFileApi: 'http://localhost:844/api',//to hnadle auditor uploading files
+  auditeeFileApi: 'http://localhost:8441/api', // to handle auditee response files
+  imagesUserApi: 'http://localhost:8441/api/user/image/',
   blankPic: 'assets/img/Blank-Profile-Picture.jpg',
-  backendUrl: 'http://localhost:8442/api',
+  backendUrl: 'http://localhost:8441/api',
+  webSocketUrl: 'http://localhost:8441/api',
+  idleTimeout: 6 * 60 * 1000, // 6 minutes
+  idleCountdownSeconds: 60, // 1 minute
+  warningTimeout: 5 * 60 * 1000, // 5 minutes
 };
+
 
 // export const environment = {
 //   production: true,
-//   filesAuditApi: 'https://10.10.101.60:8442/inspectionbackend/api/auditee/ism/files/',
-//   imagesUserApi: 'https://10.10.101.60:8442/inspectionbackend/api/user/images/',
+//   filesAuditApi: 'https://10.10.32.57:8443/afrfmsbackend/api/auditee/ism/files/',
+//   imagesUserApi: 'https://10.10.32.57:8443/afrfmsbackend/api/user/images/',
 //   blankPic: 'assets/img/Blank-Profile-Picture.jpg',
-//   backendUrl: 'https://10.10.101.60:8442/inspectionbackend/api',
+//   backendUrl: 'https://10.10.32.57:8443/afrfmsbackend/api',
 // };
 
-
-
+// export const environment = {
+//   production: true,
+//   auditorFileApi: 'https://afrfmsbackend.awashbank.com/financialbackend/api', //to hnadle auditor uploading files
+//   auditeeFileApi: 'https://afrfmsbackendsecondary.awashbank.com/financialbackend/api', // to handle auditee response files
+//   imagesUserApi: 'https://afrfmsbackendsecondary.awashbank.com/financialbackend/api/user/image/', // to handle user images
+//   blankPic: 'assets/img/Blank-Profile-Picture.jpg',
+//   backendUrl: 'https://afrfmsbackendlb.awashbank.com/financialbackend/api',
+//   webSocketUrl: 'https://afrfmsbackendlb.awashbank.com/afrfmsbackend/api',
+//   idleTimeout: 6 * 60 * 1000, // 6 minutes
+//   idleCountdownSeconds: 60, // 1 minute
+//   warningTimeout: 5 * 60 * 1000, // 5 minutes
+// };

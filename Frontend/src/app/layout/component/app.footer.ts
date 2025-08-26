@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
     standalone: true,
     selector: 'app-footer',
     template: `<div class="layout-footer">
-        Clearance Management System
+        Tax Management System
         <a href="https://primeng.org" target="_blank" rel="noopener noreferrer" class="text-primary font-bold hover:underline">© Copyright {{currentYear}} Awash Bank. All Rights Reserved</a>
     </div>`
 })

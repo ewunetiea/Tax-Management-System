@@ -540,3 +540,309 @@ Caused by: java.io.FileNotFoundException: class path resource [com/afr/fms/AD/Co
 2025-08-19 11:43:13 [http-nio-8443-exec-2] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/mgt_report/fetch_credit_documentation_report Method: POST Remote: 0:0:0:0:0:0:0:1
 2025-08-19 11:52:49 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
 2025-08-19 11:52:49 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2025-08-26 10:11:43 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 17.0.12 on HQ-SDI-T01 with PID 2552 (E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by abeshuk in E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem)
+2025-08-26 10:11:43 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-26 10:11:59 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-26 10:12:00 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-26 10:12:00 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-26 10:12:02 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authController': Unsatisfied dependency expressed through field 'userService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'userService' defined in file [E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes\com\afr\fms\Admin\Service\UserService.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.afr.fms.Admin.Service.UserService]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problem: 
+	URL cannot be resolved or is not a field
+
+2025-08-26 10:12:02 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-26 10:12:02 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-26 10:12:02 [restartedMain] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authController': Unsatisfied dependency expressed through field 'userService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'userService' defined in file [E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes\com\afr\fms\Admin\Service\UserService.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.afr.fms.Admin.Service.UserService]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problem: 
+	URL cannot be resolved or is not a field
+
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:659)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:639)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:119)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1431)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:619)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:955)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:147)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:734)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:308)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.afr.fms.AFRFMSApplication.main(AFRFMSApplication.java:23)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'userService' defined in file [E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes\com\afr\fms\Admin\Service\UserService.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.afr.fms.Admin.Service.UserService]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problem: 
+	URL cannot be resolved or is not a field
+
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1334)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1391)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1311)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:656)
+	... 25 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.afr.fms.Admin.Service.UserService]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problem: 
+	URL cannot be resolved or is not a field
+
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:224)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:87)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1326)
+	... 36 common frames omitted
+Caused by: java.lang.Error: Unresolved compilation problem: 
+	URL cannot be resolved or is not a field
+
+	at com.afr.fms.Admin.Service.UserService.<init>(UserService.java:80)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:211)
+	... 38 common frames omitted
+2025-08-26 10:12:30 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 17.0.12 on HQ-SDI-T01 with PID 19964 (E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by abeshuk in E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem)
+2025-08-26 10:12:30 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-26 10:12:39 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-26 10:12:39 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-26 10:12:39 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-26 10:12:41 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authController': Unsatisfied dependency expressed through field 'userService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'userService' defined in file [E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes\com\afr\fms\Admin\Service\UserService.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.afr.fms.Admin.Service.UserService]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problem: 
+	URL cannot be resolved or is not a field
+
+2025-08-26 10:12:41 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-26 10:12:41 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-26 10:12:41 [restartedMain] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authController': Unsatisfied dependency expressed through field 'userService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'userService' defined in file [E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes\com\afr\fms\Admin\Service\UserService.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.afr.fms.Admin.Service.UserService]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problem: 
+	URL cannot be resolved or is not a field
+
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:659)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:639)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:119)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1431)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:619)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:955)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:147)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:734)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:308)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.afr.fms.AFRFMSApplication.main(AFRFMSApplication.java:23)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'userService' defined in file [E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes\com\afr\fms\Admin\Service\UserService.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.afr.fms.Admin.Service.UserService]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problem: 
+	URL cannot be resolved or is not a field
+
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1334)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1391)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1311)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:656)
+	... 25 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.afr.fms.Admin.Service.UserService]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problem: 
+	URL cannot be resolved or is not a field
+
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:224)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:87)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1326)
+	... 36 common frames omitted
+Caused by: java.lang.Error: Unresolved compilation problem: 
+	URL cannot be resolved or is not a field
+
+	at com.afr.fms.Admin.Service.UserService.<init>(UserService.java:80)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:211)
+	... 38 common frames omitted
+2025-08-26 10:25:12 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 17.0.12 on HQ-SDI-T01 with PID 12356 (E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by abeshuk in E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem)
+2025-08-26 10:25:12 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-26 10:25:19 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-26 10:25:20 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-26 10:25:20 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-26 10:25:24 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-26 10:25:27 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-26 10:25:28 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 16.921 seconds (JVM running for 18.194)
+2025-08-26 10:27:35 [Thread-9] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-26 10:27:35 [Thread-9] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-26 10:27:35 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 17.0.12 on HQ-SDI-T01 with PID 12356 (E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by abeshuk in E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem)
+2025-08-26 10:27:35 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-26 10:27:38 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2025-08-26 10:27:38 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-2 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-26 10:27:38 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2025-08-26 10:27:39 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-26 10:27:41 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-26 10:27:41 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 6.198 seconds (JVM running for 151.223)
+2025-08-26 10:29:15 [Thread-11] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2025-08-26 10:29:15 [Thread-11] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2025-08-26 10:29:15 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 17.0.12 on HQ-SDI-T01 with PID 12356 (E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by abeshuk in E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem)
+2025-08-26 10:29:15 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-26 10:29:17 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2025-08-26 10:29:17 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-3 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-26 10:29:17 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2025-08-26 10:29:18 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-26 10:29:19 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-26 10:29:19 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 4.459 seconds (JVM running for 249.707)
+2025-08-26 10:32:24 [Thread-18] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+2025-08-26 10:32:24 [Thread-18] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
+2025-08-26 10:32:24 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 17.0.12 on HQ-SDI-T01 with PID 12356 (E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by abeshuk in E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem)
+2025-08-26 10:32:24 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-26 10:32:27 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Starting...
+2025-08-26 10:32:27 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-4 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-26 10:32:27 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Start completed.
+2025-08-26 10:32:29 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-26 10:32:30 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-26 10:32:30 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 5.713 seconds (JVM running for 440.374)
+2025-08-26 10:33:44 [Thread-25] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown initiated...
+2025-08-26 10:33:44 [Thread-25] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown completed.
+2025-08-26 10:33:44 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 17.0.12 on HQ-SDI-T01 with PID 12356 (E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by abeshuk in E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem)
+2025-08-26 10:33:44 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-26 10:33:46 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Starting...
+2025-08-26 10:33:46 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-5 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-26 10:33:46 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Start completed.
+2025-08-26 10:33:47 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-26 10:33:48 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-26 10:33:48 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 4.482 seconds (JVM running for 518.533)
+2025-08-26 10:33:50 [Thread-32] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown initiated...
+2025-08-26 10:33:50 [Thread-32] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown completed.
+2025-08-26 10:33:50 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 17.0.12 on HQ-SDI-T01 with PID 12356 (E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by abeshuk in E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem)
+2025-08-26 10:33:50 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-26 10:33:52 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Starting...
+2025-08-26 10:33:52 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-6 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-26 10:33:52 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Start completed.
+2025-08-26 10:33:53 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-26 10:33:54 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-26 10:33:54 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 4.281 seconds (JVM running for 524.475)
+2025-08-26 10:33:56 [Thread-39] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown initiated...
+2025-08-26 10:33:56 [Thread-39] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown completed.
+2025-08-26 10:33:56 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 17.0.12 on HQ-SDI-T01 with PID 12356 (E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by abeshuk in E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem)
+2025-08-26 10:33:56 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-26 10:33:58 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Starting...
+2025-08-26 10:33:58 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-7 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-26 10:33:58 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Start completed.
+2025-08-26 10:34:00 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-26 10:34:01 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-26 10:34:01 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 5.357 seconds (JVM running for 531.512)
+2025-08-26 10:34:03 [Thread-46] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown initiated...
+2025-08-26 10:34:03 [Thread-46] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown completed.
+2025-08-26 10:34:03 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 17.0.12 on HQ-SDI-T01 with PID 12356 (E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by abeshuk in E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem)
+2025-08-26 10:34:03 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-26 10:34:06 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Starting...
+2025-08-26 10:34:06 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-8 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-26 10:34:06 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Start completed.
+2025-08-26 10:34:07 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-26 10:34:09 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-26 10:34:09 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 5.793 seconds (JVM running for 539.089)
+2025-08-26 10:34:10 [Thread-53] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Shutdown initiated...
+2025-08-26 10:34:10 [Thread-53] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Shutdown completed.
+2025-08-26 10:34:11 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 17.0.12 on HQ-SDI-T01 with PID 12356 (E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by abeshuk in E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem)
+2025-08-26 10:34:11 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-26 10:34:15 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Starting...
+2025-08-26 10:34:15 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-9 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-26 10:34:15 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Start completed.
+2025-08-26 10:34:17 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-26 10:34:19 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-26 10:34:19 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 8.697 seconds (JVM running for 549.65)
+2025-08-26 10:34:21 [Thread-60] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Shutdown initiated...
+2025-08-26 10:34:21 [Thread-60] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Shutdown completed.
+2025-08-26 10:34:22 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 17.0.12 on HQ-SDI-T01 with PID 12356 (E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by abeshuk in E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem)
+2025-08-26 10:34:22 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-26 10:34:25 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-10 - Starting...
+2025-08-26 10:34:25 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-10 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-26 10:34:25 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-10 - Start completed.
+2025-08-26 10:34:25 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-26 10:34:27 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-26 10:34:27 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 4.9 seconds (JVM running for 557.032)
+2025-08-26 10:34:52 [Thread-67] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-10 - Shutdown initiated...
+2025-08-26 10:34:52 [Thread-67] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-10 - Shutdown completed.
+2025-08-26 10:34:52 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 17.0.12 on HQ-SDI-T01 with PID 12356 (E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by abeshuk in E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem)
+2025-08-26 10:34:52 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-26 10:34:54 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-11 - Starting...
+2025-08-26 10:34:54 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-11 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-26 10:34:54 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-11 - Start completed.
+2025-08-26 10:34:55 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-26 10:34:56 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-26 10:34:56 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 4.046 seconds (JVM running for 586.622)
+2025-08-26 10:34:58 [Thread-74] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-11 - Shutdown initiated...
+2025-08-26 10:34:58 [Thread-74] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-11 - Shutdown completed.
+2025-08-26 10:34:58 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 17.0.12 on HQ-SDI-T01 with PID 12356 (E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by abeshuk in E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem)
+2025-08-26 10:34:58 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-26 10:35:00 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-12 - Starting...
+2025-08-26 10:35:00 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-12 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-26 10:35:00 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-12 - Start completed.
+2025-08-26 10:35:01 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-26 10:35:02 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-26 10:35:02 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 4.048 seconds (JVM running for 592.371)
+2025-08-26 10:35:14 [Thread-81] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-12 - Shutdown initiated...
+2025-08-26 10:35:14 [Thread-81] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-12 - Shutdown completed.
+2025-08-26 10:35:15 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 17.0.12 on HQ-SDI-T01 with PID 12356 (E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by abeshuk in E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem)
+2025-08-26 10:35:15 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-26 10:35:17 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-13 - Starting...
+2025-08-26 10:35:17 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-13 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-26 10:35:17 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-13 - Start completed.
+2025-08-26 10:35:18 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-26 10:35:19 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-26 10:35:19 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 4.456 seconds (JVM running for 609.395)
+2025-08-26 10:35:21 [Thread-88] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-13 - Shutdown initiated...
+2025-08-26 10:35:21 [Thread-88] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-13 - Shutdown completed.
+2025-08-26 10:35:21 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 17.0.12 on HQ-SDI-T01 with PID 12356 (E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by abeshuk in E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem)
+2025-08-26 10:35:21 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-26 10:35:23 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Starting...
+2025-08-26 10:35:23 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-14 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-26 10:35:23 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Start completed.
+2025-08-26 10:35:24 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-26 10:35:25 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-26 10:35:25 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 3.997 seconds (JVM running for 615.093)
+2025-08-26 10:35:32 [Thread-95] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Shutdown initiated...
+2025-08-26 10:35:32 [Thread-95] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Shutdown completed.
+2025-08-26 10:35:32 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 17.0.12 on HQ-SDI-T01 with PID 12356 (E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by abeshuk in E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem)
+2025-08-26 10:35:32 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-26 10:35:34 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Starting...
+2025-08-26 10:35:34 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-15 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-26 10:35:34 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Start completed.
+2025-08-26 10:35:35 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-26 10:35:36 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-26 10:35:36 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 4.096 seconds (JVM running for 626.285)
+2025-08-26 10:35:37 [Thread-102] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Shutdown initiated...
+2025-08-26 10:35:37 [Thread-102] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Shutdown completed.
+2025-08-26 10:35:38 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 17.0.12 on HQ-SDI-T01 with PID 12356 (E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by abeshuk in E:\VSC\Project\tms\abeshu\Backend\AuditFindingReportingandFollowupManagementSystem)
+2025-08-26 10:35:38 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-26 10:35:40 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-16 - Starting...
+2025-08-26 10:35:40 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-16 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-26 10:35:40 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-16 - Start completed.
+2025-08-26 10:35:41 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-26 10:35:42 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-26 10:35:42 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 4.066 seconds (JVM running for 632.039)

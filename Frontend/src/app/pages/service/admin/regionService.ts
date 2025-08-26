@@ -5,52 +5,55 @@ import { environment } from '../../../../environments/environment.prod';
 import { Region } from '../../../models/admin/region';
 import { PaginatorPayLoad } from '../../../models/admin/paginator-payload';
 
-const baseUrl=environment.backendUrl ;
+const baseUrl = environment.backendUrl;
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class RegionService {
+    constructor(private httpClient: HttpClient) {}
 
-  constructor(private httpClient:HttpClient) { }
+    // getRegions(paginatorPayLoad : PaginatorPayLoad):Observable<Region[]>{
+    //   return this.httpClient.post<Region[]>(baseUrl + '/regions', paginatorPayLoad);
+    // }
 
-  getRegions(paginatorPayLoad : PaginatorPayLoad):Observable<Region[]>{
-    return this.httpClient.post<Region[]>(baseUrl + '/regions', paginatorPayLoad);
-  }
+    getRegions(): Observable<Region[]> {
+        return this.httpClient.get<Region[]>(baseUrl + '/region');
+    }
 
-  getAllRegions():Observable<Region[]>{
-    return this.httpClient.get<Region[]>(baseUrl + '/regions');
-  }
+    getAllRegions(): Observable<Region[]> {
+        return this.httpClient.get<Region[]>(baseUrl + '/regions');
+    }
 
-  getActiveRegions():Observable<Region[]>{
-    return this.httpClient.get<Region[]>(baseUrl + '/region/active')
-  }
+    getActiveRegions(): Observable<Region[]> {
+        return this.httpClient.get<Region[]>(baseUrl + '/region/active');
+    }
 
-  getRegionById(id:any):Observable<Region>{
-    return this.httpClient.get<Region>(baseUrl + '/region/'+ `${id}`)
-  }
+    getRegionById(id: any): Observable<Region> {
+        return this.httpClient.get<Region>(baseUrl + '/region/' + `${id}`);
+    }
 
-  saveRegion(region:Region):Observable<any>{
-    return this.httpClient.post(baseUrl + '/region',region);
-  }
+    saveRegion(region: Region): Observable<any> {
+        return this.httpClient.post(baseUrl + '/region', region);
+    }
 
-  deleteRegion(region:Region[]): Observable<any> {
-    return this.httpClient.post(baseUrl + '/region/delete', region)
-  }
+    deleteRegion(region: Region[]): Observable<any> {
+        return this.httpClient.post(baseUrl + '/region/delete', region);
+    }
 
-  activateRegion(region:Region[]): Observable<any> {
-    return this.httpClient.post(baseUrl + '/region/activate', region)
-  }
+    activateRegion(region: Region[]): Observable<any> {
+        return this.httpClient.post(baseUrl + '/region/activate', region);
+    }
 
-  checkRegionNameExist(region:Region): Observable<any> {
-    return this.httpClient.post(baseUrl + '/region/name', region)
-  }
+    checkRegionNameExist(region: Region): Observable<any> {
+        return this.httpClient.post(baseUrl + '/region/name', region);
+    }
 
-  checkRegionCodeExist(region:Region): Observable<any> {
-    return this.httpClient.post(baseUrl + '/region/code', region)
-  }
-  
-  drawRegionLineChart():Observable<any>{
-    return this.httpClient.get(`${baseUrl}/region/drawRegionLineChart`);
-  }
+    checkRegionCodeExist(region: Region): Observable<any> {
+        return this.httpClient.post(baseUrl + '/region/code', region);
+    }
+
+    drawRegionLineChart(): Observable<any> {
+        return this.httpClient.get(`${baseUrl}/region/drawRegionLineChart`);
+    }
 }

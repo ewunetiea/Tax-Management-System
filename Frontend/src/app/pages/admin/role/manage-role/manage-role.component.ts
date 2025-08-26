@@ -6,53 +6,14 @@ import { Role } from '../../../../models/admin/role';
 import { ValidationService } from '../../../service/admin/validationService';
 import { RoleService } from '../../../service/admin/roleService';
 import { Table } from 'primeng/table';
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { DialogModule } from 'primeng/dialog';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { CardModule } from 'primeng/card';
-import { ToastModule } from 'primeng/toast';
-import { ToolbarModule } from 'primeng/toolbar';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { ListboxModule } from 'primeng/listbox';
-import { TabViewModule } from 'primeng/tabview';
-import { AccordionModule } from 'primeng/accordion';
 import { CreateEditRoleComponent } from '../create-edit-role/create-edit-role.component';
-import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { PaginatorPayLoad } from '../../../../models/admin/paginator-payload';
-import { InputIconModule } from 'primeng/inputicon';
-import { IconFieldModule } from 'primeng/iconfield';
-import { SelectButtonModule } from 'primeng/selectbutton';
-import { Tooltip } from 'primeng/tooltip';
+import { SharedUiModule } from '../../../../../shared-ui';
 
 @Component({
     selector: 'app-manage-role',
     standalone: true,
-    imports: [
-        CommonModule,
-        TableModule,
-        ButtonModule,
-        InputTextModule,
-        DialogModule,
-        ConfirmDialogModule,
-        FormsModule,
-        CardModule,
-        ToastModule,
-        ToolbarModule,
-        MultiSelectModule,
-        ListboxModule,
-        TabViewModule,
-        AccordionModule,
-        CreateEditRoleComponent,
-        BreadcrumbModule,
-        InputIconModule,
-        IconFieldModule,
-        SelectButtonModule,
-        Tooltip
-    ],
+    imports: [SharedUiModule, CreateEditRoleComponent],
     providers: [MessageService, ConfirmationService],
     templateUrl: './manage-role.component.html',
     styleUrl: './manage-role.component.scss'

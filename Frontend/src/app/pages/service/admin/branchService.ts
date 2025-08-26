@@ -13,9 +13,13 @@ export class BranchService {
 
     constructor(private http: HttpClient) { }
 
-    getBranches(paginatorPayLoad : PaginatorPayLoad):Observable<Branch[]>{
-      return this.http.post<Branch[]>(baseUrl + '/branches', paginatorPayLoad);
-    }
+    // getBranches(paginatorPayLoad : PaginatorPayLoad):Observable<Branch[]>{
+    //   return this.http.post<Branch[]>(baseUrl + '/branches', paginatorPayLoad);
+    // }
+
+    getBranches(): Observable<Branch[]> {
+    return this.http.get<Branch[]>(`${baseUrl}/branch`);
+  }
   
     getActiveBranchesList(): Observable<Branch[]> {
       return this.http.get<Branch[]>(`${baseUrl}/branch/active`);

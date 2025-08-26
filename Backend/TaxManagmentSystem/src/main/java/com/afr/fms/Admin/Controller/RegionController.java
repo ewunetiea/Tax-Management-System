@@ -1,9 +1,7 @@
 package com.afr.fms.Admin.Controller;
 
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.afr.fms.Admin.Entity.Region;
 import com.afr.fms.Admin.Entity.User;
 import com.afr.fms.Admin.Service.RegionService;
@@ -35,8 +32,7 @@ public class RegionController {
     RecentActivity recentActivity = new RecentActivity();
 
     @PostMapping("/region")
-    public ResponseEntity<?> createRegion(HttpServletRequest request, @RequestBody Region region)
-            throws ParseException {
+    public ResponseEntity<?> createRegion(HttpServletRequest request, @RequestBody Region region) throws ParseException {
         try {
             User user = new User();
             regionService.createRegion(region);

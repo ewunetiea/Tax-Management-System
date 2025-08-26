@@ -1,4 +1,5 @@
 package com.afr.fms.Admin.Entity;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,4 +15,5 @@ public class SMS {
     private String api;
     private Boolean status;
     private Long user_id;
+    private String system_type; // ad, sms, email, etc.
 }

@@ -13,22 +13,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import com.afr.fms.Admin.Entity.Backup;
 import com.afr.fms.Admin.Service.BackupService;
-import com.afr.fms.Common.Permission.Service.FunctionalitiesService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
+
 @RestController
 @RequestMapping("/api/backup")
-// @PreAuthorize("hasRole('ADMIN')")
 public class BackupController {
 
 	@Autowired
 	private BackupService backupService;
-
-	@Autowired
-	private FunctionalitiesService functionalitiesService;
 
 	@PostMapping("/createBackup")
 	public ResponseEntity<?> createBackup(@RequestBody Backup backup, HttpServletRequest request) {
@@ -36,9 +33,10 @@ public class BackupController {
 			backupService.createBackup(backup);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {
-
+			System.out.println(ex);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+
 	}
 
 	@PostMapping(value = "/getBackup")
@@ -70,13 +68,13 @@ public class BackupController {
 					.body("Couldn't find " + file.getName() +
 							" => " + e.getMessage());
 		} catch (Exception ex) {
-
+			System.out.println(ex.getMessage());
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		} finally {
 			if (file.delete()) {
-
+				System.out.println("File deleted");
 			} else {
-
+				System.out.println("File not deleted!");
 			}
 			;
 		}
@@ -85,11 +83,13 @@ public class BackupController {
 
 	@GetMapping("/getBackupByUserId/{id}")
 	public ResponseEntity<Backup> getBackupByUserId(@PathVariable("id") Long id, HttpServletRequest request) {
+
 		try {
 			return new ResponseEntity<>(backupService.getBackupByUserId(id), HttpStatus.OK);
 		} catch (Exception ex) {
-
-			return new ResponseEntity<>(null, HttpStatus.OK);
+			System.out.println(ex);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
+
 	}
 }

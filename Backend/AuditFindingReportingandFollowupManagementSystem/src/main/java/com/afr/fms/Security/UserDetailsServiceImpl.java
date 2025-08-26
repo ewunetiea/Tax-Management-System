@@ -33,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     try {
       this.username = username;
       user = userMapper.findByFusionUsername(username);
-      user.setUsername(user.getEmail());
+      // user.setUsername(user.getEmail());
 
       return UserDetailsImpl.build(user);
     } catch (Exception e) {

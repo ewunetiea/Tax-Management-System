@@ -1,4 +1,5 @@
 package com.afr.fms.Common.File_Management;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.FileAlreadyExistsException;
@@ -61,12 +62,12 @@ public class FilesStorageFindingServiceImpl implements FilesStorageFindingServic
     FileSystemUtils.deleteRecursively(root.toFile());
   }
 
-  @Override    
+  @Override
   public Stream<Path> loadAll() {
     try {
       return Files.walk(this.root, 1).filter(path -> !path.equals(this.root)).map(this.root::relativize);
     } catch (IOException e) {
-      throw new RuntimeException("Could not load the files!");  
+      throw new RuntimeException("Could not load the files!");
     }
   }
 }

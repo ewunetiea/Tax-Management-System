@@ -41,10 +41,4 @@ public interface RegionMapper {
 
         @Update("update region set status=1 where id=#{id}")
         public void activateRegion(Long id);
-
-        @Select("SELECT * FROM region " +
-                        "WHERE name LIKE CONCAT('%', #{searchText}, '%') " +
-                        "OR code LIKE CONCAT('%', #{searchText}, '%')")
-        List<Region> searchRegions(@Param("searchText") String searchText);
-
 }

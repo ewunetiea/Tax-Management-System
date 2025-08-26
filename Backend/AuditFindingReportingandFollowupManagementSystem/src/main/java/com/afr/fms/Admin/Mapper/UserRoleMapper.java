@@ -13,7 +13,6 @@ public interface UserRoleMapper {
 
 	@Delete("delete from user_role where user_id = #{id}")
 	public void removeAllUserRoles(Long id);
-	
 	@Select("select r.* from role r join user_role ur on r.id = ur.role_id where ur.user_id = #{userId} and r.status=1")
 	public List<Role> getRolesByUserId(Long userId);
 

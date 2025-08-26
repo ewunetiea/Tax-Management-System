@@ -13,8 +13,4 @@ public class Branch {
     private Region region;
     private boolean status;
     private Long user_id;
-    private int page_number; // for pagination purpose only, it will not be saved in db, just for UI  pagination
-    private int page_size; // for pagination purpose only, it will not be saved in db, just for UI pagination
-    private Long total_records; // for pagination purpose only, it will not be saved in db, just for UI  pagination
-    private Long total_records_paginator;
 }

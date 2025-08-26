@@ -58,30 +58,18 @@ public class ScheduleService {
 		return scheduleMapper.getSchedules();
 	}
 
-	public Boolean updateScheduleStatus(String functionality_status_string, User user) {
-		try {
-			JSONObject functionality_status = new JSONObject(functionality_status_string);
-			for (int i = 0; i < functionality_status.names().length(); i++) {
+	public void updateScheduleStatus(List<Schedule> schedule_status, User user) {
+		boolean status = schedule_status.get(0).isStatus();
+		for (Schedule schedule : schedule_status) {
+			scheduleMapper.updateScheduleStatusById(
+					schedule.getId(), status);
+		}
 
-				scheduleMapper.updateScheduleStatusById(
-						Long.parseLong(functionality_status.names().getString(i)),
-						((Boolean) functionality_status.get(functionality_status.names().getString(i)) == true)
-								? 1
-								: 0);
-
-			}
-
-			if (user != null) {
-				RecentActivity recentActivity = new RecentActivity();
-				recentActivity.setMessage("Scheduling setting is modified.");
-				recentActivity.setUser(user);
-				recentActivityMapper.addRecentActivity(recentActivity);
-			}
-
-			return true;
-		} catch (Exception e) {
-
-			return false;
+		if (user != null) {
+			RecentActivity recentActivity = new RecentActivity();
+			recentActivity.setMessage("Schedule setting is modified.");
+			recentActivity.setUser(user);
+			recentActivityMapper.addRecentActivity(recentActivity);
 		}
 	}
 

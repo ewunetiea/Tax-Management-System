@@ -42,7 +42,7 @@
     <logger name="org.springframework" level="WARN"/>
     <logger name="com.awashbank.com" level="DEBUG"/>
     <logger name="com.awashbank.security" level="ERROR"/>
-    
+
     <!-- Disable Logging from Noisy Libraries -->
     <logger name="org.hibernate" level="ERROR"/>
     <logger name="org.apache" level="ERROR"/>

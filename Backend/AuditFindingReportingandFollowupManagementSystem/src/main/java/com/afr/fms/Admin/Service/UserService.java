@@ -1,17 +1,21 @@
 package com.afr.fms.Admin.Service;
 
 import java.util.List;
+
 import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.afr.fms.Admin.Entity.Role;
 import com.afr.fms.Admin.Entity.User;
+import com.afr.fms.Admin.Entity.UserTracker;
 import com.afr.fms.Admin.Mapper.RegionMapper;
 import com.afr.fms.Admin.Mapper.UserMapper;
 import com.afr.fms.Admin.Mapper.UserRoleMapper;
+import com.afr.fms.Admin.Mapper.UserTrackerMapper;
 import com.afr.fms.Common.RecentActivity.RecentActivity;
 import com.afr.fms.Common.RecentActivity.RecentActivityMapper;
-import com.afr.fms.Security.Password.PasswordService;
+import com.afr.fms.Payload.endpoint.Endpoint;
 import com.afr.fms.Security.UserSecurity.mapper.UserSecurityMapper;
 import com.afr.fms.Security.email.context.AccountVerificationEmailContext;
 import com.afr.fms.Security.email.service.EmailService;
@@ -19,14 +23,15 @@ import com.afr.fms.Security.exception.InvalidTokenException;
 import com.afr.fms.Security.token.SecureTokenService;
 import com.afr.fms.Security.token.entity.SecureToken;
 import com.afr.fms.Security.token.mapper.SecureTokenMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import java.util.Random;
 import java.util.stream.Collectors;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
-import com.afr.fms.Payload.endpoint.Endpoint;
 
 @Service
 public class UserService {
@@ -55,6 +60,9 @@ public class UserService {
     private EmailService emailService;
 
     @Autowired
+    private UserTrackerMapper userTrackerMapper;;
+
+    @Autowired
     private CopyFromHRSystemService copyFromHRSystemService;
 
     @Autowired
@@ -75,8 +83,11 @@ public class UserService {
         if (user.getId() == null) {
 
             // if (user.isAuthenthication_media()) {
+
             char[] password = generatePassword(8);
+
             String password1 = "";
+
             for (char p : password) {
                 password1 = password1 + p;
             }
@@ -93,22 +104,24 @@ public class UserService {
             addAllUserRoles(user);
             user.setPassword(password1);
             try {
-                if (user.isAuthenthication_media()) {
-                    sendRegistrationConfirmationEmail(user);
-                } else {
-                    smsService.sendPasswordResetviaPhoneNumberAfterAccountCreation(user);
-                    userMapper.accountVerified(user.getId());
-                }
+                // if (user.isAuthenthication_media()) {
+                //     sendRegistrationConfirmationEmail(user);
+                // } else {
+
+                //     smsService.sendPasswordResetviaPhoneNumberAfterAccountCreation(user);
+                //     userMapper.accountVerified(user.getId());
+                // }
                 if (user.getAdmin_id() != null) {
                     User admin = new User();
-                    // admin.setId(user.getAdmin_id());
-                    admin.setId(user.getId());
+                    recentActivity
+                            .setMessage("User " + user.getFirst_name() + " " + user.getMiddle_name() + " is added");
+                    admin.setId(user.getAdmin_id());
                     recentActivity.setUser(admin);
-                    recentActivity.setMessage("User " + user.getFirst_name() + " " + user.getMiddle_name() + " is added");
                     recentActivityMapper.addRecentActivity(recentActivity);
                 }
                 return null;
             } catch (Exception e) {
+                System.out.println(e);
                 userRoleMapper.removeAllUserRoles(user.getId());
                 secureTokenMapper.deleteByUserId(user_id);
                 userSecurityMapper.deleteUserSecurityByUserID(user_id);
@@ -122,10 +135,10 @@ public class UserService {
 
             User admin = new User();
             recentActivity = new RecentActivity();
-            // admin.setId(user.getAdmin_id());
-            admin.setId(user.getId());
+            recentActivity.setMessage("User " + user.getFirst_name() + " " +
+                    user.getMiddle_name() + " is edited");
+            admin.setId(user.getAdmin_id());
             recentActivity.setUser(admin);
-            recentActivity.setMessage("User " + user.getFirst_name() + " " + user.getMiddle_name() + " is updated");
             recentActivityMapper.addRecentActivity(recentActivity);
             return null;
         }
@@ -242,7 +255,6 @@ public class UserService {
         emailContext.buildVerificationUrl(baseURL, secureToken.getToken());
         try {
             emailService.sendMail(emailContext);
-            logger.info("Account Confrimation email is sent");
 
         } catch (MessagingException e) {
             e.printStackTrace();
@@ -251,7 +263,8 @@ public class UserService {
 
     public boolean verifyUser(String token) throws InvalidTokenException {
         SecureToken secureToken = secureTokenService.findByToken(token);
-        if (Objects.isNull(secureToken) || !StringUtils.equals(token, secureToken.getToken()) || secureToken.isExpired(secureToken.getExpireAt())) {
+        if (Objects.isNull(secureToken) || !StringUtils.equals(token, secureToken.getToken())
+                || secureToken.isExpired(secureToken.getExpireAt())) {
             throw new InvalidTokenException("Token is not valid");
         }
         User user = secureToken.getUser();
@@ -280,7 +293,7 @@ public class UserService {
                 recentActivityMapper.addRecentActivity(recentActivity1);
             }
         } catch (Exception e) {
-
+            System.out.println(e);
         }
 
     }
@@ -300,7 +313,7 @@ public class UserService {
                 recentActivityMapper.addRecentActivity(recentActivity1);
             }
         } catch (Exception e) {
-
+            System.out.println(e);
         }
     }
 
@@ -319,7 +332,7 @@ public class UserService {
                 recentActivityMapper.addRecentActivity(recentActivity1);
             }
         } catch (Exception e) {
-            logger.info("Error occured during updating users category to special by admin: {}",
+            logger.error("Error updating special user status for users: {}",
                     admin != null ? admin.getEmail() : null, e);
         }
     }
@@ -352,9 +365,17 @@ public class UserService {
                 recentActivityMapper.addRecentActivity(recentActivity1);
             }
         } catch (Exception e) {
-            logger.info("Error occured during updating users' roles by admin: {}",
+            logger.error("Error managing roles for multiple users: {}",
                     admin != null ? admin.getEmail() : null, e);
         }
+    }
+
+    public int isSessionExists(String username) {
+        return userTrackerMapper.isUserSessionExist(username);
+    }
+
+    public void removeSessionFromDB(String username) {
+        userTrackerMapper.removeUserSessions(username);
     }
 
 }

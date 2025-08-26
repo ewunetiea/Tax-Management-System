@@ -1,11 +1,14 @@
-// package com.afr.fms.Common.Permission.Service;
 package com.afr.fms.Common.Permission.Service;
+
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.afr.fms.Admin.Entity.Role;
 import com.afr.fms.Admin.Entity.User;
 import com.afr.fms.Admin.Mapper.RoleMapper;
@@ -36,8 +39,12 @@ public class FunctionalitiesService {
 		// Allowlist for public or whitelisted APIs
 		if (functionality_name.contains("/api/auth/signin")
 				|| functionality_name.contains("/api/auth/signup")
+				|| functionality_name.contains("/api/auth/force-login")
 				|| functionality_name.equals("/api/menu/menu")
-				|| functionality_name.contains("/api/currency_container/currency_latest")
+				|| functionality_name.contains("/api/ws")
+				|| functionality_name.contains("upload")
+				|| functionality_name.contains("files")
+				|| functionality_name.contains("/user/queue")
 				|| functionality_name.equals("/api/auth/change-password")
 				|| functionality_name.contains("/api/user/role")
 				|| functionality_name.contains("/api/signup")
@@ -75,12 +82,25 @@ public class FunctionalitiesService {
 			return false;
 
 		String normalizedName = functionality_name;
-		if (functionality_name != null && functionality_name.contains("param")) {
-			normalizedName = functionality_name.replace("param", "").trim();
-		}
+		if (functionality_name != null) {
+			// Remove anything before /api and ensure it starts with /api
+			int apiIndex = functionality_name.indexOf("/api");
+			if (apiIndex > 0) {
+				normalizedName = functionality_name.substring(apiIndex);
+			}
 
+			// Handle param replacement if needed
+			if (normalizedName.contains("param")) {
+				normalizedName = normalizedName.replace("param", "").trim();
+			}
+		}
+		boolean functionalityExists = false;
 		for (Role role : roles) {
-			return functionalitiesMapper.checkFunctionalityExists(role.getId(), username, normalizedName, method);
+			functionalityExists = functionalitiesMapper.checkFunctionalityExists(role.getId(), username, normalizedName,
+					method);
+			if (functionalityExists) {
+				return functionalityExists;
+			}
 		}
 		return false;
 	}

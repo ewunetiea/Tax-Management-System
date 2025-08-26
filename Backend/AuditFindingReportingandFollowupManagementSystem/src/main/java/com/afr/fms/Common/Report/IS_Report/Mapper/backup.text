@@ -1,0 +1,80 @@
+package com.afr.fms.Common.Report.IS_Report.Mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import com.afr.fms.Common.Report.IS_Report.Entity.ISManagementAuditDTO;
+
+@Mapper
+public interface ISManagementAuditMapper {
+        @Select("<script>  " +
+                        "  SELECT  " +
+                        "  <choose>  " +
+                        "    <when test=\"finding != null\">  " +
+                        "       is_mgt.finding_date as audit_period,  is_mgt.finding as auidt_finding,  is_mgt.amount as amount,  is_mgt.risk_level as risk_level,  is_mgt.case_number as case_number,  is_mgt.finding_detail as finding_detail,  is_mgt.fcy as fcy,  is_mgt.cash_type as cash_type, adi.action_plan as auditee_response  "
+                        +
+                        "    </when>  " +
+                        "    <when test=\"riskLevel != null\">  " +
+                        "       is_mgt.finding_date as audit_period,  is_mgt.finding as auidt_finding,  is_mgt.amount as amount,  is_mgt.risk_level as risk_level,  is_mgt.case_number as case_number,  is_mgt.fcy as fcy,  is_mgt.cash_type as cash_type, adi.action_plan as auditee_response  "
+                        +
+                        "    </when> " +
+                        "    <when test=\"finding != null and riskLevel != null\">  " +
+                        "       is_mgt.finding_date as audit_period,  is_mgt.finding as auidt_finding,  is_mgt.amount as amount,  is_mgt.risk_level as risk_level,  is_mgt.case_number as case_number, adi.action_plan as auditee_response  "
+                        +
+                        "    </when>  " +
+                        "    <otherwise>  " +
+                        "       is_mgt.case_number as case_number, adi.action_plan as action_plan " +
+                        "    </otherwise>  " +
+                        "  </choose>  " +
+                        "  FROM IS_Management_Audit  is_mgt   " +
+                        "  INNER JOIN IS_MGT_Auditee ism_auditee ON  is_mgt.id = ism_auditee.IS_MGT_id  " +
+                        "  LEFT JOIN Audtiee_Division_ISM adi ON adi.IS_MGT_Auditee_id = ism_auditee.id  "
+                        +
+                        "  INNER JOIN [user] u ON u.id =  is_mgt.auditor_id or   " +
+                        "  INNER JOIN user_role ur ON ur.user_id = u.id  " +
+                        "  INNER JOIN role r ON r.id = ur.role_id  " +
+                        "  INNER JOIN branch b ON b.id = ism_auditee.auditee_id  " +
+                        "  WHERE r.code = #{role}  " +
+                        "  AND u.id = #{userId} " +
+                        "  AND  is_mgt.category = #{category} " +
+                        "  <if test=\"branchId != null\">  " +
+                        "    AND b.id = #{branchId}  " +
+                        "  </if>  " +
+                        "  <if test=\"finding != null\">  " +
+                        "    AND  is_mgt.finding = #{finding}  " +
+                        "  </if>  " +
+                        "  <if test=\"riskLevel != null\">  " +
+                        "    AND  is_mgt.risk_level = #{riskLevel}  " +
+                        "  </if>  " +
+                        "  <if test=\"findingStatus != null\">  " +
+                        "    AND  is_mgt.finding_status = #{findingStatus}   " +
+                        "  </if>  " +
+                        "  <if test=\"findingDate != null\">  " +
+                        "    AND  is_mgt.finding_date = #{findingDate}   " +
+                        "  </if>  " +
+                        "  <choose>  " +
+                        "    <when test=\"role == 'auditor'\">  " +
+                        "      AND  is_mgt.auditor_id = #{userId}  " +
+                        "    </when>  " +
+                        "    <when test=\"role == 'approver'\">  " +
+                        "      AND  is_mgt.approver_id = #{userId}   " +
+                        "    </when>  " +
+                        "    <when test=\"role == 'REVIEWER_MGT'\">  " +
+                        "      AND  is_mgt.reviewer_id = #{userId}   " +
+                        "    </when>  " +
+                        "  </choose>  " +
+                        "</script>  " +
+                        "")
+
+        List<ISManagementAuditDTO> searchISManagementAudit(
+                        @Param("role") String role,
+                        @Param("userId") Long userId,
+                        @Param("branchId") Long branchId,
+                        @Param("category") String category,
+                        @Param("finding") String finding,
+                        @Param("riskLevel") String riskLevel,
+                        @Param("findingStatus") String findingStatus,
+                        @Param("findingDate") String findingDate);
+}

@@ -1,31 +1,31 @@
 package com.afr.fms.Configuration.OpenAPI;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
 import com.afr.fms.Common.Entity.Functionalities;
 import com.afr.fms.Common.Permission.Service.FunctionalitiesService;
+
 import java.util.*;
 
 @Service
 public class SwaggerApiRegistrar {
 
-    private static final Logger logger = LoggerFactory.getLogger(SwaggerApiRegistrar.class);
-
     @Autowired
     private FunctionalitiesService functionalitiesService;
 
-    // @PostConstruct
-    // public void init() {
-    //     logger.info("Starting automatic Swagger API registration at application startup...");
-    //     registerSwaggerApis();
-    // }
+    private static final Logger logger = LoggerFactory.getLogger(SwaggerApiRegistrar.class);
+
+    private static final List<String> CATEGORIES = Arrays.asList(
+            "APPROVER_BFA", "AUDITOR_BFA", "BRANCHM_BFA", "COMPILER_BFA", "REGIONALD_BFA", "REVIEWER_BFA");
 
     public void registerSwaggerApis() {
         try {
             RestTemplate restTemplate = new RestTemplate();
-            String url = "http://localhost:8442/v3/api-docs"; // Consider moving to config
+            String url = "http://localhost:8442/v3/api-docs";
 
             Map<String, Object> openApi = restTemplate.getForObject(url, Map.class);
             if (openApi == null || !openApi.containsKey("paths")) {
@@ -38,6 +38,11 @@ public class SwaggerApiRegistrar {
             for (Map.Entry<String, Object> pathEntry : paths.entrySet()) {
                 String path = pathEntry.getKey();
 
+                // Only register paths starting with /api/branch_audit
+                // if (!path.startsWith("/api/branch_audit")) {
+                //     continue;
+                // }
+
                 Map<String, Object> methods = (Map<String, Object>) pathEntry.getValue();
 
                 for (Map.Entry<String, Object> methodEntry : methods.entrySet()) {
@@ -48,16 +53,20 @@ public class SwaggerApiRegistrar {
                     String description = (String) methodDetails.get("description");
                     List<String> tags = (List<String>) methodDetails.get("tags");
 
+                    // Append controller name (from first tag) to the description
                     String controllerName = (tags != null && !tags.isEmpty()) ? tags.get(0) : "UnknownController";
-                    String fullDescription = ((description != null) ? description : "") + " (Controller: " + controllerName + ")";
+                    String fullDescription = ((description != null) ? description : "") + " (Controller: "
+                            + controllerName + ")";
+
                     String category = detectCategory(summary, description, path);
 
                     if (!functionalitiesService.existsByNameAndMethod(path, httpMethod)) {
                         Functionalities f = new Functionalities();
-                        f.setName(path);
+                        f.setName(path); // API path
                         f.setDescription(fullDescription);
                         f.setMethod(httpMethod);
                         f.setCategory(category);
+
                         functionalitiesService.createFunctionality(f);
                     }
                 }
@@ -107,4 +116,3 @@ public class SwaggerApiRegistrar {
         return "ALL";
     }
 }
-

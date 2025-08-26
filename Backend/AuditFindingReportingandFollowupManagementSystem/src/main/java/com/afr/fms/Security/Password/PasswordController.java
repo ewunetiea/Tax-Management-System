@@ -1,10 +1,6 @@
 package com.afr.fms.Security.Password;
 
 import java.net.URI;
-// import java.util.Optional;
-// import java.util.UUID;
-
-// import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -15,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -93,7 +88,7 @@ public class PasswordController {
         try {
             if (authenthication_media) {
                 // final String appUrl = "https://10.10.101.76:8000/afrfmsbackend/api/password";
-                final String appUrl = "https://afrfms.awashbank.com/afrfmsbackend/api/password";
+                final String appUrl = "https://afrfmsbackendlb.awashbank.com/afrfmsbackend/api/password";
                 passwordService.sendPasswordResetTokenEmail(user, appUrl);
                 return new ResponseEntity<HttpStatus>(HttpStatus.OK);
             } else {
@@ -115,13 +110,13 @@ public class PasswordController {
             if (result != null) {
 
                 return ResponseEntity.status(HttpStatus.FOUND)
-                        .location(URI.create("https://afrfms.awashbank.com/afrfms/invalid-token")).build();
+                        .location(URI.create("https://audit.awashbank.com/afrfms/invalid-token")).build();
                 // .location(URI.create("https://10.10.101.76:8000/afrfms/invalid-token")).build();
 
             } else {
 
                 return ResponseEntity.status(HttpStatus.FOUND)
-                        .location(URI.create("https://afrfms.awashbank.com/afrfms/update-password?token=" + token))
+                        .location(URI.create("https://audit.awashbank.com/afrfms/update-password?token=" + token))
                         // .location(URI.create("https://10.10.101.76:8000/afrfms/update-password?token="
                         // + token))
                         .build();
@@ -130,7 +125,7 @@ public class PasswordController {
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FOUND)
-                    .location(URI.create("https://afrfms.awashbank.com/afrfms/invalid-token")).build();
+                    .location(URI.create("https://audit.awashbank.com/afrfms/invalid-token")).build();
             // .location(URI.create("https://10.10.101.76:8000/afrfms/invalid-token")).build();
 
         }
@@ -148,7 +143,7 @@ public class PasswordController {
             }
 
         } catch (Exception e) {
-
+            logger.error("Error occurred during validating OTP token : {}", token, e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

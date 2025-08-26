@@ -1,0 +1,228 @@
+package com.afr.fms.Auditee.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.mail.MessagingException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.afr.fms.Admin.Entity.Branch;
+import com.afr.fms.Admin.Entity.User;
+import com.afr.fms.Admin.Mapper.UserMapper;
+import com.afr.fms.Auditee.Entity.AuditeeDivisionISM;
+import com.afr.fms.Auditee.Mapper.AuditeeISMMapper;
+import com.afr.fms.Auditor.Entity.AuditISM;
+import com.afr.fms.Auditor.Entity.IS_MGT_Auditee;
+import com.afr.fms.Auditor.Mapper.AuditISMMapper;
+import com.afr.fms.Payload.endpoint.Endpoint;
+import com.afr.fms.Security.email.context.Auditee_for_FollowupOfficerContext;
+import com.afr.fms.Security.email.service.EmailService;
+
+@Service
+public class AuditeeService {
+    @Autowired
+    private AuditeeISMMapper auditDivisionISMMapper;
+
+    @Autowired
+    private AuditISMMapper auditISMMapper;
+
+    @Autowired
+    private UserMapper userMapper;
+    private String baseURL = Endpoint.URL;
+    @Autowired
+    private EmailService emailService;
+
+    public List<AuditeeDivisionISM> getAuditeeResponses(Long IS_MGT_Auditee_id) {
+        return auditDivisionISMMapper.getAuditeeResponse(IS_MGT_Auditee_id);
+    }
+
+    public AuditeeDivisionISM getAuditeeResponseISM(Long auditee_division_id) {
+        return auditDivisionISMMapper.getAuditeeResponseISM(auditee_division_id);
+    }
+
+    public void add_auditee_division_ism(IS_MGT_Auditee IS_MGTAuditee) {
+        Long auditee_id = IS_MGTAuditee.getId();
+        List<AuditeeDivisionISM> assignedAuditeeDivisions = auditDivisionISMMapper
+                .getAssignedAuditeeDivisions(auditee_id);
+
+        List<Branch> divisions = assignedAuditeeDivisions.stream()
+                .map(AuditeeDivisionISM::getDivision)
+                .collect(Collectors.toList());
+
+        List<Branch> uniqueDivisionsDB = returnUniqueDivisions(divisions, IS_MGTAuditee.getDivisions(), true);
+        List<Branch> uniqueDivisionsNew = returnUniqueDivisions(divisions, IS_MGTAuditee.getDivisions(), false);
+
+        if (!divisions.equals(IS_MGTAuditee.getDivisions())) {
+
+            for (Branch branch : uniqueDivisionsDB) {
+                AuditeeDivisionISM auditeeDivision = assignedAuditeeDivisions.stream()
+                        .filter(ad -> ad.getDivision().getId().equals(branch.getId()))
+                        .findFirst()
+                        .orElse(null);
+                if (auditeeDivision.getAction_plan() == null) {
+                    auditDivisionISMMapper.delete_auditee_division_ism(branch.getId(),
+                            auditeeDivision.getIS_MGT_Auditee_id());
+                }
+            }
+
+            for (Branch division : uniqueDivisionsNew) {
+                auditDivisionISMMapper.add_auditee_division_ism(division.getId(),
+                        auditee_id);
+            }
+            auditDivisionISMMapper.updateDivisionAssignmentAuditee(IS_MGTAuditee.getId());
+
+        }
+
+    }
+
+    public List<Branch> returnUniqueDivisions(List<Branch> assignedDivisionsDB, List<Branch> newAssignedDivisions,
+            boolean flag) {
+        // boolean flag; use to identify from which list of divisions, I want to retun
+        // unique
+        // divisions.
+        if (flag) {
+
+            List<Branch> commonDivisions = new ArrayList<>(assignedDivisionsDB);
+
+            commonDivisions.retainAll(newAssignedDivisions);
+
+            List<Branch> uniqueDivisions = new ArrayList<>(assignedDivisionsDB);
+
+            uniqueDivisions.removeAll(commonDivisions);
+
+            return uniqueDivisions;
+        } else {
+            List<Branch> commonDivisions = new ArrayList<>(newAssignedDivisions);
+
+            commonDivisions.retainAll(assignedDivisionsDB);
+
+            List<Branch> uniqueDivisions = new ArrayList<>(newAssignedDivisions);
+
+            uniqueDivisions.removeAll(commonDivisions);
+
+            return uniqueDivisions;
+        }
+    }
+
+    public List<AuditISM> getAuditsForAuditee(Long auditee_id) {
+        User user = userMapper.getAuditorById(auditee_id);
+        List<AuditISM> auditISMs = auditDivisionISMMapper.getAuditsForAuditee(user.getBranch().getId());
+        return attachAuditeeResponse(auditISMs, user.getBranch().getId());
+        // return auditISMs;
+    }
+
+    // @DreamerAba(Abebayehu Alaro)
+    // Algorithm to allow director to look only its divisions' response.
+
+    public List<AuditISM> attachAuditeeResponse(List<AuditISM> auditISMs, Long auditee_id) {
+        List<AuditISM> audits = new ArrayList<>();
+        for (AuditISM auditISM : auditISMs) {
+            List<Branch> assignedDivisions = new ArrayList<>();
+
+            List<IS_MGT_Auditee> is_MGT_Auditees = auditDivisionISMMapper.getISMAuditeesByID(auditISM.getAuditee_id());
+            List<AuditeeDivisionISM> assignedDivisionsInfo = auditDivisionISMMapper
+                    .getAuditeeResponseById(auditISM.getDivision_auditee_id());
+
+            assignedDivisions = getAssignedDivisions(is_MGT_Auditees.get(0).getId());
+            is_MGT_Auditees.get(0).setDivisions(assignedDivisions);
+
+            is_MGT_Auditees.get(0).setAuditeeDivisionISM(assignedDivisionsInfo);
+
+            is_MGT_Auditees.get(0).setAssignedAuditeeDivisionISM(assignedDivisionsInfo);
+            auditISM.setIS_MGTAuditee(is_MGT_Auditees);
+            audits.add(auditISM);
+        }
+        return audits;
+    }
+
+    public List<Branch> getAssignedDivisions(Long auditee_id) {
+        List<AuditeeDivisionISM> assignedAuditeeDivisions = auditDivisionISMMapper
+                .getAssignedAuditeeDivisions(auditee_id);
+
+        List<Branch> divisions = assignedAuditeeDivisions.stream()
+                .map(AuditeeDivisionISM::getDivision)
+                .collect(Collectors.toList());
+        return divisions;
+    }
+
+    public List<AuditISM> getPartiallyRectifiedAuditsForAuditee(Long auditee_id) {
+        User user = userMapper.getAuditorById(auditee_id);
+        List<AuditISM> auditISMs = auditDivisionISMMapper
+                .getPartiallyRectifiedAuditsForAuditee(user.getBranch().getId());
+        return attachAuditeeResponse(auditISMs, user.getBranch().getId());
+    }
+
+    public List<AuditISM> getAuditsForAuditeeOnProgress(Long auditee_id) {
+        User user = userMapper.getAuditorById(auditee_id);
+        List<AuditISM> auditISMs = auditDivisionISMMapper.getAuditsForAuditeeOnProgress(user.getBranch().getId());
+        return attachAuditeeResponse(auditISMs, user.getBranch().getId());
+    }
+
+    public List<AuditISM> getUnrectifiedAuditsForAuditee(Long auditee_id) {
+        User user = userMapper.getAuditorById(auditee_id);
+        List<AuditISM> auditISMs = auditDivisionISMMapper.getUnrectifiedAuditsForAuditee(user.getBranch().getId());
+        return attachAuditeeResponse(auditISMs, user.getBranch().getId());
+    }
+
+    public List<AuditISM> getRespondedAuditsForAuditee(Long auditee_id) {
+        User user = userMapper.getAuditorById(auditee_id);
+        List<AuditISM> auditISMs = auditDivisionISMMapper.getRespondedAuditsForAuditee(user.getBranch().getId());
+        return attachAuditeeResponse(auditISMs, user.getBranch().getId());
+    }
+
+    public void finishAuditeeResponse(AuditISM auditISM) {
+        auditDivisionISMMapper.finishAuditeeResponse(auditISM.getAuditee_id());
+
+        auditDivisionISMMapper.submitAuditAuditeeResponse(auditISM.getDivision_auditee_id());
+
+        IS_MGT_Auditee is_MGT_Auditee = auditDivisionISMMapper.getISMAuditeeById(auditISM.getAuditee_id());
+
+        AuditISM auditInfo = auditISMMapper.getAudit(auditISM.getId());
+
+        List<User> user = new ArrayList<>();
+
+        if (is_MGT_Auditee.getAuditISM().getCategory().trim().equalsIgnoreCase("IS")) {
+            user = userMapper.getUserByCategoryandRole(is_MGT_Auditee.getAuditISM().getCategory(),
+                    "FOLLOWUP_OFFICER_IS");
+        } else {
+            user = userMapper.getUserByCategoryandRole(is_MGT_Auditee.getAuditISM().getCategory(),
+                    "FOLLOWUP_OFFICER_MGT");
+        }
+
+        is_MGT_Auditee.getAuditISM().setUsers(user);
+
+        try {
+            sendEmailtoFollowupOfficer(is_MGT_Auditee);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+
+    public void submitSelectedAuditeeResponse(List<AuditISM> audits) {
+        for (AuditISM auditISM : audits) {
+
+            // for (IS_MGT_Auditee is_MGT_Auditee : auditISM.getIS_MGTAuditee()) {
+            auditDivisionISMMapper.finishAuditeeResponse(auditISM.getAuditee_id());
+            // }
+
+            auditDivisionISMMapper.submitAuditAuditeeResponse(auditISM.getDivision_auditee_id());
+        }
+    }
+
+    public void sendEmailtoFollowupOfficer(IS_MGT_Auditee is_MGT_Auditee) {
+        Auditee_for_FollowupOfficerContext emailContext = new Auditee_for_FollowupOfficerContext();
+        emailContext.init(is_MGT_Auditee);
+        emailContext.buildFollowupOfficerUrl(baseURL);
+        try {
+            emailService.sendMail(emailContext);
+            System.out.println("Audit Review Request is sent");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+}

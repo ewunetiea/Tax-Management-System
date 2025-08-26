@@ -2,20 +2,19 @@ package com.afr.fms.Admin.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.afr.fms.Admin.Entity.Region;
 import com.afr.fms.Admin.Mapper.BranchMapper;
 import com.afr.fms.Admin.Mapper.RegionMapper;
-import com.afr.fms.Common.Entity.PaginatorPayLoad;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 
 @Service
 public class RegionService {
+
     @Autowired
     private RegionMapper regionMapper;
-    
     @Autowired
     private BranchMapper branchMapper;
 
@@ -23,26 +22,7 @@ public class RegionService {
         regionMapper.createRegion(region);
     }
 
-    public List<Region> getRegions(PaginatorPayLoad paginatorPayload) {
-        PageHelper.startPage(paginatorPayload.getCurrentPage(), paginatorPayload.getPageSize());
-        String searchText = paginatorPayload.getSearchText();
-        List<Region> regions;
-        
-        if (searchText != null && !searchText.isEmpty()) {
-            regions = regionMapper.searchRegions(searchText); // ✅ use LIKE query
-        } else {
-            regions = regionMapper.getRegions();
-        }
-    
-        if (!regions.isEmpty()) {
-            ((Page<Region>) regions).getTotal(); // for pagination
-            regions.get(0).setTotal_records_paginator(((Page<Region>) regions).getTotal());
-        }
-    
-        return regions;
-    }
-    
-    public List<Region> getAllRegions() {
+    public List<Region> getRegions() {
         return regionMapper.getRegions();
     }
 

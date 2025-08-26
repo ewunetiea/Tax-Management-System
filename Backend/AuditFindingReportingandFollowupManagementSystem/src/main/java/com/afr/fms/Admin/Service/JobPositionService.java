@@ -25,8 +25,7 @@ public class JobPositionService {
     @Autowired
     private UserMapper userMapper;
 
-        private static final Logger logger = LoggerFactory.getLogger(JobPositionService.class);
-
+    private static final Logger logger = LoggerFactory.getLogger(JobPositionService.class);
 
     public JobPositionRole getJobPositionsByRole(Role role) {
         return jobPositionMapper.getJobPositionsByRole(role);

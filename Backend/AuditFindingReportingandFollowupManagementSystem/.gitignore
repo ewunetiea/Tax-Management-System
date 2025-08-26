@@ -39,3 +39,4 @@ build/
 /images
 /src/main/java/com/bfp/elfms/payload/endpoint/Endpoint.java
 /src/main/resources/application.properties
+/logs

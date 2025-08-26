@@ -1,10 +1,8 @@
 package com.afr.fms.Security.jwt;
 
 import java.util.Date;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +10,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.WebUtils;
-
 import com.afr.fms.Admin.Entity.Setting;
 import com.afr.fms.Admin.Entity.User;
 import com.afr.fms.Admin.Service.SettingService;
 import com.afr.fms.Security.UserDetailsImpl;
 import com.afr.fms.Security.UserSecurity.entity.UserSecurity;
 import com.afr.fms.Security.UserSecurity.service.UserSecurityService;
-
 import io.jsonwebtoken.*;
 
 @Component
@@ -41,7 +37,6 @@ public class JwtUtils {
   private String jwtRefreshCookie;
 
   public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal, HttpServletRequest request) {
-
     resetFailedAttempts(userPrincipal.getUserSecurity());
     String jwt = generateTokenFromUsername(userPrincipal.getUsername());
     String contextPath = getContextPath(request);

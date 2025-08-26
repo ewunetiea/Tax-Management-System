@@ -39,7 +39,7 @@ export class AppMenu {
         this.admin_items = [
             {
                 label: 'Home',
-                items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] }]
+                items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: '/applayout' }]
             },
             {
                 label: 'Region Management', 

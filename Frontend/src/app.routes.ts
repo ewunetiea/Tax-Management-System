@@ -27,6 +27,7 @@ export const appRoutes: Routes = [
     // { path: '**', redirectTo: '/notfound' },
 
     { path: '', component: Login },
+    // { path: '', component: LoginComponent },
     {   
         path: 'applayout', 
         component: AppLayout,

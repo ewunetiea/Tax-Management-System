@@ -1,0 +1,55 @@
+<sql id="commonWhereCondition">
+  <if test="auditISM.finding != null">
+    AND dbo._StripHTML(ism.finding) LIKE CONCAT('%', dbo._StripHTML(#{auditISM.finding}), '%')
+  </if>
+
+  <if test="auditISM.impact != null">
+    AND dbo._StripHTML(ism.impact) LIKE CONCAT('%', dbo._StripHTML(#{auditISM.impact}), '%')
+  </if>
+
+  <if test="auditISM.finding_detail != null">
+    AND dbo._StripHTML(ism.finding_detail) LIKE CONCAT('%', dbo._StripHTML(#{auditISM.finding_detail}), '%')
+  </if>
+
+  <if test="auditISM.recommendation != null">
+    AND dbo._StripHTML(ism.recommendation) LIKE CONCAT('%', dbo._StripHTML(#{auditISM.recommendation}), '%')
+  </if>
+
+  <if test="auditISM.auditees != null and auditISM.auditees.size() > 0">
+    AND isma.auditee_id IN
+    <foreach item="auditee" collection="auditISM.auditees" open="(" separator="," close=")">
+      #{auditee.id}
+    </foreach>
+  </if>
+
+  <if test="auditISM.auditors != null and auditISM.auditors.size() > 0">
+    AND ism.auditor_id IN
+    <foreach item="auditor" collection="auditISM.auditors" open="(" separator="," close=")">
+      #{auditor.id}
+    </foreach>
+  </if>
+
+  <if test="auditISM.finding_status != null">
+    AND ism.finding_status LIKE CONCAT('%', #{auditISM.finding_status}, '%')
+  </if>
+
+  <if test="auditISM.case_number != null">
+    AND ism.case_number LIKE CONCAT('%', #{auditISM.case_number}, '%')
+  </if>
+
+  <if test="auditISM.risk_level != null">
+    AND ism.risk_level = #{auditISM.risk_level}
+  </if>
+
+  <choose>
+    <when test="start_requisition_date != null and end_requisition_date != null">
+      AND (ism.finding_date BETWEEN #{start_requisition_date} AND #{end_requisition_date})
+    </when>
+    <when test="start_requisition_date != null and end_requisition_date == null">
+      AND ism.finding_date >= #{start_requisition_date}
+    </when>
+    <when test="start_requisition_date == null and end_requisition_date != null">
+      AND #{end_requisition_date} >= ism.finding_date
+    </when>
+  </choose>
+</sql>

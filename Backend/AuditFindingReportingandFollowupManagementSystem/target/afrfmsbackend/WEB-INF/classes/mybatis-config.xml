@@ -1,0 +1,4 @@
+
+<configuration>
+  <mapper resource="classpath:mappers/CommonWhereCondition.xml"/>
+</configuration>

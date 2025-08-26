@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.afr.fms.Admin.Mapper.BackupMapper;
 
+
 import com.afr.fms.Admin.Entity.Backup;
 
 @Service
@@ -20,7 +21,7 @@ public class BackupService {
 
     public Backup createBackup(Backup backup) {
 
-        try {
+        try{
             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy - HHmmss");
             Date date = new Date();
             String now = formatter.format(date);
@@ -29,13 +30,13 @@ public class BackupService {
             backupMapper.createFullBackup(backup);
             return backup;
 
-        } catch (Exception ex) {
-
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
             return null;
         }
 
     }
-
+ 
     public Backup getBackupByUserId(Long id) {
         if (!backupMapper.getFilepath(id).equals(null)) {
             return backupMapper.getFilepath(id);

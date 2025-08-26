@@ -7,21 +7,20 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.afr.fms.Admin.Entity.AdminReport;
 import com.afr.fms.Admin.Entity.UserTracker;
 import com.afr.fms.Admin.Mapper.UserTrackerMapper;
 import com.afr.fms.Admin.Service.RegionService;
 import com.afr.fms.Admin.Service.ReportService;
 import com.afr.fms.Common.Entity.PaginatorPayLoad;
-import com.afr.fms.Common.Permission.Service.FunctionalitiesService;
-
 import com.afr.fms.Security.UserSecurity.service.RefreshTokenService;
+
 
 @RestController
 @RequestMapping("/api")
@@ -38,15 +37,12 @@ public class ReportController {
     @Autowired
     private UserTrackerMapper userTrakerMapper;
 
-    @Autowired
-    private FunctionalitiesService functionalitiesService;
-
     @GetMapping("/region/branch_per_region")
     public ResponseEntity<List<Object>> drawBranchPerRegionLineChart() {
         try {
             return new ResponseEntity<>(regionService.drawBranchPerRegionLineChart(), HttpStatus.OK);
         } catch (Exception ex) {
-
+            System.out.println(ex);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -56,7 +52,7 @@ public class ReportController {
         try {
             return new ResponseEntity<>(reportService.drawBarChartUsersPerRegion(), HttpStatus.OK);
         } catch (Exception ex) {
-
+            System.out.println(ex);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -64,6 +60,7 @@ public class ReportController {
     @PostMapping("/loginStatus")
     public ResponseEntity<List<UserTracker>> getOnlineOfflineUsers(HttpServletRequest request,
             @RequestBody PaginatorPayLoad paginatorPayLoad) {
+
         try {
             // refreshTokenService.verifyOnlineUsers();
             List<UserTracker> userTracker = reportService.getOnlineFailedUsers(paginatorPayLoad);

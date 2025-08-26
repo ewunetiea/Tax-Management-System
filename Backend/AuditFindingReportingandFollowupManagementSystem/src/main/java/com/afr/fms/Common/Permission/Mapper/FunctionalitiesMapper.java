@@ -1,6 +1,7 @@
 package com.afr.fms.Common.Permission.Mapper;
 
 import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -39,7 +40,7 @@ public interface FunctionalitiesMapper {
         @Select("SELECT COUNT(*) FROM functionality WHERE name = #{name} AND method = #{method}")
         public int countByNameAndMethod(@Param("name") String name, @Param("method") String method);
 
-        @Update("update functionality set name = #{name},description = #{description},category=#{category} , method = #{ method} where id = #{id}")
+        @Update("update functionality set name = #{name}, description = #{description}, category=#{category}, method = #{ method} where id = #{id}")
         public void updateFunctionality(Functionalities functionalities);
 
         @Update("update functionality set status = 0 where id = #{id}")

@@ -1,0 +1,159 @@
+2025-08-23 10:41:27 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 29480 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-23 10:41:27 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-23 10:41:37 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-23 10:41:38 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-23 10:41:38 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-23 10:41:41 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-23 10:41:44 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-23 10:41:44 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 17.742 seconds (JVM running for 19.423)
+2025-08-23 10:51:20 [Thread-9] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-23 10:51:20 [Thread-9] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-23 10:51:22 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 29480 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-23 10:51:22 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-23 10:51:25 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2025-08-23 10:51:25 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-2 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-23 10:51:25 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2025-08-23 10:51:26 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-23 10:51:27 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-23 10:51:27 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 5.918 seconds (JVM running for 602.796)
+2025-08-23 10:51:29 [Thread-11] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2025-08-23 10:51:29 [Thread-11] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2025-08-23 10:51:29 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 29480 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-23 10:51:29 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-23 10:51:31 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2025-08-23 10:51:31 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-3 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-23 10:51:31 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2025-08-23 10:51:32 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-23 10:51:33 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-23 10:51:33 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 4.1 seconds (JVM running for 608.523)
+2025-08-23 10:51:35 [http-nio-8442-exec-2] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/auth/signin Method: POST Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:51:35 [http-nio-8442-exec-2] ERROR c.a.f.S.e.GlobalExceptionHandler - An unexpected error occurred: Handler dispatch failed; nested exception is java.lang.Error: Unresolved compilation problems: 
+	Syntax error, insert "VariableDeclarators" to complete LocalVariableDeclaration
+	Syntax error, insert ";" to complete LocalVariableDeclarationStatement
+	log cannot be resolved
+
+2025-08-23 10:51:35 [http-nio-8442-exec-2] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.util.NestedServletException: Handler dispatch failed; nested exception is java.lang.Error: Unresolved compilation problems: <EOL>?Syntax error, insert "VariableDeclarators" to complete LocalVariableDeclaration<EOL>?Syntax error, insert ";" to complete LocalVariableDeclarationStatement<EOL>?log cannot be resolved<EOL>]
+2025-08-23 10:51:54 [Thread-18] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+2025-08-23 10:51:54 [Thread-18] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
+2025-08-23 10:51:54 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 29480 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-23 10:51:54 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-23 10:51:56 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Starting...
+2025-08-23 10:51:56 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-4 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-23 10:51:56 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Start completed.
+2025-08-23 10:51:57 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-23 10:51:58 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-23 10:51:58 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 3.938 seconds (JVM running for 633.438)
+2025-08-23 10:52:08 [http-nio-8442-exec-1] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/auth/signin Method: POST Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:52:09 [http-nio-8442-exec-1] INFO  c.a.f.A.Controller.AuthController - User abebayehual has 0 existing sessions
+2025-08-23 10:52:09 [http-nio-8442-exec-2] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/info Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:52:09 [http-nio-8442-exec-3] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/072/x0agsraj/websocket Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:52:42 [http-nio-8442-exec-7] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/admin/dashboard Method: POST Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:52:43 [http-nio-8442-exec-8] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/info Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:52:44 [http-nio-8442-exec-9] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/621/2xvdbtl0/websocket Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:53:20 [http-nio-8442-exec-3] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/auth/signin Method: POST Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:53:20 [http-nio-8442-exec-3] ERROR com.afr.fms.Security.jwt.JwtUtils - JWT token is expired: JWT expired at 2025-08-22T18:48:53Z. Current time: 2025-08-23T10:53:20Z, a difference of 57867128 milliseconds.  Allowed clock skew: 0 milliseconds.
+2025-08-23 10:53:20 [http-nio-8442-exec-3] INFO  c.a.f.A.Controller.AuthController - User abebayehual has 0 existing sessions
+2025-08-23 10:53:20 [http-nio-8442-exec-3] WARN  c.a.f.S.WebSocket.SessionManager - Deleting 1 previous sessions for user: fras1
+2025-08-23 10:53:20 [http-nio-8442-exec-7] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/auth/signout/278161 Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:53:20 [http-nio-8442-exec-8] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/info Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:53:20 [http-nio-8442-exec-9] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/792/zt0yk4mi/websocket Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:53:51 [http-nio-8442-exec-4] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/admin/dashboard Method: POST Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:53:52 [http-nio-8442-exec-6] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/info Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:53:52 [http-nio-8442-exec-5] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/024/ybq2od20/websocket Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:56:06 [http-nio-8442-exec-6] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/auth/signin Method: POST Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:56:06 [http-nio-8442-exec-6] ERROR com.afr.fms.Security.jwt.JwtUtils - JWT claims string is empty: JWT String argument cannot be null or empty.
+2025-08-23 10:56:06 [http-nio-8442-exec-6] INFO  c.a.f.A.Controller.AuthController - User abebayehual has 0 existing sessions
+2025-08-23 10:56:06 [http-nio-8442-exec-6] WARN  c.a.f.S.WebSocket.SessionManager - Deleting 1 previous sessions for user: fras1
+2025-08-23 10:56:06 [http-nio-8442-exec-4] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/auth/signout/278162 Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:56:06 [http-nio-8442-exec-9] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/info Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:56:06 [http-nio-8442-exec-7] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/956/r3mytglt/websocket Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:56:38 [http-nio-8442-exec-2] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/admin/dashboard Method: POST Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:56:40 [http-nio-8442-exec-5] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/info Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:56:40 [http-nio-8442-exec-3] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/824/3y4w25a3/websocket Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:58:48 [Thread-25] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown initiated...
+2025-08-23 10:58:48 [Thread-25] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown completed.
+2025-08-23 10:58:49 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 29480 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-23 10:58:49 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-23 10:58:51 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Starting...
+2025-08-23 10:58:51 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-5 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-23 10:58:51 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Start completed.
+2025-08-23 10:58:52 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-23 10:58:53 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-23 10:58:53 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 4.133 seconds (JVM running for 1047.979)
+2025-08-23 10:58:54 [http-nio-8442-exec-1] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/info Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:58:54 [http-nio-8442-exec-2] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/197/kkzphepq/websocket Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:59:17 [Thread-53] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown initiated...
+2025-08-23 10:59:17 [Thread-53] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown completed.
+2025-08-23 10:59:17 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 29480 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-23 10:59:17 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-23 10:59:20 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Starting...
+2025-08-23 10:59:20 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-6 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-23 10:59:20 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Start completed.
+2025-08-23 10:59:20 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-23 10:59:21 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-23 10:59:21 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 4.21 seconds (JVM running for 1076.766)
+2025-08-23 10:59:22 [http-nio-8442-exec-1] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/info Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:59:22 [http-nio-8442-exec-2] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/268/tm2q4zn1/websocket Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:59:23 [Thread-62] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown initiated...
+2025-08-23 10:59:23 [Thread-62] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown completed.
+2025-08-23 10:59:23 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 29480 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-23 10:59:23 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-23 10:59:25 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Starting...
+2025-08-23 10:59:25 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-7 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-23 10:59:25 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Start completed.
+2025-08-23 10:59:26 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-23 10:59:27 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-23 10:59:27 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 3.732 seconds (JVM running for 1082.159)
+2025-08-23 10:59:28 [http-nio-8442-exec-1] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/info Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 10:59:28 [http-nio-8442-exec-2] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/579/ziicdd1j/websocket Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:00:45 [Thread-71] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown initiated...
+2025-08-23 11:00:45 [Thread-71] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown completed.
+2025-08-23 11:00:45 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 29480 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-23 11:00:45 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-23 11:00:47 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Starting...
+2025-08-23 11:00:47 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-8 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-23 11:00:47 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Start completed.
+2025-08-23 11:00:47 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-23 11:00:48 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-23 11:00:48 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 3.624 seconds (JVM running for 1163.577)
+2025-08-23 11:00:50 [http-nio-8442-exec-1] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/info Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:00:50 [http-nio-8442-exec-2] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/287/xmhl4d2l/websocket Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:01:26 [http-nio-8442-exec-7] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/auth/signout/278163 Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:02:40 [http-nio-8442-exec-10] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/auth/signin Method: POST Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:02:40 [http-nio-8442-exec-10] ERROR com.afr.fms.Security.jwt.JwtUtils - JWT claims string is empty: JWT String argument cannot be null or empty.
+2025-08-23 11:02:40 [http-nio-8442-exec-10] INFO  c.a.f.A.Controller.AuthController - User abebayehual has 0 existing sessions
+2025-08-23 11:02:40 [http-nio-8442-exec-1] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/info Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:02:40 [http-nio-8442-exec-2] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/500/srwzktdn/websocket Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:03:12 [http-nio-8442-exec-6] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/admin/dashboard Method: POST Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:03:13 [http-nio-8442-exec-7] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/info Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:03:13 [http-nio-8442-exec-9] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/609/xa5wwfxu/websocket Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:04:27 [http-nio-8442-exec-4] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/admin/dashboard Method: POST Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:04:27 [http-nio-8442-exec-8] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/info Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:04:28 [http-nio-8442-exec-7] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/941/plmzoxk4/websocket Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:04:42 [http-nio-8442-exec-6] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/auth/signin Method: POST Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:04:42 [http-nio-8442-exec-6] ERROR com.afr.fms.Security.jwt.JwtUtils - JWT claims string is empty: JWT String argument cannot be null or empty.
+2025-08-23 11:04:42 [http-nio-8442-exec-6] INFO  c.a.f.A.Controller.AuthController - User abebayehual has 1 existing sessions
+2025-08-23 11:04:42 [http-nio-8442-exec-6] ERROR c.a.f.S.e.GlobalExceptionHandler - MultipleSessionsException: User 'abebayehual' already has 1 active sessions.
+2025-08-23 11:04:42 [http-nio-8442-exec-6] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.afr.fms.Security.exception.MultipleSessionsException: User 'abebayehual' already has 1 active sessions.]
+2025-08-23 11:04:44 [http-nio-8442-exec-3] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/auth/force-login Method: POST Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:04:44 [http-nio-8442-exec-3] ERROR com.afr.fms.Security.jwt.JwtUtils - JWT claims string is empty: JWT String argument cannot be null or empty.
+2025-08-23 11:04:44 [http-nio-8442-exec-3] WARN  c.a.f.S.WebSocket.SessionManager - Deleting 1 previous sessions for user: abebayehual
+2025-08-23 11:04:45 [http-nio-8442-exec-5] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/auth/signout/278164 Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:04:45 [http-nio-8442-exec-4] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/info Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:04:45 [http-nio-8442-exec-10] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/079/cqvaapg3/websocket Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:05:17 [http-nio-8442-exec-2] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/admin/dashboard Method: POST Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:05:20 [http-nio-8442-exec-3] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/info Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:05:20 [http-nio-8442-exec-5] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/143/xva4uf0d/websocket Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:05:47 [http-nio-8442-exec-1] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/auth/signin Method: POST Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:05:47 [http-nio-8442-exec-1] ERROR com.afr.fms.Security.jwt.JwtUtils - JWT claims string is empty: JWT String argument cannot be null or empty.
+2025-08-23 11:05:47 [http-nio-8442-exec-1] INFO  c.a.f.A.Controller.AuthController - User abebayehual has 1 existing sessions
+2025-08-23 11:05:47 [http-nio-8442-exec-1] ERROR c.a.f.S.e.GlobalExceptionHandler - MultipleSessionsException: User 'abebayehual' already has 1 active sessions.
+2025-08-23 11:05:47 [http-nio-8442-exec-1] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.afr.fms.Security.exception.MultipleSessionsException: User 'abebayehual' already has 1 active sessions.]
+2025-08-23 11:05:51 [http-nio-8442-exec-8] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/auth/force-login Method: POST Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:05:51 [http-nio-8442-exec-8] ERROR com.afr.fms.Security.jwt.JwtUtils - JWT claims string is empty: JWT String argument cannot be null or empty.
+2025-08-23 11:05:51 [http-nio-8442-exec-8] WARN  c.a.f.S.WebSocket.SessionManager - Deleting 1 previous sessions for user: abebayehual
+2025-08-23 11:05:51 [http-nio-8442-exec-3] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/auth/signout/278165 Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:05:51 [http-nio-8442-exec-5] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/info Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:05:51 [http-nio-8442-exec-4] INFO  c.a.fms.Security.jwt.AuthTokenFilter - AFRFMS API URI: /api/ws/932/siqvband/websocket Method: GET Remote: 0:0:0:0:0:0:0:1 Host: localhost:8442 Origin: http://localhost:8082
+2025-08-23 11:06:13 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Shutdown initiated...
+2025-08-23 11:06:13 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Shutdown completed.

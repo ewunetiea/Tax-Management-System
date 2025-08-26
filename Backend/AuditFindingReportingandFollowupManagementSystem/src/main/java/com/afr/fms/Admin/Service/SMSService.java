@@ -3,6 +3,7 @@ package com.afr.fms.Admin.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
 import com.afr.fms.Admin.Mapper.SMSMapper;
 import com.afr.fms.Security.EncryptionService;
 import com.afr.fms.Security.Password.PasswordMapper;
@@ -26,7 +28,7 @@ public class SMSService {
     @Value("${jdj.reset.token.validity}")
     private int tokenValidityInSeconds;
 
-    private final String secretKey = "mNYAjiYg/Iw8OMZH"; 
+    private final String secretKey = "mNYAjiYg/Iw8OMZH"; // 16 characters key
 
     @Autowired
     private EncryptionService encryptionService;
@@ -148,7 +150,6 @@ public class SMSService {
 
         try {
             sendPasswordResetSMS(user, otp);
-            logger.info("Password is sent via sms successfully");
         } catch (Exception e) {
             logger.error("Error while sending password reset SMS: ", e);
             e.printStackTrace();

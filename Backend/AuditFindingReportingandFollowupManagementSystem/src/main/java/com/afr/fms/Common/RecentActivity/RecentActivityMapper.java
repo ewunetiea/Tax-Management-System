@@ -1,11 +1,17 @@
 package com.afr.fms.Common.RecentActivity;
 
+import java.util.Date;
 import java.util.List;
 
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.One;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
 
-import com.afr.fms.Common.Entity.Report;
-import org.apache.commons.lang3.StringUtils;
+import com.afr.fms.Admin.Entity.User;
 
 @Mapper
 public interface RecentActivityMapper {
@@ -20,94 +26,60 @@ public interface RecentActivityMapper {
         })
         public List<RecentActivity> getAllRecentActivity(Long user_id);
 
-        @Select("select top 10 * from recent_activity where user_id = #{user_id} ORDER BY id DESC")
-        @Results(value = {
-                        @Result(property = "id", column = "id"),
-                        @Result(property = "user", column = "user_id", one = @One(select = "com.afr.fms.Admin.Mapper.UserMapper.getUserById")),
-        })
-        public List<RecentActivity> getAllAdminRecentActivity(Long user_id);
+        @Select("select * from [user] ORDER BY email DESC")
+        public List<User> getUsers();
 
-        @Select("select * from recent_activity rc where rc.created_date BETWEEN #{startDateTime} AND #{endDateTime} ORDER BY id DESC")
-        @Results(value = {
-                        @Result(property = "id", column = "id"),
-                        @Result(property = "user", column = "user_id", one = @One(select = "com.afr.fms.Admin.Mapper.UserMapper.getUserById")),
+        @Select({
+                        "<script>",
+                        "SELECT * FROM recent_activity rc",
+                        "WHERE 1=1",
+                        "<if test='user_ids != null and !user_ids.isEmpty()'>",
+                        "AND rc.user_id IN",
+                        "<foreach collection='user_ids' item='id' open='(' separator=',' close=')'>",
+                        "#{id}",
+                        "</foreach>",
+                        "</if>",
+                        "<if test='message != null and message.trim() != \"\"'>",
+                        "AND rc.message LIKE concat('%', #{message}, '%')",
+                        "</if>",
+                        "<if test='action_date != null and action_date.size() == 2'>",
+                        "AND rc.created_date BETWEEN #{action_date[0]} AND #{action_date[1]}",
+                        "</if>",
+                        "ORDER BY rc.id DESC",
+                        "</script>"
         })
-        public List<RecentActivity> getAllRecentActivityAdmin(Report report);
 
-        @Select("select * from recent_activity rc where rc.user_id=#{user_id} and  rc.created_date BETWEEN #{startDateTime} AND #{endDateTime} ORDER BY id DESC")
         @Results(value = {
                         @Result(property = "id", column = "id"),
                         @Result(property = "user", column = "user_id", one = @One(select = "com.afr.fms.Admin.Mapper.UserMapper.getUserById")),
         })
-        public List<RecentActivity> getAllRecentActivityByUserId(Report report);
+        public List<RecentActivity> generateRecentActivities(
+                        @Param("user_ids") List<Long> user_ids,
+                        @Param("message") String message,
+                        @Param("action_date") List<Date> action_date);
 
-        @Select("select * from recent_activity rc where rc.user_id=#{user_id} and rc.message like concat('%',#{content},'%') ORDER BY id DESC")
-        @Results(value = {
-                        @Result(property = "id", column = "id"),
-                        @Result(property = "user", column = "user_id", one = @One(select = "com.afr.fms.Admin.Mapper.UserMapper.getUserById")),
+        @Select({
+                        "<script>",
+                        "SELECT * FROM recent_activity rc",
+                        "WHERE rc.user_id = #{user_id}",
+                        "<if test='message != null and message.trim() != \"\"'>",
+                        "AND rc.message LIKE concat('%', #{message}, '%')",
+                        "</if>",
+                        "<if test='action_date != null and action_date.size() == 2'>",
+                        "AND rc.created_date BETWEEN #{action_date[0]} AND #{action_date[1]}",
+                        "</if>",
+                        "ORDER BY rc.id DESC",
+                        "</script>"
         })
-        public List<RecentActivity> getActivityByContent(Report report);
 
-        @Select("select * from recent_activity rc where rc.user_id=#{user_id} and  rc.created_date BETWEEN #{action_date[0]} AND #{action_date[1]} ORDER BY id DESC")
         @Results(value = {
                         @Result(property = "id", column = "id"),
                         @Result(property = "user", column = "user_id", one = @One(select = "com.afr.fms.Admin.Mapper.UserMapper.getUserById")),
         })
-        public List<RecentActivity> getActivityByDateRange(Report report);
 
-        @Select("select * from recent_activity rc where rc.user_id=#{user_id} and rc.message like concat('%',#{content},'%') and  rc.created_date BETWEEN #{action_date[0]} AND #{action_date[1]} ORDER BY id DESC")
-        @Results(value = {
-                        @Result(property = "id", column = "id"),
-                        @Result(property = "user", column = "user_id", one = @One(select = "com.afr.fms.Admin.Mapper.UserMapper.getUserById")),
-        })
-        public List<RecentActivity> getActivityByDateRangeandContent(Report report);
+        public List<RecentActivity> getAllRecentActivities(
+                        @Param("user_id") Long user_id,
+                        @Param("message") String message,
+                        @Param("action_date") List<Date> action_date);
 
-        @Select("select * from recent_activity rc where rc.user_id in (#{user_ids}) ORDER BY id DESC")
-        @Results(value = {
-                        @Result(property = "id", column = "id"),
-                        @Result(property = "user", column = "user_id", one = @One(select = "com.afr.fms.Admin.Mapper.UserMapper.getUserById")),
-        })
-        public List<RecentActivity> getActivityByUserIDs(String user_ids);
-
-        @Select("select * from recent_activity rc where rc.user_id in (#{user_ids})  and rc.message like concat('%',#{report.content},'%') ORDER BY id DESC")
-        @Results(value = {
-                        @Result(property = "id", column = "id"),
-                        @Result(property = "user", column = "user_id", one = @One(select = "com.afr.fms.Admin.Mapper.UserMapper.getUserById")),
-        })
-        public List<RecentActivity> getActivityByUserIDsandContent(Report report, String user_ids);
-
-        @Select("select * from recent_activity rc where rc.user_id in (#{user_ids}) and rc.created_date BETWEEN #{report.action_date[0]} AND #{report.action_date[1]} ORDER BY id DESC")
-        @Results(value = {
-                        @Result(property = "id", column = "id"),
-                        @Result(property = "user", column = "user_id", one = @One(select = "com.afr.fms.Admin.Mapper.UserMapper.getUserById")),
-        })
-        public List<RecentActivity> getActivityByUserIDsandActionDate(Report report, String user_ids);
-
-        @Select("select * from recent_activity rc where rc.user_id in (#{user_ids}) and rc.message like concat('%',#{report.content},'%') and rc.created_date BETWEEN #{report.action_date[0]} AND #{report.action_date[1]} ORDER BY id DESC")
-        @Results(value = {
-                        @Result(property = "id", column = "id"),
-                        @Result(property = "user", column = "user_id", one = @One(select = "com.afr.fms.Admin.Mapper.UserMapper.getUserById")),
-        })
-        public List<RecentActivity> getActivityByUserIDsandContentandActionDate(Report report, String user_ids);
-
-        @Select("select * from recent_activity rc where  rc.message like concat('%',#{content},'%') ORDER BY id DESC")
-        @Results(value = {
-                        @Result(property = "id", column = "id"),
-                        @Result(property = "user", column = "user_id", one = @One(select = "com.afr.fms.Admin.Mapper.UserMapper.getUserById")),
-        })
-        public List<RecentActivity> getActivityByContentAdmin(Report report);
-
-        @Select("select * from recent_activity rc where   rc.created_date BETWEEN #{action_date[0]} AND #{action_date[1]} ORDER BY id DESC")
-        @Results(value = {
-                        @Result(property = "id", column = "id"),
-                        @Result(property = "user", column = "user_id", one = @One(select = "com.afr.fms.Admin.Mapper.UserMapper.getUserById")),
-        })
-        public List<RecentActivity> getActivityByDateRangeAdmin(Report report);
-
-        @Select("select * from recent_activity rc where  rc.message like concat('%',#{content},'%') and  rc.created_date BETWEEN #{action_date[0]} AND #{action_date[1]} ORDER BY id DESC")
-        @Results(value = {
-                        @Result(property = "id", column = "id"),
-                        @Result(property = "user", column = "user_id", one = @One(select = "com.afr.fms.Admin.Mapper.UserMapper.getUserById")),
-        })
-        public List<RecentActivity> getActivityByDateRangeandContentAdmin(Report report);
 }

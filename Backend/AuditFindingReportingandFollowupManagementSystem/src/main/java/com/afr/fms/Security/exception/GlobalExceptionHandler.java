@@ -75,6 +75,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(), request.getDescription(false));
         logger.error("InvalidTokenException: " + exception.getMessage());
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }// Handle custom InvalidTokenException
+
+    @ExceptionHandler(MultipleSessionsException.class)
+    public ResponseEntity<?> handleMultipleSessions(MultipleSessionsException ex) {
+        logger.error("MultipleSessionsException: " + ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT) // 409
+                .body(Map.of(
+                        "error", "MULTIPLE_SESSIONS",
+                        "message", ex.getMessage(),
+                        "username", ex.getUsername(),
+                        "count", ex.getSessionCount()));
     }
 
     // Handle custom IOException

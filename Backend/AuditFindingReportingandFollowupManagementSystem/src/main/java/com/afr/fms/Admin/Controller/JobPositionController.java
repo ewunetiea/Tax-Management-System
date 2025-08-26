@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,9 +20,9 @@ import com.afr.fms.Admin.Entity.JobPositionRole;
 import com.afr.fms.Admin.Entity.Role;
 import com.afr.fms.Admin.Entity.User;
 import com.afr.fms.Admin.Service.JobPositionService;
+import com.afr.fms.Common.Permission.Service.FunctionalitiesService;
 import com.afr.fms.Common.RecentActivity.RecentActivity;
 import com.afr.fms.Common.RecentActivity.RecentActivityMapper;
-import com.afr.fms.Common.Permission.Service.FunctionalitiesService;
 
 @RestController
 @RequestMapping("/api")
@@ -32,23 +31,24 @@ public class JobPositionController {
 	@Autowired
 	private JobPositionService jobPositionService;
 
-	@Autowired
-	private FunctionalitiesService functionalitiesService;
-
 	RecentActivity recentActivity = new RecentActivity();
 
 	@Autowired
 	private RecentActivityMapper recentActivityMapper;
 
+	@Autowired
+	private FunctionalitiesService functionalitiesService;
+
 	private static final Logger logger = LoggerFactory.getLogger(JobPositionController.class);
 
 	@GetMapping("/job_position/byRole")
 	public ResponseEntity<JobPositionRole> getJobPositionsByRole(HttpServletRequest request, @RequestBody Role role) {
+
 		try {
 			JobPositionRole jobPositionsByRole = jobPositionService.getJobPositionsByRole(role);
 			return new ResponseEntity<>(jobPositionsByRole, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
 	}
@@ -56,6 +56,7 @@ public class JobPositionController {
 	@PostMapping("/jobPosition/manageJobPositions")
 	public ResponseEntity<?> manageJobPositions(HttpServletRequest request,
 			@RequestBody JobPositionRole jobPositionRole) {
+
 		try {
 			jobPositionService.manageJobPositions(jobPositionRole);
 			User user = functionalitiesService.getUserFromHttpRequest(request);
@@ -69,6 +70,7 @@ public class JobPositionController {
 					jobPositionRole.getRole().getCode(), e);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+
 	}
 
 	@GetMapping("/selected_job_position")
@@ -76,7 +78,7 @@ public class JobPositionController {
 		try {
 			return new ResponseEntity<>(jobPositionService.getJobPositions(), HttpStatus.OK);
 		} catch (Exception e) {
-
+			System.out.println(e);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -86,7 +88,7 @@ public class JobPositionController {
 		try {
 			return new ResponseEntity<>(jobPositionService.getMappedJobPositions(), HttpStatus.OK);
 		} catch (Exception e) {
-
+			System.out.println(e);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -96,19 +98,21 @@ public class JobPositionController {
 		try {
 			return new ResponseEntity<>(jobPositionService.getTotalJobPositions(), HttpStatus.OK);
 		} catch (Exception e) {
-
+			System.out.println(e);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@GetMapping("/job_positions_admin")
 	public ResponseEntity<List<JobPosition>> getJobPositions(HttpServletRequest request) {
+
 		try {
 			return new ResponseEntity<>(jobPositionService.getAllJobPositions(), HttpStatus.OK);
 		} catch (Exception e) {
-
+			System.out.println(e);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+
 	}
 
 }

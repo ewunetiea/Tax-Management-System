@@ -1,23 +1,24 @@
 package com.afr.fms.Common.Permission.Controller;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.afr.fms.Admin.Entity.Role;
 import com.afr.fms.Common.Entity.Functionalities;
 import com.afr.fms.Common.Permission.Service.FunctionalitiesService;
-
 import com.afr.fms.Payload.response.AGPResponse;
 import com.nimbusds.oauth2.sdk.ParseException;
 
@@ -48,8 +49,7 @@ public class FunctionalityController {
 
     @GetMapping("/getAllRoleFunctionalities")
     public ResponseEntity<List<Functionalities>> getAllRoleFunctionalities(HttpServletRequest request) {
-        System.out.println(
-                "Fffffffffffffffffffffffffffffffffffffffffffffffffffff Permissions:" + request.getRequestURI());
+
         try {
             return new ResponseEntity<>(functionalitiesService.getAllRoleFunctionalities(), HttpStatus.OK);
         } catch (Exception ex) {

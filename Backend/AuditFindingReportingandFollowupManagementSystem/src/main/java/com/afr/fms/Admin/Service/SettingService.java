@@ -25,7 +25,6 @@ public class SettingService {
             settingMapper.create_account_setting(setting);
         } else {
             settingMapper.updateAccountSetting(setting);
-
         }
         if (user != null) {
             recentActivity.setMessage("Credential Expiration: " + setting.getCredential_expiration()

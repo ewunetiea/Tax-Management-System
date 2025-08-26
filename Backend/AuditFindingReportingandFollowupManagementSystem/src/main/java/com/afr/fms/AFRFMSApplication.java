@@ -6,14 +6,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import com.afr.fms.Common.File_Management.FilesStorageFindingService;
-import com.afr.fms.Common.Service.FilesStorageService;
+import com.afr.fms.Common.FunctionalityFileNotification.Service.FilesStorageService;
 
 @SpringBootApplication
 @EnableScheduling
-@ComponentScan(basePackages = "com.afr.fms")
 public class AFRFMSApplication extends SpringBootServletInitializer implements CommandLineRunner {
 	@Resource
 	FilesStorageService storageService;
@@ -35,6 +33,4 @@ public class AFRFMSApplication extends SpringBootServletInitializer implements C
 		storageService.init();
 		filesStorageFindingService.init();
 	}
-	
-	
 }

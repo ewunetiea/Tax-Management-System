@@ -7,7 +7,9 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +21,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.afr.fms.Admin.Entity.Role;
 import com.afr.fms.Admin.Entity.User;
 import com.afr.fms.Admin.Mapper.JobPositionMapper;
@@ -81,6 +83,7 @@ public class UserController {
             logger.error("Error occurred during fetching users", ex);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
     }
 
     @GetMapping("/user/replaceHRData")
@@ -88,17 +91,18 @@ public class UserController {
         try {
             String jwt = jwtUtils.getJwtFromCookies(request);
             String username = jwtUtils.getUserNameFromJwtToken(jwt);
-            logger.info("User with username " + username + " has replaced HR Data.", request);
             copyFromHRSystemService.replacingHRData();
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
             logger.error("Error occurred during replacing HR Data:", ex);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
     }
 
     @PostMapping("/user/generate")
-    public ResponseEntity<List<User>> generatedUsers(HttpServletRequest request, @RequestBody User user) throws NoUsersAvailableException {
+    public ResponseEntity<List<User>> generatedUsers(HttpServletRequest request, @RequestBody User user)
+            throws NoUsersAvailableException {
         try {
             return new ResponseEntity<>(userService.generatedUsers(user), HttpStatus.OK);
         } catch (Exception ex) {
@@ -116,10 +120,12 @@ public class UserController {
             logger.error("Error occurred during fetching users' status", ex);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
     }
 
     @PostMapping(path = "/user", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AGPResponse> create_user(HttpServletRequest request, @RequestBody User user) {
+
         try {
             List<Role> roles = new ArrayList<>();
             if (user != null) {
@@ -129,6 +135,7 @@ public class UserController {
                         List<String> rolesName = roles.stream()
                                 .map(Role::getName)
                                 .collect(Collectors.toList());
+
                         if (rolesName.contains("ROLE_AUDITEE_INS")) {
                             roles.add(roleMapper.getRoleByCode("BRANCHM_BFA"));
                             user.setSpecial_user(true);
@@ -140,7 +147,7 @@ public class UserController {
                         }
 
                     } catch (Exception ex) {
-                        System.out.println("Error occurred while fetching roles: " + ex.getMessage());
+                        System.out.println(ex);
                     }
                 }
 
@@ -156,9 +163,11 @@ public class UserController {
             }
         } catch (Exception ex) {
             logger.error("Error occurred during creating user account for : {}",
-                    user != null ? user.getEmployee_id() : null, ex);
+                    user != null ? user.getEmployee_id() : null,
+                    ex);
             return AGPResponse.error("Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
     }
 
     @PutMapping(path = "/user", consumes = { "application/json", "multipart/form-data" })
@@ -172,6 +181,7 @@ public class UserController {
                 ImageHandlerUtil imageHandlerUtil = this.imageService.uploadImage(multipartFile, "user");
                 user.setPhotoUrl(imageHandlerUtil.getName());
             } else {
+
                 if (user.getPhotoUrl() == null) {
                     user.setPhotoUrl(null);
                 }
@@ -184,6 +194,7 @@ public class UserController {
                     user != null ? user.getEmployee_id() : null, ex);
             return AGPResponse.error("Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
     }
 
     @GetMapping("/searchUser")
@@ -191,7 +202,7 @@ public class UserController {
         try {
             return new ResponseEntity<>(userService.searchUser(key), HttpStatus.OK);
         } catch (Exception ex) {
-
+            System.out.println(ex);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -245,6 +256,20 @@ public class UserController {
         } else {
             throw UserNotFoundException.forUser(Long.toString(id));
         }
+
+    }
+
+    @GetMapping("/users/{role_name}")
+    public ResponseEntity<List<User>> getUserByRoleName(HttpServletRequest request,
+            @PathVariable("role_name") String role_name)
+            throws UserNotFoundException {
+        List<User> userData = userService.getUserByRoleName(role_name);
+        if (userData != null) {
+            return new ResponseEntity<>(userData, HttpStatus.OK);
+        } else {
+            throw UserNotFoundException.forUser(role_name);
+        }
+
     }
 
     @GetMapping(value = "user/image/{photoUrl}", produces = MediaType.IMAGE_PNG_VALUE)
@@ -272,6 +297,7 @@ public class UserController {
                     .body("Couldn't find " + file.getName() +
                             " => " + e.getMessage());
         }
+
     }
 
     @GetMapping("/user/verify")
@@ -283,19 +309,19 @@ public class UserController {
             // .location(URI.create("https://10.10.101.76:8000/afrfms/invalid-token")).build();
 
             return ResponseEntity.status(HttpStatus.FOUND)
-                    .location(URI.create("https://afrfms.awashbank.com/afrfms/invalid-token")).build();
+                    .location(URI.create("https://audit.awashbank.com/afrfms/invalid-token")).build();
 
         }
         try {
             userService.verifyUser(token);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FOUND)
-                    .location(URI.create("https://afrfms.awashbank.com/afrfms/invalid-token")).build();
+                    .location(URI.create("https://audit.awashbank.com/afrfms/invalid-token")).build();
             // .location(URI.create("https://10.10.101.76:8000/afrfms/invalid-token")).build();
 
         }
         return ResponseEntity.status(HttpStatus.FOUND)
-                .location(URI.create("https://afrfms.awashbank.com/afrfms")).build();
+                .location(URI.create("https://audit.awashbank.com/afrfms")).build();
         // .location(URI.create("https://10.10.101.76:8000/afrfms")).build();
     }
 
@@ -313,6 +339,7 @@ public class UserController {
                     user != null ? user.getEmployee_id() : null, ex);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
     }
 
     @PostMapping("/user/special")
@@ -327,6 +354,7 @@ public class UserController {
             logger.error("Error occurred during making users special ", ex);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
     }
 
 }

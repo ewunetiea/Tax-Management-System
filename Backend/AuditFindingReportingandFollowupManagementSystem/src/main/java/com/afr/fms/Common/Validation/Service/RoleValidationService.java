@@ -19,7 +19,7 @@ public class RoleValidationService {
 					return role;
 				}
 			} catch (Exception e) {
-
+				System.out.println(e);
 			}
 		}
 		return null;
@@ -32,6 +32,7 @@ public class RoleValidationService {
 					return role;
 				}
 			} catch (Exception e) {
+				System.out.println(e);
 
 			}
 		}

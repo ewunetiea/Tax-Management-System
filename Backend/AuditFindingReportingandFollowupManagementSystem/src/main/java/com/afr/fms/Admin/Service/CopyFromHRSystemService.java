@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
 import com.afr.fms.Admin.Entity.Branch;
 import com.afr.fms.Admin.Entity.JobPosition;
 import com.afr.fms.Admin.Entity.Log;
@@ -140,11 +142,15 @@ public class CopyFromHRSystemService {
                             if (user.getBranch() != null) {
                                 if (!user.getBranch().getName().trim()
                                         .equalsIgnoreCase(userCopyFromHR.getUnit().trim())) {
+
                                     user_store.setBranch(branchMapper.getBranchByName(userCopyFromHR.getUnit()));
+
                                 }
 
                             } else {
+
                                 user_store.setBranch(branchMapper.getBranchByName(userCopyFromHR.getUnit()));
+
                             }
                         }
 
@@ -211,6 +217,7 @@ public class CopyFromHRSystemService {
                 log.setName("Schedule that copy Users From HR System");
                 log.setException(e.getMessage());
                 logMapper.addLog(log);
+
                 logger.error("Error occurred while processing HR Data", e);
 
             }
@@ -268,6 +275,7 @@ public class CopyFromHRSystemService {
     }
 
     public char[] generateCode(int length, String code) {
+
         String[] spilitedCode = StringUtils.split(code);
 
         String storeChar = "";
@@ -297,7 +305,6 @@ public class CopyFromHRSystemService {
             // final String uri = "https://hr.awashbank.com/hr/api/empInfo/" +
             // formattedDate;
 
-            logger.info("The Function that handles replacing HR Data intiated ...");
 
             final String uri = "https://hr.awashbank.com/hr/api/empInfo/1980-01-01 00:00:00";
 
@@ -311,7 +318,6 @@ public class CopyFromHRSystemService {
                 }
             }
 
-            logger.info("Replacing HR Data is successfully Completed. ");
 
         } catch (Exception e) {
             logger.error("Error occurred while replacing HR Data", e);

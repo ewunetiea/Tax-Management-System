@@ -17,6 +17,12 @@ public class RoleService {
 		return roleMapper.getRoles();
 	}
 
+	
+	public List<Role> getCommonRoles() {
+
+		return roleMapper.getCommonRoles();
+	}
+
 	public List<Role> getRolesByCategory(String category) {
 		return roleMapper.getRolesByCategory(category);
 	}

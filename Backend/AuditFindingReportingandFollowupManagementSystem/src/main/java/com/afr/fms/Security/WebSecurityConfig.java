@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 import com.afr.fms.Security.jwt.AuthEntryPointJwt;
 import com.afr.fms.Security.jwt.AuthTokenFilter;
 
@@ -55,7 +56,6 @@ public class WebSecurityConfig {
         .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
         .authorizeRequests()
-        // Allow Swagger UI and API Docs
         .antMatchers(
             "/v3/api-docs/**",
             "/swagger-ui.html",
@@ -63,11 +63,7 @@ public class WebSecurityConfig {
             "/swagger-resources/**",
             "/webjars/**")
         .permitAll()
-        // Allow public API auth endpoints
-        .antMatchers("/api/auth/**").permitAll()
-        // Optional: allow all /api/** if needed
         .antMatchers("/api/**").permitAll()
-        // All other endpoints require authentication
         .anyRequest().authenticated();
 
     http.authenticationProvider(authenticationProvider());

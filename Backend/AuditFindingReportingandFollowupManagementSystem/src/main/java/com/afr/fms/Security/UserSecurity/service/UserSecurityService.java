@@ -4,6 +4,8 @@ import java.util.*;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,8 @@ public class UserSecurityService {
 
 	private Setting setting;
 
+	private static final Logger logger = LoggerFactory.getLogger(UserSecurityService.class);
+
 	public void increaseFailedAttempts(UserSecurity us) {
 		int newFailAttempts = us.getNumber_of_attempts() + 1;
 		us.setNumber_of_attempts(newFailAttempts);
@@ -42,7 +46,7 @@ public class UserSecurityService {
 				userSecurityMapper.addFailedUserName(us.getUser_name());
 			}
 		} catch (Exception e) {
-
+			logger.error("increaseFailedAttempts: ", e.getMessage());
 		}
 
 	}
@@ -65,7 +69,7 @@ public class UserSecurityService {
 				userSecurityMapper.addLockedUserName(us.getUser_name());
 			}
 		} catch (Exception e) {
-
+			logger.error("Lock: ", e.getMessage());
 		}
 
 	}
@@ -105,7 +109,7 @@ public class UserSecurityService {
 					userSecurityMapper.addExpiredUserName(us.getUser_name());
 				}
 			} catch (Exception e) {
-
+				logger.error("checkCredentialTimeExpired: ", e.getMessage());
 			}
 		}
 	}

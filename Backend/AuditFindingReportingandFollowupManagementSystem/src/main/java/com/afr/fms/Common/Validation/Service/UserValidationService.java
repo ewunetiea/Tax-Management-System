@@ -1,8 +1,9 @@
 package com.afr.fms.Common.Validation.Service;
 
 import java.util.List;
-import java.util.StringJoiner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,53 +26,37 @@ public class UserValidationService {
 	@Autowired
 	private CopyHRUsersMapper hrUsersMapper;
 
-	public User checkUserEmail(String email) {
-		for (User user : userMapper.getUsers()) {
-			try {
-				if (user.getEmail().equalsIgnoreCase(email)) {
-					return user;
-				}
-			} catch (Exception e) {
+	private static final Logger logger = LoggerFactory.getLogger(UserValidationService.class);
 
-			}
+	public User checkUserEmail(String email) {
+		try {
+			Long id = userMapper.getUserIdByEmail(email);
+			User user = new User();
+			user.setId(id);
+			return user;
+		} catch (Exception e) {
+			logger.info("Error while checking email:  ", e.getMessage());
+		}
+		return null;
+	}
+
+	public User checkUsername(String username) {
+		try {
+			User user = userMapper.getUserByUsername(username);
+			return user;
+		} catch (Exception e) {
+			logger.info("Error while checking username:  ", e.getMessage());
 		}
 		return null;
 	}
 
 	public User checkPhoneNumber(String phone_number) {
 		if (phone_number.length() == 10 || phone_number.length() == 13) {
-			for (User user : userMapper.getUsers()) {
-				try {
-					StringJoiner s = new StringJoiner("");
-					StringJoiner s2 = new StringJoiner("");
-					String zero = "0";
-					String prefix = "+251";
-					if (phone_number.length() == 13) {
-						String phoneNumber = (phone_number.substring(4));
-						s.add(zero);
-						s.add(phoneNumber);
-						if (user.getPhone_number().equalsIgnoreCase(s.toString())) {
-							return user;
-						}
-
-						else if (user.getPhone_number().equalsIgnoreCase(phone_number)) {
-							return user;
-						}
-					} else if (phone_number.length() == 10) {
-
-						String pn = (phone_number.substring(1));
-						s2.add(prefix);
-						s2.add(pn);
-
-						if (user.getPhone_number().equalsIgnoreCase(s2.toString())) {
-							return user;
-						} else if (user.getPhone_number().equalsIgnoreCase(phone_number)) {
-							return user;
-						}
-					}
-				} catch (Exception e) {
-
-				}
+			try {
+				User user = userMapper.getUserIdByPhoneNumber(phone_number);
+				return user;
+			} catch (Exception e) {
+				logger.info("Error while checking phone:  ", e.getMessage());
 			}
 		}
 		return null;
@@ -85,6 +70,7 @@ public class UserValidationService {
 				return user;
 			}
 		} catch (Exception e) {
+			logger.info("Error while checking employee id:  ", e.getMessage());
 
 		}
 		return null;
@@ -99,6 +85,7 @@ public class UserValidationService {
 				return user;
 			}
 		} catch (Exception e) {
+			logger.info("Error while checking employee id:  ", e.getMessage());
 
 		}
 		return null;
@@ -108,11 +95,12 @@ public class UserValidationService {
 		try {
 			String employee_id = "AIB/" + id_no + "/" + year;
 			User user = userMapper.checkEmployeeIdSystem(employee_id);
+
 			if (!user.equals(null)) {
 				return user;
 			}
 		} catch (Exception e) {
-
+			logger.info("Error while checking employee id:  ", e.getMessage());
 		}
 		return null;
 	}
@@ -125,26 +113,16 @@ public class UserValidationService {
 				return null;
 			}
 		} catch (Exception e) {
+			logger.info("Error while checking job position role:  ", e.getMessage());
 			return null;
 		}
 	}
 
-	public User fetchUserBranchAndPositionFromHrSystem(User user) {
-		try {
-
-		} catch (Exception e) {
-
-		}
-		return null;
-	}
-
 	public List<JobPosition> getJobPositions() {
 		try {
-
 			return hrUsersMapper.get_job_positions();
-
 		} catch (Exception e) {
-
+			logger.info("Error while getting job positions:  ", e.getMessage());
 		}
 		return null;
 	}

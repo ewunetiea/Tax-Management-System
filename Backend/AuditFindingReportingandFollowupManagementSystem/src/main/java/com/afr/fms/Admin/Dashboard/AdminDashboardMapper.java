@@ -9,7 +9,10 @@ import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+
 import com.afr.fms.Admin.Entity.Role;
+import com.afr.fms.Auditor.Entity.AuditISM;
+import com.afr.fms.Auditor.Entity.IS_MGT_Auditee;
 
 @Mapper
 public interface AdminDashboardMapper {
@@ -17,6 +20,20 @@ public interface AdminDashboardMapper {
         
         @Select("select * from role where role_position = #{role_position} order by code")
         public List<Role> getRolesByAuditType(String role_position);
+
+        @Select("select * from IS_Management_Audit ")
+        @Results(value = {
+                        @Result(property = "id", column = "id"),
+                        @Result(property = "IS_MGTAuditee", column = "id", many = @Many(select = " com.afr.fms.Reviewer.Mapper.ReviewerDashBoardMapper.getISMAuditees"))
+        })
+        public List<AuditISM> getAudit();
+
+        @Select("select * from IS_MGT_Auditee")
+        @Results(value = {
+                        @Result(property = "id", column = "id"),
+                        @Result(property = "auditee", column = "auditee_id", one = @One(select = "com.afr.fms.Admin.Mapper.BranchMapper.getBranchById")),
+        })
+        public List<IS_MGT_Auditee> getDirectorates();
 
         @Select("select count(id)  from IS_Management_Audit where id in (select IS_MGT_id from IS_MGT_Auditee where auditee_id = #{auditee_id}) and rectification_status = 4 and category = #{category}")
         public Integer getPartiallyRectifiedAuditsPerAuditee(Long auditee_id, String category);

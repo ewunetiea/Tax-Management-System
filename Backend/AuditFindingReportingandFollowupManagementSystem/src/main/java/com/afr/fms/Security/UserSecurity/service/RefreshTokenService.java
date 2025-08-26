@@ -6,8 +6,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.afr.fms.Admin.Entity.Setting;
 import com.afr.fms.Admin.Entity.UserTracker;
 import com.afr.fms.Admin.Mapper.UserMapper;
@@ -65,6 +67,11 @@ public class RefreshTokenService {
     refreshTokenMapper.deleteByUser(userId);
   }
 
+  @Transactional
+  public void deleteByUserTrackerId(Long user_tracker_id) {
+    refreshTokenMapper.deleteByUserTrackerID(user_tracker_id);
+  }
+
   public boolean verifyRefreshTokenExpiration(RefreshToken token) {
     if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
       return true;
@@ -86,7 +93,7 @@ public class RefreshTokenService {
     }
 
     catch (Exception e) {
-
+      System.out.println(e);
     }
   }
 }

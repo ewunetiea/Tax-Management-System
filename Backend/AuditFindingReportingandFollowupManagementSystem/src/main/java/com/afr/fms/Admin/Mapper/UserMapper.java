@@ -2,8 +2,10 @@ package com.afr.fms.Admin.Mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.*;
+
 import com.afr.fms.Admin.Entity.Role;
 import com.afr.fms.Admin.Entity.User;
+import com.afr.fms.Auditor.Entity.AuditISM;
 
 @Mapper
 public interface UserMapper {
@@ -136,14 +138,21 @@ public interface UserMapper {
         // + "or phone_number like '%'+#{key}+'%' ")
         public List<User> searchUser(String key);
 
-        @Select("INSERT INTO [user](first_name, middle_name, last_name, email, password, phone_number, status, branch_id, photo_url, region_id, gender, emp_id, job_position_id, category, banking, special_user)"
-                        + "  OUTPUT inserted.id VALUES (#{first_name},#{middle_name}, #{last_name}, #{email}, #{password}, #{phone_number},0, #{branch.id}, #{photoUrl}, #{region.id}, #{gender}, #{employee_id}, #{jobPosition.id}, #{category}, #{banking}, #{special_user})")
+        @Select("select * from [user] where username = #{username}")
+        public User getUserByUsername(String username);
+
+        @Select("select * from [user] where RIGHT(phone_number, 9) = RIGHT(#{phone_number}, 9)")
+        public User getUserIdByPhoneNumber(String phone_number);
+
+        @Select("INSERT INTO [user](username, first_name, middle_name, last_name, email, password, phone_number, status, branch_id, photo_url, region_id, gender, emp_id, job_position_id, category, banking, special_user)"
+                        + "  OUTPUT inserted.id VALUES (#{username}, #{first_name},#{middle_name}, #{last_name}, #{email}, #{password}, #{phone_number},0, #{branch.id}, #{photoUrl}, #{region.id}, #{gender}, #{employee_id}, #{jobPosition.id}, #{category}, #{banking}, #{special_user})")
         public Long create_user(User user);
 
         @Update("UPDATE [user] "
                         + " SET first_name = #{first_name}, "
                         + " last_name = #{last_name}, "
                         + " middle_name = #{middle_name}, "
+                        + " username = #{username}, "
                         + " email = #{email}, "
                         + " phone_number = #{phone_number}, "
                         + " status = #{status}, "
@@ -346,25 +355,21 @@ public interface UserMapper {
         })
         public List<User> getUserByCategory(String category);
 
-        // @Select("select * from [user] u " + //
-        // "inner join IS_Management_Audit isma1 on (isma1.auditor_id = u.id " + //
-        // "or isma1.reviewer_id = u.id " + //
-        // "or isma1.approver_id = u.id " + //
-        // "or isma1.followup_id = u.id) and isma1.id = #{id} " + //
-        // "where u.category = #{category}")
-        // @Results(value = {
-        // @Result(property = "id", column = "id"),
-        // @Result(property = "employee_id", column = "emp_id"),
-        // @Result(property = "photoUrl", column = "photo_url"),
-        // @Result(property = "branch", column = "branch_id", one = @One(select =
-        // "com.afr.fms.Admin.Mapper.BranchMapper.getBranchById")),
-        // @Result(property = "roles", javaType = List.class, column = "id", many =
-        // @Many(select = "com.afr.fms.Admin.Mapper.RoleMapper.getRolesByUserId")),
-        // @Result(property = "jobPosition", column = "job_position_id", one =
-        // @One(select =
-        // "com.afr.fms.Admin.Mapper.JobPositionMapper.getJobPositionById")),
-        // })
-        // public List<User> getUsersRemark(AuditISM auditISM);
+        @Select("select * from [user] u  " + //
+                        "inner join IS_Management_Audit isma1 on (isma1.auditor_id = u.id  " + //
+                        "or isma1.reviewer_id = u.id  " + //
+                        "or isma1.approver_id = u.id  " + //
+                        "or isma1.followup_id = u.id) and isma1.id = #{id}  " + //
+                        "where u.category = #{category}")
+        @Results(value = {
+                        @Result(property = "id", column = "id"),
+                        @Result(property = "employee_id", column = "emp_id"),
+                        @Result(property = "photoUrl", column = "photo_url"),
+                        @Result(property = "branch", column = "branch_id", one = @One(select = "com.afr.fms.Admin.Mapper.BranchMapper.getBranchById")),
+                        @Result(property = "roles", javaType = List.class, column = "id", many = @Many(select = "com.afr.fms.Admin.Mapper.RoleMapper.getRolesByUserId")),
+                        @Result(property = "jobPosition", column = "job_position_id", one = @One(select = "com.afr.fms.Admin.Mapper.JobPositionMapper.getJobPositionById")),
+        })
+        public List<User> getUsersRemark(AuditISM auditISM);
 
         @Select("SELECT * FROM [user] WHERE id in (select user_id from user_role where role_id in ( select id from role where code = #{role} )) and category= #{category} ")
         @Results(value = {
@@ -428,4 +433,5 @@ public interface UserMapper {
 
         })
         public User findByFusionUsername(String username);
+
 }

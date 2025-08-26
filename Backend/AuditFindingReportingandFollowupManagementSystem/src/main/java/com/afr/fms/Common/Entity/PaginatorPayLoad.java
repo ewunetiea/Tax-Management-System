@@ -17,5 +17,4 @@ public class PaginatorPayLoad {
     private String banking;
     private String audit_type;
     private String user_role;
-    private String searchText;
 }

@@ -19,13 +19,12 @@ public class ADController {
     private ADService adService;
 
     @GetMapping("/validate_user")
-    public ResponseEntity<Object> validate_user(@Valid @RequestBody LoginRequest loginRequest,
-            HttpServletRequest request) {
+    public ResponseEntity<Object> validate_user( @Valid @RequestBody LoginRequest loginRequest, HttpServletRequest request) {
         try {
             Object user = adService.getADUserDetails(loginRequest.getUsername(), loginRequest.getPassword());
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception ex) {
-
+            System.out.println(ex);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

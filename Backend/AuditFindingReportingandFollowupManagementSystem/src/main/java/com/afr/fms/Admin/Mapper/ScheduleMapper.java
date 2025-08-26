@@ -15,7 +15,7 @@ public interface ScheduleMapper {
     public List<Schedule> getSchedules();
 
     @Update("update schedule set status = #{status} where id = #{id}")
-    public void updateScheduleStatusById(@Param("id") Long id, @Param("status") int status);
+    public void updateScheduleStatusById(@Param("id") Long id, @Param("status") boolean status);
 
     @Select("select * from schedule where name = #{name} and status = 1")
     public Schedule checkScheduleStatus(String name);

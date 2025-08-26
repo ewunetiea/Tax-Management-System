@@ -34,16 +34,17 @@ public interface RefreshTokenMapper {
 	@Select("delete from refresh_token where user_id = #{user_id}")
 	public void deleteByUser(Long user_id);
 
+	@Select("delete from refresh_token where user_tracker_id = #{user_tracker_id}")
+	public void deleteByUserTrackerID(Long user_tracker_id);
+
 	@Select("select * from refresh_token where user_id = #{user_id} and user_tracker_id = #{user_tracker_id} and expiry_date < GETDATE()")
 	@Results(value = {
 			@Result(property = "id", column = "id"),
 			@Result(property = "expiryDate", column = "expiry_date"),
 	})
 	public List<RefreshToken> retrieveRefreshToken(Long user_id, Long user_tracker_id);
-	
+
 	@Select("SELECT CAST(CASE WHEN EXISTS(SELECT 1 FROM refresh_token WHERE user_id = #{user_id}) THEN 1 ELSE 0 END AS BIT);")
 	public boolean isRefreshTokenExist(Long user_id);
-
-
 
 }

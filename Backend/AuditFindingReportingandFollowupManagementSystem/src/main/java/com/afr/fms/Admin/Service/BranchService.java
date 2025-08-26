@@ -6,9 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.afr.fms.Admin.Mapper.BranchMapper;
-import com.afr.fms.Common.Entity.PaginatorPayLoad;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.afr.fms.Admin.Entity.Branch;
 
 @Service
@@ -16,22 +13,8 @@ public class BranchService {
     @Autowired
     private BranchMapper branchMapper;
 
-    public List<Branch> getBranches(PaginatorPayLoad paginatorPayload) {
-        PageHelper.startPage(paginatorPayload.getCurrentPage(), paginatorPayload.getPageSize());
-        String searchText = paginatorPayload.getSearchText();
-        List<Branch> branches;
-        
-        if (searchText != null && !searchText.isEmpty()) {
-            branches = branchMapper.searchBranch(searchText); // ✅ use LIKE query
-        } else {
-            branches = branchMapper.getBranches();
-        }
-    
-        if (!branches.isEmpty()) {
-            ((Page<Branch>) branches).getTotal(); // for pagination
-            branches.get(0).setTotal_records_paginator(((Page<Branch>) branches).getTotal());
-        }
-        return branches;
+    public List<Branch> getBranches() {
+        return branchMapper.getBranches();
     }
 
     public List<Branch> getActiveBranches() {

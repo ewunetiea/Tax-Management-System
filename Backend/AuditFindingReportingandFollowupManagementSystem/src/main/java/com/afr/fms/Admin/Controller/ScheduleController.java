@@ -4,22 +4,21 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.afr.fms.Admin.Entity.Schedule;
 import com.afr.fms.Admin.Entity.User;
 import com.afr.fms.Admin.Mapper.UserMapper;
 import com.afr.fms.Admin.Service.ScheduleService;
-
 import com.afr.fms.Security.jwt.JwtUtils;
 
 @RestController
 @RequestMapping("/api")
-@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class ScheduleController {
     @Autowired
     private ScheduleService scheduleService;
@@ -32,35 +31,30 @@ public class ScheduleController {
     @Autowired
     private UserMapper userMapper;
 
+    private static final Logger logger = LoggerFactory.getLogger(ScheduleController.class);
+
     @GetMapping("/schedule")
     public ResponseEntity<List<Schedule>> getSchedules(HttpServletRequest request) {
-        if (scheduleService.verifyPermission(request, "view_all_schedules")) {
-            try {
-                return new ResponseEntity<>(scheduleService.getSchedules(), HttpStatus.OK);
-            } catch (Exception ex) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-        } else {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        try {
+            return new ResponseEntity<>(scheduleService.getSchedules(), HttpStatus.OK);
+        } catch (Exception ex) {
+            logger.error("Error fetching schedules: ", ex);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/schedule")
-    public ResponseEntity<Boolean> updateScheduleStatus(@RequestBody String schedule_status,
+    public ResponseEntity<HttpStatus> updateScheduleStatus(@RequestBody List<Schedule> schedule_status,
             HttpServletRequest request) {
-        if (scheduleService.verifyPermission(request, "update_schedule_status")) {
-            try {
-                String jwt = jwtUtils.getJwtFromCookies(request);
-                String username = jwtUtils.getUserNameFromJwtToken(jwt);
-                user = userMapper.findByEmail(username);
-                return new ResponseEntity<Boolean>(
-                        scheduleService.updateScheduleStatus(schedule_status, user), HttpStatus.OK);
-            } catch (Exception e) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-        } else {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        try {
+            String jwt = jwtUtils.getJwtFromCookies(request);
+            String username = jwtUtils.getUserNameFromJwtToken(jwt);
+            user = userMapper.findByEmail(username);
+            scheduleService.updateScheduleStatus(schedule_status, user);
+            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Error updating schedule status: ", e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
 }

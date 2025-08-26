@@ -1,0 +1,228 @@
+2025-08-06 13:06:35 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 4240 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-06 13:06:35 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-06 13:07:30 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-06 13:07:31 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-06 13:07:31 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-06 13:07:33 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-06 13:07:39 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-06 13:07:40 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 65.362 seconds (JVM running for 67.346)
+2025-08-06 13:08:08 [http-nio-8442-exec-3] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS API URI: /api/auth/signin HTTP Method: 
+ POST Remote Address: 0:0:0:0:0:0:0:1 Remote Port: 52360 Remote Host: 0:0:0:0:0:0:0:1 Remote User: null
+2025-08-06 13:08:43 [http-nio-8442-exec-5] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS API URI: /api/admin/dashboard HTTP Method: 
+ POST Remote Address: 0:0:0:0:0:0:0:1 Remote Port: 52360 Remote Host: 0:0:0:0:0:0:0:1 Remote User: null
+2025-08-06 13:08:43 [http-nio-8442-exec-5] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS JWT is Validated and Username: admin@awashbank.com
+2025-08-06 13:10:08 [http-nio-8442-exec-8] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS API URI: /api/role HTTP Method: 
+ GET Remote Address: 0:0:0:0:0:0:0:1 Remote Port: 52500 Remote Host: 0:0:0:0:0:0:0:1 Remote User: null
+2025-08-06 13:10:08 [http-nio-8442-exec-7] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS API URI: /api/permission/getAllRoleFunctionalities HTTP Method: 
+ GET Remote Address: 0:0:0:0:0:0:0:1 Remote Port: 52501 Remote Host: 0:0:0:0:0:0:0:1 Remote User: null
+2025-08-06 13:10:08 [http-nio-8442-exec-8] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS JWT is Validated and Username: admin@awashbank.com
+2025-08-06 13:10:09 [http-nio-8442-exec-7] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS JWT is Validated and Username: admin@awashbank.com
+2025-08-06 13:10:09 [http-nio-8442-exec-9] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS API URI: /api/region/active HTTP Method: 
+ GET Remote Address: 0:0:0:0:0:0:0:1 Remote Port: 52502 Remote Host: 0:0:0:0:0:0:0:1 Remote User: null
+2025-08-06 13:10:09 [http-nio-8442-exec-1] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS API URI: /api/selected_job_position HTTP Method: 
+ GET Remote Address: 0:0:0:0:0:0:0:1 Remote Port: 52504 Remote Host: 0:0:0:0:0:0:0:1 Remote User: null
+2025-08-06 13:10:09 [http-nio-8442-exec-10] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS API URI: /api/branch/active HTTP Method: 
+ GET Remote Address: 0:0:0:0:0:0:0:1 Remote Port: 52503 Remote Host: 0:0:0:0:0:0:0:1 Remote User: null
+2025-08-06 13:10:09 [http-nio-8442-exec-9] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS JWT is Validated and Username: admin@awashbank.com
+2025-08-06 13:10:09 [http-nio-8442-exec-1] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS JWT is Validated and Username: admin@awashbank.com
+2025-08-06 13:10:09 [http-nio-8442-exec-10] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS JWT is Validated and Username: admin@awashbank.com
+2025-08-06 13:10:14 [http-nio-8442-exec-3] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS API URI: /api/permission/getAllRoleFunctionalities HTTP Method: 
+ GET Remote Address: 0:0:0:0:0:0:0:1 Remote Port: 52503 Remote Host: 0:0:0:0:0:0:0:1 Remote User: null
+2025-08-06 13:10:15 [http-nio-8442-exec-3] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS JWT is Validated and Username: admin@awashbank.com
+2025-08-06 13:10:15 [http-nio-8442-exec-4] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS API URI: /api/branch/active HTTP Method: 
+ GET Remote Address: 0:0:0:0:0:0:0:1 Remote Port: 52500 Remote Host: 0:0:0:0:0:0:0:1 Remote User: null
+2025-08-06 13:10:15 [http-nio-8442-exec-5] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS API URI: /api/region/active HTTP Method: 
+ GET Remote Address: 0:0:0:0:0:0:0:1 Remote Port: 52501 Remote Host: 0:0:0:0:0:0:0:1 Remote User: null
+2025-08-06 13:10:15 [http-nio-8442-exec-2] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS API URI: /api/selected_job_position HTTP Method: 
+ GET Remote Address: 0:0:0:0:0:0:0:1 Remote Port: 52504 Remote Host: 0:0:0:0:0:0:0:1 Remote User: null
+2025-08-06 13:10:16 [http-nio-8442-exec-4] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS JWT is Validated and Username: admin@awashbank.com
+2025-08-06 13:10:16 [http-nio-8442-exec-2] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS JWT is Validated and Username: admin@awashbank.com
+2025-08-06 13:10:16 [http-nio-8442-exec-5] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS JWT is Validated and Username: admin@awashbank.com
+2025-08-06 13:24:26 [http-nio-8442-exec-10] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS API URI: /api/branch HTTP Method: 
+ GET Remote Address: 0:0:0:0:0:0:0:1 Remote Port: 52430 Remote Host: 0:0:0:0:0:0:0:1 Remote User: null
+2025-08-06 13:24:27 [http-nio-8442-exec-3] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS API URI: /api/region HTTP Method: 
+ GET Remote Address: 0:0:0:0:0:0:0:1 Remote Port: 52431 Remote Host: 0:0:0:0:0:0:0:1 Remote User: null
+2025-08-06 13:24:27 [http-nio-8442-exec-10] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS JWT is Validated and Username: admin@awashbank.com
+2025-08-06 13:24:27 [http-nio-8442-exec-3] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS JWT is Validated and Username: admin@awashbank.com
+2025-08-06 13:24:27 [http-nio-8442-exec-5] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS API URI: /api/branch HTTP Method: 
+ GET Remote Address: 0:0:0:0:0:0:0:1 Remote Port: 52431 Remote Host: 0:0:0:0:0:0:0:1 Remote User: null
+2025-08-06 13:24:28 [http-nio-8442-exec-5] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS JWT is Validated and Username: admin@awashbank.com
+2025-08-06 13:24:28 [http-nio-8442-exec-2] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS API URI: /api/role HTTP Method: 
+ GET Remote Address: 0:0:0:0:0:0:0:1 Remote Port: 52430 Remote Host: 0:0:0:0:0:0:0:1 Remote User: null
+2025-08-06 13:24:28 [http-nio-8442-exec-4] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS API URI: /api/total_job_positions HTTP Method: 
+ GET Remote Address: 0:0:0:0:0:0:0:1 Remote Port: 52432 Remote Host: 0:0:0:0:0:0:0:1 Remote User: null
+2025-08-06 13:24:28 [http-nio-8442-exec-4] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS JWT is Validated and Username: admin@awashbank.com
+2025-08-06 13:24:28 [http-nio-8442-exec-2] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS JWT is Validated and Username: admin@awashbank.com
+2025-08-06 13:24:29 [http-nio-8442-exec-6] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS API URI: /api/jobPositions HTTP Method: 
+ GET Remote Address: 0:0:0:0:0:0:0:1 Remote Port: 52430 Remote Host: 0:0:0:0:0:0:0:1 Remote User: null
+2025-08-06 13:24:29 [http-nio-8442-exec-6] INFO  c.a.fms.Security.jwt.AuthTokenFilter -  AFRFMS JWT is Validated and Username: admin@awashbank.com
+2025-08-06 13:25:33 [Thread-8] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-06 13:25:33 [Thread-8] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-06 13:25:33 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 4240 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-06 13:25:33 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-06 13:25:35 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2025-08-06 13:25:36 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-2 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-06 13:25:36 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2025-08-06 13:25:37 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-06 13:25:38 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-06 13:25:38 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 5.169 seconds (JVM running for 1145.134)
+2025-08-06 13:26:02 [Thread-28] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2025-08-06 13:26:02 [Thread-28] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2025-08-06 13:26:03 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 4240 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-06 13:26:03 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-06 13:26:04 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2025-08-06 13:26:04 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-3 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-06 13:26:04 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2025-08-06 13:26:05 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-06 13:26:06 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-06 13:26:06 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 3.401 seconds (JVM running for 1172.984)
+2025-08-06 13:26:33 [Thread-35] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+2025-08-06 13:26:33 [Thread-35] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
+2025-08-06 13:26:34 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 4240 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-06 13:26:34 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-06 13:26:36 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Starting...
+2025-08-06 13:26:36 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-4 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-06 13:26:36 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Start completed.
+2025-08-06 13:26:36 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-06 13:26:38 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-06 13:26:38 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 4.288 seconds (JVM running for 1204.925)
+2025-08-06 13:28:01 [Thread-42] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown initiated...
+2025-08-06 13:28:01 [Thread-42] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown completed.
+2025-08-06 13:28:01 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 4240 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-06 13:28:01 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-06 13:28:04 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Starting...
+2025-08-06 13:28:04 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-5 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-06 13:28:04 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Start completed.
+2025-08-06 13:28:05 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-06 13:28:07 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-06 13:28:07 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 5.859 seconds (JVM running for 1293.712)
+2025-08-06 13:28:08 [Thread-49] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown initiated...
+2025-08-06 13:28:08 [Thread-49] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown completed.
+2025-08-06 13:28:09 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 4240 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-06 13:28:09 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-06 13:28:12 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Starting...
+2025-08-06 13:28:12 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-6 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-06 13:28:12 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Start completed.
+2025-08-06 13:28:13 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-06 13:28:15 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-06 13:28:15 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 6.263 seconds (JVM running for 1301.965)
+2025-08-06 13:28:16 [Thread-56] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown initiated...
+2025-08-06 13:28:16 [Thread-56] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown completed.
+2025-08-06 13:28:17 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 4240 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-06 13:28:17 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-06 13:28:18 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Starting...
+2025-08-06 13:28:18 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-7 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-06 13:28:18 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Start completed.
+2025-08-06 13:28:19 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-06 13:28:21 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-06 13:28:21 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 4.528 seconds (JVM running for 1308.18)
+2025-08-06 13:28:23 [Thread-63] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown initiated...
+2025-08-06 13:28:23 [Thread-63] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown completed.
+2025-08-06 13:28:23 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 4240 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-06 13:28:23 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-06 13:28:27 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Starting...
+2025-08-06 13:28:27 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-8 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-06 13:28:27 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Start completed.
+2025-08-06 13:28:28 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-06 13:28:30 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-06 13:28:30 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 7.251 seconds (JVM running for 1317.319)
+2025-08-06 13:28:37 [Thread-70] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Shutdown initiated...
+2025-08-06 13:28:37 [Thread-70] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Shutdown completed.
+2025-08-06 13:28:38 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 4240 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-06 13:28:38 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-06 13:28:42 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Starting...
+2025-08-06 13:28:42 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-9 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-06 13:28:42 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Start completed.
+2025-08-06 13:28:43 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-06 13:28:45 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-06 13:28:45 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 7.453 seconds (JVM running for 1332.105)
+2025-08-06 13:28:47 [Thread-77] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Shutdown initiated...
+2025-08-06 13:28:47 [Thread-77] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Shutdown completed.
+2025-08-06 13:28:47 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 4240 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-06 13:28:47 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-06 13:28:49 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-10 - Starting...
+2025-08-06 13:28:49 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-10 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-06 13:28:49 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-10 - Start completed.
+2025-08-06 13:28:49 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-06 13:28:51 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-06 13:28:51 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 4.224 seconds (JVM running for 1338.319)
+2025-08-06 13:36:48 [Thread-84] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-10 - Shutdown initiated...
+2025-08-06 13:36:48 [Thread-84] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-10 - Shutdown completed.
+2025-08-06 13:36:48 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 4240 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-06 13:36:48 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-06 13:36:50 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-11 - Starting...
+2025-08-06 13:36:50 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-11 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-06 13:36:50 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-11 - Start completed.
+2025-08-06 13:36:51 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-06 13:36:52 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-06 13:36:52 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 4.457 seconds (JVM running for 1819.471)
+2025-08-06 13:36:55 [Thread-91] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-11 - Shutdown initiated...
+2025-08-06 13:36:55 [Thread-91] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-11 - Shutdown completed.
+2025-08-06 13:36:55 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 4240 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-06 13:36:55 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-06 13:36:56 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-12 - Starting...
+2025-08-06 13:36:56 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-12 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-06 13:36:57 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-12 - Start completed.
+2025-08-06 13:36:57 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-06 13:36:58 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-06 13:36:58 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 3.348 seconds (JVM running for 1825.226)
+2025-08-06 13:37:04 [Thread-98] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-12 - Shutdown initiated...
+2025-08-06 13:37:04 [Thread-98] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-12 - Shutdown completed.
+2025-08-06 13:37:04 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 4240 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-06 13:37:04 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-06 13:37:07 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-13 - Starting...
+2025-08-06 13:37:07 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-13 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-06 13:37:07 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-13 - Start completed.
+2025-08-06 13:37:08 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-06 13:37:09 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-06 13:37:09 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 5.406 seconds (JVM running for 1836.567)
+2025-08-06 13:37:11 [Thread-105] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-13 - Shutdown initiated...
+2025-08-06 13:37:11 [Thread-105] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-13 - Shutdown completed.
+2025-08-06 13:37:11 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 4240 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-06 13:37:11 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-06 13:37:13 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Starting...
+2025-08-06 13:37:13 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-14 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-06 13:37:13 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Start completed.
+2025-08-06 13:37:14 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-06 13:37:15 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-06 13:37:15 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 4.14 seconds (JVM running for 1842.543)
+2025-08-06 13:37:20 [Thread-112] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Shutdown initiated...
+2025-08-06 13:37:20 [Thread-112] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Shutdown completed.
+2025-08-06 13:37:20 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 4240 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-06 13:37:20 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-06 13:37:23 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Starting...
+2025-08-06 13:37:23 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-15 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-06 13:37:23 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Start completed.
+2025-08-06 13:37:24 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-06 13:37:26 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-06 13:37:26 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 5.423 seconds (JVM running for 1852.663)
+2025-08-06 13:37:28 [Thread-119] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Shutdown initiated...
+2025-08-06 13:37:28 [Thread-119] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Shutdown completed.
+2025-08-06 13:37:28 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 4240 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-06 13:37:28 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-06 13:37:32 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-16 - Starting...
+2025-08-06 13:37:32 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-16 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-06 13:37:32 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-16 - Start completed.
+2025-08-06 13:37:33 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-06 13:37:34 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-06 13:37:34 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 6.36 seconds (JVM running for 1861.116)
+2025-08-06 13:37:36 [Thread-126] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-16 - Shutdown initiated...
+2025-08-06 13:37:36 [Thread-126] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-16 - Shutdown completed.
+2025-08-06 13:37:36 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 4240 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-06 13:37:36 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-06 13:37:40 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-17 - Starting...
+2025-08-06 13:37:40 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-17 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-06 13:37:40 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-17 - Start completed.
+2025-08-06 13:37:40 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-06 13:37:42 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-06 13:37:42 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 5.838 seconds (JVM running for 1869.094)
+2025-08-06 13:37:44 [Thread-133] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-17 - Shutdown initiated...
+2025-08-06 13:37:44 [Thread-133] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-17 - Shutdown completed.
+2025-08-06 13:37:44 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Starting AFRFMSApplication using Java 19.0.2 on SYDC_INHD_PC1 with PID 4240 (D:\IS_MGT\is_mgt_enhanced_latest\Backend\AuditFindingReportingandFollowupManagementSystem\target\classes started by Abebayehu Alaro in D:\IS_MGT\is_mgt_enhanced_latest\Backend)
+2025-08-06 13:37:44 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-06 13:37:46 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-18 - Starting...
+2025-08-06 13:37:46 [restartedMain] INFO  com.zaxxer.hikari.pool.PoolBase - HikariPool-18 - Driver does not support get/set network timeout for connections. (This operation is not supported.)
+2025-08-06 13:37:46 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-18 - Start completed.
+2025-08-06 13:37:47 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-06 13:37:48 [restartedMain] WARN  o.s.data.convert.CustomConversions - Registering converter from class microsoft.sql.DateTimeOffset to class java.time.OffsetDateTime as reading converter although it doesn't convert from a store-supported type; You might want to check your annotation setup at the converter implementation
+2025-08-06 13:37:48 [restartedMain] INFO  com.afr.fms.AFRFMSApplication - Started AFRFMSApplication in 4.362 seconds (JVM running for 1875.209)

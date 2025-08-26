@@ -1,4 +1,5 @@
 package com.afr.fms.Common.PageHelper;
+
 import com.github.pagehelper.PageInterceptor;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
 import org.springframework.context.annotation.Bean;

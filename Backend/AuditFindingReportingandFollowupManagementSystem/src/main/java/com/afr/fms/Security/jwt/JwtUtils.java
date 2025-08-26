@@ -41,6 +41,7 @@ public class JwtUtils {
   private String jwtRefreshCookie;
 
   public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal, HttpServletRequest request) {
+
     resetFailedAttempts(userPrincipal.getUserSecurity());
     String jwt = generateTokenFromUsername(userPrincipal.getUsername());
     String contextPath = getContextPath(request);
@@ -66,7 +67,6 @@ public class JwtUtils {
   }
 
   public String getJwtFromCookies(HttpServletRequest request) {
-    String contextPath = getContextPath(request);
 
     return getCookieValueByName(request, jwtCookie);
   }
@@ -86,11 +86,12 @@ public class JwtUtils {
   }
 
   private String getContextPath(HttpServletRequest request) {
+    // logger.info("jwt path: --------------" + request.getContextPath());
     return request.getContextPath();
   }
 
   private ResponseCookie generateCleanCookie(String name, String path) {
-    return ResponseCookie.from(name, null).path("/").maxAge(0).httpOnly(true).secure(true).build();
+    return ResponseCookie.from(name, null).path("/").maxAge(3600).httpOnly(true).secure(true).build();
   }
 
   public String getUserNameFromJwtToken(String token) {
@@ -128,13 +129,20 @@ public class JwtUtils {
   }
 
   private ResponseCookie generateCookie(String name, String value, String path) {
-    return ResponseCookie.from(name, value)
-        .path("/")
-        .maxAge(24 * 60 * 60)
-        .httpOnly(true)
-        .secure(true)
-        .build();
+    return ResponseCookie.from(name, value).path("/").maxAge(24 * 60 *
+        60).httpOnly(true).secure(true).build();
   }
+
+  // private ResponseCookie generateCookie(String name, String value, String path)
+  // {
+  // return ResponseCookie.from(name, value)
+  // .path(path != null ? path : "/") // allow custom path, default "/"
+  // .maxAge(24 * 60 * 60) // 1 day
+  // .httpOnly(true)
+  // .secure(true)
+  // .domain(".awashbank.com") // works for all subdomains
+  // .build();
+  // }
 
   private String getCookieValueByName(HttpServletRequest request, String name) {
     Cookie cookie = WebUtils.getCookie(request, name);

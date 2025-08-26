@@ -16,7 +16,8 @@ public class SwaggerConfig {
                                 .info(new Info()
                                                 .title("Audit Reporting and Follow-up Management System API")
                                                 .version("v1.0")
-                                                .description("API documentation for the IS and MGT Audit Reporting and Follow-up Management System")
+                                                .description(
+                                                                "API documentation for the IS and MGT Audit Reporting and Follow-up Management System")
                                                 .contact(new Contact()
                                                                 .name("AFRFMS System")
                                                                 .url("https://afrfms.awashbank.com"))

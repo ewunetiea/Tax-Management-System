@@ -1,0 +1,195 @@
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Branch } from '../../../../models/admin/branch';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MessageService } from 'primeng/api';
+import { Region } from '../../../../models/admin/region';
+import { BranchService } from '../../../service/admin/branchService';
+import { RegionService } from '../../../service/admin/regionService';
+import { StorageService } from '../../../service/admin/storage.service';
+import { ValidationService } from '../../../service/admin/validationService';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { DropdownModule } from 'primeng/dropdown';
+import { ToastModule } from 'primeng/toast';
+import { SkeletonModule } from 'primeng/skeleton';
+import { DialogModule } from 'primeng/dialog';
+import { PaginatorPayLoad } from '../../../../models/admin/paginator-payload';
+
+@Component({
+    selector: 'app-create-edit-branch',
+    standalone: true,
+    imports: [CommonModule, FormsModule, InputTextModule, ButtonModule, DropdownModule, ToastModule, SkeletonModule, DialogModule],
+    templateUrl: './create-edit-branch.component.html',
+    styleUrl: './create-edit-branch.component.scss'
+})
+export class CreateEditBranchComponent {
+    branches: Branch = new Branch();
+    branch_name: string = '';
+    dropList: any[] = [];
+    modalRef: any = null;
+    regions: Region[] = [];
+    branch_code: string = '';
+    branch_name_status: boolean = false;
+    branch_code_status: boolean = false;
+    errorMessage: string = '';
+    branch_region: Region = new Region();
+    message: boolean = false;
+    confrimationDialog: boolean = false;
+    loading: boolean = false;
+    isEditData: boolean = false;
+    regionDropdownOptions: Region[] = [];
+    loadLazyTimeout: any = null;
+    loading_dropdown: boolean = true;
+    paginatorPayload = new PaginatorPayLoad();
+
+    @Input() passedBranch: any[] = [];
+    @Output() editedBranch: EventEmitter<any> = new EventEmitter();
+
+    constructor(
+        private branchService: BranchService,
+        private regionService: RegionService,
+        private validationService: ValidationService,
+        private storageService: StorageService,
+        private messageService: MessageService
+    ) {}
+
+    ngOnInit(): void {
+        const user = this.storageService.getUser();
+        this.branches.user_id = user.id;
+        this.regionDropdownOptions = Array.from({ length: 1000 });
+        this.isEditData = this.passedBranch[1];
+        if (this.isEditData) {
+            this.editBranch(this.passedBranch);
+        } else {
+            this.openNew();
+        }
+        this.getAllRegions();
+    }
+
+    editBranch(passedData: any[]) {
+        this.branches = passedData[0];
+    }
+
+    openNew() {
+        this.branches = new Branch();
+        this.branch_name_status = false;
+        this.branch_code_status = false;
+    }
+
+    emitData(data: any[]) {
+        this.editedBranch.emit(data);
+    }
+
+    onDropdownLoad(event: any, identifier: String) {
+        this.loading_dropdown = true;
+        if (this.loadLazyTimeout) {
+            clearTimeout(this.loadLazyTimeout);
+        }
+        this.loadLazyTimeout = setTimeout(
+            () => {
+                const { first, last } = event;
+                this.regionDropdownOptions = this.regions;
+                this.loading_dropdown = false;
+            },
+            Math.random() * 1000 + 250
+        );
+    }
+
+
+    saveBranch() {
+    this.loading = true;
+    this.branchService.createBranch(this.branches).subscribe({
+        next: (data) => {
+            this.message = true;
+            this.loading = false;
+            if (this.branches.id) {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: ` ${this.branches.name} successfully updated`,
+                    detail: '',
+                    life: 3000
+                });
+            } else {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: ` ${this.branches.name} successfully created`,
+                    detail: '',
+                    life: 3000
+                });
+                this.branches = new Branch();
+            }
+            this.passedBranch = [];
+            this.passedBranch.push(this.branches);
+            this.passedBranch.push(this.isEditData);
+            this.emitData(this.passedBranch);
+        },
+        error: (error) => {
+            this.loading = false;
+        }
+    });
+}
+
+
+    checkCodeStatus(event: any) {
+        this.branch_code = event.target.value;
+        this.validationService.checkBranchCode(this.branch_code).subscribe(
+            (res) => {
+                if (res) {
+                    this.branch_code_status = true;
+                } else {
+                    this.branch_code_status = false;
+                }
+            },
+            (error) => {
+                this.errorMessage = error.error.message;
+            }
+        );
+    }
+
+    checkNameStatus(event: any) {
+        this.branch_name = event.target.value;
+        this.validationService.checkBranchName(this.branch_name).subscribe(
+            (res) => {
+                if (res) {
+                    this.branch_name_status = true;
+                } else {
+                    this.branch_name_status = false;
+                }
+            },
+            (error) => {
+                //
+            }
+        );
+    }
+
+    getAllRegions() {
+        this.regionService.getAllRegions().subscribe({
+            next: (data) => {
+                this.regions = data;
+            },
+            error: (error) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching regions !',
+                    detail: '',
+                    life: 3000
+                });
+            }
+        });
+    }
+
+    openModal() {
+        this.confrimationDialog = true;
+    }
+
+    hideDialog() {
+        this.confrimationDialog = false;
+        this.loading = false;
+    }
+
+    getSubmitButtonText(): string {
+        return this.isEditData ? 'Update' : 'Submit';
+    }
+}

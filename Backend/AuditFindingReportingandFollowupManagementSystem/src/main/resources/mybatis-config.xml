@@ -1,0 +1,14 @@
+<!-- src/main/resources/mybatis-config.xml -->
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!-- Other configuration settings if needed -->
+    <mappers>
+        <!-- Specify the package where MyBatis should scan for mappers -->
+        <package name="com.afr.fms.Common.Report.IS_Report.Mapper"/>
+    </mappers>
+    <settings>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
+</configuration>

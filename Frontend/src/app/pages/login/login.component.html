@@ -1,0 +1,165 @@
+<div class="area">
+    <main>
+       <div class="container">
+          <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+             <div class="container">
+                <div class="row justify-content-center">
+                   <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+                      <div class="card mb-3" style="z-index:2;">
+                         <div class="card-body">
+                          <div class="pt-3 pb-2 text-center">
+                            <a routerLink="/" class="card-title text-center pb-0 fs-3">
+                              <img class="img-responsive text-center awash-bank-login-logo" src="assets/img/awashbank.png" alt="awashbank logo" style="max-width: 100%; height: auto;">
+                           </a>
+                         </div>
+                            <div  class="pt-4">
+                               <h5 class="card-title text-center pb-0 fs-4">AFRFMS</h5>
+                            </div>
+                            <form *ngIf="!passwordChangeCheck" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" class="row g-3" novalidate>
+                               <div class="col-12">
+                                  <label for="yourUsername" class="form-label">Username</label>
+                                  <div class="input-group has-validation">
+                                     <!-- <span class="input-group-text" id="inputGroupPrepend">@</span> -->
+                                     <span class="input-group-text" id="inputGroupPrepend">"&#64;"</span>
+                                     <input type="text" name="username" placeholder="Outlook Address" class="form-control" id="yourUsername"
+                                        [(ngModel)]="form.username" #username="ngModel" required
+                                        [ngClass]="{'is-invalid': f.submitted && username.errors}">
+                                     <div *ngIf="username.errors && f.submitted" class="invalid-feedback">Please enter your
+                                        username.</div>
+                                  </div>
+                               </div>
+                               <div class="col-12 password-container">
+                                  <label for="yourPassword" class="form-label">Password</label>
+                                  <input type="password" name="password" class="form-control" id="yourPassword" required
+                                     [(ngModel)]="form.password" #password="ngModel"
+                                     [ngClass]="{'is-invalid': f.submitted && password.errors}"><span
+                                     class="eye-container"><i class="bi bi-eye-slash" (click)='togglePassword()'
+                                        id="eye"></i></span>
+                                  <div *ngIf="f.submitted && password.errors" class="invalid-feedback">Please enter your password!</div>
+                               </div>
+                              
+                               <div *ngIf="!loading" class="col-12 text-center">
+                                <button class="btn btn-primary w-100" type="submit">Login</button>
+                                <a *ngIf="!passwordChangeCheck" class="text-primary" style="display: inline-block; margin-top: 3%;" routerLink="/forget-password" rel="noopener noreferrer">Forgot Password?</a>
+                                <a *ngIf="!passwordChangeCheck" class="text-primary ml-5" style="display: inline-block; margin-top: 3%;" routerLink="/signup" rel="noopener noreferrer">Signup</a>
+                               </div>
+                               <div *ngIf="loading" class="col-12">
+                                  <button class="btn btn-primary w-100" type="button" disabled>
+                                     Loading...
+                                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                  </button>
+                               </div>
+                               <div *ngIf="f.submitted && isLoginFailed " class="col-12" class="alert alert-danger"
+                                  role="alert">
+                                  Login Failed: {{errorMessage}}
+                               </div>
+                               <div *ngIf="change" class="col-md-12">
+                                <p class="small mb-2">Ready to change password? <a href="#" (click)="checkPasswordStatus()">Change Password</a></p>
+                              </div>
+                            </form>
+                         </div>
+    
+                         <!--       change password -->
+                         <div class="card-body" *ngIf="passwordChangeCheck">
+                            <div class="pb-2">
+                               <h6 class="card-title text-center pb-0 fs-6">Change Password</h6>
+                            </div>
+                            <div>
+                               <div *ngIf="submitted" class="alert alert-success alert-dismissible fade show" role="alert">
+                                  <label style="margin-right: -20%;">Password is updated successfully!</label><button type="button" class="btn-close"
+                                     data-bs-dismiss="alert" aria-label="Close" (click)="alertClosed('success')"></button>
+                               </div>
+                               <div *ngIf="message !== ''" class="alert alert-danger alert-dismissible fade show row g-3"
+                                  role="alert">
+                                  <div class="col-md-11">
+                                    <p style="margin-right: -20%;">Error: {{message}}</p>
+                                  </div>
+                                  <button type="button" class=" col-md-1 btn-close" data-bs-dismiss="alert"
+                                     aria-label="Close" (click)="alertClosed('danger')">
+                                  </button>
+                               </div>
+    
+                               <form ngNativeValidate #passwordForm="ngForm" class="row g-3">
+                                  <div class="col-12 password-container">
+                                     <label for="inputOldPassword" class="form-label">Old Password</label>
+                                     <input type="password" name="oldPassword" class="form-control"
+                                        [(ngModel)]="passwordData.oldPassword"
+                                        #oldPassword="ngModel"
+                                        [class.is-invalid]="oldPassword.invalid && oldPassword.touched"
+                                        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$! %*? &])[A-Za-z\d$@$! %*? &]{8,}"
+                                        required
+                                        />
+                                        <small class="form-text text-muted" [class.d-none]="oldPassword.valid || oldPassword.untouched">
+                                          Your old password would be 8-20 characters long and contain:<br>
+                                          - At least one lowercase letter<br>
+                                          - At least one uppercase letter<br>
+                                          - At least one number<br>
+                                          - At least one special character
+                                        </small>
+                                  </div>
+                                  <div class="col-12 password-container">
+                                     <label for="inputPassword" class="form-label">New Password</label>
+                                     <input type="password" class="form-control" [(ngModel)]="passwordData.password"
+                                        name="password1" id="inputPassword" #password1="ngModel"
+                                        [class.is-invalid]="password1.invalid && password1.touched && confirmPasswordInput.touched || (passwordData.confirmPassword!==passwordData.password)"
+                                        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$! %*? &])[A-Za-z\d$@$! %*? &]{8,}"
+                                        required />
+                                      <small class="form-text text-muted" [class.d-none]="password1.valid || password1.untouched">
+                                        Your new password must be 8-20 characters long, different from old password and contain:<br>
+                                        - At least one lowercase letter<br>
+                                        - At least one uppercase letter<br>
+                                        - At least one number<br>
+                                        - At least one special character
+                                      </small>
+                                  </div>
+                                  <div class="col-12 password-container">
+                                     <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                                     <input type="password" class="form-control" [(ngModel)]="passwordData.confirmPassword"
+                                        name="confirmPasswordInput" id="confirmPassword" #confirmPasswordInput="ngModel"
+                                        [class.is-invalid]="(confirmPasswordInput.untouched && password1.valid)|| (passwordData.confirmPassword!==passwordData.password && password1.touched)"
+                                        (input)="confirmPassword($event)"
+                                        required
+                                         />
+                                      <small
+                                        *ngIf="(password1.valid) && confirmPasswordInput.untouched && !confirmPasswordInput.dirty"
+                                        class="form-text text-muted">
+                                        Please confirm your password.
+                                      </small>
+                                      <small *ngIf="!is_password_matched" class="form-text text-muted">
+                                        Passwords do not match.
+                                      </small>
+                                  </div>
+                                  <div class="col-12"> <button *ngIf="!loading"  [disabled]="!is_password_matched || passwordForm.form.invalid" class="btn btn-success w-100" type="submit"
+                                    (click)="changePassword()">Change Password</button></div>
+                                  <div *ngIf="loading" class="col-12">
+                                    <button class="btn btn-success w-100" type="button" disabled>
+                                       Loading...
+                                       <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    </button>
+                                 </div>
+    
+                               </form>
+    
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </section>
+       </div>
+    </main>
+    <ul class="circles">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+    </div>
+ 

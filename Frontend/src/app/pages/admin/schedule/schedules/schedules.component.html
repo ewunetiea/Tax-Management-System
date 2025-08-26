@@ -1,0 +1,64 @@
+<main id="main" class="main">
+    <div class="pagetitle">
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/"><i class="bi bi-house-door"></i></a></li>
+          <li class="breadcrumb-item active">Schedule</li>li>
+        </ol>
+      </nav>
+    </div>
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12">
+                  <div class="container my-4">
+                    <p-table [value]="schedules" [loading]="loading" [paginator]="true" [rows]="10" 
+                             [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                             [rowsPerPageOptions]="[10,25,50]" styleClass="p-datatable-sm">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 5%">ID</th>
+                                <th style="width: 30%">Schedule</th>
+                                <th style="width: 45%">Description</th>
+                                <th style="width: 20%">Status</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-schedule>
+                            <tr>
+                                <td>{{schedule.id}}</td>
+                                <td>{{schedule.name}}</td>
+                                <td>{{schedule.description}}</td>
+                                <td>
+                                    <div class="flex align-items-center">
+                                        <p-checkbox [binary]="true" 
+                                                  [ngModel]="functionalities_status[schedule.id]"
+                                                  (onChange)="onStatusChange($event, schedule.id)"
+                                                  [inputId]="'status_' + schedule.id">
+                                        </p-checkbox>
+                                        <label [for]="'status_' + schedule.id" class="ml-2">
+                                            {{functionalities_status[schedule.id] ? 'Active' : 'Inactive'}}
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+
+                    <div class="row m-2 d-flex justify-content-center" *ngIf="functionality_size > 0 ">
+  
+                      <button type="button" class="btn btn-outline-primary" style="width: fit-content"
+                        (click)="updateStatus()">Apply Changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </section>
+  </main>

@@ -1,0 +1,594 @@
+<main id="main" class="main">
+  <p-toast></p-toast>
+  <div class="mb-6">
+      <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
+  </div>
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <p-card>
+          <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+              <button
+                pButton
+                pRipple
+                label="New"
+                (click)="openNew()"
+                icon="pi pi-plus"
+                class="p-button-raised p-button-rounded p-button-outlined p-button-outlined mr-2"
+              ></button>
+              <button
+                pButton
+                pRipple
+                label="Deactivate"
+                icon="pi pi-times"
+                class="p-button-raised p-button-rounded p-button-outlined p-button-outlined p-button-danger mr-2"
+                (click)="confirmDeactivateSelected()"
+                [disabled]="!selectedMenuItems || !selectedMenuItems.length"
+              ></button>
+              <button
+                pButton
+                pRipple
+                label="Activate"
+                icon="pi pi-verified"
+                class="p-button-raised p-button-outlined p-button-rounded p-button-secondary"
+                (click)="confirmActivateSelected()"
+                [disabled]="!selectedMenuItems || !selectedMenuItems.length"
+              ></button>
+            </ng-template>
+
+            <ng-template pTemplate="right">
+              <div class="flex">
+                <button
+                  type="button"
+                  pButton
+                  pRipple
+                  icon="pi pi-file"
+                  (click)="dt.exportCSV()"
+                  class="mr-2"
+                  pTooltip="CSV"
+                  tooltipPosition="bottom"
+                ></button>
+
+                <button
+                  type="button"
+                  pButton
+                  pRipple
+                  icon="pi pi-filter"
+                  (click)="dt.exportCSV({ selectionOnly: true })"
+                  class="p-button-info ml-auto"
+                  pTooltip="Selection Only"
+                  tooltipPosition="bottom"
+                ></button>
+              </div>
+            </ng-template>
+          </p-toolbar>
+
+          <p-table
+            #dt
+            [value]="menuItems"
+            [rows]="5"
+            [paginator]="true"
+            [loading]="loading"
+            [globalFilterFields]="[
+              'item_to',
+              'item_label',
+              'item_badge',
+              'item_icon',
+              'created_date',
+              'updated_date',
+              'maker_email',
+              'status'
+            ]"
+            [(selection)]="selectedMenuItems"
+            [rowHover]="true"
+            dataKey="id"
+            [rowsPerPageOptions]="[5, 10, 25, 50]"
+            [tableStyle]="{ 'min-width': '200rem' }"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true"
+          >
+            <ng-template #caption>
+              <div class="flex items-center justify-between">
+                  <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                  <div class="flex justify-center mb-4">
+                      <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value" />
+                  </div>
+                  <p-iconfield>
+                      <p-inputicon styleClass="pi pi-search" />
+                      <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." />
+                  </p-iconfield>
+              </div>
+          </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 3rem"></th>
+                <th style="width: 3rem">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+
+                <th style="min-width: 12rem">
+                  <div class="flex items-center">
+                    Header
+                    <p-columnFilter
+                      type="text"
+                      p-field="menuHeaders[0].header"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+
+                <th style="min-width: 10rem">
+                  <div class="flex items-center">
+                    Target Roles
+                    <p-columnFilter
+                      type="text"
+                      p-field="menuHeaders[0].target_roles"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+
+                <th style="min-width: 10rem">
+                  <div class="flex items-center">
+                    Item Label
+                    <p-columnFilter
+                      type="text"
+                      p-field="item_label"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+
+                <th style="min-width: 12rem">
+                  <div class="flex items-center">
+                    Item Order
+                    <p-columnFilter
+                      type="text"
+                      p-field="item_order"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+
+                <th style="min-width: 10rem">
+                  <div class="flex items-center">
+                    Icon
+                    <p-columnFilter
+                      type="text"
+                      p-field="item_icon"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+                
+                <th style="min-width: 10rem">
+                  <div class="flex items-center">
+                    Item To
+                    <p-columnFilter
+                      type="text"
+                      p-field="item_to"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+
+                <th style="min-width: 10rem">
+                  <div class="flex items-center">
+                    Badge
+                    <p-columnFilter
+                      type="text"
+                      p-field="item_badge"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+
+                <th style="min-width: 10rem">
+                  <div class="flex items-center">
+                    Maker
+                    <p-columnFilter
+                      type="text"
+                      p-field="maker"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+
+                <th style="min-width: 10rem">
+                  <div class="flex items-center">
+                    Created Date
+                    <p-columnFilter
+                      type="date"
+                      p-field="created_date"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+
+                <th style="min-width: 10rem">
+                  <div class="flex items-center">
+                    Updated Date
+                    <p-columnFilter
+                      type="date"
+                      p-field="updated_date"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+
+                <th style="width: 8rem">
+                  <div class="flex items-center">
+                    Status
+                    <p-columnFilter
+                      type="numeric"
+                      p-field="status"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+
+                <th style="width: 12rem">Action</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-menu let-expanded="expanded">
+              <tr>
+                <td>
+                  <button
+                    type="button"
+                    pButton
+                    pRipple
+                    [pRowToggler]="menu"
+                    class="p-button-text p-button-rounded p-button-plain p-button-outlined"
+                    [icon]="
+                      expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'
+                    "
+                  ></button>
+                </td>
+                <td>
+                  <p-tableCheckbox [value]="menu"></p-tableCheckbox>
+                </td>
+                <td>{{ concatenateUniqueHeader(menu.menuHeaders) }}</td>
+                <td>
+                  {{ concatenateUniqueTargets(menu.menuHeaders) }}
+                </td>
+                <td>{{ menu.item_label }}</td>
+                <td>{{ menu.item_order }}</td>
+                <td><span [className]="menu.item_icon"></span></td>
+                <td>
+                  <a [href]="menu.item_to">{{ menu.item_to }}</a>
+                </td>
+                <td>{{ menu.item_badge }}</td>
+
+                <td>{{ menu.maker_email }}</td>
+                <td>{{ menu.created_date }}</td>
+                <td>{{ menu.updated_date }}</td>
+
+                <td>
+                  <button
+                    *ngIf="menu.status == 1"
+                    pButton
+                    pRipple
+                    type="text"
+                    icon="pi pi-verified"
+                    label="Active"
+                    class="p-button-rounded p-button-success p-button-outlined p-button-sm"
+                  ></button>
+
+                  <button
+                    *ngIf="menu.status == 0"
+                    pButton
+                    pRipple
+                    type="text"
+                    icon="pi pi-times"
+                    label="Inactive"
+                    class="p-button-rounded p-button-danger p-button-outlined p-button-sm"
+                  ></button>
+                </td>
+
+                <td>
+                  <button
+                    pButton
+                    pRipple
+                    pTooltip="Edit"
+                    (click)="editMenuItem(menu)"
+                    icon="pi pi-pencil"
+                    class="p-button-rounded p-button-success p-button-outlined p-mr-2"
+                  ></button>
+                  <button
+                    *ngIf="menu.status == 1"
+                    pButton
+                    pRipple
+                    pTooltip="Deactivate"
+                    (click)="confirmActivateMenuItem(menu)"
+                    icon="pi pi-times"
+                    class="p-button-rounded p-button-danger p-button-outlined p-mr-2"
+                  ></button>
+                  <button
+                    *ngIf="menu.status == 0"
+                    pButton
+                    pRipple
+                    pTooltip="Activate"
+                    (click)="confirmDeactivateMenuItem(menu)"
+                    icon="pi pi-verified"
+                    class="p-button-rounded p-button-secondary p-button-outlined p-mr-2"
+                  ></button>
+                  <button
+                    pButton
+                    pRipple
+                    pTooltip="Delete"
+                    (click)="deleteItemDialog(menu)"
+                    icon="pi pi-trash"
+                    class="p-button-rounded p-button-danger p-button-outlined"
+                  ></button>
+                </td>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="rowexpansion" let-menu>
+              <tr>
+                <td colspan="7">
+                  <div class="p-3">
+                    <div style="padding: 0.5em 0 1em 0">
+                      <p-button
+                        (click)="activeIndex1 = 0"
+                        icon="pi pi-plus"
+                        styleClass="p-button-raised p-button-rounded p-button-outlined p-ml-2"
+                        label="Detail"
+                      ></p-button>
+                      <p-button
+                        icon="pi pi-cog"
+                        styleClass="p-button-raised p-button-rounded p-button-outlined p-ml-2"
+                        label="Manage Permissions"
+                        (click)="openManagePermissions(menu)"
+                      ></p-button>
+                    </div>
+                    <p-tabView [(activeIndex)]="activeIndex1">
+                      <p-tabPanel header="Mapped Permissions">
+                        <p-accordion>
+                          <p-accordionTab
+                            header="Permissions"
+                            [(selected)]="activeState[0]"
+                          >
+                            <p-listbox
+                              [options]="menu.permissions"
+                              optionLabel="name"
+                              [metaKeySelection]="false"
+                              [checkbox]="true"
+                              [filter]="true"
+                              [multiple]="true"
+                              [listStyle]="{ 'max-height': '250px' }"
+                              [style]="{ width: '50rem' }"
+                            ></p-listbox>
+                          </p-accordionTab>
+                        </p-accordion>
+                      </p-tabPanel>
+                    </p-tabView>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="summary">
+              <div class="p-d-flex p-ai-center p-jc-between">
+                In total there are {{ menuItems ? menuItems.length : 0 }} menu
+                items.
+              </div>
+            </ng-template>
+          </p-table>
+        </p-card>
+      </div>
+    </div>
+  </section>
+</main>
+
+<p-dialog
+  [(visible)]="menuItemDialog"
+  [modal]="true"
+  [style]="{ width: '450px' }"
+  header="Menu Item Details"
+  [closable]="true"
+  (onHide)="menuItemDialog = false"
+>
+  <form #menuForm="ngForm" (ngSubmit)="saveMenuItem(menuItem)" class="p-fluid">
+    <div class="p-field">
+      <label>
+        For more information, please refer to the PrimeNG
+        <a
+          class="font-medium no-underline ml-2 text-right cursor-pointer"
+          [style.color]="'var(--primary-color)'"
+          href="https://primeng.org/menubar/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Menu Bar
+        </a>
+        and
+        <a
+          class="font-medium no-underline ml-2 text-right cursor-pointer"
+          [style.color]="'var(--primary-color)'"
+          href="https://primeng.org/icons/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Icons
+        </a>
+        documentation.
+      </label>
+    </div>
+
+    <div class="p-field">
+      <label for="menuHeaders">Menu Headers</label>
+      <p-multiSelect
+        [options]="menuHeaders"
+        optionLabel="header"
+        display="chip"
+        name="menuHeaders"
+        [(ngModel)]="menuItem.menuHeaders"
+        [filter]="true"
+        filterBy="header"
+        [showClear]="true"
+        placeholder="Select Menu Headers"
+        [required]="true"
+      ></p-multiSelect>
+      <small class="p-error" *ngIf="menuForm.submitted && !menuItem.menuHeaders"
+        >Menu Headers are required.</small
+      >
+    </div>
+
+    <div class="p-field" *ngIf="menuItem.menuHeaders?.length">
+      <p-messages severity="info" [enableService]="false" [closable]="false">
+        <ng-template pTemplate>
+          <div>
+            Target Roles: {{ concatenateUniqueTargets(menuItem.menuHeaders!) }}
+          </div>
+        </ng-template>
+      </p-messages>
+    </div>
+
+    <div class="p-field">
+      <label for="item_order">Item Order</label>
+      <p-inputNumber
+        name="item_order"
+        [(ngModel)]="menuItem.item_order"
+        [showButtons]="true"
+        [min]="0"
+        [step]="1"
+        [required]="true"
+      ></p-inputNumber>
+      <small
+        class="p-error"
+        *ngIf="menuForm.submitted && menuItem.item_order === null"
+        >Item order is required.</small
+      >
+    </div>
+
+    <div class="p-field">
+      <label for="item_label">Item Label</label>
+      <input
+        pInputText
+        type="text"
+        name="item_label"
+        [(ngModel)]="menuItem.item_label"
+        [required]="true"
+      />
+      <small class="p-error" *ngIf="menuForm.submitted && !menuItem.item_label"
+        >Label is required.</small
+      >
+    </div>
+
+    <div class="p-field">
+      <label for="item_icon">Item Icon</label>
+      <input
+        pInputText
+        type="text"
+        name="item_icon"
+        [(ngModel)]="menuItem.item_icon"
+      />
+    </div>
+
+    <div class="p-field">
+      <label for="item_to">Item To</label>
+      <input
+        pInputText
+        type="text"
+        [required]="true"
+        name="item_to"
+        [(ngModel)]="menuItem.item_to"
+      />
+      <small class="p-error" *ngIf="menuForm.submitted && !menuItem.item_to"
+        >Item To is required.</small
+      >
+    </div>
+
+    <div class="p-field">
+      <label for="item_badge">Item Badge</label>
+      <input
+        pInputText
+        type="text"
+        name="item_badge"
+        [(ngModel)]="menuItem.item_badge"
+      />
+    </div>
+
+    <div class="p-field">
+      <label for="status">Status</label>
+      <p-inputSwitch
+        [required]="true"
+        name="status"
+        [(ngModel)]="menuItem.status"
+      ></p-inputSwitch>
+      <small
+        class="p-error"
+        *ngIf="menuForm.submitted && menuItem.status === null"
+        >Status is required.</small
+      >
+    </div>
+
+    <div class="p-formgrid p-grid mt-4">
+      <div class="p-field col-4">
+        <button
+          pButton
+          type="submit"
+          icon="pi pi-check"
+          label="Submit"
+          [disabled]="menuForm.invalid"
+          class="p-button-rounded p-button-raised p-button-outlined"
+        ></button>
+      </div>
+      <div class="p-field col-4">
+        <button
+          pButton
+          type="button"
+          icon="pi pi-times"
+          class="p-button-secondary p-button-rounded p-button-raised p-button-outlined"
+          (click)="menuForm.resetForm()"
+          label="Reset"
+        ></button>
+      </div>
+    </div>
+  </form>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="permisionDialog"
+  [header]="'Mapped Permissions for ' + this.menuItem.item_label"
+  [modal]="true"
+  [style]="{ width: '600px' }"
+  styleClass="p-fluid"
+  [maximizable]="true"
+>
+  <ng-template pTemplate="content">
+    <p-multiSelect
+      [options]="permissions"
+      appendTo="body"
+      name="selectedPermissions"
+      [(ngModel)]="selectedPermissions"
+      defaultLabel="Select Permissions"
+      optionLabel="name"
+      display="chip"
+      selectedItemsLabel="{0} columns selected"
+      [style]="{ 'min-width': '200px' }"
+    >
+    </p-multiSelect>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="permisionDialog = false"
+    ></button>
+
+    <button
+      pButton
+      pRipple
+      label="Save"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="editItemPermission()"
+    ></button>
+  </ng-template>
+</p-dialog>

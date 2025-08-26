@@ -1,0 +1,17 @@
+package com.afr.fms.Configuration;
+
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.Module;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class JacksonSanitizerConfig {
+
+    @Bean
+    public Module xssSanitizerModule() {
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(String.class, new XssSanitizingDeserializer());
+        return module;
+    }
+}

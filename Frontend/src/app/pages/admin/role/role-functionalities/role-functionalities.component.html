@@ -1,0 +1,266 @@
+<main id="main" class="main">
+    <p-toast></p-toast>
+    <div class="mb-6">
+        <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
+    </div>
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <p-card>
+                    <p-toolbar styleClass="p-mb-4">
+                        <ng-template pTemplate="right">
+                            <div class="flex">
+                                <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
+                                <button type="button" pButton pRipple icon="pi pi-filter" (click)="dt.exportCSV({ selectionOnly: true })" class="p-button-info ml-auto" pTooltip="Selection Only" tooltipPosition="bottom"></button>
+                            </div>
+                        </ng-template>
+                    </p-toolbar>
+
+                    <p-table
+                        #dt
+                        [value]="roles"
+                        [rows]="5"
+                        [paginator]="true"
+                        [loading]="loading"
+                        [size]="selectedSize"
+                        [globalFilterFields]="['name', 'code', 'status', 'role_position', 'description']"
+                        [(selection)]="selectedRoles"
+                        [rowHover]="true"
+                        dataKey="id"
+                        [rowsPerPageOptions]="[5, 10, 25, 50]"
+                        [tableStyle]="{ 'min-width': '80rem' }"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [showCurrentPageReport]="true"
+                    >
+                        <ng-template #caption>
+                            <div class="flex items-center justify-between">
+                                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                                <div class="flex justify-center mb-4">
+                                    <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value"/>
+                                </div>
+                                <p-iconfield>
+                                    <p-inputicon styleClass="pi pi-search" />
+                                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." />
+                                </p-iconfield>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 3rem">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                </th>
+
+                                <th style="min-width: 10rem">
+                                    <div class="flex items-center">
+                                        Name
+                                        <p-columnFilter type="text" field="name" display="menu" />
+                                    </div>
+                                  </th>
+                                  <th style="min-width: 10rem">
+                                    <div class="flex items-center">
+                                        Code
+                                        <p-columnFilter type="text" field="code" display="menu" />
+                                    </div>
+                                  </th>
+
+                                  <th style="min-width: 15rem">
+                                    <div class="flex items-center">
+                                        Role Position
+                                        <p-columnFilter type="text" field="role_position" display="menu" />
+                                    </div>
+                                  </th>
+
+                                  <th style="min-width: 10rem">
+                                    <div class="flex items-center">
+                                        Description
+                                        <p-columnFilter type="text" field="description" display="menu" />
+                                    </div>
+                                  </th>
+
+                                  <th style="min-width: 10rem">
+                                    <div class="flex items-center">
+                                        Status
+                                        <p-columnFilter type="text" field="status" display="menu" />
+                                    </div>
+                                  </th>
+                                  
+                                <th style="width: 12rem">Action</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-role let-expanded="expanded">
+                            <tr>
+                                <td>
+                                    <p-tableCheckbox [value]="role"></p-tableCheckbox>
+                                </td>
+                                <td>{{ role.name }}</td>
+                                <td>{{ role.code }}</td>
+                                <td>{{ role.role_position }}</td>
+                                <td>{{ role.description }}</td>
+                                <td>
+                                    <button *ngIf="role.status == 1" pButton pRipple type="text" icon="pi pi-verified" label="Active" class="p-button-rounded p-button-success p-button-outlined p-button-sm"></button>
+                                    <button *ngIf="role.status == 0" pButton pRipple type="text" icon="pi pi-times" label="Inactive" class="p-button-rounded p-button-danger p-button-outlined p-button-sm"></button>
+                                </td>
+
+                                <td>
+                                    <button pButton pRipple pTooltip="Assign Functionalities" tooltipPosition="bottom" (click)="onAssignFunctionalities(role)" icon="pi pi-cog" class="p-button-rounded p-button-success p-button-outlined mr-2"></button>
+                                    <button pButton pRipple pTooltip="View Functionalities" tooltipPosition="bottom" (click)="onViewFunctionalities(role)" icon="pi pi-eye" class="p-button-rounded p-button-danger p-button-outlined mr-2"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="summary">
+                            <div class="p-d-flex p-ai-center p-jc-between">In total there are {{ roles ? roles.length : 0 }} roles.</div>
+                        </ng-template>
+                    </p-table>
+                </p-card>
+            </div>
+        </div>
+    </section>
+</main>
+
+<p-dialog 
+[(visible)]="functionalityDialog" 
+[header]="role.name + ' Functionalities'" 
+[modal]="true" 
+[style]="{ width: '600px' }" 
+[maximizable]="true">
+    <ng-template pTemplate="content">
+        <p-multiSelect
+            [options]="functionalities"
+            appendTo="body"
+            name="functionalities"
+            [(ngModel)]="role.functionalities"
+            defaultLabel="Select functionalities"
+            optionLabel="name"
+            display="chip"
+            selectedItemsLabel="{0} columns selected"
+            [style]="{ 'min-width': '200px' }">
+        </p-multiSelect>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="flex justify-start gap-3 w-full">
+        <button pButton pRipple label="Assign " icon="pi pi-check" class="p-button-rounded p-button-success p-button-outlined" (click)="assignFunctionalities(role)"></button>
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-outlined" (click)="functionalityDialog = false"></button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog 
+[(visible)]="functionalityStatusDialog" 
+[header]="role.name + ' Functionalities Status'" 
+[modal]="true" 
+styleClass="p-fluid" 
+[maximizable]="true">
+    <ng-template pTemplate="content">
+        <p-toolbar>
+            <ng-template pTemplate="right">
+                <button
+                    pButton
+                    type="button"
+                    label="Grant"
+                    icon="pi pi-check-circle"
+                    class="p-button-raised p-button-rounded p-button-outlined p-button-success mr-2"
+                    [disabled]="!selectedFunctionalities || !selectedFunctionalities.length"
+                    (click)="updateFunctionalitiesRoleMapping(true)"
+                ></button>
+                <button
+                    pButton
+                    type="button"
+                    label="Revoke"
+                    icon="pi pi-times-circle"
+                    class="p-button-raised p-button-rounded p-button-outlined p-button-danger"
+                    [disabled]="!selectedFunctionalities || !selectedFunctionalities.length"
+                    (click)="updateFunctionalitiesRoleMapping(false)"
+                ></button>
+            </ng-template>
+        </p-toolbar>
+        <p-table
+            [value]="assignedFunctionalities"
+            [globalFilterFields]="['id', 'name', 'description', 'category', 'method', 'status']"
+            [(selection)]="selectedFunctionalities"
+            [paginator]="true"
+            [rows]="10"
+            [loading]="functionalityLoading"
+            [rowsPerPageOptions]="[10, 25, 50, { showAll: 'All' }]"
+            [scrollable]="true"
+            scrollHeight="500px"
+            #functionalityTable
+            [rowHover]="true"
+            dataKey="id"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true"
+            responsiveLayout="scroll"
+        >
+             <ng-template #caption>
+                <div class="flex items-center justify-between">
+                    <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                    <div class="flex justify-center mb-4">
+                        <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value" />
+                    </div>
+                    <p-iconfield>
+                        <p-inputicon styleClass="pi pi-search" />
+                        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." />
+                    </p-iconfield>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 3rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th style="min-width: 10rem">
+                        <div class="flex items-center">
+                            Name(API)
+                            <p-columnFilter type="text" field="name" display="menu" />
+                        </div>
+                    </th>
+
+                    <th style="min-width: 10rem">
+                        <div class="flex items-center">
+                            Description
+                            <p-columnFilter type="text" field="description" display="menu"></p-columnFilter>
+                        </div>
+                    </th>
+
+                    <th style="min-width: 10rem">
+                        <div class="flex items-center">
+                            Category
+                            <p-columnFilter type="text" field="category" display="menu"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th style="min-width: 10rem">
+                        <div class="flex items-center">
+                            Method
+                            <p-columnFilter type="text" field="method" display="menu"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th style="width: 8rem">
+                        <div class="flex items-center">
+                            Status
+                            <p-columnFilter type="boolean" field="status" display="menu"></p-columnFilter>
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-functionality>
+                <tr>
+                    <td>
+                        <p-tableCheckbox [value]="functionality"></p-tableCheckbox>
+                    </td>
+                    <td>{{ functionality.name }}</td>
+                    <td>{{ functionality.description }}</td>
+                    <td>{{ functionality.category }}</td>
+                    <td>{{ functionality.method }}</td>
+                    <td>
+                        <button *ngIf="functionality.status == 1" pButton pRipple type="text" icon="pi pi-verified" label="Active" class="p-button-rounded p-button-success p-button-outlined p-button-sm"></button>
+
+                        <button *ngIf="functionality.status == 0" pButton pRipple type="text" icon="pi pi-times" label="Inactive" class="p-button-rounded p-button-danger p-button-outlined p-button-sm"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Close" icon="pi pi-times" class="p-button-text" (click)="functionalityStatusDialog = false"></button>
+    </ng-template>
+</p-dialog>

@@ -1,0 +1,390 @@
+<main id="main" class="main">
+  <p-toast></p-toast>
+    <div class="mb-6">
+      <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
+  </div>
+  <p-card>
+    <app-user-search-engine
+      (generatedUsers)="onDataGenerated($event)"
+    ></app-user-search-engine>
+  </p-card>
+
+  <section *ngIf="fetching" class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <p-card>
+          <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="right">
+              <div class="flex">
+                <button
+                  type="button"
+                  pButton
+                  pRipple
+                  icon="pi pi-file"
+                  (click)="dt.exportCSV()"
+                  class="mr-2"
+                  pTooltip="CSV"
+                  tooltipPosition="bottom"
+                ></button>
+
+                <button
+                  type="button"
+                  pButton
+                  pRipple
+                  icon="pi pi-filter"
+                  (click)="dt.exportCSV({ selectionOnly: true })"
+                  class="p-button-info ml-auto"
+                  pTooltip="Selection Only"
+                  tooltipPosition="bottom"
+                ></button>
+              </div>
+            </ng-template>
+          </p-toolbar>
+
+          <p-table
+            #dt
+            [value]="users"
+            [rows]="5"
+            [paginator]="true"
+            [loading]="loading"
+            [globalFilterFields]="[
+              'first_name',
+              'middle_name',
+              'last_name',
+              'phone_number',
+              'email',
+              'employee_id',
+              'gender',
+              'status',
+              'banking',
+              'category',
+              'branch.name',
+              'region.name'
+            ]"
+            [(selection)]="selectedUsers"
+            [rowHover]="true"
+            dataKey="id"
+            [rowsPerPageOptions]="[5, 10, 25, 50]"
+            [tableStyle]="{ 'min-width': '108rem' }"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true"
+          >
+            <ng-template pTemplate="caption">
+              <div class="p-d-flex p-ai-center p-jc-between">
+                <h5 class="p-m-0">Manage Users</h5>
+                <span class="p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input
+                    pInputText
+                    type="text"
+                    #searchData
+                    (input)="dt.filterGlobal(searchData.value, 'contains')"
+                    placeholder="Search..."
+                  />
+                </span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 3rem">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th style="min-width: 12rem">
+                  <div class="flex justify-content-center align-items-center">
+                    First Name
+                    <p-columnFilter
+                      type="text"
+                      field="first_name"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+                <th style="min-width: 12rem">
+                  <div class="flex justify-content-center align-items-center">
+                    Middle Name
+                    <p-columnFilter
+                      type="text"
+                      field="middle_name"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+                <th style="min-width: 10rem">
+                  <div class="flex justify-content-center align-items-center">
+                    Last Name
+                    <p-columnFilter
+                      type="text"
+                      field="last_name"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+
+                <th style="min-width: 10rem">
+                  <div class="flex justify-content-center align-items-center">
+                    Email
+                    <p-columnFilter
+                      type="text"
+                      field="email"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+
+                <th style="min-width: 10rem">
+                  <div class="flex justify-content-center align-items-center">
+                    Phone Number
+                    <p-columnFilter
+                      type="text"
+                      field="phone_number"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+
+                <th style="min-width: 8rem">
+                  <div class="flex justify-content-center align-items-center">
+                    Employee ID
+                    <p-columnFilter
+                      type="text"
+                      field="employee_id"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+
+                <th style="min-width: 8rem">
+                  <div class="flex justify-content-center align-items-center">
+                    Category
+                    <p-columnFilter
+                      type="text"
+                      field="category"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+
+                <th style="width: 12rem">Action</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-user let-expanded="expanded">
+              <tr>
+                <td>
+                  <p-tableCheckbox [value]="user"></p-tableCheckbox>
+                </td>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.middle_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.phone_number }}</td>
+                <td>{{ user.employee_id }}</td>
+                <td>{{ user.category }}</td>
+
+                <td>
+                  <button
+                    pButton
+                    pRipple
+                    icon="pi pi-eye"
+                    pTooltip="View Functionalities"
+                    class="p-button-rounded p-button-success p-mr-2 p-button-outlined"
+                    (click)="onViewFunctionalities(user)"
+                  ></button>
+                </td>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="summary">
+              <div class="p-d-flex p-ai-center p-jc-between">
+                In total there are {{ users ? users.length : 0 }} users.
+              </div>
+            </ng-template>
+          </p-table>
+        </p-card>
+      </div>
+    </div>
+  </section>
+</main>
+
+<p-dialog
+  [(visible)]="functionalityStatusDialog"
+  [style]="{ width: '1500px' }"
+  [header]="user.email + ' Permissions Status'"
+  [modal]="true"
+  styleClass="p-fluid"
+  [maximizable]="true"
+>
+  <ng-template pTemplate="content">
+    <p-card>
+      <p-toolbar>
+        <ng-template pTemplate="right">
+          <button
+            pButton
+            type="button"
+            label="Grant"
+            icon="pi pi-check-circle"
+            class="p-button-raised p-button-rounded p-button-outlined p-button-success p-mr-2"
+            [disabled]="
+              !selectedFunctionalities || !selectedFunctionalities.length
+            "
+            (click)="grantFunctionalities()"
+          ></button>
+          <button
+            pButton
+            type="button"
+            label="Revoke"
+            icon="pi pi-times-circle"
+            class="p-button-raised p-button-rounded p-button-outlined p-button-danger"
+            [disabled]="
+              !selectedFunctionalities || !selectedFunctionalities.length
+            "
+            (click)="revokeFunctionalities()"
+          ></button>
+        </ng-template>
+      </p-toolbar>
+      <p-table
+        [value]="assignedFunctionalities"
+        [globalFilterFields]="[
+          'id',
+          'name',
+          'description',
+          'category',
+          'method',
+          'status'
+        ]"
+        [(selection)]="selectedFunctionalities"
+        [paginator]="true"
+        [rows]="10"
+        [loading]="functionalityLoading"
+        [rowsPerPageOptions]="[10, 25, 50, { showAll: 'All' }]"
+        [scrollable]="true"
+        scrollHeight="500px"
+        #functionalityTable
+        [rowHover]="true"
+        dataKey="id"
+        [tableStyle]="{ 'min-width': '100rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [showCurrentPageReport]="true"
+        responsiveLayout="scroll"
+      >
+        <!-- <ng-template pTemplate="caption">
+          <div class="p-d-flex p-ai-center p-jc-between">
+            <h5 class="p-m-0">Manage Permissions</h5>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input
+                pInputText
+                type="text"
+                #searchData
+                (input)="
+                  functionalityTable.filterGlobal(searchData.value, 'contains')
+                "
+                placeholder="Search..."
+              />
+            </span>
+          </div>
+        </ng-template> -->
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 3rem">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th style="min-width: 6rem">
+              <div class="flex justify-content-center align-items-center">
+                Name(API)
+                <p-columnFilter
+                  type="text"
+                  field="name"
+                  display="menu"
+                ></p-columnFilter>
+              </div>
+            </th>
+
+            <th style="min-width: 10rem">
+              <div class="flex justify-content-center align-items-center">
+                Description
+                <p-columnFilter
+                  type="text"
+                  field="description"
+                  display="menu"
+                ></p-columnFilter>
+              </div>
+            </th>
+
+            <th style="min-width: 10rem">
+              <div class="flex justify-content-center align-items-center">
+                Category
+                <p-columnFilter
+                  type="text"
+                  field="category"
+                  display="menu"
+                ></p-columnFilter>
+              </div>
+            </th>
+            <th style="min-width: 10rem">
+              <div class="flex justify-content-center align-items-center">
+                Method
+                <p-columnFilter
+                  type="text"
+                  field="method"
+                  display="menu"
+                ></p-columnFilter>
+              </div>
+            </th>
+            <th style="width: 8rem">
+              <div class="flex justify-content-center align-items-center">
+                Status
+                <p-columnFilter
+                  type="boolean"
+                  field="status"
+                  display="menu"
+                ></p-columnFilter>
+              </div>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-functionality>
+          <tr>
+            <td>
+              <p-tableCheckbox [value]="functionality"></p-tableCheckbox>
+            </td>
+            <td>{{ functionality.name }}</td>
+            <td>{{ functionality.description }}</td>
+            <td>{{ functionality.category }}</td>
+            <td>{{ functionality.method }}</td>
+            <td>
+              <button
+                *ngIf="functionality.status == 1"
+                pButton
+                pRipple
+                type="text"
+                icon="pi pi-verified"
+                label="Active"
+                class="p-button-rounded p-button-success p-button-outlined p-button-sm"
+              ></button>
+
+              <button
+                *ngIf="functionality.status == 0"
+                pButton
+                pRipple
+                type="text"
+                icon="pi pi-times"
+                label="Inactive"
+                class="p-button-rounded p-button-danger p-button-outlined p-button-sm"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Close"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="functionalityStatusDialog = false"
+    ></button>
+  </ng-template>
+</p-dialog>

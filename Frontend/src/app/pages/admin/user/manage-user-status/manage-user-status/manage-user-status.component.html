@@ -1,0 +1,544 @@
+<main id="main" class="main">
+    <p-toast></p-toast>
+   <div class="mb-6">
+      <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
+  </div>
+  
+    <p-card>
+      <app-user-search-engine
+        (generatedUsers)="onDataGenerated($event)"
+      ></app-user-search-engine>
+    </p-card>
+  
+    <section *ngIf="fetching" class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <p-card>
+            <p-toolbar styleClass="p-mb-4">
+              <ng-template pTemplate="left">
+                <button
+                  pButton
+                  pRipple
+                  label="Add"
+                  (click)="openNew()"
+                  icon="pi pi-plus"
+                  [disabled]="!selectedUsers || !selectedUsers.length"
+                  class="p-button-raised p-button-rounded p-mr-2"
+                ></button>
+                <!--   <button
+                  pButton
+                  pRipple
+                  label="Deactivate"
+                  icon="pi pi-times"
+                  class="p-button-raised p-button-rounded p-button-danger p-mr-2"
+                  [disabled]="!selectedUsers || !selectedUsers.length"
+                ></button>
+                <button
+                  pButton
+                  pRipple
+                  label="Activate"
+                  icon="pi pi-verified"
+                  class="p-button-raised p-button-rounded p-button-secondary"
+                  [disabled]="!selectedUsers || !selectedUsers.length"
+                ></button> -->
+              </ng-template>
+  
+              <ng-template pTemplate="right">
+                <div class="flex">
+                  <button
+                    type="button"
+                    pButton
+                    pRipple
+                    icon="pi pi-file"
+                    (click)="dt.exportCSV()"
+                    class="mr-2"
+                    pTooltip="CSV"
+                    tooltipPosition="bottom"
+                  ></button>
+                  <button
+                    type="button"
+                    pButton
+                    pRipple
+                    icon="pi pi-file-excel"
+                    class="p-button-success mr-2"
+                    pTooltip="XLS"
+                    tooltipPosition="bottom"
+                  ></button>
+                  <!-- <button
+                      type="button"
+                      pButton
+                      pRipple
+                      icon="pi pi-file-pdf"
+                      (click)="exportPdf()"
+                      class="p-button-warning mr-2"
+                      pTooltip="PDF"
+                      tooltipPosition="bottom"
+                    ></button> -->
+                  <button
+                    type="button"
+                    pButton
+                    pRipple
+                    icon="pi pi-filter"
+                    (click)="dt.exportCSV({ selectionOnly: true })"
+                    class="p-button-info ml-auto"
+                    pTooltip="Selection Only"
+                    tooltipPosition="bottom"
+                  ></button>
+                </div>
+              </ng-template>
+            </p-toolbar>
+  
+            <p-table
+              #dt
+              [value]="users"
+              editMode="row"
+              [rows]="5"
+              [paginator]="true"
+              [loading]="loading"
+              [globalFilterFields]="[
+                'first_name',
+                'middle_name',
+                'last_name',
+                'phone_number',
+                'employee_id',
+                'user_security.accountNonLocked',
+                'status',
+                'user_security.credentialsNonExpired',
+                'user_security.lock_time',
+                'user_security.accountNonExpired',
+                'user_security.number_of_attempts',
+                'user_security.password_created_date',
+                'user_security.password_modified_date'
+              ]"
+              [(selection)]="selectedUsers"
+              [rowHover]="true"
+              dataKey="id"
+              [rowsPerPageOptions]="[5, 10, 25, 50]"
+              [tableStyle]="{ 'min-width': '150rem' }"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              [showCurrentPageReport]="true"
+            >
+              <ng-template pTemplate="caption">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                  <h5 class="p-m-0">Manage User Status</h5>
+                  <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input
+                      pInputText
+                      type="text"
+                      #searchData
+                      (input)="dt.filterGlobal(searchData.value, 'contains')"
+                      placeholder="Search..."
+                    />
+                  </span>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                  </th>
+                  <th style="min-width: 10rem">
+                    <div class="flex justify-content-center align-items-center">
+                      Full Name
+                      <p-columnFilter
+                        type="text"
+                        field="first_name"
+                        display="menu"
+                      ></p-columnFilter>
+                    </div>
+                  </th>
+                  <th style="min-width: 12rem">
+                    <div class="flex justify-content-center align-items-center">
+                      Phone Number
+                      <p-columnFilter
+                        type="text"
+                        field="phone_number"
+                        display="menu"
+                      ></p-columnFilter>
+                    </div>
+                  </th>
+                  <th style="min-width: 10rem">
+                    <div class="flex justify-content-center align-items-center">
+                      Employee ID
+                      <p-columnFilter
+                        type="text"
+                        field="employee_id"
+                        display="menu"
+                      ></p-columnFilter>
+                    </div>
+                  </th>
+  
+                  <th style="width: 15rem">
+                    <div class="flex justify-content-center align-items-center">
+                      User Status
+                      <p-columnFilter
+                        type="boolean"
+                        field="status"
+                        display="menu"
+                      ></p-columnFilter>
+                    </div>
+                  </th>
+                  <th style="width: 15rem">
+                    <div class="flex justify-content-center align-items-center">
+                      Account Lock
+                      <p-columnFilter
+                        type="boolean"
+                        field="user_security.accountNonLocked"
+                        display="menu"
+                      ></p-columnFilter>
+                    </div>
+                  </th>
+                  <th style="width: 18rem">
+                    <div class="flex justify-content-center align-items-center">
+                      Credential Expiration
+                      <p-columnFilter
+                        type="boolean"
+                        field="user_security.credentialsNonExpired"
+                        display="menu"
+                      ></p-columnFilter>
+                    </div>
+                  </th>
+                  <th style="width: 18rem">
+                    <div class="flex justify-content-center align-items-center">
+                      Account Expiration
+                      <p-columnFilter
+                        type="boolean"
+                        field="user_security.accountNonExpired"
+                        display="menu"
+                      ></p-columnFilter>
+                    </div>
+                  </th>
+  
+                  <th style="min-width: 15rem">
+                    <div class="flex justify-content-center align-items-center">
+                      Number of Attempts
+                      <p-columnFilter
+                        type="numeric"
+                        field="user_security.number_of_attempts"
+                        display="menu"
+                      ></p-columnFilter>
+                    </div>
+                  </th>
+  
+                  <th style="min-width: 12rem">
+                    <div class="flex justify-content-center align-items-center">
+                      Lock Time
+                      <p-columnFilter
+                        type="date"
+                        field="user_security.lock_time"
+                        display="menu"
+                      ></p-columnFilter>
+                    </div>
+                  </th>
+  
+                  <th style="min-width: 12rem">
+                    <div class="flex justify-content-center align-items-center">
+                      Password Time
+                      <p-columnFilter
+                        type="date"
+                        field="user_security.password_created_date"
+                        display="menu"
+                      ></p-columnFilter>
+                    </div>
+                  </th>
+  
+                  <th style="width: 20rem">Action</th>
+                </tr>
+              </ng-template>
+              <ng-template
+                pTemplate="body"
+                let-user
+                let-editing="editing"
+                let-ri="rowIndex"
+              >
+                <tr [pEditableRow]="user">
+                  <td>
+                    <p-tableCheckbox [value]="user"></p-tableCheckbox>
+                  </td>
+                  <td>
+                    {{ user.first_name }} {{ user.middle_name }}
+                    {{ user.last_name }}
+                  </td>
+                  <td>{{ user.phone_number }}</td>
+                  <td>{{ user.employee_id }}</td>
+                  <td>
+                    <p-cellEditor>
+                      <ng-template pTemplate="input">
+                        <p-inputSwitch [(ngModel)]="user.status"></p-inputSwitch>
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                        <button
+                          *ngIf="user.status"
+                          pButton
+                          pRipple
+                          type="text"
+                          icon="pi pi-verified"
+                          label="Active"
+                          class="p-button-rounded p-button-success p-button-outlined p-button-sm"
+                        ></button>
+  
+                        <button
+                          *ngIf="!user.status"
+                          pButton
+                          pRipple
+                          type="text"
+                          icon="pi pi-times"
+                          label="Inactive"
+                          class="p-button-rounded p-button-danger p-button-outlined p-button-sm"
+                        ></button>
+                      </ng-template>
+                    </p-cellEditor>
+                  </td>
+  
+                  <td>
+                    <p-cellEditor>
+                      <ng-template pTemplate="input">
+                        <p-inputSwitch
+                          [(ngModel)]="user.user_security.accountNonLocked"
+                        ></p-inputSwitch>
+  
+                        <!-- <p-toggleButton [(ngModel)]="user.user_security!.accountNonLocked" onLabel="NonLocked" offLabel="Locked" onIcon="pi-unlock" offIcon="pi pi-lock"></p-toggleButton> -->
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                        <button
+                          *ngIf="user.user_security?.accountNonLocked"
+                          pButton
+                          pRipple
+                          type="text"
+                          icon="pi pi-unlock"
+                          label="Non Locked"
+                          class="p-button-rounded p-button-success p-button-outlined p-button-sm"
+                        ></button>
+  
+                        <button
+                          *ngIf="!user.user_security?.accountNonLocked"
+                          pButton
+                          pRipple
+                          type="text"
+                          icon="pi pi-lock"
+                          label="Locked"
+                          class="p-button-rounded p-button-danger p-button-outlined p-button-sm"
+                        ></button>
+                      </ng-template>
+                    </p-cellEditor>
+                  </td>
+  
+                  <td>
+                    <p-cellEditor>
+                      <ng-template pTemplate="input">
+                        <p-inputSwitch
+                          [(ngModel)]="user.user_security.credentialsNonExpired"
+                        ></p-inputSwitch>
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                        <button
+                          *ngIf="user.user_security?.credentialsNonExpired"
+                          pButton
+                          pRipple
+                          type="boolean"
+                          icon="pi pi-verified"
+                          label="Non Expired"
+                          class="p-button-rounded p-button-success p-button-outlined p-button-sm"
+                        ></button>
+  
+                        <button
+                          *ngIf="!user.user_security?.credentialsNonExpired"
+                          pButton
+                          pRipple
+                          type="boolean"
+                          icon="pi pi-exclamation-circle"
+                          label="Expired"
+                          class="p-button-rounded p-button-danger p-button-outlined p-button-sm"
+                        ></button>
+                      </ng-template>
+                    </p-cellEditor>
+                  </td>
+  
+                  <td>
+                    <p-cellEditor>
+                      <ng-template pTemplate="input">
+                        <p-inputSwitch
+                          [(ngModel)]="user.user_security.accountNonExpired"
+                        ></p-inputSwitch>
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                        <button
+                          *ngIf="user.user_security?.accountNonExpired"
+                          pButton
+                          pRipple
+                          type="boolean"
+                          icon="pi pi-check-circle
+                          "
+                          label="Non Expired"
+                          class="p-button-rounded p-button-success p-button-outlined p-button-sm"
+                        ></button>
+  
+                        <button
+                          *ngIf="!user.user_security?.accountNonExpired"
+                          pButton
+                          pRipple
+                          type="boolean"
+                          icon="pi pi-exclamation-triangle
+                          "
+                          label="Expired"
+                          class="p-button-rounded p-button-danger p-button-outlined p-button-sm"
+                        ></button>
+                      </ng-template>
+                    </p-cellEditor>
+                  </td>
+  
+                  <td>
+                    <p-cellEditor>
+                      <ng-template pTemplate="input">
+                        <p-inputNumber
+                          [(ngModel)]="user.user_security.number_of_attempts"
+                          [showButtons]="true"
+                          buttonLayout="horizontal"
+                          inputId="horizontal"
+                          spinnerMode="horizontal"
+                          [min]="0"
+                          [step]="1"
+                          decrementButtonClass="p-button-secondary"
+                          incrementButtonIcon="pi pi-plus"
+                          decrementButtonIcon="pi pi-minus"
+                        >
+                        </p-inputNumber>
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                        {{ user.user_security?.number_of_attempts }}
+                      </ng-template>
+                    </p-cellEditor>
+                  </td>
+                  <td>
+                    <p-cellEditor>
+                      <ng-template pTemplate="input">
+                        <input
+                          pInputText
+                          type="date"
+                          [(ngModel)]="user.user_security.lock_time"
+                        />
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                        <span
+                          *ngIf="user.user_security?.lock_time; else modifiedTime"
+                        >
+                          {{
+                            user.user_security?.lock_time | date : "yyyy-MM-dd"
+                          }}</span
+                        >
+                        <ng-template #modifiedTime>
+                          <button
+                            pButton
+                            pRipple
+                            type="text"
+                            icon="pi pi-spin pi-spinner"
+                            label="Pending"
+                            class="p-button-rounded p-button-secondary p-button-outlined p-button-sm"
+                          ></button>
+                        </ng-template>
+                      </ng-template>
+                    </p-cellEditor>
+                  </td>
+  
+                  <td>
+                    <p-cellEditor>
+                      <ng-template pTemplate="input">
+                        <input
+                          pInputText
+                          type="date"
+                          [(ngModel)]="user.user_security.password_modified_date"
+                        />
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                        <span
+                          *ngIf="
+                            user.user_security?.password_modified_date;
+                            else modifiedTime
+                          "
+                        >
+                          {{
+                            user.user_security?.password_modified_date
+                              | date : "yyyy-MM-dd"
+                          }}</span
+                        >
+                        <ng-template #modifiedTime>
+                          {{
+                            user.user_security?.password_created_date
+                              | date : "yyyy-MM-dd"
+                          }}
+                        </ng-template>
+                      </ng-template>
+                    </p-cellEditor>
+                  </td>
+  
+                  <td>
+                    <div
+                      class="flex align-items-center justify-content-center gap-2"
+                    >
+                      <button
+                        *ngIf="!editing"
+                        pButton
+                        pRipple
+                        type="button"
+                        pInitEditableRow
+                        label="Edit"
+                        icon="pi pi-pencil"
+                        (click)="onRowEditInit(user)"
+                        class="p-button-rounded p-button-secondary p-button-raised"
+                      ></button>
+                      <button
+                        *ngIf="editing"
+                        pButton
+                        pRipple
+                        type="button"
+                        pSaveEditableRow
+                        icon="pi pi-check"
+                        label="Save"
+                        (click)="onRowEditSave(user, ri)"
+                        class="p-button-rounded p-button-text p-button-success mr-2"
+                      ></button>
+                      <button
+                        *ngIf="editing"
+                        pButton
+                        pRipple
+                        type="button"
+                        label="Cancel"
+                        pCancelEditableRow
+                        icon="pi pi-times"
+                        (click)="onRowEditCancel(user, ri)"
+                        class="p-button-rounded p-button-text p-button-danger"
+                      ></button>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+  
+              <ng-template pTemplate="summary">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                  In total there are {{ users ? users.length : 0 }} users.
+                </div>
+              </ng-template>
+            </p-table>
+          </p-card>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <p-dialog
+    [(visible)]="userStatusDialog"
+    header="User Status Configuration"
+    [modal]="true"
+    styleClass="p-fluid"
+    [maximizable]="true"
+  >
+    <ng-template pTemplate="content">
+      <app-user-security
+        [passedUser]="outputUser"
+        (editedUser)="onDataChange($event)"
+      ></app-user-security>
+    </ng-template>
+  </p-dialog>
+  
+  <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

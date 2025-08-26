@@ -1,0 +1,128 @@
+package com.afr.fms.Admin.Controller;
+
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import com.afr.fms.Admin.Entity.Role;
+import com.afr.fms.Admin.Entity.User;
+import com.afr.fms.Admin.Service.RoleService;
+import com.afr.fms.Common.Permission.Service.FunctionalitiesService;
+import com.afr.fms.Common.RecentActivity.RecentActivity;
+import com.afr.fms.Common.RecentActivity.RecentActivityMapper;
+
+@RestController
+@RequestMapping("/api")
+public class RoleController {
+
+	@Autowired
+	private RoleService roleService;
+
+	RecentActivity recentActivity = new RecentActivity();
+
+	@Autowired
+	private RecentActivityMapper recentActivityMapper;
+
+	@Autowired
+	private FunctionalitiesService functionalitiesService;
+
+	@PostMapping("/role")
+	public ResponseEntity<?> createRole(@RequestBody @Validated Role role, HttpServletRequest request) {
+		try {
+			roleService.createRole(role);
+			User user = functionalitiesService.getUserFromHttpRequest(request);
+			recentActivity.setMessage(" Role: " + role.getName() + " is created.");
+			recentActivity.setUser(user);
+			recentActivityMapper.addRecentActivity(recentActivity);
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		} catch (Exception e) {
+
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+	}
+
+	@GetMapping("/role")
+	public ResponseEntity<List<Role>> getRoles(HttpServletRequest request) {
+		try {
+			return new ResponseEntity<>(roleService.getRoles(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@GetMapping("/roles/{category}")
+	public ResponseEntity<List<Role>> getRoles(@PathVariable("category") String category, HttpServletRequest request) {
+		try {
+			return new ResponseEntity<>(roleService.getRolesByCategory(category), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@GetMapping("/role/{id}")
+	public ResponseEntity<Role> getRoleById(@PathVariable("id") Long id, HttpServletRequest request) {
+		try {
+			return new ResponseEntity<>(roleService.getRoleById(id), HttpStatus.OK);
+		} catch (Exception e) {
+
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@PostMapping("role/delete")
+	public ResponseEntity<HttpStatus> deleteRole(@RequestBody List<Role> roles, HttpServletRequest request) {
+		try {
+			for (Role role : roles) {
+				roleService.deactivate_role(role.getId());
+			}
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} catch (Exception exception) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@PostMapping("role/activate")
+	public ResponseEntity<HttpStatus> activateRole(@RequestBody List<Role> roles, HttpServletRequest request) {
+		try {
+			for (Role role : roles) {
+				roleService.activate_role(role.getId());
+			}
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} catch (Exception exception) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@GetMapping("/role/activate/{id}")
+	public ResponseEntity<Boolean> activate_role(@PathVariable Long id, HttpServletRequest request) {
+		try {
+			roleService.activate_role(id);
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		} catch (Exception exception) {
+
+			return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@GetMapping("role/deactivate/{id}")
+	public ResponseEntity<Boolean> deactivate_role(@PathVariable Long id, HttpServletRequest request) {
+		try {
+			roleService.deactivate_role(id);
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		} catch (Exception exception) {
+
+			return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+}

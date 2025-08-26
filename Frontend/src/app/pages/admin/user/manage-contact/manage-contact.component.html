@@ -1,0 +1,449 @@
+<main id="main" class="main p-4">
+  <div class="mb-6">
+    <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
+  </div>
+
+  <p-tabView>
+    <!-- Contact Tab -->
+    <p-tabPanel header="Contact">
+      <section class="section">
+        <div class="w-full">
+          <p-card class="shadow-lg rounded-lg">
+            <p-toolbar styleClass="mb-4">
+              <ng-template pTemplate="left">
+                <button
+                  pButton
+                  pRipple
+                  label="New"
+                  (click)="openNewContact()"
+                  icon="pi pi-plus"
+                  class="p-button-raised p-button-rounded p-button-outlined mr-2"
+                ></button>
+                <button
+                  pButton
+                  pRipple
+                  label="Delete"
+                  icon="pi pi-times"
+                  class="p-button-raised p-button-rounded p-button-outlined p-button-danger mr-2"
+                  (click)="deleteSelectedContacts()"
+                  [disabled]="!selectedContacts || !selectedContacts.length"
+                ></button>
+              </ng-template>
+            </p-toolbar>
+
+            <p-table
+              #contact_table
+              [value]="allContact"
+              [rows]="5"
+              [paginator]="true"
+              [loading]="contact_loading"
+              [globalFilterFields]="['first_name','last_name','title','phone_number','email']"
+              [(selection)]="selectedContacts"
+              [rowHover]="true"
+              dataKey="id"
+              [rowsPerPageOptions]="[5, 10, 25, 50]"
+              [tableStyle]="{ 'min-width': '82rem' }"
+              [size]="selectedSize"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              [showCurrentPageReport]="true"
+            >
+            <ng-template #caption>
+              <div class="flex items-center justify-between">
+                  <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(contact_table)"></button>
+                  <div class="flex justify-center mb-4">
+                      <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value" />
+                  </div>
+                  <p-iconfield>
+                      <p-inputicon styleClass="pi pi-search" />
+                      <input pInputText type="text"  #searchData (input)="contact_table.filterGlobal(searchData.value, 'contains')" placeholder="Search..." />
+                  </p-iconfield>
+              </div>
+          </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                  </th>
+                  <th style="min-width: 12rem">
+                    <div class="flex items-center">
+                        Name
+                        <p-columnFilter type="text" field="first_name" display="menu" />
+                    </div>
+                  </th>
+                  <th style="min-width: 12rem">
+                    <div class="flex items-center">
+                      Job Position
+                        <p-columnFilter type="text" field="title" display="menu" />
+                    </div>
+                  </th>
+                  <th style="min-width: 12rem">
+                    <div class="flex items-center">
+                      Phone Number
+                        <p-columnFilter type="text" field="phone_number" display="menu" />
+                    </div>
+                  </th>
+                  <th style="min-width: 12rem">
+                    <div class="flex items-center">
+                      Email
+                        <p-columnFilter type="text" field="email" display="menu" />
+                    </div>
+                  </th>
+                  <th>Action</th>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="body" let-contact>
+                <tr>
+                  <td>
+                    <p-tableCheckbox [value]="contact"></p-tableCheckbox>
+                  </td>
+                  <td>{{ contact.first_name }} {{ contact.last_name }}</td>
+                  <td>{{ contact.title }}</td>
+                  <td>{{ contact.phone_number }}</td>
+                  <td>{{ contact.email }}</td>
+                  <td>
+                    <button
+                      pButton
+                      pRipple
+                      pTooltip="Edit"
+                      tooltipPosition="bottom"
+                      (click)="editContact(contact)"
+                      icon="pi pi-pencil"
+                      class="p-button-rounded p-button-success p-button-outlined mr-2"
+                    ></button>
+                    <button
+                      pButton
+                      pRipple
+                      pTooltip="Delete"
+                      tooltipPosition="bottom"
+                      (click)="deleteContact(contact)"
+                      icon="pi pi-times"
+                      class="p-button-rounded p-button-danger"
+                    ></button>
+                  </td>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="summary">
+                <div class="flex justify-between items-center">
+                  In total there are {{ allContact ? allContact.length : 0 }} contacts.
+                </div>
+              </ng-template>
+            </p-table>
+          </p-card>
+        </div>
+      </section>
+    </p-tabPanel>
+
+    <!-- Pending Issues Tab -->
+    <p-tabPanel header="Pending Issues">
+      <section class="section">
+        <p-card class="shadow-lg rounded-lg">
+          <p-toolbar class="mb-4">
+            <ng-template pTemplate="left">
+              <button
+                pButton
+                pRipple
+                label="Close"
+                icon="pi pi-times"
+                class="p-button-raised p-button-rounded p-button-outlined p-button-danger mr-2"
+                (click)="closeSelectedFeedbacks('pending')"
+                [disabled]="!selectedFeedbacks || !selectedFeedbacks.length"
+              ></button>
+            </ng-template>
+          </p-toolbar>
+
+          <p-table
+            #feedback_table
+            [value]="feedbacks"
+            [rows]="5"
+            [paginator]="true"
+            [loading]="feedback_loading"
+            [globalFilterFields]="['user.first_name','user.middle_name','user.email','user.phone_number','user.emp_id','feedback']"
+            [(selection)]="selectedFeedbacks"
+            [rowHover]="true"
+            dataKey="id"
+            [rowsPerPageOptions]="[5,10,25,50]"
+            [tableStyle]="{ 'min-width': '100rem' }"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [size]="selectedSize"
+            [showCurrentPageReport]="true"
+          >
+          <ng-template #caption>
+            <div class="flex items-center justify-between">
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(feedback_table)"></button>
+                <div class="flex justify-center mb-4">
+                    <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value" />
+                </div>
+                <p-iconfield>
+                    <p-inputicon styleClass="pi pi-search" />
+                    <input pInputText type="text"  #searchData (input)="feedback_table.filterGlobal(searchData.value, 'contains')" placeholder="Search..." />
+                </p-iconfield>
+            </div>
+        </ng-template>
+
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 3rem">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th style="min-width: 12rem">
+                  <div class="flex items-center">
+                    Name
+                      <p-columnFilter type="text" field="user.first_name" display="menu" />
+                  </div>
+                </th>
+                <th style="min-width: 12rem">
+                  <div class="flex items-center">
+                    Email
+                      <p-columnFilter type="text" field="user.email" display="menu" />
+                  </div>
+                </th>
+                <th style="min-width: 12rem">
+                  <div class="flex items-center">
+                    Phone Number
+                      <p-columnFilter type="text" field="user.phone_number" display="menu" />
+                  </div>
+                </th>
+                <th style="min-width: 12rem">
+                  <div class="flex items-center">
+                    Issue
+                      <p-columnFilter type="text" field="feedback" display="menu" />
+                  </div>
+                </th>
+                <th>Action</th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-feedback>
+              <tr>
+                <td>
+                  <p-tableCheckbox [value]="feedback"></p-tableCheckbox>
+                </td>
+                <td>{{ feedback.user.first_name }} {{ feedback.user.middle_name }}</td>
+                <td>{{ feedback.user.email }}</td>
+                <td>{{ feedback.user.phone_number }}</td>
+                <td><span [innerHTML]="feedback.feedback"></span></td>
+                <td>
+                  <button
+                    pButton
+                    pRipple
+                    pTooltip="Add"
+                    (click)="responseFeedback(feedback)"
+                    icon="pi pi-plus"
+                    class="p-button-rounded p-button-success p-button-outlined"
+                  ></button>
+                  <button
+                    pButton
+                    pRipple
+                    pTooltip="Close"
+                    (click)="closeFeedback(feedback,'pending')"
+                    icon="pi pi-times"
+                    class="p-button-rounded p-button-danger"
+                  ></button>
+                </td>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="summary">
+              <div class="flex justify-between items-center">
+                In total there are {{ feedbacks ? feedbacks.length : 0 }} raised issues.
+              </div>
+            </ng-template>
+          </p-table>
+        </p-card>
+      </section>
+    </p-tabPanel>
+
+    <!-- Resolved Issues Tab -->
+    <p-tabPanel header="Resolved Issues">
+      <section class="section">
+        <p-card class="shadow-lg rounded-lg">
+          <p-toolbar class="mb-4">
+            <ng-template pTemplate="left">
+              <button
+                pButton
+                pRipple
+                label="Close"
+                icon="pi pi-times"
+                class="p-button-raised p-button-rounded p-button-outlined p-button-danger mr-2"
+                (click)="closeSelectedFeedbacks('resolved')"
+                [disabled]="!selectedRespondedFeedbacks || !selectedRespondedFeedbacks.length"
+              ></button>
+            </ng-template>
+          </p-toolbar>
+
+          <p-table
+            #r_feedback_table
+            [value]="respondedFeedbacks"
+            [rows]="5"
+            [paginator]="true"
+            [loading]="feedback_loading"
+            [globalFilterFields]="['user.first_name','user.middle_name','user.email','user.phone_number','user.emp_id','feedback','response']"
+            [(selection)]="selectedRespondedFeedbacks"
+            [rowHover]="true"
+            dataKey="id"
+            [rowsPerPageOptions]="[5,10,25,50]"
+            [tableStyle]="{ 'min-width': '100rem' }"
+            [size]="selectedSize"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true"
+          >
+          <ng-template #caption>
+            <div class="flex items-center justify-between">
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(r_feedback_table)"></button>
+                <div class="flex justify-center mb-4">
+                    <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value" />
+                </div>
+                <p-iconfield>
+                    <p-inputicon styleClass="pi pi-search" />
+                    <input pInputText type="text"  #searchData (input)="r_feedback_table.filterGlobal(searchData.value, 'contains')" placeholder="Search..." />
+                </p-iconfield>
+            </div>
+        </ng-template>
+
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 3rem">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th style="min-width: 12rem">
+                  <div class="flex items-center">
+                    Name
+                      <p-columnFilter type="text" field="feedback.user.first_name" display="menu" />
+                  </div>
+                </th>
+                <th style="min-width: 12rem">
+                  <div class="flex items-center">
+                    Email
+                      <p-columnFilter type="text" field="feedback.user.email" display="menu" />
+                  </div>
+                </th>
+                <th style="min-width: 12rem">
+                  <div class="flex items-center">
+                    Phone Number
+                      <p-columnFilter type="text" field="feedback.user.phone_number" display="menu" />
+                  </div>
+                </th>
+                <th style="min-width: 12rem">
+                  <div class="flex items-center">
+                    Issue
+                      <p-columnFilter type="text" field="feedback.feedback" display="menu" />
+                  </div>
+                </th>
+                <th style="min-width: 12rem">
+                  <div class="flex items-center">
+                    Response
+                      <p-columnFilter type="text" field="feedback.response" display="menu" />
+                  </div>
+                </th>
+                <th>Action</th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-feedback>
+              <tr>
+                <td>
+                  <p-tableCheckbox [value]="feedback"></p-tableCheckbox>
+                </td>
+                <td>{{ feedback.user.first_name }} {{ feedback.user.middle_name }}</td>
+                <td>{{ feedback.user.email }}</td>
+                <td>{{ feedback.user.phone_number }}</td>
+                <td><span [innerHTML]="feedback.feedback"></span></td>
+                <td><span [innerHTML]="feedback.response"></span></td>
+                <td class="flex space-x-2">
+                  <button
+                    pButton
+                    pRipple
+                    pTooltip="View Response"
+                    (click)="responseFeedback(feedback)"
+                    icon="pi pi-desktop"
+                    class="p-button-rounded p-button-success p-button-outlined"
+                  ></button>
+                  <button
+                    pButton
+                    pRipple
+                    pTooltip="Close"
+                    (click)="closeFeedback(feedback,'resolved')"
+                    icon="pi pi-times"
+                    class="p-button-rounded p-button-danger"
+                  ></button>
+                </td>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="summary">
+              <div class="flex justify-between items-center">
+                In total there are {{ respondedFeedbacks ? respondedFeedbacks.length : 0 }} issues.
+              </div>
+            </ng-template>
+          </p-table>
+        </p-card>
+      </section>
+    </p-tabPanel>
+  </p-tabView>
+</main>
+
+
+<!-- Dialogs (Contact + Feedback) -->
+<p-dialog [(visible)]="contactDialog" [style]="{width:'600px'}" header="Contact Details" [modal]="true" styleClass="p-fluid" [maximizable]="true">
+  <form ngNativeValidate #userForm="ngForm" class="p-fluid space-y-4">
+    <div class="p-field">
+      <label class="form-label"><strong class="text-red-600">*</strong> First Name</label>
+      <input type="text" [(ngModel)]="selectedContact.first_name" name="first_name" #first_name="ngModel" [class.border-red-600]="first_name.invalid && first_name.touched" required class="w-full border rounded p-2"/>
+      <small class="text-red-600" [class.hidden]="first_name.valid || first_name.untouched">First name is required</small>
+    </div>
+
+    <div class="p-field">
+      <label class="form-label"><strong class="text-red-600">*</strong> Last Name</label>
+      <input type="text" [(ngModel)]="selectedContact.last_name" name="last_name" #last_name="ngModel" [class.border-red-600]="last_name.invalid && last_name.touched" required class="w-full border rounded p-2"/>
+      <small class="text-red-600" [class.hidden]="last_name.valid || last_name.untouched">Last name is required</small>
+    </div>
+
+    <div class="p-field">
+      <label class="form-label"><strong class="text-red-600">*</strong> Job Position</label>
+      <input type="text" [(ngModel)]="selectedContact.title" name="title" #title="ngModel" [class.border-red-600]="title.invalid && title.touched" required class="w-full border rounded p-2"/>
+      <small class="text-red-600" [class.hidden]="title.valid || title.untouched">Job position is required</small>
+    </div>
+
+    <div class="p-field">
+      <label class="form-label"><strong class="text-red-600">*</strong> Phone Number</label>
+      <input type="tel" [(ngModel)]="selectedContact.phone_number" name="phone_number" #phone="ngModel" pattern="(\+251|0)9\d{8}" required class="w-full border rounded p-2"/>
+      <div *ngIf="phone.errors && phone.touched">
+        <small class="text-red-600" *ngIf="phone.errors['required']">Phone number is required</small>
+        <small class="text-red-600" *ngIf="phone.errors['pattern']">Phone number not valid (should start with +251 or 09)</small>
+      </div>
+    </div>
+
+    <div class="p-field">
+      <label class="form-label"><strong class="text-red-600">*</strong> Email</label>
+      <input type="email" [(ngModel)]="selectedContact.email" name="email" #email="ngModel" pattern="\w+@awashbank\.com$" required class="w-full border rounded p-2"/>
+      <div *ngIf="email.errors && email.touched">
+        <small class="text-red-600" *ngIf="email.errors['required']">Email is required</small>
+        <small class="text-red-600" *ngIf="email.errors['pattern']">Email should end with 'awashbank.com'</small>
+      </div>
+    </div>
+
+    <div class="flex space-x-4 mt-4">
+      <button *ngIf="!contact_form_loading" pButton pRipple label="Save" icon="pi pi-check" class="p-button-raised p-button-rounded p-button-outlined" [disabled]="userForm.form.invalid" (click)="addContact()"></button>
+      <button *ngIf="contact_form_loading" type="button" disabled class="p-button p-button-raised p-button-rounded p-button-outlined">
+        Loading... <span class="spinner-border spinner-border-sm"></span>
+      </button>
+      <button pButton pRipple type="reset" label="Reset" class="p-button-danger p-button-raised p-button-rounded"></button>
+    </div>
+  </form>
+</p-dialog>
+
+<!-- Feedback Dialog -->
+<p-dialog header="Add Response" [(visible)]="feedbackDialog" [modal]="true" [style]="{width:'50vw'}" [draggable]="false" [resizable]="false">
+  <form #response_feedback="ngForm" ngNativeValidate class="space-y-4">
+    <div>
+      <label class="form-label"><strong class="text-yellow-500">*</strong> Response</label>
+      <textarea #action_plan name="action_plan" [(ngModel)]="feedback.response" required class="w-full border rounded p-2"></textarea>
+    </div>
+    <div class="flex space-x-4">
+      <button pButton type="button" label="Save" class="p-button-raised p-button-rounded p-button-outlined" [disabled]="response_feedback.form.invalid" (click)="addResponse()"></button>
+      <button pButton type="reset" label="Reset" class="p-button-raised p-button-rounded p-button-outlined p-button-secondary"></button>
+    </div>
+  </form>
+</p-dialog>

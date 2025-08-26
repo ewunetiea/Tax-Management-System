@@ -1,0 +1,209 @@
+<main id="main" class="main">
+    <p-toast></p-toast>
+    <div class="mb-6">
+        <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
+    </div>
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <p-card>
+                    <p-toolbar styleClass="p-mb-4">
+                        <ng-template pTemplate="left">
+                            <button pButton pRipple label="New" (click)="openNew()" icon="pi pi-plus" class="p-button-raised p-button-rounded mr-2"></button>
+                            <button pButton pRipple label="Deactivate" icon="pi pi-times" class="p-button-raised p-button-rounded p-button-danger mr-2" (click)="deleteSelectedRole()" [disabled]="!selectedRoles || !selectedRoles.length"></button>
+                            <button pButton pRipple label="Activate" icon="pi pi-verified" class="p-button-raised p-button-rounded p-button-success" (click)="activateSelectedRole()" [disabled]="!selectedRoles || !selectedRoles.length"></button>
+                        </ng-template>
+
+                        <ng-template pTemplate="right"> </ng-template>
+                    </p-toolbar>
+
+                    <p-table
+                        #dt
+                        [value]="roles"
+                        [rows]="5"
+                        [paginator]="true"
+                        [loading]="loading"
+                        [size]="selectedSize"
+                        [globalFilterFields]="['name', 'code', 'status', 'role_position', 'description']"
+                        [(selection)]="selectedRoles"
+                        [rowHover]="true"
+                        dataKey="id"
+                        [rowsPerPageOptions]="[5, 10, 25, 50]"
+                        [tableStyle]="{ 'min-width': '60rem' }"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [showCurrentPageReport]="true"
+                        [expandedRowKeys]="expandedRows"
+                    >
+                        <ng-template #caption>
+                            <div class="flex items-center justify-between">
+                                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                                <div class="flex justify-center mb-4">
+                                    <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value" />
+                                </div>
+                                <p-iconfield>
+                                    <p-inputicon styleClass="pi pi-search" />
+                                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." />
+                                </p-iconfield>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 3rem"></th>
+                                <th style="width: 3rem">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                </th>
+
+                                <th style="min-width: 12rem">
+                                    <div class="flex items-center">
+                                        Name
+                                        <p-columnFilter type="text" field="name" display="menu" />
+                                    </div>
+                                </th>
+
+                                <th style="min-width: 12rem">
+                                    <div class="flex items-center">
+                                        Code
+                                        <p-columnFilter type="text" field="code" display="menu" />
+                                    </div>
+                                </th>
+
+                                <th style="min-width: 12rem">
+                                    <div class="flex items-center">
+                                        Role Position
+                                        <p-columnFilter type="text" field="role_position" display="menu" />
+                                    </div>
+                                </th>
+
+                                <th style="min-width: 12rem">
+                                    <div class="flex items-center">
+                                        Description
+                                        <p-columnFilter type="text" field="description" display="menu" />
+                                    </div>
+                                </th>
+
+                                <th style="min-width: 10rem">
+                                    <div class="flex items-center">
+                                        status
+                                        <p-columnFilter type="text" field="status" display="menu" />
+                                    </div>
+                                </th>
+
+                                <th style="width: 12rem">Action</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-role let-expanded="expanded">
+                            <tr>
+                                <td>
+                                    <button
+                                        type="button"
+                                        pButton
+                                        pRipple
+                                        [pRowToggler]="role"
+                                        class="p-button-text p-button-rounded p-button-plain"
+                                        [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+                                        (click)="getJobPositions()"
+                                    ></button>
+                                </td>
+                                <td>
+                                    <p-tableCheckbox [value]="role"></p-tableCheckbox>
+                                </td>
+                                <td>{{ role.name }}</td>
+                                <td>{{ role.code }}</td>
+                                <td>{{ role.role_position }}</td>
+                                <td>{{ role.description }}</td>
+                                <td>
+                                    <button *ngIf="role.status == 1" pButton pRipple type="text" icon="pi pi-verified" label="Active" class="p-button-rounded p-button-success p-button-outlined p-button-sm"></button>
+                                    <button *ngIf="role.status == 0" pButton pRipple type="text" icon="pi pi-times" label="Inactive" class="p-button-rounded p-button-danger p-button-outlined p-button-sm"></button>
+                                </td>
+                                <td>
+                                    <div class="flex space-x-2">
+                                        <button pButton pRipple pTooltip="Edit" (click)="editRole(role)" icon="pi pi-pencil" class="p-button-rounded p-button-success" tooltipPosition="bottom" ></button>
+                                        <button *ngIf="role.status == 1" pButton pRipple pTooltip="Deactivate"  tooltipPosition="bottom" (click)="deleteRole(role)" icon="pi pi-times" class="p-button-rounded p-button-danger" ></button>
+                                        <button *ngIf="role.status == 0" pButton pRipple pTooltip="Activate"  tooltipPosition="bottom" (click)="activateRole(role)" icon="pi pi-verified" class="p-button-rounded p-button-secondary"></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                        <!-- <ng-template pTemplate="rowexpansion" let-role> -->
+                        <ng-template #expandedrow let-role>
+                            <tr>
+                                <td colspan="7">
+                                    <div class="p-3">
+                                        <div style="padding: 0.5em 0 1em 0">
+                                            <p-button (click)="activeIndex1 = 0" icon="pi pi-cog" styleClass="p-button-raised p-button-rounded ml-2" label="Job Position" (click)="openModal(role)"></p-button>
+                                        </div>
+                                        <p-tabView [(activeIndex)]="activeIndex1">
+                                            <p-tabPanel header="Mapped Job Positions">
+                                                <p-accordion>
+                                                    <p-accordionTab header="Job Positions" [(selected)]="activeState[0]">
+                                                        <p-listbox
+                                                            [options]="role.jobPositions"
+                                                            optionLabel="title"
+                                                            [metaKeySelection]="false"
+                                                            [checkbox]="true"
+                                                            [filter]="true"
+                                                            [multiple]="true"
+                                                            [listStyle]="{ 'max-height': '250px' }"
+                                                            [style]="{ width: '50rem' }"
+                                                        ></p-listbox>
+                                                    </p-accordionTab>
+                                                </p-accordion>
+                                            </p-tabPanel>
+                                        </p-tabView>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="summary">
+                            <div class="p-d-flex p-ai-center p-jc-between">In total there are {{ roles ? roles.length : 0 }} roles</div>
+                        </ng-template>
+                    </p-table>
+                </p-card>
+            </div>
+        </div>
+    </section>
+</main>
+
+<p-dialog 
+[(visible)]="jobDialog" 
+[header]="'' + this.selectedRole.name" 
+[modal]="true" 
+[style]="{ width: '500px' }" 
+ [maximizable]="true">
+    <ng-template pTemplate="content">
+        <p-multiSelect
+            [options]="jobPositions"
+            appendTo="body"
+            name="selectedJobPositions"
+            [(ngModel)]="selectedRole.jobPositions"
+            defaultLabel="Select job position"
+            optionLabel="title"
+            (onChange)="onItemSelect()"
+            (onClick)="onItemDeSelect()"
+            display="chip"
+            selectedItemsLabel="{0} columns selected"
+        >
+        </p-multiSelect>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="flex justify-start gap-3 w-full">
+        <button pButton pRipple label="Save" icon="pi pi-check"  class="p-button-rounded p-button-success" (click)="editJobPositions()"></button>
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-rounded p-button-danger" (click)="hideDialog()"></button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog 
+[(visible)]="roleEditDialog"
+ [style]="{ width: '600px' }" 
+ header="Role Details" 
+ [modal]="true" 
+ [maximizable]="true">
+    <ng-template pTemplate="content">
+        <app-create-edit-role [passedRole]="outputRole" (editedRole)="onDataChange($event)"></app-create-edit-role>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

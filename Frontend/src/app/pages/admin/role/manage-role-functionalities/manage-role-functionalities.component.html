@@ -1,0 +1,271 @@
+<main id="main" class="main">
+    <p-toast></p-toast>
+    <div class="mb-6">
+        <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
+    </div>
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <p-card>
+                    <p-toolbar>
+                        <ng-template pTemplate="right">
+                            <button 
+                            pButton 
+                            pRipple 
+                            label="New" 
+                            icon="pi pi-plus" 
+                            class="p-button-raised p-button-rounded p-button-outlined mr-2" (click)="openNew()"></button>
+                            <button
+                                pButton
+                                type="button"
+                                label="Activate"
+                                icon="pi pi-check-circle"
+                                class="p-button-raised p-button-rounded p-button-outlined p-button-success mr-2"
+                                [disabled]="!selectedFunctionalities || !selectedFunctionalities.length"
+                                (click)="confirmActivateSelected()"
+                            ></button>
+                            <button
+                                pButton
+                                type="button"
+                                label="Deactivate"
+                                icon="pi pi-times-circle"
+                                class="p-button-raised p-button-rounded p-button-outlined p-button-danger mr-2"
+                                [disabled]="!selectedFunctionalities || !selectedFunctionalities.length"
+                                (click)="confirmDeactivateSelected()"
+                            ></button>
+                            <button
+                                pButton
+                                type="button"
+                                label="Delete"
+                                icon="pi pi-trash"
+                                class="p-button-raised p-button-rounded p-button-outlined p-button-danger"
+                                [disabled]="!selectedFunctionalities || !selectedFunctionalities.length"
+                                (click)="deletePermissions()"
+                            ></button>
+                        </ng-template>
+                    </p-toolbar>
+                    <p-table
+                        [value]="functionalities"
+                        [globalFilterFields]="['id', 'name', 'description', 'category', 'method', 'status']"
+                        [(selection)]="selectedFunctionalities"
+                        [paginator]="true"
+                        [rows]="10"
+                        [loading]="loading"
+                        [rowsPerPageOptions]="[10, 25, 50, { showAll: 'All' }]"
+                        [scrollable]="true"
+                        scrollHeight="500px"
+                        #dt
+                        [rowHover]="true"
+                        [size]="selectedSize"
+                        dataKey="id"
+                        [tableStyle]="{ 'min-width': '100rem' }"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [showCurrentPageReport]="true"
+                        responsiveLayout="scroll"
+                    >
+                        <ng-template #caption>
+                            <div class="flex items-center justify-between">
+                                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                                <div class="flex justify-center mb-4">
+                                    <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value" />
+                                </div>
+                                <p-iconfield>
+                                    <p-inputicon class="pi pi-search" />
+                                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." />
+                                </p-iconfield>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 3rem">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                </th>
+
+                                <th style="min-width: 10rem">
+                                    <div class="flex items-center">
+                                        Name API
+                                        <p-columnFilter type="text" field="name" display="menu" />
+                                    </div>
+                                </th>
+
+                                <th style="min-width: 10rem">
+                                    <div class="flex items-center">
+                                        Description
+                                        <p-columnFilter type="text" field="description" display="menu" />
+                                    </div>
+                                </th>
+
+                                <th style="min-width: 10rem">
+                                    <div class="flex items-center">
+                                        Category
+                                        <p-columnFilter type="text" field="category" display="menu" />
+                                    </div>
+                                </th>
+                                <th style="min-width: 10rem">
+                                    <div class="flex items-center">
+                                        Method
+                                        <p-columnFilter type="text" field="method" display="menu"></p-columnFilter>
+                                    </div>
+                                </th>
+                                <th style="min-width: 10rem">
+                                    <div class="flex items-center">
+                                        Status
+                                        <p-columnFilter type="boolean" field="status" display="menu"></p-columnFilter>
+                                    </div>
+                                </th>
+                                <th style="width: 10rem">Action</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-functionality>
+                            <tr>
+                                <td>
+                                    <p-tableCheckbox [value]="functionality"></p-tableCheckbox>
+                                </td>
+                                <td>{{ functionality.name }}</td>
+                                <td>{{ functionality.description }}</td>
+                                <td>{{ functionality.category }}</td>
+                                <td>{{ functionality.method }}</td>
+                                <td>
+                                    <button *ngIf="functionality.status == 1" pButton pRipple type="text" icon="pi pi-verified" label="Active" class="p-button-rounded p-button-success p-button-outlined p-button-sm"></button>
+                                    <button *ngIf="functionality.status == 0" pButton pRipple type="text" icon="pi pi-times" label="Inactive" class="p-button-rounded p-button-danger p-button-outlined p-button-sm"></button>
+                                </td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-pencil" pTooltip="Edit" tooltipPosition="bottom" class="p-button-rounded p-button-success mr-2 p-button-outlined" (click)="editFunctionality(functionality)"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-card>
+            </div>
+        </div>
+    </section>
+</main>
+<!-- 
+<p-dialog 
+[(visible)]="functionalityDialog" 
+header="Functionality Details" 
+[modal]="true" 
+styleClass="p-fluid dialog-form" 
+[maximizable]="true" 
+(onHide)="hideDialog()">
+    <form (ngSubmit)="saveFunctionality()" [formGroup]="functionalityForm" class="p-grid p-fluid">
+        <div class="field p-col-12 p-md-6">
+            <label for="categories" class="block">
+                <span class="font-medium">Category</span>
+                <small class="p-error">*</small>
+            </label>
+            <p-multiSelect
+                inputId="categories"
+                formControlName="categories"
+                [options]="categories"
+                [filter]="true"
+                display="chip"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Select categories"
+                [ngClass]="{
+                    'p-invalid': functionalityForm.get('categories')?.invalid && (functionalityForm.get('categories')?.dirty || functionalityForm.get('categories')?.touched)
+                }"
+                class="w-full"
+            ></p-multiSelect>
+            <small *ngIf="functionalityForm.get('categories')?.invalid && (functionalityForm.get('categories')?.dirty || functionalityForm.get('categories')?.touched)" class="p-error block"> At least one category is required </small>
+        </div>
+
+        
+        <div class="field p-col-12 p-md-6">
+            <label for="method" class="block">
+                <span class="font-medium">HTTP Method</span>
+                <small class="p-error">*</small>
+            </label>
+            <p-dropdown
+                inputId="method"
+                formControlName="method"
+                [options]="methods"
+                [filter]="true"
+                (onChange)="checkNameExists()"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Select method"
+                [ngClass]="{
+                    'p-invalid': (functionalityForm.get('method')?.invalid && (functionalityForm.get('method')?.dirty || functionalityForm.get('method')?.touched)) || nameExists
+                }"
+                class="w-full"
+            ></p-dropdown>
+            <small *ngIf="functionalityForm.get('method')?.invalid && (functionalityForm.get('method')?.dirty || functionalityForm.get('method')?.touched)" class="p-error block"> Method is required </small>
+            <small *ngIf="nameExists" class="p-error block"> Functionality with this name and method already exists </small>
+        </div>
+
+       
+        <div class="field p-col-12 p-md-12">
+            <label for="name" class="block">
+                <span class="font-medium">Name(API)</span>
+                <small class="p-error">*</small>
+            </label>
+            <input
+                pInputText
+                id="name"
+                formControlName="name"
+                placeholder="Enter functionality name"
+                (blur)="checkNameExists()"
+                [ngClass]="{
+                    'p-invalid': (functionalityForm.get('name')?.invalid && nameTouched) || nameExists
+                }"
+                class="w-full"
+            />
+            <div class="validation-messages">
+                <small *ngIf="functionalityForm.get('name')?.invalid && nameTouched" class="p-error block"> Name is required </small>
+                <small *ngIf="nameExists" class="p-error block"> Functionality with this name and method already exists </small>
+            </div>
+        </div>
+
+        
+        <div class="field p-col-12 p-md-12">
+            <label for="description" class="block">
+                <span class="font-medium">Description</span>
+                <small class="p-error">*</small>
+            </label>
+            <textarea
+                pInputTextarea
+                id="description"
+                formControlName="description"
+                placeholder="Enter functionality description"
+                rows="3"
+                [ngClass]="{
+                    'p-invalid': functionalityForm.get('description')?.invalid && (functionalityForm.get('description')?.dirty || functionalityForm.get('description')?.touched)
+                }"
+                class="w-full"
+            ></textarea>
+            <small *ngIf="functionalityForm.get('description')?.invalid && (functionalityForm.get('description')?.dirty || functionalityForm.get('description')?.touched)" class="p-error block"> Description is required </small>
+        </div>
+
+        <div class="field p-col-12 p-md-4">
+            <button pButton type="button" label="Cancel" icon="pi pi-times" class="p-button-outlined p-button-rounded p-button-secondary" style="min-width: 100px" (click)="hideDialog()"></button>
+        </div>
+        <div class="field p-col-12 p-md-4">
+            <button
+                pButton
+                type="submit"
+                label="Save"
+                icon="pi pi-check"
+                class="p-button-raised p-button-rounded p-button-outlined p-button-success"
+                style="min-width: 100px"
+                [loading]="functionalityLoading"
+                [disabled]="functionalityForm.invalid || nameExists"
+            ></button>
+        </div>
+    </form>
+</p-dialog> -->
+
+
+
+<p-dialog 
+[(visible)]="functionalityDialog"
+[style]="{ width: '600px' }"
+header="Region Details"
+[modal]="true"
+styleClass="p-fluid"
+[maximizable]="true">
+    <ng-template pTemplate="content">
+        <app-create-edit-functionalities [passedFunctionality]="outputFunctionality" (editedFunctionality)="onDataChange($event)"></app-create-edit-functionalities>
+    </ng-template>
+</p-dialog>

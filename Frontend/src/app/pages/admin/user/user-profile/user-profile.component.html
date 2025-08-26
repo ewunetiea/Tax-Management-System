@@ -1,0 +1,376 @@
+<main id="main" class="main p-6 bg-gray-50 min-h-screen">
+  <p-toast></p-toast>
+
+  <div class="mb-6">
+    <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
+  </div>
+
+  <section class="section profile">
+    <div class="flex flex-wrap -mx-4">
+      <!-- Left Panel: Profile Card -->
+      <div class="w-full xl:w-1/3 px-4 mb-8 xl:mb-0">
+        <p-card class="shadow-md rounded-lg">
+          <div class="pt-6 flex flex-col items-center">
+            <img
+              *ngIf="userData.photoUrl; else leftBlankPic"
+              [src]="environment.imagesUserApi + userData.photoUrl"
+              alt="Profile"
+              class="rounded-full w-32 h-32 object-cover"
+            />
+            <ng-template #leftBlankPic>
+              <img
+                [src]="environment.blankPic"
+                alt="Profile"
+                class="rounded-full w-32 h-32 object-cover"
+              />
+            </ng-template>
+            <h2 class="mt-4 text-xl font-semibold text-center">
+              {{ userData.first_name }} {{ userData.middle_name }} {{ userData.last_name }}
+            </h2>
+            <h2 class="text-gray-600 text-center">{{ title }}</h2>
+          </div>
+        </p-card>
+      </div>
+
+      <!-- Right Panel: Tabs and Content -->
+      <div class="w-full xl:w-2/3 px-4">
+        <p-card class="shadow-md rounded-lg">
+          <p-tabView class="mt-2">
+            <!-- Overview Tab -->
+            <p-tabPanel header="Overview" leftIcon="pi pi-info-circle">
+              <h5 class="text-lg font-semibold mb-6">Profile Details</h5>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-y-4 gap-x-8 mb-4">
+                <div class="font-semibold text-gray-700">Full Name:</div>
+                <div class="md:col-span-2">
+                  {{ userData.first_name }} {{ userData.middle_name }} {{ userData.last_name }}
+                </div>
+
+                <div class="font-semibold text-gray-700">Email:</div>
+                <div class="md:col-span-2">{{ userData.email }}</div>
+                <div class="font-semibold text-gray-700">Phone Number:</div>
+                <div class="md:col-span-2">{{ userData.phone_number }}</div>
+                <div *ngIf class="font-semibold text-gray-700">Job Title:</div>
+                <div *ngIf class="md:col-span-2">{{ user_job_position }}</div>
+
+                <ng-container *ngIf="!admin">
+                  <ng-container *ngIf="userData.branch; else region">
+                    <div class="font-semibold text-gray-700">Unit:</div>
+                    <div class="md:col-span-2">{{ userData.branch.name }}</div>
+
+                    <div class="font-semibold text-gray-700">Unit Code:</div>
+                    <div class="md:col-span-2">{{ userData.branch.code }}</div>
+                  </ng-container>
+                  <ng-template #region>
+                    <div class="font-semibold text-gray-700">Region:</div>
+                    <div class="md:col-span-2">{{ userData.region?.name }}</div>
+                    <div class="font-semibold text-gray-700">Region Code:</div>
+                    <div class="md:col-span-2">{{ userData.region?.code }}</div>
+                  </ng-template>
+                </ng-container>
+
+                <div class="font-semibold text-gray-700">Assigned Roles:</div>
+                <div class="md:col-span-2">
+                  <ul class="list-disc list-inside">
+                    <li *ngFor="let role of userData.roles">{{ role.name }}</li>
+                  </ul>
+                </div>
+              </div>
+            </p-tabPanel>
+
+            <!-- Edit Profile Tab -->
+            <p-tabPanel header="Edit Profile" leftIcon="pi pi-user-edit">
+              <form ngNativeValidate #userForm="ngForm" class="space-y-6" (ngSubmit)="addUser()">
+                <div class="flex flex-wrap gap-6">
+                  <!-- Profile Picture Upload -->
+                  <div class="w-full md:w-1/3">
+                    <label for="photoUrl" class="block font-semibold mb-2">Profile Picture</label>
+
+                    <img
+                      *ngIf="userData.photoUrl; else blankPic"
+                      [src]="environment.imagesUserApi + userData.photoUrl"
+                      alt="Profile"
+                      class="rounded-full w-28 h-28 object-cover mb-4"
+                    />
+                    <ng-template #blankPic>
+                      <img
+                        [src]="environment.blankPic"
+                        alt="Profile"
+                        class="rounded-full w-28 h-28 object-cover mb-4"
+                      />
+                    </ng-template>
+
+                    <input
+                      type="file"
+                      accept="image/*"
+                      #imageInput
+                      id="photoUrl"
+                      class="block w-10/12 rounded border border-gray-300 p-1 mb-3"
+                      title="Update my profile image"
+                      (change)="processFile(imageInput)"
+                    />
+
+                    <button
+                      type="button"
+                      class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition w-full"
+                      title="Remove my profile image"
+                      (click)="removeImage()"
+                    >
+                      <i class="pi pi-trash mr-2"></i>Remove my profile image</button>
+                  </div>
+
+                  <!-- Profile Info Fields -->
+                  <div class="w-full md:w-2/3 space-y-4">
+                    <div>
+                      <label for="first_name" class="block font-semibold mb-1">First Name</label>
+                      <input
+                        type="text"
+                        id="first_name"
+                        name="first_name"
+                        [(ngModel)]="userData.first_name"
+                        #first_name="ngModel"
+                        required
+                        [class.border-red-500]="first_name.invalid && first_name.touched"
+                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      <small
+                        *ngIf="first_name.invalid && first_name.touched"
+                        class="text-red-600"
+                        >First name is required</small
+                      >
+                    </div>
+
+                    <!-- Middle Name -->
+                    <div>
+                      <label for="middle_name" class="block font-semibold mb-1">Middle Name</label>
+                      <input
+                        type="text"
+                        id="middle_name"
+                        name="middle_name"
+                        [(ngModel)]="userData.middle_name"
+                        #middle_name="ngModel"
+                        required
+                        [class.border-red-500]="middle_name.invalid && middle_name.touched"
+                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      <small
+                        *ngIf="middle_name.invalid && middle_name.touched"
+                        class="text-red-600"
+                        >Middle name is required</small
+                      >
+                    </div>
+
+                    <!-- Last Name -->
+                    <div>
+                      <label for="last_name" class="block font-semibold mb-1">Last Name</label>
+                      <input
+                        type="text"
+                        id="last_name"
+                        name="last_name"
+                        [(ngModel)]="userData.last_name"
+                        #last_name="ngModel"
+                        required
+                        [class.border-red-500]="last_name.invalid && last_name.touched"
+                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      <small
+                        *ngIf="last_name.invalid && last_name.touched"
+                        class="text-red-600"
+                        >Last name is required</small
+                      >
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div>
+                      <label for="phone_number" class="block font-semibold mb-1">Phone Number</label>
+                      <input
+                        type="tel"
+                        id="phone_number"
+                        name="phone_number"
+                        pattern="(\+251|0)(9|7)\d{8}"
+                        [(ngModel)]="userData.phone_number"
+                        #phone="ngModel"
+                        required
+                        (input)="checkPhoneNumberStatus($event)"
+                        [class.border-red-500]="phone.invalid && phone.touched"
+                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      <div *ngIf="phone_number_status">
+                        <small class="text-red-600">Phone Number Already Exists</small>
+                      </div>
+                      <div *ngIf="phone.errors && phone.touched" class="text-red-600">
+                        <small *ngIf="phone.errors['required']">Phone number is required</small>
+                        <small *ngIf="phone.errors['pattern']">Phone number not valid or should start with +251, 09 or 07</small>
+                      </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                      <label for="email" class="block font-semibold mb-1">Email</label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        [(ngModel)]="userData.email"
+                        #email="ngModel"
+                        pattern="\w+(\.\w+)?@awashbank\.com$"
+                        required
+                        (input)="checkEmailStatus($event)"
+                        [class.border-red-500]="email.invalid && email.touched"
+                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      <div *ngIf="email.errors && email.touched" class="text-red-600">
+                        <small *ngIf="email.errors['required']">Email is required</small>
+                        <small *ngIf="email.errors['pattern']">Email should end with &#64;awashbank.com</small>
+                      </div>
+                      <div *ngIf="email_status">
+                        <small class="text-red-600">Outlook Address Already Exists</small>
+                      </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="mt-6">
+                      <button
+                        [disabled]="userForm.form.invalid || phone_number_status || email_status"
+                        type="submit"
+                        class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        Update Profile
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </p-tabPanel>
+
+            <!-- Change Password Tab -->
+            <p-tabPanel header="Change Password" leftIcon="pi pi-lock">
+              <form
+                #passwordForm="ngForm"
+                class="space-y-6"
+                (ngSubmit)="changePassword()"
+                novalidate
+              >
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div class="flex flex-col">
+                    <label for="oldPassword" class="font-semibold mb-1"><span class="text-red-600">*</span> Old Password </label>
+                    <p-password
+                      [(ngModel)]="passwordData.oldPassword"
+                      #oldPassword="ngModel"
+                      name="oldPassword"
+                      [class.border-red-500]="oldPassword.invalid && oldPassword.touched"
+                      pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                      required="true"
+                      inputId="oldPassword"
+                      feedback="false"
+                      [toggleMask]="true"
+                      class="w-full"
+                    >
+                      <ng-template pTemplate="header">
+                        <h6>Old password</h6>
+                      </ng-template>
+                      <ng-template pTemplate="footer">
+                        <p-divider></p-divider>
+                        <p class="mt-2">Suggestions</p>
+                        <ul class="pl-4 list-disc mt-0" style="line-height: 1.5">
+                          <li>At least one lowercase</li>
+                          <li>At least one uppercase</li>
+                          <li>At least one numeric</li>
+                          <li>Minimum 8 characters</li>
+                        </ul>
+                      </ng-template>
+                    </p-password>
+                  </div>
+
+                  <!-- New Password -->
+                  <div class="flex flex-col">
+                    <label for="password" class="font-semibold mb-1">
+                      <span class="text-red-600">*</span> New Password
+                    </label>
+                    <p-password
+                      [(ngModel)]="passwordData.password"
+                      #password="ngModel"
+                      name="password"
+                      [class.border-red-500]="
+                        (password.invalid && password.touched) ||
+                        passwordData.confirmPassword !== passwordData.password
+                      "
+                      pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                      required="true"
+                      inputId="password"
+                      [toggleMask]="true"
+                      class="w-full"
+                    >
+                      <ng-template pTemplate="header">
+                        <h6>Pick a strong password</h6>
+                      </ng-template>
+                      <ng-template pTemplate="footer">
+                        <p-divider></p-divider>
+                        <p class="mt-2">Suggestions</p>
+                        <ul class="pl-4 list-disc mt-0" style="line-height: 1.5">
+                          <li>At least one lowercase letter</li>
+                          <li>At least one uppercase letter</li>
+                          <li>At least one number</li>
+                          <li>Minimum 8 characters</li>
+                          <li>Different from the old password</li>
+                        </ul>
+                      </ng-template>
+                    </p-password>
+                  </div>
+
+                  <!-- Confirm Password -->
+                  <div class="flex flex-col md:col-span-2">
+                    <label for="confirmPassword" class="font-semibold mb-1">
+                      <span class="text-red-600">*</span> Confirm Password
+                    </label>
+                    <p-password
+                      [(ngModel)]="passwordData.confirmPassword"
+                      #confirmPassword="ngModel"
+                      name="confirmPassword"
+                      [class.border-red-500]="passwordData.confirmPassword !== passwordData.password "
+                      required="true"
+                      pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                      inputId="confirmPassword"
+                      [toggleMask]="true"
+                      class="w-full"
+                    >
+                    </p-password>
+                    <small
+                      *ngIf="
+                        confirmPassword.invalid &&
+                        (password.dirty || password.touched) &&
+                        confirmPassword.touched
+                      "
+                      class="text-red-600 block mt-1"
+                    >
+                      Please confirm your password.
+                    </small>
+                    <small
+                      *ngIf="passwordData.confirmPassword !== passwordData.password"
+                      class="text-red-600 block mt-1"
+                    >
+                      Passwords do not match.
+                    </small>
+                  </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div>
+                  <button
+                    [disabled]="
+                      passwordForm.form.invalid ||
+                      passwordData.confirmPassword !== passwordData.password
+                    "
+                    type="submit"
+                    class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    Change Password
+                  </button>
+                </div>
+              </form>
+            </p-tabPanel>
+          </p-tabView>
+        </p-card>
+      </div>
+    </div>
+  </section>
+</main>

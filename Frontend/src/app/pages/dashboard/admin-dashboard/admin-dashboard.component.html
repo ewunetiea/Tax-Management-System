@@ -1,0 +1,262 @@
+<!-- <main id="main" class="main">
+    <p-toast></p-toast>
+    <div class="pagetitle">
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a routerLink="/"><i class="bi bi-house-door"></i></a>
+          </li>
+          <li class="breadcrumb-item active">Dashboard</li>
+          <li></li>
+        </ol>
+      </nav>
+    </div>
+  
+    <section class="section dashboard">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="row">
+            <div class="col-xxl-3 col-md-6">
+              <div class="card info-card revenue-card">
+                <div *ngIf="!loading" class="mt-3">
+                  <app-maker-approver-one></app-maker-approver-one>
+                </div>
+                <div *ngIf="loading">
+                  <div class="card-body">
+                    <h5 class="card-title">IS <span>| Total</span></h5>
+                    <div class="d-flex align-items-center">
+                      <div
+                        class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                      >
+                        <i class="pi pi-bookmark" style="font-size: 1.5rem"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6>
+                          {{ adminDashboardData.card_data[0] }}
+                          <span class="text-muted small pt-2 ps-1"></span>
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xxl-3 col-md-6">
+              <div class="card info-card revenue-card">
+                <div *ngIf="!loading" class="mt-3">
+                  <app-maker-approver-one></app-maker-approver-one>
+                </div>
+                <div *ngIf="loading">
+                  <div class="card-body">
+                    <h5 class="card-title">MGT <span>| Total</span></h5>
+                    <div class="d-flex align-items-center">
+                      <div
+                        class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                      >
+                        <i
+                          class="pi pi-step-forward"
+                          style="font-size: 1.5rem"
+                        ></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6>
+                          {{ adminDashboardData.card_data[1] }}
+                          <span class="text-muted small pt-2 ps-1"></span>
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <div class="col-xxl-3 col-md-6">
+              <div class="card info-card customers-card">
+                <div *ngIf="!loading" class="mt-3">
+                  <app-maker-approver-one></app-maker-approver-one>
+                </div>
+                <div *ngIf="loading">
+                  <div class="card-body">
+                    <h5 class="card-title">BFA <span>| Total</span></h5>
+                    <div class="d-flex align-items-center">
+                      <div
+                        class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                      >
+                        <i
+                          class="pi pi-minus-circle"
+                          style="font-size: 1.5rem"
+                        ></i>
+                      </div>
+                      <div class="ps-3">
+                        {{ adminDashboardData.card_data[2] }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xxl-3 col-md-6">
+              <div class="card info-card customers-card">
+                <div *ngIf="!loading" class="mt-3">
+                  <app-maker-approver-one></app-maker-approver-one>
+                </div>
+                <div *ngIf="loading">
+                  <div class="card-body">
+                    <h5 class="card-title">INS <span>| Total</span></h5>
+                    <div class="d-flex align-items-center">
+                      <div
+                        class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                      >
+                        <i class="pi pi-verified" style="font-size: 1.5rem"></i>
+                      </div>
+                      <div class="ps-3">
+                        {{ adminDashboardData.card_data[3] }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <div *ngIf="!loading" class="mt-3">
+                <app-maker-approver-skeleton></app-maker-approver-skeleton>
+              </div>
+              <div *ngIf="loading">
+                <h5 class="card-title">
+                  Recent Activity
+                  <button
+                    pButton
+                    pRipple
+                    icon="pi pi-external-link"
+                    class="p-button-text p-button-info"
+                    routerLink="recent-activity"
+                  ></button>
+                </h5>
+                <div class="activity">
+                  <div
+                    class="activity-item d-flex"
+                    *ngFor="let ra of adminDashboardData.recentActivity"
+                  >
+                    <div class="activite-label text-wrap" style="width: 25%">
+                      {{ ra.created_date | timeago : true }}
+                    </div>
+                    <i
+                      class="bi bi-circle-fill activity-badge text-success align-self-start"
+                    ></i>
+                    <div class="activity-content activity-content-font">
+                      {{ ra.message }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-6">
+          <div class="card">
+            <div class="card-body">
+              <div *ngIf="!loading" class="mt-3">
+                <app-loan-allowed-amount-skeleton></app-loan-allowed-amount-skeleton>
+              </div>
+              <div *ngIf="loading">
+                <h5 class="card-title">
+                  Status of Users<span>| in the system</span>
+                </h5>
+                <p-chart
+                  type="polarArea"
+                  [data]="polarChartUsersStatusData"
+                  [options]="polarChartOptions"
+                  [style]="{ width: '60%' }"
+                ></p-chart>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="card">
+            <div class="card-body">
+              <div *ngIf="!loading" class="mt-3">
+                <app-loan-allowed-amount-skeleton></app-loan-allowed-amount-skeleton>
+              </div>
+              <div *ngIf="loading">
+                <h5 class="card-title">
+                  Users Active Status<span>| Audit</span>
+                </h5>
+                <p-chart
+                  type="radar"
+                  [data]="radar_data"
+                  [options]="chartOptions"
+                  [style]="{ width: '40%' }"
+                ></p-chart>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div *ngIf="!loading" class="mt-3">
+                <app-rad-skeleton></app-rad-skeleton>
+              </div>
+              <div *ngIf="loading">
+                <h5 class="card-title">
+                  # of Users <span>| Region and Audit</span>
+                </h5>
+                <p-chart
+                  type="line"
+                  [data]="usersPerRegionandAudit"
+                  [options]="basicOptions"
+                ></p-chart>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div *ngIf="!loading" class="mt-3">
+                <app-maker-approver-three></app-maker-approver-three>
+              </div>
+              <div *ngIf="loading">
+                <h5 class="card-title">
+                  # of Users<span>| Roles and IS, MGT and INS </span>
+                </h5>
+                <p-chart
+                  type="bar"
+                  [data]="barChartRolePerAudits"
+                  [options]="multiAxisOptions"
+                ></p-chart>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div *ngIf="!loading" class="mt-3">
+                <app-maker-approver-two></app-maker-approver-two>
+              </div>
+              <div *ngIf="loading">
+                <h5 class="card-title"># of Users<span>| Roles, BFA</span></h5>
+                <p-chart
+                  type="bar"
+                  [data]="horizontal_bar_chart_data"
+                  [options]="horizontalOptions"
+                ></p-chart>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+   -->

@@ -1,0 +1,124 @@
+<form (ngSubmit)="saveBranch()" #branchesForm="ngForm" class="flex flex-col gap-8">
+    <div class="flex flex-col gap-2">
+      <label for="branch_name"><strong class="text-danger">*</strong>Branch Name</label>
+      <input
+      pInputText
+      type="text"
+        [(ngModel)]="branches.name"
+        name="name"
+        autocomplete="off"
+        (input)="checkNameStatus($event)"
+        class="form-control"
+        required
+        #branchName="ngModel"
+        [class.is-invalid]="branchName.touched && branchName.invalid"
+      />
+      <div *ngIf="branchName.errors && branchName.touched">
+        <small class="text-danger" *ngIf="branchName.errors['required']"
+          >Branch name is required</small
+        >
+      </div>
+      <div *ngIf="branch_name_status">
+        <small class="text-danger">Name Already Exists</small>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="branchCode"><strong class="text-danger">*</strong>Branch Code</label>
+      <input
+      pInputText
+      type="text"
+      [(ngModel)]="branches.code"
+      name="code"
+      autocomplete="off"
+      (input)="checkCodeStatus($event)"
+      class="form-control"
+        required
+        #branchCode="ngModel"
+        [class.is-invalid]="branchCode.touched && branchCode.invalid"
+      />
+      <div *ngIf="branchCode.errors && branchCode.touched">
+        <small class="text-danger" *ngIf="branchCode.errors['required']">Branch Code is required</small>
+      </div>
+      <div *ngIf="branch_code_status">
+        <small class="text-danger">Branch Code Already Exists</small>
+      </div>
+    </div>
+  
+    <div class="flex flex-col gap-2">
+      <label for="region"><strong class="text-danger">* </strong>Region</label>
+      <p-dropdown
+        [options]="regions"
+        optionLabel="name"
+        [(ngModel)]="branches.region"
+        name="region"
+        inputId="region"
+        #reg="ngModel"
+        [class.is-invalid]="reg.invalid && reg.touched"
+        placeholder="Select a Region"
+        [filter]="true"
+        [required]="true"
+      ></p-dropdown>
+        <div *ngIf="reg.errors && reg.touched">
+      <small class="text-danger" [class.d-none]="reg.invalid || reg.touched">Region is required</small>
+    </div>
+    </div>   
+
+    <div class="field flex gap-2 mt-3">
+      <button
+        [loading]="loading"
+        type="submit"
+        pButton
+        label="{{ getSubmitButtonText() }}"
+        class="p-button-primary p-button-success mr-2"
+        [disabled]=" branchesForm.form.invalid || branch_code_status || branch_name_status  "
+      ></button>
+      <button type="reset" class="btn btn-secondary mx-5">Cancel</button>
+    </div>
+  </form>
+   
+  <p-dialog
+    [(visible)]="confrimationDialog"
+    [style]="{ width: '800px' }"
+    header="Confirm Branch Information"
+    [modal]="true"
+    styleClass="p-fluid"
+    [maximizable]="true"
+  >
+    <ng-template pTemplate="content">
+      <div class="row g-3">
+        <div class="col-sm-10 text-center"></div>
+        <div class="col-md-12">
+          <label class="Form-label">Name: <b>{{ branches.name }}</b></label
+          >
+        </div>
+        <div class="col-md-12">
+          <label class="Form-label">Code: <b>{{ branches.code }}</b></label>
+        </div>
+        <div class="col-md-12">
+          <label class="Form-label">Region Name: <b>{{ branches.region?.name }}</b></label>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <button
+        *ngIf="!loading"
+        pButton
+        pRipple
+        label="Confirm"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="saveBranch()"
+      ></button>
+      <button *ngIf="loading" type="button" disabled class="btn btn-primary">
+        Loading...
+        <span
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+        ></span>
+      </button>
+      <button type="reset" pButton label="Reset" class="p-button-raised p-button-rounded p-button-danger"></button>
+    </ng-template>
+  </p-dialog>
+  

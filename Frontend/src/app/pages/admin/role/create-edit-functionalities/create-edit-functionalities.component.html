@@ -1,0 +1,92 @@
+<form (ngSubmit)="saveFunctionality()" [formGroup]="functionalityForm" class="flex flex-col gap-8"> 
+     <div class="flex flex-col gap-2">
+            <label for="categories"><strong class="text-red-500">*</strong>Category</label>
+            <p-multiSelect
+                inputId="categories"
+                formControlName="categories"
+                [options]="categories"
+                [filter]="true"
+                display="chip"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Select categories"
+                [class.ng-invalid]="{'p-invalid': functionalityForm.get('categories')?.invalid && (functionalityForm.get('categories')?.dirty || functionalityForm.get('categories')?.touched) }"
+                class="w-full"
+            ></p-multiSelect>
+             <div *ngIf="functionalityForm.get('categories')?.invalid && (functionalityForm.get('categories')?.dirty || functionalityForm.get('categories')?.touched)">
+            <p-message severity="error" size="small" variant="simple" >At least one category is required </p-message>
+        </div>
+        </div>
+        
+        <div class="field p-col-12 p-md-6">
+           <label for="methods"><strong class="text-red-500">*</strong>Method</label>
+            <p-dropdown
+                inputId="method"
+                formControlName="method"
+                [options]="methods"
+                [filter]="true"
+                (onChange)="checkNameExists()"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Select method"
+                [class.ng-invalid] = "{'p-invalid': (functionalityForm.get('method')?.invalid && (functionalityForm.get('method')?.dirty || functionalityForm.get('method')?.touched)) || nameExists }"
+                class="w-full"
+            ></p-dropdown>
+            <div *ngIf="functionalityForm.get('categories')?.invalid && (functionalityForm.get('categories')?.dirty || functionalityForm.get('categories')?.touched)">
+            <p-message severity="error" size="small" variant="simple" *ngIf="functionalityForm.get('method')?.invalid && (functionalityForm.get('method')?.dirty || functionalityForm.get('method')?.touched)">Method is required </p-message>
+            <p-message severity="error" size="small" variant="simple" *ngIf="nameExists">Functionality with this name and method already exists </p-message>
+        </div>
+    </div>
+        
+        <div class="field p-col-12 p-md-12">
+            <label for="name"><strong class="text-red-500">*</strong>Name</label>
+            <input
+                pInputText
+                id="name"
+                formControlName="name"
+                placeholder="Enter functionality name"
+                (blur)="checkNameExists()"
+                [class.ng-invalid] = "{ 'p-invalid': (functionalityForm.get('name')?.invalid && nameTouched) || nameExists }"
+                class="w-full"
+            />
+            <div *ngIf="functionalityForm.get('name')?.invalid && (functionalityForm.get('name')?.dirty || functionalityForm.get('name')?.touched)">
+            <p-message severity="error" size="small" variant="simple" *ngIf="functionalityForm.get('name')?.invalid && (functionalityForm.get('name')?.dirty || functionalityForm.get('name')?.touched)">Method is required </p-message>
+            <p-message severity="error" size="small" variant="simple" *ngIf="nameExists">Functionality with this name and method already exists </p-message>
+        </div>
+        </div>
+
+        <div class="field p-col-12 p-md-12">
+           <label for="description"><strong class="text-red-500">*</strong>Description</label>
+            <textarea
+                pInputTextarea
+                id="description"
+                formControlName="description"
+                placeholder="Enter functionality description"
+                rows="3"
+                [class.ng-invalid] = "{ 'p-invalid': functionalityForm.get('description')?.invalid && (functionalityForm.get('description')?.dirty || functionalityForm.get('description')?.touched) }"
+                class="w-full"
+            ></textarea>
+            <div *ngIf="functionalityForm.get('description')?.invalid && (functionalityForm.get('description')?.dirty || functionalityForm.get('description')?.touched)">
+            <p-message severity="error" size="small" variant="simple" *ngIf="functionalityForm.get('description')?.invalid && (functionalityForm.get('description')?.dirty || functionalityForm.get('description')?.touched)">Description is required </p-message>
+        </div>
+    </div>
+
+    <div class="mt-4 flex gap-2">
+        <div class="w-1/4">
+            <button
+                pButton
+                type="submit"
+                label="Save"
+                icon="pi pi-check"
+                class="p-button-raised p-button-rounded p-button-outlined p-button-success"
+                style="min-width: 100px"
+                [loading]="functionalityLoading"
+                [disabled]="functionalityForm.invalid || nameExists"
+            ></button>
+        </div>
+
+         <div class="w-1/4">
+            <button pButton type="button" label="Cancel" icon="pi pi-times" class="p-button-outlined p-button-rounded p-button-secondary" style="min-width: 100px" (click)="hideDialog()"></button>
+        </div>
+        </div>
+    </form>

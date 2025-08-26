@@ -1,0 +1,94 @@
+<main id="main" class="main">
+    <p-toast></p-toast>
+    <div class="mb-6">
+        <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
+    </div>
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <p-card>
+                    <p-toolbar styleClass="p-mb-4">
+                        <ng-template pTemplate="left">
+                            <button pButton pRipple label="New" (click)="openNew()" icon="pi pi-plus" class="p-button-raised p-button-rounded mr-2"></button>
+                        </ng-template>
+
+                        <ng-template pTemplate="right">
+                            <div class="flex"></div>
+                        </ng-template>
+                    </p-toolbar>
+
+                    <p-table
+                        #dt
+                        [value]="jobPositions"
+                        [rows]="5"
+                        [paginator]="true"
+                        [loading]="loading"
+                        [globalFilterFields]="['code', 'title']"
+                        [(selection)]="selectedJobPositions"
+                        [rowHover]="true"
+                        dataKey="id"
+                        [rowsPerPageOptions]="[5, 10, 25, 50]"
+                        [size]="selectedSize"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [showCurrentPageReport]="true"
+                    >
+                        <ng-template #caption>
+                            <div class="flex items-center justify-between">
+                                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                                <div class="flex justify-center mb-4">
+                                    <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value" (onChange)="onSizeChange()" />
+                                </div>
+                                <p-iconfield>
+                                    <p-inputicon styleClass="pi pi-search" />
+                                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." />
+                                </p-iconfield>
+                            </div>
+                        </ng-template>
+
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 3rem">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                </th>
+
+                                <th style="min-width: 12rem">
+                                    <div class="flex items-center">
+                                        Title
+                                        <p-columnFilter type="text" field="title" display="menu" />
+                                    </div>
+                                </th>
+
+                                <th style="min-width: 12rem">
+                                    <div class="flex items-center">
+                                        Role
+                                        <p-columnFilter type="text" field="jobPosition.role.code" display="menu" />
+                                    </div>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-jobPosition let-expanded="expanded">
+                            <tr>
+                                <td>
+                                    <p-tableCheckbox [value]="jobPosition"></p-tableCheckbox>
+                                </td>
+                                <td>{{ jobPosition.title }}</td>
+                                <td>
+                                    <p-listbox [options]="jobPosition.roles" optionLabel="code" [style]="{ width: '15rem' }"></p-listbox>
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="summary">
+                            <div class="p-d-flex p-ai-center p-jc-between">
+                                In total there are
+                                {{ jobPositions ? jobPositions.length : 0 }} job positions.
+                            </div>
+                        </ng-template>
+                    </p-table>
+                </p-card>
+            </div>
+        </div>
+    </section>
+</main>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

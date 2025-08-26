@@ -1,0 +1,942 @@
+<main id="main" class="main">
+    <p-toast></p-toast>
+    <div class="pagetitle">
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a routerLink="/"><i class="bi bi-house-door"></i></a>
+          </li>
+          <li class="breadcrumb-item active">Search and Manage Users</li>
+          <li></li>
+        </ol>
+      </nav>
+    </div>
+  
+    <p-card>
+      <app-user-search-engine
+        (generatedUsers)="onDataGenerated($any($event))"
+      ></app-user-search-engine>
+    </p-card>
+  
+    <section *ngIf="fetching" class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <p-card>
+            <p-toolbar styleClass="p-mb-4">
+              <ng-template pTemplate="left">
+                <button
+                  pButton
+                  pRipple
+                  label="New"
+                  icon="pi pi-plus"
+                  class="p-button-raised p-button-rounded p-mr-2"
+                  (click)="openNew()"
+                ></button>
+                <button
+                  pButton
+                  pRipple
+                  label="Specialize"
+                  pTooltip="This action sets the selected users' category to 'Special', which is exempt from automatic configuration algorithms. Designed specifically for branch reviewers and managers."
+                  icon="pi pi-verified"
+                  class="p-button-raised p-button-rounded p-button-success p-mr-2"
+                  (click)="makeSpecialSelectedUsers()"
+                  [disabled]="!selectedUsers || !selectedUsers.length"
+                ></button>
+  
+                <button
+                  pButton
+                  pRipple
+                  label="Role Modifier"
+                  icon="pi pi-users"
+                  pTooltip="This feature provides options to filter users by a given role and assign multiple intended roles to them. Furthermore, this feature removes any previously assigned roles and adds the intended ones."
+                  class="p-button-raised p-button-rounded p-button-warning p-mr-2"
+                  (click)="openMultipleUserRoleDialog()"
+                  [disabled]="!selectedUsers || !selectedUsers.length"
+                ></button>
+              </ng-template>
+  
+              <ng-template pTemplate="right">
+                <div class="flex">
+                  <button
+                    type="button"
+                    pButton
+                    pRipple
+                    icon="pi pi-file"
+                    (click)="dt.exportCSV()"
+                    class="mr-2"
+                    pTooltip="CSV"
+                    tooltipPosition="bottom"
+                  ></button>
+                  <button
+                    type="button"
+                    pButton
+                    pRipple
+                    icon="pi pi-file-excel"
+                    (click)="excelExport()"
+                    class="p-button-success mr-2"
+                    pTooltip="XLS"
+                    tooltipPosition="bottom"
+                  ></button>
+                  <!-- <button
+                    type="button"
+                    pButton
+                    pRipple
+                    icon="pi pi-file-pdf"
+                    (click)="exportPdf()"
+                    class="p-button-warning mr-2"
+                    pTooltip="PDF"
+                    tooltipPosition="bottom"
+                  ></button> -->
+                  <button
+                    type="button"
+                    pButton
+                    pRipple
+                    icon="pi pi-filter"
+                    (click)="dt.exportCSV({ selectionOnly: true })"
+                    class="p-button-info ml-auto"
+                    pTooltip="Selection Only"
+                    tooltipPosition="bottom"
+                  ></button>
+                </div>
+              </ng-template>
+            </p-toolbar>
+  
+            <p-table
+              #dt
+              [value]="users"
+              [rows]="5"
+              [paginator]="true"
+              [loading]="loading"
+              [globalFilterFields]="[
+                'first_name',
+                'middle_name',
+                'last_name',
+                'phone_number',
+                'email',
+                'employee_id',
+                'gender',
+                'status',
+                'banking',
+                'category',
+                'branch.name',
+                'region.name'
+              ]"
+              [(selection)]="selectedUsers"
+              [rowHover]="true"
+              dataKey="id"
+              [rowsPerPageOptions]="[5, 10, 25, 50]"
+              [tableStyle]="{ 'min-width': '108rem' }"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              [showCurrentPageReport]="true"
+            >
+              <ng-template pTemplate="caption">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                  <h5 class="p-m-0">Manage Users</h5>
+                  <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input
+                      pInputText
+                      type="text"
+                      #searchData
+                      (input)="dt.filterGlobal(searchData.value, 'contains')"
+                      placeholder="Search..."
+                    />
+                  </span>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="width: 3rem"></th>
+                  <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                  </th>
+                  <th style="min-width: 12rem">
+                    <div class="flex justify-content-center align-items-center">
+                      First Name
+                      <p-columnFilter
+                        type="text"
+                        field="first_name"
+                        display="menu"
+                      ></p-columnFilter>
+                    </div>
+                  </th>
+                  <th style="min-width: 12rem">
+                    <div class="flex justify-content-center align-items-center">
+                      Middle Name
+                      <p-columnFilter
+                        type="text"
+                        field="middle_name"
+                        display="menu"
+                      ></p-columnFilter>
+                    </div>
+                  </th>
+                  <th style="min-width: 10rem">
+                    <div class="flex justify-content-center align-items-center">
+                      Last Name
+                      <p-columnFilter
+                        type="text"
+                        field="last_name"
+                        display="menu"
+                      ></p-columnFilter>
+                    </div>
+                  </th>
+  
+                  <th style="min-width: 10rem">
+                    <div class="flex justify-content-center align-items-center">
+                      Category
+                      <p-columnFilter
+                        type="text"
+                        field="category"
+                        display="menu"
+                      ></p-columnFilter>
+                    </div>
+                  </th>
+  
+                  <th style="min-width: 10rem">
+                    <div class="flex justify-content-center align-items-center">
+                      Banking
+                      <p-columnFilter
+                        type="text"
+                        field="banking"
+                        display="menu"
+                      ></p-columnFilter>
+                    </div>
+                  </th>
+  
+                  <th style="min-width: 8rem">
+                    <div class="flex justify-content-center align-items-center">
+                      Assigned Place
+                      <p-columnFilter
+                        type="text"
+                        field="assigned_place"
+                        display="menu"
+                      ></p-columnFilter>
+                    </div>
+                  </th>
+  
+                  <th style="width: 8rem">
+                    <div class="flex justify-content-center align-items-center">
+                      Status
+                      <p-columnFilter
+                        type="boolean"
+                        field="status"
+                        display="menu"
+                      ></p-columnFilter>
+                    </div>
+                  </th>
+  
+                  <th style="width: 8rem">
+                    <div class="flex justify-content-center align-items-center">
+                      Special
+                      <p-columnFilter
+                        type="boolean"
+                        field="special_user"
+                        display="menu"
+                      ></p-columnFilter>
+                    </div>
+                  </th>
+  
+                  <th style="width: 12rem">Action</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-user let-expanded="expanded">
+                <tr>
+                  <td>
+                    <button
+                      type="button"
+                      pButton
+                      pRipple
+                      [pRowToggler]="user"
+                      class="p-button-text p-button-rounded p-button-plain"
+                      [icon]="
+                        expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'
+                      "
+                    ></button>
+                  </td>
+                  <td>
+                    <p-tableCheckbox [value]="user"></p-tableCheckbox>
+                  </td>
+                  <td>{{ user.first_name }}</td>
+                  <td>{{ user.middle_name }}</td>
+                  <td>{{ user.last_name }}</td>
+                  <td>{{ user.category }}</td>
+                  <td>
+                    <span *ngIf="user.banking">{{ user.banking }}</span>
+                    <span *ngIf="!user.banking">{{ user.category }}</span>
+                  </td>
+  
+                  <td>
+                    <span *ngIf="user.branch">{{ user.branch?.name }} </span>
+                    <span *ngIf="user.region">{{ user.region?.name }}</span>
+                  </td>
+                  <td>
+                    <button
+                      *ngIf="user.status == 1"
+                      pButton
+                      pRipple
+                      type="text"
+                      icon="pi pi-verified"
+                      label="Active"
+                      class="p-button-rounded p-button-success p-button-outlined p-button-sm"
+                    ></button>
+  
+                    <button
+                      *ngIf="user.status == 0"
+                      pButton
+                      pRipple
+                      type="text"
+                      icon="pi pi-times"
+                      label="Inactive"
+                      class="p-button-rounded p-button-danger p-button-outlined p-button-sm"
+                    ></button>
+                  </td>
+  
+                  <td>
+                    <button
+                      *ngIf="user.special_user == 1"
+                      pButton
+                      pRipple
+                      type="text"
+                      label="Special"
+                      class="p-button-rounded p-button-outlined p-button-sm"
+                    ></button>
+  
+                    <button
+                      *ngIf="user.special_user != 1"
+                      pButton
+                      pRipple
+                      type="text"
+                      label="Normal"
+                      class="p-button-rounded p-button-secondary p-button-outlined p-button-sm"
+                    ></button>
+                  </td>
+  
+                  <td>
+                    <button
+                      pButton
+                      pRipple
+                      icon="pi pi-pencil"
+                      pTooltip="Edit User"
+                      class="p-button-rounded p-button-success p-mr-2"
+                      (click)="editUser(user)"
+                    ></button>
+                    <button
+                      pButton
+                      pRipple
+                      icon="pi pi-verified"
+                      pTooltip="Make Special"
+                      class="p-button-rounded p-button-success p-mr-2"
+                      (click)="makeSpecialUser(user)"
+                    ></button>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="rowexpansion" let-user>
+                <tr>
+                  <td colspan="7">
+                    <div class="p-3">
+                      <div style="padding: 0.5em 0 1em 0">
+                        <p-button
+                          (click)="activeIndex1 = 0"
+                          icon="pi pi-plus"
+                          styleClass="p-button-raised p-button-rounded p-ml-2"
+                          label="Detail"
+                        ></p-button>
+                        <p-button
+                          (click)="activeIndex1 = 0"
+                          icon="pi pi-cog"
+                          styleClass="p-button-raised p-button-rounded p-ml-2"
+                          label="Manage Roles"
+                          (click)="openModal(user)"
+                        ></p-button>
+                        <p-button
+                          (click)="activeIndex1 = 0"
+                          icon="pi pi-cog"
+                          styleClass="p-button-raised p-button-rounded p-ml-2"
+                          label="Branch Transfer"
+                          (click)="openBranchModal(user)"
+                        ></p-button>
+                      </div>
+                      <p-tabView [(activeIndex)]="activeIndex1">
+                        <p-tabPanel header="Detail">
+                          <div class="py-3">
+                            <p-button
+                              [icon]="
+                                activeState[0] ? 'pi pi-minus' : 'pi pi-plus'
+                              "
+                              (click)="toggle(0)"
+                              styleClass="p-button-text"
+                              label="Detail"
+                            ></p-button>
+                            <p-button
+                              [icon]="
+                                activeState[1] ? 'pi pi-minus' : 'pi pi-plus'
+                              "
+                              (click)="toggle(1)"
+                              styleClass="p-button-text ml-2"
+                              label="Role"
+                            ></p-button>
+                          </div>
+                          <p-accordion>
+                            <p-accordionTab
+                              [transitionOptions]="'400ms'"
+                              header="Detail"
+                              [(selected)]="activeState[0]"
+                            >
+                              <div class="card p-fluid w-75">
+                                <div class="p-formgrid p-grid p-ml-3 p-mt-2">
+                                  <div class="p-field p-col">
+                                    <p-chip
+                                      [label]="user.email"
+                                      icon="pi pi-envelope"
+                                    ></p-chip>
+                                  </div>
+                                  <div class="p-field p-col">
+                                    <p-chip
+                                      [label]="user.phone_number"
+                                      icon="pi pi-phone"
+                                    ></p-chip>
+                                  </div>
+                                </div>
+                                <div class="p-formgrid p-grid p-ml-3 p-mt-2">
+                                  <div class="p-field p-col">
+                                    <p-chip
+                                      [label]="user.employee_id"
+                                      icon="pi pi-id-card"
+                                    ></p-chip>
+                                  </div>
+                                  <div class="p-field p-col">
+                                    <p-chip
+                                      [label]="user.gender"
+                                      icon="pi pi-user"
+                                    ></p-chip>
+                                  </div>
+                                </div>
+                                <div class="p-field p-ml-3 p-mt-2">
+                                  <p-chip
+                                    *ngIf="user.photoUrl"
+                                    image="{{
+                                      environment.imagesUserApi + user.photoUrl
+                                    }}"
+                                    [label]="
+                                      user.first_name +
+                                      ' ' +
+                                      user.middle_name +
+                                      ' ' +
+                                      user.last_name
+                                    "
+                                    styleClass="mr-2"
+                                  ></p-chip>
+                                  <p-chip
+                                    *ngIf="!user.photoUrl"
+                                    [label]="
+                                      user.first_name +
+                                      ' ' +
+                                      user.middle_name +
+                                      ' ' +
+                                      user.last_name
+                                    "
+                                    image="{{ environment.blankPic }}"
+                                    styleClass="mr-2"
+                                  ></p-chip>
+                                </div>
+                              </div>
+                            </p-accordionTab>
+                            <p-accordionTab
+                              header="Assigned Role"
+                              [(selected)]="activeState[1]"
+                            >
+                              <p-fieldset
+                                *ngFor="let role of user.roles"
+                                [legend]="role.code"
+                                [toggleable]="true"
+                              >
+                                <div class="card p-fluid w-75">
+                                  <div class="p-formgrid p-grid p-ml-3 p-mt-2">
+                                    <div class="p-field p-col">
+                                      <p-chip [label]="role.name">
+                                        <button
+                                          pButton
+                                          pRipple
+                                          type="button"
+                                          label="Name"
+                                          class="p-button-info p-button-text"
+                                        ></button>
+                                      </p-chip>
+                                    </div>
+  
+                                    <div class="p-field p-col">
+                                      <p-chip [label]="role.code">
+                                        <button
+                                          pButton
+                                          pRipple
+                                          type="button"
+                                          label="Code"
+                                          class="p-button-info p-button-text"
+                                        ></button
+                                      ></p-chip>
+                                    </div>
+                                  </div>
+  
+                                  <div class="p-field p-col-8 p-ml-3 p-mt-3">
+                                    <span class="p-float-label">
+                                      <textarea
+                                        id="float-input"
+                                        rows="5"
+                                        cols="25"
+                                        [readOnly]="true"
+                                        [value]="role.description"
+                                        pInputTextarea
+                                      ></textarea>
+                                      <label for="float-input">
+                                        <p-chip label="Description"></p-chip>
+                                      </label>
+                                    </span>
+                                  </div>
+                                </div>
+                              </p-fieldset>
+                            </p-accordionTab>
+                          </p-accordion>
+                        </p-tabPanel>
+                      </p-tabView>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+  
+              <ng-template pTemplate="summary">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                  In total there are {{ users ? users.length : 0 }} users.
+                </div>
+              </ng-template>
+            </p-table>
+          </p-card>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <p-dialog
+    [(visible)]="userEditDialog"
+    header="User Details"
+    [modal]="true"
+    styleClass="p-fluid"
+    [maximizable]="true"
+  >
+    <ng-template pTemplate="content">
+      <app-create-edit-user
+        [passedUser]="outputUser"
+        (editedUser)="onDataChange($event)"
+      ></app-create-edit-user>
+    </ng-template>
+  </p-dialog>
+  
+  <p-dialog
+    [(visible)]="roleDialog"
+    [header]="'' + this.selectedUser.email"
+    [modal]="true"
+    [style]="{ width: '600px' }"
+    styleClass="p-fluid"
+    [maximizable]="true"
+  >
+    <ng-template pTemplate="content">
+      <div class="p-field">
+        <label class="p-mb-3"
+          ><strong class="text-danger">*</strong>User Category</label
+        >
+        <div class="p-formgrid p-grid">
+          <div class="p-field-radiobutton p-col-4">
+            <p-radioButton
+              id="spRB"
+              name="category"
+              [required]="true"
+              value="Specific"
+              [(ngModel)]="role_radio_value"
+              (onClick)="openRoleDropDown($event)"
+            ></p-radioButton>
+            <label for="spRB">Specific</label>
+          </div>
+          <div class="p-field-radiobutton p-col-4">
+            <p-radioButton
+              id="allRB"
+              name="category"
+              [required]="true"
+              value="ALL"
+              [(ngModel)]="role_radio_value"
+              (onClick)="openRoleDropDown($event)"
+            ></p-radioButton>
+            <label for="allRB">All</label>
+          </div>
+        </div>
+      </div>
+      <div class="p-field p-col">
+        <label for="roles"><strong class="text-danger">*</strong>Roles</label>
+        <p-multiSelect
+          [options]="roles"
+          appendTo="body"
+          name="roles"
+          [(ngModel)]="selectedUser.roles"
+          defaultLabel="Select role"
+          optionLabel="name"
+          display="chip"
+          selectedItemsLabel="{0} columns selected"
+          [style]="{ 'min-width': '200px' }"
+        >
+        </p-multiSelect>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="roleDialog = false"
+      ></button>
+  
+      <button
+        pButton
+        pRipple
+        label="Save"
+        icon="pi pi-check"
+        class="p-button-text"
+        (click)="manageRoles()"
+      ></button>
+    </ng-template>
+  </p-dialog>
+  
+  <p-dialog
+    [(visible)]="multipleUserRoleDialog"
+    header="Add multiple roles for multiple users"
+    [modal]="true"
+    [style]="{ width: '600px' }"
+    styleClass="p-fluid"
+    [maximizable]="true"
+  >
+    <form ngNativeValidate #multipleRoleUserForm="ngForm" class="p-fluid">
+      <div class="p-field p-col">
+        <label for="intial_role"
+          ><strong class="text-danger">*</strong>Intial Role</label
+        >
+        <p-dropdown
+          [options]="allRoles"
+          appendTo="body"
+          name="intial_role"
+          [(ngModel)]="multipleUserRole.intial_role"
+          optionLabel="name"
+          filterBy="name"
+          [filter]="true"
+          placeholder="Select Intial Role"
+          [showClear]="true"
+          [style]="{ 'min-width': '200px' }"
+          #intial_role="ngModel"
+          [required]="true"
+          [class.is-invalid]="intial_role.invalid && intial_role.touched"
+        >
+        </p-dropdown>
+        <small
+          class="text-danger"
+          [class.d-none]="intial_role.valid || intial_role.untouched"
+          >Intial Role is required<br
+        /></small>
+      </div>
+      <div class="p-field p-col">
+        <label for="selected_roles"
+          ><strong class="text-danger">*</strong>Intended Roles</label
+        >
+        <p-multiSelect
+          [options]="allRoles"
+          appendTo="body"
+          name="selected_roles"
+          [(ngModel)]="multipleUserRole.selected_roles"
+          defaultLabel="Select Intended Roles"
+          optionLabel="name"
+          display="chip"
+          selectedItemsLabel="{0} columns selected"
+          [style]="{ 'min-width': '200px' }"
+          #selected_roles="ngModel"
+          [required]="true"
+          [class.is-invalid]="selected_roles.invalid && selected_roles.touched"
+        >
+        </p-multiSelect>
+        <small
+          class="text-danger"
+          [class.d-none]="selected_roles.valid || selected_roles.untouched"
+          >Intended Roles are required<br
+        /></small>
+      </div>
+  
+      <div class="p-formgrid p-grid mt-6">
+        <div class="p-field p-col-3">
+          <button
+            *ngIf="!multipleRoleUserLoading"
+            pButton
+            pRipple
+            label="Save"
+            [disabled]="multipleRoleUserForm.form.invalid"
+            icon="pi pi-check"
+            class="p-button-raised p-button-rounded"
+            (click)="manageMultipleUserRole()"
+          ></button>
+          <button
+            *ngIf="multipleRoleUserLoading"
+            type="button"
+            disabled
+            class="btn btn-primary"
+          >
+            Loading...
+  
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
+          </button>
+        </div>
+        <div class="p-field p-col-3">
+          <button
+            class="col-md-5"
+            pButton
+            pRipple
+            type="reset"
+            label="Reset"
+            icon="pi pi-times"
+            class="p-button-raised p-button-danger p-button-rounded"
+          ></button>
+        </div>
+      </div>
+    </form>
+  </p-dialog>
+  
+  <p-dialog
+    [(visible)]="branchDialog"
+    [header]="'' + this.selectedUser.email"
+    [modal]="true"
+    [style]="{ width: '600px' }"
+    styleClass="p-fluid"
+    [maximizable]="true"
+  >
+    <form ngNativeValidate #unitForm="ngForm" class="p-fluid">
+      <div class="p-field">
+        <label class="p-mb-3"
+          ><strong class="text-danger">*</strong>Place of Work</label
+        >
+        <div class="p-formgrid p-grid">
+          <div class="p-field-radiobutton p-col-4">
+            <p-radioButton
+              id="hoRB"
+              name="unit"
+              [required]="true"
+              value="HO"
+              [(ngModel)]="radio_value"
+              (onClick)="openDropDown($event)"
+            ></p-radioButton>
+            <label for="hoRB">HO</label>
+          </div>
+          <div class="p-field-radiobutton p-col-4">
+            <p-radioButton
+              id="regionRB"
+              name="unit"
+              [required]="true"
+              value="Region"
+              [(ngModel)]="radio_value"
+              (onClick)="openDropDown($event)"
+            ></p-radioButton>
+            <label for="regionRB">Region</label>
+          </div>
+          <div class="p-field-radiobutton p-col-4">
+            <p-radioButton
+              id="branchRB"
+              name="unit"
+              value="Branch"
+              [required]="true"
+              [(ngModel)]="radio_value"
+              (onClick)="openDropDown($event)"
+            ></p-radioButton>
+            <label for="branchRB">Branch</label>
+          </div>
+          <div class="p-field-radiobutton p-col-4">
+            <p-radioButton
+              id="ALLRB"
+              name="unit"
+              [required]="true"
+              value="ALL"
+              [(ngModel)]="radio_value"
+              (onClick)="openDropDown($event)"
+            ></p-radioButton>
+            <label for="ALLRB">ALL</label>
+          </div>
+        </div>
+      </div>
+      <div
+        class="p-field p-col"
+        *ngIf="radio_value.includes('Region') || radio_value.includes('ALL')"
+      >
+        <label for="region"><strong class="text-danger">*</strong>Region</label>
+        <p-dropdown
+          [options]="regionFilter"
+          optionLabel="name"
+          name="region"
+          inputId="region"
+          #regions="ngModel"
+          [class.is-invalid]="regions.invalid && regions.touched"
+          [(ngModel)]="selectedUser.region"
+          (onClick)="filterBranches(selectedUser)"
+          [spellcheck]="true"
+          placeholder="Select Region"
+          [filter]="true"
+          filterValue="name"
+          filterPlaceholder="Filter by name"
+          [virtualScroll]="true"
+          [virtualScrollItemSize]="20"
+          [lazy]="true"
+          [showClear]="true"
+          [required]="true"
+          (onLazyLoad)="onDropdownLoad($event, 'Region')"
+          [virtualScrollOptions]="{
+            showLoader: true,
+            loading: loading_dropdown,
+            delay: 30
+          }"
+        >
+          <ng-template pTemplate="loader" let-options="options">
+            <div class="flex align-items-center py-2 px-3" style="height: 38px">
+              <p-skeleton
+                [width]="options.even ? '60%' : '50%'"
+                height="1rem"
+              ></p-skeleton>
+            </div>
+          </ng-template>
+        </p-dropdown>
+        <small
+          class="text-danger"
+          [class.d-none]="regions.valid || regions.untouched"
+          >Region is required<br
+        /></small>
+      </div>
+      <div
+        class="p-field p-col"
+        *ngIf="radio_value.includes('Branch') || radio_value.includes('ALL')"
+      >
+        <label for="branch"><strong class="text-danger">*</strong>Branch</label>
+        <p-dropdown
+          [options]="branches"
+          optionLabel="name"
+          inputId="branch"
+          name="branch"
+          #branch="ngModel"
+          [class.is-invalid]="branch.invalid && branch.touched"
+          [(ngModel)]="selectedUser.branch"
+          placeholder="Select Branch"
+          [filter]="true"
+          [virtualScroll]="true"
+          [virtualScrollItemSize]="38"
+          [showClear]="true"
+          [lazy]="true"
+          [required]="true"
+          (onLazyLoad)="onDropdownLoad($event, 'Branch')"
+          [virtualScrollOptions]="{
+            showLoader: true,
+            loading: loading_dropdown,
+            delay: 250
+          }"
+        >
+          <ng-template pTemplate="loader" let-options="options">
+            <div class="flex align-items-center py-2 px-3" style="height: 38px">
+              <p-skeleton
+                [width]="options.even ? '60%' : '50%'"
+                height="1rem"
+              ></p-skeleton>
+            </div>
+          </ng-template>
+        </p-dropdown>
+        <small
+          class="text-danger"
+          [class.d-none]="branch.valid || branch.untouched"
+          >Branch is required<br
+        /></small>
+      </div>
+  
+      <div
+        class="p-field p-col"
+        *ngIf="radio_value.includes('HO') || radio_value.includes('ALL')"
+      >
+        <label for="ho"><strong class="text-danger">*</strong>Unit</label>
+        <p-dropdown
+          [options]="hoWorkPlaces"
+          optionLabel="name"
+          inputId="ho"
+          name="ho"
+          #ho="ngModel"
+          [class.is-invalid]="ho.invalid && ho.touched"
+          [(ngModel)]="selectedUser.branch"
+          placeholder="Select Head Office"
+          [filter]="true"
+          [virtualScroll]="true"
+          [virtualScrollItemSize]="38"
+          [lazy]="true"
+          [showClear]="true"
+          [required]="true"
+          (onLazyLoad)="onDropdownLoad($event, 'HO')"
+          [virtualScrollOptions]="{
+            showLoader: true,
+            loading: loading_dropdown,
+            delay: 250
+          }"
+        >
+          <ng-template pTemplate="loader" let-options="options">
+            <div class="flex align-items-center py-2 px-3" style="height: 38px">
+              <p-skeleton
+                [width]="options.even ? '60%' : '50%'"
+                height="1rem"
+              ></p-skeleton>
+            </div>
+          </ng-template>
+        </p-dropdown>
+        <small class="text-danger" [class.d-none]="ho.valid || ho.untouched"
+          >HO is required<br
+        /></small>
+      </div>
+      <div class="p-formgrid p-grid mt-6">
+        <div class="p-field p-col-3">
+          <button
+            *ngIf="!unitLoading"
+            pButton
+            pRipple
+            label="Save"
+            [disabled]="unitForm.form.invalid"
+            icon="pi pi-check"
+            class="p-button-raised p-button-rounded"
+            (click)="transferBranch()"
+          ></button>
+          <button
+            *ngIf="unitLoading"
+            type="button"
+            disabled
+            class="btn btn-primary"
+          >
+            Loading...
+  
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
+          </button>
+        </div>
+        <div class="p-field p-col-3">
+          <button
+            class="col-md-5"
+            pButton
+            pRipple
+            type="reset"
+            label="Reset"
+            icon="pi pi-times"
+            class="p-button-raised p-button-danger p-button-rounded"
+          ></button>
+        </div>
+      </div>
+    </form>
+  </p-dialog>
+  

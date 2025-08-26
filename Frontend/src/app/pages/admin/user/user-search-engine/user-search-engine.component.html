@@ -1,0 +1,183 @@
+<form ngNativeValidate #SearchEngineForm="ngForm" class="flex flex-col gap-8">
+    <div class="flex flex-row flex-wrap gap-6">
+        <div class="flex flex-col gap-2 flex-1 min-w-[200px]">
+            <label for="first_name">First Name</label>
+            <input type="text" #first_name="ngModel" [class.is-invalid]="first_name.invalid && first_name.touched" pInputText id="first_name" [(ngModel)]="user.first_name" name="first_name" />
+        </div>
+        <div class="flex flex-col gap-2 flex-1 min-w-[200px]">
+            <label for="middle_name">Middle Name</label>
+            <input type="text" #middle_name="ngModel" [class.is-invalid]="middle_name.invalid && middle_name.touched" pInputText id="middle_name" [(ngModel)]="user.middle_name" name="middle_name" />
+        </div>
+        <div class="flex flex-col gap-2 flex-1 min-w-[200px]">
+            <label for="last_name">Last Name</label>
+            <input type="text" #last_name="ngModel" [class.is-invalid]="last_name.invalid && last_name.touched" pInputText id="last_name" [(ngModel)]="user.last_name" name="last_name" />
+        </div>
+    </div>
+
+    <div class="flex flex-row flex-wrap gap-6">
+        <div class="flex flex-col gap-2 flex-1 min-w-[200px]">
+            <label class="p-mb-3">Gender</label>
+            <p-radioButton id="male" name="gender" value="Male" #gender="ngModel" [class.is-invalid]="gender.invalid && gender.touched" [(ngModel)]="user.gender"></p-radioButton>
+            <label for="male">Male</label>
+        </div>
+
+        <div class="flex flex-col gap-2 flex-1 min-w-[200px]">
+            <p-radioButton id="female" name="gender" value="Female" #gender="ngModel" [class.is-invalid]="gender.invalid && gender.touched" [(ngModel)]="user.gender"></p-radioButton>
+            <label for="female">Female</label>
+        </div>
+
+        <div class="flex flex-col gap-2 flex-1 min-w-[200px]">
+            <label for="phone_number">Phone Number</label>
+            <input type="tel" #phone_number="ngModel" [class.is-invalid]="phone_number.invalid && phone_number.touched" pInputText id="phone_number" [(ngModel)]="user.phone_number" name="phone_number" />
+        </div>
+    </div>
+
+    <div class="flex flex-row flex-wrap gap-6">
+        <div class="flex flex-col gap-2 flex-1 min-w-[200px]">
+            <label for="employee_id">Awash Bank ID</label>
+            <input type="text" #employee_id="ngModel" [class.is-invalid]="employee_id.invalid && employee_id.touched" pInputText id="employee_id" [(ngModel)]="user.employee_id" name="employee_id" />
+        </div>
+
+        <div class="flex flex-col gap-2 flex-1 min-w-[200px]">
+            <label for="email">Outlook Address</label>
+            <input type="text" #email="ngModel" [class.is-invalid]="email.invalid && email.touched" pInputText id="email" [(ngModel)]="user.email" name="email" />
+        </div>
+    </div>
+
+    <div class="flex flex-row flex-wrap gap-6">
+        <div class="flex flex-col gap-2 flex-1 min-w-[200px]">
+            <label for="jobPosition">Job Title</label>
+            <p-dropdown
+                [options]="job_positions"
+                optionLabel="title"
+                inputId="jobPosition"
+                name="jobPosition"
+                #job_position="ngModel"
+                [class.is-invalid]="job_position.invalid && job_position.touched"
+                [(ngModel)]="user.jobPosition"
+                placeholder="Select Job Title"
+                [filter]="true"
+                [virtualScroll]="true"
+                [virtualScrollItemSize]="38"
+                [lazy]="true"
+                [showClear]="true"
+                (onLazyLoad)="onDropdownLoad($event, 'Job')"
+                [virtualScrollOptions]="{
+                    showLoader: true,
+                    loading: loading_dropdown,
+                    delay: 250
+                }"
+            >
+                <ng-template pTemplate="loader" let-options="options">
+                    <div class="flex align-items-center py-2 px-3" style="height: 38px">
+                        <p-skeleton [width]="options.even ? '60%' : '50%'" height="1rem"></p-skeleton>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+
+        <div class="flex flex-col gap-2 flex-1 min-w-[200px]">
+            <label for="region">Region</label>
+            <p-dropdown
+                [options]="allRegions"
+                optionLabel="name"
+                name="region"
+                inputId="region"
+                #regions="ngModel"
+                [class.is-invalid]="regions.invalid && regions.touched"
+                (onChange)="onSelectRegion($event.value)"
+                [(ngModel)]="user.region"
+                [spellcheck]="true"
+                placeholder="Select Region"
+                [filter]="true"
+                [showClear]="true"
+                filterValue="name"
+                filterPlaceholder="Filter by name"
+                [virtualScroll]="true"
+                [virtualScrollItemSize]="20"
+                [lazy]="true"
+                (onLazyLoad)="onDropdownLoad($event, 'Region')"
+                [virtualScrollOptions]="{
+                    showLoader: true,
+                    loading: loading_dropdown,
+                    delay: 100
+                }"
+            >
+                <ng-template pTemplate="loader" let-options="options">
+                    <div class="flex align-items-center py-2 px-3" style="height: 38px">
+                        <p-skeleton [width]="options.even ? '60%' : '50%'" height="1rem"></p-skeleton>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+
+        <div class="flex flex-col gap-2 flex-1 min-w-[200px]">
+            <label for="branch">Branch</label>
+            <p-dropdown
+                [options]="filteredBranches"
+                optionLabel="name"
+                inputId="branch"
+                name="branch"
+                [showClear]="true"
+                #branch="ngModel"
+                [class.is-invalid]="branch.invalid && branch.touched"
+                [(ngModel)]="user.branch"
+                placeholder="Select Branch"
+                [filter]="true"
+                [virtualScroll]="true"
+                [virtualScrollItemSize]="38"
+                [lazy]="true"
+                (onLazyLoad)="onDropdownLoad($event, 'Branch')"
+                [virtualScrollOptions]="{
+                    showLoader: true,
+                    loading: loading_dropdown,
+                    delay: 250
+                }"
+            >
+                <ng-template pTemplate="loader" let-options="options">
+                    <div class="flex align-items-center py-2 px-3" style="height: 38px">
+                        <p-skeleton [width]="options.even ? '60%' : '50%'" height="1rem"></p-skeleton>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+    </div>
+
+    <div class="flex flex-row flex-wrap gap-6">
+        <div class="flex flex-col gap-2 flex-1 min-w-[200px]">
+            <label class="p-mb-3">User Category</label>
+            <p-radioButton id="is" name="category" value="IS" #category="ngModel" [class.is-invalid]="category.invalid && category.touched" [(ngModel)]="user.category"></p-radioButton>
+            <label for="is">IS</label>
+        </div>
+        <div class="flex flex-col gap-2 flex-1 min-w-[200px]">
+            <p-radioButton id="mgt" name="category" value="MGT" #category="ngModel" [class.is-invalid]="category.invalid && category.touched" [(ngModel)]="user.category"></p-radioButton>
+            <label for="mgt">MGT</label>
+        </div>
+        <div class="flex flex-col gap-2 flex-1 min-w-[200px]">
+            <p-radioButton id="branch_financial" name="category" value="BFA" [(ngModel)]="user.category" #category="ngModel" [class.is-invalid]="category.invalid && category.touched"></p-radioButton>
+            <label for="branch_financial">Financial</label>
+        </div>
+        <div class="flex flex-col gap-2 flex-1 min-w-[200px]">
+            <p-radioButton id="inspection" name="category" value="INS" [(ngModel)]="user.category" #category="ngModel" [class.is-invalid]="category.invalid && category.touched"></p-radioButton>
+            <label for="inspection">Inspection</label>
+        </div>
+        <div class="flex flex-col gap-2 flex-1 min-w-[200px]">
+            <p-radioButton id="general" name="category" value="GENERAL" [(ngModel)]="user.category" #category="ngModel" [class.is-invalid]="category.invalid && category.touched"></p-radioButton>
+            <label for="general">General</label>
+        </div>
+
+        <div class="flex flex-col gap-2 flex-1 min-w-[200px]">
+            <p-radioButton id="admin" name="admin" value="ADMIN" [(ngModel)]="user.category" #category="ngModel" required="true" [class.is-invalid]="category.invalid && category.touched"></p-radioButton>
+            <label for="admin">Admin</label>
+        </div>
+    </div>
+   
+      <div class="flex flex-row flex-wrap gap-6">
+        <div class="flex-col gap-2 w-1/6 min-w-[150px]">
+            <button pButton pRipple [loading]="loading" label="Generate" icon="pi pi-check-circle" class="p-button-raised p-button-outlined p-button-rounded" (click)="generateUsers()"></button>
+        </div>
+        <div class="flex flex-col gap-2 w-1/6 min-w-[150px]">
+            <button class="col-md-3" pButton pRipple type="reset" label="Reset" icon="pi pi-times" (click)="filteredBranches = allBranches" class="p-button-raised p-button-danger p-button-outlined p-button-rounded"></button>
+        </div>
+    </div>
+</form>

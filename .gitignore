@@ -1,1 +1,5 @@
+Frontend/node_modules
+Backend/AuditFindingReportingandFollowupManagementSystem/logs/
+Backend/AuditFindingReportingandFollowupManagementSystem/uploads/
+Frontend/package.json
 logs/*.log

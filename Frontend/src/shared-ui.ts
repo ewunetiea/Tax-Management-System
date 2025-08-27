@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 // PrimeNG UI modules
 import { TextareaModule } from 'primeng/textarea';
-import { DialogModule} from 'primeng/dialog';
+import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { CardModule } from 'primeng/card';
 import { TooltipModule } from 'primeng/tooltip';
@@ -24,12 +24,16 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { StyleClassModule } from 'primeng/styleclass';
-import { Menubar } from 'primeng/menubar';
+import { MenubarModule } from 'primeng/menubar';
 import { BadgeModule } from 'primeng/badge';
 import { AvatarModule } from 'primeng/avatar';
 import { StepperModule } from 'primeng/stepper';
-import { ConfirmDialog } from 'primeng/confirmdialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ListboxModule } from 'primeng/listbox';
+import { AccordionModule } from 'primeng/accordion';
+import { PasswordModule } from 'primeng/password';
+import { KnobModule } from 'primeng/knob';
+import { DividerModule } from 'primeng/divider';
 
 @NgModule({
   imports: [
@@ -39,7 +43,7 @@ import { ListboxModule } from 'primeng/listbox';
     // PrimeNG
     TextareaModule,
     DialogModule,
-    ConfirmDialog,
+    ConfirmDialogModule,
     ToastModule,
     ListboxModule,
     CardModule,
@@ -52,6 +56,7 @@ import { ListboxModule } from 'primeng/listbox';
     DropdownModule,
     PaginatorModule,
     ToolbarModule,
+    AccordionModule,
     BreadcrumbModule,
     TabsModule,
     TabViewModule,
@@ -60,10 +65,13 @@ import { ListboxModule } from 'primeng/listbox';
     InputIconModule,
     SelectButtonModule,
     StyleClassModule,
-    Menubar,
+    MenubarModule,
     BadgeModule,
     AvatarModule,
-    StepperModule
+    StepperModule,
+    PasswordModule,
+    KnobModule,
+    DividerModule
   ],
   exports: [
     CommonModule,
@@ -72,7 +80,7 @@ import { ListboxModule } from 'primeng/listbox';
     // PrimeNG
     TextareaModule,
     DialogModule,
-    ConfirmDialog,
+    ConfirmDialogModule,
     ToastModule,
     CardModule,
     TooltipModule,
@@ -86,6 +94,7 @@ import { ListboxModule } from 'primeng/listbox';
     ToolbarModule,
     ListboxModule,
     BreadcrumbModule,
+    AccordionModule,
     TabsModule,
     TabViewModule,
     InputTextModule,
@@ -93,10 +102,13 @@ import { ListboxModule } from 'primeng/listbox';
     InputIconModule,
     SelectButtonModule,
     StyleClassModule,
-    Menubar,
+    MenubarModule,
     BadgeModule,
     AvatarModule,
-    StepperModule
+    StepperModule,
+    PasswordModule,
+    KnobModule,
+    DividerModule
   ]
 })
 export class SharedUiModule {}

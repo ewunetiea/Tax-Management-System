@@ -61,10 +61,9 @@ import { WebSocketService } from '../service/WebSocketService/WebSocketService';
 
                                 <div class="flex items-center justify-between mt-2 mb-8 gap-8">
                                     <div class="flex items-center">
-                                        <p-checkbox [(ngModel)]="checked" id="rememberme1" name="rememberme" binary class="mr-2"></p-checkbox>
-                                        <label for="rememberme1">Remember me</label>
+                                    <span class="font-medium no-underline mr-2 text-right cursor-pointer text-secondary" routerLink="/forget-password">Forgot password?</span>
                                     </div>
-                                    <span class="font-medium no-underline ml-2 text-right cursor-pointer text-secondary">Forgot password?</span>
+                                    <span class="font-medium no-underline ml-2 text-right cursor-pointer text-secondary" routerLink="/signup">Signup</span>
                                 </div>
                                 <p-button label="Sign In" styleClass="w-full" type="submit" [disabled]="f.invalid"></p-button>
                             </div>

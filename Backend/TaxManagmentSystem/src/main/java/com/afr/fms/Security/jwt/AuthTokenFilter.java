@@ -1,6 +1,7 @@
 package com.afr.fms.Security.jwt;
 
 import java.io.IOException;
+import java.util.Set;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -66,14 +68,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     }
 
     // ✅ Permission + JWT check
-    // if (functionalitiesService.verifyPermission(request, request.getRequestURI(),
-    //     request.getMethod())) {
-
+    if (functionalitiesService.verifyPermission(request, request.getRequestURI(),  request.getMethod())) {
       try {
         String jwt = parseJwt(request);
 
         if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
           String username = jwtUtils.getUserNameFromJwtToken(jwt);
+
           User user = userMapper.findByEmail(username);
           if (user == null) {
             throw new UnsupportedJwtException("User not found");
@@ -83,6 +84,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
           UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
               null, userDetails.getAuthorities());
           authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
           SecurityContextHolder.getContext().setAuthentication(authentication);
         }
       } catch (Exception e) {
@@ -91,9 +93,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         return;
       }
       filterChain.doFilter(request, response);
-    // } else {
-    //   throw new AccessDeniedException("Permission denied for this resource.");
-    // }
+    } else {
+      throw new AccessDeniedException("Permission denied for this resource.");
+    }
   }
 
   private String parseJwt(HttpServletRequest request) {

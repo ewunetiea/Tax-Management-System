@@ -6,7 +6,7 @@ import { ConfirmationService, MessageService, MenuItem } from 'primeng/api';
 import { RegionService } from '../../../../service/admin/regionService';
 import { ExportExcelService } from '../../../../service/admin/export-excel.service';
 import { AddRegionComponent } from '../../addRegion/add-region/add-region.component';
-import { Table} from 'primeng/table';
+import { Table } from 'primeng/table';
 import { PaginatorPayLoad } from '../../../../../models/admin/paginator-payload';
 import { SharedUiModule } from '../../../../../../shared-ui';
 
@@ -74,29 +74,42 @@ export class ManageRegionComponent {
         // this.getRegion(this.paginatorPayload);
     }
 
-    getRegion() {
-        this.regionService.getRegions().subscribe(
-            (response) => {
+    getRegion(): void {
+        this.regionService.getRegions().subscribe({
+            next: (response) => {
                 this.loading = false;
                 if (response.length > 0) {
                     this.regions = response;
+
+                    // Generate a formatted date for the export filename
                     const now = new Date();
                     const date = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+
+                    // Export settings for table download
                     this.exportSettings = {
                         columnsHeader: true,
                         fileName: `Awash Bank - Regions ${date}`,
                         hiddenColumns: false
                     };
-                    this.paginatorPayload.totalRecords = response[0].total_records_paginator ?? 0;
+
+                    // Update paginator total records
+                    this.paginatorPayload.totalRecords = response[0]?.total_records_paginator ?? 0;
                 } else {
+                    // No regions found
                     this.regions = [];
                     this.paginatorPayload.totalRecords = 0;
                 }
             },
-            (error: HttpErrorResponse) => {
+            error: (err) => {
                 this.loading = false;
+
+                this.messageService.add({
+                    severity: 'error',
+                    summary: err.status === 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching regions!',
+                    detail: ''
+                });
             }
-        );
+        });
     }
 
     onPage(event: any) {

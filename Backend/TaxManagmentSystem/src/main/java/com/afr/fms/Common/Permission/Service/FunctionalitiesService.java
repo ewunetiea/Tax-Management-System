@@ -56,6 +56,7 @@ public class FunctionalitiesService {
 		}
 
 		String jwt = jwtUtils.getJwtFromCookies(request);
+		System.out.println("Ffffffffffffffffffffffffffffffffffffffffffffffff Jwt: " + jwt);
 		if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
 			String username = jwtUtils.getUserNameFromJwtToken(jwt);
 			String normalizedPath = ApiPathNormalizer.normalizeSpringBootPath(request);

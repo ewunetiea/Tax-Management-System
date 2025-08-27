@@ -27,11 +27,15 @@ import { Menubar } from 'primeng/menubar';
 import { BadgeModule } from 'primeng/badge';
 import { AvatarModule } from 'primeng/avatar';
 import { StepperModule } from 'primeng/stepper';
+import { ChartModule } from 'primeng/chart';
+import { ToastModule } from 'primeng/toast';
+import { TimeagoModule } from 'ngx-timeago';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    ToastModule,
 
     // PrimeNG
     TextareaModule,
@@ -57,12 +61,14 @@ import { StepperModule } from 'primeng/stepper';
     Menubar,
     BadgeModule,
     AvatarModule,
-    StepperModule
+    StepperModule,
+    TimeagoModule,
+    ChartModule
   ],
   exports: [
     CommonModule,
     FormsModule,
-
+ToastModule,
     // PrimeNG
     TextareaModule,
     DialogModule,
@@ -87,7 +93,9 @@ import { StepperModule } from 'primeng/stepper';
     Menubar,
     BadgeModule,
     AvatarModule,
-    StepperModule
+    StepperModule,
+    ChartModule,
+    TimeagoModule
   ]
 })
 export class SharedUiModule {}

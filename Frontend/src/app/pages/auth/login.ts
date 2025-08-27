@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
 import { AppFloatingConfigurator } from '../../layout/component/app.floatingconfigurator';
-import { AuthService } from '../service/admin/auth.service';
 import { StorageService } from '../service/admin/storage.service';
 import { Platform } from '@angular/cdk/platform';
 import { Password } from '../../models/admin/password';
 import { NgIf } from '@angular/common';
 import { PasswordService } from '../service/admin/password.service';
 import { User } from '../../models/admin/user';
+import { AuthService } from '../service/admin/auth.service';
 
 @Component({
     selector: 'app-login',
@@ -27,7 +27,7 @@ import { User } from '../../models/admin/user';
                     <div class="w-full bg-surface-0 dark:bg-surface-900 py-20 px-8 sm:px-20" style="border-radius: 53px">
                         <div class="text-center mb-8">
                             <img src="assets/img/awashbank.png" alt="Awash Bank Logo" class="mb-8 w-16 mx-auto" />
-                            <div class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-4">Welcome to tms!</div>
+                            <div class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-4">Welcome to cms!</div>
                             <span class="text-muted-color font-medium">Sign in to continue</span>
                         </div>
 
@@ -96,7 +96,8 @@ export class Login {
         private authService: AuthService,
         private storageService: StorageService,
         private passwordService: PasswordService,
-        private platform: Platform
+        private platform: Platform,
+        private router: Router
     ) {}
     ngOnInit(): void {}
 
@@ -146,13 +147,17 @@ export class Login {
         this.loading = true;
         const { username, password } = this.form;
 
-        this.authService.login(username, password, this.userAgent).subscribe({
+        this.authService.login(username, password, this.userAgent ,).subscribe({
             next: (data) => {
                 this.loading = false;
                 this.isLoginFailed = false;
                 this.storageService.saveUser(data);
                 const user = this.storageService.getUser();
-                window.location.href = '/applayout/';
+                // window.location.href = '/applayout/';
+
+                  this.router.navigate(['/applayout/']); // redirect after success
+
+
                 // if (user.roles.includes('ROLE_BRANCHM_BFA') || user.roles.includes('ROLE_AUDITEE_INS')) {
                 //     const loginUrl = '/afrfms/afrfms-gateway';
                 //     window.location.href = loginUrl;

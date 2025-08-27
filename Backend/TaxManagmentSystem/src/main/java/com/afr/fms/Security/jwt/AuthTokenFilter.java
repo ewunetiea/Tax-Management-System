@@ -72,9 +72,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     }
 
     // ✅ Permission + JWT check
-    // if (functionalitiesService.verifyPermission(request, request.getRequestURI(),
-    //     request.getMethod())) {
-
+    if (functionalitiesService.verifyPermission(request, request.getRequestURI(),
+        request.getMethod())) {
       try {
         String jwt = parseJwt(request);
 
@@ -99,9 +98,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         return;
       }
       filterChain.doFilter(request, response);
-    // } else {
-    //   throw new AccessDeniedException("Permission denied for this resource.");
-    // }
+    } else {
+      throw new AccessDeniedException("Permission denied for this resource.");
+    }
   }
 
   private String parseJwt(HttpServletRequest request) {

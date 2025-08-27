@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import com.afr.fms.AD.Service.ADService;
 import com.afr.fms.Admin.Entity.Role;
 import com.afr.fms.Admin.Entity.User;
-import com.afr.fms.Admin.Entity.UserSession;
 import com.afr.fms.Admin.Mapper.JobPositionMapper;
 import com.afr.fms.Admin.Mapper.RoleMapper;
 import com.afr.fms.Admin.Mapper.UserMapper;
@@ -104,6 +103,9 @@ public class AuthController {
 
                 String username = loginRequest.getUsername();
 
+
+                System.out.println("___________________________________________________________________________");
+
                 // Step 1: AD authentication
                 // try {
                 //         Object userDetail = adService.getADUserDetails(loginRequest.getUsername(),
@@ -126,35 +128,37 @@ public class AuthController {
                 // }
 
                 // Step 2: Check if user already has an active session
-                List<UserSession> sessions = userSessionRepository.findByUserName(username);
-                if (sessions != null && sessions.size() > 0) {
-                        throw MultipleSessionsException.forUser(username, sessions.size());
-                }
+                // List<UserSession> sessions = userSessionRepository.findByUserName(username);
+                // if (sessions != null && sessions.size() > 0) {
+                //         throw MultipleSessionsException.forUser(username, sessions.size());
+                // }
 
                 // Step 3: Proceed with normal login
                 return doLogin(loginRequest, request);
         }
 
         private ResponseEntity<?> doLogin(LoginRequest loginRequest, HttpServletRequest request) {
-                try {
-                        User user = userService.findByFusionUsername(loginRequest.getUsername());
-                        if (user != null) {
-                                ChangeMyPasswordDto passDto = new ChangeMyPasswordDto();
-                                passDto.setId(user.getId());
-                                passDto.setPassword(loginRequest.getPassword());
-                                passDto.setOldPassword(user.getPassword());
+                // try {
+                //         User user = userService.findByFusionUsername(loginRequest.getUsername());
+                //         if (user != null) {
+                //                 ChangeMyPasswordDto passDto = new ChangeMyPasswordDto();
+                //                 passDto.setId(user.getId());
+                //                 passDto.setPassword(loginRequest.getPassword());
+                //                 passDto.setOldPassword(user.getPassword());
 
-                                if (passwordService.passwordDoesnotMatchWithNewPasswordAD(passDto)) {
-                                        passwordService.changeMyPassword(passDto);
-                                }
+                //                 if (passwordService.passwordDoesnotMatchWithNewPasswordAD(passDto)) {
+                //                         passwordService.changeMyPassword(passDto);
+                //                 }
 
-                                UserSecurity us = user.getUser_security();
-                                userSecurityService.checkCredentialTimeExpired(us);
-                        }
-                } catch (Exception e) {
-                        logger.error("Error checking user credential expiration for username: {}",
-                                        loginRequest.getUsername(), e);
-                }
+                //                 UserSecurity us = user.getUser_security();
+                //                 userSecurityService.checkCredentialTimeExpired(us);
+                //         }
+                // } catch (Exception e) {
+                //         logger.error("Error checking user credential expiration for username: {}",
+                //                         loginRequest.getUsername(), e);
+                // }
+
+
 
                 Authentication authentication = authenticationManager
                                 .authenticate(new UsernamePasswordAuthenticationToken(
@@ -165,6 +169,9 @@ public class AuthController {
 
                 // Generate tokens
                 ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails, request);
+
+             System.out.println("Generated Cookies");
+                System.out.println(jwtCookie);
 
                 String ipAddress = HttpUtils.clientIp(request);
 
@@ -190,7 +197,8 @@ public class AuthController {
                                 id_login_tracker);
 
                 ResponseCookie jwtRefreshCookie = jwtUtils.generateRefreshJwtCookie(refreshToken.getToken(), request);
-
+System.out.println("Setting cookies: " + jwtCookie.toString());
+System.out.println("Setting refresh token cookie: " + jwtRefreshCookie.toString());
                 return ResponseEntity.ok()
                                 .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                                 .header(HttpHeaders.SET_COOKIE, jwtRefreshCookie.toString())

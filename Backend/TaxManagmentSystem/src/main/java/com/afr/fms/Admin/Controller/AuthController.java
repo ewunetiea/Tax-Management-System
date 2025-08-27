@@ -16,9 +16,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
 import com.afr.fms.AD.Service.ADService;
 import com.afr.fms.Admin.Entity.Role;
 import com.afr.fms.Admin.Entity.User;
+import com.afr.fms.Admin.Entity.UserSession;
 import com.afr.fms.Admin.Mapper.JobPositionMapper;
 import com.afr.fms.Admin.Mapper.RoleMapper;
 import com.afr.fms.Admin.Mapper.UserMapper;
@@ -40,6 +42,7 @@ import com.afr.fms.Security.UserSecurity.service.UserSecurityService;
 import com.afr.fms.Security.WebSocket.SessionManager;
 import com.afr.fms.Security.WebSocket.UserSessionRepository;
 import com.afr.fms.Security.exception.MultipleSessionsException;
+import com.afr.fms.Security.exception.UserNotFoundException;
 import com.afr.fms.Security.jwt.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -123,12 +126,10 @@ public class AuthController {
                 // }
 
                 // Step 2: Check if user already has an active session
-              
-              
-                // List<UserSession> sessions = userSessionRepository.findByUserName(username);
-                // if (sessions != null && sessions.size() > 0) {
-                //         throw MultipleSessionsException.forUser(username, sessions.size());
-                // }
+                List<UserSession> sessions = userSessionRepository.findByUserName(username);
+                if (sessions != null && sessions.size() > 0) {
+                        throw MultipleSessionsException.forUser(username, sessions.size());
+                }
 
                 // Step 3: Proceed with normal login
                 return doLogin(loginRequest, request);

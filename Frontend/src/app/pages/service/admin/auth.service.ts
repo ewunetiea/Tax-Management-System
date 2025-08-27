@@ -8,8 +8,10 @@ import { User } from '../../../models/admin/user';
 const AUTH_API = environment.backendUrl + '/auth';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  withCredentials: true
 };
+
 
 @Injectable({
   providedIn: 'root'
@@ -20,13 +22,25 @@ export class AuthService {
     private webSocketService: WebSocketService
   ) { }
 
-  login(username: string, password: string, userAgent: any): Observable<any> {
+//   login(username: string, password: string, userAgent: any): Observable<any> {
+//   return this.http.post(
+//     `${AUTH_API}/signin`,
+//     { username, password, userAgent },
+//     { withCredentials: true, headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
+//   );
+// }
+
+login(username: string, password: string, userAgent: any): Observable<any> {
     return this.http.post(AUTH_API + '/signin', {
       username,
       password,
       userAgent
     }, httpOptions);
   }
+
+refreshToken(): Observable<any> {
+  return this.http.post(`${AUTH_API}/refreshtoken`, {}, { withCredentials: true });
+}
 
   forceLogin(username: string, password: string, userAgent: any): Observable<any> {
     return this.http.post(AUTH_API + '/force-login', {
@@ -45,9 +59,9 @@ export class AuthService {
     return this.http.post(AUTH_API + '/changePassword', { password }, httpOptions);
   }
 
-  refreshToken(): Observable<any> {
-    return this.http.post(AUTH_API + '/refreshtoken', {}, httpOptions);
-  }
+  // refreshToken(): Observable<any> {
+  //   return this.http.post(AUTH_API + '/refreshtoken', {}, httpOptions);
+  // }
 
   signup(user: User): Observable<any> {
     return this.http.post(AUTH_API + '/signup', user, httpOptions);

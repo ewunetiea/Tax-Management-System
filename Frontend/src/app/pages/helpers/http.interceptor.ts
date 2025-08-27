@@ -6,151 +6,154 @@ import {
   HttpRequest,
   HTTP_INTERCEPTORS,
   HttpErrorResponse,
+  HttpHeaders,
 } from '@angular/common/http';
-import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { catchError, switchMap, filter, take } from 'rxjs/operators';
-import { AuthService } from '../service/admin/auth.service';
-import { StorageService } from '../service/admin/storage.service';
-import { EventBusService } from '../service/admin/event-bus.service';
+import { Observable, throwError } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 import { EventData } from '../../models/admin/event-data';
-import { MessageService } from 'primeng/api';
+import { AuthService } from '../service/admin/auth.service';
+import { EventBusService } from '../service/admin/event-bus.service';
+import { StorageService } from '../service/admin/storage.service';
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
   private isRefreshing = false;
-  private refreshTokenSubject = new BehaviorSubject<boolean>(false);
-  private shownErrors = new Set<string>();
 
   constructor(
     private storageService: StorageService,
     private authService: AuthService,
-    private eventBusService: EventBusService,
-    private messageService: MessageService
-  ) {}
+    private eventBusService: EventBusService
+  ) { }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    req = req.clone({ withCredentials: true });
+  intercept(
+    req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    req = req.clone({
+      withCredentials: true,
+      // headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    });
 
     return next.handle(req).pipe(
-      catchError((error: HttpErrorResponse) => {
-        // Backend offline or unreachable
-        if (error.status === 0) {
-          this.handleBackendOffline(error);
-          return throwError(() => error);
-        }
+      catchError((error) => {
 
-        // Expired token (401) — skip for login requests
-        if (!req.url.includes('auth/signin') && error.status === 401) {
+        if (
+          error instanceof HttpErrorResponse &&
+          !req.url.includes('auth/signin') &&
+          error.status === 401
+        ) {
           return this.handle401Error(req, next);
         }
+        if (
+          (error.status === 0 && error.error instanceof ErrorEvent) ||
+          error.error instanceof ProgressEvent
+        ) {
+          // Use this if backend is in remote
+          if (!window.navigator.onLine) {
+            return throwError(() => {
+              const error: HttpErrorResponse = new HttpErrorResponse({
+                error: new Error('Not internet connection'),
+                status: 0,
+              });
+              // const error: any = new Error(`Not connected to the internet`);
+              // error.error.message = "Not connected to the internet";
+              // error.timestamp = Date.now();
+              return error;
+              // throw new Error("Not connected to the internet");
+            });
+          }
+          return throwError(() => {
+            const error: HttpErrorResponse = new HttpErrorResponse({
+              error: new Error('Server not available'),
+              status: 0,
+            });
+            // error.error.message = "Connection Error!";
+            // error.timestamp = Date.now();
+            return error;
+            // throw new Error("Connection Error!");
+          });
+        } else if (error instanceof HttpErrorResponse && error.status === 400) {
+          return this.handle400Error(req, next);
+        } else if (error instanceof HttpErrorResponse && error.status === 404) {
+          return this.handle404Error(req, next);
+        } else if (error instanceof HttpErrorResponse && error.status === 500) {
+          return this.handle500Error(req, next);
+        }
 
-        // Handle other errors globally
-        this.handleHttpError(error);
         return throwError(() => error);
       })
     );
   }
 
-  private handle401Error(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
-      this.refreshTokenSubject.next(false);
-
       if (this.storageService.isLoggedIn()) {
         return this.authService.refreshToken().pipe(
           switchMap(() => {
             this.isRefreshing = false;
-            this.refreshTokenSubject.next(true);
             return next.handle(request);
           }),
-          catchError((error) => {
+          catchError((error: HttpErrorResponse) => {
             this.isRefreshing = false;
-            this.logoutUser();
-            this.showError('Session Expired', 'Please log in again.');
-            return throwError(() => error);
+            if (error.status == 403) {
+              this.eventBusService.emit(new EventData('logout', null));
+            }
+            return throwError(() => {
+              const error: HttpErrorResponse = new HttpErrorResponse({
+                error: new Error('You have no permission!'),
+                status: 401,
+              });
+              // const error: any = new Error(`Not connected to the internet`);
+              // error.error.message = "Not connected to the internet";
+              // error.timestamp = Date.now();
+              return error;
+              // throw new Error("Not connected to the internet");
+            });
           })
         );
-      } else {
-        this.logoutUser();
-        this.showError('Session Expired', 'Please log in again.');
-        return throwError(() => new HttpErrorResponse({ error: 'Session expired', status: 401 }));
       }
-    } else {
-      // Queue requests until refresh finishes
-      return this.refreshTokenSubject.pipe(
-        filter(refreshed => refreshed),
-        take(1),
-        switchMap(() => next.handle(request))
-      );
     }
+    return next.handle(request);
   }
-
-  private handleBackendOffline(error: HttpErrorResponse) {
-    if (!navigator.onLine) {
-      this.showError('No Internet Connection', 'Please check your network.');
-    } else if (error.error instanceof ProgressEvent) {
-      this.showError('Server Unreachable', 'Unable to connect to the server.');
-    } else {
-      this.showError('Backend Not Running', 'The backend server cannot be reached.');
-    }
+  private handle500Error(request: HttpRequest<any>, next: HttpHandler) {
+    return throwError(() => {
+      const error: HttpErrorResponse = new HttpErrorResponse({
+        error: new Error('Internal server error!'),
+        status: 500,
+      });
+      // const error: any = new Error(`Not connected to the internet`);
+      // error.error.message = "Not connected to the internet";
+      // error.timestamp = Date.now();
+      return error;
+      // throw new Error("Not connected to the internet");
+    });
   }
-
-  private handleHttpError(error: HttpErrorResponse) {
-    switch (error.status) {
-      case 400:
-        this.showError('Bad Request', 'The request was invalid.');
-        break;
-      case 403:
-        this.showError('Forbidden', 'You do not have permission to perform this action.');
-        break;
-      case 404:
-        this.showError('Not Found', 'The requested resource was not found.');
-        break;
-      case 408:
-        this.showError('Request Timeout', 'The request timed out.');
-        break;
-      case 409:
-        this.showError('Conflict', 'A conflict occurred.');
-        break;
-      case 429:
-        this.showError('Too Many Requests', 'You have sent too many requests.');
-        break;
-      case 502:
-        this.showError('Bad Gateway', 'Received an invalid response from the upstream server.');
-        break;
-      case 503:
-        this.showError('Service Unavailable', 'The server is currently unavailable.');
-        break;
-      case 504:
-        this.showError('Gateway Timeout', 'The server took too long to respond.');
-        break;
-      case 500:
-        this.showError('Internal Server Error', 'An unexpected error occurred.');
-        break;
-      default:
-        this.showError('Error', error.message || `Unexpected error occurred (Status: ${error.status})`);
-        break;
-    }
+  private handle404Error(request: HttpRequest<any>, next: HttpHandler) {
+    return throwError(() => {
+      const error: HttpErrorResponse = new HttpErrorResponse({
+        error: new Error('Not found!'),
+        status: 404,
+      });
+      // const error: any = new Error(`Not connected to the internet`);
+      // error.error.message = "Not connected to the internet";
+      // error.timestamp = Date.now();
+      return error;
+      // throw new Error("Not connected to the internet");
+    });
   }
-
-  private logoutUser() {
-    this.storageService.clean();
-    this.eventBusService.emit(new EventData('logout', null));
-  }
-
-  private showError(summary: string, detail: string) {
-    const key = `${summary}:${detail}`;
-    if (this.shownErrors.has(key)) return;
-
-    this.shownErrors.add(key);
-    this.messageService.add({ severity: 'error', summary, detail, life: 3000 });
-
-    setTimeout(() => {
-      this.shownErrors.delete(key);
-    }, 3000);
+  private handle400Error(request: HttpRequest<any>, next: HttpHandler) {
+    return throwError(() => {
+      const error: HttpErrorResponse = new HttpErrorResponse({
+        error: new Error('Error'),
+        status: 400,
+      });
+      // const error: any = new Error(`Not connected to the internet`);
+      // error.error.message = "Not connected to the internet";
+      // error.timestamp = Date.now();
+      return error;
+      // throw new Error("Not connected to the internet");
+    });
   }
 }
-
 export const httpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
 ];

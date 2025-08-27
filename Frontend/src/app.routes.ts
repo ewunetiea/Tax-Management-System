@@ -10,6 +10,8 @@ import { Login } from './app/pages/auth/login';
 import { UserProfileComponent } from './app/pages/admin/user/user-profile/user-profile.component';
 import { ManageContactComponent } from './app/pages/admin/user/manage-contact/manage-contact.component';
 import { AdminNotificationComponent } from './app/pages/admin/notification/admin-notification/admin-notification.component';
+import { ForgetPasswordComponent } from './app/pages/admin/forget-password/forget-password.component';
+import { SignupComponent } from './app/pages/admin/signup/signup.component';
 
 export const appRoutes: Routes = [
     // {   path: '',
@@ -28,6 +30,8 @@ export const appRoutes: Routes = [
 
     { path: '', component: Login },
     // { path: '', component: LoginComponent },
+    { path: 'forget-password', component: ForgetPasswordComponent } ,
+    { path: 'signup', component: SignupComponent },
     {   
         path: 'applayout', 
         component: AppLayout,

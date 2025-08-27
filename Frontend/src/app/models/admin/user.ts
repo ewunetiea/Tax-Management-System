@@ -32,4 +32,5 @@ export class User {
   page_number?: number; // for paginator purpose only, it will not be saved in db
   page_size?: number; // for paginator purpose only, it will not be saved in db
   functionalities?: Functionalities[] = []; // This will hold the functionalities assigned to the user
+  username?: string;
   }

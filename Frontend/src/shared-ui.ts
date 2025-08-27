@@ -34,11 +34,14 @@ import { AccordionModule } from 'primeng/accordion';
 import { PasswordModule } from 'primeng/password';
 import { KnobModule } from 'primeng/knob';
 import { DividerModule } from 'primeng/divider';
+import { ChartModule } from 'primeng/chart';
+import { TimeagoModule } from 'ngx-timeago';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    ToastModule,
 
     // PrimeNG
     TextareaModule,
@@ -71,12 +74,14 @@ import { DividerModule } from 'primeng/divider';
     StepperModule,
     PasswordModule,
     KnobModule,
-    DividerModule
+    DividerModule,
+    TimeagoModule,
+    ChartModule
   ],
   exports: [
     CommonModule,
     FormsModule,
-
+ToastModule,
     // PrimeNG
     TextareaModule,
     DialogModule,
@@ -108,7 +113,9 @@ import { DividerModule } from 'primeng/divider';
     StepperModule,
     PasswordModule,
     KnobModule,
-    DividerModule
+    DividerModule,
+    ChartModule,
+    TimeagoModule
   ]
 })
 export class SharedUiModule {}

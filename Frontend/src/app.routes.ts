@@ -32,13 +32,17 @@ export const appRoutes: Routes = [
     // { path: '', component: LoginComponent },
     { path: 'forget-password', component: ForgetPasswordComponent } ,
     { path: 'signup', component: SignupComponent },
-    {   
-        path: 'applayout', 
+    {
+        path: 'applayout',
         component: AppLayout,
         canActivate: [AuthGuard],
         children: [
-            { path: '', component: Dashboard },
-            { 
+            // { path: '', component: Dashboard },
+
+
+         { path: '', component: DashboardContainerComponent },
+
+            {
                 path: 'admin',
                 loadChildren: () => import('./app/pages/admin/admin.routes').then(m => m.default),
                 canActivate: [AuthGuard]
@@ -52,7 +56,6 @@ export const appRoutes: Routes = [
         ],
     },
     { path: 'pages-login', component: LoginComponent },
-    { path: 'Dashboard', component: DashboardContainerComponent },
     { path: 'notfound', component: Notfound },
     { path: '**', redirectTo: 'notfound' }
 ];

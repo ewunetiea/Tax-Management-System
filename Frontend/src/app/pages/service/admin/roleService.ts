@@ -36,7 +36,7 @@ export class RoleService {
   getRoles(): Observable<any> {
     return this.http.get<any>(`${rootURL}/role`);
   }
-  
+
   getCommonRoles(): Observable<any> {
     return this.http.get<any>(`${rootURL}/roles`);
   }

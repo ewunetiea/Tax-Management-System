@@ -1,4 +1,4 @@
-<!-- <main id="main" class="main">
+<main id="main" class="main">
     <p-toast></p-toast>
     <div class="pagetitle">
       <nav>
@@ -11,7 +11,7 @@
         </ol>
       </nav>
     </div>
-  
+
     <section class="section dashboard">
       <div class="row">
         <div class="col-lg-6">
@@ -19,7 +19,7 @@
             <div class="col-xxl-3 col-md-6">
               <div class="card info-card revenue-card">
                 <div *ngIf="!loading" class="mt-3">
-                  <app-maker-approver-one></app-maker-approver-one>
+                  <!-- <app-maker-approver-one></app-maker-approver-one> -->
                 </div>
                 <div *ngIf="loading">
                   <div class="card-body">
@@ -32,7 +32,7 @@
                       </div>
                       <div class="ps-3">
                         <h6>
-                          {{ adminDashboardData.card_data[0] }}
+                          {{ adminDashboardData!.card_data?.[0] }}
                           <span class="text-muted small pt-2 ps-1"></span>
                         </h6>
                       </div>
@@ -44,7 +44,7 @@
             <div class="col-xxl-3 col-md-6">
               <div class="card info-card revenue-card">
                 <div *ngIf="!loading" class="mt-3">
-                  <app-maker-approver-one></app-maker-approver-one>
+                  <!-- <app-maker-approver-one></app-maker-approver-one> -->
                 </div>
                 <div *ngIf="loading">
                   <div class="card-body">
@@ -60,7 +60,7 @@
                       </div>
                       <div class="ps-3">
                         <h6>
-                          {{ adminDashboardData.card_data[1] }}
+                          {{ adminDashboardData.card_data?.[1] }}
                           <span class="text-muted small pt-2 ps-1"></span>
                         </h6>
                       </div>
@@ -69,11 +69,11 @@
                 </div>
               </div>
             </div>
-  
+
             <div class="col-xxl-3 col-md-6">
               <div class="card info-card customers-card">
                 <div *ngIf="!loading" class="mt-3">
-                  <app-maker-approver-one></app-maker-approver-one>
+                  <!-- <app-maker-approver-one></app-maker-approver-one> -->
                 </div>
                 <div *ngIf="loading">
                   <div class="card-body">
@@ -88,7 +88,7 @@
                         ></i>
                       </div>
                       <div class="ps-3">
-                        {{ adminDashboardData.card_data[2] }}
+                        {{ adminDashboardData.card_data?.[2] }}
                       </div>
                     </div>
                   </div>
@@ -98,7 +98,7 @@
             <div class="col-xxl-3 col-md-6">
               <div class="card info-card customers-card">
                 <div *ngIf="!loading" class="mt-3">
-                  <app-maker-approver-one></app-maker-approver-one>
+                  <!-- <app-maker-approver-one></app-maker-approver-one> -->
                 </div>
                 <div *ngIf="loading">
                   <div class="card-body">
@@ -110,7 +110,7 @@
                         <i class="pi pi-verified" style="font-size: 1.5rem"></i>
                       </div>
                       <div class="ps-3">
-                        {{ adminDashboardData.card_data[3] }}
+                        {{ adminDashboardData.card_data?.[3] }}
                       </div>
                     </div>
                   </div>
@@ -123,7 +123,7 @@
           <div class="card">
             <div class="card-body">
               <div *ngIf="!loading" class="mt-3">
-                <app-maker-approver-skeleton></app-maker-approver-skeleton>
+                <!-- <app-maker-approver-skeleton></app-maker-approver-skeleton> -->
               </div>
               <div *ngIf="loading">
                 <h5 class="card-title">
@@ -156,12 +156,12 @@
             </div>
           </div>
         </div>
-  
+
         <div class="col-6">
           <div class="card">
             <div class="card-body">
               <div *ngIf="!loading" class="mt-3">
-                <app-loan-allowed-amount-skeleton></app-loan-allowed-amount-skeleton>
+                <!-- <app-loan-allowed-amount-skeleton></app-loan-allowed-amount-skeleton> -->
               </div>
               <div *ngIf="loading">
                 <h5 class="card-title">
@@ -182,7 +182,7 @@
           <div class="card">
             <div class="card-body">
               <div *ngIf="!loading" class="mt-3">
-                <app-loan-allowed-amount-skeleton></app-loan-allowed-amount-skeleton>
+                <!-- <app-loan-allowed-amount-skeleton></app-loan-allowed-amount-skeleton> -->
               </div>
               <div *ngIf="loading">
                 <h5 class="card-title">
@@ -198,12 +198,12 @@
             </div>
           </div>
         </div>
-  
+
         <div class="col-12">
           <div class="card">
             <div class="card-body">
               <div *ngIf="!loading" class="mt-3">
-                <app-rad-skeleton></app-rad-skeleton>
+                <!-- <app-rad-skeleton></app-rad-skeleton> -->
               </div>
               <div *ngIf="loading">
                 <h5 class="card-title">
@@ -218,12 +218,12 @@
             </div>
           </div>
         </div>
-  
+
         <div class="col-12">
           <div class="card">
             <div class="card-body">
               <div *ngIf="!loading" class="mt-3">
-                <app-maker-approver-three></app-maker-approver-three>
+                <!-- <app-maker-approver-three></app-maker-approver-three> -->
               </div>
               <div *ngIf="loading">
                 <h5 class="card-title">
@@ -238,12 +238,12 @@
             </div>
           </div>
         </div>
-  
+
         <div class="col-12">
           <div class="card">
             <div class="card-body">
               <div *ngIf="!loading" class="mt-3">
-                <app-maker-approver-two></app-maker-approver-two>
+                <!-- <app-maker-approver-two></app-maker-approver-two> -->
               </div>
               <div *ngIf="loading">
                 <h5 class="card-title"># of Users<span>| Roles, BFA</span></h5>
@@ -259,4 +259,3 @@
       </div>
     </section>
   </main>
-   -->

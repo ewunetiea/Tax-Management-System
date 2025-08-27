@@ -1,6 +1,7 @@
+
 export const environment = {
-  production: true,
-  auditorFileApi: 'http://localhost:844/api',//to hnadle auditor uploading files
+  production: false,
+  auditorFileApi: 'http://localhost:8441/api',//to hnadle auditor uploading files
   auditeeFileApi: 'http://localhost:8441/api', // to handle auditee response files
   imagesUserApi: 'http://localhost:8441/api/user/image/',
   blankPic: 'assets/img/Blank-Profile-Picture.jpg',

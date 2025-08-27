@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { StyleClassModule } from 'primeng/styleclass';
 import { AppConfigurator } from './app.configurator';
 import { LayoutService } from '../service/layout.service';
 import { StorageService } from '../../pages/service/admin/storage.service';
@@ -165,7 +163,7 @@ export class AppTopbar {
 
     private handleLogoutSuccess(): void {
         this.storageService.clean();
-        this.reloadPageAndRedirect('http://localhost:4200/');
+        this.reloadPageAndRedirect('http://localhost:8082/');
     }
 
     private handleLogoutError(err: any): void {

@@ -1,6 +1,4 @@
-import { CommonModule, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { User } from '../../../models/admin/user';
 import { Subscription } from 'rxjs';
 import { AdminDashboard } from '../../../models/admin/admin-dashboard';
@@ -8,18 +6,16 @@ import { AppConfig } from '../../../models/admin/appconfig';
 import { MenuItem, MessageService } from 'primeng/api';
 import { StorageService } from '../../service/admin/storage.service';
 import { UserService } from '../../service/admin/user.service';
-import { ChartModule } from 'primeng/chart';
-import { ButtonModule } from 'primeng/button';
+
+import { SharedUiModule } from '../../../../shared-ui';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ToastModule } from 'primeng/toast';
-import { TimeagoModule } from 'ngx-timeago';
-import { BreadcrumbModule } from 'primeng/breadcrumb';
 
 @Component({
+      standalone: true,
+
   selector: 'app-admin-dashboard',
-  imports: [FormsModule, CommonModule,ButtonModule, ChartModule, ToastModule, TimeagoModule, BreadcrumbModule],
+  imports: [SharedUiModule],
   templateUrl: './admin-dashboard.component.html',
-  styleUrl: './admin-dashboard.component.scss'
 })
 export class AdminDashboardComponent {
   isLoggedIn = false;
@@ -83,6 +79,8 @@ export class AdminDashboardComponent {
   ) {}
 
   ngOnInit() {
+
+
     this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [{ label: this.breadcrumbText }];
     this.isLoggedIn = this.storageService.isLoggedIn();
@@ -90,7 +88,7 @@ export class AdminDashboardComponent {
       setTimeout(() => {
         this.loading = true;
       }, 4000);
-      // this.getDashBoardData();
+      this.getDashBoardData();
     }
 
     this.multiAxisOptions = {
@@ -238,41 +236,41 @@ export class AdminDashboardComponent {
     };
   }
 
-  // getDashBoardData() {
-  //   this.currentUser.id = this.storageService.getUser().id;
-  //   this.currentUser.category = this.storageService.getUser().category;
-  //   this.adminDashboardService.drawBarChartUsersPerRegion(this.currentUser)
-  //     .subscribe(
-  //       (response) => {
-  //         this.loading = false;
-  //         this.adminDashboardData = response;
-  //         this.getUsersPerAuditandRegion(
-  //           this.adminDashboardData.directorates,
-  //           this.adminDashboardData.line_chart_data
-  //         );
-  //         this.getUsersPerRoleandAuditBarChart(
-  //           this.adminDashboardData.bar_chart_data,
-  //           this.adminDashboardData.roles_length_IS_MGT_INS
-  //         );
-          
-  //         this.getUsersPerRoleandAuditHorizontalBarChart(
-  //           this.adminDashboardData.horizontal_bar_chart_data,
-  //           this.adminDashboardData.roles_name_BFA
-  //         );
-  //         this.getRadarData(this.adminDashboardData.age_data);
-  //       },
-  //       (error) => (error: HttpErrorResponse) => {
-  //         this.messageService.add({
-  //           severity: 'error',
-  //           summary:
-  //             error.status == 401
-  //               ? 'You are not permitted to perform this action!'
-  //               : 'Something went wrong while fetching findings!',
-  //           detail: '',
-  //         });
-  //       }
-  //     );
-  // }
+  getDashBoardData() {
+    this.currentUser.id = this.storageService.getUser().id;
+    this.currentUser.category = this.storageService.getUser().category;
+    this.adminDashboardService.drawBarChartUsersPerRegion(this.currentUser)
+      .subscribe(
+        (response) => {
+          this.loading = false;
+          this.adminDashboardData = response;
+          this.getUsersPerAuditandRegion(
+            this.adminDashboardData.directorates as any,
+            this.adminDashboardData.line_chart_data as any
+          );
+          this.getUsersPerRoleandAuditBarChart(
+            this.adminDashboardData.bar_chart_data as any,
+            this.adminDashboardData.roles_length_IS_MGT_INS as any
+          );
+
+          this.getUsersPerRoleandAuditHorizontalBarChart(
+            this.adminDashboardData.horizontal_bar_chart_data as any,
+            this.adminDashboardData.roles_name_BFA as any
+          );
+          this.getRadarData(this.adminDashboardData.age_data as any);
+        },
+        (error) => (error: HttpErrorResponse) => {
+          this.messageService.add({
+            severity: 'error',
+            summary:
+              error.status == 401
+                ? 'You are not permitted to perform this action!'
+                : 'Something went wrong while fetching findings!',
+            detail: '',
+          });
+        }
+      );
+  }
 
   getUsersPerAuditandRegion(regions: String[], user_region_audit: Number[]) {
     let IS = [],

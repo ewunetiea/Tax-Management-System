@@ -8,10 +8,9 @@ import { User } from '../../../models/admin/user';
 const AUTH_API = environment.backendUrl + '/auth';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-  withCredentials: true
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    withCredentials: true
 };
-
 
 @Injectable({
   providedIn: 'root'

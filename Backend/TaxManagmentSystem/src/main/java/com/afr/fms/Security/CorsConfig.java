@@ -20,6 +20,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 List<String> origins = Arrays.asList(allowedOrigins.split(","));
+               
 
                 // 🔹 Apply CORS for all APIs except the exceptions
                 registry.addMapping("/**")

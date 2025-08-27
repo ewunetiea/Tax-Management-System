@@ -68,7 +68,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     }
 
     // ✅ Permission + JWT check
-    if (functionalitiesService.verifyPermission(request, request.getRequestURI(),  request.getMethod())) {
+    if (functionalitiesService.verifyPermission(request, request.getRequestURI(),
+        request.getMethod())) {
       try {
         String jwt = parseJwt(request);
 

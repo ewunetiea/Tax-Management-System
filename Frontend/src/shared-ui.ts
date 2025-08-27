@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 
 // PrimeNG UI modules
 import { TextareaModule } from 'primeng/textarea';
-import { DialogModule } from 'primeng/dialog';
+import { DialogModule} from 'primeng/dialog';
+import { ToastModule } from 'primeng/toast';
 import { CardModule } from 'primeng/card';
 import { TooltipModule } from 'primeng/tooltip';
 import { TableModule } from 'primeng/table';
@@ -27,6 +28,8 @@ import { Menubar } from 'primeng/menubar';
 import { BadgeModule } from 'primeng/badge';
 import { AvatarModule } from 'primeng/avatar';
 import { StepperModule } from 'primeng/stepper';
+import { ConfirmDialog } from 'primeng/confirmdialog';
+import { ListboxModule } from 'primeng/listbox';
 
 @NgModule({
   imports: [
@@ -36,6 +39,9 @@ import { StepperModule } from 'primeng/stepper';
     // PrimeNG
     TextareaModule,
     DialogModule,
+    ConfirmDialog,
+    ToastModule,
+    ListboxModule,
     CardModule,
     TooltipModule,
     TableModule,
@@ -66,6 +72,8 @@ import { StepperModule } from 'primeng/stepper';
     // PrimeNG
     TextareaModule,
     DialogModule,
+    ConfirmDialog,
+    ToastModule,
     CardModule,
     TooltipModule,
     TableModule,
@@ -76,6 +84,7 @@ import { StepperModule } from 'primeng/stepper';
     DropdownModule,
     PaginatorModule,
     ToolbarModule,
+    ListboxModule,
     BreadcrumbModule,
     TabsModule,
     TabViewModule,

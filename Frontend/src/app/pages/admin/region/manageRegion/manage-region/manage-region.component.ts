@@ -5,47 +5,15 @@ import { StorageService } from '../../../../service/admin/storage.service';
 import { ConfirmationService, MessageService, MenuItem } from 'primeng/api';
 import { RegionService } from '../../../../service/admin/regionService';
 import { ExportExcelService } from '../../../../service/admin/export-excel.service';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { DialogModule } from 'primeng/dialog';
 import { AddRegionComponent } from '../../addRegion/add-region/add-region.component';
-import { Table, TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { ToastModule } from 'primeng/toast';
-import { CardModule } from 'primeng/card';
-import { ToolbarModule } from 'primeng/toolbar';
-import { RippleModule } from 'primeng/ripple';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
-import { Tooltip } from 'primeng/tooltip';
-import { SelectButtonModule } from 'primeng/selectbutton';
-import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { Table} from 'primeng/table';
 import { PaginatorPayLoad } from '../../../../../models/admin/paginator-payload';
+import { SharedUiModule } from '../../../../../../shared-ui';
 
 @Component({
     selector: 'app-manage-region',
     standalone: true,
-    imports: [
-        ConfirmDialogModule,
-        DialogModule,
-        AddRegionComponent,
-        TableModule,
-        ButtonModule,
-        FormsModule,
-        CardModule,
-        ToastModule,
-        ToolbarModule,
-        CommonModule,
-        RippleModule,
-        InputTextModule,
-        IconFieldModule,
-        InputIconModule,
-        Tooltip,
-        SelectButtonModule,
-        BreadcrumbModule
-    ],
+    imports: [SharedUiModule, AddRegionComponent],
     providers: [MessageService, ConfirmationService],
     templateUrl: './manage-region.component.html',
     styleUrl: './manage-region.component.scss'
@@ -102,11 +70,12 @@ export class ManageRegionComponent {
         ];
         const user = this.storageService.getUser();
         this.region.user_id = user.id;
-        this.getRegion(this.paginatorPayload);
+        this.getRegion();
+        // this.getRegion(this.paginatorPayload);
     }
 
-    getRegion(paginatorPayLoad: PaginatorPayLoad) {
-        this.regionService.getRegions(paginatorPayLoad).subscribe(
+    getRegion() {
+        this.regionService.getRegions().subscribe(
             (response) => {
                 this.loading = false;
                 if (response.length > 0) {
@@ -134,7 +103,7 @@ export class ManageRegionComponent {
         this.paginatorPayload.currentPage = event.first / event.rows + 1;
         this.paginatorPayload.pageSize = event.rows;
         this.paginatorPayload.event_length = event.rows;
-        this.getRegion(this.paginatorPayload);
+        // this.getRegion(this.paginatorPayload);
     }
 
     openNew() {
@@ -159,7 +128,7 @@ export class ManageRegionComponent {
         const inputValue = (event.target as HTMLInputElement).value;
         this.paginatorPayload.searchText = inputValue;
         this.paginatorPayload.currentPage = 1;
-        this.getRegion(this.paginatorPayload); // ✅ trigger search with backend
+        // this.getRegion(this.paginatorPayload); // ✅ trigger search with backend
     }
 
     clear(table: Table) {
@@ -168,7 +137,8 @@ export class ManageRegionComponent {
 
     onDataChange(data: any) {
         if (data[1]) {
-            this.getRegion(this.paginatorPayload);
+            // this.getRegion(this.paginatorPayload);
+            this.getRegion();
             this.regions = [...this.regions];
             this.regionEditDialog = false;
             this.region = new Region();
@@ -199,7 +169,8 @@ export class ManageRegionComponent {
             accept: () => {
                 this.regionService.deleteRegion(this.passRegions).subscribe({
                     next: (response) => {
-                        this.getRegion(this.paginatorPayload);
+                        this.getRegion();
+                        // this.getRegion(this.paginatorPayload);
                         // this.regions = this.regions.filter((val) => val.id !== region.id);
                         this.region = new Region();
                         this.messageService.add({
@@ -232,7 +203,8 @@ export class ManageRegionComponent {
             accept: () => {
                 this.regionService.deleteRegion(this.selectedRegions).subscribe({
                     next: (response) => {
-                        this.getRegion(this.paginatorPayload);
+                        this.getRegion();
+                        // this.getRegion(this.paginatorPayload);
                         // this.regions = this.regions.filter(
                         //   (val) => !this.selectedRegions.includes(val)
                         // );

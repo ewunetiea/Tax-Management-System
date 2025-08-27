@@ -5,48 +5,14 @@ import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
 import { ExportExcelService } from '../../../service/admin/export-excel.service';
 import { BranchService } from '../../../service/admin/branchService';
 import { Branch } from '../../../../models/admin/branch';
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { DialogModule } from 'primeng/dialog';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { CreateEditBranchComponent } from '../create-edit-branch/create-edit-branch.component';
-import { CommonModule } from '@angular/common';
-import { SkeletonModule } from 'primeng/skeleton';
-import { FormsModule } from '@angular/forms';
-import { CardModule } from 'primeng/card';
-import { ToastModule } from 'primeng/toast';
-import { ToolbarModule } from 'primeng/toolbar';
 import { PaginatorPayLoad } from '../../../../models/admin/paginator-payload';
-import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { InputIconModule } from 'primeng/inputicon';
-import { Tooltip } from 'primeng/tooltip';
-import { SelectButtonModule } from 'primeng/selectbutton';
-import { IconFieldModule } from 'primeng/iconfield';
+import { SharedUiModule } from '../../../../../shared-ui';
 
 @Component({
     selector: 'app-managebranch',
     standalone: true,
-    imports: [
-        ConfirmDialogModule,
-        CommonModule,
-        TableModule,
-        ButtonModule,
-        InputTextModule,
-        DialogModule,
-        CreateEditBranchComponent,
-        SkeletonModule,
-        DialogModule,
-        FormsModule,
-        CardModule,
-        ToastModule,
-        ToolbarModule,
-        BreadcrumbModule,
-        InputIconModule,
-        Tooltip,
-        SelectButtonModule,
-        IconFieldModule
-    ],
+    imports: [SharedUiModule, CreateEditBranchComponent],
     providers: [MessageService, ConfirmationService],
     templateUrl: './managebranch.component.html',
     styleUrl: './managebranch.component.scss'
@@ -91,7 +57,8 @@ export class ManagebranchComponent {
             { name: 'Normal', value: 'normal' },
             { name: 'Large', value: 'large' }
         ];
-        this.getBranches(this.paginatorPayload);
+        this.getBranches();
+        // this.getBranches(this.paginatorPayload);
     }
 
     clear(table: Table) {
@@ -102,7 +69,7 @@ export class ManagebranchComponent {
         const inputValue = (event.target as HTMLInputElement).value;
         this.paginatorPayload.searchText = inputValue;
         this.paginatorPayload.currentPage = 1;
-        this.getBranches(this.paginatorPayload);
+        // this.getBranches(this.paginatorPayload);
     }
 
     
@@ -127,7 +94,8 @@ export class ManagebranchComponent {
 
     onDataChange(data: any) {
         if (data[1]) {
-            this.getBranches(this.paginatorPayload);
+            // this.getBranches(this.paginatorPayload);
+            this.getBranches();
             this.branches = [...this.branches];
             this.branchEditDialog = false;
             this.branch = new Branch();
@@ -152,8 +120,8 @@ export class ManagebranchComponent {
         this.branchEditDialog = false;
     }
 
-    private getBranches(paginatorPayLoad: PaginatorPayLoad) {
-        this.branchService.getBranches(paginatorPayLoad).subscribe({
+    private getBranches() {
+        this.branchService.getBranches().subscribe({
             next: (data) => {
                 this.loading = false;
                 if (data.length > 0) {
@@ -186,7 +154,7 @@ export class ManagebranchComponent {
         this.paginatorPayload.currentPage = event.first / event.rows + 1;
         this.paginatorPayload.pageSize = event.rows;
         this.paginatorPayload.event_length = event.rows;
-        this.getBranches(this.paginatorPayload);
+        // this.getBranches(this.paginatorPayload);
     }
 
     generateData(): any[] {
@@ -244,7 +212,8 @@ export class ManagebranchComponent {
             accept: () => {
                 this.branchService.deleteBranches(this.passBranches).subscribe({
                     next: (response) => {
-                        this.getBranches(this.paginatorPayload);
+                        this.getBranches();
+                        // this.getBranches(this.paginatorPayload);
                         // this.branchs = this.branchs.filter((val) => val.id !== branch.id);
                         this.branch = new Branch();
                         this.messageService.add({
@@ -277,7 +246,8 @@ export class ManagebranchComponent {
             accept: () => {
                 this.branchService.deleteBranches(this.selectedBranches).subscribe({
                     next: (response) => {
-                        this.getBranches(this.paginatorPayload);
+                        this.getBranches();
+                        // this.getBranches(this.paginatorPayload);
                         // this.branchs = this.branchs.filter(
                         //   (val) => !this.selectedbranchs.includes(val)
                         // );

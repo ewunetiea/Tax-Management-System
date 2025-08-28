@@ -30,6 +30,5 @@ export const appConfig: ApplicationConfig = {
         providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } } }),
         httpInterceptorProviders,
         MessageService   // 👈 add MessageService as provider
-
     ]
 };

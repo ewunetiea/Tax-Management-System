@@ -1,10 +1,9 @@
-
-
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment.prod';
 const rootURL = environment.backendUrl;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -47,6 +46,7 @@ export class ValidationService {
   checkRoleCode(code: string): Observable<any> {
     return this.http.get<any>(`${rootURL}/role/code/${code}`);
   }
+
   checRoleName(code: string): Observable<any> {
     return this.http.get<any>(`${rootURL}/role/name/${code}`);
   }
@@ -57,6 +57,7 @@ export class ValidationService {
   checkBranchName(name: string): Observable<any> {
     return this.http.get<any>(`${rootURL}/branch/name/${name}`);
   }
+  
   checkBranchCode(code: string): Observable<any> {
     return this.http.get<any>(`${rootURL}/branch/code/${code}`);
   }

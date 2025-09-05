@@ -68,8 +68,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     }
 
     // ✅ Permission + JWT check
-    if (functionalitiesService.verifyPermission(request, request.getRequestURI(),
-        request.getMethod())) {
+    if (functionalitiesService.verifyPermission(request, request.getRequestURI(), request.getMethod())) {
       try {
         String jwt = parseJwt(request);
 
@@ -85,7 +84,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
           UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
               null, userDetails.getAuthorities());
           authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
           SecurityContextHolder.getContext().setAuthentication(authentication);
         }
       } catch (Exception e) {

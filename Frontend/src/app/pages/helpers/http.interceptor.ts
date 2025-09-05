@@ -29,7 +29,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     req = req.clone({
       withCredentials: true,
-      // headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     });
 
     return next.handle(req).pipe(

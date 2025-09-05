@@ -36,6 +36,7 @@ import { KnobModule } from 'primeng/knob';
 import { DividerModule } from 'primeng/divider';
 import { ChartModule } from 'primeng/chart';
 import { TimeagoModule } from 'ngx-timeago';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 @NgModule({
   imports: [
@@ -76,12 +77,14 @@ import { TimeagoModule } from 'ngx-timeago';
     KnobModule,
     DividerModule,
     TimeagoModule,
-    ChartModule
+    ChartModule,
+    RadioButtonModule,
   ],
   exports: [
     CommonModule,
     FormsModule,
-ToastModule,
+    ToastModule,
+    
     // PrimeNG
     TextareaModule,
     DialogModule,
@@ -115,7 +118,8 @@ ToastModule,
     KnobModule,
     DividerModule,
     ChartModule,
-    TimeagoModule
+    TimeagoModule,
+    RadioButtonModule,
   ]
 })
 export class SharedUiModule {}

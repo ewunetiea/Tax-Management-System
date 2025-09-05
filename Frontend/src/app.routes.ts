@@ -55,7 +55,6 @@ export const appRoutes: Routes = [
             { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
         ],
     },
-    { path: 'pages-login', component: LoginComponent },
     { path: 'notfound', component: Notfound },
     { path: '**', redirectTo: 'notfound' }
 ];

@@ -21,14 +21,6 @@ export class AuthService {
     private webSocketService: WebSocketService
   ) { }
 
-//   login(username: string, password: string, userAgent: any): Observable<any> {
-//   return this.http.post(
-//     `${AUTH_API}/signin`,
-//     { username, password, userAgent },
-//     { withCredentials: true, headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
-//   );
-// }
-
 login(username: string, password: string, userAgent: any): Observable<any> {
     return this.http.post(AUTH_API + '/signin', {
       username,
@@ -36,10 +28,6 @@ login(username: string, password: string, userAgent: any): Observable<any> {
       userAgent
     }, httpOptions);
   }
-
-refreshToken(): Observable<any> {
-  return this.http.post(`${AUTH_API}/refreshtoken`, {}, { withCredentials: true });
-}
 
   forceLogin(username: string, password: string, userAgent: any): Observable<any> {
     return this.http.post(AUTH_API + '/force-login', {
@@ -58,9 +46,9 @@ refreshToken(): Observable<any> {
     return this.http.post(AUTH_API + '/changePassword', { password }, httpOptions);
   }
 
-  // refreshToken(): Observable<any> {
-  //   return this.http.post(AUTH_API + '/refreshtoken', {}, httpOptions);
-  // }
+  refreshToken(): Observable<any> {
+    return this.http.post(AUTH_API + '/refreshtoken', {}, httpOptions);
+  }
 
   signup(user: User): Observable<any> {
     return this.http.post(AUTH_API + '/signup', user, httpOptions);

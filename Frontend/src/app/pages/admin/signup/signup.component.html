@@ -1,49 +1,34 @@
 <div class="area">
   <p-toast></p-toast>
   <main>
-    <div class="container">
+    <div class="w-full max-w-6xl mx-auto px-4">
       <section class="min-h-screen flex flex-col items-center justify-center py-4">
-        <div class="container">
-          <div class="row justify-content-center">
-            <div
-              class="col-lg-5 col-md-6 d-flex flex-column align-items-center justify-content-center"
-            >
-              <div class="card mb-3" style="z-index: 2">
-                <div class="d-flex justify-content-center">
-                  <a routerLink="/" class="d-flex align-items-center w-auto"
-                    ><img
-                      class="w-100 text-center awash-bank-login-logo"
+       <div class="w-full max-w-6xl m-auto px-4">
+         <div class="flex flex-wrap justify-content-center align-items-start gap-3">
+            <div class="w-full md:w-6/12 lg:w-5/12 flex flex-column align-items-center justify-content-center">
+              <div class="bg-white shadow-md rounded-md p-4 mb-3 z-20">
+                <div class="flex justify-center">
+                  <a routerLink="/" class="flex items-center w-auto">
+                    <img
+                      class="w-full text-center awash-bank-login-logo"
                       src="assets/img/Awash_Bank_Final_logo.jpg"
                       alt="Awash Bank AFRFMS"
                     />
                   </a>
                 </div>
-                <div
-                  *ngIf="!account_created; else afterAccountCreated"
-                  class="card-body"
-                  style="margin-top: -13%"
-                >
+                <div *ngIf="!account_created; else afterAccountCreated" class="p-4 mt-negative-13">
                   <div class="pb-2">
-                    <h5 class="card-title text-center fs-4">
-                      Create an Account
-                    </h5>
-                    <p class="text-center small">
-                      Enter your personal details to create account
-                    </p>
+                    <h5 class="text-center text-xl font-semibold mb-2">Create an Account</h5>
+                    <p class="text-center text-sm">Enter your personal details to create account</p>
                   </div>
-                  <form ngNativeValidate #userForm="ngForm" class="p-fluid">
-                    <div class="p-field">
-                      <label for="employee_id">
-                        <strong class="text-danger">*</strong>Awash Bank
-                        ID</label
-                      >
+                  <form ngNativeValidate #userForm="ngForm" class="space-y-4">
+                    <div class="flex flex-col gap-2">
+                      <label for="employee_id"><strong class="text-red-600">*</strong>Awash Bank ID</label>
                       <input
+                      pInputText
                         type="text"
                         #employee_id="ngModel"
-                        [class.is-invalid]="
-                          employee_id.invalid && employee_id.touched
-                        "
-                        pInputText
+                       [ngClass]="{'border-red-500': employee_id.invalid && employee_id.touched }"
                         id="employee_id"
                         placeholder="Staff ID"
                         [(ngModel)]="user.employee_id"
@@ -53,26 +38,14 @@
                         pattern="^(AB|AIB)\/(\d{1,7})\/(19|20|21)\d{2}$"
                       />
                       <div *ngIf="employee_id.errors && employee_id.touched">
-                        <small
-                          class="text-danger"
-                          *ngIf="employee_id.errors['required']"
-                          >Awash Bank ID is required</small
-                        >
-                        <small
-                          class="text-danger"
-                          *ngIf="employee_id.errors['pattern']"
-                          >Awash ID Incorrect</small
-                        >
+                        <small class="text-red-600" *ngIf="employee_id.errors['required']">Awash Bank ID is required</small>
+                        <small class="text-red-600" *ngIf="employee_id.errors['pattern']">Awash ID Incorrect</small>
                       </div>
                       <div *ngIf="employee_id_status">
-                        <small class="text-danger">
-                          This ID Does not exist!</small
-                        >
+                        <small class="text-red-600">This ID Does not exist!</small>
                       </div>
                       <div *ngIf="employee_id_status_system">
-                        <small class="text-danger">
-                          User Already registered!</small
-                        >
+                        <small class="text-red-600">User Already registered!</small>
                       </div>
                     </div>
 
@@ -83,16 +56,13 @@
                         proceed &&
                         !(employee_id.errors && employee_id.touched)
                       "
-                      class="p-field"
+                      class="flex flex-col gap-2"
                     >
-                      <label for="email">
-                        <strong class="text-danger">*</strong>Outlook
-                        Address</label
-                      >
+                      <label for="email"><strong class="text-red-600">*</strong>Outlook Address</label>
                       <input
                         type="text"
                         #email="ngModel"
-                        [class.is-invalid]="email.invalid && email.touched"
+                        [ngClass]="{'border-red-500': email.invalid && email.touched }"
                         pInputText
                         id="email"
                         [(ngModel)]="user.email"
@@ -103,34 +73,20 @@
                       />
 
                       <div *ngIf="email_status">
-                        <small class="text-danger">
-                          Outlook Address Already Exists
-                        </small>
+                        <small class="text-red-600">Outlook Address Already Exists </small>
                       </div>
                       <div *ngIf="email.errors && email.touched">
-                        <small
-                          class="text-danger"
-                          *ngIf="email.errors['required']"
-                          >Outlook Address is required</small
-                        >
-                        <small class="text-danger" *ngIf="email.errors['pattern']">
-  Outlook Address should end with &#64;awashbank.com
-</small>
-
+                        <small class="text-red-600" *ngIf="email.errors['required']" >Outlook Address is required</small >
+                        <small class="text-red-600" *ngIf="email.errors['pattern']">Outlook Address should end with &#64;awashbank.com</small>
                       </div>
                     </div>
 
-                    <div class="p-field">
-                      <label for="username">
-                        <strong class="text-danger">*</strong>Fussion Essence
-                        Username</label
-                      >
+                    <div class="flex flex-col gap-2">
+                      <label for="username"><strong class="text-red-600">*</strong>Fussion Essence Username</label>
                       <input
                         type="text"
                         #username="ngModel"
-                        [class.is-invalid]="
-                          username.invalid && username.touched
-                        "
+                        [ngClass]="{'border-red-500': username.invalid && username.touched }"
                         (blur)="checkUsernameStatus($event)"
                         pInputText
                         id="username"
@@ -139,54 +95,46 @@
                         [required]="true"
                       />
                       <small
-                        class="text-danger"
-                        [class.d-none]="username.valid || username.untouched"
+                        class="text-red-600"
+                        [class.hidden]="username.valid || username.untouched"
                         >Username is required<br
                       /></small>
 
                       <div *ngIf="user_name_status">
-                        <small class="text-danger">
-                          Username Already Exists
-                        </small>
+                        <small class="text-red-600"> Username Already Exists </small>
                       </div>
                     </div>
 
-                    <div class="p-field">
+                    <div class="flex flex-col gap-2">
                       <label for="first_name">First Name</label>
                       <input
                         type="text"
                         #first_name="ngModel"
-                        [class.is-invalid]="
-                          first_name.invalid && first_name.touched
-                        "
+                        [ngClass]="{'border-red-500': first_name.invalid && first_name.touched }"
                         pInputText
                         id="first_name"
                         [(ngModel)]="user.first_name"
                         name="first_name"
                       />
                     </div>
-                    <div class="p-field">
+                    <div class="flex flex-col gap-2">
                       <label for="middle_name"> Middle Name</label>
                       <input
                         type="text"
                         #middle_name="ngModel"
-                        [class.is-invalid]="
-                          middle_name.invalid && middle_name.touched
-                        "
+                        [ngClass]="{'border-red-500': middle_name.invalid && middle_name.touched }"
                         pInputText
                         id="middle_name"
                         [(ngModel)]="user.middle_name"
                         name="middle_name"
                       />
                     </div>
-                    <div class="p-field">
-                      <label for="last_name"> Last Name</label>
+                    <div class="flex flex-col gap-2">
+                      <label for="last_name">Last Name</label>
                       <input
                         type="text"
                         #last_name="ngModel"
-                        [class.is-invalid]="
-                          last_name.invalid && last_name.touched
-                        "
+                        [ngClass]="{'border-red-500': last_name.invalid && last_name.touched }"
                         pInputText
                         id="last_name"
                         [(ngModel)]="user.last_name"
@@ -194,58 +142,44 @@
                       />
                     </div>
 
-                    <div class="p-field">
-                      <label class="p-mb-3"
-                        ><strong class="text-danger">*</strong>Gender</label
-                      >
-                      <div class="p-formgrid p-grid">
-                        <div class="p-field-radiobutton p-col-6">
+                    <div class="flex flex-col gap-2">
+                      <label class="p-mb-3"><strong class="text-red-600">*</strong>Gender</label>
+                      <div class="flex flex-col md:flex-row gap-4">
+                        <div class="flex items-center">
                           <p-radioButton
                             id="male"
                             name="gender"
                             value="Male"
                             #gender="ngModel"
                             required="true"
-                            [class.is-invalid]="
-                              gender.invalid && gender.touched
-                            "
+                            [ngClass]="{'border-red-500': gender.invalid && gender.touched }"
                             [(ngModel)]="user.gender"
                           ></p-radioButton>
                           <label for="male">Male</label>
                         </div>
-                        <div class="p-field-radiobutton p-col-6">
+                        <div class="flex items-center">
                           <p-radioButton
                             id="female"
                             name="gender"
                             value="Female"
                             #gender="ngModel"
                             required="true"
-                            [class.is-invalid]="
-                              gender.invalid && gender.touched
-                            "
+                           [ngClass]="{'border-red-500': gender.invalid && gender.touched }"
                             [(ngModel)]="user.gender"
                           ></p-radioButton>
                           <label for="female">Female</label>
                         </div>
-                        <small
-                          class="text-danger"
-                          [class.d-none]="gender.valid || gender.untouched"
-                          >Gender is required<br
-                        /></small>
+                        <small class="text-red-600" [class.hidden]="gender.valid || gender.untouched">Gender is required<br/></small>
                       </div>
                     </div>
 
-                    <div class="p-field">
+                    <div class="flex flex-col gap-2">
                       <label for="phone_number">
-                        <strong class="text-danger">*</strong>Phone
-                        Number</label
-                      >
+                        <strong class="text-red-600">*</strong>Phone Number</label>
                       <input
                         type="tel"
                         #phone_number="ngModel"
-                        [class.is-invalid]="
-                          phone_number.invalid && phone_number.touched
-                        "
+                        [ngClass]="{'border-red-500': phone_number.invalid && phone_number.touched }"
                         pInputText
                         pattern="(\+251|0)(9|7)\d{8}"
                         id="phone_number"
@@ -254,34 +188,17 @@
                         name="phone_number"
                         required="true"
                       />
-
                       <div *ngIf="phone_number_status">
-                        <small class="text-danger">
-                          Phone Number Already Exists
-                        </small>
+                        <small class="text-red-600">Phone Number Already Exists</small>
                       </div>
                       <div *ngIf="phone_number.errors && phone_number.touched">
-                        <small
-                          class="text-danger"
-                          *ngIf="phone_number.errors['required']"
-                          >Phone number is required</small
-                        >
-                        <small
-                          class="text-danger"
-                          *ngIf="phone_number.errors['pattern']"
-                          >Phone number not valid or should start with +251, 09
-                          or 07</small
-                        >
+                        <small class="text-red-600" *ngIf="phone_number.errors['required']">Phone number is required</small>
+                        <small class="text-red-600" *ngIf="phone_number.errors['pattern']">Phone number not valid or should start with +251, 09 or 07</small>
                       </div>
                     </div>
 
-                    <div
-                      class="p-formgrid p-grid"
-                      *ngIf="
-                        proceed && !(employee_id.errors && employee_id.touched)
-                      "
-                    >
-                      <div class="p-field p-col-12">
+                    <div class="grid grid-cols-12 gap-4" *ngIf=" proceed && !(employee_id.errors && employee_id.touched) ">
+                      <div class="w-full mb-4">
                         <label for="jobPosition">Job Title</label>
                         <p-dropdown
                           [options]="job_positions"
@@ -290,9 +207,7 @@
                           [disabled]="true"
                           name="jobPosition"
                           #job_position="ngModel"
-                          [class.is-invalid]="
-                            job_position.invalid && job_position.touched
-                          "
+                          [ngClass]="{'border-red-500': job_position.invalid && job_position.touched }"
                           [(ngModel)]="user.jobPosition"
                           placeholder="Select Job Title"
                           [filter]="true"
@@ -301,7 +216,7 @@
                         >
                         </p-dropdown>
                       </div>
-                      <div class="p-field p-col-12">
+                     <div class="w-full mb-4">
                         <label for="region">Region</label>
                         <p-dropdown
                           [options]="regions"
@@ -310,7 +225,7 @@
                           inputId="region"
                           [disabled]="true"
                           #region="ngModel"
-                          [class.is-invalid]="region.invalid && region.touched"
+                          [ngClass]="{'border-red-500': region.invalid && region.touched }"
                           [(ngModel)]="user.region"
                           [spellcheck]="true"
                           placeholder="Select Region"
@@ -323,7 +238,7 @@
                         </p-dropdown>
                       </div>
 
-                      <div class="p-field p-col-12">
+                      <div class="w-full mb-4">
                         <label for="branch">Unit</label>
                         <p-dropdown
                           [options]="allBranches"
@@ -332,7 +247,7 @@
                           name="branch"
                           [disabled]="true"
                           #branch="ngModel"
-                          [class.is-invalid]="branch.invalid && branch.touched"
+                          [ngClass]="{'border-red-500': branch.invalid && branch.touched }"
                           [(ngModel)]="user.branch"
                           placeholder="Select Branch"
                           [filter]="true"
@@ -343,41 +258,34 @@
                       </div>
                     </div>
 
-                    <div class="p-field" *ngIf="proceed">
-                      <label class="p-mb-3"
-                        ><strong class="text-danger">*</strong>User
-                        Category</label
-                      >
-                      <div class="p-formgrid p-grid">
-                        <div class="p-field-radiobutton p-col-4">
+                    <div class="flex flex-col gap-2" *ngIf="proceed">
+                      <label class="mb-3"><strong class="text-red-600">*</strong>User Category</label>
+                      <div class="flex flex-col md:flex-row gap-4">
+                       <div class="col-span-4 flex items-center gap-2 mb-2">
                           <p-radioButton
                             id="is"
                             name="category"
                             value="IS"
                             #category="ngModel"
                             required="true"
-                            [class.is-invalid]="
-                              category.invalid && category.touched
-                            "
+                            [ngClass]="{'border-red-500': category.invalid && category.touched }"
                             [(ngModel)]="user.category"
                           ></p-radioButton>
                           <label for="is">IS</label>
                         </div>
-                        <div class="p-field-radiobutton p-col-4">
+                        <div class="col-span-4 flex items-center gap-2 mb-2">
                           <p-radioButton
                             id="mgt"
                             name="category"
                             value="MGT"
                             #category="ngModel"
                             required="true"
-                            [class.is-invalid]="
-                              category.invalid && category.touched
-                            "
+                            [ngClass]="{'border-red-500': category.invalid && category.touched }"
                             [(ngModel)]="user.category"
                           ></p-radioButton>
                           <label for="mgt">MGT</label>
                         </div>
-                        <div class="p-field-radiobutton p-col-4">
+                        <div class="col-span-4 flex items-center gap-2 mb-2">
                           <p-radioButton
                             id="branch_financial"
                             name="category"
@@ -385,13 +293,11 @@
                             [(ngModel)]="user.category"
                             #category="ngModel"
                             required="true"
-                            [class.is-invalid]="
-                              category.invalid && category.touched
-                            "
+                            [ngClass]="{'border-red-500': category.invalid && category.touched }"
                           ></p-radioButton>
                           <label for="branch_financial">Financial</label>
                         </div>
-                        <div class="p-field-radiobutton p-col-4">
+                        <div class="col-span-4 flex items-center gap-2 mb-2">
                           <p-radioButton
                             id="inspection"
                             name="category"
@@ -399,13 +305,11 @@
                             [(ngModel)]="user.category"
                             #category="ngModel"
                             required="true"
-                            [class.is-invalid]="
-                              category.invalid && category.touched
-                            "
+                            [ngClass]="{'border-red-500': category.invalid && category.touched }"
                           ></p-radioButton>
                           <label for="inspection">Inspection</label>
                         </div>
-                        <div class="p-field-radiobutton p-col-4">
+                        <div class="col-span-4 flex items-center gap-2 mb-2">
                           <p-radioButton
                             id="general"
                             name="category"
@@ -413,13 +317,11 @@
                             [(ngModel)]="user.category"
                             #category="ngModel"
                             required="true"
-                            [class.is-invalid]="
-                              category.invalid && category.touched
-                            "
+                            [ngClass]="{'border-red-500': category.invalid && category.touched }"
                           ></p-radioButton>
                           <label for="general">General</label>
                         </div>
-                        <div class="p-field-radiobutton p-col-4">
+                        <div class="col-span-4 flex items-center gap-2 mb-2">
                           <p-radioButton
                             id="admin"
                             name="admin"
@@ -427,54 +329,36 @@
                             [(ngModel)]="user.category"
                             #category="ngModel"
                             required="true"
-                            [class.is-invalid]="
-                              category.invalid && category.touched
-                            "
+                            [ngClass]="{'border-red-500': category.invalid && category.touched }"
                           ></p-radioButton>
                           <label for="admin">Admin</label>
                         </div>
-                        <small
-                          class="text-danger"
-                          [class.d-none]="category.valid || category.untouched"
-                          >User Category is required<br
-                        /></small>
+                        <small class="text-red-600" [class.hidden]="category.valid || category.untouched">User Category is required<br /></small>
                       </div>
                     </div>
 
-                    <div
-                      class="p-field"
-                      *ngIf="
-                        (user.category == 'BFA' || user.category == 'INS') &&
-                        proceed
-                      "
-                    >
-                      <label class="p-mb-3"
-                        ><strong class="text-danger">*</strong>Banking
-                        Category</label
-                      >
-                      <div class="p-formgrid p-grid">
-                        <div class="p-field-radiobutton p-col-4">
+                    <div class="flex flex-col gap-2"
+                      *ngIf="(user.category == 'BFA' || user.category == 'INS') &&  proceed ">
+                      <label class="mb-3"><strong class="text-red-600">*</strong>Banking Category</label>
+                      <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-4 flex items-center gap-2 mb-2">
                           <p-radioButton
                             id="conventional"
                             name="banking"
                             #banking="ngModel"
-                            [class.is-invalid]="
-                              banking.invalid && banking.touched
-                            "
+                            [ngClass]="{'border-red-500': banking.invalid && banking.touched }"
                             value="conventional"
                             required="true"
                             [(ngModel)]="user.banking"
                           ></p-radioButton>
                           <label for="conventional">Conventional</label>
                         </div>
-                        <div class="p-field-radiobutton p-col-4">
+                        <div class="col-span-4 flex items-center gap-2 mb-2">
                           <p-radioButton
                             id="ifb"
                             name="banking"
                             #banking="ngModel"
-                            [class.is-invalid]="
-                              banking.invalid && banking.touched
-                            "
+                            [ngClass]="{'border-red-500': banking.invalid && banking.touched }"
                             value="ifb"
                             required="true"
                             [(ngModel)]="user.banking"
@@ -482,60 +366,49 @@
                           <label for="ifb">IFB</label>
                         </div>
                         <small
-                          class="text-danger"
-                          [class.d-none]="banking.valid || banking.untouched"
+                          class="text-red-600"
+                          [class.hidden]="banking.valid || banking.untouched"
                           >Banking type is required<br
                         /></small>
                       </div>
                     </div>
 
                     <div
-                      class="p-field"
+                      class="flex flex-col gap-2"
                       *ngIf="user.category == 'MGT' && proceed"
                     >
-                      <label class="p-mb-3"
-                        ><strong class="text-danger">*</strong>Management
-                        Audit</label
-                      >
-                      <div class="p-formgrid p-grid">
-                        <div class="p-field-radiobutton p-col-4">
+                      <label class="mb-3"><strong class="text-red-600">*</strong>Management Audit</label>
+                      <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-4 flex items-center gap-2 mb-2">
                           <p-radioButton
                             id="TradeService"
                             name="banking"
                             #banking="ngModel"
-                            [class.is-invalid]="
-                              banking.invalid && banking.touched
-                            "
+                            [ngClass]="{'border-red-500': banking.invalid && banking.touched }"
                             value="TradeService"
                             required="true"
                             [(ngModel)]="user.banking"
                           ></p-radioButton>
                           <label for="TradeService">Trade Service</label>
                         </div>
-                        <div class="p-field-radiobutton p-col-4">
+                        <div class="col-span-4 flex items-center gap-2 mb-2">
                           <p-radioButton
                             id="FinanceManagement"
                             name="banking"
                             #banking="ngModel"
-                            [class.is-invalid]="
-                              banking.invalid && banking.touched
-                            "
+                            [ngClass]="{'border-red-500': banking.invalid && banking.touched }"
                             value="FinanceManagement"
                             required="true"
                             [(ngModel)]="user.banking"
                           ></p-radioButton>
-                          <label for="FinanceManagement"
-                            >Finance Management</label
-                          >
+                          <label for="FinanceManagement">Finance Management</label>
                         </div>
-                        <div class="p-field-radiobutton p-col-4">
+                        <div class="col-span-4 flex items-center gap-2 mb-2">
                           <p-radioButton
                             id="PeriodicAudit"
                             name="banking"
                             #banking="ngModel"
-                            [class.is-invalid]="
-                              banking.invalid && banking.touched
-                            "
+                            [ngClass]="{'border-red-500': banking.invalid && banking.touched }"
                             value="PeriodicAudit"
                             required="true"
                             [(ngModel)]="user.banking"
@@ -543,19 +416,15 @@
                           <label for="PeriodicAudit">Periodic Audit</label>
                         </div>
                         <small
-                          class="text-danger"
-                          [class.d-none]="banking.valid || banking.untouched"
-                          >Management Audit type is required<br
-                        /></small>
+                          class="text-red-600"
+                          [class.hidden]="banking.valid || banking.untouched"
+                          >Management Audit type is required<br/></small>
                       </div>
                     </div>
 
-                    <div class="p-formgrid p-grid" *ngIf="proceed">
-                      <label class="p-ml-3"
-                        ><strong class="text-danger">*</strong>Authentication
-                        Media</label
-                      >
-                      <div class="p-field p-col-6 p-mb-1">
+                    <div class="grid grid-cols-12 gap-4" *ngIf="proceed">
+                      <label class="ml-3"><strong class="text-red-600">*</strong>Authentication Media</label>
+                      <div class="col-span-6 mb-1">
                         <p-selectButton
                           [options]="authenthicationOptions"
                           [(ngModel)]="user.authenthication_media"
@@ -570,8 +439,8 @@
                       </div>
                     </div>
 
-                    <div class="p-formgrid p-grid mt-4">
-                      <div class="p-field p-col-3">
+                    <div class="grid grid-cols-12 gap-4 mt-4">
+                      <div class="col-span-3 mb-2 mr-2">
                         <button
                           pButton
                           pRipple
@@ -588,7 +457,7 @@
                           (click)="openModal()"
                         ></button>
                       </div>
-                      <div class="p-field p-col-3">
+                      <div class="col-span-3">
                         <button
                           class="col-md-3"
                           pButton
@@ -601,10 +470,8 @@
                       </div>
                     </div>
                   </form>
-                  <div class="col-12 text-center mt-4">
-                    <p class="small mb-0">
-                      Already have an account? <a routerLink="/">Log in</a>
-                    </p>
+                  <div class="w-full text-center mt-4">
+                    <p class="text-sm mb-0">Already have an account? <a routerLink="/" class="text-primary underline">Log in</a></p>
                   </div>
                 </div>
                 <ng-template #afterAccountCreated>
@@ -615,16 +482,15 @@
                   ></app-password-reset-otp>
                 </ng-template>
               </div>
-              <div class="copyright">
-                &copy; Copyright <strong><span>Awash Bank</span></strong
-                >. All Rights Reserved
-              </div>
+              <!-- <div class="copyright">
+                &copy; Copyright <strong><span>Awash Bank</span></strong>. All Rights Reserved
+              </div> -->
             </div>
           </div>
         </div>
         <a
           (click)="scrollTop()"
-          class="back-to-top d-flex align-items-center justify-content-center"
+          class="flex items-center justify-center back-to-top"
           ><i class="bi bi-arrow-up-short"></i
         ></a>
       </section>

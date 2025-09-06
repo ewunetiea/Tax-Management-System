@@ -1,12 +1,6 @@
 package com.afr.fms.Common.Report.IS_Report.Entity;
-import com.afr.fms.Auditor.Entity.AbnormalBalance;
-import com.afr.fms.Auditor.Entity.CashCount;
-import com.afr.fms.Auditor.Entity.LongOutstandingItems;
-import com.afr.fms.Model.MGT.AssetAndLiability;
-import com.afr.fms.Model.MGT.CreditDocumentationParent;
-import com.afr.fms.Model.MGT.MemorandomAndContingent;
-import com.afr.fms.Model.MGT.SuspenseAccount;
 
+import com.afr.fms.Model.MGT.AssetAndLiability;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +8,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class ISManagementAuditDTO {
     private Long id;
     private String case_number;
@@ -40,12 +33,6 @@ public class ISManagementAuditDTO {
     private String auditee_id;
      private String audit_type;
     private AssetAndLiability assetAndLiability;
-    private MemorandomAndContingent memorandomAndContingent;
-    private SuspenseAccount suspenseAccount;
-    private AbnormalBalance abnormalBalance;
-    private CreditDocumentationParent creditDocumentationParent;
-    private LongOutstandingItems longOutstandingItems;
-    private CashCount cashCount;
     private String reviewed_date;
     private String approved_date;
     private String finding_date;

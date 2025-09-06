@@ -38,19 +38,17 @@
 			<version>1.15</version>
 		</dependency>
 
-
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jdbc</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
 		<!-- Email Server -->
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
@@ -60,6 +58,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
+
 	<!-- Log  -->
 		<dependency>
     		<groupId>org.springframework.boot</groupId>
@@ -73,7 +72,6 @@
 		</dependency>
 
 		<!-- MySQL -->
-
 		<!-- <dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -89,7 +87,6 @@
 		</dependency> -->
 		
 		<!-- Microsoft SSMS -->
-
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc</artifactId>
@@ -126,7 +123,6 @@
    			 <artifactId>commons-lang3</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -158,7 +154,6 @@
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
 			<artifactId>owasp-java-html-sanitizer</artifactId>
@@ -188,8 +183,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
-
-
 
 		<dependency>
 			<groupId>org.awaitility</groupId>

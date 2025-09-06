@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.afr.fms.Admin.Entity.User;
-import com.afr.fms.Auditor.Entity.AuditISM;
 
 @RestController
 @RequestMapping("/api/remark")
@@ -34,16 +33,16 @@ public class RemarkController {
 
     }
 
-    @PostMapping("/user")
-    private ResponseEntity<List<User>> getUsersByCategory(@RequestBody AuditISM auditISM, HttpServletRequest request) {
-        try {
-            return new ResponseEntity<>(remarkService.getUserByCategory(auditISM), HttpStatus.OK);
-        } catch (Exception ex) {
-            logger.error("Error while fetching chat contacts", ex);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    // @PostMapping("/user")
+    // private ResponseEntity<List<User>> getUsersByCategory(@RequestBody AuditISM auditISM, HttpServletRequest request) {
+    //     try {
+    //         return new ResponseEntity<>(remarkService.getUserByCategory(auditISM), HttpStatus.OK);
+    //     } catch (Exception ex) {
+    //         logger.error("Error while fetching chat contacts", ex);
+    //         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
 
-    }
+    // }
 
     @PostMapping("/getUnseenRemarks")
     private ResponseEntity<List<Remark>> getUnseenRemarks(@RequestBody Remark remark, HttpServletRequest request) {
@@ -64,7 +63,6 @@ public class RemarkController {
             logger.error("Error while changing remark status: ", ex);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
 
     @PostMapping("/addRemark")
@@ -76,7 +74,6 @@ public class RemarkController {
             logger.error("Error while adding rematk: ", ex);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
 
 }

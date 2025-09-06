@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
@@ -95,6 +95,7 @@ form: any = { username: null, password: null };
     private passwordService: PasswordService,
     private webSocketService: WebSocketService,
     private confirmationService: ConfirmationService,
+    private router: Router,
     private platform: Platform
   ) { }
 
@@ -163,7 +164,8 @@ form: any = { username: null, password: null };
                 this.isLoginFailed = false;
                 this.storageService.saveUser(data);
                 const user = this.storageService.getUser();
-                window.location.href = '/applayout/';
+                this.router.navigate(['/applayout']);
+                // window.location.href = '/applayout/';
                 // if (user.roles.includes('ROLE_BRANCHM_BFA') || user.roles.includes('ROLE_AUDITEE_INS')) {
                 //     const loginUrl = '/afrfms/afrfms-gateway';
                 //     window.location.href = loginUrl;

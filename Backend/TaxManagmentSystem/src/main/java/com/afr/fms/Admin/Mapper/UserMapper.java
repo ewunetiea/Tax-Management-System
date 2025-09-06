@@ -2,10 +2,8 @@ package com.afr.fms.Admin.Mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.*;
-
 import com.afr.fms.Admin.Entity.Role;
 import com.afr.fms.Admin.Entity.User;
-import com.afr.fms.Auditor.Entity.AuditISM;
 
 @Mapper
 public interface UserMapper {
@@ -355,21 +353,21 @@ public interface UserMapper {
         })
         public List<User> getUserByCategory(String category);
 
-        @Select("select * from [user] u  " + //
-                        "inner join IS_Management_Audit isma1 on (isma1.auditor_id = u.id  " + //
-                        "or isma1.reviewer_id = u.id  " + //
-                        "or isma1.approver_id = u.id  " + //
-                        "or isma1.followup_id = u.id) and isma1.id = #{id}  " + //
-                        "where u.category = #{category}")
-        @Results(value = {
-                        @Result(property = "id", column = "id"),
-                        @Result(property = "employee_id", column = "emp_id"),
-                        @Result(property = "photoUrl", column = "photo_url"),
-                        @Result(property = "branch", column = "branch_id", one = @One(select = "com.afr.fms.Admin.Mapper.BranchMapper.getBranchById")),
-                        @Result(property = "roles", javaType = List.class, column = "id", many = @Many(select = "com.afr.fms.Admin.Mapper.RoleMapper.getRolesByUserId")),
-                        @Result(property = "jobPosition", column = "job_position_id", one = @One(select = "com.afr.fms.Admin.Mapper.JobPositionMapper.getJobPositionById")),
-        })
-        public List<User> getUsersRemark(AuditISM auditISM);
+        // @Select("select * from [user] u  " + //
+        //                 "inner join IS_Management_Audit isma1 on (isma1.auditor_id = u.id  " + //
+        //                 "or isma1.reviewer_id = u.id  " + //
+        //                 "or isma1.approver_id = u.id  " + //
+        //                 "or isma1.followup_id = u.id) and isma1.id = #{id}  " + //
+        //                 "where u.category = #{category}")
+        // @Results(value = {
+        //                 @Result(property = "id", column = "id"),
+        //                 @Result(property = "employee_id", column = "emp_id"),
+        //                 @Result(property = "photoUrl", column = "photo_url"),
+        //                 @Result(property = "branch", column = "branch_id", one = @One(select = "com.afr.fms.Admin.Mapper.BranchMapper.getBranchById")),
+        //                 @Result(property = "roles", javaType = List.class, column = "id", many = @Many(select = "com.afr.fms.Admin.Mapper.RoleMapper.getRolesByUserId")),
+        //                 @Result(property = "jobPosition", column = "job_position_id", one = @One(select = "com.afr.fms.Admin.Mapper.JobPositionMapper.getJobPositionById")),
+        // })
+        // public List<User> getUsersRemark(AuditISM auditISM);
 
         @Select("SELECT * FROM [user] WHERE id in (select user_id from user_role where role_id in ( select id from role where code = #{role} )) and category= #{category} ")
         @Results(value = {

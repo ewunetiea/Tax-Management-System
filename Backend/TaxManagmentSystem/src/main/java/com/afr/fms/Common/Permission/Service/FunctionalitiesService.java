@@ -1,14 +1,11 @@
 package com.afr.fms.Common.Permission.Service;
 
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.afr.fms.Admin.Entity.Role;
 import com.afr.fms.Admin.Entity.User;
 import com.afr.fms.Admin.Mapper.RoleMapper;
@@ -61,7 +58,6 @@ public class FunctionalitiesService {
 			String normalizedPath = ApiPathNormalizer.normalizeSpringBootPath(request);
 			return processVerfyingPermission(username, normalizedPath, method);
 		}
-
 		return false;
 	}
 
@@ -110,7 +106,6 @@ public class FunctionalitiesService {
 	}
 
 	public List<Functionalities> getAllFunctionalitiesByRole(Long id) {
-
 		return functionalitiesMapper.getAllFunctionalitiesByRole(id);
 	}
 
@@ -159,7 +154,6 @@ public class FunctionalitiesService {
 	}
 
 	public void assignPermission(Role role) {
-
 		functionalitiesMapper.deleteRoleFunctionality(role.getId());
 		for (Functionalities functionalities : role.getFunctionalities()) {
 			functionalitiesMapper.assignPermission(role.getId(), functionalities.getId(), functionalities.isStatus());
@@ -167,17 +161,13 @@ public class FunctionalitiesService {
 	}
 
 	public void changeRolePermisssion(Role role) {
-
 		for (Functionalities functionality : role.getFunctionalities()) {
-			functionalitiesMapper.updateRoleFunctionalitiesById(role.getId(), functionality.getId(),
-					functionality.isStatus());
-
+			functionalitiesMapper.updateRoleFunctionalitiesById(role.getId(), functionality.getId(), functionality.isStatus());
 		}
 	}
 
 	public List<Functionalities> getFunctionalityByCategory(Role role) {
 		return functionalitiesMapper.getFunctionalityByCategory(role);
-
 	}
 
 }

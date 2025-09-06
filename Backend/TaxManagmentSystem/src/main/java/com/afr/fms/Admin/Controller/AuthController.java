@@ -98,11 +98,8 @@ public class AuthController {
         private SessionManager sessionManager;
 
         @PostMapping("/signin")
-        public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
-                        HttpServletRequest request) throws MultipleSessionsException {
-
+        public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, HttpServletRequest request) throws MultipleSessionsException {
                 String username = loginRequest.getUsername();
-
 
                 System.out.println("___________________________________________________________________________");
 
@@ -138,6 +135,7 @@ public class AuthController {
         }
 
         private ResponseEntity<?> doLogin(LoginRequest loginRequest, HttpServletRequest request) {
+                System.out.println("Ffffffffffffffffffffffffffffffffffffffffffff Inside doLogin method: " + loginRequest.getUsername());
                 // try {
                 //         User user = userService.findByFusionUsername(loginRequest.getUsername());
                 //         if (user != null) {
@@ -247,15 +245,13 @@ System.out.println("Setting refresh token cookie: " + jwtRefreshCookie.toString(
 
                         ResponseCookie jwtCookie = jwtUtils.getCleanJwtCookie(request);
                         ResponseCookie jwtRefreshCookie = jwtUtils.getCleanJwtRefreshCookie(request);
-
                         return ResponseEntity.ok()
                                         .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                                         .header(HttpHeaders.SET_COOKIE, jwtRefreshCookie.toString())
                                         .body(new MessageResponse("You've been signed out!"));
                 } catch (Exception e) {
                         logger.error("Logout failed for tracker: {}", id_login_tracker, e);
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                        .body(new MessageResponse("Logout failed. Please try again."));
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Logout failed. Please try again."));
                 }
         }
 
@@ -269,13 +265,10 @@ System.out.println("Setting refresh token cookie: " + jwtRefreshCookie.toString(
                                                 .map(RefreshToken::getUser)
                                                 .map(user -> {
                                                         user.setUsername(user.getEmail());
-                                                        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(user,
-                                                                        request);
+                                                        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(user, request);
                                                         return ResponseEntity.ok()
-                                                                        .header(HttpHeaders.SET_COOKIE,
-                                                                                        jwtCookie.toString())
-                                                                        .body(new MessageResponse(
-                                                                                        "JWT is refreshed successfully!"));
+                                                                        .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                                                                        .body(new MessageResponse("JWT is refreshed successfully!"));
                                                 })
                                                 .orElseThrow(() -> new TokenRefreshException(refreshToken,
                                                                 "Refresh token is not in database!"));

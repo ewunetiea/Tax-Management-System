@@ -1,7 +1,6 @@
 package com.afr.fms.Security.jwt;
 
 import java.io.IOException;
-import java.util.Set;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -61,8 +60,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     // 🔒 Block if not from allowed hosts/origins/IPs
     if (!isAllowed(hostHeader, originHeader, remoteAddr)) {
-      logger.warn("Blocked request from disallowed source. Host={} Origin={} IP={}", hostHeader, originHeader,
-          remoteAddr);
+      logger.warn("Blocked request from disallowed source. Host={} Origin={} IP={}", hostHeader, originHeader, remoteAddr);
       response.sendError(HttpServletResponse.SC_FORBIDDEN, "Blocked by strict origin/IP policy");
       return;
     }
@@ -81,8 +79,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
           }
 
           UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-          UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
-              null, userDetails.getAuthorities());
+          UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
           authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
           SecurityContextHolder.getContext().setAuthentication(authentication);
         }

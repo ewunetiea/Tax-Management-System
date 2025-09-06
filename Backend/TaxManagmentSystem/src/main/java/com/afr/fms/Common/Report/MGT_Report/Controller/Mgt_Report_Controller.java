@@ -40,17 +40,17 @@ public class Mgt_Report_Controller {
 
 	}
 
-	@GetMapping("/division/{directorate_id}")
-	public ResponseEntity<List<Branch>> getMgtReport(@PathVariable Long directorate_id, HttpServletRequest request) {
+	// @GetMapping("/division/{directorate_id}")
+	// public ResponseEntity<List<Branch>> getMgtReport(@PathVariable Long directorate_id, HttpServletRequest request) {
 
-		try {
-			return new ResponseEntity<>(mgt_Report_Service.getDivisionsByDirectorateId(directorate_id), HttpStatus.OK);
-		} catch (Exception ex) {
-			System.out.println(ex);
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	// 	try {
+	// 		return new ResponseEntity<>(mgt_Report_Service.getDivisionsByDirectorateId(directorate_id), HttpStatus.OK);
+	// 	} catch (Exception ex) {
+	// 		System.out.println(ex);
+	// 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	// 	}
 
-	}
+	// }
 
 	@PostMapping("/fetch_new_report")
 	public ResponseEntity<List<ISManagementAuditDTO>> getNewMgtReport(@RequestBody ISReport isReport,
@@ -61,12 +61,10 @@ public class Mgt_Report_Controller {
 			System.out.println(ex);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
 	}
 
 	@PostMapping("/fetch_credit_documentation_report")
-	public ResponseEntity<List<ISManagementAuditDTO>> fetchCreditDocumentationNewReport(
-			@RequestBody CreditDocumentationReport isReport, HttpServletRequest request) {
+	public ResponseEntity<List<ISManagementAuditDTO>> fetchCreditDocumentationNewReport(@RequestBody CreditDocumentationReport isReport, HttpServletRequest request) {
 		try {
 			return new ResponseEntity<>(newMgt_Report_Service.fetchCreditDocumentationNewReport(isReport),
 					HttpStatus.OK);

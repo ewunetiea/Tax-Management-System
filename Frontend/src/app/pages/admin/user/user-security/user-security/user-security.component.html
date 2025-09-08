@@ -1,158 +1,87 @@
 <form ngNativeValidate #securityForm="ngForm" class="p-fluid">
     <div class="p-formgrid p-grid">
-      <div class="p-field col-6">
-        <label><strong class="text-danger">*</strong> User Status</label> <br />
-        <p-inputSwitch
-          [(ngModel)]="user_sec.status"
-          name="status"
-          #status="ngModel"
-          [class.is-invalid]="status.invalid && status.touched"
-          class="p-ml-3"
-          required
-        ></p-inputSwitch>
-        <small class="text-danger"  [class.d-none]="status.valid || status.untouched">User Status is required</small>
-      </div>
-      <div class="p-field col-6">
-        <label><strong class="text-danger">*</strong>Account Lock</label> <br />
-        <p-inputSwitch
-          [(ngModel)]="user_sec.user_security!.accountNonLocked"
-          name="accountNonLocked"
-          #accountNonLocked="ngModel"
-          [class.is-invalid]="accountNonLocked.invalid && accountNonLocked.touched "
-          class="p-ml-3"
-          required
-        ></p-inputSwitch>
-        <small class="text-danger" [class.d-none]="accountNonLocked.valid || accountNonLocked.untouched">User Account Lock Status is required</small>
-      </div>
+        <div class="p-field col-6">
+            <label><strong class="text-red-600">*</strong> User Status</label> <br />
+            <p-inputSwitch [(ngModel)]="user_sec.status" name="status" #status="ngModel" [class.is-invalid]="status.invalid && status.touched" class="p-ml-3" required></p-inputSwitch>
+            <small class="text-red-600" [class.d-none]="status.valid || status.untouched">User Status is required</small>
+        </div>
+        <div class="p-field col-6">
+            <label><strong class="text-red-600">*</strong>Account Lock</label> <br />
+            <p-inputSwitch [(ngModel)]="user_sec.user_security!.accountNonLocked" name="accountNonLocked" #accountNonLocked="ngModel" [class.is-invalid]="accountNonLocked.invalid && accountNonLocked.touched" class="p-ml-3" required></p-inputSwitch>
+            <small class="text-red-600" [class.d-none]="accountNonLocked.valid || accountNonLocked.untouched">User Account Lock Status is required</small>
+        </div>
     </div>
-  
+
     <div class="p-formgrid p-grid">
-      <div class="p-field col-6">
-        <label><strong class="text-danger">*</strong>Account Expiration</label>
-        <br />
-        <p-inputSwitch
-          [(ngModel)]="user_sec.user_security!.accountNonExpired"
-          name="status"
-          #accountNonExpired="ngModel"
-          [class.is-invalid]="accountNonExpired.invalid && accountNonExpired.touched"
-          required
-          class="p-ml-3"
-        ></p-inputSwitch>
-        <small
-          class="text-danger"
-          [class.d-none]="accountNonExpired.valid || accountNonExpired.untouched"
-        >
-          User Account Expiration Status is required</small
-        >
-      </div>
-      <div class="p-field col-6">
-        <label
-          ><strong class="text-danger">*</strong> Credentials Expiration
-        </label>
-        <br />
-        <p-inputSwitch
-          [(ngModel)]="user_sec.user_security!.credentialsNonExpired"
-          name="credentialsNonExpired"
-          #credentialsNonExpired="ngModel"
-          [class.is-invalid]="
-            credentialsNonExpired.invalid && credentialsNonExpired.touched
-          "
-          class="p-ml-3"
-          required
-        ></p-inputSwitch>
-        <small
-          class="text-danger"
-          [class.d-none]="
-            credentialsNonExpired.valid || credentialsNonExpired.untouched
-          "
-        >
-          Credentials Expiration Status is required</small
-        >
-      </div>
+        <div class="p-field col-6">
+            <label><strong class="text-red-600">*</strong>Account Expiration</label>
+            <br />
+            <p-inputSwitch [(ngModel)]="user_sec.user_security!.accountNonExpired" name="status" #accountNonExpired="ngModel" [class.is-invalid]="accountNonExpired.invalid && accountNonExpired.touched" required class="p-ml-3"></p-inputSwitch>
+            <small class="text-red-600" [class.d-none]="accountNonExpired.valid || accountNonExpired.untouched"> User Account Expiration Status is required</small>
+        </div>
+        <div class="p-field col-6">
+            <label><strong class="text-red-600">*</strong> Credentials Expiration </label>
+            <br />
+            <p-inputSwitch
+                [(ngModel)]="user_sec.user_security!.credentialsNonExpired"
+                name="credentialsNonExpired"
+                #credentialsNonExpired="ngModel"
+                [class.is-invalid]="credentialsNonExpired.invalid && credentialsNonExpired.touched"
+                class="p-ml-3"
+                required
+            ></p-inputSwitch>
+            <small class="text-red-600" [class.d-none]="credentialsNonExpired.valid || credentialsNonExpired.untouched"> Credentials Expiration Status is required</small>
+        </div>
     </div>
-  
+
     <div class="p-formgrid p-grid">
-      <div class="p-field col-6">
-        <label class="p-mr-3"
-          ><strong class="text-danger">*</strong> Number of Attempts</label
-        >
-        <p-inputNumber
-          [(ngModel)]="user_sec.user_security!.number_of_attempts"
-          [showButtons]="true"
-          buttonLayout="horizontal"
-          inputId="horizontal"
-          spinnerMode="horizontal"
-          [min]="0"
-          [step]="1"
-          decrementButtonClass="p-button-secondary"
-          incrementButtonIcon="pi pi-plus"
-          decrementButtonIcon="pi pi-minus"
-          name="number_of_attempts"
-          #number_of_attempts="ngModel"
-          [class.is-invalid]="
-            number_of_attempts.invalid && number_of_attempts.touched
-          "
-        >
-        </p-inputNumber>
-        <small
-          class="text-danger"
-          [class.d-none]="
-            number_of_attempts.valid || number_of_attempts.untouched
-          "
-        >
-          Number of Attempts is required</small
-        >
-      </div>
-      <div class="p-field p-col">
-        <label for="finding_date"
-          ><strong class="text-danger">*</strong>Password Created Date</label
-        >
-        <p-calendar
-          [showIcon]="true"
-          [showClear]="true"
-          #finding_date="ngModel"
-          [maxDate]="today"
-          dataType="string"
-          name="finding_date"
-          dateFormat="mm/dd/yy"
-          [(ngModel)]="password_created_date"
-          [class.is-invalid]="finding_date.invalid && finding_date.touched"
-          id="finding_date"
-          [required]="true"
-        ></p-calendar>
-        <small
-          class="text-danger"
-          [class.d-none]="finding_date.valid || finding_date.untouched"
-          >password Created Date is required<br
-        /></small>
-      </div>
+        <div class="p-field col-6">
+            <label class="p-mr-3"><strong class="text-red-600">*</strong> Number of Attempts</label>
+            <p-inputNumber
+                [(ngModel)]="user_sec.user_security!.number_of_attempts"
+                [showButtons]="true"
+                buttonLayout="horizontal"
+                inputId="horizontal"
+                spinnerMode="horizontal"
+                [min]="0"
+                [step]="1"
+                decrementButtonClass="p-button-secondary"
+                incrementButtonIcon="pi pi-plus"
+                decrementButtonIcon="pi pi-minus"
+                name="number_of_attempts"
+                #number_of_attempts="ngModel"
+                [class.is-invalid]="number_of_attempts.invalid && number_of_attempts.touched"
+            >
+            </p-inputNumber>
+            <small class="text-red-600" [class.d-none]="number_of_attempts.valid || number_of_attempts.untouched"> Number of Attempts is required</small>
+        </div>
+        <div class="p-field p-col">
+            <label for="finding_date"><strong class="text-red-600">*</strong>Password Created Date</label>
+            <p-calendar
+                [showIcon]="true"
+                [showClear]="true"
+                #finding_date="ngModel"
+                [maxDate]="today"
+                dataType="string"
+                name="finding_date"
+                dateFormat="mm/dd/yy"
+                [(ngModel)]="password_created_date"
+                [class.is-invalid]="finding_date.invalid && finding_date.touched"
+                id="finding_date"
+                [required]="true"
+            ></p-calendar>
+            <small class="text-red-600" [class.d-none]="finding_date.valid || finding_date.untouched">password Created Date is required<br /></small>
+        </div>
     </div>
-  
+
     <div class="p-formgrid p-grid mt-4">
-      <div class="p-field p-col-2">
-        <button
-          pButton
-          pRipple
-          label="Save"
-          [disabled]="securityForm.form.invalid"
-          icon="pi pi-check"
-          class="p-button-raised p-button-rounded"
-          (click)="saveUser()"
-        ></button>
-      </div>
-      <div class="p-field p-col-2">
-        <button
-          class="col-md-3"
-          pButton
-          pRipple
-          type="reset"
-          label="Reset"
-          icon="pi pi-times"
-          class="p-button-raised p-button-danger p-button-rounded"
-        ></button>
-      </div>
+        <div class="p-field p-col-2">
+            <button pButton pRipple label="Save" [disabled]="securityForm.form.invalid" icon="pi pi-check" class="p-button-raised p-button-rounded" (click)="saveUser()"></button>
+        </div>
+        <div class="p-field p-col-2">
+            <button class="col-md-3" pButton pRipple type="reset" label="Reset" icon="pi pi-times" class="p-button-raised p-button-danger p-button-rounded"></button>
+        </div>
     </div>
-  </form>
-  
-  <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
-  
+</form>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

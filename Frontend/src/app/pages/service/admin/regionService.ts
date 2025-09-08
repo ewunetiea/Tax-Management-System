@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment.prod';
 import { Region } from '../../../models/admin/region';
-import { PaginatorPayLoad } from '../../../models/admin/paginator-payload';
 
 const baseUrl = environment.backendUrl;
 

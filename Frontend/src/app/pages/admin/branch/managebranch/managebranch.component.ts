@@ -37,7 +37,7 @@ export class ManagebranchComponent {
     data2 = new Array();
     sizes!: any[];
     selectedSize: any = 'normal';
-    breadcrumbText: string = 'Manage Branchs';
+    breadcrumbText: string = 'Manage Branches';
     items: MenuItem[] | undefined;
     home: MenuItem | undefined;
     paginatorPayload = new PaginatorPayLoad();

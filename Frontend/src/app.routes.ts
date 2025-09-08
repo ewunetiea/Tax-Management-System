@@ -1,10 +1,8 @@
 import { Routes } from '@angular/router';
 import { AppLayout } from './app/layout/component/app.layout';
-import { Dashboard } from './app/pages/dashboard/dashboard';
 import { Documentation } from './app/pages/documentation/documentation';
 import { Notfound } from './app/pages/notfound/notfound';
 import { AuthGuard } from './app/pages/service/admin/auth.guard';
-import { LoginComponent } from './app/pages/login/login.component';
 import { DashboardContainerComponent } from './app/pages/dashboard/dashboard-container/dashboard-container.component';
 import { Login } from './app/pages/auth/login';
 import { UserProfileComponent } from './app/pages/admin/user/user-profile/user-profile.component';

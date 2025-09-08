@@ -1,59 +1,34 @@
-<form (ngSubmit)="saveRegion()" #regionForm="ngForm" class="flex flex-col gap-8"> 
-  <div class="flex flex-col gap-2">
-    <label for="region_name"><strong class="text-danger">*</strong>Region Name</label>
-    <input
-    pInputText
-      type="text"
-      id="region_name"
-      [(ngModel)]="region.name"
-      name="name"
-      #regionName="ngModel"
-      required
-      [class.is-invalid]="regionName.invalid && regionName.touched"
-      (change)="checkRegionNameExist()"
-    />
-    <div *ngIf="regionName.errors && regionName.touched">
-      <small class="text-danger" *ngIf="regionName?.errors?.['required']">Region name is required</small>
+<form (ngSubmit)="saveRegion()" #regionForm="ngForm" class="flex flex-col gap-8">
+    <div class="flex flex-col gap-2">
+        <label for="region_name"><strong class="text-red-600">*</strong>Region Name</label>
+        <input 
+        pInputText 
+        type="text" 
+        id="region_name"
+         [(ngModel)]="region.name" 
+         name="name" 
+         #regionName="ngModel" 
+         [ngClass]="{ 'p-invalid': regionName.touched && regionName.invalid }"
+         (change)="checkRegionNameExist()" />
+        <div *ngIf="regionName.errors && regionName.touched">
+            <small class="text-red-600" *ngIf="regionName?.errors?.['required']">Region name is required</small>
+        </div>
+        <small *ngIf="region_name_exist_status" class="text-red-600">Region Already Exist</small>
     </div>
-    <small *ngIf="region_name_exist_status" class="text-danger">Region Already Exist</small>
-  </div>
 
-  <div class="flex flex-col gap-2">
-    <label for="code"><strong class="text-danger">*</strong>Region Code</label>
-    <input
-    pInputText
-      type="text"
-      id="code"
-      [(ngModel)]="region.code"
-      name="code"
-      #regionCode="ngModel"
-      (change)="checkRegionCodeExist()"
-      required
-      [class.is-invalid]="regionCode.invalid && regionCode.touched"
-    />
-    <div *ngIf="regionCode.errors && regionCode.touched">
-      <small class="text-danger" *ngIf="regionCode?.errors?.['required']">Region Code is required</small>
+    <div class="flex flex-col gap-2">
+        <label for="code"><strong class="text-red-600">*</strong>Region Code</label>
+        <input pInputText type="text" id="code" [(ngModel)]="region.code" name="code" #regionCode="ngModel" (change)="checkRegionCodeExist()" required [class.is-invalid]="regionCode.invalid && regionCode.touched" />
+        <div *ngIf="regionCode.errors && regionCode.touched">
+            <small class="text-red-600" *ngIf="regionCode?.errors?.['required']">Region Code is required</small>
+        </div>
+        <small *ngIf="region_code_exist_status" class="text-red-600">Region Code Exist</small>
     </div>
-    <small *ngIf="region_code_exist_status" class="text-danger">Region Code Exist</small>
-  </div>
 
-  <div class="field flex gap-2 mt-3">
-    <button
-    [loading]="loading"
-      type="submit"
-      pButton
-      label="{{ getSubmitButtonText() }}"
-      class="p-button-primary p-button-success mr-2"
-      [disabled]="
-        regionForm.form.invalid ||
-        region_name_exist_status ||
-        region_code_exist_status
-      "
-    ></button>
-    <button type="reset" pButton label="Reset" class="p-button-raised p-button-rounded p-button-danger"></button>
-  </div>
+    <div class="field flex gap-2 mt-3">
+        <button [loading]="loading" type="submit" pButton label="{{ getSubmitButtonText() }}" class="p-button-primary p-button-success mr-2" [disabled]="regionForm.form.invalid || region_name_exist_status || region_code_exist_status"></button>
+        <button type="reset" pButton label="Reset" class="p-button-raised p-button-rounded p-button-danger"></button>
+    </div>
 </form>
 
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
-
-  

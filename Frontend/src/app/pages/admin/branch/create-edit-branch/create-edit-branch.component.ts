@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Branch } from '../../../../models/admin/branch';
-import { HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { Region } from '../../../../models/admin/region';
 import { BranchService } from '../../../service/admin/branchService';
@@ -16,11 +15,12 @@ import { ToastModule } from 'primeng/toast';
 import { SkeletonModule } from 'primeng/skeleton';
 import { DialogModule } from 'primeng/dialog';
 import { PaginatorPayLoad } from '../../../../models/admin/paginator-payload';
+import { Select } from 'primeng/select';
 
 @Component({
     selector: 'app-create-edit-branch',
     standalone: true,
-    imports: [CommonModule, FormsModule, InputTextModule, ButtonModule, DropdownModule, ToastModule, SkeletonModule, DialogModule],
+    imports: [CommonModule, FormsModule, InputTextModule, ButtonModule, DropdownModule, ToastModule, SkeletonModule, DialogModule, Select],
     templateUrl: './create-edit-branch.component.html',
     styleUrl: './create-edit-branch.component.scss'
 })
@@ -165,7 +165,7 @@ export class CreateEditBranchComponent {
     }
 
     getAllRegions() {
-        this.regionService.getAllRegions().subscribe({
+        this.regionService.getRegions().subscribe({
             next: (data) => {
                 this.regions = data;
             },

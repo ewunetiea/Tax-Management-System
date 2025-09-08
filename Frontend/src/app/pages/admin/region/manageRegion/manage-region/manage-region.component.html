@@ -49,9 +49,6 @@
                         [rowsPerPageOptions]="[5, 10, 25, 50]"
                         [tableStyle]="{ 'min-width': '75rem' }"
                         [size]="selectedSize"
-                        [totalRecords]="paginatorPayload!.totalRecords"
-                        (onLazyLoad)="onPage($event)"
-                        [lazy]="true"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                         [showCurrentPageReport]="true" >
                         <ng-template #caption>
@@ -113,7 +110,7 @@
                         </ng-template>
 
                         <ng-template pTemplate="summary">
-                            <div class="p-d-flex p-ai-center p-jc-between">In total there are {{ paginatorPayload.totalRecords }} regions.</div>
+                            <div class="p-d-flex p-ai-center p-jc-between">In total there are {{ regions ? regions.length : 0 }} regions.</div>
                         </ng-template>
                     </p-table>
                 </p-card>

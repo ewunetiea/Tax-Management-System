@@ -62,9 +62,6 @@
               [rowsPerPageOptions]="[5,10, 25, 50]"
               [size]="selectedSize"
               [tableStyle]="{ 'min-width': '82rem' }"
-              [totalRecords]="paginatorPayload!.totalRecords"
-              (onLazyLoad)="onPage($event)"
-              [lazy]="true"
               currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
               [showCurrentPageReport]="true"
             >
@@ -196,7 +193,7 @@
   
               <ng-template pTemplate="summary">
                 <div class="p-d-flex p-ai-center p-jc-between">
-                  In total there are {{ paginatorPayload.totalRecords }} branches.
+                  In total there are {{ branches ? branches.length : 0 }} branches.
                 </div>
               </ng-template>
             </p-table>

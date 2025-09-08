@@ -37,6 +37,7 @@ import { DividerModule } from 'primeng/divider';
 import { ChartModule } from 'primeng/chart';
 import { TimeagoModule } from 'ngx-timeago';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { Select } from 'primeng/select';
 
 @NgModule({
   imports: [
@@ -54,6 +55,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
     TooltipModule,
     TableModule,
     MultiSelectModule,
+    Select,
     ButtonModule,
     TagModule,
     CheckboxModule,
@@ -94,6 +96,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
     TooltipModule,
     TableModule,
     MultiSelectModule,
+    Select,
     ButtonModule,
     TagModule,
     CheckboxModule,

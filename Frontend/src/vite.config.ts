@@ -7,6 +7,7 @@ export default defineConfig({
     define: {
         global: 'window'
     },
+    
     optimizeDeps: {
         esbuildOptions: {
             define: {

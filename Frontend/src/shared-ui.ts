@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 // PrimeNG UI modules
@@ -38,6 +38,8 @@ import { ChartModule } from 'primeng/chart';
 import { TimeagoModule } from 'ngx-timeago';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { Select } from 'primeng/select';
+import { RouterModule } from '@angular/router';
+import { RippleModule } from 'primeng/ripple';
 
 @NgModule({
   imports: [
@@ -81,6 +83,9 @@ import { Select } from 'primeng/select';
     TimeagoModule,
     ChartModule,
     RadioButtonModule,
+    RouterModule, 
+    RippleModule, 
+    NgIf,
   ],
   exports: [
     CommonModule,
@@ -123,6 +128,7 @@ import { Select } from 'primeng/select';
     ChartModule,
     TimeagoModule,
     RadioButtonModule,
+    RouterModule, RippleModule, NgIf
   ]
 })
 export class SharedUiModule {}

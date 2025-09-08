@@ -16,66 +16,20 @@ import { PasswordService } from '../service/admin/password.service';
 import { User } from '../../models/admin/user';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { WebSocketService } from '../service/WebSocketService/WebSocketService';
+import { SharedUiModule } from '../../../shared-ui';
 
 @Component({
     selector: 'app-login',
     standalone: true,
-    imports: [ButtonModule, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule, AppFloatingConfigurator, NgIf],
+    imports: [ AppFloatingConfigurator, SharedUiModule ],
      providers: [MessageService, ConfirmationService],
-    template: `
-        <app-floating-configurator />
-        <div class="bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-[100vw] overflow-hidden">
-            <div class="flex flex-col items-center justify-center">
-                <div style="border-radius: 56px; padding: 0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)">
-                    <div class="w-full bg-surface-0 dark:bg-surface-900 py-20 px-8 sm:px-20" style="border-radius: 53px">
-                     
-                   <div class="text-center text-lg mb-8">
-                            <img src="assets/img/awashbank.png" alt="Awash Bank Logo" class="mb-8 w-16 mx-auto" />
-                            <div class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-4">Welcome to tms!</div>
-                            <span class="text-muted-color font-medium">Sign in to continue</span>
-                        </div>
+      templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 
-                        <form #f="ngForm" name="form" (ngSubmit)="onSubmit()" novalidate>
-                            <div>
-                                <label for="username" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Email</label>
-                                <input pInputText name="username" type="text" placeholder="Email address" class="w-full md:w-[30rem] mb-2" [(ngModel)]="form.username" required #usernameModel="ngModel" />
-                                <div *ngIf="f.submitted && usernameModel.invalid" class="text-red-500 mb-2">
-                                    <small *ngIf="usernameModel.errors?.['required']">Email is required.</small>
-                                </div>
-
-                                <label for="password1" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Password</label>
-                                <p-password
-                                    name="password"
-                                    [(ngModel)]="form.password"
-                                    placeholder="Password"
-                                    [toggleMask]="true"
-                                    styleClass="mb-2"
-                                    [feedback]="false"
-                                    required
-                                    #passwordModel="ngModel"
-                                    [style]="{ width: '100%', 'max-width': '30rem' }"
-                                    [inputStyle]="{ width: '100%' }"
-                                ></p-password>
-                                <div *ngIf="f.submitted && passwordModel.invalid" class="text-red-500 mb-2">
-                                    <small *ngIf="passwordModel.errors?.['required']">Password is required.</small>
-                                </div>
-
-                                <div class="flex items-center justify-between mt-2 mb-8 gap-8">
-                                    <div class="flex items-center">
-                                    <span class="font-medium no-underline mr-2 text-right cursor-pointer text-secondary" routerLink="/forget-password">Forgot password?</span>
-                                    </div>
-                                    <span class="font-medium no-underline ml-2 text-right cursor-pointer text-secondary" routerLink="/signup">Signup</span>
-                                </div>
-                                <p-button label="Sign In" styleClass="w-full" type="submit" [disabled]="f.invalid"></p-button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `
 })
 export class Login {
+
+
 form: any = { username: null, password: null };
   isLoginFailed = false;
   errorMessage = '';

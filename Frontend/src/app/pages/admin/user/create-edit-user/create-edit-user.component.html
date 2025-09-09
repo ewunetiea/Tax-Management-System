@@ -7,6 +7,7 @@
                 <small class="text-red-600" *ngIf="first_name.errors['required']">First Name is required</small>
             </div>
         </div>
+
         <div class="flex flex-col grow basis-0 gap-2">
             <label for="middle_name"> <strong class="text-red-600">*</strong>Middle Name</label>
             <input type="text" #middle_name="ngModel" [ngClass]="{ 'p-invalid': middle_name.touched && middle_name.invalid }" pInputText id="middle_name" [(ngModel)]="user.middle_name" name="middle_name" required />
@@ -14,6 +15,7 @@
                 <small class="text-red-600" *ngIf="middle_name.errors['required']">Middle Name is required</small>
             </div>
         </div>
+
         <div class="flex flex-col grow basis-0 gap-2">
             <label for="last_name"> <strong class="text-red-600">*</strong>Last Name</label>
             <input id="last_name" type="text" pInputText name="last_name" [(ngModel)]="user.last_name" #last_name="ngModel" [ngClass]="{ 'p-invalid': last_name.touched && last_name.invalid }" required />
@@ -24,7 +26,7 @@
     </div>
 
     <div class="p-field">
-        <label class="p-mb-3"><strong class="text-red-600">*</strong> Gender</label>
+        <label class="p-mb-3"><strong class="text-red-600">*</strong>Gender</label>
         <div class="flex flex-col md:flex-row gap-6">
             <div class="flex flex-col grow md:flex-row gap-4">
                 <div class="flex items-center">
@@ -65,9 +67,10 @@
         </div>
     </div>
 
-    <div class="flex flex-wrap gap-4">
+    
+         <div class="flex flex-col md:flex-row gap-6">
         <div class="w-full md:w-1/2">
-            <label for="employee_id"> <strong class="text-red-600">*</strong>Awash Bank ID</label>
+            <label for="employee_id"> <strong class="text-red-600">*</strong>Awash Bank ID </label>
             <input
                 type="text"
                 #employee_id="ngModel"
@@ -93,12 +96,13 @@
         </div>
 
         <div *ngIf="!employee_id_status && proceed && !(employee_id.errors && employee_id.touched)" class="w-full md:w-1/2">
-            <label for="email"> <strong class="text-red-600">*</strong>Outlook Address</label>
+            <label for="email"> <strong class="text-red-600">*</strong>Outlook Address </label>
             <input type="text" #email="ngModel" [class.is-invalid]="email.invalid && email.touched" pInputText id="email" [(ngModel)]="user.email" name="email" (input)="checkEmailStatus($event)" required pattern="\w+(\.\w+)?@awashbank\.com$" />
 
             <div *ngIf="email_status">
                 <small class="text-red-600"> Outlook Address Already Exists </small>
             </div>
+
             <div *ngIf="email.errors && email.touched">
                 <small class="text-red-600" *ngIf="email.errors['required']">Outlook Address is required</small>
                 <small class="text-red-600" *ngIf="email.errors['pattern']">Outlook Address should either end with '&#64;awashbank.com' or adhere to the Awash Bank standard.</small>
@@ -124,9 +128,9 @@
         </div>
     </div>
 
-    <div class="flex flex-wrap gap-4" *ngIf="proceed && !(employee_id.errors && employee_id.touched)">
-        <div class="p-field p-col" *ngIf="showJobPosition">
-            <label for="jobPosition"><strong class="text-red-600">*</strong>Job Title</label>
+    <div class="flex flex-col md:flex-row gap-6" *ngIf="proceed && !(employee_id.errors && employee_id.touched)">
+        <div class="w-full mb-4" *ngIf="showJobPosition">
+            <label for="jobPosition"><strong class="text-red-600">*</strong>Job Title </label>
             <p-select
                 [options]="job_positions"
                 optionLabel="title"
@@ -155,7 +159,7 @@
                         <p-skeleton [width]="options.even ? '60%' : '50%'" height="1rem"></p-skeleton>
                     </div>
                 </ng-template>
-            </p-select>
+           </p-select>
 
             <div *ngIf="real_job_position_status">
                 <small class="text-red-600"> Information not correct! </small>
@@ -165,8 +169,8 @@
             </div>
         </div>
         <div class="mb-4 w-full" *ngIf="regionRadioButton">
-            <label for="region"><strong class="text-red-600">*</strong>Region</label>
-            <p-dropdown
+            <label for="region"><strong class="text-red-600">*</strong>Region </label>
+            <p-select
                 [options]="regionFilter"
                 optionLabel="name"
                 name="region"
@@ -197,7 +201,7 @@
                         <p-skeleton [width]="options.even ? '60%' : '50%'" height="1rem"></p-skeleton>
                     </div>
                 </ng-template>
-            </p-dropdown>
+            </p-select>
 
             <div *ngIf="real_region_status">
                 <small class="text-red-600">Information not correct! </small>
@@ -207,7 +211,7 @@
             </div>
         </div>
         <div class="mb-4 w-full" *ngIf="branchRadioButton">
-            <label for="branch"><strong class="text-red-600">*</strong>Branch</label>
+            <label for="branch"><strong class="text-red-600">*</strong>Branch </label>
             <p-dropdown
                 [options]="allBranches"
                 optionLabel="name"
@@ -279,7 +283,7 @@
             </p-select>
 
             <div *ngIf="real_ho_status">
-                <small class="text-red-600"> Information not correct! </small>
+                <small class="text-red-600">Information not correct! </small>
             </div>
             <div *ngIf="ho.errors && ho.touched">
                 <small class="text-red-600" [class.d-none]="ho.valid || ho.untouched">HO is required<br /></small>

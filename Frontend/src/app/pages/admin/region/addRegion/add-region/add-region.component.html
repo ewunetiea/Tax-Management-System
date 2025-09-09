@@ -7,9 +7,10 @@
         id="region_name"
          [(ngModel)]="region.name" 
          name="name" 
+         required
          #regionName="ngModel" 
-         [ngClass]="{ 'p-invalid': regionName.touched && regionName.invalid }"
-         (change)="checkRegionNameExist()" />
+         (change)="checkRegionNameExist()"
+         [ngClass]="{ 'p-invalid': regionName.touched && regionName.invalid }"/>
         <div *ngIf="regionName.errors && regionName.touched">
             <small class="text-red-600" *ngIf="regionName?.errors?.['required']">Region name is required</small>
         </div>
@@ -18,7 +19,7 @@
 
     <div class="flex flex-col gap-2">
         <label for="code"><strong class="text-red-600">*</strong>Region Code</label>
-        <input pInputText type="text" id="code" [(ngModel)]="region.code" name="code" #regionCode="ngModel" (change)="checkRegionCodeExist()" required [class.is-invalid]="regionCode.invalid && regionCode.touched" />
+        <input pInputText type="text" id="code" [(ngModel)]="region.code" name="code" #regionCode="ngModel" (change)="checkRegionCodeExist()" required [ngClass]="{ 'p-invalid': regionCode.touched && regionCode.invalid }"/>
         <div *ngIf="regionCode.errors && regionCode.touched">
             <small class="text-red-600" *ngIf="regionCode?.errors?.['required']">Region Code is required</small>
         </div>

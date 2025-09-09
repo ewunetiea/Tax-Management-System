@@ -1,17 +1,10 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { CheckboxModule } from 'primeng/checkbox';
-import { InputTextModule } from 'primeng/inputtext';
-import { PasswordModule } from 'primeng/password';
-import { RippleModule } from 'primeng/ripple';
+import { Router} from '@angular/router';
 import { AppFloatingConfigurator } from '../../layout/component/app.floatingconfigurator';
 import { AuthService } from '../service/admin/auth.service';
 import { StorageService } from '../service/admin/storage.service';
 import { Platform } from '@angular/cdk/platform';
 import { Password } from '../../models/admin/password';
-import { NgIf } from '@angular/common';
 import { PasswordService } from '../service/admin/password.service';
 import { User } from '../../models/admin/user';
 import { ConfirmationService, MessageService } from 'primeng/api';

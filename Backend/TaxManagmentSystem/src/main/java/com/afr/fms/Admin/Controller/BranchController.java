@@ -1,9 +1,7 @@
 package com.afr.fms.Admin.Controller;
 
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,6 @@ import com.afr.fms.Admin.Entity.User;
 import com.afr.fms.Admin.Service.BranchService;
 import com.afr.fms.Common.RecentActivity.RecentActivity;
 import com.afr.fms.Common.RecentActivity.RecentActivityMapper;
-
 
 @RestController
 @RequestMapping("/api")
@@ -50,7 +47,6 @@ public class BranchController {
 
 	@GetMapping("/branch/active")
 	public ResponseEntity<List<Branch>> getActiveBranches() {
-
 		try {
 			List<Branch> branches = branchService.getActiveBranches();
 			return new ResponseEntity<>(branches, HttpStatus.OK);

@@ -22,7 +22,7 @@
 
     <div class="flex flex-col gap-2">
         <label for="branchCode"><strong class="text-red-600">*</strong>Branch Code</label>
-        <input pInputText type="text" [(ngModel)]="branches.code" name="code" autocomplete="off" (input)="checkCodeStatus($event)" class="form-control" required #branchCode="ngModel" [class.is-invalid]="branchCode.touched && branchCode.invalid" />
+        <input pInputText type="text" [(ngModel)]="branches.code" name="code" autocomplete="off" (input)="checkCodeStatus($event)" class="form-control" required #branchCode="ngModel" [ngClass]="{ 'p-invalid': branchCode.touched && branchCode.invalid }"/>
         <div *ngIf="branchCode.errors && branchCode.touched">
             <small class="text-red-600" *ngIf="branchCode.errors['required']">Branch Code is required</small>
         </div>
@@ -39,10 +39,11 @@
         [(ngModel)]="branches.region"
          name="region" 
          inputId="region" 
-         #reg="ngModel" [class.is-invalid]="reg.invalid && reg.touched" 
+         #reg="ngModel"
          placeholder="Select a Region" 
          [showClear]="true"
-         [required]="true" />
+         [ngClass]="{ 'p-invalid': reg.touched && reg.invalid }"
+         required />
         <div *ngIf="reg.errors && reg.touched">
             <small class="text-red-600" [class.d-none]="reg.invalid || reg.touched">Region is required</small>
         </div>

@@ -1,56 +1,59 @@
-<form ngNativeValidate #userForm="ngForm" class="p-fluid">
-    <div class="p-formgrid p-grid">
-        <div class="p-field p-col">
-            <div class="p-field p-col">
-                <label for="first_name"> <strong class="text-red-600">*</strong>First Name</label>
-                <input type="text" #first_name="ngModel" [class.is-invalid]="first_name.invalid && first_name.touched" pInputText id="first_name" [(ngModel)]="user.first_name" name="first_name" />
-                <small class="text-red-600" [class.d-none]="first_name.valid || first_name.untouched">First Name is required<br /></small>
+<form ngNativeValidate #userForm="ngForm" class="flex flex-col gap-8">
+    <div class="flex flex-col md:flex-row gap-4">
+        <div class="flex flex-col grow basis-0 gap-2">
+            <label for="first_name"> <strong class="text-red-600">*</strong>First Name</label>
+            <input type="text" pInputText id="first_name" [(ngModel)]="user.first_name" name="first_name" #first_name="ngModel" [ngClass]="{ 'p-invalid': first_name.touched && first_name.invalid }" required />
+            <div *ngIf="first_name.errors && first_name.touched">
+                <small class="text-red-600" *ngIf="first_name.errors['required']">First Name is required</small>
             </div>
         </div>
-        <div class="p-field p-col">
+        <div class="flex flex-col grow basis-0 gap-2">
             <label for="middle_name"> <strong class="text-red-600">*</strong>Middle Name</label>
-            <input type="text" #middle_name="ngModel" [class.is-invalid]="middle_name.invalid && middle_name.touched" pInputText id="middle_name" [(ngModel)]="user.middle_name" name="middle_name" />
-            <small class="text-red-600" [class.d-none]="middle_name.valid || middle_name.untouched">Middle Name is required<br /></small>
+            <input type="text" #middle_name="ngModel" [ngClass]="{ 'p-invalid': middle_name.touched && middle_name.invalid }" pInputText id="middle_name" [(ngModel)]="user.middle_name" name="middle_name" required />
+            <div *ngIf="middle_name.errors && middle_name.touched">
+                <small class="text-red-600" *ngIf="middle_name.errors['required']">Middle Name is required</small>
+            </div>
         </div>
-        <div class="p-field p-col">
+        <div class="flex flex-col grow basis-0 gap-2">
             <label for="last_name"> <strong class="text-red-600">*</strong>Last Name</label>
-            <input type="text" #last_name="ngModel" [class.is-invalid]="last_name.invalid && last_name.touched" pInputText id="last_name" [(ngModel)]="user.last_name" name="last_name" />
-            <small class="text-red-600" [class.d-none]="last_name.valid || last_name.untouched">Last Name is required<br /></small>
+            <input id="last_name" type="text" pInputText name="last_name" [(ngModel)]="user.last_name" #last_name="ngModel" [ngClass]="{ 'p-invalid': last_name.touched && last_name.invalid }" required />
+            <div *ngIf="last_name.errors && last_name.touched">
+                <small class="text-red-600" [class.d-none]="last_name.valid || last_name.untouched">Last Name is required<br /></small>
+            </div>
         </div>
     </div>
 
     <div class="p-field">
         <label class="p-mb-3"><strong class="text-red-600">*</strong> Gender</label>
-        <div class="p-formgrid p-grid">
-            <div class="p-field-radiobutton p-col-3">
-                <p-radioButton id="male" name="gender" value="Male" #gender="ngModel" required="true" [class.is-invalid]="gender.invalid && gender.touched" [(ngModel)]="user.gender"></p-radioButton>
-                <label for="male">Male</label>
+        <div class="flex flex-col md:flex-row gap-6">
+            <div class="flex flex-col grow md:flex-row gap-4">
+                <div class="flex items-center">
+                    <p-radiobutton id="male" name="gender" value="Male" #gender="ngModel" required [ngClass]="{ 'p-invalid': gender.touched && gender.invalid }" [(ngModel)]="user.gender" />
+                    <label for="male" class="leading-none ml-2">Male</label>
+                </div>
+                <div class="flex items-center">
+                    <p-radiobutton id="female" name="gender" value="Female" #gender="ngModel" required [ngClass]="{ 'p-invalid': gender.touched && gender.invalid }" [(ngModel)]="user.gender" />
+                    <label for="female" class="leading-none ml-2">Female</label>
+                </div>
+                <div *ngIf="gender.errors && gender.touched">
+                    <small class="text-red-600" [class.d-none]="gender.valid || gender.untouched">Gender is required<br /></small>
+                </div>
             </div>
-            <div class="p-field-radiobutton p-col-3">
-                <p-radioButton id="female" name="gender" value="Female" #gender="ngModel" required="true" [class.is-invalid]="gender.invalid && gender.touched" [(ngModel)]="user.gender"></p-radioButton>
-                <label for="female">Female</label>
-            </div>
-            <small class="text-red-600" [class.d-none]="gender.valid || gender.untouched">Gender is required<br /></small>
-            <div class="p-field p-col-6">
+
+            <div class="flex flex-col grow basis-0 gap-2">
                 <label for="phone_number"> <strong class="text-red-600">*</strong>Phone Number</label>
                 <input
+                    id="phone_number"
                     type="tel"
                     #phone_number="ngModel"
-                    [class.is-invalid]="phone_number.invalid && phone_number.touched"
+                    [ngClass]="{ 'p-invalid': phone_number.touched && phone_number.invalid }"
                     pInputText
                     pattern="(\+251|0)(9|7)\d{8}"
-                    id="phone_number"
                     (input)="checkPhoneNumberStatus($event)"
                     [(ngModel)]="user.phone_number"
                     name="phone_number"
-                    required="true"
+                    required
                 />
-                <!-- <small
-            class="text-red-600"
-            [class.d-none]="phone_number.valid || phone_number.untouched"
-            >Phone Number is required<br
-          /></small> -->
-
                 <div *ngIf="phone_number_status">
                     <small class="text-red-600"> Phone Number Already Exists </small>
                 </div>
@@ -62,19 +65,19 @@
         </div>
     </div>
 
-    <div class="p-formgrid p-grid">
-        <div class="p-field p-col-6">
+    <div class="flex flex-wrap gap-4">
+        <div class="w-full md:w-1/2">
             <label for="employee_id"> <strong class="text-red-600">*</strong>Awash Bank ID</label>
             <input
                 type="text"
                 #employee_id="ngModel"
-                [class.is-invalid]="employee_id.invalid && employee_id.touched"
+                [ngClass]="{ 'p-invalid': employee_id.touched && employee_id.invalid }"
                 pInputText
                 id="employee_id"
                 [(ngModel)]="user.employee_id"
                 name="employee_id"
                 (input)="checkAwashBankIdStatus($event)"
-                required="true"
+                required
                 pattern="^(AB|AIB|aib|ab)\/(\d{1,7})\/(19|20|21)\d{2}$"
             />
             <div *ngIf="employee_id.errors && employee_id.touched">
@@ -89,20 +92,9 @@
             </div>
         </div>
 
-        <div *ngIf="!employee_id_status && proceed && !(employee_id.errors && employee_id.touched)" class="p-field p-col-6">
+        <div *ngIf="!employee_id_status && proceed && !(employee_id.errors && employee_id.touched)" class="w-full md:w-1/2">
             <label for="email"> <strong class="text-red-600">*</strong>Outlook Address</label>
-            <input
-                type="text"
-                #email="ngModel"
-                [class.is-invalid]="email.invalid && email.touched"
-                pInputText
-                id="email"
-                [(ngModel)]="user.email"
-                name="email"
-                (input)="checkEmailStatus($event)"
-                required="true"
-                pattern="\w+(\.\w+)?@awashbank\.com$"
-            />
+            <input type="text" #email="ngModel" [class.is-invalid]="email.invalid && email.touched" pInputText id="email" [(ngModel)]="user.email" name="email" (input)="checkEmailStatus($event)" required pattern="\w+(\.\w+)?@awashbank\.com$" />
 
             <div *ngIf="email_status">
                 <small class="text-red-600"> Outlook Address Already Exists </small>
@@ -115,33 +107,33 @@
     </div>
 
     <div *ngIf="!employee_id_status && proceed && !employee_id_status_system && !(employee_id.errors && employee_id.touched)" class="p-field">
-        <label class="p-mb-3"><strong class="text-red-600">*</strong>Place of Work</label>
-        <div class="p-formgrid p-grid">
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="hoRB" name="hoRB" value="HO" [(ngModel)]="radio_value" (onClick)="chooseHO($event)"></p-radioButton>
-                <label for="hoRB">HO</label>
+        <label class="mb-3"><strong class="text-red-600">*</strong>Place of Work</label>
+        <div class="flex flex-col md:flex-row gap-4">
+            <div class="flex items-center">
+                <p-radiobutton id="hoRB" name="hoRB" value="HO" [(ngModel)]="radio_value" (onClick)="chooseHO($event)" />
+                <label for="ho" class="leading-none ml-2">HO</label>
             </div>
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="regionRB" name="regionRB" value="Region" [(ngModel)]="radio_value" (onClick)="chooseRegion($event)"></p-radioButton>
-                <label for="regionRB">Region</label>
+            <div class="flex items-center">
+                <p-radiobutton id="regionRB" name="regionRB" value="Region" [(ngModel)]="radio_value" (onClick)="chooseRegion($event)" />
+                <label for="region" class="leading-none ml-2">Region</label>
             </div>
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="branchRB" name="branchRB" value="Branch" [(ngModel)]="radio_value" (onClick)="chooseBranch($event)"></p-radioButton>
-                <label for="branchRB">Branch</label>
+            <div class="flex items-center">
+                <p-radiobutton id="branchRB" name="branchRB" value="Branch" [(ngModel)]="radio_value" (onClick)="chooseBranch($event)" />
+                <label for="branch" class="leading-none ml-2">Branch</label>
             </div>
         </div>
     </div>
 
-    <div class="p-formgrid p-grid" *ngIf="proceed && !(employee_id.errors && employee_id.touched)">
+    <div class="flex flex-wrap gap-4" *ngIf="proceed && !(employee_id.errors && employee_id.touched)">
         <div class="p-field p-col" *ngIf="showJobPosition">
             <label for="jobPosition"><strong class="text-red-600">*</strong>Job Title</label>
-            <p-dropdown
+            <p-select
                 [options]="job_positions"
                 optionLabel="title"
                 inputId="jobPosition"
                 name="jobPosition"
                 #job_position="ngModel"
-                [class.is-invalid]="job_position.invalid && job_position.touched"
+                [ngClass]="{ 'p-invalid': job_position.touched && job_position.invalid }"
                 (onChange)="onSelectJobPosition($event.value)"
                 (onClear)="onJobPositionClear()"
                 [(ngModel)]="user.jobPosition"
@@ -150,7 +142,7 @@
                 [virtualScroll]="true"
                 [virtualScrollItemSize]="38"
                 [lazy]="true"
-                [required]="true"
+                required
                 (onLazyLoad)="onDropdownLoad($event, 'Job')"
                 [virtualScrollOptions]="{
                     showLoader: true,
@@ -163,14 +155,16 @@
                         <p-skeleton [width]="options.even ? '60%' : '50%'" height="1rem"></p-skeleton>
                     </div>
                 </ng-template>
-            </p-dropdown>
+            </p-select>
 
             <div *ngIf="real_job_position_status">
                 <small class="text-red-600"> Information not correct! </small>
             </div>
-            <small class="text-red-600" [class.d-none]="job_position.valid || job_position.untouched">Job Title is required<br /></small>
+            <div *ngIf="job_position.errors && job_position.touched">
+                <small class="text-red-600" [class.d-none]="job_position.valid || job_position.untouched">Job Title is required<br /></small>
+            </div>
         </div>
-        <div class="p-field p-col" *ngIf="regionRadioButton">
+        <div class="mb-4 w-full" *ngIf="regionRadioButton">
             <label for="region"><strong class="text-red-600">*</strong>Region</label>
             <p-dropdown
                 [options]="regionFilter"
@@ -178,7 +172,7 @@
                 name="region"
                 inputId="region"
                 #regions="ngModel"
-                [class.is-invalid]="regions.invalid && regions.touched"
+                [ngClass]="{ 'p-invalid': regions.touched && regions.invalid }"
                 (onChange)="onSelectRegion($event.value)"
                 (onClear)="onRegionClear()"
                 [(ngModel)]="user.region"
@@ -190,7 +184,7 @@
                 [virtualScroll]="true"
                 [virtualScrollItemSize]="20"
                 [lazy]="true"
-                [required]="true"
+                required
                 (onLazyLoad)="onDropdownLoad($event, 'Region')"
                 [virtualScrollOptions]="{
                     showLoader: true,
@@ -208,9 +202,11 @@
             <div *ngIf="real_region_status">
                 <small class="text-red-600">Information not correct! </small>
             </div>
-            <small class="text-red-600" [class.d-none]="regions.valid || regions.untouched">Region is required<br /></small>
+            <div *ngIf="regions.errors && regions.touched">
+                <small class="text-red-600" [class.d-none]="regions.valid || regions.untouched">Region is required<br /></small>
+            </div>
         </div>
-        <div class="p-field p-col" *ngIf="branchRadioButton">
+        <div class="mb-4 w-full" *ngIf="branchRadioButton">
             <label for="branch"><strong class="text-red-600">*</strong>Branch</label>
             <p-dropdown
                 [options]="allBranches"
@@ -218,7 +214,7 @@
                 inputId="branch"
                 name="branch"
                 #branch="ngModel"
-                [class.is-invalid]="branch.invalid && branch.touched"
+                [ngClass]="{ 'p-invalid': branch.touched && branch.invalid }"
                 (onChange)="onSelectBranch($event.value)"
                 (onClear)="onBranchClear()"
                 [(ngModel)]="user.branch"
@@ -227,7 +223,7 @@
                 [virtualScroll]="true"
                 [virtualScrollItemSize]="38"
                 [lazy]="true"
-                [required]="true"
+                required
                 (onLazyLoad)="onDropdownLoad($event, 'Branch')"
                 [virtualScrollOptions]="{
                     showLoader: true,
@@ -243,20 +239,22 @@
             </p-dropdown>
 
             <div *ngIf="real_branch_status">
-                <small class="text-red-600"> Information not correct! </small>
+                <small class="text-red-600">Information not correct! </small>
             </div>
-            <small class="text-red-600" [class.d-none]="branch.valid || branch.untouched">Branch is required<br /></small>
+            <div *ngIf="branch.errors && branch.touched">
+                <small class="text-red-600" [class.d-none]="branch.valid || branch.untouched">Branch is required<br /></small>
+            </div>
         </div>
 
-        <div class="p-field p-col" *ngIf="headOfficeRadioButton">
+        <div class="mb-4 w-full" *ngIf="headOfficeRadioButton">
             <label for="ho"><strong class="text-red-600">*</strong>Unit</label>
-            <p-dropdown
+            <p-select
                 [options]="hoWorkPlaces"
                 optionLabel="name"
                 inputId="ho"
                 name="ho"
                 #ho="ngModel"
-                [class.is-invalid]="ho.invalid && ho.touched"
+                [ngClass]="{ 'p-invalid': ho.touched && ho.invalid }"
                 (onChange)="onSelectHO($event.value)"
                 (onClear)="onHoClear()"
                 [(ngModel)]="user.branch"
@@ -265,7 +263,7 @@
                 [virtualScroll]="true"
                 [virtualScrollItemSize]="38"
                 [lazy]="true"
-                [required]="true"
+                required
                 (onLazyLoad)="onDropdownLoad($event, 'HO')"
                 [virtualScrollOptions]="{
                     showLoader: true,
@@ -278,91 +276,99 @@
                         <p-skeleton [width]="options.even ? '60%' : '50%'" height="1rem"></p-skeleton>
                     </div>
                 </ng-template>
-            </p-dropdown>
+            </p-select>
 
             <div *ngIf="real_ho_status">
                 <small class="text-red-600"> Information not correct! </small>
             </div>
-            <small class="text-red-600" [class.d-none]="ho.valid || ho.untouched">HO is required<br /></small>
+            <div *ngIf="ho.errors && ho.touched">
+                <small class="text-red-600" [class.d-none]="ho.valid || ho.untouched">HO is required<br /></small>
+            </div>
         </div>
     </div>
 
     <div class="p-field" *ngIf="proceed && !(employee_id.errors && employee_id.touched) && !employee_id_status_system && !employee_id_status">
-        <label class="p-mb-3"><strong class="text-red-600">*</strong>User Category</label>
-        <div class="p-formgrid p-grid">
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="is" name="category" value="IS" #category="ngModel" required="true" [class.is-invalid]="category.invalid && category.touched" [(ngModel)]="user.category"></p-radioButton>
+        <label class="mb-3"><strong class="text-red-600">*</strong>User Category</label>
+        <div class="flex flex-wrap gap-4">
+            <div class="w-full md:w-1/3 flex items-center gap-2 mb-2">
+                <p-radioButton id="is" name="category" value="IS" #category="ngModel" required [ngClass]="{ 'p-invalid': category.touched && category.invalid }" [(ngModel)]="user.category"></p-radioButton>
                 <label for="is">IS</label>
             </div>
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="mgt" name="category" value="MGT" #category="ngModel" required="true" [class.is-invalid]="category.invalid && category.touched" [(ngModel)]="user.category"></p-radioButton>
+            <div class="w-full md:w-1/3 flex items-center gap-2 mb-2">
+                <p-radioButton id="mgt" name="category" value="MGT" #category="ngModel" required [ngClass]="{ 'p-invalid': category.touched && category.invalid }" [(ngModel)]="user.category"></p-radioButton>
                 <label for="mgt">MGT</label>
             </div>
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="branch_financial" name="category" value="BFA" [(ngModel)]="user.category" #category="ngModel" required="true" [class.is-invalid]="category.invalid && category.touched"></p-radioButton>
+            <div class="w-full md:w-1/3 flex items-center gap-2 mb-2">
+                <p-radioButton id="branch_financial" name="category" value="BFA" [(ngModel)]="user.category" #category="ngModel" required [ngClass]="{ 'p-invalid': category.touched && category.invalid }"></p-radioButton>
                 <label for="branch_financial">Financial</label>
             </div>
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="inspection" name="category" value="INS" [(ngModel)]="user.category" #category="ngModel" required="true" [class.is-invalid]="category.invalid && category.touched"></p-radioButton>
+            <div class="w-full md:w-1/3 flex items-center gap-2 mb-2">
+                <p-radioButton id="inspection" name="category" value="INS" [(ngModel)]="user.category" #category="ngModel" required [ngClass]="{ 'p-invalid': category.touched && category.invalid }"></p-radioButton>
                 <label for="inspection">Inspection</label>
             </div>
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="general" name="category" value="GENERAL" [(ngModel)]="user.category" #category="ngModel" required="true" [class.is-invalid]="category.invalid && category.touched"></p-radioButton>
+            <div class="w-full md:w-1/3 flex items-center gap-2 mb-2">
+                <p-radioButton id="general" name="category" value="GENERAL" [(ngModel)]="user.category" #category="ngModel" required [ngClass]="{ 'p-invalid': category.touched && category.invalid }"></p-radioButton>
                 <label for="general">General</label>
             </div>
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="admin" name="admin" value="ADMIN" [(ngModel)]="user.category" #category="ngModel" required="true" [class.is-invalid]="category.invalid && category.touched"></p-radioButton>
+            <div class="w-full md:w-1/3 flex items-center gap-2 mb-2">
+                <p-radioButton id="admin" name="admin" value="ADMIN" [(ngModel)]="user.category" #category="ngModel" required [ngClass]="{ 'p-invalid': category.touched && category.invalid }"></p-radioButton>
                 <label for="admin">Admin</label>
             </div>
-            <small class="text-red-600" [class.d-none]="category.valid || category.untouched">User Category is required<br /></small>
+            <div *ngIf="category.errors && category.touched">
+                <small class="text-red-600" [class.d-none]="category.valid || category.untouched">User Category is required<br /></small>
+            </div>
         </div>
     </div>
 
     <div class="p-field" *ngIf="(user.category == 'BFA' || user.category == 'INS') && proceed">
-        <label class="p-mb-3"><strong class="text-red-600">*</strong>Banking Category</label>
-        <div class="p-formgrid p-grid">
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="conventional" name="banking" #banking="ngModel" [class.is-invalid]="banking.invalid && banking.touched" value="conventional" required="true" [(ngModel)]="user.banking"></p-radioButton>
-                <label for="conventional">Conventional</label>
+        <label class="mb-3"><strong class="text-red-600">*</strong>Banking Category</label>
+        <div class="flex flex-col md:flex-row gap-4">
+            <div class="flex items-center">
+                <p-radiobutton id="conventional" name="banking" #banking="ngModel" [ngClass]="{ 'p-invalid': banking.touched && banking.invalid }" value="conventional" required [(ngModel)]="user.banking" />
+                <label for="conventional" class="leading-none ml-2">Conventional</label>
             </div>
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="ifb" name="banking" #banking="ngModel" [class.is-invalid]="banking.invalid && banking.touched" value="ifb" required="true" [(ngModel)]="user.banking"></p-radioButton>
-                <label for="ifb">IFB</label>
+            <div class="flex items-center">
+                <p-radiobutton id="ifb" name="banking" #banking="ngModel" [ngClass]="{ 'p-invalid': banking.touched && banking.invalid }" value="ifb" required [(ngModel)]="user.banking" />
+                <label for="ifb" class="leading-none ml-2">IFB</label>
             </div>
+        </div>
+        <div *ngIf="banking.errors && banking.touched">
             <small class="text-red-600" [class.d-none]="banking.valid || banking.untouched">Banking type is required<br /></small>
         </div>
     </div>
 
     <div class="p-field" *ngIf="user.category == 'MGT' && proceed">
-        <label class="p-mb-3"><strong class="text-red-600">*</strong>Management Audit</label>
-        <div class="p-formgrid p-grid">
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="TradeService" name="banking" #banking="ngModel" [class.is-invalid]="banking.invalid && banking.touched" value="TradeService" required="true" [(ngModel)]="user.banking"></p-radioButton>
+        <label class="mb-3"><strong class="text-red-600">*</strong>Management Audit</label>
+        <div class="flex flex-wrap gap-4">
+            <div class="w-full md:w-1/3 flex items-center gap-2 mb-2">
+                <p-radioButton id="TradeService" name="banking" #banking="ngModel" [ngClass]="{ 'p-invalid': banking.touched && banking.invalid }" value="TradeService" required [(ngModel)]="user.banking"></p-radioButton>
                 <label for="TradeService">Trade Service</label>
             </div>
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="FinanceManagement" name="banking" #banking="ngModel" [class.is-invalid]="banking.invalid && banking.touched" value="FinanceManagement" required="true" [(ngModel)]="user.banking"></p-radioButton>
+            <div class="w-full md:w-1/3 flex items-center gap-2 mb-2">
+                <p-radioButton id="FinanceManagement" name="banking" #banking="ngModel" [ngClass]="{ 'p-invalid': banking.touched && banking.invalid }" value="FinanceManagement" required [(ngModel)]="user.banking"></p-radioButton>
                 <label for="FinanceManagement">Finance Management</label>
             </div>
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="PeriodicAudit" name="banking" #banking="ngModel" [class.is-invalid]="banking.invalid && banking.touched" required="true" value="PeriodicAudit" [(ngModel)]="user.banking"></p-radioButton>
+            <div class="w-full md:w-1/3 flex items-center gap-2 mb-2">
+                <p-radioButton id="PeriodicAudit" name="banking" #banking="ngModel" [ngClass]="{ 'p-invalid': banking.touched && banking.invalid }" required value="PeriodicAudit" [(ngModel)]="user.banking"></p-radioButton>
                 <label for="PeriodicAudit">Periodic Audit</label>
             </div>
-            <small class="text-red-600" [class.d-none]="banking.valid || banking.untouched">Management Audit type is required<br /></small>
+            <div *ngIf="banking.errors && banking.touched">
+                <small class="text-red-600" [class.d-none]="banking.valid || banking.untouched">Management Audit type is required<br /></small>
+            </div>
         </div>
     </div>
 
-    <div class="p-formgrid p-grid" *ngIf="proceed && !(employee_id.errors && employee_id.touched) && isEditData && !employee_id_status_system && !employee_id_status">
-        <label class="p-ml-3"><strong class="text-red-600">*</strong>Authenthication Media</label>
+    <div class="flex flex-wrap gap-4" *ngIf="proceed && !(employee_id.errors && employee_id.touched) && isEditData && !employee_id_status_system && !employee_id_status">
+        <label class="ml-3"><strong class="text-red-600">*</strong>Authenthication Media</label>
         <div class="p-field p-col-2 p-mb-1">
-            <p-selectButton [options]="authenthicationOptions" [(ngModel)]="user.authenthication_media" optionLabel="label" optionValue="value" name="authenthication_media" [required]="true">
+            <p-selectButton [options]="authenthicationOptions" [(ngModel)]="user.authenthication_media" optionLabel="label" optionValue="value" name="authenthication_media" required>
                 <ng-template let-item> <i [class]="item.icon"></i> </ng-template
             ></p-selectButton>
         </div>
     </div>
 
-    <div class="p-formgrid p-grid mt-4">
-        <div class="p-field p-col-2">
+    <div class="flex flex-wrap gap-4 mt-4">
+        <div class="mb-4 w-full md:w-1/6">
             <button
                 pButton
                 pRipple
@@ -383,80 +389,51 @@
 
 <p-dialog [(visible)]="confrimationDialog" header="Confirm User's information" [modal]="true" styleClass="p-fluid" [maximizable]="true">
     <ng-template pTemplate="content">
-        <div class="col-md-12">
-            <label class="form-label"
-                >First name: <b>{{ user.first_name }}</b></label
-            >
+        <div class="w-full">
+            <label class="form-label">First name: <b>{{ user.first_name }}</b></label>
         </div>
-        <div class="col-md-12">
-            <label class="form-label"
-                >Middle name: <b>{{ user.middle_name }}</b></label
-            >
+        <div class="w-full">
+            <label class="form-label">Middle name: <b>{{ user.middle_name }}</b></label>
         </div>
-        <div class="col-md-12">
-            <label class="form-label"
-                >Last name: <b>{{ user.last_name }}</b></label
-            >
+        <div class="w-full">
+            <label class="form-label">Last name: <b>{{ user.last_name }}</b></label>
         </div>
-        <div class="col-md-12">
-            <label class="form-label"
-                >Gender: <b>{{ user.gender }}</b></label
-            >
+        <div class="w-full">
+            <label class="form-label">Gender: <b>{{ user.gender }}</b></label>
         </div>
-        <div class="col-md-12">
-            <label class="form-label"
-                >Phone number: <b>{{ user.phone_number }}</b></label
-            >
+        <div class="w-full">
+            <label class="form-label">Phone number: <b>{{ user.phone_number }}</b></label>
         </div>
-        <div class="col-md-12">
-            <label class="form-label"
-                >Employee Id: <b>{{ user.employee_id }}</b></label
-            >
+        <div class="w-full">
+            <label class="form-label">Employee Id: <b>{{ user.employee_id }}</b></label>
         </div>
-        <div class="col-md-12">
-            <label class="form-label"
-                >Email address: <b>{{ user.email }}</b></label
-            >
+        <div class="w-full">
+            <label class="form-label">Email address: <b>{{ user.email }}</b></label>
         </div>
-        <div class="col-md-12">
-            <label class="form-label"
-                >Job Title: <b>{{ user.jobPosition?.title }}</b></label
-            >
+        <div class="w-full">
+            <label class="form-label">Job Title: <b>{{ user.jobPosition?.title }}</b></label>
         </div>
-        <div class="col-md-12">
-            <label class="form-label" *ngIf="user.region?.name"
-                >Place of Work: <b>{{ user.region?.name }}</b></label
-            >
+        <div class="w-full">
+            <label class="form-label" *ngIf="user.region?.name">Place of Work: <b>{{ user.region?.name }}</b></label>
         </div>
-        <div class="col-md-12">
-            <label class="form-label" *ngIf="user.branch?.name"
-                >Place of Work: <b>{{ user.branch?.name }}</b></label
-            >
+        <div class="w-full">
+            <label class="form-label" *ngIf="user.branch?.name">Place of Work: <b>{{ user.branch?.name }}</b></label>
         </div>
-        <div class="col-md-12">
-            <label class="form-label"
-                >User Category: <b>{{ user.category }}</b></label
-            >
+        <div class="w-full">
+            <label class="form-label">User Category: <b>{{ user.category }}</b></label>
         </div>
-        <div class="col-md-12">
-            <label class="form-label"
-                ><span *ngIf="user.category == 'BFA' || user.category == 'INS'">Banking Category: </span><span *ngIf="user.category == 'MGT'">Management Audit: </span> <b>{{ user.banking }}</b></label
-            >
+        <div class="w-full">
+            <label class="form-label"><span *ngIf="user.category == 'BFA' || user.category == 'INS'">Banking Category: </span><span *ngIf="user.category == 'MGT'">Management Audit: </span> <b>{{ user.banking }}</b></label>
         </div>
-        <div class="col-md-12">
-            <label *ngIf="user.authenthication_media" class="form-label"
-                >Authenthication Media: <b>{{ user.email }}</b></label
-            >
-            <label *ngIf="!user.authenthication_media" class="form-label"
-                >Authenthication Media: <b>{{ user.phone_number }}</b></label
-            >
+        <div class="w-full">
+            <label *ngIf="user.authenthication_media" class="form-label">Authenthication Media: <b>{{ user.email }}</b></label>
+            <label *ngIf="!user.authenthication_media" class="form-label">Authenthication Media: <b>{{ user.phone_number }}</b></label>
         </div>
     </ng-template>
     <ng-template pTemplate="footer">
         <button *ngIf="!loading" pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="addUser()"></button>
         <button *ngIf="loading" type="button" disabled class="btn btn-primary">
             Loading...
-
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         </button>
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>

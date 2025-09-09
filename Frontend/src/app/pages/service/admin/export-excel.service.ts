@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Workbook } from 'exceljs';
-import { imgBase64 } from '../../helpers/logo';
+import { imgBase64 } from '../../../../helpers/logo';
 
 interface ExportColumn {
     title: string;
@@ -40,6 +40,16 @@ export class ExportExcelService {
         // worksheet.mergeCells('G1:H4');
         let d = new Date();
         let date = d.getDate() + '-' + d.getMonth() + '-' + d.getFullYear();
+        // let dateCell = worksheet.getCell('G1');
+        // dateCell.value = date;
+        // dateCell.font = {
+        //   name: 'Calibri',
+        //   size: 12,
+        //   bold: true,
+        // };
+        // dateCell.alignment = { vertical: 'middle', horizontal: 'center' };
+
+        //Add Image
         let myLogoImage = workbook.addImage({
             base64: imgBase64,
             extension: 'png'
@@ -69,6 +79,19 @@ export class ExportExcelService {
         // Adding Data with Conditional Formatting
         data.forEach((d: any) => {
             let row = worksheet.addRow(Object.values(d));
+            //   let sales = row.getCell(6);
+            //   let color = 'FF99FF99';
+            //   let sales_val = sales.value || 0;
+            //   // Conditional fill color
+            //   if (sales_val < 200000) {
+            //     color = 'FF9999';
+            //   }
+
+            //   sales.fill = {
+            //     type: 'pattern',
+            //     pattern: 'solid',
+            //     fgColor: { argb: color },
+            //   };
         });
 
         // worksheet.getColumn(3).width = 20;
@@ -85,6 +108,21 @@ export class ExportExcelService {
 
         // Merge Cells
         worksheet.mergeCells(`A${footerRow.number}:P${footerRow.number}`);
+
+        // worksheet.protect('BigFcy', {
+        //   formatCells: true,
+        //   formatColumns: true,
+        //   formatRows: true,
+        //   insertRows: true,
+        //   insertColumns: false,
+        //   insertHyperlinks: true,
+        //   deleteRows: true,
+        //   deleteColumns: false,
+        //   sort: true,
+        //   autoFilter: true,
+        //   selectLockedCells: false,
+        //   selectUnlockedCells: false,
+        // })
         workbook.company = 'Awash Bank';
         workbook.created = d;
         workbook.creator = 'Audit Finding Reporting and Followup Management System';
@@ -94,6 +132,10 @@ export class ExportExcelService {
         });
         //Generate & Save Excel File
         workbook.xlsx.writeBuffer().then((data) => {
+            // let blob = new Blob([data], {
+            //   type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            // });
+
             const blob = new Blob([data], {
                 type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             });
@@ -113,7 +155,6 @@ export class ExportExcelService {
         reportResponse.forEach((d: any) => {
             for (const [key, value] of Object.entries(d)) {
                 if ((value === null || value == '') && !key.startsWith('col_')) d[key] = '-';
-                // console.log(key)
             }
         });
 
@@ -223,6 +264,25 @@ export class ExportExcelService {
         const header = header_titles;
         const data = excelData.data;
 
+        // data.sort((a: any, b: any) => {
+        //   // Create a tuple of keys for each object
+        //   const aKeys = excelData.headers.dataKey.map((key: any) => a[key]);
+        //   const bKeys = excelData.headers.dataKey.map((key: any) => b[key]);
+        //   // Compare the tuples lexicographically
+        //   return aKeys < bKeys ? -1 : aKeys > bKeys ? 1 : 0;
+        // });
+
+        // let result: any[];
+        // const sorted: any = [];
+        // data.array.forEach((d: any) => {
+        //   for (let h of excelData.headers) {
+        //     if (d.hasOwnProperty(h)) {
+        //       sorted.push([h, d[h]]);
+        //     }
+        //   }
+        //   result.push(Object.fromEntries(sorted));
+        // });
+
         //Create a workbook with a worksheet
         let workbook = new Workbook();
         let worksheet = workbook.addWorksheet(excelData.sheet_name);
@@ -270,6 +330,15 @@ export class ExportExcelService {
         // Logo
         worksheet.mergeCells('A2:B3');
 
+        // let dateCell = worksheet.getCell('G1');
+        // dateCell.value = date;
+        // dateCell.font = {
+        //   name: 'Calibri',
+        //   size: 12,
+        //   bold: true,
+        // };
+        // dateCell.alignment = { vertical: 'middle', horizontal: 'center' };
+
         //Add Image
         let myLogoImage = workbook.addImage({
             base64: imgBase64,
@@ -281,7 +350,43 @@ export class ExportExcelService {
         //Blank Row
         worksheet.addRow([]);
 
+        ////////////////////////////////////////////////////////
+        //Adding Header Row
+        // let headerRow = worksheet.addRow(header);
+        // headerRow.eachCell((cell, number) => {
+        //   cell.fill = {
+        //     type: 'pattern',
+        //     pattern: 'solid',
+        //     fgColor: { argb: '4167B8' },
+        //     bgColor: { argb: '' },
+        //   };
+        //   cell.font = {
+        //     bold: true,
+        //     color: { argb: 'FFFFFF' },
+        //     size: 12,
+        //   };
+        // });
+        //////////////////////////////////////////////////////////
+        // headerRow.alignment = { wrapText: true };
+
         // Adding Data with Conditional Formatting
+        ///////////////////////////////////////////////////////
+        // data.forEach((d: any) => {
+        //   let row = worksheet.addRow(Object.values(d));
+        //   //   let sales = row.getCell(6);
+        //   //   let color = 'FF99FF99';
+        //   //   let sales_val = sales.value || 0;
+        //   //   // Conditional fill color
+        //   //   if (sales_val < 200000) {
+        //   //     color = 'FF9999';
+        //   //   }
+
+        //   //   sales.fill = {
+        //   //     type: 'pattern',
+        //   //     pattern: 'solid',
+        //   //     fgColor: { argb: color },
+        //   //   };
+        // });
 
         const headerRow = worksheet.addRow(excelData.headers.map((column: any) => column.title));
         headerRow.eachCell((cell, number) => {
@@ -302,8 +407,22 @@ export class ExportExcelService {
         excelData.data.forEach((dataRow: any) => {
             const row = worksheet.addRow(excelData.headers.map((column: any) => dataRow[column.dataKey]));
         });
+        ////////////////////////////////////////////////////////////
 
+        // worksheet.getColumn(3).width = 20;
+        // worksheet.properties.showGridLines = false;
+        // worksheet.addRow([]);
+
+        // Footer Row
         worksheet.mergeCells(data.length + 7, 3, data.length + 8, header_titles.length - 2);
+        // let footerRow = worksheet.addRow([
+        //   'Big Foreign Currency Non Govermental Organizations Employees Loan Followup Management System - Report Generated from https://lms.awashbank.com/bigfcy/ at ',
+        // ]);
+        // footerRow.getCell(1).fill = {
+        //   type: 'pattern',
+        //   pattern: 'solid',
+        //   fgColor: { argb: 'FFB050' },
+        // };
 
         const footerRow = worksheet.getCell(data.length + 7, 3);
         footerRow.value = 'AFRFMS - Report Generated from https://afrfms.awashbank.com/afrfms/';
@@ -316,6 +435,23 @@ export class ExportExcelService {
         };
         footerRow.alignment = { vertical: 'middle', horizontal: 'center' };
 
+        // Merge Cells
+        // worksheet.mergeCells(`A${footerRow.number}:P${footerRow.number}`);
+
+        // worksheet.protect('BigFcy', {
+        //   formatCells: true,
+        //   formatColumns: true,
+        //   formatRows: true,
+        //   insertRows: true,
+        //   insertColumns: false,
+        //   insertHyperlinks: true,
+        //   deleteRows: true,
+        //   deleteColumns: false,
+        //   sort: true,
+        //   autoFilter: true,
+        //   selectLockedCells: false,
+        //   selectUnlockedCells: false,
+        // })
         workbook.company = 'Awash Bank';
         workbook.created = d;
         workbook.creator = 'Audit Finding Reporting and Followup Management System';
@@ -328,6 +464,10 @@ export class ExportExcelService {
         });
         //Generate & Save Excel File
         workbook.xlsx.writeBuffer().then((data) => {
+            // let blob = new Blob([data], {
+            //   type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            // });
+
             const blob = new Blob([data], {
                 type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             });

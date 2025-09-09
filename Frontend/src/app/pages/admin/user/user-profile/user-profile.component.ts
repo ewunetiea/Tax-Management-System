@@ -9,7 +9,7 @@ import { PasswordService } from '../../../service/admin/password.service';
 import { ValidationService } from '../../../service/admin/validationService';
 import { AuthService } from '../../../service/admin/auth.service';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { ImageSnippet } from '../../../helpers/image-snippet';
+import { ImageSnippet } from '../../../../../helpers/image-snippet';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';

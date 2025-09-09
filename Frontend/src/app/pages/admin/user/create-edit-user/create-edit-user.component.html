@@ -390,59 +390,37 @@
 <p-dialog [(visible)]="confrimationDialog" header="Confirm User's information" [modal]="true" styleClass="p-fluid" [maximizable]="true">
     <ng-template pTemplate="content">
         <div class="w-full">
-            <label class="form-label"
-                >First name: <b>{{ user.first_name }}</b></label
-            >
+            <label class="form-label">First name: <b>{{ user.first_name }}</b></label>
         </div>
         <div class="w-full">
-            <label class="form-label"
-                >Middle name: <b>{{ user.middle_name }}</b></label
-            >
+            <label class="form-label">Middle name: <b>{{ user.middle_name }}</b></label>
         </div>
         <div class="w-full">
-            <label class="form-label"
-                >Last name: <b>{{ user.last_name }}</b></label
-            >
+            <label class="form-label">Last name: <b>{{ user.last_name }}</b></label>
         </div>
         <div class="w-full">
-            <label class="form-label"
-                >Gender: <b>{{ user.gender }}</b></label
-            >
+            <label class="form-label">Gender: <b>{{ user.gender }}</b></label>
         </div>
         <div class="w-full">
-            <label class="form-label"
-                >Phone number: <b>{{ user.phone_number }}</b></label
-            >
+            <label class="form-label">Phone number: <b>{{ user.phone_number }}</b></label>
         </div>
         <div class="w-full">
-            <label class="form-label"
-                >Employee Id: <b>{{ user.employee_id }}</b></label
-            >
+            <label class="form-label">Employee Id: <b>{{ user.employee_id }}</b></label>
         </div>
         <div class="w-full">
-            <label class="form-label"
-                >Email address: <b>{{ user.email }}</b></label
-            >
+            <label class="form-label">Email address: <b>{{ user.email }}</b></label>
         </div>
         <div class="w-full">
-            <label class="form-label"
-                >Job Title: <b>{{ user.jobPosition?.title }}</b></label
-            >
+            <label class="form-label">Job Title: <b>{{ user.jobPosition?.title }}</b></label>
         </div>
         <div class="w-full">
-            <label class="form-label" *ngIf="user.region?.name"
-                >Place of Work: <b>{{ user.region?.name }}</b></label
-            >
+            <label class="form-label" *ngIf="user.region?.name">Place of Work: <b>{{ user.region?.name }}</b></label>
         </div>
         <div class="w-full">
-            <label class="form-label" *ngIf="user.branch?.name"
-                >Place of Work: <b>{{ user.branch?.name }}</b></label
-            >
+            <label class="form-label" *ngIf="user.branch?.name">Place of Work: <b>{{ user.branch?.name }}</b></label>
         </div>
         <div class="w-full">
-            <label class="form-label"
-                >User Category: <b>{{ user.category }}</b></label
-            >
+            <label class="form-label">User Category: <b>{{ user.category }}</b></label>
         </div>
         <div class="w-full">
             <label class="form-label"><span *ngIf="user.category == 'BFA' || user.category == 'INS'">Banking Category: </span><span *ngIf="user.category == 'MGT'">Management Audit: </span> <b>{{ user.banking }}</b></label>

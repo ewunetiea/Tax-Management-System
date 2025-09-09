@@ -407,7 +407,6 @@ export class CreateEditUserComponent {
     }
     chooseHO(data: any) {
         this.user.jobPosition = {};
-
         this.showJobPosition = true;
         this.headOfficeRadioButton = true;
         this.regionRadioButton = false;

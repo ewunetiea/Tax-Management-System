@@ -135,7 +135,6 @@ public class AuthController {
         }
 
         private ResponseEntity<?> doLogin(LoginRequest loginRequest, HttpServletRequest request) {
-                System.out.println("Ffffffffffffffffffffffffffffffffffffffffffff Inside doLogin method: " + loginRequest.getUsername());
                 // try {
                 //         User user = userService.findByFusionUsername(loginRequest.getUsername());
                 //         if (user != null) {

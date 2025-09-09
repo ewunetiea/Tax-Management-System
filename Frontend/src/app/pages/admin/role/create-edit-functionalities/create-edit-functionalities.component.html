@@ -20,18 +20,18 @@
         
         <div class="field p-col-12 p-md-6">
            <label for="methods"><strong class="text-red-500">*</strong>Method</label>
-            <p-dropdown
+            <p-select
                 inputId="method"
                 formControlName="method"
                 [options]="methods"
-                [filter]="true"
                 (onChange)="checkNameExists()"
                 optionLabel="label"
                 optionValue="value"
                 placeholder="Select method"
+                [filter]="true"
                 [class.ng-invalid] = "{'p-invalid': (functionalityForm.get('method')?.invalid && (functionalityForm.get('method')?.dirty || functionalityForm.get('method')?.touched)) || nameExists }"
                 class="w-full"
-            ></p-dropdown>
+            />
             <div *ngIf="functionalityForm.get('categories')?.invalid && (functionalityForm.get('categories')?.dirty || functionalityForm.get('categories')?.touched)">
             <p-message severity="error" size="small" variant="simple" *ngIf="functionalityForm.get('method')?.invalid && (functionalityForm.get('method')?.dirty || functionalityForm.get('method')?.touched)">Method is required </p-message>
             <p-message severity="error" size="small" variant="simple" *ngIf="nameExists">Functionality with this name and method already exists </p-message>
@@ -86,7 +86,7 @@
         </div>
 
          <div class="w-1/4">
-            <button pButton type="button" label="Cancel" icon="pi pi-times" class="p-button-outlined p-button-rounded p-button-secondary" style="min-width: 100px" (click)="hideDialog()"></button>
+            <button pButton type="button" label="Cancel" icon="pi pi-times" class="p-button-outlined p-button-rounded p-button-danger" style="min-width: 100px" (click)="hideDialog()"></button>
         </div>
         </div>
     </form>

@@ -11,13 +11,7 @@ import { RegionService } from '../../../service/admin/regionService';
 import { StorageService } from '../../../service/admin/storage.service';
 import { UserService } from '../../../service/admin/user.service';
 import { ValidationService } from '../../../service/admin/validationService';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { DialogModule } from 'primeng/dialog';
-import { SelectButton } from 'primeng/selectbutton';
-import { FormsModule } from '@angular/forms';
-import { SkeletonModule } from 'primeng/skeleton';
-import { DropdownModule } from 'primeng/dropdown';
-import { CommonModule } from '@angular/common';
+import { SharedUiModule } from '../../../../../shared-ui';
 
 interface AwashId {
     id_no: string;
@@ -26,7 +20,7 @@ interface AwashId {
 
 @Component({
     selector: 'app-create-edit-user',
-    imports: [ConfirmDialogModule, DialogModule, SelectButton, FormsModule, SkeletonModule, DropdownModule, CommonModule],
+    imports: [SharedUiModule],
     templateUrl: './create-edit-user.component.html',
     styleUrl: './create-edit-user.component.scss'
 })

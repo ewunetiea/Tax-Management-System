@@ -32,12 +32,8 @@ public class JobPositionService {
     }
 
     public void manageJobPositions(JobPositionRole jobPositionRole) {
-
         Role role = jobPositionRole.getRole();
-
-        List<JobPosition> assignedJobPositions = jobPositionMapper
-                .getJobPositionsByRoleIdList(jobPositionRole.getRole().getId());
-
+        List<JobPosition> assignedJobPositions = jobPositionMapper.getJobPositionsByRoleIdList(jobPositionRole.getRole().getId());
         List<JobPosition> newjobPositionList = (List<JobPosition>) jobPositionRole.getRole().getJobPositions();
         List<JobPosition> removedJobPositions = new ArrayList<>();
         List<Long> newJobPositionListIDs = newjobPositionList.stream().map(JobPosition::getId)

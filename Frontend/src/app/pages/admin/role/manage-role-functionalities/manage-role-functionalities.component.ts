@@ -11,7 +11,6 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { Functionalities } from '../../../../models/admin/functionalities';
 import { RoleService } from '../../../service/admin/roleService';
 import { DropdownModule } from 'primeng/dropdown';
-import { MultiSelect } from 'primeng/multiselect';
 import { DialogModule } from 'primeng/dialog';
 import { Toolbar } from 'primeng/toolbar';
 import { CardModule } from 'primeng/card';
@@ -53,7 +52,6 @@ import { CreateEditFunctionalitiesComponent } from '../create-edit-functionaliti
 export class ManageRoleFunctionalitiesComponent implements OnInit {
     @ViewChild('dt') dt!: Table;
     functionalities: Functionalities[] = [];
-    functionality: Functionalities = new Functionalities();
     selectedFunctionalities: Functionalities[] = [];
     functionalityDialog: boolean = false;
     loading: boolean = true;
@@ -62,7 +60,6 @@ export class ManageRoleFunctionalitiesComponent implements OnInit {
     nameTouched: boolean = false;
     functionalityLoading: boolean = false;
     categories: SelectItem[] = [];
-
     methods: SelectItem[] = [
         { label: 'GET', value: 'GET' },
         { label: 'POST', value: 'POST' },
@@ -70,13 +67,14 @@ export class ManageRoleFunctionalitiesComponent implements OnInit {
         { label: 'DELETE', value: 'DELETE' }
     ];
     nameExists: boolean = false;
-    items: MenuItem[] | undefined;
-    home: MenuItem | undefined;
-    sizes!: any[];
-    selectedSize: any = 'normal';
-    breadcrumbText: string = 'Manage Permissions';
+    functionality: Functionalities = new Functionalities();
     outputFunctionality: any[] = [];
     isEditData = false;
+    sizes!: any[];
+    selectedSize: any = 'normal';
+    breadcrumbText: string = 'Manage Role Functionalities';
+    items: MenuItem[] | undefined;
+    home: MenuItem | undefined;
 
     constructor(
         private roleFunctionalityService: RoleFunctionalityService,
@@ -87,7 +85,7 @@ export class ManageRoleFunctionalitiesComponent implements OnInit {
     ) {
         this.functionalityForm = this.fb.group({
             id: [null],
-            name: ['', [Validators.required]],
+            name: ['', [Validators.required]], // Removed async validator
             description: ['', [Validators.required]],
             categories: [[], [Validators.required]],
             method: ['', [Validators.required]],
@@ -96,7 +94,7 @@ export class ManageRoleFunctionalitiesComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.home = { icon: 'pi pi-home', routerLink: '/' };
+         this.home = { icon: 'pi pi-home', routerLink: '/' };
         this.items = [{ label: this.breadcrumbText }];
         this.sizes = [
             { name: 'Small', value: 'small' },
@@ -131,6 +129,24 @@ export class ManageRoleFunctionalitiesComponent implements OnInit {
                     label: 'ALL',
                     value: 'ALL'
                 });
+                this.categories.push({
+                    label: 'ALL_INS',
+                    value: 'ALL_INS'
+                });
+                this.categories.push({
+                    label: 'ALL_BFA',
+                    value: 'ALL_BFA'
+                });
+
+                this.categories.push({
+                    label: 'ALL_MGT',
+                    value: 'ALL_MGT'
+                });
+
+                this.categories.push({
+                    label: 'ALL_IS_MGT',
+                    value: 'ALL_IS_MGT'
+                });
             },
             error: (error: HttpErrorResponse) => {
                 this.loading = false;
@@ -153,38 +169,51 @@ export class ManageRoleFunctionalitiesComponent implements OnInit {
 
     // editFunctionality(functionality: Functionalities): void {
     //     this.nameExists = false;
-    //     this.functionalityForm.patchValue({
-    //         ...functionality,
-    //         categories: functionality.category?.split(', ')
-    //     });
+    //     this.functionalityForm.patchValue({ ...functionality, categories: functionality.category?.split(', ') });
     //     this.getRolesCode();
     //     this.functionalityDialog = true;
     // }
 
-    editFunctionality(region: Functionalities) {
-            this.outputFunctionality = [];
-            this.nameExists = false;
-            this.functionality = { ...region };
-            this.isEditData = true;
-            this.outputFunctionality.push(this.functionality);
-            this.outputFunctionality.push(this.isEditData);
-            this.getRolesCode();
-            this.functionalityDialog = true;
+    //   openNew(): void {
+    //     this.functionalityForm.reset();
+    //     this.nameExists = false;
+    //     this.nameTouched = false;
+    //     this.getRolesCode();
+    //     this.functionalityDialog = true;
+    //   }
+
+    openNew() {
+        this.outputFunctionality = [];
+        this.functionality = new Functionalities();
+        this.outputFunctionality.push(this.functionality);
+        this.outputFunctionality.push(this.isEditData);
+        this.functionalityDialog = true;
+        this.getRolesCode();
+    }
+
+    editFunctionality(functionality: Functionalities) {
+         this.outputFunctionality = [];
+         this.functionality = { ...functionality };
+         this.isEditData = true;
+         this.outputFunctionality.push(this.functionality);
+         this.outputFunctionality.push(this.isEditData);
+         this.functionalityDialog = true;
+         this.getRolesCode();
         }
 
     onDataChange(data: any) {
-                if (data[1]) {
-                    this.loadFunctionalities();
-                    this.functionalities = [...this.functionalities];
-                    this.functionalityDialog = false;
-                    this.functionality = new Functionalities();
-                } else {
-                    this.functionalities[this.findIndexById(data[0].id)] = data[0];
-                }
-                this.functionalityDialog = false;
-     }
+        if (data[1]) {
+            this.loadFunctionalities();
+            this.functionalities = [...this.functionalities];
+            this.functionalityDialog = false;
+            this.functionality = new Functionalities();
+        } else {
+            this.functionalities[this.findIndexById(data[0].id)] = data[0];
+        }
+        this.functionalityDialog = false;
+    }
 
-        findIndexById(id: number): number {
+    findIndexById(id: number): number {
         let index = -1;
         for (let i = 0; i < this.functionalities.length; i++) {
             if (this.functionalities[i].id === id) {
@@ -193,26 +222,6 @@ export class ManageRoleFunctionalitiesComponent implements OnInit {
             }
         }
         return index;
-    }
-
-
-    openNew(): void {
-        this.functionalityForm.reset();
-        this.nameExists = false;
-        this.nameTouched = false;
-        this.getRolesCode();
-        this.functionalityDialog = true;
-        this.outputFunctionality.push(this.functionalityForm);
-        this.outputFunctionality.push(this.isEditData);
-    }
-
-    clear(table: Table) {
-        table.clear();
-    }
-
-    onGlobalFilter(table: Table, event: Event) {
-        const inputValue = (event.target as HTMLInputElement).value;
-        table.filterGlobal(inputValue, 'contains');
     }
 
     saveFunctionality(): void {
@@ -243,6 +252,9 @@ export class ManageRoleFunctionalitiesComponent implements OnInit {
             error: (error) => {
                 this.handleError('Error saving functionality', error);
             }
+            // complete: () => {
+            //   this.functionalityLoading = false;
+            // },
         });
     }
 
@@ -347,6 +359,15 @@ export class ManageRoleFunctionalitiesComponent implements OnInit {
     clearFilter(): void {
         this.globalFilter = '';
         this.dt.clear();
+    }
+
+    onGlobalFilter(table: Table, event: Event) {
+        const input = event.target as HTMLInputElement;
+        table.filterGlobal(input.value, 'contains');
+    }
+
+    clear(table: Table) {
+        table.clear();
     }
 
     private handleError(summary: string, error: any): void {

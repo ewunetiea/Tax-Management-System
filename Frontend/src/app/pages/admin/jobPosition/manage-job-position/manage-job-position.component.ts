@@ -89,13 +89,15 @@ export class ManageJobPositionComponent {
         table.clear();
     }
 
-    openNew() {}
-
+    
     onGlobalFilter(table: Table, event: Event) {
-        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+        const input = event.target as HTMLInputElement;
+        table.filterGlobal(input.value, 'contains');
     }
-
+    
     onSizeChange() {
         // The table will automatically update its size based on the selectedSize binding
     }
+    
+    openNew() {}
 }

@@ -1,9 +1,7 @@
 package com.afr.fms.Admin.Controller;
 
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.afr.fms.Admin.Entity.JobPosition;
 import com.afr.fms.Admin.Entity.JobPositionRole;
 import com.afr.fms.Admin.Entity.Role;
@@ -54,20 +51,17 @@ public class JobPositionController {
 	}
 
 	@PostMapping("/jobPosition/manageJobPositions")
-	public ResponseEntity<?> manageJobPositions(HttpServletRequest request,
-			@RequestBody JobPositionRole jobPositionRole) {
-
+	public ResponseEntity<?> manageJobPositions(HttpServletRequest request, @RequestBody JobPositionRole jobPositionRole) {
+		System.out.println("Ffffffffffffffffffffffffffffffffffffff Managing job positions for role: " + jobPositionRole.getRole().getName());
 		try {
 			jobPositionService.manageJobPositions(jobPositionRole);
 			User user = functionalitiesService.getUserFromHttpRequest(request);
-			recentActivity.setMessage(
-					" Role: " + jobPositionRole.getRole().getName() + " mapped job positions are updated.");
+			recentActivity.setMessage(" Role: " + jobPositionRole.getRole().getName() + " mapped job positions are updated.");
 			recentActivity.setUser(user);
 			recentActivityMapper.addRecentActivity(recentActivity);
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		} catch (Exception e) {
-			logger.error("Error occurred during managing job position for role : {}",
-					jobPositionRole.getRole().getCode(), e);
+			logger.error("Error occurred during managing job position for role : {}", jobPositionRole.getRole().getCode(), e);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 

@@ -58,21 +58,16 @@ export class ManagebranchComponent {
             { name: 'Large', value: 'large' }
         ];
         this.getBranches();
-        // this.getBranches(this.paginatorPayload);
     }
 
     clear(table: Table) {
         table.clear();
     }
 
-    onGlobalFilter(table: Table, event: Event) {
-        const inputValue = (event.target as HTMLInputElement).value;
-        this.paginatorPayload.searchText = inputValue;
-        this.paginatorPayload.currentPage = 1;
-        // this.getBranches(this.paginatorPayload);
+   onGlobalFilter(table: Table, event: Event) {
+        const input = event.target as HTMLInputElement;
+        table.filterGlobal(input.value, 'contains');
     }
-
-    
 
     openNew() {
         this.outputBranch = [];

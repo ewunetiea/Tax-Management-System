@@ -1,15 +1,7 @@
 <main id="main" class="main">
     <p-toast></p-toast>
-    <div class="pagetitle">
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a routerLink="/"><i class="bi bi-house-door"></i></a>
-                </li>
-                <li class="breadcrumb-item active">Search and Manage Users</li>
-                <li></li>
-            </ol>
-        </nav>
+    <div class="mb-6">
+        <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
     </div>
 
     <p-card>
@@ -22,14 +14,14 @@
                 <p-card>
                     <p-toolbar styleClass="p-mb-4">
                         <ng-template pTemplate="left">
-                            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-raised p-button-rounded p-mr-2" (click)="openNew()"></button>
+                            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-raised p-button-rounded mr-2" (click)="openNew()"></button>
                             <button
                                 pButton
                                 pRipple
                                 label="Specialize"
                                 pTooltip="This action sets the selected users' category to 'Special', which is exempt from automatic configuration algorithms. Designed specifically for branch reviewers and managers."
                                 icon="pi pi-verified"
-                                class="p-button-raised p-button-rounded p-button-success p-mr-2"
+                                class="p-button-raised p-button-rounded p-button-success mr-2"
                                 (click)="makeSpecialSelectedUsers()"
                                 [disabled]="!selectedUsers || !selectedUsers.length"
                             ></button>
@@ -40,7 +32,7 @@
                                 label="Role Modifier"
                                 icon="pi pi-users"
                                 pTooltip="This feature provides options to filter users by a given role and assign multiple intended roles to them. Furthermore, this feature removes any previously assigned roles and adds the intended ones."
-                                class="p-button-raised p-button-rounded p-button-warning p-mr-2"
+                                class="p-button-raised p-button-rounded p-button-warning mr-2"
                                 (click)="openMultipleUserRoleDialog()"
                                 [disabled]="!selectedUsers || !selectedUsers.length"
                             ></button>
@@ -75,18 +67,22 @@
                         [(selection)]="selectedUsers"
                         [rowHover]="true"
                         dataKey="id"
+                        [size]="selectedSize"
                         [rowsPerPageOptions]="[5, 10, 25, 50]"
                         [tableStyle]="{ 'min-width': '108rem' }"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                         [showCurrentPageReport]="true"
                     >
-                        <ng-template pTemplate="caption">
-                            <div class="p-d-flex p-ai-center p-jc-between">
-                                <h5 class="p-m-0">Manage Users</h5>
-                                <span class="p-input-icon-left">
-                                    <i class="pi pi-search"></i>
-                                    <input pInputText type="text" #searchData (input)="dt.filterGlobal(searchData.value, 'contains')" placeholder="Search..." />
-                                </span>
+                        <ng-template #caption>
+                            <div class="flex items-center justify-between">
+                                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                                <div class="flex justify-center mb-4">
+                                    <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value" />
+                                </div>
+                                <p-iconfield>
+                                    <p-inputicon styleClass="pi pi-search" />
+                                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)"  placeholder="Search..." /> 
+                                </p-iconfield>
                             </div>
                         </ng-template>
                         <ng-template pTemplate="header">
@@ -96,54 +92,54 @@
                                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                 </th>
                                 <th style="min-width: 12rem">
-                                    <div class="flex justify-content-center align-items-center">
+                                    <div class="flex items-center">
                                         First Name
                                         <p-columnFilter type="text" field="first_name" display="menu"></p-columnFilter>
                                     </div>
                                 </th>
                                 <th style="min-width: 12rem">
-                                    <div class="flex justify-content-center align-items-center">
+                                    <div class="flex items-center">
                                         Middle Name
                                         <p-columnFilter type="text" field="middle_name" display="menu"></p-columnFilter>
                                     </div>
                                 </th>
                                 <th style="min-width: 10rem">
-                                    <div class="flex justify-content-center align-items-center">
+                                    <div class="flex items-center">
                                         Last Name
                                         <p-columnFilter type="text" field="last_name" display="menu"></p-columnFilter>
                                     </div>
                                 </th>
 
                                 <th style="min-width: 10rem">
-                                    <div class="flex justify-content-center align-items-center">
+                                    <div class="flex items-center">
                                         Category
                                         <p-columnFilter type="text" field="category" display="menu"></p-columnFilter>
                                     </div>
                                 </th>
 
                                 <th style="min-width: 10rem">
-                                    <div class="flex justify-content-center align-items-center">
+                                    <div class="flex items-center">
                                         Banking
                                         <p-columnFilter type="text" field="banking" display="menu"></p-columnFilter>
                                     </div>
                                 </th>
 
                                 <th style="min-width: 8rem">
-                                    <div class="flex justify-content-center align-items-center">
+                                    <div class="flex items-center">
                                         Assigned Place
                                         <p-columnFilter type="text" field="assigned_place" display="menu"></p-columnFilter>
                                     </div>
                                 </th>
 
                                 <th style="width: 8rem">
-                                    <div class="flex justify-content-center align-items-center">
+                                    <div class="flex items-center">
                                         Status
                                         <p-columnFilter type="boolean" field="status" display="menu"></p-columnFilter>
                                     </div>
                                 </th>
 
                                 <th style="width: 8rem">
-                                    <div class="flex justify-content-center align-items-center">
+                                    <div class="flex items-center">
                                         Special
                                         <p-columnFilter type="boolean" field="special_user" display="menu"></p-columnFilter>
                                     </div>
@@ -155,10 +151,16 @@
                         <ng-template pTemplate="body" let-user let-expanded="expanded">
                             <tr>
                                 <td>
-                                    <button type="button" pButton pRipple [pRowToggler]="user" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                                    <button 
+                                    type="button" 
+                                    pButton 
+                                    pRipple 
+                                    [pRowToggler]="user" 
+                                    class="p-button-text p-button-rounded p-button-plain" 
+                                    [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
                                 </td>
                                 <td>
-                                    <p-tableCheckbox [value]="user"></p-tableCheckbox>
+                                <p-tableCheckbox [value]="user"></p-tableCheckbox>
                                 </td>
                                 <td>{{ user.first_name }}</td>
                                 <td>{{ user.middle_name }}</td>
@@ -175,19 +177,17 @@
                                 </td>
                                 <td>
                                     <button *ngIf="user.status == 1" pButton pRipple type="text" icon="pi pi-verified" label="Active" class="p-button-rounded p-button-success p-button-outlined p-button-sm"></button>
-
                                     <button *ngIf="user.status == 0" pButton pRipple type="text" icon="pi pi-times" label="Inactive" class="p-button-rounded p-button-danger p-button-outlined p-button-sm"></button>
                                 </td>
 
                                 <td>
                                     <button *ngIf="user.special_user == 1" pButton pRipple type="text" label="Special" class="p-button-rounded p-button-outlined p-button-sm"></button>
-
                                     <button *ngIf="user.special_user != 1" pButton pRipple type="text" label="Normal" class="p-button-rounded p-button-secondary p-button-outlined p-button-sm"></button>
                                 </td>
 
                                 <td>
-                                    <button pButton pRipple icon="pi pi-pencil" pTooltip="Edit User" class="p-button-rounded p-button-success p-mr-2" (click)="editUser(user)"></button>
-                                    <button pButton pRipple icon="pi pi-verified" pTooltip="Make Special" class="p-button-rounded p-button-success p-mr-2" (click)="makeSpecialUser(user)"></button>
+                                    <button pButton pRipple icon="pi pi-pencil" pTooltip="Edit User" class="p-button-outlined p-button-success mr-2" (click)="editUser(user)"></button>
+                                    <button pButton pRipple icon="pi pi-verified" pTooltip="Make Special" class="p-button-outlined p-button-success mr-2" (click)="makeSpecialUser(user)"></button>
                                 </td>
                             </tr>
                         </ng-template>
@@ -280,7 +280,7 @@
     </section>
 </main>
 
-<p-dialog [(visible)]="userEditDialog" header="User Details" [modal]="true" styleClass="p-fluid" [maximizable]="true">
+<p-dialog [(visible)]="userEditDialog"  [style]="{ width: '1000px' }" header="User Details" [modal]="true" styleClass="p-fluid" [maximizable]="true">
     <ng-template pTemplate="content">
         <app-create-edit-user [passedUser]="outputUser" (editedUser)="onDataChange($event)"></app-create-edit-user>
     </ng-template>

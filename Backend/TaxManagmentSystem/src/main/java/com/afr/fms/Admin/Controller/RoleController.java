@@ -1,9 +1,7 @@
 package com.afr.fms.Admin.Controller;
 
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.afr.fms.Admin.Entity.Role;
 import com.afr.fms.Admin.Entity.User;
 import com.afr.fms.Admin.Service.RoleService;
@@ -35,6 +32,7 @@ public class RoleController {
 
 	@Autowired
 	private RecentActivityMapper recentActivityMapper;
+
 	@Autowired
 	private FunctionalitiesService functionalitiesService;
 
@@ -42,13 +40,12 @@ public class RoleController {
 
 	@PostMapping("/role")
 	public ResponseEntity<?> createRole(@RequestBody @Validated Role role, HttpServletRequest request) {
-
 		try {
 			roleService.createRole(role);
 			User user = functionalitiesService.getUserFromHttpRequest(request);
 			if (user != null) {
-				recentActivity.setMessage(
-						" Role: " + role.getName() + role.getId() != null ? " is updated." : " is created.");
+				// recentActivity.setMessage(" Role: " + role.getName() + role.getId() != null ? " is updated." : " is created.");
+				recentActivity.setMessage("Role: " + role.getName() + (role.getId() != null ? " is updated." : " is created."));
 				recentActivity.setUser(user);
 				recentActivityMapper.addRecentActivity(recentActivity);
 			}

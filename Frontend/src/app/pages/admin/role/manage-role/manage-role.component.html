@@ -32,8 +32,7 @@
                         [tableStyle]="{ 'min-width': '60rem' }"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                         [showCurrentPageReport]="true"
-                        [expandedRowKeys]="expandedRows"
-                    >
+                        >
                         <ng-template #caption>
                             <div class="flex items-center justify-between">
                                 <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>

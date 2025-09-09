@@ -1,8 +1,8 @@
 import { Role } from "./role";
 
 export class JobPosition {
-    id?: Number
+    id?: number
     title?: String
-    location?: Number
+    location?: number
     roles?: Role[];
 }

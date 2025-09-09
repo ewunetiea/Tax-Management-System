@@ -60,7 +60,6 @@ export class ManageRegionComponent {
     ) {}
 
     ngOnInit(): void {
-        this.breadcrumbText = 'Manage Regions';
         this.home = { icon: 'pi pi-home', routerLink: '/' };
         this.items = [{ label: this.breadcrumbText }];
         this.sizes = [
@@ -138,10 +137,8 @@ export class ManageRegionComponent {
     }
 
     onGlobalFilter(table: Table, event: Event) {
-        const inputValue = (event.target as HTMLInputElement).value;
-        this.paginatorPayload.searchText = inputValue;
-        this.paginatorPayload.currentPage = 1;
-        // this.getRegion(this.paginatorPayload); // ✅ trigger search with backend
+        const input = event.target as HTMLInputElement;
+        table.filterGlobal(input.value, 'contains');
     }
 
     clear(table: Table) {

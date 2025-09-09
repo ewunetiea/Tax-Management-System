@@ -4,11 +4,18 @@ import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
 import { JobPosition } from '../../../../models/admin/job-position';
 import { Role } from '../../../../models/admin/role';
 import { ValidationService } from '../../../service/admin/validationService';
-import { RoleService } from '../../../service/admin/roleService';
 import { Table } from 'primeng/table';
 import { CreateEditRoleComponent } from '../create-edit-role/create-edit-role.component';
 import { PaginatorPayLoad } from '../../../../models/admin/paginator-payload';
 import { SharedUiModule } from '../../../../../shared-ui';
+import { JobPositionsByRole } from '../../../../models/admin/job-positions-by-role';
+import { ExportExcelService } from '../../../service/admin/export-excel.service';
+import { RoleService } from '../../../service/admin/roleService';
+
+interface ExportColumn {
+    title: string;
+    dataKey: string;
+}
 
 @Component({
     selector: 'app-manage-role',
@@ -19,17 +26,17 @@ import { SharedUiModule } from '../../../../../shared-ui';
     styleUrl: './manage-role.component.scss'
 })
 export class ManageRoleComponent {
-    exportSettings = {
-        columnsHeader: true,
-        fileName: 'Awash Bank - Job Positions Roles',
-        hiddenColumns: false
+    exportSettings!: {
+        columnsHeader: boolean;
+        fileName: string;
+        hiddenColumns: boolean;
     };
     selectedRole = new Role();
     data2: any = [];
     jobPositions: JobPosition[] = [];
     updated: Boolean = false;
     errorMessage: String = '';
-    loading: boolean = true;
+    loading: boolean = false;
     role = new Role();
     currentRole = new Role();
     hideStatus: boolean = false;
@@ -50,363 +57,390 @@ export class ManageRoleComponent {
     is_job_position_selected = false;
     events1: any[] = [];
     risk_levels: any[] = [];
-    jobPositionsByRole: JobPosition = new JobPosition();
-    items: MenuItem[] | undefined;
-    home: MenuItem | undefined;
-    paginatorPayload = new PaginatorPayLoad();
+    jobPositionsByRole: JobPositionsByRole = new JobPositionsByRole();
+    cols: any[] = [];
+    exportColumns!: ExportColumn[];
     sizes!: any[];
     selectedSize: any = 'normal';
-    expandedRows = {};
     breadcrumbText: string = 'Manage Roles';
+    items: MenuItem[] | undefined;
+    home: MenuItem | undefined;
 
     constructor(
         private roleRightService: RoleService,
+        private exportService: ExportExcelService,
         private validationService: ValidationService,
         private messageService: MessageService,
         private confirmationService: ConfirmationService
     ) {}
 
-    ngOnInit(): void {
-        this.breadcrumbText = 'Manage Roles';
-        this.home = { icon: 'pi pi-home', routerLink: '/' };
+    
+  ngOnInit(): void {
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
         this.items = [{ label: this.breadcrumbText }];
         this.sizes = [
             { name: 'Small', value: 'small' },
             { name: 'Normal', value: 'normal' },
             { name: 'Large', value: 'large' }
         ];
-        this.retrieveRoles();
-    }
+    this.retrieveRoles();
+    this.getJobPositions();
+    this.cols = [
+      { field: 'Name', header: 'Name' },
+      { field: 'Description', header: 'Description' },
+      { field: 'Category', header: 'Category' },
+      { field: 'Status', header: 'Status' },
+      { field: 'Positions', header: 'Mapped Job Positions' },
+    ]
+  }
 
-    toggle(index: number) {
-        this.activeState[index] = !this.activeState[index];
-    }
+  toggle(index: number) {
+    this.activeState[index] = !this.activeState[index];
+  }
 
-    onGlobalFilter(table: Table, event: Event) {
-        const inputValue = (event.target as HTMLInputElement).value;
-        this.paginatorPayload.searchText = inputValue;
-        this.paginatorPayload.currentPage = 1;
-        this.retrieveRoles();
-    }
+  onGlobalFilter(table: Table, event: Event) {
+    const input = event.target as HTMLInputElement;
+    table.filterGlobal(input.value, 'contains');
+}
 
     clear(table: Table) {
         table.clear();
     }
 
-    openNew() {
-        this.outputRole = [];
-        this.role = new Role();
-        this.isEditData = true;
-        this.outputRole.push(this.role);
-        this.outputRole.push(this.isEditData);
-        this.roleEditDialog = true;
-    }
+  openNew() {
+    this.outputRole = [];
+    this.role = new Role();
+    this.isEditData = true;
+    this.outputRole.push(this.role);
+    this.outputRole.push(this.isEditData);
+    this.roleEditDialog = true;
+  }
 
-    editRole(role: Role) {
-        this.outputRole = [];
-        this.role = { ...role };
-        this.isEditData = false;
-        this.outputRole.push(this.role);
-        this.outputRole.push(this.isEditData);
-        this.roleEditDialog = true;
-    }
+  editRole(role: Role) {
+    this.outputRole = [];
+    this.role = { ...role };
+    this.isEditData = false;
+    this.outputRole.push(this.role);
+    this.outputRole.push(this.isEditData);
+    this.roleEditDialog = true;
+  }
 
-    onDataChange(data: any) {
-        if (data[1]) {
-            this.retrieveRoles();
-            this.roles = [...this.roles];
-            this.roleEditDialog = false;
-            this.role = new Role();
-        } else {
-            this.roles[this.findIndexById(data[0].id)] = data[0];
-        }
-        this.roleEditDialog = false;
+  onDataChange(data: any) {
+    if (data[1]) {
+      this.retrieveRoles();
+      this.roles = [...this.roles];
+      this.roleEditDialog = false;
+      this.role = new Role();
+    } else {
+      this.roles[this.findIndexById(data[0].id)] = data[0];
     }
+    this.roleEditDialog = false;
+  }
 
-    findIndexById(id: number): number {
-        let index = -1;
-        for (let i = 0; i < this.roles.length; i++) {
-            if (this.roles[i].id === id) {
-                index = i;
-                break;
-            }
-        }
-        return index;
+  findIndexById(id: number): number {
+    let index = -1;
+    for (let i = 0; i < this.roles.length; i++) {
+      if (this.roles[i].id === id) {
+        index = i;
+        break;
+      }
     }
+    return index;
+  }
 
-    hideDialog() {
+  hideDialog() {
+    this.jobDialog = false;
+  }
+
+  retrieveRoles(): void {
+    this.loading = true;
+    this.roleRightService.getRoles().subscribe({
+      next: (data) => {
+        this.roles = data;
+        this.loading = false;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.loading = false;
+        this.errorMessage = error.message ? error.message : 'Something went wrong while fetching roles!';
+        this.messageService.add({
+          severity: 'error',
+          summary: this.errorMessage as string,
+          detail: '',
+        });
+      },
+    });
+  }
+
+
+
+  onItemSelect() {
+    this.is_job_position_selected = true;
+  }
+  onItemDeSelect() {
+    this.is_job_position_selected = false;
+  }
+
+  openModal(role: Role) {
+    this.jobDialog = true;
+    this.selectedRole = role;
+    if (this.selectedRole.jobPositions) {
+      for (const position of this.selectedRole.jobPositions) {
+        this.jobPositions.push(position);
+      }
+    }
+  }
+
+  getJobPositions() {
+    this.validationService.getTotalJobPositions().subscribe({
+      next: (data) => {
+        this.jobPositions = data;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.messageService.add({
+          severity: 'error',
+          summary:
+            error.status == 401
+              ? 'You are not permitted to perform this action!'
+              : 'Something went wrong while fetching  job position !',
+          detail: '',
+        });
+      },
+    });
+  }
+
+  editJobPositions() {
+    const jobPositionsByRole: JobPositionsByRole = {
+      role: this.selectedRole,
+      job_positions: this.selectedRole.jobPositions,
+    };
+    this.roleRightService.manageJobPositions(jobPositionsByRole).subscribe({
+      next: (data) => {
         this.jobDialog = false;
-    }
+        this.updated = true;
+        this.messageService.add({
+          severity: 'success',
+          summary: ` Relating role with Job position updated successfully`,
 
-    retrieveRoles(): void {
-        this.roleRightService.getRoles().subscribe({
-            next: (data) => {
-                this.roles = data;
-                const now = new Date();
-                var date = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
-                this.exportSettings = {
-                    columnsHeader: true,
-                    fileName: `Awash Bank - Job Positions Roles ${date}`,
-                    hiddenColumns: false
-                };
-                this.loading = false;
-            },
-            error: (error: HttpErrorResponse) => {
-                this.loading = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while retriving roles !',
-                    detail: ''
-                });
-            }
+          detail: '',
         });
-    }
+      },
+      error: (error: HttpErrorResponse) => {
+        this.loading = false;
+        this.errorMessage = error.error.message;
 
-    generateData(): any[] {
-        let data = new Array();
-        let i = 0;
-        for (const role of this.roles) {
-            let row: any = {
-                jobPositions: []
-            };
-            let row2: any = {};
+        this.messageService.add({
+          severity: 'error',
+          summary:
+            error.status == 401
+              ? 'You are not permitted to perform this action!'
+              : 'Something went wrong while updating job position !',
+          detail: '',
+        });
+      },
+    });
+  }
 
-            row['code'] = role.code;
-            row['name'] = role.name;
-            row['description'] = role.description;
-            row['id'] = role.id;
-            row['status'] = role.status ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Inactive</span>';
+  generateData(): any[] {
+    let data = new Array();
+    let i = 0;
+    for (const role of this.selectedRoles) {
+      let row: any = {};  // ✅ Initialize as an object
 
-            if (role.jobPositions) {
-                for (const jobPosition of role.jobPositions) {
-                    row['jobPositions'].push(jobPosition);
-                    // }
-                }
-            }
+      row['Name'] = role.name;
+      row['Description'] = role.description;
+      row['Category'] = role.role_position;
+      row['Status'] = role.status ? 'Active' : 'Inactive';
 
-            row2['code'] = role.code;
-            row2['name'] = role.name;
-            row2['description'] = role.description;
-            data[i] = row;
-            this.data2[i] = row2;
-            i++;
+      let job_positions: string[] = [];
+      if (role.jobPositions) {
+        for (const jobPosition of role.jobPositions) {
+          // Ensure we push a primitive string (not a String object)
+          job_positions.push(String(jobPosition.title || ''));
         }
-        return data;
+      }
+      row['Positions'] = job_positions.join(', ');
+
+      data[i] = row;
+      i++;
+    }
+    return data;
+  }
+
+
+
+  excelExport(): void {
+    if (this.selectedRoles.length === 0) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'No roles selected',
+        detail: 'Please select at least one role to export.',
+      });
+      return;
     }
 
-    onItemSelect() {
-        this.is_job_position_selected = true;
-    }
 
-    onItemDeSelect() {
-        this.is_job_position_selected = false;
-    }
+    this.exportColumns = this.cols.map((col) => ({
+      title: col.header,
+      dataKey: col.field,
+    }));
 
-    openModal(role: Role) {
-        this.jobDialog = true;
-        this.selectedRole = role;
-        if (this.selectedRole.jobPositions) {
-            for (const position of this.selectedRole.jobPositions) {
-                this.jobPositions.push(position);
-            }
-        }
-    }
+    let reportData = {
+      sheet_name: 'Audit Management System - Roles',
+      title: 'Audit Management System - Roles',
+      data: this.generateData(),
+      headers: this.exportColumns,
+    };
 
-    getJobPositions() {
-        this.validationService.getTotalJobPositions().subscribe({
-            next: (data) => {
-                this.jobPositions = data;
-                this.loading = false;
-            },
-            error: (error: HttpErrorResponse) => {
-                this.loading = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching  job position !',
-                    detail: ''
-                });
-            }
+    this.exportService.exportExcelReport(reportData);
+  }
+
+  deleteRole(role: Role) {
+    this.passRole = role;
+    this.passRoles.push(this.passRole);
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to deactivate selected role?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.roleRightService.deleteRole(this.passRoles).subscribe({
+          next: (response) => {
+            this.retrieveRoles();
+            // this.roles = this.roles.filter((val) => val.id !== role.id);
+            this.role = new Role();
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'Role deactivated',
+              life: 3000,
+            });
+          },
+          error: (error: HttpErrorResponse) => {
+            this.loading = false;
+            this.errorMessage = error.message;
+            this.submitted = true;
+            this.messageService.add({
+              severity: 'error',
+              summary:
+                error.status == 401
+                  ? 'You are not permitted to perform this action!'
+                  : 'Something went wrong while deactivating role!',
+              detail: '',
+            });
+          },
         });
-    }
+      },
+    });
+  }
 
-    editJobPositions() {
-        this.roleRightService.manageJobPositions(this.jobPositionsByRole).subscribe({
-            next: (data) => {
-                this.jobDialog = false;
-                this.updated = true;
-                this.messageService.add({
-                    severity: 'success',
-                    summary: ` Relating role with Job position updated successfully`,
-                    detail: ''
-                });
-            },
-            error: (error: HttpErrorResponse) => {
-                this.loading = false;
-                this.errorMessage = error.error.message;
-
-                this.messageService.add({
-                    severity: 'error',
-                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while updating  job position !',
-                    detail: ''
-                });
-            }
+  deleteSelectedRole() {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to deactivate selected roles?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.roleRightService.deleteRole(this.selectedRoles).subscribe({
+          next: (response) => {
+            this.retrieveRoles();
+            // this.roles = this.roles.filter(
+            //   (val) => !this.selectedroles.includes(val)
+            // );
+            this.selectedRoles = [];
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'roles Deactivated',
+              life: 3000,
+            });
+          },
+          error: (error: HttpErrorResponse) => {
+            this.loading = false;
+            this.errorMessage = error.message;
+            this.submitted = true;
+            this.messageService.add({
+              severity: 'error',
+              summary:
+                error.status == 401
+                  ? 'You are not permitted to perform this action!'
+                  : 'Something went wrong while deactivating roles!',
+              detail: '',
+            });
+          },
         });
-    }
+      },
+    });
+  }
 
-    generateExportData(): any[] {
-        return this.data2;
-    }
-
-    excelExport(): void {
-        const now = new Date();
-        var date = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
-
-        // Create a CSV string
-        const headers = Object.keys(this.data2[0]);
-        const csvContent = [headers.join(','), ...this.data2.map((row: Record<string, any>) => headers.map((header) => row[header]).join(','))].join('\n');
-
-        // Create and download the file
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement('a');
-        const url = URL.createObjectURL(blob);
-        link.setAttribute('href', url);
-        link.setAttribute('download', `CMS - System Roles - ${date}.csv`);
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-
-    deleteRole(role: Role) {
-        this.passRole = role;
-        this.passRoles.push(this.passRole);
-        this.confirmationService.confirm({
-            message: 'Are you sure you want to deactivate selected role?',
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.roleRightService.deleteRole(this.passRoles).subscribe({
-                    next: (response) => {
-                        this.retrieveRoles();
-                        // this.roles = this.roles.filter((val) => val.id !== role.id);
-                        this.role = new Role();
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: 'Successful',
-                            detail: 'Role deactivated',
-                            life: 3000
-                        });
-                    },
-                    error: (error: HttpErrorResponse) => {
-                        this.loading = false;
-                        this.errorMessage = error.message;
-                        this.submitted = true;
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while deactivating role!',
-                            detail: ''
-                        });
-                    }
-                });
-            }
+  activateRole(role: Role) {
+    this.passRole = role;
+    this.passRoles.push(this.passRole);
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to activate selected role?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.roleRightService.activate_role(this.passRoles).subscribe({
+          next: (response) => {
+            this.roles = this.roles.filter((val) => val.id !== role.id);
+            this.role = new Role();
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'Role activated',
+              life: 3000,
+            });
+          },
+          error: (error: HttpErrorResponse) => {
+            this.loading = false;
+            this.errorMessage = error.message;
+            this.submitted = true;
+            this.messageService.add({
+              severity: 'error',
+              summary:
+                error.status == 401
+                  ? 'You are not permitted to perform this action!'
+                  : 'Something went wrong while activating role!',
+              detail: '',
+            });
+          },
         });
-    }
+      },
+    });
+  }
 
-    deleteSelectedRole() {
-        this.confirmationService.confirm({
-            message: 'Are you sure you want to deactivate selected roles?',
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.roleRightService.deleteRole(this.selectedRoles).subscribe({
-                    next: (response) => {
-                        this.retrieveRoles();
-                        this.selectedRoles = [];
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: 'Successful',
-                            detail: 'roles Deactivated',
-                            life: 3000
-                        });
-                    },
-                    error: (error: HttpErrorResponse) => {
-                        this.loading = false;
-                        this.errorMessage = error.message;
-                        this.submitted = true;
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while deactivating roles!',
-                            detail: ''
-                        });
-                    }
-                });
-            }
+  activateSelectedRole() {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to activate selected roles?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.roleRightService.activate_role(this.selectedRoles).subscribe({
+          next: (response) => {
+            this.roles = this.roles.filter(
+              (val) => !this.selectedRoles.includes(val)
+            );
+            this.selectedRoles = [];
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'Roles activated',
+              life: 3000,
+            });
+          },
+          error: (error: HttpErrorResponse) => {
+            this.loading = false;
+            this.errorMessage = error.message;
+            this.submitted = true;
+            this.messageService.add({
+              severity: 'error',
+              summary:
+                error.status == 401
+                  ? 'You are not permitted to perform this action!'
+                  : 'Something went wrong while activating roles!',
+              detail: '',
+            });
+          },
         });
-    }
-
-    activateRole(role: Role) {
-        this.passRole = role;
-        this.passRoles.push(this.passRole);
-        this.confirmationService.confirm({
-            message: 'Are you sure you want to activate selected role?',
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.roleRightService.activate_role(this.passRoles).subscribe({
-                    next: (response) => {
-                        this.roles = this.roles.filter((val) => val.id !== role.id);
-                        this.role = new Role();
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: 'Successful',
-                            detail: 'Role activated',
-                            life: 3000
-                        });
-                    },
-                    error: (error: HttpErrorResponse) => {
-                        this.loading = false;
-                        this.errorMessage = error.message;
-                        this.submitted = true;
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while activating role!',
-                            detail: ''
-                        });
-                    }
-                });
-            }
-        });
-    }
-
-    activateSelectedRole() {
-        this.confirmationService.confirm({
-            message: 'Are you sure you want to activate selected roles?',
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.roleRightService.activate_role(this.selectedRoles).subscribe({
-                    next: (response) => {
-                        this.roles = this.roles.filter((val) => !this.selectedRoles.includes(val));
-                        this.selectedRoles = [];
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: 'Successful',
-                            detail: 'Roles activated',
-                            life: 3000
-                        });
-                    },
-                    error: (error: HttpErrorResponse) => {
-                        this.loading = false;
-                        this.errorMessage = error.message;
-                        this.submitted = true;
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while activating roles!',
-                            detail: ''
-                        });
-                    }
-                });
-            }
-        });
-    }
+      },
+    });
+  }
 }

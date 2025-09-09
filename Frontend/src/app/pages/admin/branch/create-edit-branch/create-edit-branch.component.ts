@@ -16,6 +16,8 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { DialogModule } from 'primeng/dialog';
 import { PaginatorPayLoad } from '../../../../models/admin/paginator-payload';
 import { Select } from 'primeng/select';
+import { User } from '../../../../models/admin/user';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-create-edit-branch',
@@ -43,6 +45,7 @@ export class CreateEditBranchComponent {
     loadLazyTimeout: any = null;
     loading_dropdown: boolean = true;
     paginatorPayload = new PaginatorPayLoad();
+    user: User = new User();
 
     @Input() passedBranch: any[] = [];
     @Output() editedBranch: EventEmitter<any> = new EventEmitter();
@@ -56,8 +59,7 @@ export class CreateEditBranchComponent {
     ) {}
 
     ngOnInit(): void {
-        const user = this.storageService.getUser();
-        this.branches.user_id = user.id;
+        this.user = this.storageService.getUser();
         this.regionDropdownOptions = Array.from({ length: 1000 });
         this.isEditData = this.passedBranch[1];
         if (this.isEditData) {
@@ -100,6 +102,7 @@ export class CreateEditBranchComponent {
 
     saveBranch() {
     this.loading = true;
+    this.branches.user_id = this.user.id;
     this.branchService.createBranch(this.branches).subscribe({
         next: (data) => {
             this.message = true;
@@ -125,9 +128,18 @@ export class CreateEditBranchComponent {
             this.passedBranch.push(this.isEditData);
             this.emitData(this.passedBranch);
         },
-        error: (error) => {
-            this.loading = false;
-        }
+        error: (error: HttpErrorResponse) => {
+                this.loading = false;
+                this.messageService.add({
+                  severity: 'error',
+                  summary:
+                    error.status == 401
+                      ? 'You are not permitted to perform this action!'
+                      : 'Something went wrong while creating branch !',
+                  detail: '',
+                });
+                this.errorMessage = error.error.message;
+              },
     });
 }
 

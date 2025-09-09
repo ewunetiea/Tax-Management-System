@@ -28,7 +28,6 @@ export class RoleService {
     return this.http.get<any>(`${rootURL}/getAllRights`);
   }
 
-
   getMappedJobPositions(): Observable<any> {
     return this.http.get<any>(`${rootURL}/jobPositions`);
   }
@@ -36,7 +35,7 @@ export class RoleService {
   getRoles(): Observable<any> {
     return this.http.get<any>(`${rootURL}/role`);
   }
-
+  
   getCommonRoles(): Observable<any> {
     return this.http.get<any>(`${rootURL}/roles`);
   }

@@ -4,21 +4,13 @@ import { Functionalities } from '../../../../models/admin/functionalities';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { UserFunctionalityService } from '../../../service/admin/user-functionality-service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { ButtonModule } from 'primeng/button';
-import { TableModule } from 'primeng/table';
-import { DialogModule } from 'primeng/dialog';
-import { CheckboxModule } from 'primeng/checkbox';
-import { ToastModule } from 'primeng/toast';
-import { Toolbar } from 'primeng/toolbar';
-import { CardModule } from 'primeng/card';
+import { Table } from 'primeng/table';
 import { UserSearchEngineComponent } from '../../user/user-search-engine/user-search-engine.component';
-import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { SharedUiModule } from '../../../../../shared-ui';
 
 @Component({
     selector: 'app-manage-user-permissions',
-    imports: [FormsModule, CommonModule, ButtonModule, TableModule, DialogModule, CheckboxModule, ToastModule, Toolbar, CardModule, UserSearchEngineComponent, BreadcrumbModule],
+    imports: [SharedUiModule, UserSearchEngineComponent],
     providers: [MessageService, ConfirmationService],
     templateUrl: './manage-user-permissions.component.html',
     styleUrl: './manage-user-permissions.component.scss'
@@ -35,6 +27,9 @@ export class ManageUserPermissionsComponent {
     functionalityLoading: boolean = false;
     functionalityStatusDialog: boolean = false;
     fetching: boolean = false;
+    sizes!: any[];
+    selectedSize: any = 'normal';
+    breadcrumbText: string = 'Manage User Permissions';
     items: MenuItem[] | undefined;
     home: MenuItem | undefined;
 
@@ -45,8 +40,13 @@ export class ManageUserPermissionsComponent {
     ) {}
 
     ngOnInit(): void {
-       this.items = [{ label: 'User' }, { label: 'Permissions' }];
        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        this.items = [{ label: this.breadcrumbText }];
+        this.sizes = [
+            { name: 'Small', value: 'small' },
+            { name: 'Normal', value: 'normal' },
+            { name: 'Large', value: 'large' }
+        ];
     }
 
     onViewFunctionalities(user: User): void {
@@ -67,6 +67,15 @@ export class ManageUserPermissionsComponent {
             this.users = data;
         }
     }
+
+    onGlobalFilter(table: Table, event: Event) {
+            const input = event.target as HTMLInputElement;
+            table.filterGlobal(input.value, 'contains');
+        }
+    
+        clear(table: Table) {
+            table.clear();
+        }
 
     revokeFunctionalities(): void {
         this.user.functionalities = this.selectedFunctionalities || [];

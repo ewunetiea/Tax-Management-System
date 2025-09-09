@@ -1,21 +1,47 @@
-<form ngNativeValidate #userForm="ngForm" class="p-fluid">
-    <div class="p-formgrid p-grid">
-        <div class="p-field p-col">
-            <div class="p-field p-col">
+<form ngNativeValidate #userForm="ngForm" class="flex flex-col gap-8">
+    <div class="flex flex-col md:flex-row gap-4">
+        <div class="flex flex-wrap gap-3 w-full">
                 <label for="first_name"> <strong class="text-red-600">*</strong>First Name</label>
-                <input type="text" #first_name="ngModel" [class.is-invalid]="first_name.invalid && first_name.touched" pInputText id="first_name" [(ngModel)]="user.first_name" name="first_name" />
-                <small class="text-red-600" [class.d-none]="first_name.valid || first_name.untouched">First Name is required<br /></small>
+                <input 
+                type="text" 
+                pInputText id="first_name" 
+                [(ngModel)]="user.first_name" 
+                name="first_name" 
+                #first_name="ngModel" 
+                [ngClass]="{ 'p-invalid': first_name.touched && first_name.invalid }" 
+                required />
+                <div *ngIf="first_name.errors && first_name.touched">
+                    <small class="text-red-600" *ngIf="first_name.errors['required']">First Name is required</small>
+                </div>
+        </div>
+        <div class="flex flex-wrap gap-3 w-full">
+            <label for="middle_name"> <strong class="text-red-600">*</strong>Middle Name</label>
+            <input 
+            type="text"
+             #middle_name="ngModel" 
+             [ngClass]="{ 'p-invalid': middle_name.touched && middle_name.invalid }" 
+             pInputText id="middle_name" 
+             [(ngModel)]="user.middle_name" 
+             name="middle_name" 
+             required />
+            <div *ngIf="middle_name.errors && middle_name.touched">
+                <small class="text-red-600" *ngIf="middle_name.errors['required']">Middle Name is required</small>
             </div>
         </div>
-        <div class="p-field p-col">
-            <label for="middle_name"> <strong class="text-red-600">*</strong>Middle Name</label>
-            <input type="text" #middle_name="ngModel" [class.is-invalid]="middle_name.invalid && middle_name.touched" pInputText id="middle_name" [(ngModel)]="user.middle_name" name="middle_name" />
-            <small class="text-red-600" [class.d-none]="middle_name.valid || middle_name.untouched">Middle Name is required<br /></small>
-        </div>
-        <div class="p-field p-col">
+        <div class="flex flex-wrap gap-3 w-full">
             <label for="last_name"> <strong class="text-red-600">*</strong>Last Name</label>
-            <input type="text" #last_name="ngModel" [class.is-invalid]="last_name.invalid && last_name.touched" pInputText id="last_name" [(ngModel)]="user.last_name" name="last_name" />
-            <small class="text-red-600" [class.d-none]="last_name.valid || last_name.untouched">Last Name is required<br /></small>
+            <input 
+            id="last_name" 
+            type="text" 
+            pInputText 
+            name="last_name"
+            [(ngModel)]="user.last_name" 
+            #last_name="ngModel"
+            [ngClass]="{ 'p-invalid': last_name.touched && last_name.invalid }"
+            required />
+            <div *ngIf="last_name.errors && last_name.touched">
+                <small class="text-red-600" [class.d-none]="last_name.valid || last_name.untouched">Last Name is required<br /></small>
+            </div>
         </div>
     </div>
 

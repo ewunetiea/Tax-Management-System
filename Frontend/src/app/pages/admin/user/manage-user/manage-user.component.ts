@@ -1,9 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { environment } from '../../../../../environments/environment.prod';
-import { ToastModule } from 'primeng/toast';
 import { User } from '../../../../models/admin/user';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MessageService, ConfirmationService } from 'primeng/api';
+import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
 import { Region } from '../../../../models/admin/region';
 import { Role } from '../../../../models/admin/role';
 import { BranchService } from '../../../service/admin/branchService';
@@ -13,46 +12,14 @@ import { UserService } from '../../../service/admin/user.service';
 import { Branch } from '../../../../models/admin/branch';
 import { MultiUserRole } from '../../../../models/admin/multiUserRole';
 import { RoleService } from '../../../service/admin/roleService';
-import { ScrollerModule } from 'primeng/scroller';
-import { DialogModule } from 'primeng/dialog';
-import { SkeletonModule } from 'primeng/skeleton';
-import { DropdownModule } from 'primeng/dropdown';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { MultiSelectModule } from 'primeng/multiselect';
 import { CreateEditUserComponent } from '../create-edit-user/create-edit-user.component';
-import { ChipModule } from 'primeng/chip';
-import { FieldsetModule } from 'primeng/fieldset';
-import { AccordionModule } from 'primeng/accordion';
-import { ButtonModule } from 'primeng/button';
-import { TabViewModule } from 'primeng/tabview';
-import { ToolbarModule } from 'primeng/toolbar';
-import { CardModule } from 'primeng/card';
-import { TableModule } from 'primeng/table';
+import { Table } from 'primeng/table';
 import { UserSearchEngineComponent } from '../user-search-engine/user-search-engine.component';
+import { SharedUiModule } from '../../../../../shared-ui';
 
 @Component({
     selector: 'app-manage-user',
-    imports: [
-        ScrollerModule,
-        ToastModule,
-        SkeletonModule,
-        DialogModule,
-        DropdownModule,
-        CommonModule,
-        FormsModule,
-        MultiSelectModule,
-        ChipModule,
-        CreateEditUserComponent,
-        UserSearchEngineComponent,
-        FieldsetModule,
-        AccordionModule,
-        ButtonModule,
-        TabViewModule,
-        TableModule,
-        ToolbarModule,
-        CardModule
-    ],
+    imports: [SharedUiModule, CreateEditUserComponent, UserSearchEngineComponent],
     templateUrl: './manage-user.component.html',
     styleUrl: './manage-user.component.scss',
     providers: [MessageService, ConfirmationService]
@@ -112,8 +79,12 @@ export class ManageUserComponent {
         selected_roles: []
     };
     multipleRoleUserLoading = false;
-
     @ViewChild('dt') dt!: any;
+    sizes!: any[];
+    selectedSize: any = 'normal';
+    breadcrumbText: string = 'Manage Users';
+    items: MenuItem[] | undefined;
+    home: MenuItem | undefined;
 
     constructor(
         private userService: UserService,
@@ -126,6 +97,13 @@ export class ManageUserComponent {
     ) {}
 
     ngOnInit(): void {
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        this.items = [{ label: this.breadcrumbText }];
+        this.sizes = [
+            { name: 'Small', value: 'small' },
+            { name: 'Normal', value: 'normal' },
+            { name: 'Large', value: 'large' }
+        ];
         this.getUsers();
     }
 
@@ -158,7 +136,12 @@ export class ManageUserComponent {
         this.activeState[index] = !this.activeState[index];
     }
 
-    clear(table: any) {
+    onGlobalFilter(table: Table, event: Event) {
+        const input = event.target as HTMLInputElement;
+        table.filterGlobal(input.value, 'contains');
+    }
+
+    clear(table: Table) {
         table.clear();
     }
 

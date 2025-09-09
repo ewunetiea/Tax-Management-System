@@ -71,6 +71,7 @@ export class CreateEditUserComponent {
     hoWorkPlaces: Branch[] = [];
     @Input() passedUser: any[] = [];
     @Output() editedUser: EventEmitter<any> = new EventEmitter();
+     radioValue: any = null;
 
     constructor(
         private branchService: BranchService,

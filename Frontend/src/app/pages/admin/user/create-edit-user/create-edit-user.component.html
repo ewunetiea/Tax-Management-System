@@ -211,8 +211,8 @@
             </div>
         </div>
         <div class="mb-4 w-full" *ngIf="branchRadioButton">
-            <label for="branch"><strong class="text-red-600">*</strong>Branch </label>
-            <p-dropdown
+            <label for="branch"><strong class="text-red-600">*</strong>Branch </label> 
+            <p-select
                 [options]="allBranches"
                 optionLabel="name"
                 inputId="branch"
@@ -240,7 +240,7 @@
                         <p-skeleton [width]="options.even ? '60%' : '50%'" height="1rem"></p-skeleton>
                     </div>
                 </ng-template>
-            </p-dropdown>
+            </p-select>
 
             <div *ngIf="real_branch_status">
                 <small class="text-red-600">Information not correct! </small>

@@ -49,8 +49,9 @@
                     </p-toolbar>
 
                     <p-table
-                     [expandedRowKeys]="expandedRows" (onRowExpand)="onRowExpand($event)" (onRowCollapse)="onRowCollapse($event)"
-
+                        [expandedRowKeys]="expandedRows"
+                        (onRowExpand)="onRowExpand($event)"
+                        (onRowCollapse)="onRowCollapse($event)"
                         #dt
                         [value]="users"
                         [rows]="5"
@@ -74,7 +75,7 @@
                                 </div>
                                 <p-iconfield>
                                     <p-inputicon styleClass="pi pi-search" />
-                                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)"  placeholder="Search..." /> 
+                                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." />
                                 </p-iconfield>
                             </div>
                         </ng-template>
@@ -142,24 +143,12 @@
                             </tr>
                         </ng-template>
                         <ng-template #body let-user let-expanded="expanded">
-
                             <tr>
                                 <td>
-<<<<<<< HEAD
-                                    <button 
-                                    type="button" 
-                                    pButton 
-                                    pRipple 
-                                    [pRowToggler]="user" 
-                                    class="p-button-text p-button-rounded p-button-plain" 
-                                    [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
-=======
-                                                        <p-button type="button" pRipple [pRowToggler]="user" [text]="true" [rounded]="true" [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
-
->>>>>>> origin/JwtConfigBranch
+                                    <button type="button" pButton pRipple [pRowToggler]="user" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
                                 </td>
                                 <td>
-                                <p-tableCheckbox [value]="user"></p-tableCheckbox>
+                                    <p-tableCheckbox [value]="user"></p-tableCheckbox>
                                 </td>
                                 <td>{{ user.first_name }}</td>
                                 <td>{{ user.middle_name }}</td>
@@ -190,8 +179,7 @@
                                 </td>
                             </tr>
                         </ng-template>
-                                    <ng-template #expandedrow let-user>
-
+                        <ng-template #expandedrow let-user>
                             <tr>
                                 <td colspan="7">
                                     <div class="p-3">
@@ -280,7 +268,7 @@
     </section>
 </main>
 
-<p-dialog [(visible)]="userEditDialog"  [style]="{ width: '1000px' }" header="User Details" [modal]="true" styleClass="p-fluid" [maximizable]="true">
+<p-dialog [(visible)]="userEditDialog" [style]="{ width: '1000px' }" header="User Details" [modal]="true" styleClass="p-fluid" [maximizable]="true">
     <ng-template pTemplate="content">
         <app-create-edit-user [passedUser]="outputUser" (editedUser)="onDataChange($event)"></app-create-edit-user>
     </ng-template>

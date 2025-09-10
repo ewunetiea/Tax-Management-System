@@ -1,5 +1,5 @@
 <app-floating-configurator />
-<div class="bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-[100vw] overflow-hidden">
+<div class="bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-[60vw] overflow-hidden">
     <ul class="floating-circles">
         <li></li>
         <li></li>
@@ -13,10 +13,14 @@
         <li></li>
     </ul>
     <div class="flex flex-col items-center justify-center">
-        <div style="border-radius: 56px; padding: 0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)">
+        <div style="border-radius: 56px; padding: 0.2rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)">
             <div class="w-full bg-surface-0 dark:bg-surface-900 py-20 px-8 sm:px-20" style="border-radius: 53px">
                 <div class="pt-3 pb-2 text-center">
-                    <a routerLink="/" class="card-title text-center pb-0 fs-3"><img class="img-responsive text-center awash-bank-login-logo" src="assets/img/awashbank.png" alt="awashbank logo" style="max-width: 100%; height: auto" /></a>
+                    <a routerLink="/" class="card-title text-center pb-0 fs-3">
+                        <!-- <img class="img-responsive text-center awash-bank-login-logo" src="assets/img/awashbank.png" alt="awashbank logo" style="max-width: 100%; height: auto" /> -->
+
+                        <img class="img-responsive awash-bank-login-logo w-3/5 mx-auto" src="assets/img/awashbank.png" alt="awashbank logo" />
+                    </a>
                 </div>
                 <div class="pt-4">
                     <h5 class="card-title text-center pb-0 fs-4">Welcome to TMS!</h5>
@@ -43,7 +47,6 @@
                             </div>
                             <span class="font-medium no-underline ml-2 text-right cursor-pointer text-secondary">Forgot password?</span>
                         </div>
-
 
                         <p-button label="Sign In" styleClass="w-full" type="submit" [disabled]="f.invalid || loading" [loading]="loading"> </p-button>
                     </div>

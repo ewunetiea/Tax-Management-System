@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
-// PrimeNG UI modules
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TextareaModule } from 'primeng/textarea';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
@@ -35,7 +33,6 @@ import { PasswordModule } from 'primeng/password';
 import { KnobModule } from 'primeng/knob';
 import { DividerModule } from 'primeng/divider';
 import { ChartModule } from 'primeng/chart';
-import { TimeagoModule } from 'ngx-timeago';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { Select } from 'primeng/select';
 import { RouterModule } from '@angular/router';
@@ -43,6 +40,9 @@ import { RippleModule } from 'primeng/ripple';
 import { Skeleton } from 'primeng/skeleton';
 import { Chip } from 'primeng/chip';
 import { FieldsetModule } from 'primeng/fieldset';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { TimeagoModule } from 'ngx-timeago';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @NgModule({
     imports: [
@@ -91,7 +91,11 @@ import { FieldsetModule } from 'primeng/fieldset';
         NgIf,
         Skeleton,
         Chip,
-        FieldsetModule
+        FieldsetModule,
+        InputNumberModule,
+        TimeagoModule,
+     ReactiveFormsModule,
+SkeletonModule
     ],
     exports: [
         CommonModule,
@@ -136,10 +140,16 @@ import { FieldsetModule } from 'primeng/fieldset';
         RadioButtonModule,
         RouterModule,
         RippleModule,
-        NgIf,
         Skeleton,
         Chip,
-        FieldsetModule
+        FieldsetModule,
+        RouterModule, 
+        RippleModule, 
+        NgIf,
+        InputNumberModule,
+        ReactiveFormsModule,SkeletonModule
+
     ]
 })
-export class SharedUiModule {}
+export class SharedUiModule { }
+

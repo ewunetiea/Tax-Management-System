@@ -9,7 +9,6 @@ import { PasswordService } from '../../../service/admin/password.service';
 import { ValidationService } from '../../../service/admin/validationService';
 import { AuthService } from '../../../service/admin/auth.service';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { ImageSnippet } from '../../../../../helpers/image-snippet';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
@@ -21,10 +20,12 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { TabViewModule } from 'primeng/tabview';
 import { PanelModule } from 'primeng/panel';
 import { CardModule } from 'primeng/card';
+import { ImageSnippet } from '../../../../../helpers/image-snippet';
+import { SharedUiModule } from '../../../../../shared-ui';
 
 @Component({
     selector: 'app-user-profile',
-    imports: [FormsModule, CommonModule, InputTextModule, ButtonModule, DividerModule, ToastModule, PasswordModule, BreadcrumbModule, TabViewModule, PanelModule, CardModule],
+    imports: [SharedUiModule],
     providers: [MessageService, ConfirmationService],
     templateUrl: './user-profile.component.html',
     styleUrl: './user-profile.component.scss'

@@ -12,11 +12,11 @@ import { AuthService } from '../../service/admin/auth.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, of, switchMap } from 'rxjs';
-import { PasswordResetOtpComponent } from '../password-reset-otp/password-reset-otp.component';
+import { AppFloatingConfigurator } from "../../../layout/component/app.floatingconfigurator";
 
 @Component({
     selector: 'app-signup',
-    imports: [SharedUiModule, PasswordResetOtpComponent],
+    imports: [SharedUiModule, AppFloatingConfigurator],
     providers: [MessageService, ConfirmationService],
     templateUrl: './signup.component.html',
     styleUrl: './signup.component.scss'

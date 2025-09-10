@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Router} from '@angular/router';
+import { Router } from '@angular/router';
+
 import { AppFloatingConfigurator } from '../../layout/component/app.floatingconfigurator';
 import { AuthService } from '../service/admin/auth.service';
 import { StorageService } from '../service/admin/storage.service';

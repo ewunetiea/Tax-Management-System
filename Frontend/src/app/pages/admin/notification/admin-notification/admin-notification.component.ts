@@ -12,9 +12,9 @@ import { StorageService } from '../../../service/admin/storage.service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SettingConfigurationComponent } from '../../setting-configuration/setting-configuration.component';
 import { DialogModule } from 'primeng/dialog';
-import { LogComponent } from '../../log/log.component';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { LogComponent } from '../../log/log/log.component';
 
 @Component({
   selector: 'app-admin-notification',

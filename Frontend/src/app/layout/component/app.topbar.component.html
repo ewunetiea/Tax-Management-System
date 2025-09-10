@@ -38,3 +38,16 @@
         </ng-template>
     </p-menubar>
 </div>
+
+
+<p-dialog header="JWT Info" [(visible)]="showJwtModal" modal="true" [closable]="true" [dismissableMask]="true" [style]="{width: '650px'}">
+
+    <app-setting-configuration></app-setting-configuration>
+    <button    class="p-button-secondary"
+ pButton type="button" label="Close Modal" (click)="showJwtModal = false"></button>
+</p-dialog>
+
+<p-dialog header="Log Info" [(visible)]="showLogModal" modal="true" [closable]="true" [dismissableMask]="true" [style]="{width: '800px'}">
+    <app-log></app-log>
+    <button pButton type="button" label="Close Modal" (click)="showLogModal = false"></button>
+</p-dialog>

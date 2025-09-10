@@ -13,7 +13,14 @@ import { Branch } from '../../../../models/admin/branch';
 import { MultiUserRole } from '../../../../models/admin/multiUserRole';
 import { RoleService } from '../../../service/admin/roleService';
 import { CreateEditUserComponent } from '../create-edit-user/create-edit-user.component';
-import { Table } from 'primeng/table';
+import { ChipModule } from 'primeng/chip';
+import { FieldsetModule } from 'primeng/fieldset';
+import { AccordionModule } from 'primeng/accordion';
+import { ButtonModule } from 'primeng/button';
+import { TabViewModule } from 'primeng/tabview';
+import { ToolbarModule } from 'primeng/toolbar';
+import { CardModule } from 'primeng/card';
+import { Table, TableModule, TableRowCollapseEvent, TableRowExpandEvent } from 'primeng/table';
 import { UserSearchEngineComponent } from '../user-search-engine/user-search-engine.component';
 import { SharedUiModule } from '../../../../../shared-ui';
 
@@ -31,6 +38,7 @@ export class ManageUserComponent {
         fileName: 'users',
         hiddenColumns: false
     };
+    expandedRows = {};
 
     //used for exporting, Header titles given
     data2 = new Array();
@@ -107,6 +115,21 @@ export class ManageUserComponent {
         this.getUsers();
     }
 
+    expandAll() {
+        // this.expandedRows = this.products.reduce((acc, p) => (acc[p.id] = true) && acc, {});
+    }
+
+    collapseAll() {
+        this.expandedRows = {};
+    }
+
+    onRowExpand(event: TableRowExpandEvent) {
+        this.messageService.add({ severity: 'info', summary: 'User Information Expanded', detail: event.data.name, life: 3000 });
+    }
+
+    onRowCollapse(event: TableRowCollapseEvent) {
+        this.messageService.add({ severity: 'success', summary: 'User information Collapsed', detail: event.data.name, life: 3000 });
+    }
     getUsers() {
         this.userService.getUsers().subscribe(
             (response) => {

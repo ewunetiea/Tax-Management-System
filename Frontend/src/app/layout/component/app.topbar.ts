@@ -11,27 +11,29 @@ import { RealTime } from '../../models/admin/real-time';
 import { NotifyMeService } from '../../pages/service/admin/notify-service';
 import { RealTimeService } from '../../pages/service/admin/real-time-service';
 import { SharedUiModule } from '../../../shared-ui';
-import { SettingConfigurationComponent } from "../../pages/admin/setting-configuration/setting-configuration.component";
-import { LogComponent } from "../../pages/admin/log/log/log.component";
+import { SettingConfigurationComponent } from '../../pages/admin/setting-configuration/setting-configuration.component';
+import { LogComponent } from '../../pages/admin/log/log/log.component';
+import { AdminNotificationComponent } from '../../pages/admin/notification/admin-notification/admin-notification.component';
+import { OverlayBadgeModule } from 'primeng/overlaybadge';
 
 @Component({
     selector: 'app-topbar',
     standalone: true,
     imports: [
-    RouterModule,
-    SharedUiModule, // ✅ brings in all PrimeNG + CommonModule + FormsModule
-    AppConfigurator // ✅ custom standalone component
-    ,
-    SettingConfigurationComponent,
-    LogComponent
-],
+        RouterModule,
+        SharedUiModule, 
+        AppConfigurator, 
+        SettingConfigurationComponent,
+        LogComponent,
+        AdminNotificationComponent,
+        OverlayBadgeModule,
+    ],
     templateUrl: './app.topbar.component.html'
 })
 export class AppTopbar {
-
     showJwtModal = false;
-showLogModal = false;
-
+    showLogModal = false;
+    showNotificationModal = false;
     isLoggedIn = false;
     id_login_tracker?: number;
     items!: MenuItem[];
@@ -79,36 +81,28 @@ showLogModal = false;
                 icon: 'pi pi-fw pi-home',
                 routerLink: '/applayout'
             },
-            // {
-            //     label: 'JWT',
-            //     icon: 'pi pi-fw pi-cog',
-            //     routerLink: '/applayout'
-            // },
-            // {
-            //     label: 'Log',
-            //     icon: 'pi pi-fw pi-inbox',
-            //     routerLink: '/applayout'
-            // },
-             {
-        label: 'JWT',
-        icon: 'pi pi-fw pi-cog',
-        command: () => this.showJwtModal = true  // ✅ open modal
-    },
-    {
-        label: 'Log',
-        icon: 'pi pi-fw pi-inbox',
-        command: () => this.showLogModal = true  // ✅ open modal
-    },
+            
+            {
+                label: 'JWT',
+                icon: 'pi pi-fw pi-cog',
+                command: () => (this.showJwtModal = true) // ✅ open modal
+            },
+            {
+                label: 'Log',
+                icon: 'pi pi-fw pi-inbox',
+                command: () => (this.showLogModal = true) // ✅ open modal
+            },
             {
                 label: 'Contact',
                 icon: 'pi pi-fw pi-envelope',
                 routerLink: ['/applayout/manage-contact']
             },
-            {
+             {
                 label: `Notifications (${this.check_notification_list.length || 0})`,
                 icon: 'pi pi-fw pi-bell',
-                routerLink: ['/applayout/admin-notification']
+                command: () => (this.showNotificationModal = true) // ✅ open modal
             },
+            // { id: 'notifications', label: 'Notifications' },
             {
                 label: 'Profile',
                 icon: 'pi pi-fw pi-user',

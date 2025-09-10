@@ -68,9 +68,6 @@
 // })
 // export class StatsWidget {}
 
-
-
-
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../../models/admin/user';
 import { Subscription } from 'rxjs';
@@ -87,31 +84,32 @@ import { HttpErrorResponse } from '@angular/common/http';
     selector: 'app-stats-widget',
     imports: [SharedUiModule],
 
-
     template: `<div class="col-span-12 lg:col-span-6 xl:col-span-3">
             <div class="card mb-0">
                 <div class="flex justify-between mb-4">
                     <div>
-                        <span class="block text-muted-color font-medium mb-4"><h5 class="card-title">IS <span>| Total</span></h5></span>
+                        <span class="block text-muted-color font-medium mb-4"
+                            ><h5 class="card-title">IS <span>| Total</span></h5></span
+                        >
                         <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">
-                                           {{ adminDashboardData!.card_data?.[0] }}
-</div>
+                            {{ adminDashboardData!.card_data?.[0] }}
+                        </div>
                     </div>
                     <div class="flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
                         <i class="pi pi-shopping-cart text-blue-500 !text-xl"></i>
                     </div>
                 </div>
-                <span class="text-primary font-medium">  Users </span>
+                <span class="text-primary font-medium"> Users </span>
             </div>
         </div>
         <div class="col-span-12 lg:col-span-6 xl:col-span-3">
             <div class="card mb-0">
                 <div class="flex justify-between mb-4">
                     <div>
-                        <span class="block text-muted-color font-medium mb-4">        <h5 class="card-title">MGT <span>| Total</span></h5>
-</span>
-                        <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">  {{ adminDashboardData.card_data?.[1] }}
-</div>
+                        <span class="block text-muted-color font-medium mb-4">
+                            <h5 class="card-title">MGT <span>| Total</span></h5>
+                        </span>
+                        <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ adminDashboardData.card_data?.[1] }}</div>
                     </div>
                     <div class="flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
                         <i class="pi pi-dollar text-orange-500 !text-xl"></i>
@@ -124,10 +122,10 @@ import { HttpErrorResponse } from '@angular/common/http';
             <div class="card mb-0">
                 <div class="flex justify-between mb-4">
                     <div>
-                        <span class="block text-muted-color font-medium mb-4">                    <h5 class="card-title">BFA <span>| Total</span></h5>
-</span>
-                        <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">                        {{ adminDashboardData.card_data?.[2] }}
-</div>
+                        <span class="block text-muted-color font-medium mb-4">
+                            <h5 class="card-title">BFA <span>| Total</span></h5>
+                        </span>
+                        <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ adminDashboardData.card_data?.[2] }}</div>
                     </div>
                     <div class="flex items-center justify-center bg-cyan-100 dark:bg-cyan-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
                         <i class="pi pi-users text-cyan-500 !text-xl"></i>
@@ -140,10 +138,10 @@ import { HttpErrorResponse } from '@angular/common/http';
             <div class="card mb-0">
                 <div class="flex justify-between mb-4">
                     <div>
-                        <span class="block text-muted-color font-medium mb-4">                    <h5 class="card-title">INS <span>| Total</span></h5>
-</span>
-                        <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">                        {{ adminDashboardData.card_data?.[3] }}
-</div>
+                        <span class="block text-muted-color font-medium mb-4">
+                            <h5 class="card-title">INS <span>| Total</span></h5>
+                        </span>
+                        <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ adminDashboardData.card_data?.[3] }}</div>
                     </div>
                     <div class="flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
                         <i class="pi pi-comment text-purple-500 !text-xl"></i>
@@ -152,8 +150,6 @@ import { HttpErrorResponse } from '@angular/common/http';
                 <span class="text-muted-color">Users</span>
             </div>
         </div>`
-
-
 })
 export class StatsWidget implements OnInit {
     isLoggedIn = false;
@@ -216,7 +212,7 @@ export class StatsWidget implements OnInit {
         private messageService: MessageService,
         private storageService: StorageService,
         private adminDashboardService: UserService
-    ) { }
+    ) {}
 
     ngOnInit() {
         this.home = { icon: 'pi pi-home', routerLink: '/' };
@@ -243,21 +239,18 @@ export class StatsWidget implements OnInit {
     }
 
     getCardIcon(index: number): string {
-        return [
-            'pi pi-bookmark text-primary',
-            'pi pi-step-forward text-success',
-            'pi pi-minus-circle text-warning',
-            'pi pi-verified text-info'
-        ][index] || '';
+        return ['pi pi-bookmark text-primary', 'pi pi-step-forward text-success', 'pi pi-minus-circle text-warning', 'pi pi-verified text-info'][index] || '';
     }
 
     getCardBgColor(index: number): string {
-        return [
-            '#cfe2ff', // blue-100
-            '#fff3cd', // orange-100
-            '#cff4fc', // cyan-100
-            '#e2d9f3'  // purple-100
-        ][index] || '#f0f0f0';
+        return (
+            [
+                '#cfe2ff', // blue-100
+                '#fff3cd', // orange-100
+                '#cff4fc', // cyan-100
+                '#e2d9f3' // purple-100
+            ][index] || '#f0f0f0'
+        );
     }
 
     //   getCardExtra(index: number): string {
@@ -271,22 +264,18 @@ export class StatsWidget implements OnInit {
     getDashBoardData() {
         this.currentUser.id = this.storageService.getUser().id;
         this.currentUser.category = this.storageService.getUser().category;
-        this.adminDashboardService.drawBarChartUsersPerRegion(this.currentUser)
-            .subscribe(
-                (response) => {
-                    this.loading = false;
-                    this.adminDashboardData = response;
-                },
-                (error: HttpErrorResponse) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary:
-                            error.status === 401
-                                ? 'You are not permitted to perform this action!'
-                                : 'Something went wrong while fetching findings!',
-                        detail: '',
-                    });
-                }
-            );
+        this.adminDashboardService.drawBarChartUsersPerRegion(this.currentUser).subscribe(
+            (response) => {
+                this.loading = false;
+                this.adminDashboardData = response;
+            },
+            (error: HttpErrorResponse) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: error.status === 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching findings!',
+                    detail: ''
+                });
+            }
+        );
     }
 }

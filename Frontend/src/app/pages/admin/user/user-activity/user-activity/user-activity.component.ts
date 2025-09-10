@@ -5,9 +5,7 @@ import { ExportExcelService } from '../../../../service/admin/export-excel.servi
 import { UserService } from '../../../../service/admin/user.service';
 import { PaginatorPayLoad } from '../../../../../models/admin/paginator-payload';
 import { OnlineFailedUsers } from '../../../../../models/admin/online-failed-users';
-
 import { Table } from 'primeng/table';
-
 import { SharedUiModule } from '../../../../../../shared-ui';
 
 @Component({

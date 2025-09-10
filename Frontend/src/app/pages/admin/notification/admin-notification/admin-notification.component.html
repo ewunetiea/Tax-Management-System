@@ -1,4 +1,6 @@
-<header id="header" class="header fixed-top d-flex align-items-center">
+<!-- <header id="header" class="header fixed-top d-flex align-items-center"> -->
+  <div class="row">
+    <div class="col-lg-12">
     <p-toast></p-toast>
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
@@ -110,7 +112,9 @@
         </li>
       </ul>
     </nav>
-  </header>
+    </div>
+    </div>
+  <!-- </header> -->
   
   <p-dialog
     [(visible)]="notificationDialog"
@@ -126,9 +130,7 @@
           class="list-group-item"
         >
           <div *ngIf="notification?.failed && notification?.locked">
-            <span class="badge badge-info"
-              >user {{ notification?.user_name }} is locked</span
-            >
+            <span class="badge badge-info">user {{ notification?.user_name }} is locked</span>
           </div>
           <div
             *ngIf="

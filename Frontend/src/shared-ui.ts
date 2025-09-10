@@ -43,6 +43,8 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { TimeagoModule } from 'ngx-timeago';
 import { SkeletonModule } from 'primeng/skeleton';
+import { DatePicker } from 'primeng/datepicker';
+import { FluidModule } from 'primeng/fluid';
 
 @NgModule({
     imports: [
@@ -94,8 +96,11 @@ import { SkeletonModule } from 'primeng/skeleton';
         FieldsetModule,
         InputNumberModule,
         TimeagoModule,
-     ReactiveFormsModule,
-SkeletonModule
+        ReactiveFormsModule,
+        SkeletonModule,
+        DatePicker,
+        ChartModule, 
+        FluidModule,
     ],
     exports: [
         CommonModule,
@@ -143,13 +148,15 @@ SkeletonModule
         Skeleton,
         Chip,
         FieldsetModule,
-        RouterModule, 
-        RippleModule, 
+        RouterModule,
+        RippleModule,
         NgIf,
         InputNumberModule,
-        ReactiveFormsModule,SkeletonModule
-
+        ReactiveFormsModule,
+        SkeletonModule,
+        DatePicker,
+        ChartModule, 
+        FluidModule,
     ]
 })
-export class SharedUiModule { }
-
+export class SharedUiModule {}

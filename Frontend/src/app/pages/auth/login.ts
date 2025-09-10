@@ -22,8 +22,6 @@ import { SharedUiModule } from '../../../shared-ui';
 
 })
 export class Login {
-
-
 form: any = { username: null, password: null };
   isLoginFailed = false;
   errorMessage = '';

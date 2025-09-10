@@ -1,1 +1,73 @@
-<p>setting-configuration works!</p>
+<p-tabView>
+    <p-toast></p-toast>
+
+
+      <p-tabPanel header="Json web token configuration (JWT)">
+        <form #jwtForm="ngForm" (ngSubmit)="saveJWTSetting()">
+            <div class="mb-4">
+                <label for="jwtExpirationMs" class="block font-bold mb-1">JWT Expiration (ms) <sup class="text-warning">*</sup></label>
+                <p-inputNumber id="jwtExpirationMs" [(ngModel)]="setting.jwt_expiration" name="jwtExpirationMs" [disabled]="editFlagjwt" [showButtons]="true" required #jwtExpirationMs="ngModel" class="w-full"></p-inputNumber>
+                <small class="p-error" *ngIf="jwtExpirationMs.invalid && jwtExpirationMs.touched"> JWT Expiration Time is required </small>
+            </div>
+
+            <div class="mb-4">
+                <label for="jwtRefreshExpirationMs" class="block font-bold mb-1">Refresh Token Expiration (ms) <sup class="text-warning">*</sup></label>
+                <p-inputNumber
+                    id="jwtRefreshExpirationMs"
+                    [(ngModel)]="setting.jwt_refresh_token_expiration"
+                    name="jwtRefreshExpirationMs"
+                    [disabled]="editFlagjwt"
+                    [showButtons]="true"
+                    required
+                    #jwtRefreshExpirationMs="ngModel"
+                    class="w-full"
+                ></p-inputNumber>
+                <small class="p-error" *ngIf="jwtRefreshExpirationMs.invalid && jwtRefreshExpirationMs.touched"> Refresh Token Expiration is required </small>
+            </div>
+
+            <div class="mb-4">
+                <label for="jwtSecret" class="block font-bold mb-1">JWT Secret Key <sup class="text-warning">*</sup></label>
+                <input pInputText id="jwtSecret" [(ngModel)]="setting.jwt_secret" name="jwtSecret" [disabled]="editFlagjwt" required #jwtSecret="ngModel" class="w-full" />
+                <small class="p-error" *ngIf="jwtSecret.invalid && jwtSecret.touched"> JWT Secret Key is required </small>
+            </div>
+
+            <div class="mt-4 flex gap-2">
+                <button pButton type="submit" label="Submit" [disabled]="jwtForm.form.invalid" *ngIf="!editFlagjwt"></button>
+                <button pButton type="button" label="Edit" (click)="enableEditingjwt()" *ngIf="editStatusjwt"></button>
+                <button pButton type="reset" label="Reset" class="p-button-secondary"></button>
+            </div>
+        </form>
+    </p-tabPanel>
+    <p-tabPanel header="Account Lock">
+        <form #failedForm="ngForm" (ngSubmit)="saveAccountLockSetting()">
+            <div class="mb-4">
+                <label for="max_attempt" class="block font-bold mb-1">Maximum Failed Attempts <sup class="text-warning">*</sup></label>
+                <p-inputNumber id="max_attempt" [(ngModel)]="setting.maximum_attempt" name="max_attempt" [disabled]="editFlag" [showButtons]="true" required #max_attempt="ngModel" class="w-full"></p-inputNumber>
+                <small class="p-error" *ngIf="max_attempt.invalid && max_attempt.touched"> MAX_FAILED_ATTEMPTS is required </small>
+            </div>
+
+            <div class="mb-4">
+                <label for="lock_duration" class="block font-bold mb-1">Lock Time Duration (ms) <sup class="text-warning">*</sup></label>
+                <p-inputNumber id="lock_duration" [(ngModel)]="setting.lock_time" name="lock_time" [disabled]="editFlag" [showButtons]="true" required #lock_duration="ngModel" class="w-full"></p-inputNumber>
+                <small class="p-error" *ngIf="lock_duration.invalid && lock_duration.touched"> Lock Time Duration is required </small>
+            </div>
+
+            <div class="mb-4">
+                <label for="credential_expiration" class="block font-bold mb-1">Credential Expiration Duration (ms) <sup class="text-warning">*</sup></label>
+                <p-inputNumber id="credential_expiration" [(ngModel)]="setting.credential_expiration" name="credential_expiration" [disabled]="editFlag" [showButtons]="true" required #credential_expiration="ngModel" class="w-full"></p-inputNumber>
+                <small class="p-error" *ngIf="credential_expiration.invalid && credential_expiration.touched"> Credential Expiration Duration is required </small>
+            </div>
+
+            <div class="mt-4 flex gap-2">
+                <button pButton type="submit" label="Submit" [disabled]="failedForm.form.invalid" *ngIf="!editFlag"></button>
+                <button pButton type="button" label="Edit" (click)="enableEditing()" *ngIf="editStatus"></button>
+                <button pButton type="reset" label="Reset" class="p-button-secondary"></button>
+            </div>
+        </form>
+    </p-tabPanel>
+
+
+
+</p-tabView>
+
+<p-confirmDialog [style]="{ width: '500px' }"></p-confirmDialog>

@@ -10,10 +10,11 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { AuthService } from '../app/pages/service/admin/auth.service';
 import { StorageService } from '../services/shared/storage.service';
-import { EventData } from '../app/models/admin/event-data';
+import { AuthService } from '../app/pages/service/admin/auth.service';
 import { EventBusService } from '../app/pages/service/admin/event-bus.service';
+import { EventData } from '../app/models/admin/event-data';
+
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
@@ -29,7 +30,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     req = req.clone({
       withCredentials: true,
-      // headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     });
 
     return next.handle(req).pipe(

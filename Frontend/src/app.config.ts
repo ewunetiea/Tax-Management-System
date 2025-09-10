@@ -6,8 +6,9 @@ import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScroll
 import Aura from '@primeng/themes/aura';
 import { providePrimeNG } from 'primeng/config';
 import { appRoutes } from './app.routes';
-import { httpInterceptorProviders } from './app/pages/helpers/http.interceptor';
 import { MessageService } from 'primeng/api';
+import { httpInterceptorProviders } from './helpers/http.interceptor';
+import { TimeagoClock, TimeagoDefaultClock, TimeagoDefaultFormatter, TimeagoFormatter, TimeagoIntl } from 'ngx-timeago';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -29,6 +30,11 @@ export const appConfig: ApplicationConfig = {
         provideAnimationsAsync(),
         providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } } }),
         httpInterceptorProviders,
-        MessageService   // 👈 add MessageService as provider
+        MessageService,
+
+        { provide: TimeagoFormatter, useClass: TimeagoDefaultFormatter },
+        { provide: TimeagoClock, useClass: TimeagoDefaultClock },
+        TimeagoIntl
+
     ]
 };

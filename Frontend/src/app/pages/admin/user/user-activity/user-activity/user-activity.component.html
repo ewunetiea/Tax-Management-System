@@ -3,7 +3,7 @@
     <div class="mb-6">
         <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
     </div>
-  
+
     <section class="section">
       <div class="row">
         <div class="col-lg-12">
@@ -20,7 +20,7 @@
                   [disabled]="!selectedOnlineFailedUsers ||  !selectedOnlineFailedUsers.length"
                 ></button>
               </ng-template>
-  
+
               <ng-template pTemplate="right">
                 <div class="flex">
                   <button
@@ -66,7 +66,7 @@
                 </div>
               </ng-template>
             </p-toolbar>
-  
+
             <p-table
               #dt
               [value]="onlineFailedUsers"
@@ -110,7 +110,7 @@
                   <th style="width: 3rem">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                   </th>
-  
+
                   <th style="min-width: 12rem">
                     <div class="flex items-center">
                       Email
@@ -132,7 +132,7 @@
                       ></p-columnFilter>
                     </div>
                   </th>
-  
+
                   <th style="min-width: 10rem">
                     <div class="flex items-center">
                       IP Address
@@ -143,7 +143,7 @@
                       ></p-columnFilter>
                     </div>
                   </th>
-  
+
                   <th style="min-width: 10rem">
                     <div class="flex items-center">
                       Login Time
@@ -155,7 +155,7 @@
                       ></p-columnFilter>
                     </div>
                   </th>
-  
+
                   <th style="width: 8rem">
                     <div class="flex items-center">
                       Status
@@ -187,7 +187,7 @@
                       label="Online"
                       class="p-button-rounded p-button-success p-button-outlined p-button-sm"
                     ></button>
-  
+
                     <button
                       *ngIf="user.status != 1"
                       pButton
@@ -200,7 +200,7 @@
                   </td>
                 </tr>
               </ng-template>
-  
+
               <ng-template pTemplate="summary">
                 <div class="p-d-flex p-ai-center p-jc-between">
                   In total there are
@@ -214,4 +214,3 @@
       </div>
     </section>
   </main>
-  

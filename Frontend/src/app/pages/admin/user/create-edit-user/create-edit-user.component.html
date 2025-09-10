@@ -1,464 +1,184 @@
-<form ngNativeValidate #userForm="ngForm" class="p-fluid">
-    <div class="p-formgrid p-grid">
-        <div class="p-field p-col">
-            <div class="p-field p-col">
-                <label for="first_name"> <strong class="text-red-600">*</strong>First Name</label>
-                <input type="text" #first_name="ngModel" [class.is-invalid]="first_name.invalid && first_name.touched" pInputText id="first_name" [(ngModel)]="user.first_name" name="first_name" />
-                <small class="text-red-600" [class.d-none]="first_name.valid || first_name.untouched">First Name is required<br /></small>
-            </div>
-        </div>
-        <div class="p-field p-col">
-            <label for="middle_name"> <strong class="text-red-600">*</strong>Middle Name</label>
-            <input type="text" #middle_name="ngModel" [class.is-invalid]="middle_name.invalid && middle_name.touched" pInputText id="middle_name" [(ngModel)]="user.middle_name" name="middle_name" />
-            <small class="text-red-600" [class.d-none]="middle_name.valid || middle_name.untouched">Middle Name is required<br /></small>
-        </div>
-        <div class="p-field p-col">
-            <label for="last_name"> <strong class="text-red-600">*</strong>Last Name</label>
-            <input type="text" #last_name="ngModel" [class.is-invalid]="last_name.invalid && last_name.touched" pInputText id="last_name" [(ngModel)]="user.last_name" name="last_name" />
-            <small class="text-red-600" [class.d-none]="last_name.valid || last_name.untouched">Last Name is required<br /></small>
-        </div>
+<form #userForm="ngForm" ngNativeValidate class="space-y-6">
+  <!-- Name Fields -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div>
+      <label for="first_name" class="block font-medium">
+        <span class="text-red-600">*</span> First Name
+      </label>
+      <input
+        id="first_name"
+        type="text"
+        name="first_name"
+        [(ngModel)]="user.first_name"
+        #first_name="ngModel"
+        [class.border-red-600]="first_name.invalid && first_name.touched"
+        class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+      />
+      <small class="text-red-600" *ngIf="first_name.invalid && first_name.touched">First Name is required</small>
     </div>
 
-    <div class="p-field">
-        <label class="p-mb-3"><strong class="text-red-600">*</strong> Gender</label>
-        <div class="p-formgrid p-grid">
-            <div class="p-field-radiobutton p-col-3">
-                <p-radioButton id="male" name="gender" value="Male" #gender="ngModel" required="true" [class.is-invalid]="gender.invalid && gender.touched" [(ngModel)]="user.gender"></p-radioButton>
-                <label for="male">Male</label>
-            </div>
-            <div class="p-field-radiobutton p-col-3">
-                <p-radioButton id="female" name="gender" value="Female" #gender="ngModel" required="true" [class.is-invalid]="gender.invalid && gender.touched" [(ngModel)]="user.gender"></p-radioButton>
-                <label for="female">Female</label>
-            </div>
-            <small class="text-red-600" [class.d-none]="gender.valid || gender.untouched">Gender is required<br /></small>
-            <div class="p-field p-col-6">
-                <label for="phone_number"> <strong class="text-red-600">*</strong>Phone Number</label>
-                <input
-                    type="tel"
-                    #phone_number="ngModel"
-                    [class.is-invalid]="phone_number.invalid && phone_number.touched"
-                    pInputText
-                    pattern="(\+251|0)(9|7)\d{8}"
-                    id="phone_number"
-                    (input)="checkPhoneNumberStatus($event)"
-                    [(ngModel)]="user.phone_number"
-                    name="phone_number"
-                    required="true"
-                />
-                <!-- <small
-            class="text-red-600"
-            [class.d-none]="phone_number.valid || phone_number.untouched"
-            >Phone Number is required<br
-          /></small> -->
-
-                <div *ngIf="phone_number_status">
-                    <small class="text-red-600"> Phone Number Already Exists </small>
-                </div>
-                <div *ngIf="phone_number.errors && phone_number.touched">
-                    <small class="text-red-600" *ngIf="phone_number.errors['required']">Phone number is required</small>
-                    <small class="text-red-600" *ngIf="phone_number.errors['pattern']">Phone number not valid or should start with +251, 09 or 07</small>
-                </div>
-            </div>
-        </div>
+    <div>
+      <label for="middle_name" class="block font-medium">
+        <span class="text-red-600">*</span> Middle Name
+      </label>
+      <input
+        id="middle_name"
+        type="text"
+        name="middle_name"
+        [(ngModel)]="user.middle_name"
+        #middle_name="ngModel"
+        [class.border-red-600]="middle_name.invalid && middle_name.touched"
+        class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+      />
+      <small class="text-red-600" *ngIf="middle_name.invalid && middle_name.touched">Middle Name is required</small>
     </div>
 
-    <div class="p-formgrid p-grid">
-        <div class="p-field p-col-6">
-            <label for="employee_id"> <strong class="text-red-600">*</strong>Awash Bank ID</label>
-            <input
-                type="text"
-                #employee_id="ngModel"
-                [class.is-invalid]="employee_id.invalid && employee_id.touched"
-                pInputText
-                id="employee_id"
-                [(ngModel)]="user.employee_id"
-                name="employee_id"
-                (input)="checkAwashBankIdStatus($event)"
-                required="true"
-                pattern="^(AB|AIB|aib|ab)\/(\d{1,7})\/(19|20|21)\d{2}$"
-            />
-            <div *ngIf="employee_id.errors && employee_id.touched">
-                <small class="text-red-600" *ngIf="employee_id.errors['required']">Awash Bank ID is required</small>
-                <small class="text-red-600" *ngIf="employee_id.errors['pattern']">Awash ID Incorrect</small>
-            </div>
-            <div *ngIf="employee_id_status">
-                <small class="text-red-600"> This ID Does not exist!</small>
-            </div>
-            <div *ngIf="employee_id_status_system">
-                <small class="text-red-600"> User Already registered!</small>
-            </div>
-        </div>
+    <div>
+      <label for="last_name" class="block font-medium">
+        <span class="text-red-600">*</span> Last Name
+      </label>
+      <input
+        id="last_name"
+        type="text"
+        name="last_name"
+        [(ngModel)]="user.last_name"
+        #last_name="ngModel"
+        [class.border-red-600]="last_name.invalid && last_name.touched"
+        class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+      />
+      <small class="text-red-600" *ngIf="last_name.invalid && last_name.touched">Last Name is required</small>
+    </div>
+  </div>
 
-        <div *ngIf="!employee_id_status && proceed && !(employee_id.errors && employee_id.touched)" class="p-field p-col-6">
-            <label for="email"> <strong class="text-red-600">*</strong>Outlook Address</label>
-            <input
-                type="text"
-                #email="ngModel"
-                [class.is-invalid]="email.invalid && email.touched"
-                pInputText
-                id="email"
-                [(ngModel)]="user.email"
-                name="email"
-                (input)="checkEmailStatus($event)"
-                required="true"
-                pattern="\w+(\.\w+)?@awashbank\.com$"
-            />
-
-            <div *ngIf="email_status">
-                <small class="text-red-600"> Outlook Address Already Exists </small>
-            </div>
-            <div *ngIf="email.errors && email.touched">
-                <small class="text-red-600" *ngIf="email.errors['required']">Outlook Address is required</small>
-                <small class="text-red-600" *ngIf="email.errors['pattern']">Outlook Address should either end with '&#64;awashbank.com' or adhere to the Awash Bank standard.</small>
-            </div>
-        </div>
+  <!-- Gender & Phone -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div>
+      <span class="block font-medium mb-2"><span class="text-red-600">*</span> Gender</span>
+      <div class="flex gap-6 items-center">
+        <label class="flex items-center gap-2">
+          <input type="radio" name="gender" value="Male" [(ngModel)]="user.gender" #gender="ngModel" class="form-radio" />
+          Male
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="gender" value="Female" [(ngModel)]="user.gender" #gender="ngModel" class="form-radio" />
+          Female
+        </label>
+      </div>
+      <small class="text-red-600" *ngIf="gender.invalid && gender.touched">Gender is required</small>
     </div>
 
-    <div *ngIf="!employee_id_status && proceed && !employee_id_status_system && !(employee_id.errors && employee_id.touched)" class="p-field">
-        <label class="p-mb-3"><strong class="text-red-600">*</strong>Place of Work</label>
-        <div class="p-formgrid p-grid">
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="hoRB" name="hoRB" value="HO" [(ngModel)]="radio_value" (onClick)="chooseHO($event)"></p-radioButton>
-                <label for="hoRB">HO</label>
-            </div>
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="regionRB" name="regionRB" value="Region" [(ngModel)]="radio_value" (onClick)="chooseRegion($event)"></p-radioButton>
-                <label for="regionRB">Region</label>
-            </div>
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="branchRB" name="branchRB" value="Branch" [(ngModel)]="radio_value" (onClick)="chooseBranch($event)"></p-radioButton>
-                <label for="branchRB">Branch</label>
-            </div>
-        </div>
+    <div>
+      <label for="phone_number" class="block font-medium">
+        <span class="text-red-600">*</span> Phone Number
+      </label>
+      <input
+        id="phone_number"
+        type="tel"
+        name="phone_number"
+        [(ngModel)]="user.phone_number"
+        #phone_number="ngModel"
+        pattern="(\+251|0)(9|7)\d{8}"
+        (input)="checkPhoneNumberStatus($event)"
+        [class.border-red-600]="(phone_number.invalid && phone_number.touched) || phone_number_status"
+        class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+      />
+      <div *ngIf="phone_number_status">
+        <small class="text-red-600">Phone Number Already Exists</small>
+      </div>
+      <div *ngIf="phone_number.errors && phone_number.touched">
+        <small class="text-red-600" *ngIf="phone_number.errors['required']">Phone number is required</small>
+        <small class="text-red-600" *ngIf="phone_number.errors['pattern']">Phone number not valid or should start with +251, 09 or 07</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Employee ID & Email -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div>
+      <label for="employee_id" class="block font-medium">
+        <span class="text-red-600">*</span> Awash Bank ID
+      </label>
+      <input
+        id="employee_id"
+        type="text"
+        name="employee_id"
+        [(ngModel)]="user.employee_id"
+        #employee_id="ngModel"
+        pattern="^(AB|AIB|aib|ab)\/(\d{1,7})\/(19|20|21)\d{2}$"
+        (input)="checkAwashBankIdStatus($event)"
+        [class.border-red-600]="(employee_id.invalid && employee_id.touched) || employee_id_status || employee_id_status_system"
+        class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+      />
+      <small class="text-red-600" *ngIf="employee_id.errors && employee_id.touched">
+        <span *ngIf="employee_id.errors['required']">Awash Bank ID is required</span>
+        <span *ngIf="employee_id.errors['pattern']">Awash ID Incorrect</span>
+      </small>
+      <small class="text-red-600" *ngIf="employee_id_status">This ID Does not exist!</small>
+      <small class="text-red-600" *ngIf="employee_id_status_system">User Already registered!</small>
     </div>
 
-    <div class="p-formgrid p-grid" *ngIf="proceed && !(employee_id.errors && employee_id.touched)">
-        <div class="p-field p-col" *ngIf="showJobPosition">
-            <label for="jobPosition"><strong class="text-red-600">*</strong>Job Title</label>
-            <p-dropdown
-                [options]="job_positions"
-                optionLabel="title"
-                inputId="jobPosition"
-                name="jobPosition"
-                #job_position="ngModel"
-                [class.is-invalid]="job_position.invalid && job_position.touched"
-                (onChange)="onSelectJobPosition($event.value)"
-                (onClear)="onJobPositionClear()"
-                [(ngModel)]="user.jobPosition"
-                placeholder="Select Job Title"
-                [filter]="true"
-                [virtualScroll]="true"
-                [virtualScrollItemSize]="38"
-                [lazy]="true"
-                [required]="true"
-                (onLazyLoad)="onDropdownLoad($event, 'Job')"
-                [virtualScrollOptions]="{
-                    showLoader: true,
-                    loading: loading_dropdown,
-                    delay: 250
-                }"
-            >
-                <ng-template pTemplate="loader" let-options="options">
-                    <div class="flex align-items-center py-2 px-3" style="height: 38px">
-                        <p-skeleton [width]="options.even ? '60%' : '50%'" height="1rem"></p-skeleton>
-                    </div>
-                </ng-template>
-            </p-dropdown>
-
-            <div *ngIf="real_job_position_status">
-                <small class="text-red-600"> Information not correct! </small>
-            </div>
-            <small class="text-red-600" [class.d-none]="job_position.valid || job_position.untouched">Job Title is required<br /></small>
-        </div>
-        <div class="p-field p-col" *ngIf="regionRadioButton">
-            <label for="region"><strong class="text-red-600">*</strong>Region</label>
-            <p-dropdown
-                [options]="regionFilter"
-                optionLabel="name"
-                name="region"
-                inputId="region"
-                #regions="ngModel"
-                [class.is-invalid]="regions.invalid && regions.touched"
-                (onChange)="onSelectRegion($event.value)"
-                (onClear)="onRegionClear()"
-                [(ngModel)]="user.region"
-                [spellcheck]="true"
-                placeholder="Select Region"
-                [filter]="true"
-                filterValue="name"
-                filterPlaceholder="Filter by name"
-                [virtualScroll]="true"
-                [virtualScrollItemSize]="20"
-                [lazy]="true"
-                [required]="true"
-                (onLazyLoad)="onDropdownLoad($event, 'Region')"
-                [virtualScrollOptions]="{
-                    showLoader: true,
-                    loading: loading_dropdown,
-                    delay: 100
-                }"
-            >
-                <ng-template pTemplate="loader" let-options="options">
-                    <div class="flex align-items-center py-2 px-3" style="height: 38px">
-                        <p-skeleton [width]="options.even ? '60%' : '50%'" height="1rem"></p-skeleton>
-                    </div>
-                </ng-template>
-            </p-dropdown>
-
-            <div *ngIf="real_region_status">
-                <small class="text-red-600">Information not correct! </small>
-            </div>
-            <small class="text-red-600" [class.d-none]="regions.valid || regions.untouched">Region is required<br /></small>
-        </div>
-        <div class="p-field p-col" *ngIf="branchRadioButton">
-            <label for="branch"><strong class="text-red-600">*</strong>Branch</label>
-            <p-dropdown
-                [options]="allBranches"
-                optionLabel="name"
-                inputId="branch"
-                name="branch"
-                #branch="ngModel"
-                [class.is-invalid]="branch.invalid && branch.touched"
-                (onChange)="onSelectBranch($event.value)"
-                (onClear)="onBranchClear()"
-                [(ngModel)]="user.branch"
-                placeholder="Select Branch"
-                [filter]="true"
-                [virtualScroll]="true"
-                [virtualScrollItemSize]="38"
-                [lazy]="true"
-                [required]="true"
-                (onLazyLoad)="onDropdownLoad($event, 'Branch')"
-                [virtualScrollOptions]="{
-                    showLoader: true,
-                    loading: loading_dropdown,
-                    delay: 250
-                }"
-            >
-                <ng-template pTemplate="loader" let-options="options">
-                    <div class="flex align-items-center py-2 px-3" style="height: 38px">
-                        <p-skeleton [width]="options.even ? '60%' : '50%'" height="1rem"></p-skeleton>
-                    </div>
-                </ng-template>
-            </p-dropdown>
-
-            <div *ngIf="real_branch_status">
-                <small class="text-red-600"> Information not correct! </small>
-            </div>
-            <small class="text-red-600" [class.d-none]="branch.valid || branch.untouched">Branch is required<br /></small>
-        </div>
-
-        <div class="p-field p-col" *ngIf="headOfficeRadioButton">
-            <label for="ho"><strong class="text-red-600">*</strong>Unit</label>
-            <p-dropdown
-                [options]="hoWorkPlaces"
-                optionLabel="name"
-                inputId="ho"
-                name="ho"
-                #ho="ngModel"
-                [class.is-invalid]="ho.invalid && ho.touched"
-                (onChange)="onSelectHO($event.value)"
-                (onClear)="onHoClear()"
-                [(ngModel)]="user.branch"
-                placeholder="Select Head Office"
-                [filter]="true"
-                [virtualScroll]="true"
-                [virtualScrollItemSize]="38"
-                [lazy]="true"
-                [required]="true"
-                (onLazyLoad)="onDropdownLoad($event, 'HO')"
-                [virtualScrollOptions]="{
-                    showLoader: true,
-                    loading: loading_dropdown,
-                    delay: 250
-                }"
-            >
-                <ng-template pTemplate="loader" let-options="options">
-                    <div class="flex align-items-center py-2 px-3" style="height: 38px">
-                        <p-skeleton [width]="options.even ? '60%' : '50%'" height="1rem"></p-skeleton>
-                    </div>
-                </ng-template>
-            </p-dropdown>
-
-            <div *ngIf="real_ho_status">
-                <small class="text-red-600"> Information not correct! </small>
-            </div>
-            <small class="text-red-600" [class.d-none]="ho.valid || ho.untouched">HO is required<br /></small>
-        </div>
+    <div *ngIf="!employee_id_status && proceed && !(employee_id.errors && employee_id.touched)">
+      <label for="email" class="block font-medium">
+        <span class="text-red-600">*</span> Outlook Address
+      </label>
+      <input
+        id="email"
+        type="text"
+        name="email"
+        [(ngModel)]="user.email"
+        #email="ngModel"
+        pattern="\w+(\.\w+)?&#64;awashbank\.com$"
+        (input)="checkEmailStatus($event)"
+        [class.border-red-600]="(email.invalid && email.touched) || email_status"
+        class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+      />
+      <small class="text-red-600" *ngIf="email_status">Outlook Address Already Exists</small>
+      <small class="text-red-600" *ngIf="email.errors && email.touched">
+        <span *ngIf="email.errors['required']">Outlook Address is required</span>
+        <span *ngIf="email.errors['pattern']">Outlook Address should end with &#64;awashbank.com</span>
+      </small>
     </div>
+  </div>
 
-    <div class="p-field" *ngIf="proceed && !(employee_id.errors && employee_id.touched) && !employee_id_status_system && !employee_id_status">
-        <label class="p-mb-3"><strong class="text-red-600">*</strong>User Category</label>
-        <div class="p-formgrid p-grid">
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="is" name="category" value="IS" #category="ngModel" required="true" [class.is-invalid]="category.invalid && category.touched" [(ngModel)]="user.category"></p-radioButton>
-                <label for="is">IS</label>
-            </div>
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="mgt" name="category" value="MGT" #category="ngModel" required="true" [class.is-invalid]="category.invalid && category.touched" [(ngModel)]="user.category"></p-radioButton>
-                <label for="mgt">MGT</label>
-            </div>
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="branch_financial" name="category" value="BFA" [(ngModel)]="user.category" #category="ngModel" required="true" [class.is-invalid]="category.invalid && category.touched"></p-radioButton>
-                <label for="branch_financial">Financial</label>
-            </div>
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="inspection" name="category" value="INS" [(ngModel)]="user.category" #category="ngModel" required="true" [class.is-invalid]="category.invalid && category.touched"></p-radioButton>
-                <label for="inspection">Inspection</label>
-            </div>
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="general" name="category" value="GENERAL" [(ngModel)]="user.category" #category="ngModel" required="true" [class.is-invalid]="category.invalid && category.touched"></p-radioButton>
-                <label for="general">General</label>
-            </div>
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="admin" name="admin" value="ADMIN" [(ngModel)]="user.category" #category="ngModel" required="true" [class.is-invalid]="category.invalid && category.touched"></p-radioButton>
-                <label for="admin">Admin</label>
-            </div>
-            <small class="text-red-600" [class.d-none]="category.valid || category.untouched">User Category is required<br /></small>
-        </div>
-    </div>
-
-    <div class="p-field" *ngIf="(user.category == 'BFA' || user.category == 'INS') && proceed">
-        <label class="p-mb-3"><strong class="text-red-600">*</strong>Banking Category</label>
-        <div class="p-formgrid p-grid">
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="conventional" name="banking" #banking="ngModel" [class.is-invalid]="banking.invalid && banking.touched" value="conventional" required="true" [(ngModel)]="user.banking"></p-radioButton>
-                <label for="conventional">Conventional</label>
-            </div>
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="ifb" name="banking" #banking="ngModel" [class.is-invalid]="banking.invalid && banking.touched" value="ifb" required="true" [(ngModel)]="user.banking"></p-radioButton>
-                <label for="ifb">IFB</label>
-            </div>
-            <small class="text-red-600" [class.d-none]="banking.valid || banking.untouched">Banking type is required<br /></small>
-        </div>
-    </div>
-
-    <div class="p-field" *ngIf="user.category == 'MGT' && proceed">
-        <label class="p-mb-3"><strong class="text-red-600">*</strong>Management Audit</label>
-        <div class="p-formgrid p-grid">
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="TradeService" name="banking" #banking="ngModel" [class.is-invalid]="banking.invalid && banking.touched" value="TradeService" required="true" [(ngModel)]="user.banking"></p-radioButton>
-                <label for="TradeService">Trade Service</label>
-            </div>
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="FinanceManagement" name="banking" #banking="ngModel" [class.is-invalid]="banking.invalid && banking.touched" value="FinanceManagement" required="true" [(ngModel)]="user.banking"></p-radioButton>
-                <label for="FinanceManagement">Finance Management</label>
-            </div>
-            <div class="p-field-radiobutton p-col-4">
-                <p-radioButton id="PeriodicAudit" name="banking" #banking="ngModel" [class.is-invalid]="banking.invalid && banking.touched" required="true" value="PeriodicAudit" [(ngModel)]="user.banking"></p-radioButton>
-                <label for="PeriodicAudit">Periodic Audit</label>
-            </div>
-            <small class="text-red-600" [class.d-none]="banking.valid || banking.untouched">Management Audit type is required<br /></small>
-        </div>
-    </div>
-
-    <div class="p-formgrid p-grid" *ngIf="proceed && !(employee_id.errors && employee_id.touched) && isEditData && !employee_id_status_system && !employee_id_status">
-        <label class="p-ml-3"><strong class="text-red-600">*</strong>Authenthication Media</label>
-        <div class="p-field p-col-2 p-mb-1">
-            <p-selectButton [options]="authenthicationOptions" [(ngModel)]="user.authenthication_media" optionLabel="label" optionValue="value" name="authenthication_media" [required]="true">
-                <ng-template let-item> <i [class]="item.icon"></i> </ng-template
-            ></p-selectButton>
-        </div>
-    </div>
-
-    <div class="p-formgrid p-grid mt-4">
-        <div class="p-field p-col-2">
-            <button
-                pButton
-                pRipple
-                label="Save"
-                [disabled]="userForm.form.invalid || !proceed || phone_number_status || email_status || real_branch_status || real_region_status || real_ho_status || real_job_position_status || radio_button_place_validation"
-                icon="pi pi-check"
-                class="p-button-raised p-button-rounded"
-                (click)="openModal()"
-            ></button>
-        </div>
-        <div class="p-field p-col-2">
-            <button class="col-md-3" pButton pRipple type="reset" label="Reset" icon="pi pi-times" class="p-button-raised p-button-danger p-button-rounded"></button>
-        </div>
-    </div>
+  <!-- Save/Reset Buttons -->
+  <div class="flex gap-4 mt-6">
+    <button
+      type="button"
+      (click)="openModal()"
+      [disabled]="userForm.invalid || !proceed || phone_number_status || email_status || employee_id_status_system"
+      class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded"
+    >
+      Save
+    </button>
+    <button type="reset" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded">Reset</button>
+  </div>
 </form>
 
-<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
-
+<!-- Confirmation Dialog -->
 <p-dialog [(visible)]="confrimationDialog" header="Confirm User's information" [modal]="true" styleClass="p-fluid" [maximizable]="true">
-    <ng-template pTemplate="content">
-        <div class="col-md-12">
-            <label class="form-label"
-                >First name: <b>{{ user.first_name }}</b></label
-            >
-        </div>
-        <div class="col-md-12">
-            <label class="form-label"
-                >Middle name: <b>{{ user.middle_name }}</b></label
-            >
-        </div>
-        <div class="col-md-12">
-            <label class="form-label"
-                >Last name: <b>{{ user.last_name }}</b></label
-            >
-        </div>
-        <div class="col-md-12">
-            <label class="form-label"
-                >Gender: <b>{{ user.gender }}</b></label
-            >
-        </div>
-        <div class="col-md-12">
-            <label class="form-label"
-                >Phone number: <b>{{ user.phone_number }}</b></label
-            >
-        </div>
-        <div class="col-md-12">
-            <label class="form-label"
-                >Employee Id: <b>{{ user.employee_id }}</b></label
-            >
-        </div>
-        <div class="col-md-12">
-            <label class="form-label"
-                >Email address: <b>{{ user.email }}</b></label
-            >
-        </div>
-        <div class="col-md-12">
-            <label class="form-label"
-                >Job Title: <b>{{ user.jobPosition?.title }}</b></label
-            >
-        </div>
-        <div class="col-md-12">
-            <label class="form-label" *ngIf="user.region?.name"
-                >Place of Work: <b>{{ user.region?.name }}</b></label
-            >
-        </div>
-        <div class="col-md-12">
-            <label class="form-label" *ngIf="user.branch?.name"
-                >Place of Work: <b>{{ user.branch?.name }}</b></label
-            >
-        </div>
-        <div class="col-md-12">
-            <label class="form-label"
-                >User Category: <b>{{ user.category }}</b></label
-            >
-        </div>
-        <div class="col-md-12">
-            <label class="form-label"
-                ><span *ngIf="user.category == 'BFA' || user.category == 'INS'">Banking Category: </span><span *ngIf="user.category == 'MGT'">Management Audit: </span> <b>{{ user.banking }}</b></label
-            >
-        </div>
-        <div class="col-md-12">
-            <label *ngIf="user.authenthication_media" class="form-label"
-                >Authenthication Media: <b>{{ user.email }}</b></label
-            >
-            <label *ngIf="!user.authenthication_media" class="form-label"
-                >Authenthication Media: <b>{{ user.phone_number }}</b></label
-            >
-        </div>
-    </ng-template>
-    <ng-template pTemplate="footer">
-        <button *ngIf="!loading" pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="addUser()"></button>
-        <button *ngIf="loading" type="button" disabled class="btn btn-primary">
-            Loading...
-
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        </button>
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-    </ng-template>
+  <ng-template pTemplate="content">
+    <div class="space-y-2">
+      <p><strong>First Name:</strong> {{ user.first_name }}</p>
+      <p><strong>Middle Name:</strong> {{ user.middle_name }}</p>
+      <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+      <p><strong>Gender:</strong> {{ user.gender }}</p>
+      <p><strong>Phone Number:</strong> {{ user.phone_number }}</p>
+      <p><strong>Employee ID:</strong> {{ user.employee_id }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Job Title:</strong> {{ user.jobPosition?.title }}</p>
+      <p *ngIf="user.region?.name"><strong>Place of Work:</strong> {{ user.region?.name }}</p>
+      <p *ngIf="user.branch?.name"><strong>Place of Work:</strong> {{ user.branch?.name }}</p>
+      <p><strong>User Category:</strong> {{ user.category }}</p>
+      <p><strong>{{ user.category == 'BFA' || user.category == 'INS' ? 'Banking Category' : 'Management Audit' }}:</strong> {{ user.banking }}</p>
+      <p><strong>Authentication Media:</strong> {{ user.authenthication_media || user.phone_number }}</p>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button *ngIf="!loading" pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="addUser()"></button>
+    <button *ngIf="loading" disabled class="bg-blue-500 text-white px-4 py-2 rounded flex items-center gap-2">
+      Loading...
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    </button>
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+  </ng-template>
 </p-dialog>

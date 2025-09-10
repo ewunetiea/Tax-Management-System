@@ -50,22 +50,15 @@
                             <div class="flex">
                                 <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
                                 <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="excelExport()" class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
-                                <!-- <button
-                    type="button"
-                    pButton
-                    pRipple
-                    icon="pi pi-file-pdf"
-                    (click)="exportPdf()"
-                    class="p-button-warning mr-2"
-                    pTooltip="PDF"
-                    tooltipPosition="bottom"
-                  ></button> -->
+
                                 <button type="button" pButton pRipple icon="pi pi-filter" (click)="dt.exportCSV({ selectionOnly: true })" class="p-button-info ml-auto" pTooltip="Selection Only" tooltipPosition="bottom"></button>
                             </div>
                         </ng-template>
                     </p-toolbar>
 
                     <p-table
+                     [expandedRowKeys]="expandedRows" (onRowExpand)="onRowExpand($event)" (onRowCollapse)="onRowCollapse($event)"
+
                         #dt
                         [value]="users"
                         [rows]="5"
@@ -152,10 +145,12 @@
                                 <th style="width: 12rem">Action</th>
                             </tr>
                         </ng-template>
-                        <ng-template pTemplate="body" let-user let-expanded="expanded">
+                        <ng-template #body let-user let-expanded="expanded">
+
                             <tr>
                                 <td>
-                                    <button type="button" pButton pRipple [pRowToggler]="user" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                                                        <p-button type="button" pRipple [pRowToggler]="user" [text]="true" [rounded]="true" [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
+
                                 </td>
                                 <td>
                                     <p-tableCheckbox [value]="user"></p-tableCheckbox>
@@ -191,7 +186,8 @@
                                 </td>
                             </tr>
                         </ng-template>
-                        <ng-template pTemplate="rowexpansion" let-user>
+                                    <ng-template #expandedrow let-user>
+
                             <tr>
                                 <td colspan="7">
                                     <div class="p-3">

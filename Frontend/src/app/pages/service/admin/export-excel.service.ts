@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Workbook } from 'exceljs';
-import { imgBase64 } from '../../helpers/logo';
+import { imgBase64 } from '../../../../helpers/logo';
 
 interface ExportColumn {
     title: string;

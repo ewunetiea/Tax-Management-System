@@ -18,132 +18,132 @@ import { MenuheadersComponent } from './menu/menuheaders/menuheaders.component';
 import { MenuitemsComponent } from './menu/menuitems/menuitems.component';
 
 export default [
-    { 
+    {
         path: 'manage-region',
         component: ManageRegionComponent,
         canActivate: [AuthGuard],
-        data: { 
+        data: {
             roles: ['ROLE_ADMIN'],
         }
     },
-    { 
+    {
         path: 'manage-branch',
         component: ManagebranchComponent,
         canActivate: [AuthGuard],
-        data: { 
+        data: {
             roles: ['ROLE_ADMIN'],
         }
     },
-    { 
+    {
         path: 'manage-role',
         component: ManageRoleComponent,
         canActivate: [AuthGuard],
-        data: { 
+        data: {
             roles: ['ROLE_ADMIN'],
         }
     },
-    { 
+    {
         path: 'manage-schedules',
         component: SchedulesComponent,
         canActivate: [AuthGuard],
-        data: { 
+        data: {
             roles: ['ROLE_ADMIN'],
         }
     },
-    { 
+    {
         path: 'manage-job-position',
         component: ManageJobPositionComponent,
         canActivate: [AuthGuard],
-        data: { 
+        data: {
             roles: ['ROLE_ADMIN'],
         }
     },
-    { 
+    {
         path: 'role_functionalities',
         component: RoleFunctionalitiesComponent,
         canActivate: [AuthGuard],
-        data: { 
+        data: {
             roles: ['ROLE_ADMIN'],
         }
     },
-    { 
-        path: 'manage_role_functionalities', 
+    {
+        path: 'manage_role_functionalities',
         component: ManageRoleFunctionalitiesComponent,
         canActivate: [AuthGuard],
-        data: { 
+        data: {
             roles: ['ROLE_ADMIN'],
         }
     },
-    { 
-        path: 'manage_user_permissions', 
+    {
+        path: 'manage_user_permissions',
         component: ManageUserPermissionsComponent,
         canActivate: [AuthGuard],
-        data: { 
+        data: {
             roles: ['ROLE_ADMIN'],
         }
     },
-    { 
+    {
         path: 'manage_user',
         component: ManageUserComponent,
         canActivate: [AuthGuard],
-        data: { 
+        data: {
             roles: ['ROLE_ADMIN'],
         }
     },
-    { 
+    {
         path: 'manage-user-status',
         component: ManageUserStatusComponent,
         canActivate: [AuthGuard],
-        data: { 
+        data: {
             roles: ['ROLE_ADMIN'],
         }
     },
-    { 
+    {
         path: 'menu-headers',
         component: MenuheadersComponent,
         canActivate: [AuthGuard],
-        data: { 
+        data: {
             roles: ['ROLE_ADMIN'],
         }
     },
-    { 
+    {
         path: 'menu-items',
         component: MenuitemsComponent,
         canActivate: [AuthGuard],
-        data: { 
+        data: {
             roles: ['ROLE_ADMIN'],
         }
     },
-    { 
+    {
         path: 'replace-hr-data',
         component: ReplaceHRDataComponent,
         canActivate: [AuthGuard],
-        data: { 
+        data: {
             roles: ['ROLE_ADMIN'],
         }
     },
-    { 
+    {
         path: 'user-login-status',
         component: UserActivityComponent,
         canActivate: [AuthGuard],
-        data: { 
+        data: {
             roles: ['ROLE_ADMIN'],
         }
     },
-    { 
+    {
         path: 'user-recent-activity',
         component: UserRecentActivityComponent,
         canActivate: [AuthGuard],
-        data: { 
+        data: {
             roles: ['ROLE_ADMIN'],
         }
     },
-    { 
+    {
         path: 'backup',
         component: BackupComponent,
         canActivate: [AuthGuard],
-        data: { 
+        data: {
             roles: ['ROLE_ADMIN'],
         }
     }
-] as Routes; 
+] as Routes;

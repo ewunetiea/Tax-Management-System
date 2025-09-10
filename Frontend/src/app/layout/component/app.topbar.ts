@@ -11,18 +11,27 @@ import { RealTime } from '../../models/admin/real-time';
 import { NotifyMeService } from '../../pages/service/admin/notify-service';
 import { RealTimeService } from '../../pages/service/admin/real-time-service';
 import { SharedUiModule } from '../../../shared-ui';
+import { SettingConfigurationComponent } from "../../pages/admin/setting-configuration/setting-configuration.component";
+import { LogComponent } from "../../pages/admin/log/log/log.component";
 
 @Component({
     selector: 'app-topbar',
     standalone: true,
     imports: [
     RouterModule,
-    SharedUiModule,  // ✅ brings in all PrimeNG + CommonModule + FormsModule
-    AppConfigurator  // ✅ custom standalone component
-  ],
+    SharedUiModule, // ✅ brings in all PrimeNG + CommonModule + FormsModule
+    AppConfigurator // ✅ custom standalone component
+    ,
+    SettingConfigurationComponent,
+    LogComponent
+],
     templateUrl: './app.topbar.component.html'
 })
 export class AppTopbar {
+
+    showJwtModal = false;
+showLogModal = false;
+
     isLoggedIn = false;
     id_login_tracker?: number;
     items!: MenuItem[];
@@ -70,16 +79,26 @@ export class AppTopbar {
                 icon: 'pi pi-fw pi-home',
                 routerLink: '/applayout'
             },
-            {
-                label: 'JWT',
-                icon: 'pi pi-fw pi-cog',
-                routerLink: '/applayout'
-            },
-            {
-                label: 'Log',
-                icon: 'pi pi-fw pi-inbox',
-                routerLink: '/applayout'
-            },
+            // {
+            //     label: 'JWT',
+            //     icon: 'pi pi-fw pi-cog',
+            //     routerLink: '/applayout'
+            // },
+            // {
+            //     label: 'Log',
+            //     icon: 'pi pi-fw pi-inbox',
+            //     routerLink: '/applayout'
+            // },
+             {
+        label: 'JWT',
+        icon: 'pi pi-fw pi-cog',
+        command: () => this.showJwtModal = true  // ✅ open modal
+    },
+    {
+        label: 'Log',
+        icon: 'pi pi-fw pi-inbox',
+        command: () => this.showLogModal = true  // ✅ open modal
+    },
             {
                 label: 'Contact',
                 icon: 'pi pi-fw pi-envelope',

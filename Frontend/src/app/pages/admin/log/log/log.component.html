@@ -1,0 +1,166 @@
+
+    <div class="row">
+      <div class="col-lg-12">
+        <p-card>
+          <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+              <button
+                pButton
+                pRipple
+                label="Delete"
+                icon="pi pi-trash"
+                class="p-button-raised p-button-rounded p-button-outlined p-button-outlined p-button-danger p-mr-2"
+                (click)="deleteSelectedLogs()"
+                [disabled]="!selectedLogs || !selectedLogs.length"
+              ></button>
+
+            </ng-template>
+
+            <ng-template pTemplate="right">
+              <div class="flex">
+                <button
+                  type="button"
+                  pButton
+                  pRipple
+                  icon="pi pi-file"
+                  (click)="dt.exportCSV()"
+                  class="mr-2"
+                  pTooltip="CSV"
+                  tooltipPosition="bottom"
+                ></button>
+                <button
+                  type="button"
+                  pButton
+                  pRipple
+                  icon="pi pi-file-excel"
+                  class="p-button-success mr-2"
+                  pTooltip="XLS"
+                  tooltipPosition="bottom"
+                ></button>
+                <!-- <button
+                  type="button"
+                  pButton
+                  pRipple
+                  icon="pi pi-file-pdf"
+                  (click)="exportPdf()"
+                  class="p-button-warning mr-2"
+                  pTooltip="PDF"
+                  tooltipPosition="bottom"
+                ></button> -->
+                <button
+                  type="button"
+                  pButton
+                  pRipple
+                  icon="pi pi-filter"
+                  (click)="dt.exportCSV({ selectionOnly: true })"
+                  class="p-button-info ml-auto"
+                  pTooltip="Selection Only"
+                  tooltipPosition="bottom"
+                ></button>
+              </div>
+            </ng-template>
+          </p-toolbar>
+
+          <p-table
+            #dt
+            [value]="logs"
+            [rows]="5"
+            [paginator]="true"
+            [loading]="loading"
+            [globalFilterFields]="['id', 'name', 'exception', 'log_time']"
+            [(selection)]="selectedLogs"
+            [rowHover]="true"
+            dataKey="id"
+            [rowsPerPageOptions]="[5,10, 25, 50]"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true"
+          >
+            <ng-template pTemplate="caption">
+              <div class="p-d-flex p-ai-center p-jc-between">
+                <h5 class="p-mr-5">Logs</h5>
+                <span class="p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input
+                    pInputText
+                    type="text"
+                    #searchData
+                    (input)="dt.filterGlobal(searchData.value, 'contains')"
+                    placeholder="Search..."
+                  />
+                </span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 3rem">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+
+                <th style="min-width: 12rem">
+                  <div class="flex justify-content-center align-items-center">
+                    Name
+                    <p-columnFilter
+                      type="text"
+                      field="name"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+                <th style="min-width: 10rem">
+                  <div class="flex justify-content-center align-items-center">
+                    Exception
+                    <p-columnFilter
+                      type="text"
+                      field="exception"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+
+                <th style="width: 10rem">
+                  <div class="flex justify-content-center align-items-center">
+                    Log time
+                    <p-columnFilter
+                      type="date"
+                      field="log_time"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+
+                <th style="width: 8rem">Action</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-log let-expanded="expanded">
+              <tr>
+                <td>
+                  <p-tableCheckbox [value]="log"></p-tableCheckbox>
+                </td>
+                <td>{{ log.name }}</td>
+                <td>{{ log.exception }}</td>
+                <td>{{ log.log_time | timeago : true }}</td>
+
+                <td>
+                  <button
+                    pButton
+                    pRipple
+                    pTooltip="Delete"
+                    (click)="deleteLog(log)"
+                    icon="pi pi-trash"
+                    class="p-button-rounded p-button-outlined p-button-danger p-mr-2"
+                  ></button>
+                </td>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="summary">
+              <div class="p-d-flex p-ai-center p-jc-between">
+                In total there are {{ logs ? logs.length : 0 }} logs.
+              </div>
+            </ng-template>
+          </p-table>
+        </p-card>
+      </div>
+    </div>
+
+<!-- <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog> -->

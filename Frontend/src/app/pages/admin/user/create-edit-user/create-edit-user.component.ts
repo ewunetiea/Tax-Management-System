@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageService, ConfirmationService } from 'primeng/api';
+import { MessageService, ConfirmationService, SharedModule } from 'primeng/api';
 import { Branch } from '../../../../models/admin/branch';
 import { JobPosition } from '../../../../models/admin/job-position';
 import { Region } from '../../../../models/admin/region';
@@ -18,6 +18,7 @@ import { FormsModule } from '@angular/forms';
 import { SkeletonModule } from 'primeng/skeleton';
 import { DropdownModule } from 'primeng/dropdown';
 import { CommonModule } from '@angular/common';
+import { SharedUiModule } from '../../../../../shared-ui';
 
 interface AwashId {
     id_no: string;
@@ -25,8 +26,9 @@ interface AwashId {
 }
 
 @Component({
+    standalone : true,
     selector: 'app-create-edit-user',
-    imports: [ConfirmDialogModule, DialogModule, SelectButton, FormsModule, SkeletonModule, DropdownModule, CommonModule],
+    imports: [SharedUiModule],
     templateUrl: './create-edit-user.component.html',
     styleUrl: './create-edit-user.component.scss'
 })

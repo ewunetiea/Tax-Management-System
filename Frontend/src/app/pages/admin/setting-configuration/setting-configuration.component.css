@@ -1,0 +1,12 @@
+/* Center the tab headers and add gap */
+.p-tabview .p-tabview-nav {
+  display: flex !important;          /* use flexbox */
+  justify-content: center;           /* center the tabs */
+  gap: 4rem;                         /* space between tabs */
+}
+
+/* Optional: increase tab header font size or padding */
+.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+}

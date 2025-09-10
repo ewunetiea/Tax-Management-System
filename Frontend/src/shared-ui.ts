@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
-// PrimeNG UI modules
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TextareaModule } from 'primeng/textarea';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
@@ -35,100 +33,105 @@ import { PasswordModule } from 'primeng/password';
 import { KnobModule } from 'primeng/knob';
 import { DividerModule } from 'primeng/divider';
 import { ChartModule } from 'primeng/chart';
-import { TimeagoModule } from 'ngx-timeago';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { Select } from 'primeng/select';
 import { RouterModule } from '@angular/router';
 import { RippleModule } from 'primeng/ripple';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { TimeagoModule } from 'ngx-timeago';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ToastModule,
+    imports: [
+        CommonModule,
+        FormsModule,
 
-    // PrimeNG
-    TextareaModule,
-    DialogModule,
-    ConfirmDialogModule,
-    ToastModule,
-    ListboxModule,
-    CardModule,
-    TooltipModule,
-    TableModule,
-    MultiSelectModule,
-    Select,
-    ButtonModule,
-    TagModule,
-    CheckboxModule,
-    DropdownModule,
-    PaginatorModule,
-    ToolbarModule,
-    AccordionModule,
-    BreadcrumbModule,
-    TabsModule,
-    TabViewModule,
-    InputTextModule,
-    IconFieldModule,
-    InputIconModule,
-    SelectButtonModule,
-    StyleClassModule,
-    MenubarModule,
-    BadgeModule,
-    AvatarModule,
-    StepperModule,
-    PasswordModule,
-    KnobModule,
-    DividerModule,
-    TimeagoModule,
-    ChartModule,
-    RadioButtonModule,
-    RouterModule, 
-    RippleModule, 
-    NgIf,
-  ],
-  exports: [
-    CommonModule,
-    FormsModule,
-    ToastModule,
-    
-    // PrimeNG
-    TextareaModule,
-    DialogModule,
-    ConfirmDialogModule,
-    ToastModule,
-    CardModule,
-    TooltipModule,
-    TableModule,
-    MultiSelectModule,
-    Select,
-    ButtonModule,
-    TagModule,
-    CheckboxModule,
-    DropdownModule,
-    PaginatorModule,
-    ToolbarModule,
-    ListboxModule,
-    BreadcrumbModule,
-    AccordionModule,
-    TabsModule,
-    TabViewModule,
-    InputTextModule,
-    IconFieldModule,
-    InputIconModule,
-    SelectButtonModule,
-    StyleClassModule,
-    MenubarModule,
-    BadgeModule,
-    AvatarModule,
-    StepperModule,
-    PasswordModule,
-    KnobModule,
-    DividerModule,
-    ChartModule,
-    TimeagoModule,
-    RadioButtonModule,
-    RouterModule, RippleModule, NgIf
-  ]
+        // PrimeNG
+        TextareaModule,
+        DialogModule,
+        ConfirmDialogModule,
+        ToastModule,
+        ListboxModule,
+        CardModule,
+        TooltipModule,
+        TableModule,
+        MultiSelectModule,
+        Select,
+        ButtonModule,
+        TagModule,
+        CheckboxModule,
+        DropdownModule,
+        PaginatorModule,
+        ToolbarModule,
+        AccordionModule,
+        BreadcrumbModule,
+        TabsModule,
+        TabViewModule,
+        InputTextModule,
+        IconFieldModule,
+        InputIconModule,
+        SelectButtonModule,
+        StyleClassModule,
+        MenubarModule,
+        BadgeModule,
+        AvatarModule,
+        StepperModule,
+        PasswordModule,
+        KnobModule,
+        DividerModule,
+        ChartModule,
+        RadioButtonModule,
+        RouterModule,
+        RippleModule,
+        NgIf,
+        InputNumberModule,
+        TimeagoModule,
+     ReactiveFormsModule,
+SkeletonModule
+    ],
+    exports: [
+        CommonModule,
+        FormsModule,
+        TextareaModule,
+        DialogModule,
+        ConfirmDialogModule,
+        ToastModule,
+        CardModule,
+        TooltipModule,
+        TableModule,
+        MultiSelectModule,
+        Select,
+        ButtonModule,
+        TagModule,
+        CheckboxModule,
+        DropdownModule,
+        PaginatorModule,
+        ToolbarModule,
+        ListboxModule,
+        BreadcrumbModule,
+        AccordionModule,
+        TabsModule,
+        TabViewModule,
+        InputTextModule,
+        IconFieldModule,
+        InputIconModule,
+        SelectButtonModule,
+        StyleClassModule,
+        MenubarModule,
+        BadgeModule,
+        AvatarModule,
+        StepperModule,
+        PasswordModule,
+        KnobModule,
+        DividerModule,
+        ChartModule,
+        TimeagoModule,
+        RadioButtonModule,
+        RouterModule, RippleModule, NgIf,
+        InputNumberModule,
+        ReactiveFormsModule,SkeletonModule
+
+    ]
 })
-export class SharedUiModule {}
+export class SharedUiModule { }
+

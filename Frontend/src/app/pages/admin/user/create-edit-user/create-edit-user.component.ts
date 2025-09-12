@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageService, ConfirmationService, SharedModule } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 import { Branch } from '../../../../models/admin/branch';
 import { JobPosition } from '../../../../models/admin/job-position';
 import { Region } from '../../../../models/admin/region';
@@ -11,14 +11,10 @@ import { RegionService } from '../../../service/admin/regionService';
 import { StorageService } from '../../../service/admin/storage.service';
 import { UserService } from '../../../service/admin/user.service';
 import { ValidationService } from '../../../service/admin/validationService';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { DialogModule } from 'primeng/dialog';
-import { SelectButton } from 'primeng/selectbutton';
-import { FormsModule } from '@angular/forms';
-import { SkeletonModule } from 'primeng/skeleton';
-import { DropdownModule } from 'primeng/dropdown';
-import { CommonModule } from '@angular/common';
+
 import { SharedUiModule } from '../../../../../shared-ui';
+import { catchError, of, switchMap } from 'rxjs';
+import { AuthService } from '../../../service/admin/auth.service';
 
 interface AwashId {
     id_no: string;
@@ -26,13 +22,16 @@ interface AwashId {
 }
 
 @Component({
-    standalone : true,
+    standalone: true,
     selector: 'app-create-edit-user',
     imports: [SharedUiModule],
     templateUrl: './create-edit-user.component.html',
     styleUrl: './create-edit-user.component.scss'
 })
 export class CreateEditUserComponent {
+
+    user_name_status = false;
+
     email_status = false;
     phone_number_status = false;
     employee_id_status = false;
@@ -79,7 +78,7 @@ export class CreateEditUserComponent {
     hoWorkPlaces: Branch[] = [];
     @Input() passedUser: any[] = [];
     @Output() editedUser: EventEmitter<any> = new EventEmitter();
-     radioValue: any = null;
+    radioValue: any = null;
 
     constructor(
         private branchService: BranchService,
@@ -89,8 +88,10 @@ export class CreateEditUserComponent {
         private storageService: StorageService,
         private router: Router,
         private messageService: MessageService,
-        private confirmationService: ConfirmationService
-    ) {}
+        private confirmationService: ConfirmationService,
+        private authService: AuthService,
+
+    ) { }
 
     ngOnInit(): void {
         this.authenthicationOptions = [
@@ -139,6 +140,8 @@ export class CreateEditUserComponent {
     }
 
     emitData(data: any[]) {
+
+        console.log(data)
         this.editedUser.emit(data);
     }
 
@@ -199,14 +202,12 @@ export class CreateEditUserComponent {
         this.real_ho_status = false;
     }
 
-    // `<p class="text-secondary fs-5 mt-2">User ${this.user.first_name} ${this.user.last_name} is created successfully!</p>
-    //         <p class="fs-6">Your password is sent to your email at ${this.user.email}</p>
-    //         <p class="fs-6">Please check on your email to proceed</p>`,
     addUser(): void {
         this.loading = true;
         this.user.admin_id = this.storageService.getUser().id;
-        this.userService.addUser(this.user).subscribe({
+        this.authService.signup(this.user).subscribe({
             next: (res) => {
+
                 this.loading = false;
                 this.confrimationDialog = false;
                 this.submitted = true;
@@ -241,6 +242,7 @@ export class CreateEditUserComponent {
                 this.passedUser = [];
                 this.passedUser.push(this.user);
                 this.passedUser.push(this.isEditData);
+
                 this.emitData(this.passedUser);
             },
             error: (error: HttpErrorResponse) => {
@@ -263,12 +265,27 @@ export class CreateEditUserComponent {
 
     checkEmailStatus(event: any) {
         this.email = event.target.value;
-        this.validationService.checkUserEmail(this.email ?? '').subscribe({
+        this.validationService.checkUserEmail(this.email as any).subscribe({
             next: (res: any) => {
                 if (res) {
                     this.email_status = true;
                 } else {
                     this.email_status = false;
+                }
+            },
+            error: (error: HttpErrorResponse) => {
+                this.errorMessage = error.error.message;
+            }
+        });
+    }
+
+    checkUsernameStatus(event: any) {
+        this.validationService.checkUsername(event.target.value).subscribe({
+            next: (res: any) => {
+                if (res) {
+                    this.user_name_status = true;
+                } else {
+                    this.user_name_status = false;
                 }
             },
             error: (error: HttpErrorResponse) => {
@@ -293,62 +310,73 @@ export class CreateEditUserComponent {
     }
 
     checkAwashBankIdStatus(event: any) {
-        const employeeId = event.target.value;
-        if (!employeeId) {
+        this.employee_id = event.target.value;
+
+        if (!this.employee_id || this.employee_id.length < 11) {
             return;
         }
 
         const pattern = /^(AB|AIB)\/(\d{1,7})\/(19|20|21)(\d{2})$/;
-        const match = employeeId.match(pattern);
+        const match = this.employee_id.match(pattern);
 
         if (!match) {
-            this.employee_id_status = true;
-            this.proceed = false;
             return;
         }
 
         const awash_id = {
-            id_no: match[2] || '',
-            year: (match[3] || '') + (match[4] || '')
-        } as any;
+            id_no: match[2],
+            year: match[3] + match[4]
+        };
 
-        this.validationService.checkUserEmployeeId(awash_id).subscribe({
-            next: (res: any) => {
-                if (res) {
-                    this.userFromHr = res;
+        this.validationService
+            .checkEmployeeIdSystem(awash_id)
+            .pipe(
+                switchMap((firstRes: any) => {
+                    if (firstRes && firstRes.id != null) {
+                        this.employee_id_status_system = true;
+                        this.proceed = false;
+                        console.log('User already exists in the system');
+                        return of(null); // Return empty observable to complete the chain
+                    } else {
+                        this.employee_id_status_system = false;
+                        // Only make second call if first response indicates no user in system
+                        return this.validationService.checkUserEmployeeId(awash_id);
+                    }
+                }),
+                catchError((error: HttpErrorResponse) => {
+                    this.errorMessage = error.error.message;
+                    return of(null);
+                })
+            )
+            .subscribe((secondRes: any) => {
+                if (secondRes) {
+                    this.userFromHr = secondRes;
+                    this.processUserData();
                     this.employee_id_status = false;
                     this.proceed = true;
+                } else if (secondRes === null) {
+                    // This means user exists in system (first call returned data)
+                    // No action needed as we already handled it
                 } else {
+                    // Second call returned no data (user doesn't exist in HR either)
                     this.employee_id_status = true;
+                    this.user = new User();
+                    this.user.employee_id = this.employee_id;
                     this.proceed = false;
                 }
-            },
-            error: (error: HttpErrorResponse) => {
-                this.errorMessage = error.error.message;
-            }
-        });
-
-        this.validationService.checkEmployeeIdSystem(awash_id).subscribe({
-            next: (res: any) => {
-                if (res) {
-                    this.employee_id_status_system = true;
-                    this.proceed = false;
-                } else {
-                    this.employee_id_status_system = false;
-                    this.proceed = true;
-                }
-            },
-            error: (error: HttpErrorResponse) => {
-                this.errorMessage = error.error.message;
-            }
-        });
-
-        this.selectedBranch = {};
-        this.selectedHO = {};
-        this.selectedRegion = {};
-        this.selectedJobPosition = {};
-        this.user.email = '';
+            });
     }
+
+    processUserData() {
+        this.user.first_name = this.userFromHr.empName.split(' ')[0];
+        this.user.middle_name = this.userFromHr.empName.split(' ')[1] || '';
+        this.user.last_name = this.userFromHr.empName.split(' ').slice(2).join(' ') || this.user.middle_name;
+        this.user.email = this.userFromHr.email;
+        this.user.jobPosition = this.job_positions.find((job) => job.title === this.userFromHr.position);
+        this.user.branch = this.allBranches.find((branch) => branch.name === this.userFromHr.unit);
+        this.user.region = this.regions.find((region) => region.name === this.userFromHr.deptLocation);
+    }
+
 
     openModal() {
         this.confrimationDialog = true;
@@ -373,7 +401,7 @@ export class CreateEditUserComponent {
             next: (data) => {
                 this.job_positions = data;
             },
-            error: (e) => {}
+            error: (e) => { }
         });
     }
     getRegions() {

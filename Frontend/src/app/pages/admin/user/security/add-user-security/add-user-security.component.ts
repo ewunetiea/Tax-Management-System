@@ -1,32 +1,30 @@
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { User } from '../../../../../models/admin/user';
 import { UserSecurity } from '../../../../../models/admin/user-security';
 import { UserService } from '../../../../service/admin/user.service';
-import { ConfirmDialog } from 'primeng/confirmdialog';
-import { ToastModule } from 'primeng/toast';
-import { FormsModule } from '@angular/forms';
-import { CalendarModule } from 'primeng/calendar';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { DialogModule } from 'primeng/dialog';
+import { SharedUiModule } from '../../../../../../shared-ui';
 
 @Component({
-  selector: 'app-user-security',
-  imports: [ConfirmDialog, ToastModule, FormsModule, CalendarModule, InputNumberModule, DialogModule,],
-  templateUrl: './user-security.component.html',
-  styleUrl: './user-security.component.scss',
-  providers: [MessageService, ConfirmationService]
+    standalone : true,
+  selector: 'app-add-user-security',
+  imports : [SharedUiModule],
+  templateUrl: './add-user-security.component.html',
+  styleUrls: ['./add-user-security.component.css'],
 })
-export class UserSecurityComponent {
+export class AddUserSecurityComponent implements OnInit {
+    
   user_sec = new User();
   loading = false;
-  today: Date = new Date();
-  password_created_date = new Date();
-  isEditData = false;
 
-  @Input() passedUser: any[] = [];
+  today: Date = new Date();
+
+  password_created_date = new Date();
+
+  @Input() passedUser: any[]=[];
   @Output() editedUser: EventEmitter<any> = new EventEmitter();
+  isEditData = false;
 
   userSecurity: UserSecurity = {
     accountNonExpired: false,
@@ -86,5 +84,4 @@ export class UserSecurityComponent {
       },
     });
   }
-
 }

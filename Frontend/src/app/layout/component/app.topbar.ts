@@ -174,8 +174,8 @@ export class AppTopbar {
 
     private handleLogoutSuccess(): void {
         this.storageService.clean();
-        // this.reloadPageAndRedirect('http://localhost:8082/');
-        this.reloadPageAndRedirect('http://localhost:4200/');
+        this.reloadPageAndRedirect('http://localhost:8082/');
+        // this.reloadPageAndRedirect('http://localhost:4200/');
     }
 
     private handleLogoutError(err: any): void {

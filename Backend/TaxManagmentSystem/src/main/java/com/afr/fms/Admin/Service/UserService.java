@@ -103,13 +103,7 @@ public class UserService {
             addAllUserRoles(user);
             user.setPassword(password1);
             try {
-                // if (user.isAuthenthication_media()) {
-                //     sendRegistrationConfirmationEmail(user);
-                // } else {
-
-                //     smsService.sendPasswordResetviaPhoneNumberAfterAccountCreation(user);
-                //     userMapper.accountVerified(user.getId());
-                // }
+                
                 if (user.getAdmin_id() != null) {
                     User admin = new User();
                     recentActivity

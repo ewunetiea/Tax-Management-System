@@ -37,7 +37,6 @@ export class AppMenuAdmin {
     ngOnInit() {
         this.isLoggedIn = this.storageService.isLoggedIn();
 
-
         this.admin_items = [
             {
                 label: 'Home',

@@ -4,8 +4,7 @@ import { AdminDashboardComponent } from "../admin-dashboard/admin-dashboard.comp
 import { SharedUiModule } from '../../../../shared-ui';
 
 @Component({
-        standalone: true,
-
+  standalone: true,
   selector: 'app-dashboard-container',
   imports: [SharedUiModule,  AdminDashboardComponent],
   templateUrl: './dashboard-container.component.html'

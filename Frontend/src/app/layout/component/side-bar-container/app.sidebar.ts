@@ -12,20 +12,17 @@ import { StorageService } from '../../../pages/service/admin/storage.service';
     templateUrl: './app.sidebar.component.html'
 })
 export class AppSidebar {
+    isLoggedIn = false;
+    role_type: string = '';
+    roles: string[] = [];
+    constructor(
+        public el: ElementRef,
+        private storageService: StorageService,
+        public router: Router
+    ) {}
 
-
-        isLoggedIn = false;
-        role_type : string = '';
-        roles: string[] = [];
-    constructor(public el: ElementRef,
-         private storageService: StorageService,
-            public router: Router,) {}
-
-
-
-     ngOnInit() {
+    ngOnInit() {
         this.isLoggedIn = this.storageService.isLoggedIn();
-
 
         if (this.isLoggedIn) {
             const user = this.storageService.getUser();
@@ -33,7 +30,8 @@ export class AppSidebar {
             if (this.roles.includes('ROLE_ADMIN')) {
                 this.role_type = 'admin';
             } else if (this.roles.includes('ROLE_AUDITOR_MGT')) {
-                 this.role_type = 'maker';
+                this.role_type = 'maker';
             }
-        }}
+        }
+    }
 }

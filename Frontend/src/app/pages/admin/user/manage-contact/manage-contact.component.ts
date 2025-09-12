@@ -9,7 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { SharedUiModule } from '../../../../../shared-ui';
 
 @Component({
-    selector: 'app-manage-contact',
+  selector: 'app-manage-contact',
     imports: [SharedUiModule],
     providers: [MessageService, ConfirmationService],
     templateUrl: './manage-contact.component.html',

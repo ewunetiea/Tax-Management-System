@@ -46,6 +46,9 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { CalendarModule } from 'primeng/calendar';
 import { InputSwitchModule } from 'primeng/inputswitch'; // Import the InputSwitchModule
 
+import { DatePicker } from 'primeng/datepicker';
+import { FluidModule } from 'primeng/fluid';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -99,7 +102,10 @@ import { InputSwitchModule } from 'primeng/inputswitch'; // Import the InputSwit
         ReactiveFormsModule,
         SkeletonModule,
         CalendarModule,
-        InputSwitchModule
+        InputSwitchModule,
+        DatePicker,
+        ChartModule, 
+        FluidModule,
     ],
     exports: [
         CommonModule,
@@ -151,10 +157,12 @@ import { InputSwitchModule } from 'primeng/inputswitch'; // Import the InputSwit
         RippleModule,
         NgIf,
         InputNumberModule,
-        ReactiveFormsModule, SkeletonModule, CalendarModule, InputSwitchModule
-
-
+        ReactiveFormsModule, SkeletonModule, CalendarModule, InputSwitchModule,
+        ReactiveFormsModule,
+        SkeletonModule,
+        DatePicker,
+        ChartModule, 
+        FluidModule,
     ]
 })
-export class SharedUiModule { }
-
+export class SharedUiModule {}

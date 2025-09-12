@@ -101,8 +101,6 @@ public class AuthController {
         public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, HttpServletRequest request) throws MultipleSessionsException {
                 String username = loginRequest.getUsername();
 
-                System.out.println("___________________________________________________________________________");
-
                 // Step 1: AD authentication
                 // try {
                 //         Object userDetail = adService.getADUserDetails(loginRequest.getUsername(),

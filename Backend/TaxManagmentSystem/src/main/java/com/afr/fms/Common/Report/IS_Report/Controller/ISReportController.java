@@ -28,36 +28,35 @@ public class ISReportController {
 	@Autowired
 	ISReportService is_Report_Service;
 
-
 	@Autowired
 	ISMGTService ismgtService;
 
 	@PostMapping("/search")
 	public ResponseEntity<List<ISManagementAuditDTO>> getISReport(@RequestBody ISReport isReport,
 			HttpServletRequest request) {
-			try {
-				return new ResponseEntity<>(ismgtService.getISReport(isReport),
+		try {
+			return new ResponseEntity<>(ismgtService.getISReport(isReport),
 
-						HttpStatus.OK);
-			} catch (Exception ex) {
-				System.out.println(ex);
-				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-		
+					HttpStatus.OK);
+		} catch (Exception ex) {
+			System.out.println(ex);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 	}
 
 	// @GetMapping("/division/{directorate_id}")
-	// public ResponseEntity<List<Branch>> getDivisionsByDirectorateIdForIS(@PathVariable Long directorate_id,
-	// 		HttpServletRequest request) {
-	// 		try {
-	// 			return new ResponseEntity<>(is_Report_Service.getDivisionsByDirectorateId(directorate_id),
-	// 					HttpStatus.OK);
-	// 		} catch (Exception ex) {
-	// 			System.out.println(ex);
-	// 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	// 		}
-		
+	// public ResponseEntity<List<Branch>>
+	// getDivisionsByDirectorateIdForIS(@PathVariable Long directorate_id,
+	// HttpServletRequest request) {
+	// try {
+	// return new
+	// ResponseEntity<>(is_Report_Service.getDivisionsByDirectorateId(directorate_id),
+	// HttpStatus.OK);
+	// } catch (Exception ex) {
+
+	// return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	// }
 
 	// }
 

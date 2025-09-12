@@ -1,4 +1,4 @@
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -9,16 +9,14 @@ import { AuthService } from '../../../service/admin/auth.service';
 import { NotifyMeService } from '../../../service/admin/notify-service';
 import { RealTimeService } from '../../../service/admin/real-time-service';
 import { StorageService } from '../../../service/admin/storage.service';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SettingConfigurationComponent } from '../../setting-configuration/setting-configuration.component';
-import { DialogModule } from 'primeng/dialog';
-import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { LogComponent } from '../../log/log/log.component';
+import { SharedUiModule } from '../../../../../shared-ui';
 
 @Component({
   selector: 'app-admin-notification',
-  imports: [ConfirmDialogModule, SettingConfigurationComponent, DialogModule, LogComponent, ToastModule, CommonModule],
+  imports: [SharedUiModule, SettingConfigurationComponent, LogComponent],
   providers: [MessageService, ConfirmationService],
   templateUrl: './admin-notification.component.html',
   styleUrl: './admin-notification.component.scss'

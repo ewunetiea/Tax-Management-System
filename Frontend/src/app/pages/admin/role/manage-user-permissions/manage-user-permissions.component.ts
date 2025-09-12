@@ -16,117 +16,127 @@ import { SharedUiModule } from '../../../../../shared-ui';
     styleUrl: './manage-user-permissions.component.scss'
 })
 export class ManageUserPermissionsComponent {
-    user: User = new User();
-    users: User[] = [];
-    selectedUsers: User[] = [];
-    functionalities: Functionalities[] = [];
-    assignedFunctionalities: Functionalities[] = [];
-    selectedFunctionalities: Functionalities[] = [];
-    loading: boolean = true;
-    functionalityDialog: boolean = false;
-    functionalityLoading: boolean = false;
-    functionalityStatusDialog: boolean = false;
-    fetching: boolean = false;
-    sizes!: any[];
-    selectedSize: any = 'normal';
+  user: User = new User();
+  users: User[] = [];
+  selectedUsers: User[] = [];
+  functionalities: Functionalities[] = [];
+  assignedFunctionalities: Functionalities[] = [];
+  selectedFunctionalities: Functionalities[] = [];
+  loading: boolean = true;
+  functionalityDialog: boolean = false;
+  functionalityLoading: boolean = false;
+  functionalityStatusDialog: boolean = false;
+  fetching: boolean = false;
+  sizes!: any[];
+   selectedSize: any = 'normal';
     breadcrumbText: string = 'Manage User Permissions';
     items: MenuItem[] | undefined;
     home: MenuItem | undefined;
 
-    constructor(
-        private messageService: MessageService,
-        private confirmationService: ConfirmationService,
-        private userFunctionalityService: UserFunctionalityService
-    ) {}
+  constructor(
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private userFunctionalityService: UserFunctionalityService
+  ) { }
 
-    ngOnInit(): void {
-       this.home = { icon: 'pi pi-home', routerLink: '/' };
-        this.items = [{ label: this.breadcrumbText }];
-        this.sizes = [
-            { name: 'Small', value: 'small' },
-            { name: 'Normal', value: 'normal' },
-            { name: 'Large', value: 'large' }
-        ];
+  ngOnInit(): void {
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
+    this.items = [{ label: this.breadcrumbText }];
+    this.sizes = [
+      { name: 'Small', value: 'small' },
+      { name: 'Normal', value: 'normal' },
+      { name: 'Large', value: 'large' }
+    ];
+  }
+
+  onViewFunctionalities(user: User): void {
+    console.log("Fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff:", user);
+    this.user = user;
+    this.functionalityStatusDialog = true;
+    this.assignedFunctionalities = this.user.functionalities || [];
+  }
+
+  closeDialog(): void {
+    this.functionalityDialog = false;
+    this.functionalities = [];
+  }
+
+  onDataGenerated(data: User[]) {
+    this.loading = false;
+    if (data != null) {
+      this.fetching = true;
+      this.users = data;
+    }
+  }
+
+  onGlobalFilter(table: Table, event: Event) {
+    const input = event.target as HTMLInputElement;
+    table.filterGlobal(input.value, 'contains');
+}
+
+    clear(table: Table) {
+        table.clear();
     }
 
-    onViewFunctionalities(user: User): void {
-        this.user = user;
-        this.functionalityStatusDialog = true;
-        this.assignedFunctionalities = this.user.functionalities || [];
-    }
+  revokeFunctionalities(): void {
+    this.user.functionalities = this.selectedFunctionalities || [];
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to revoke selected permissions?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.userFunctionalityService.deactivatePermissions(this.user).subscribe({
+          next: (data) => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Permissions revoked successfully!',
+            });
 
-    closeDialog(): void {
-        this.functionalityDialog = false;
-        this.functionalities = [];
-    }
-
-    onDataGenerated(data: User[]) {
-        this.loading = false;
-        if (data != null) {
-            this.fetching = true;
-            this.users = data;
-        }
-    }
-
-    onGlobalFilter(table: Table, event: Event) {
-            const input = event.target as HTMLInputElement;
-            table.filterGlobal(input.value, 'contains');
-        }
-    
-        clear(table: Table) {
-            table.clear();
-        }
-
-    revokeFunctionalities(): void {
-        this.user.functionalities = this.selectedFunctionalities || [];
-        this.confirmationService.confirm({
-            message: 'Are you sure you want to revoke selected permissions?',
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.userFunctionalityService.deactivatePermissions(this.user).subscribe({
-                    next: (data) => {
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: 'Success',
-                            detail: 'Permissions revoked successfully!'
-                        });
-                    },
-                    error: (error: HttpErrorResponse) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while revoking Permissions!',
-                            detail: ''
-                        });
-                    }
-                });
-            }
+          },
+          error: (error: HttpErrorResponse) => {
+            this.messageService.add({
+              severity: 'error',
+              summary:
+                error.status == 401
+                  ? 'You are not permitted to perform this action!'
+                  : 'Something went wrong while revoking Permissions!',
+              detail: '',
+            });
+          },
         });
-    }
+      },
+    });
+  }
 
-    grantFunctionalities(): void {
-        this.confirmationService.confirm({
-            message: 'Are you sure you want to grant selected permissions?',
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.userFunctionalityService.activatePermissions(this.selectedFunctionalities).subscribe({
-                    next: (data) => {
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: 'Success',
-                            detail: 'Permissions granted successfully!'
-                        });
-                    },
-                    error: (error: HttpErrorResponse) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while granting Permissions!',
-                            detail: ''
-                        });
-                    }
-                });
-            }
-        });
-    }
+  grantFunctionalities(): void {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to grant selected permissions?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.userFunctionalityService
+          .activatePermissions(this.selectedFunctionalities)
+          .subscribe({
+            next: (data) => {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Permissions granted successfully!',
+              });
+            },
+            error: (error: HttpErrorResponse) => {
+              this.messageService.add({
+                severity: 'error',
+                summary:
+                  error.status == 401
+                    ? 'You are not permitted to perform this action!'
+                    : 'Something went wrong while granting Permissions!',
+                detail: '',
+              });
+            },
+          });
+      },
+    });
+  }
 }

@@ -3,7 +3,6 @@
     <div class="mb-6">
         <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
     </div>
-
     <section class="section">
       <div class="row">
         <div class="col-lg-12">
@@ -89,6 +88,7 @@
               dataKey="id"
               [rowsPerPageOptions]="[5, 10, 25, 50]"
               [tableStyle]="{ 'min-width': '70rem' }"
+              [size]="selectedSize"
               currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
               [showCurrentPageReport]="true"
             >

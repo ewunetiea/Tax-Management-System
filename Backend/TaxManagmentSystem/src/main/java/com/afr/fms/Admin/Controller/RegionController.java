@@ -32,50 +32,51 @@ public class RegionController {
     RecentActivity recentActivity = new RecentActivity();
 
     @PostMapping("/region")
-public ResponseEntity<?> saveRegion(HttpServletRequest request, @RequestBody Region region) throws ParseException {
-    try {
-        User user = new User();
-        user.setId(region.getUser_id());
+    public ResponseEntity<?> saveRegion(HttpServletRequest request, @RequestBody Region region) throws ParseException {
+        try {
+            User user = new User();
+            user.setId(region.getUser_id());
 
-        if (region.getId() != null) {
-            // Update region
-            regionService.updateRegion(region);
-            recentActivity.setMessage(region.getName() + " region is updated ");
-        } else {
-            // Create new region
-            regionService.createRegion(region);
-            recentActivity.setMessage(region.getName() + " region is created ");
+            if (region.getId() != null) {
+                // Update region
+                regionService.updateRegion(region);
+                recentActivity.setMessage(region.getName() + " region is updated ");
+            } else {
+                // Create new region
+                regionService.createRegion(region);
+                recentActivity.setMessage(region.getName() + " region is created ");
+            }
+
+            recentActivity.setUser(user);
+            recentActivityMapper.addRecentActivity(recentActivity);
+
+            return AGPResponse.success("Region successfully " + (region.getId() != null ? "updated" : "created"));
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        recentActivity.setUser(user);
-        recentActivityMapper.addRecentActivity(recentActivity);
-
-        return AGPResponse.success("Region successfully " + (region.getId() != null ? "updated" : "created"));
-    } catch (Exception ex) {
-        System.out.println(ex);
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-}
-
 
     // @PostMapping("/region")
-    // public ResponseEntity<?> createRegion(HttpServletRequest request, @RequestBody Region region) throws ParseException {
-    //     try {
-    //         User user = new User();
-    //         regionService.createRegion(region);
-    //         recentActivity.setMessage(region.getName() + " region is created ");
-    //         user.setId(region.getUser_id());
-    //         recentActivity.setUser(user);
-    //         recentActivityMapper.addRecentActivity(recentActivity);
-    //         return AGPResponse.success("region sucessfully saved");
-    //     } catch (Exception ex) {
-    //         System.out.println(ex);
-    //         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
+    // public ResponseEntity<?> createRegion(HttpServletRequest request,
+    // @RequestBody Region region) throws ParseException {
+    // try {
+    // User user = new User();
+    // regionService.createRegion(region);
+    // recentActivity.setMessage(region.getName() + " region is created ");
+    // user.setId(region.getUser_id());
+    // recentActivity.setUser(user);
+    // recentActivityMapper.addRecentActivity(recentActivity);
+    // return AGPResponse.success("region sucessfully saved");
+    // } catch (Exception ex) {
+
+    // return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    // }
     // }
 
     @PutMapping("/region")
-    public ResponseEntity<?> updateRegion(HttpServletRequest request, @RequestBody Region region) throws ParseException {
+    public ResponseEntity<?> updateRegion(HttpServletRequest request, @RequestBody Region region)
+            throws ParseException {
         try {
             User user = new User();
             regionService.updateRegion(region);

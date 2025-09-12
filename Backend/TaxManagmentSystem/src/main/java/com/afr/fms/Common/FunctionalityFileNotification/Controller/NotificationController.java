@@ -20,7 +20,6 @@ import com.afr.fms.Payload.endpoint.Endpoint;
 import com.afr.fms.Payload.realtime.RealTime;
 import com.afr.fms.Security.UserSecurity.service.UserSecurityService;
 
-
 @RestController
 @RequestMapping("/api")
 public class NotificationController {
@@ -58,7 +57,7 @@ public class NotificationController {
 	// return new ResponseEntity<>(notificationService.notifyApprover(realTime),
 	// HttpStatus.OK);
 	// } catch (Exception ex) {
-	// System.out.println(ex);
+
 	// return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	// }
 	// }else{
@@ -77,7 +76,7 @@ public class NotificationController {
 	// notificationService.viewedLoans(loans);
 	// return new ResponseEntity<>(HttpStatus.OK);
 	// } catch (Exception ex) {
-	// System.out.println(ex);
+
 	// return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	// // }
 	// // }else{

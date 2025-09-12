@@ -10,14 +10,12 @@ import { SharedUiModule } from '../../../../../shared-ui';
 
 @Component({
   selector: 'app-manage-contact',
-  // imports: [FormsModule, CommonModule, TextareaModule, DialogModule, CardModule, TooltipModule, CommonModule, TableModule, MultiSelectModule, ButtonModule, TagModule, CheckboxModule, DropdownModule, PaginatorModule, ToolbarModule, BreadcrumbModule, TabsModule, TabViewModule, InputTextModule, IconFieldModule, InputIconModule, IconFieldModule, SelectButtonModule],
     imports: [SharedUiModule],
   providers: [MessageService, ConfirmationService],
   templateUrl: './manage-contact.component.html',
   styleUrl: './manage-contact.component.scss'
 })
 export class ManageContactComponent {
-  // public Editor = ClassicEditor;
 
   public config = {
     toolbar: {

@@ -171,12 +171,12 @@
             <label for="admin">Admin</label>
         </div>
     </div>
-   
-      <div class="flex flex-row flex-wrap gap-6">
+
+    <div class="flex flex-row flex-wrap gap-0">
         <div class="flex-col gap-2 w-1/6 min-w-[150px]">
             <button pButton pRipple [loading]="loading" label="Generate" icon="pi pi-check-circle" class="p-button-raised p-button-outlined p-button-rounded" (click)="generateUsers()"></button>
         </div>
-        <div class="flex flex-col gap-2 w-1/6 min-w-[150px]">
+        <div class="flex-col gap-2 w-1/6 min-w-[150px]">
             <button class="col-md-3" pButton pRipple type="reset" label="Reset" icon="pi pi-times" (click)="filteredBranches = allBranches" class="p-button-raised p-button-danger p-button-outlined p-button-rounded"></button>
         </div>
     </div>

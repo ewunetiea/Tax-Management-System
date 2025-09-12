@@ -30,6 +30,5 @@ export const appConfig: ApplicationConfig = {
         { provide: TimeagoFormatter, useClass: TimeagoDefaultFormatter },
         { provide: TimeagoClock, useClass: TimeagoDefaultClock },
         TimeagoIntl
-
     ]
 };

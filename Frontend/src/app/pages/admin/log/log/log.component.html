@@ -2,7 +2,7 @@
     <div class="row">
       <div class="col-lg-12">
         <p-card>
-          <p-toolbar styleClass="p-mb-4">
+          <p-toolbar styleClass="p-mb-6">
             <ng-template pTemplate="left">
               <button
                 pButton
@@ -73,21 +73,18 @@
             dataKey="id"
             [rowsPerPageOptions]="[5,10, 25, 50]"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            [showCurrentPageReport]="true"
-          >
-            <ng-template pTemplate="caption">
-              <div class="p-d-flex p-ai-center p-jc-between">
-                <h5 class="p-mr-5">Logs</h5>
-                <span class="p-input-icon-left">
-                  <i class="pi pi-search"></i>
-                  <input
-                    pInputText
-                    type="text"
-                    #searchData
-                    (input)="dt.filterGlobal(searchData.value, 'contains')"
-                    placeholder="Search..."
-                  />
-                </span>
+            [tableStyle]="{ 'min-width': '65rem' }"
+            [showCurrentPageReport]="true">
+            <ng-template #caption>
+              <div class="flex items-center justify-between">
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                <div class="flex justify-center mb-4">
+                  <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value" />
+                </div>
+                <p-iconfield>
+                  <p-inputicon styleClass="pi pi-search" />
+                  <input pInputText type="text" (input)="onGlobalFilter(dt, $event)"  placeholder="Search..." />
+                </p-iconfield>
               </div>
             </ng-template>
             <ng-template pTemplate="header">
@@ -97,7 +94,7 @@
                 </th>
 
                 <th style="min-width: 12rem">
-                  <div class="flex justify-content-center align-items-center">
+                  <div class="flex items-center">
                     Name
                     <p-columnFilter
                       type="text"
@@ -107,7 +104,7 @@
                   </div>
                 </th>
                 <th style="min-width: 10rem">
-                  <div class="flex justify-content-center align-items-center">
+                  <div class="flex items-center">
                     Exception
                     <p-columnFilter
                       type="text"
@@ -118,7 +115,7 @@
                 </th>
 
                 <th style="width: 10rem">
-                  <div class="flex justify-content-center align-items-center">
+                  <div class="flex items-center">
                     Log time
                     <p-columnFilter
                       type="date"
@@ -163,4 +160,4 @@
       </div>
     </div>
 
-<!-- <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog> -->
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

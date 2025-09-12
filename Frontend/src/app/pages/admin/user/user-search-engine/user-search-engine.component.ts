@@ -18,10 +18,11 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { InputTextModule } from 'primeng/inputtext';
 import { CheckboxModule } from 'primeng/checkbox';
 import { FluidModule } from 'primeng/fluid';
+import { SharedUiModule } from '../../../../../shared-ui';
 
 @Component({
     selector: 'app-user-search-engine',
-    imports: [CommonModule, FormsModule, DropdownModule, RadioButtonModule, SkeletonModule, ButtonModule, InputTextModule, CheckboxModule, FluidModule],
+    imports: [SharedUiModule],
     templateUrl: './user-search-engine.component.html',
     styleUrl: './user-search-engine.component.scss'
 })

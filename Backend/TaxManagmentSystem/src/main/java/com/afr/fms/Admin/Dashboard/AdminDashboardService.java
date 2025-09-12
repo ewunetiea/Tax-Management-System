@@ -72,8 +72,6 @@ public class AdminDashboardService {
         adminDashboardData.setRoles_name_BFA(roles_name_BFA);
         // adminDashboardData.setRoles_length_IS_MGT_INS(roles_length_IS_MGT_INS);
 
-        // System.out.println(adminDashboardData.getRoles_length_IS_MGT_INS());
-
         adminDashboardData.setCard_data(computeCardData());
         // adminDashboardData.setDoughnut_data(computeDoughnutData(user.getId()));
         adminDashboardData.setAge_data(computeRadarAgeData());

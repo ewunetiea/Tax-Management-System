@@ -181,7 +181,7 @@ public class PasswordService {
 
     // String result = restTemplate.getForObject(sms_configuration, String.class);
     // } catch (Exception e) {
-    // System.out.println(e);
+
     // e.printStackTrace();
     // }
 

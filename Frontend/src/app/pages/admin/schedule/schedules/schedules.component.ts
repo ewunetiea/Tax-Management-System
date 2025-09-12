@@ -1,98 +1,113 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
-import { MessageService, ConfirmationService } from 'primeng/api';
+import { Component, OnInit } from '@angular/core';
+import { MessageService, ConfirmationService, MenuItem} from 'primeng/api';
 import { ScheduleService } from '../../../service/admin/scheduleService';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { CheckboxModule } from 'primeng/checkbox';
+import { SharedUiModule } from '../../../../../shared-ui';
+import { Table } from 'primeng/table';
 
 interface Schedule {
-  id: number;
-  name: string;
-  description: string;
-  status: string;
+    id: number;
+    name: string;
+    description: string;
+    status: string;
 }
 
 @Component({
-  selector: 'app-schedules',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    TableModule,
-    ButtonModule,
-    CheckboxModule
-  ],
-  providers: [MessageService, ConfirmationService],
-  templateUrl: './schedules.component.html',
-  styleUrl: './schedules.component.scss'
+    selector: 'app-schedules',
+    standalone: true,
+    imports: [SharedUiModule],
+    providers: [MessageService, ConfirmationService],
+    templateUrl: './schedules.component.html',
+    styleUrl: './schedules.component.scss'
 })
-export class SchedulesComponent implements OnInit {
-  schedules: Schedule[] = [];
-  functionalities_status: Record<number, boolean> = {};
+export class SchedulesComponent implements OnInit { 
+  schedules: any[] = [];
+  selectedSchedules: any[] = [];
   loading: boolean = true;
-  functionality_size = 0;
+   breadcrumbText: string = 'Manage Schedules';
+  items: MenuItem[] | undefined;
+  home: MenuItem | undefined;
+  sizes!: any[];
+  selectedSize: any = 'normal';
 
   constructor(
     private scheduleService: ScheduleService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.loadSchedules();
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
+        this.items = [{ label: this.breadcrumbText }];
+        this.sizes = [
+            { name: 'Small', value: 'small' },
+            { name: 'Normal', value: 'normal' },
+            { name: 'Large', value: 'large' }
+        ];
+    this.fetchSchedules();
   }
 
-  loadSchedules() {
-    this.loading = true;
-    this.scheduleService.getSchedules().subscribe(
-      (resp: any) => {
-        this.schedules = resp;
-        this.functionalities_status = {};
-        resp.forEach((schedule: Schedule) => {
-          this.functionalities_status[schedule.id] = schedule.status !== '0';
-        });
-        this.loading = false;
+  onGlobalFilter(table: Table, event: Event) {
+    const input = event.target as HTMLInputElement;
+    table.filterGlobal(input.value, 'contains');
+  }
+  
+  clear(table: Table) {
+    table.clear();
+  }
+
+  fetchSchedules() {
+    this.scheduleService.getSchedules().subscribe({
+      next: (data) => {
+        this.loading = false
+        this.schedules = data;
       },
-      (error: HttpErrorResponse) => {
+      error: (error: HttpErrorResponse) => {
+        this.loading = false
+
         this.messageService.add({
           severity: 'error',
-          summary: error.status === 401
-            ? 'You are not permitted to perform this action!'
-            : 'Something went wrong!',
-          detail: ''
-        });
-        this.loading = false;
-      }
-    );
-  }
-
-  onStatusChange(event: any, scheduleId: number) {
-    this.functionalities_status[scheduleId] = event.checked;
-  }
-
-  updateStatus() {
-    this.scheduleService.updateScheduleStatus(this.functionalities_status).subscribe(
-      (data: any) => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successfully updated',
+          summary:
+            error.status == 401
+              ? 'You are not permitted to perform this action!'
+              : 'Something went wrong while retrieving schedules!',
           detail: '',
-          life: 3000
         });
-        this.loadSchedules();
       },
-      (error: HttpErrorResponse) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: error.status === 401
-            ? 'You are not permitted to perform this action!'
-            : 'Something went wrong while updating schedule status!',
-          detail: ''
+    });
+  }
+
+  updateStatus(status: string) {
+    this.selectedSchedules[0].status = status == 'Activate' ? 1 : 0;
+    this.confirmationService.confirm({
+      message: `Are you sure you want to ${status} selected schedule?`,
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.scheduleService.updateScheduleStatus(this.selectedSchedules).subscribe({
+          next: (response) => {
+            this.fetchSchedules();
+            this.selectedSchedules = [];
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'Schedules status are successfully update !',
+              life: 3000,
+            });
+          },
+          error: (error: HttpErrorResponse) => {
+            this.messageService.add({
+              severity: 'error',
+              summary:
+                error.status == 401
+                  ? 'You are not permitted to perform this action!'
+                  : 'Something went wrong while updating schedules!',
+              detail: '',
+            });
+          },
         });
-      }
-    );
+      },
+    }
+  );
   }
 }

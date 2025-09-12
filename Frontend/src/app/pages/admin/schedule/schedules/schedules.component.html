@@ -1,64 +1,174 @@
 <main id="main" class="main">
-    <div class="pagetitle">
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a routerLink="/"><i class="bi bi-house-door"></i></a></li>
-          <li class="breadcrumb-item active">Schedule</li>li>
-        </ol>
-      </nav>
+  <p-toast></p-toast>
+  <div class="mb-6">
+        <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
     </div>
-    <section class="section">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="card">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-12">
-                  <div class="container my-4">
-                    <p-table [value]="schedules" [loading]="loading" [paginator]="true" [rows]="10" 
-                             [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                             [rowsPerPageOptions]="[10,25,50]" styleClass="p-datatable-sm">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th style="width: 5%">ID</th>
-                                <th style="width: 30%">Schedule</th>
-                                <th style="width: 45%">Description</th>
-                                <th style="width: 20%">Status</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-schedule>
-                            <tr>
-                                <td>{{schedule.id}}</td>
-                                <td>{{schedule.name}}</td>
-                                <td>{{schedule.description}}</td>
-                                <td>
-                                    <div class="flex align-items-center">
-                                        <p-checkbox [binary]="true" 
-                                                  [ngModel]="functionalities_status[schedule.id]"
-                                                  (onChange)="onStatusChange($event, schedule.id)"
-                                                  [inputId]="'status_' + schedule.id">
-                                        </p-checkbox>
-                                        <label [for]="'status_' + schedule.id" class="ml-2">
-                                            {{functionalities_status[schedule.id] ? 'Active' : 'Inactive'}}
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <p-card>
+          <p-toolbar styleClass="mb-4">
+            <ng-template pTemplate="left">
+              <button
+                pButton
+                pRipple
+                label="Deactivate"
+                icon="pi pi-times"
+                class="p-button-raised p-button-rounded p-button-outlined p-button-outlined p-button-outlined p-button-danger mr-2"
+                (click)="updateStatus('Deactivate')"
+                [disabled]="!selectedSchedules || !selectedSchedules.length"
+              ></button>
+              <button
+                pButton
+                pRipple
+                label="Activate"
+                icon="pi pi-verified"
+                class="p-button-raised p-button-outlined p-button-rounded p-button-outlined p-button-secondary"
+                (click)="updateStatus('Activate')"
+                [disabled]="!selectedSchedules || !selectedSchedules.length"
+              ></button>
+            </ng-template>
 
-                    <div class="row m-2 d-flex justify-content-center" *ngIf="functionality_size > 0 ">
-  
-                      <button type="button" class="btn btn-outline-primary" style="width: fit-content"
-                        (click)="updateStatus()">Apply Changes</button>
-                    </div>
-                  </div>
-                </div>
+            <ng-template pTemplate="right">
+              <div class="flex">
+                <button
+                  type="button"
+                  pButton
+                  pRipple
+                  icon="pi pi-file"
+                  (click)="dt.exportCSV()"
+                  class="mr-2"
+                  pTooltip="CSV"
+                  tooltipPosition="bottom"
+                ></button>
+
+                <button
+                  type="button"
+                  pButton
+                  pRipple
+                  icon="pi pi-filter"
+                  (click)="dt.exportCSV({ selectionOnly: true })"
+                  class="p-button-info ml-auto"
+                  pTooltip="Selection Only"
+                  tooltipPosition="bottom"
+                ></button>
               </div>
-            </div>
-          </div>
-        </div>
-  
+            </ng-template>
+          </p-toolbar>
+
+          <p-table
+            #dt
+            [value]="schedules"
+            [rows]="5"
+            [paginator]="true"
+            [loading]="loading"
+            [globalFilterFields]="[
+              'name',
+              'status',
+              'description'
+            ]"
+            [(selection)]="selectedSchedules"
+            [rowHover]="true"
+            dataKey="id"
+            [rowsPerPageOptions]="[5, 10, 25, 50]"
+            [tableStyle]="{ 'min-width': '60rem' }"
+            [size]="selectedSize"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true">
+            <ng-template #caption>
+              <div class="flex items-center justify-between">
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                <div class="flex justify-center mb-4">
+                  <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value" />
+                </div>
+                <p-iconfield>
+                  <p-inputicon styleClass="pi pi-search" />
+                  <input pInputText type="text" (input)="onGlobalFilter(dt, $event)"  placeholder="Search..." /> 
+                </p-iconfield>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 3rem"></th>
+                <th style="width: 3rem">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+
+                <th style="min-width: 12rem">
+                  <div class="flex items-center">
+                    Name
+                    <p-columnFilter
+                      type="text"
+                      field="name"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+
+                <th style="min-width: 10rem">
+                  <div class="flex items-center">
+                    Description
+                    <p-columnFilter
+                      type="text"
+                      field="description"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+
+                <th style="width: 8rem">
+                  <div class="flex items-center">
+                    Status
+                    <p-columnFilter
+                      type="numeric"
+                      field="status"
+                      display="menu"
+                    ></p-columnFilter>
+                  </div>
+                </th>
+
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-schedule let-expanded="expanded">
+              <tr>
+                <td>
+                  <p-tableCheckbox [value]="schedule"></p-tableCheckbox>
+                </td>
+                <td>{{ schedule.name }}</td>
+                <td>{{ schedule.description }}</td>
+                <td>
+                  <button
+                    *ngIf="schedule.status == 1"
+                    pButton
+                    pRipple
+                    type="text"
+                    icon="pi pi-verified"
+                    label="Active"
+                    class="p-button-rounded p-button-outlined p-button-success p-button-outlined p-button-sm"
+                  ></button>
+
+                  <button
+                    *ngIf="schedule.status == 0"
+                    pButton
+                    pRipple
+                    type="text"
+                    icon="pi pi-times"
+                    label="Inactive"
+                    class="p-button-rounded p-button-outlined p-button-danger p-button-outlined p-button-sm"
+                  ></button>
+                </td>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="summary">
+              <div class="p-d-flex p-ai-center p-jc-between">
+                In total there are {{ schedules ? schedules.length : 0 }} schedules.
+              </div>
+            </ng-template>
+          </p-table>
+        </p-card>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
+</main>
+

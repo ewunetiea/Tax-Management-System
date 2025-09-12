@@ -969,7 +969,7 @@ public class SqlProviderHigherOfficials {
   // if (branch_id != null) {
   // sql.AND().WHERE("br.id = #{branch_id}");
   // }
-  // System.out.println("sql to string: " + sql.toString());
+
   // return sql.toString();
   // }
 

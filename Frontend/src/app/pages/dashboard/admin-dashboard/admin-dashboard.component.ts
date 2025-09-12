@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { User } from '../../../models/admin/user';
-import { Subscription } from 'rxjs';
 import { AdminDashboard } from '../../../models/admin/admin-dashboard';
-import { AppConfig } from '../../../models/admin/appconfig';
 import { MenuItem, MessageService } from 'primeng/api';
 import { StorageService } from '../../service/admin/storage.service';
 import { UserService } from '../../service/admin/user.service';
@@ -32,7 +30,7 @@ export class AdminDashboardComponent {
     polarChartOptions: any;
     radar_data: any;
     line_chart_data: any;
-    loading = false;
+    loading = true;
     chartOptions: any;
 
     // New Charts
@@ -53,7 +51,7 @@ export class AdminDashboardComponent {
         this.isLoggedIn = this.storageService.isLoggedIn();
         if (this.isLoggedIn) {
             setTimeout(() => {
-                this.loading = true;
+                this.loading = false;
             }, 4000);
             this.getDashBoardData();
         }

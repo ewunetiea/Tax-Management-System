@@ -9,19 +9,12 @@ import { BranchService } from '../../../service/admin/branchService';
 import { RegionService } from '../../../service/admin/regionService';
 import { UserService } from '../../../service/admin/user.service';
 import { ValidationService } from '../../../service/admin/validationService';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { DropdownModule } from 'primeng/dropdown';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { SkeletonModule } from 'primeng/skeleton';
-import { InputTextModule } from 'primeng/inputtext';
-import { CheckboxModule } from 'primeng/checkbox';
-import { FluidModule } from 'primeng/fluid';
+
+import { SharedUiModule } from '../../../../../shared-ui';
 
 @Component({
     selector: 'app-user-search-engine',
-    imports: [CommonModule, FormsModule, DropdownModule, RadioButtonModule, SkeletonModule, ButtonModule, InputTextModule, CheckboxModule, FluidModule],
+    imports: [SharedUiModule],
     templateUrl: './user-search-engine.component.html',
     styleUrl: './user-search-engine.component.scss'
 })

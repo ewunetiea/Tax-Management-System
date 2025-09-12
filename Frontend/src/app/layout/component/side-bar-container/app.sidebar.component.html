@@ -1,0 +1,11 @@
+<div class="layout-sidebar">
+    <div *ngIf="role_type ==='admin'">
+    <app-admin_menu></app-admin_menu>
+
+    </div>
+
+     <div *ngIf="role_type ==='maker'">
+    <app-maker_menu></app-maker_menu>
+
+    </div>
+</div>

@@ -43,6 +43,8 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { TimeagoModule } from 'ngx-timeago';
 import { SkeletonModule } from 'primeng/skeleton';
+import { CalendarModule } from 'primeng/calendar';
+import { InputSwitchModule } from 'primeng/inputswitch'; // Import the InputSwitchModule
 
 @NgModule({
     imports: [
@@ -94,8 +96,10 @@ import { SkeletonModule } from 'primeng/skeleton';
         FieldsetModule,
         InputNumberModule,
         TimeagoModule,
-     ReactiveFormsModule,
-SkeletonModule
+        ReactiveFormsModule,
+        SkeletonModule,
+        CalendarModule,
+        InputSwitchModule
     ],
     exports: [
         CommonModule,
@@ -143,11 +147,12 @@ SkeletonModule
         Skeleton,
         Chip,
         FieldsetModule,
-        RouterModule, 
-        RippleModule, 
+        RouterModule,
+        RippleModule,
         NgIf,
         InputNumberModule,
-        ReactiveFormsModule,SkeletonModule
+        ReactiveFormsModule, SkeletonModule, CalendarModule, InputSwitchModule
+
 
     ]
 })

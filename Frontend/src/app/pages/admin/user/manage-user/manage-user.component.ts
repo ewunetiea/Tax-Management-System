@@ -168,24 +168,29 @@ export class ManageUserComponent {
         table.clear();
     }
 
-    openRoleDropDown(event: any) {
-        const value = event.target.value;
-        if (value.includes('Specific')) {
-            this.roles = this.categoryRoles;
-            if (this.selectedUser.roles) {
-                for (const role of this.selectedUser.roles) {
-                    this.roles[this.findRoleIndexById(role.id)] = role;
-                }
+
+    openRoleDropDown() {
+    const value = this.role_radio_value;
+
+    if (value.includes('Specific')) {
+        this.roles = this.categoryRoles;
+        if (this.selectedUser.roles) {
+            for (const role of this.selectedUser.roles) {
+                this.roles[this.findRoleIndexById(role.id)] = role;
             }
-        } else {
-            this.roles = this.allRoles;
-            if (this.selectedUser.roles) {
-                for (const role of this.selectedUser.roles) {
-                    this.roles.push(role);
-                }
+        }
+    } else {
+        this.roles = this.allRoles;
+
+        console.log(this.allRoles)
+        if (this.selectedUser.roles) {
+            for (const role of this.selectedUser.roles) {
+                this.roles.push(role);
             }
         }
     }
+}
+
 
     openModal(user: User) {
         try {
@@ -375,6 +380,8 @@ export class ManageUserComponent {
     }
 
     onDataChange(data: any) {
+console.log("++++++++++++   from manage user ++++++++++++++++++")
+        console.log(data)
         if (data[1]) {
             // this.getUsers();
             this.users = [...this.users];

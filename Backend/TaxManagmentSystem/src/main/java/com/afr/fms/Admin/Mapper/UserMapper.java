@@ -143,7 +143,7 @@ public interface UserMapper {
         public User getUserIdByPhoneNumber(String phone_number);
 
         @Select("INSERT INTO [user](username, first_name, middle_name, last_name, email, password, phone_number, status, branch_id, photo_url, region_id, gender, emp_id, job_position_id, category, banking, special_user)"
-                        + "  OUTPUT inserted.id VALUES (#{username}, #{first_name},#{middle_name}, #{last_name}, #{email}, #{password}, #{phone_number},0, #{branch.id}, #{photoUrl}, #{region.id}, #{gender}, #{employee_id}, #{jobPosition.id}, #{category}, #{banking}, #{special_user})")
+                        + "  OUTPUT inserted.id VALUES (#{username}, #{first_name},#{middle_name}, #{last_name}, #{email}, #{password}, #{phone_number},1, #{branch.id}, #{photoUrl}, #{region.id}, #{gender}, #{employee_id}, #{jobPosition.id}, #{category}, #{banking}, #{special_user})")
         public Long create_user(User user);
 
         @Update("UPDATE [user] "

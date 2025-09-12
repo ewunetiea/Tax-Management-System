@@ -27,8 +27,9 @@ export const appRoutes: Routes = [
 
     { path: '', component: Login },
     // { path: '', component: LoginComponent },
-    { path: 'forget-password', component: ForgetPasswordComponent } ,
+    { path: 'forget-password', component: ForgetPasswordComponent },
     { path: 'signup', component: SignupComponent },
+
     {
         path: 'applayout',
         component: AppLayout,
@@ -37,16 +38,16 @@ export const appRoutes: Routes = [
             // { path: '', component: Dashboard },
 
 
-         { path: '', component: DashboardContainerComponent },
+            { path: '', component: DashboardContainerComponent },
 
             {
                 path: 'admin',
                 loadChildren: () => import('./app/pages/admin/admin.routes').then(m => m.default),
                 canActivate: [AuthGuard]
             },
-            { path: 'user-profile', component: UserProfileComponent } ,
-            { path: 'manage-contact', component: ManageContactComponent } ,
-            { path: 'admin-notification', component: AdminNotificationComponent } ,
+            { path: 'user-profile', component: UserProfileComponent },
+            { path: 'manage-contact', component: ManageContactComponent },
+            { path: 'admin-notification', component: AdminNotificationComponent },
             { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
             { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
         ],

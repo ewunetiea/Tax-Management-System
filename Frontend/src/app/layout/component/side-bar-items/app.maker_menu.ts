@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
-import { AppMenuitem } from './app.menuitem';
-import { StorageService } from '../../pages/service/admin/storage.service';
+import { AppMenuitem } from '../app.menuitem';
+import { StorageService } from '../../../pages/service/admin/storage.service';
 
 @Component({
-    selector: 'app-menu',
+    selector: 'app-maker_menu',
     standalone: true,
     imports: [CommonModule, AppMenuitem, RouterModule],
     template: `<ul class="layout-menu">
@@ -16,7 +16,7 @@ import { StorageService } from '../../pages/service/admin/storage.service';
         </ng-container>
     </ul> `
 })
-export class AppMenu {
+export class AppMenuMaker {
     model: MenuItem[] = [];
     general_items: MenuItem[] = [];
     admin_items: MenuItem[] = [];
@@ -30,160 +30,14 @@ export class AppMenu {
     roles: string[] = [];
 
     constructor(
-        private storageService: StorageService, 
+        private storageService: StorageService,
         public router: Router,
     ) {}
 
     ngOnInit() {
         this.isLoggedIn = this.storageService.isLoggedIn();
-        this.admin_items = [
-            {
-                label: 'Home',
-                items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: '/applayout' }]
-            },
-            {
-                label: 'Region Management', 
-                items: [
-                    { label: 'Manage Region', icon: 'pi pi-building-columns', routerLink: ['/applayout/admin/manage-region'] },
-                    { label: 'Manage Branch', icon: 'pi pi-map-marker', routerLink: ['/applayout/admin/manage-branch'] },
-                ]
-            },
-            {
-                label: 'Role Management',
-                icon: 'pi pi-fw pi-briefcase',
-                items: [
-                    {
-                        label: 'Manage Role',  icon: 'pi pi-user', routerLink: ['/applayout/admin/manage-role']
-                    },
-                    {
-                        label: 'Manage Job Position',
-                        icon: 'pi pi-graduation-cap',
-                        routerLink: ['/applayout/admin/manage-job-position']
-                    }
-                ]
-            },
-            {
-                label: 'Permissions',
-                icon: 'pi pi-fw pi-user',
-                items: [
-                    {
-                        label: 'Role Permissions',
-                        icon: 'pi pi-verified',
-                        routerLink: ['/applayout/admin/role_functionalities']
-                    },
-                    {
-                        label: 'Manage Permissions',
-                        icon: 'pi pi-verified',
-                        routerLink: ['/applayout/admin/manage_role_functionalities']
-                    }, 
-                    {
-                        label: 'Manage User Permissions',
-                        icon: 'pi pi-verified',
-                        routerLink: ['/applayout/admin/manage_user_permissions']
-                    }
-                ]
-            },
-            {
-                label: 'User Management',
-                icon: 'pi pi-fw pi-briefcase',
-                routerLink: ['/pages'],
-                items: [
-                    {
-                        label: 'User',
-                        icon: 'pi pi-fw pi-user',
-                        items: [
-                            {
-                                label: 'Manage User',
-                                icon: 'pi pi-fw pi-users',
-                                routerLink: ['/applayout/admin/manage_user']
-                            },
-                            {
-                                label: 'Manage User Status',
-                                icon: 'pi pi-fw pi-lock',
-                                routerLink: ['/applayout/admin/manage-user-status']
-                            },
-                            {
-                                label: 'Replace HR Data',
-                                icon: 'pi pi-database',
-                                routerLink: ['/applayout/admin/replace-hr-data'] 
-                            }
-                        ]
-                    },
-                ]
-            },
 
-            {
-                label: 'Menu Management',
-                icon: 'pi pi-fw pi-briefcase',
-                routerLink: ['/pages'],
-                items: [
-                    {
-                        label: 'Menu',
-                        icon: 'pi pi-warehouse',
-                        items: [
-                            {
-                                label: 'Menu Headers',
-                                icon: 'pi pi-warehouse',
-                                routerLink: ['/applayout/admin/menu-headers']
-                            },
-                            {
-                                label: 'Menu Items',
-                                icon: 'pi pi-fw pi-briefcase',
-                                routerLink: ['/applayout/admin/menu-items']
-                            }
-                        ]
-                    },
-                ]
-            },
-            {
-                label: 'Reports Management',
-                icon: 'pi pi-file-excel',
-                routerLink: ['/pages'],
-                items: [
-                    {
-                        label: 'Report',
-                        icon: 'pi pi-file-excel',
-                        items: [
-                            {
-                                label: 'User Login Status',
-                                icon: 'pi pi-fw pi-lock',
-                                routerLink: ['/applayout/admin/user-login-status'] 
-                            },
-                            {
-                                label: 'User Activities',
-                                icon: 'pi pi-fw pi-times-circle',
-                                routerLink: ['/applayout/admin/user-recent-activity']
-                            },
-                        ]
-                    },
-                ]
-            },
-            
-            {
-                label: 'Database Management',
-                icon: 'pi pi-database',
-                items: [
-                    {
-                        label: 'Backup Database',
-                        icon: 'pi pi-fw pi-database',
-                        routerLink: ['/applayout/admin/backup']
-                    },
-                ]
-            },
 
-            {
-                label: 'Schedule Management',
-                icon: 'pi pi-fw pi-user',
-                items: [
-                    {
-                        label: 'Schedule',
-                        icon: 'pi pi-fw pi-sign-in',
-                        routerLink: ['/applayout/admin/manage-schedules']
-                    },
-                ]
-            },
-
-        ];
 
         this.general_items = [
             {
@@ -319,21 +173,8 @@ export class AppMenu {
                 ]
             }
         ];
+                        this.model = this.general_items;
 
-        if (this.isLoggedIn) {
-            const user = this.storageService.getUser();
-            this.roles = user?.roles || [];
-            if (this.roles.includes('ROLE_ADMIN')) {
-                this.model = this.admin_items;
-            } else if (this.roles.includes('ROLE_AUDITOR_IS')) {
-                this.model = this.auditor_items;
-            } else if (this.roles.includes('ROLE_APPROVER_IS')) {
-                this.model = this.approver_items;
-            } else {
-                this.model = this.general_items;
-            }
-        } else {
-            this.model = this.general_items;
-        }
+
     }
 }

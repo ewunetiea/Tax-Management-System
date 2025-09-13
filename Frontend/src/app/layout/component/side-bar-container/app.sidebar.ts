@@ -15,6 +15,8 @@ export class AppSidebar {
     isLoggedIn = false;
     role_type: string = '';
     roles: string[] = [];
+    loading = true;
+
     constructor(
         public el: ElementRef,
         private storageService: StorageService,
@@ -22,8 +24,11 @@ export class AppSidebar {
     ) {}
 
     ngOnInit() {
-        this.isLoggedIn = this.storageService.isLoggedIn();
+        setTimeout(() => {
+            this.loading = false;
+        }, 1000);
 
+        this.isLoggedIn = this.storageService.isLoggedIn();
         if (this.isLoggedIn) {
             const user = this.storageService.getUser();
             this.roles = user?.roles || [];

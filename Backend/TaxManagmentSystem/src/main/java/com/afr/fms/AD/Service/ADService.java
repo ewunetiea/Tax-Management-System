@@ -29,8 +29,7 @@ public class ADService {
             SearchControls searchControls = new SearchControls();
             searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 
-            List<Attributes> results = ldapTemplate.search("", "(samaccountname=" + username + ")",
-                    searchControls, (AttributesMapper<Attributes>) attrs -> attrs);
+            List<Attributes> results = ldapTemplate.search("", "(samaccountname=" + username + ")",searchControls, (AttributesMapper<Attributes>) attrs -> attrs);
             return results;
         } catch (Exception ex) {
             logger.error("Error while validating AD user: ", ex.getMessage());

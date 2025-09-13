@@ -45,7 +45,7 @@ export class AppMenuAdmin {
             {
                 label: 'Region Management',
                 items: [
-                    { label: 'Manage Region', icon: 'pi pi-building-columns', routerLink: ['/applayout/admin/manage-region'] },
+                    { label: 'Manage Region', icon: 'pi pi-map-marker', routerLink: ['/applayout/admin/manage-region'] },
                     { label: 'Manage Branch', icon: 'pi pi-map-marker', routerLink: ['/applayout/admin/manage-branch'] },
                 ]
             },
@@ -143,7 +143,7 @@ export class AppMenuAdmin {
                 items: [
                     {
                         label: 'Report',
-                        icon: 'pi pi-file-excel',
+                        icon: 'pi pi-receipt',
                         items: [
                             {
                                 label: 'User Login Status',
@@ -178,7 +178,7 @@ export class AppMenuAdmin {
                 items: [
                     {
                         label: 'Schedule',
-                        icon: 'pi pi-fw pi-sign-in',
+                        icon: 'pi pi-fw pi-stopwatch',
                         routerLink: ['/applayout/admin/manage-schedules']
                     },
                 ]

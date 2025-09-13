@@ -11,19 +11,7 @@ import { ForgetPasswordComponent } from './app/pages/admin/forget-password/forge
 import { SignupComponent } from './app/pages/auth/signup/signup.component';
 
 export const appRoutes: Routes = [
-    // {   path: '',
-    //     component: AppLayout,
-    //     children: [
-    //         { path: '', component: Dashboard },
-    //         { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
-    //         { path: 'documentation', component: Documentation },
-    //         { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
-    //     ],
-    // },
-    // { path: 'landing', component: Landing },
-    // { path: 'notfound', component: Notfound },
-    // { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
-    // { path: '**', redirectTo: '/notfound' },
+
 
     { path: '', component: Login },
     // { path: '', component: LoginComponent },
@@ -52,6 +40,26 @@ export const appRoutes: Routes = [
             { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
         ],
     },
+
+ {
+        path: 'applayout',
+        component: AppLayout,
+        canActivate: [AuthGuard],
+        children: [
+            // { path: '', component: Dashboard },
+
+
+            { path: '', component: DashboardContainerComponent },
+
+            { path: 'user-profile', component: UserProfileComponent },
+            { path: 'manage-contact', component: ManageContactComponent },
+            { path: 'admin-notification', component: AdminNotificationComponent },
+            { path: 'maker', loadChildren: () => import('./app/pages/maker/maker.routes') },
+            { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
+        ],
+    },
+
+
     { path: 'notfound', component: Notfound },
     { path: '**', redirectTo: 'notfound' }
 ];

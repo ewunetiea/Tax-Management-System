@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { StorageService } from '../../service/admin/storage.service';
 import { AdminDashboardComponent } from "../admin-dashboard/admin-dashboard.component";
 import { SharedUiModule } from '../../../../shared-ui';
+import { MakerDashboard } from "../maker-dashboard/maker-dashboard";
 
 @Component({
         standalone: true,
 
   selector: 'app-dashboard-container',
-  imports: [SharedUiModule,  AdminDashboardComponent],
+  imports: [SharedUiModule, AdminDashboardComponent, MakerDashboard],
   templateUrl: './dashboard-container.component.html'
 })
 export class DashboardContainerComponent {

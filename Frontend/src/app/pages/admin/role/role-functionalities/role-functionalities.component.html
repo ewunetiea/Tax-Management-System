@@ -36,7 +36,7 @@
                             <div class="flex items-center justify-between">
                                 <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
                                 <div class="flex justify-center mb-4">
-                                    <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value"/>
+                                    <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value" />
                                 </div>
                                 <p-iconfield>
                                     <p-inputicon styleClass="pi pi-search" />
@@ -55,35 +55,35 @@
                                         Name
                                         <p-columnFilter type="text" field="name" display="menu" />
                                     </div>
-                                  </th>
-                                  <th style="min-width: 10rem">
+                                </th>
+                                <th style="min-width: 10rem">
                                     <div class="flex items-center">
                                         Code
                                         <p-columnFilter type="text" field="code" display="menu" />
                                     </div>
-                                  </th>
+                                </th>
 
-                                  <th style="min-width: 15rem">
+                                <th style="min-width: 15rem">
                                     <div class="flex items-center">
                                         Role Position
                                         <p-columnFilter type="text" field="role_position" display="menu" />
                                     </div>
-                                  </th>
+                                </th>
 
-                                  <th style="min-width: 10rem">
+                                <th style="min-width: 10rem">
                                     <div class="flex items-center">
                                         Description
                                         <p-columnFilter type="text" field="description" display="menu" />
                                     </div>
-                                  </th>
+                                </th>
 
-                                  <th style="min-width: 10rem">
+                                <th style="min-width: 10rem">
                                     <div class="flex items-center">
                                         Status
                                         <p-columnFilter type="text" field="status" display="menu" />
                                     </div>
-                                  </th>
-                                  
+                                </th>
+
                                 <th style="width: 12rem">Action</th>
                             </tr>
                         </ng-template>
@@ -109,7 +109,7 @@
                         </ng-template>
 
                         <ng-template pTemplate="summary">
-                            <div class="p-d-flex p-ai-center p-jc-between">In total there are {{ roles ? roles.length : 0 }} roles.</div>
+                            <div class="p-d-flex p-ai-center p-jc-between">In total there are {{ roles ? roles.length : 0 }} role functionalities.</div>
                         </ng-template>
                     </p-table>
                 </p-card>
@@ -118,12 +118,7 @@
     </section>
 </main>
 
-<p-dialog 
-[(visible)]="functionalityDialog" 
-[header]="role.name + ' Functionalities'" 
-[modal]="true" 
-[style]="{ width: '600px' }" 
-[maximizable]="true">
+<p-dialog [(visible)]="functionalityDialog" [header]="role.name + ' Functionalities'" [modal]="true" [style]="{ width: '600px' }" [maximizable]="true">
     <ng-template pTemplate="content">
         <p-multiSelect
             [options]="functionalities"
@@ -134,23 +129,19 @@
             optionLabel="name"
             display="chip"
             selectedItemsLabel="{0} columns selected"
-            [style]="{ 'min-width': '200px' }">
+            [style]="{ 'min-width': '200px' }"
+        >
         </p-multiSelect>
     </ng-template>
     <ng-template pTemplate="footer">
         <div class="flex justify-start gap-3 w-full">
-        <button pButton pRipple label="Assign " icon="pi pi-check" class="p-button-rounded p-button-success p-button-outlined" (click)="assignFunctionalities(role)"></button>
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-outlined" (click)="functionalityDialog = false"></button>
+            <button pButton pRipple label="Assign " icon="pi pi-check" class="p-button-rounded p-button-success p-button-outlined" (click)="assignFunctionalities(role)"></button>
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-outlined" (click)="functionalityDialog = false"></button>
         </div>
     </ng-template>
 </p-dialog>
 
-<p-dialog 
-[(visible)]="functionalityStatusDialog" 
-[header]="role.name + ' Functionalities Status'" 
-[modal]="true" 
-styleClass="p-fluid" 
-[maximizable]="true">
+<p-dialog [(visible)]="functionalityStatusDialog" [header]="role.name + ' Functionalities Status'" [modal]="true" styleClass="p-fluid" [maximizable]="true">
     <ng-template pTemplate="content">
         <p-toolbar>
             <ng-template pTemplate="right">
@@ -179,7 +170,7 @@ styleClass="p-fluid"
             [globalFilterFields]="['id', 'name', 'description', 'category', 'method', 'status']"
             [(selection)]="selectedFunctionalities"
             [paginator]="true"
-            [rows]="10"
+            [rows]="5"
             [loading]="functionalityLoading"
             [rowsPerPageOptions]="[10, 25, 50, { showAll: 'All' }]"
             [scrollable]="true"
@@ -191,7 +182,7 @@ styleClass="p-fluid"
             [showCurrentPageReport]="true"
             responsiveLayout="scroll"
         >
-             <ng-template #caption>
+            <ng-template #caption>
                 <div class="flex items-center justify-between">
                     <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
                     <div class="flex justify-center mb-4">

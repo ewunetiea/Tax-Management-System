@@ -1,11 +1,43 @@
-<div class="layout-sidebar">
-    <div *ngIf="role_type ==='admin'">
-    <app-admin_menu></app-admin_menu>
-
+<main id="main" class="main">
+  <div class="layout-sidebar">
+     <!-- Real menus -->
+    <div *ngIf="!loading && role_type === 'admin'">
+      <app-admin_menu></app-admin_menu>
+    </div>
+    <div *ngIf="!loading && role_type === 'maker'">
+      <app-maker_menu></app-maker_menu>
     </div>
 
-     <div *ngIf="role_type ==='maker'">
-    <app-maker_menu></app-maker_menu>
+    <!-- Skeleton loader -->
+    <div *ngIf="loading" class="card">
+      <div class="rounded border border-surface-200 dark:border-surface-700 p-6 bg-surface-0 dark:bg-surface-900">
+        <ul class="m-0 p-0 list-none">
+          <li class="mb-4" *ngFor="let i of [1,2,3,4]">
+            <div class="flex">
+              <p-skeleton shape="circle" size="4rem" class="mr-2" />
+              <div class="self-center flex-1">
+                <p-skeleton width="100%" class="mb-2" />
+                <p-skeleton width="75%" />
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
 
+      <div class="rounded border border-surface-200 dark:border-surface-700 p-6 bg-surface-0 dark:bg-surface-900">
+        <ul class="m-0 p-0 list-none">
+          <li class="mb-4" *ngFor="let i of [1,2,3,4]">
+            <div class="flex">
+              <p-skeleton shape="circle" size="4rem" class="mr-2" />
+              <div class="self-center flex-1">
+                <p-skeleton width="100%" class="mb-2" />
+                <p-skeleton width="75%" />
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
-</div>
+
+  </div>
+</main>

@@ -9,12 +9,7 @@
                 <p-card>
                     <p-toolbar>
                         <ng-template pTemplate="right">
-                            <button 
-                            pButton 
-                            pRipple 
-                            label="New" 
-                            icon="pi pi-plus" 
-                            class="p-button-raised p-button-rounded p-button-outlined mr-2" (click)="openNew()"></button>
+                            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-raised p-button-rounded p-button-outlined mr-2" (click)="openNew()"></button>
                             <button
                                 pButton
                                 type="button"
@@ -49,7 +44,7 @@
                         [globalFilterFields]="['id', 'name', 'description', 'category', 'method', 'status']"
                         [(selection)]="selectedFunctionalities"
                         [paginator]="true"
-                        [rows]="10"
+                        [rows]="5"
                         [loading]="loading"
                         [rowsPerPageOptions]="[10, 25, 50, { showAll: 'All' }]"
                         [scrollable]="true"
@@ -101,18 +96,21 @@
                                         <p-columnFilter type="text" field="category" display="menu" />
                                     </div>
                                 </th>
+
                                 <th style="min-width: 10rem">
                                     <div class="flex items-center">
                                         Method
                                         <p-columnFilter type="text" field="method" display="menu"></p-columnFilter>
                                     </div>
                                 </th>
+
                                 <th style="min-width: 10rem">
                                     <div class="flex items-center">
                                         Status
                                         <p-columnFilter type="boolean" field="status" display="menu"></p-columnFilter>
                                     </div>
                                 </th>
+
                                 <th style="width: 10rem">Action</th>
                             </tr>
                         </ng-template>
@@ -134,6 +132,9 @@
                                 </td>
                             </tr>
                         </ng-template>
+                        <ng-template pTemplate="summary">
+                            <div class="p-d-flex p-ai-center p-jc-between">In total there are {{ functionalities ? functionalities.length : 0 }} permissions.</div>
+                        </ng-template>
                     </p-table>
                 </p-card>
             </div>
@@ -141,13 +142,7 @@
     </section>
 </main>
 
-<p-dialog 
-[(visible)]="functionalityDialog"
-[style]="{ width: '600px' }"
-header="Region Details"
-[modal]="true"
-styleClass="p-fluid"
-[maximizable]="true">
+<p-dialog [(visible)]="functionalityDialog" [style]="{ width: '600px' }" header="Region Details" [modal]="true" styleClass="p-fluid" [maximizable]="true">
     <ng-template pTemplate="content">
         <app-create-edit-functionalities [passedFunctionality]="outputFunctionality" (editedFunctionality)="onDataChange($event)"></app-create-edit-functionalities>
     </ng-template>

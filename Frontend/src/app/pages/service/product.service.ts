@@ -1,11 +1,15 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment.prod';
 
 interface InventoryStatus {
     label: string;
     value: string;
 }
 
+
+const baseUrl = environment.backendUrl + "/product"
 export interface Product {
     id?: string;
     code?: string;
@@ -18,6 +22,9 @@ export interface Product {
     image?: string;
     rating?: number;
 }
+const headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+});
 
 @Injectable()
 export class ProductService {
@@ -28,7 +35,7 @@ export class ProductService {
                 code: 'f230fh0g3',
                 name: 'Bamboo Watch',
                 description: 'Product Description',
-                image: 'bracelet.jpg',
+                image: 'bamboo-watch.jpg',
                 price: 65,
                 category: 'Accessories',
                 quantity: 24,
@@ -40,7 +47,7 @@ export class ProductService {
                 code: 'nvklal433',
                 name: 'Black Watch',
                 description: 'Product Description',
-                image: 'bracelet.jpg',
+                image: 'black-watch.jpg',
                 price: 72,
                 category: 'Accessories',
                 quantity: 61,
@@ -52,7 +59,7 @@ export class ProductService {
                 code: 'zz21cz3c1',
                 name: 'Blue Band',
                 description: 'Product Description',
-                image: 'bracelet.jpg',
+                image: 'blue-band.jpg',
                 price: 79,
                 category: 'Fitness',
                 quantity: 2,
@@ -64,7 +71,7 @@ export class ProductService {
                 code: '244wgerg2',
                 name: 'Blue T-Shirt',
                 description: 'Product Description',
-                image: 'bracelet.jpg',
+                image: 'blue-t-shirt.jpg',
                 price: 29,
                 category: 'Clothing',
                 quantity: 25,
@@ -136,7 +143,7 @@ export class ProductService {
                 code: 'cm230f032',
                 name: 'Gaming Set',
                 description: 'Product Description',
-                image: 'bracelet.jpg',
+                image: 'gaming-set.jpg',
                 price: 299,
                 category: 'Electronics',
                 quantity: 63,
@@ -393,7 +400,7 @@ export class ProductService {
                 code: 'f230fh0g3',
                 name: 'Bamboo Watch',
                 description: 'Product Description',
-                image: 'awashbank.png',
+                image: 'bamboo-watch.jpg',
                 price: 65,
                 category: 'Accessories',
                 quantity: 24,
@@ -443,7 +450,7 @@ export class ProductService {
                 code: 'nvklal433',
                 name: 'Black Watch',
                 description: 'Product Description',
-                image: 'awashbank.jpg',
+                image: 'black-watch.jpg',
                 price: 72,
                 category: 'Accessories',
                 quantity: 61,
@@ -475,7 +482,7 @@ export class ProductService {
                 code: 'zz21cz3c1',
                 name: 'Blue Band',
                 description: 'Product Description',
-                image: 'awashbank.png',
+                image: 'blue-band.jpg',
                 price: 79,
                 category: 'Fitness',
                 quantity: 2,
@@ -1255,7 +1262,8 @@ export class ProductService {
         'Yoga Set'
     ];
 
-    constructor(private http: HttpClient) {}
+
+    constructor(private http: HttpClient) { }
 
     getProductsMini() {
         return Promise.resolve(this.getProductsData().slice(0, 5));
@@ -1318,5 +1326,27 @@ export class ProductService {
 
     generateRating() {
         return Math.floor(Math.random() * Math.floor(5) + 1);
+    }
+
+    // If you wanted to be explicit (though often not necessary for JSON bodies):
+
+
+    createProduct(product: any): Observable<any> {
+
+        console.log("________________________from create product service _________________")
+        return this.http.post(baseUrl + '/create', product, { headers: headers });
+    }
+
+    getProductsFromDb() {
+        return this.http.get(baseUrl + '/fetch');
+
+
+    }
+
+
+
+    deleteProduct(id: any) {
+        return this.http.delete(baseUrl + '/delete/' + `${id}`)
+
     }
 }

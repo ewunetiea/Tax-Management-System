@@ -3,79 +3,35 @@ import { Component } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { FluidModule } from 'primeng/fluid';
 import { debounceTime, Subscription } from 'rxjs';
-import { LayoutService } from '../../layout/service/layout.service';
+import { LayoutService } from '../../../layout/service/layout.service';
 
 @Component({
-    selector: 'app-chart-demo',
+    selector: 'app-maker-dashboard',
     standalone: true,
     imports: [CommonModule, ChartModule, FluidModule],
-    template: `
-        <p-fluid class="grid grid-cols-12 gap-8">
-            <div class="col-span-12 xl:col-span-6">
-                <div class="card">
-                    <div class="font-semibold text-xl mb-4">Linear</div>
-                    <p-chart type="line" [data]="lineData" [options]="lineOptions"></p-chart>
-                </div>
-            </div>
-            <div class="col-span-12 xl:col-span-6">
-                <div class="card">
-                    <div class="font-semibold text-xl mb-4">Bar</div>
-                    <p-chart type="bar" [data]="barData" [options]="barOptions"></p-chart>
-                </div>
-            </div>
-            <div class="col-span-12 xl:col-span-6">
-                <div class="card flex flex-col items-center">
-                    <div class="font-semibold text-xl mb-4">Pie</div>
-                    <p-chart type="pie" [data]="pieData" [options]="pieOptions"></p-chart>
-                </div>
-            </div>
-            <div class="col-span-12 xl:col-span-6">
-                <div class="card flex flex-col items-center">
-                    <div class="font-semibold text-xl mb-4">Doughnut</div>
-                    <p-chart type="doughnut" [data]="pieData" [options]="pieOptions"></p-chart>
-                </div>
-            </div>
-            <div class="col-span-12 xl:col-span-6">
-                <div class="card flex flex-col items-center">
-                    <div class="font-semibold text-xl mb-4">Polar Area</div>
-                    <p-chart type="polarArea" [data]="polarData" [options]="polarOptions"></p-chart>
-                </div>
-            </div>
-            <div class="col-span-12 xl:col-span-6">
-                <div class="card flex flex-col items-center">
-                    <div class="font-semibold text-xl mb-4">Radar</div>
-                    <p-chart type="radar" [data]="radarData" [options]="radarOptions"></p-chart>
-                </div>
-            </div>
-        </p-fluid>
-    `
+    templateUrl: './maker-dashboard.component.html',
 })
-export class ChartDemo {
+export class MakerDashboard {
     lineData: any;
-
     barData: any;
-
     pieData: any;
-
     polarData: any;
-
     radarData: any;
 
     lineOptions: any;
-
     barOptions: any;
-
     pieOptions: any;
-
     polarOptions: any;
-
     radarOptions: any;
 
     subscription: Subscription;
+
     constructor(private layoutService: LayoutService) {
-        this.subscription = this.layoutService.configUpdate$.pipe(debounceTime(25)).subscribe(() => {
-            this.initCharts();
-        });
+        this.subscription = this.layoutService.configUpdate$
+            .pipe(debounceTime(25))
+            .subscribe(() => {
+                this.initCharts();
+            });
     }
 
     ngOnInit() {
@@ -88,6 +44,7 @@ export class ChartDemo {
         const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
+        // ---- Bar Chart ----
         this.barData = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [
@@ -111,43 +68,40 @@ export class ChartDemo {
             aspectRatio: 0.8,
             plugins: {
                 legend: {
-                    labels: {
-                        color: textColor
-                    }
+                    labels: { color: textColor }
                 }
             },
             scales: {
                 x: {
                     ticks: {
                         color: textColorSecondary,
-                        font: {
-                            weight: 500
-                        }
+                        font: { weight: 500 }
                     },
-                    grid: {
-                        display: false,
-                        drawBorder: false
-                    }
+                    grid: { display: false, drawBorder: false }
                 },
                 y: {
-                    ticks: {
-                        color: textColorSecondary
-                    },
-                    grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
-                    }
+                    ticks: { color: textColorSecondary },
+                    grid: { color: surfaceBorder, drawBorder: false }
                 }
             }
         };
 
+        // ---- Pie Chart ----
         this.pieData = {
             labels: ['A', 'B', 'C'],
             datasets: [
                 {
                     data: [540, 325, 702],
-                    backgroundColor: [documentStyle.getPropertyValue('--p-indigo-500'), documentStyle.getPropertyValue('--p-purple-500'), documentStyle.getPropertyValue('--p-teal-500')],
-                    hoverBackgroundColor: [documentStyle.getPropertyValue('--p-indigo-400'), documentStyle.getPropertyValue('--p-purple-400'), documentStyle.getPropertyValue('--p-teal-400')]
+                    backgroundColor: [
+                        documentStyle.getPropertyValue('--p-indigo-500'),
+                        documentStyle.getPropertyValue('--p-purple-500'),
+                        documentStyle.getPropertyValue('--p-teal-500')
+                    ],
+                    hoverBackgroundColor: [
+                        documentStyle.getPropertyValue('--p-indigo-400'),
+                        documentStyle.getPropertyValue('--p-purple-400'),
+                        documentStyle.getPropertyValue('--p-teal-400')
+                    ]
                 }
             ]
         };
@@ -155,14 +109,12 @@ export class ChartDemo {
         this.pieOptions = {
             plugins: {
                 legend: {
-                    labels: {
-                        usePointStyle: true,
-                        color: textColor
-                    }
+                    labels: { usePointStyle: true, color: textColor }
                 }
             }
         };
 
+        // ---- Line Chart ----
         this.lineData = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [
@@ -189,39 +141,31 @@ export class ChartDemo {
             maintainAspectRatio: false,
             aspectRatio: 0.8,
             plugins: {
-                legend: {
-                    labels: {
-                        color: textColor
-                    }
-                }
+                legend: { labels: { color: textColor } }
             },
             scales: {
                 x: {
-                    ticks: {
-                        color: textColorSecondary
-                    },
-                    grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
-                    }
+                    ticks: { color: textColorSecondary },
+                    grid: { color: surfaceBorder, drawBorder: false }
                 },
                 y: {
-                    ticks: {
-                        color: textColorSecondary
-                    },
-                    grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
-                    }
+                    ticks: { color: textColorSecondary },
+                    grid: { color: surfaceBorder, drawBorder: false }
                 }
             }
         };
 
+        // ---- Polar Area Chart ----
         this.polarData = {
             datasets: [
                 {
                     data: [11, 16, 7, 3],
-                    backgroundColor: [documentStyle.getPropertyValue('--p-indigo-500'), documentStyle.getPropertyValue('--p-purple-500'), documentStyle.getPropertyValue('--p-teal-500'), documentStyle.getPropertyValue('--p-orange-500')],
+                    backgroundColor: [
+                        documentStyle.getPropertyValue('--p-indigo-500'),
+                        documentStyle.getPropertyValue('--p-purple-500'),
+                        documentStyle.getPropertyValue('--p-teal-500'),
+                        documentStyle.getPropertyValue('--p-orange-500')
+                    ],
                     label: 'My dataset'
                 }
             ],
@@ -230,25 +174,17 @@ export class ChartDemo {
 
         this.polarOptions = {
             plugins: {
-                legend: {
-                    labels: {
-                        color: textColor
-                    }
-                }
+                legend: { labels: { color: textColor } }
             },
             scales: {
                 r: {
-                    grid: {
-                        color: surfaceBorder,
-                    },
-                    ticks: {
-                        display: false,
-                        color: textColorSecondary
-                    },
-                },
-            },
+                    grid: { color: surfaceBorder },
+                    ticks: { display: false, color: textColorSecondary }
+                }
+            }
         };
 
+        // ---- Radar Chart ----
         this.radarData = {
             labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
             datasets: [
@@ -275,20 +211,12 @@ export class ChartDemo {
 
         this.radarOptions = {
             plugins: {
-                legend: {
-                    labels: {
-                        color: textColor
-                    }
-                }
+                legend: { labels: { color: textColor } }
             },
             scales: {
                 r: {
-                    pointLabels: {
-                        color: textColor
-                    },
-                    grid: {
-                        color: surfaceBorder
-                    }
+                    pointLabels: { color: textColor },
+                    grid: { color: surfaceBorder }
                 }
             }
         };

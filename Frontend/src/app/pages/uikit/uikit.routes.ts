@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { ButtonDemo } from './buttondemo';
-import { ChartDemo } from './chartdemo';
 import { FileDemo } from './filedemo';
 import { FormLayoutDemo } from './formlayoutdemo';
 import { InputDemo } from './inputdemo';
@@ -14,10 +13,11 @@ import { TableDemo } from './tabledemo';
 import { OverlayDemo } from './overlaydemo';
 import { TreeDemo } from './treedemo';
 import { MenuDemo } from './menudemo';
+import { MakerDashboard } from '../dashboard/maker-dashboard/maker-dashboard';
 
 export default [
     { path: 'button', data: { breadcrumb: 'Button' }, component: ButtonDemo },
-    { path: 'charts', data: { breadcrumb: 'Charts' }, component: ChartDemo },
+    // { path: 'charts', data: { breadcrumb: 'Charts' }, component: MakerDashboard },
     { path: 'file', data: { breadcrumb: 'File' }, component: FileDemo },
     { path: 'formlayout', data: { breadcrumb: 'Form Layout' }, component: FormLayoutDemo },
     { path: 'input', data: { breadcrumb: 'Input' }, component: InputDemo },

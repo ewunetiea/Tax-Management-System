@@ -3,17 +3,17 @@
 <div class="mb-6">
     <p-breadcrumb class="w-full" [model]="items" [home]="home"></p-breadcrumb>
 </div>
-
+<!-- Users Category Cards -->
 <p-fluid class="grid grid-cols-12 gap-4 mb-6" *ngIf="!loading">
     <div class="col-span-12 lg:col-span-6 xl:col-span-3">
         <div class="card mb-0">
             <div class="flex justify-between mb-4">
                 <div>
-                    <span class="block text-muted-color font-medium mb-4">IS</span>
+                    <h5 class="block text-muted-color font-medium mb-4">IS <span>| Total</span></h5>
                     <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ adminDashboardData!.card_data?.[0] }}</div>
                 </div>
                 <div class="flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
-                    <i class="pi pi-shopping-cart text-blue-500 !text-xl"></i>
+                    <i class="pi pi-users text-blue-500 !text-xl"></i>
                 </div>
             </div>
             <span class="text-primary font-medium">{{ adminDashboardData!.card_data?.[0] }} </span>
@@ -25,11 +25,11 @@
         <div class="card mb-0">
             <div class="flex justify-between mb-4">
                 <div>
-                    <span class="block text-muted-color font-medium mb-4">MGT</span>
+                    <h5 class="block text-muted-color font-medium mb-4">MGT <span>| Total</span></h5>
                     <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ adminDashboardData!.card_data?.[1] }}</div>
                 </div>
                 <div class="flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
-                    <i class="pi pi-dollar text-orange-500 !text-xl"></i>
+                    <i class="pi pi-users text-orange-500 !text-xl"></i>
                 </div>
             </div>
             <span class="text-primary font-medium">{{ adminDashboardData!.card_data?.[1] }} </span>
@@ -41,7 +41,7 @@
         <div class="card mb-0">
             <div class="flex justify-between mb-4">
                 <div>
-                    <span class="block text-muted-color font-medium mb-4">BFA</span>
+                    <h5 class="block text-muted-color font-medium mb-4">BFA <span>| Total</span></h5>
                     <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ adminDashboardData!.card_data?.[2] }}</div>
                 </div>
                 <div class="flex items-center justify-center bg-cyan-100 dark:bg-cyan-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
@@ -57,14 +57,14 @@
         <div class="card mb-0">
             <div class="flex justify-between mb-4">
                 <div>
-                    <span class="block text-muted-color font-medium mb-4">INS</span>
+                    <h5 class="block text-muted-color font-medium mb-4">INS <span>| Total</span></h5>
                     <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ adminDashboardData!.card_data?.[3] }}</div>
                 </div>
                 <div class="flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
-                    <i class="pi pi-comment text-purple-500 !text-xl"></i>
+                    <i class="pi pi-users text-purple-500 !text-xl"></i>
                 </div>
             </div>
-            <span class="text-primary font-medium">{{ adminDashboardData!.card_data?.[3] }}</span>
+            <span class="text-primary font-medium">{{ adminDashboardData!.card_data?.[3] }} </span>
             <span class="text-muted-color">Users</span>
         </div>
     </div>
@@ -78,101 +78,94 @@
     </ng-container>
 </p-fluid>
 
+<!-- All Charts in ONE Grid -->
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    <!-- Status Of Users Card -->
-    <div *ngIf="loading" class="card w-full">
-        <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
-    </div>
+  
+  <!-- Status Of Users Card -->
+  <div class="card chart-card">
+    <ng-container *ngIf="loading; else statusOfUsers">
+      <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
+    </ng-container>
+    <ng-template #statusOfUsers>
+      <div class="font-semibold text-xl mb-4">Status Of Users</div>
+      <p-chart type="bar" [data]="polarChartUsersStatusData" [options]="polarChartOptions" class="h-80"></p-chart>
+    </ng-template>
+  </div>
 
-    <div *ngIf="!loading">
-        <div class="card w-full">
-            <div class="font-semibold text-xl mb-4">Status Of Users</div>
-            <p-chart type="bar" [data]="polarChartUsersStatusData" [options]="polarChartOptions" class="h-80"></p-chart>
+  <!-- Recent Activity Card -->
+  <div class="card chart-card">
+    <ng-container *ngIf="loading; else recentActivity">
+      <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
+    </ng-container>
+    <ng-template #recentActivity>
+      <h5 class="card-title flex justify-between items-center">
+        Recent Activity
+        <button pButton pRipple icon="pi pi-external-link" class="p-button-text p-button-info"
+          [routerLink]="['/applayout/admin/user-recent-activity']"></button>
+      </h5>
+      <div class="space-y-3 mt-4">
+        <div *ngFor="let ra of adminDashboardData.recentActivity" class="flex items-start gap-3">
+          <div class="w-1/4 text-sm text-gray-500">{{ ra.created_date | timeago: true }}</div>
+          <i class="bi bi-circle-fill text-green-500 mt-1"></i>
+          <div class="flex-1 text-sm">{{ ra.message }}</div>
         </div>
-    </div>
+      </div>
+    </ng-template>
+  </div>
 
-    <!-- Recent Activity Card -->
-     <div *ngIf="loading" class="card w-full">
-        <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
-    </div>
-    <div class="card w-full">
-    
+  <!-- Users Active Status -->
+  <div class="card chart-card">
+    <ng-container *ngIf="loading; else activeStatus">
+      <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
+    </ng-container>
+    <ng-template #activeStatus>
+      <h5 class="card-title font-semibold">Users Active Status <span class="text-gray-500">| Audit</span></h5>
+      <p-chart type="radar" [data]="radar_data" [options]="chartOptions" class="w-2/5 mx-auto"></p-chart>
+    </ng-template>
+  </div>
 
-        <div *ngIf="!loading">
-            <div class="card w-full">
-                <div>
-                    <h5 class="card-title flex justify-between items-center">
-                        Recent Activity
-                        <button pButton pRipple icon="pi pi-external-link" class="p-button-text p-button-info" [routerLink]="['/applayout/admin/user-recent-activity']"></button>
-                    </h5>
-                    <div class="space-y-3 mt-4">
-                        <div *ngFor="let ra of adminDashboardData.recentActivity" class="flex items-start gap-3">
-                            <div class="w-1/4 text-sm text-gray-500">{{ ra.created_date | timeago: true }}</div>
-                            <i class="bi bi-circle-fill text-green-500 mt-1"></i>
-                            <div class="flex-1 text-sm">{{ ra.message }}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+  <!-- Revenue Stream -->
+  <div class="card chart-card">
+    <ng-container *ngIf="loading; else revenueStream">
+      <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
+    </ng-container>
+    <ng-template #revenueStream>
+      <div class="font-semibold text-xl mb-4">Revenue Stream</div>
+      <p-chart type="bar" [data]="polarChartUsersStatusData" [options]="chartOptionsRevenues" class="h-80"></p-chart>
+    </ng-template>
+  </div>
 
-<!-- User Active Status -->
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-    <div class="card">
-        <div *ngIf="loading" class="mt-3">
-            <app-admin-skeleton></app-admin-skeleton>
-        </div>
-        <div *ngIf="!loading" class="mt-3">
-            <h5 class="card-title font-semibold">Users Active Status <span class="text-gray-500">| Audit</span></h5>
-            <p-chart type="radar" [data]="radar_data" [options]="chartOptions" class="w-2/5 mx-auto"></p-chart>
-        </div>
-    </div>
+  <!-- # of Users per Region -->
+  <div class="card col-span-2 chart-card">
+    <ng-container *ngIf="loading; else usersRegion">
+      <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
+    </ng-container>
+    <ng-template #usersRegion>
+      <h5 class="card-title font-semibold"># of Users <span class="text-gray-500">| Region and Audit</span></h5>
+      <p-chart type="line" [data]="usersPerRegionandAudit" [options]="basicOptions"></p-chart>
+    </ng-template>
+  </div>
 
-    <div class="card">
-        <div *ngIf="loading" class="mt-3">
-            <app-admin-skeleton></app-admin-skeleton>
-        </div>
-        <div *ngIf="!loading" class="mt-3">
-            <div class="font-semibold text-xl mb-4">Revenue Stream</div>
-            <p-chart type="bar" [data]="polarChartUsersStatusData" [options]="chartOptionsRevenues" class="h-80" />
-        </div>
-    </div>
+  <!-- # of Users per Roles -->
+  <div class="card col-span-2 chart-card">
+    <ng-container *ngIf="loading; else usersRoles">
+      <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
+    </ng-container>
+    <ng-template #usersRoles>
+      <h5 class="card-title font-semibold"># of Users <span class="text-gray-500">| Roles and IS, MGT and INS</span></h5>
+      <p-chart type="bar" [data]="barChartRolePerAudits" [options]="multiAxisOptions"></p-chart>
+    </ng-template>
+  </div>
 
-    <div class="card col-span-2">
-        <div *ngIf="loading" class="mt-3">
-            <app-admin-skeleton></app-admin-skeleton>
-        </div>
-        <div *ngIf="!loading" class="mt-3">
-            <div class="card-body">
-                <h5 class="card-title font-semibold"># of Users <span class="text-gray-500">| Region and Audit</span></h5>
-                <p-chart type="line" [data]="usersPerRegionandAudit" [options]="basicOptions"></p-chart>
-            </div>
-        </div>
-    </div>
+  <!-- Horizontal Bar -->
+  <div class="card col-span-2 chart-card">
+    <ng-container *ngIf="loading; else horizontalBar">
+      <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
+    </ng-container>
+    <ng-template #horizontalBar>
+      <h5 class="card-title font-semibold"># of Users <span class="text-gray-500">| Roles, BFA</span></h5>
+      <p-chart type="bar" [data]="horizontal_bar_chart_data" [options]="horizontalOptions"></p-chart>
+    </ng-template>
+  </div>
 
-    <div class="card col-span-2">
-        <div *ngIf="loading" class="mt-3">
-            <app-admin-skeleton></app-admin-skeleton>
-        </div>
-        <div *ngIf="!loading" class="mt-3">
-            <div class="card-body">
-                <h5 class="card-title font-semibold"># of Users <span class="text-gray-500">| Roles and IS, MGT and INS</span></h5>
-                <p-chart type="bar" [data]="barChartRolePerAudits" [options]="multiAxisOptions"></p-chart>
-            </div>
-        </div>
-    </div>
-
-    <div class="card col-span-2">
-        <div *ngIf="loading" class="mt-3">
-            <app-admin-skeleton></app-admin-skeleton>
-        </div>
-        <div *ngIf="!loading" class="mt-3">
-            <div class="card-body">
-                <h5 class="card-title font-semibold"># of Users <span class="text-gray-500">| Roles, BFA</span></h5>
-                <p-chart type="bar" [data]="horizontal_bar_chart_data" [options]="horizontalOptions"></p-chart>
-            </div>
-        </div>
-    </div>
 </div>

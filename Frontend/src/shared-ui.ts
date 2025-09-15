@@ -44,7 +44,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { TimeagoModule } from 'ngx-timeago';
 import { SkeletonModule } from 'primeng/skeleton';
 import { CalendarModule } from 'primeng/calendar';
-import { InputSwitchModule } from 'primeng/inputswitch'; 
+import { InputSwitchModule } from 'primeng/inputswitch';
 import { DatePicker } from 'primeng/datepicker';
 import { FluidModule } from 'primeng/fluid';
 
@@ -103,7 +103,7 @@ import { FluidModule } from 'primeng/fluid';
         CalendarModule,
         InputSwitchModule,
         DatePicker,
-        ChartModule, 
+        ChartModule,
         FluidModule,
     ],
     exports: [
@@ -156,15 +156,16 @@ import { FluidModule } from 'primeng/fluid';
         RippleModule,
         NgIf,
         InputNumberModule,
-        ReactiveFormsModule, 
-        SkeletonModule, 
-        CalendarModule, 
+        ReactiveFormsModule,
+        SkeletonModule,
+        CalendarModule,
         InputSwitchModule,
         ReactiveFormsModule,
         SkeletonModule,
         DatePicker,
-        ChartModule, 
+        ChartModule,
         FluidModule,
+        
     ]
 })
 export class SharedUiModule {}

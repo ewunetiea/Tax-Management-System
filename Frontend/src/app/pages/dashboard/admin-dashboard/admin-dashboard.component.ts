@@ -228,14 +228,17 @@ export class AdminDashboardComponent {
     }
 
     getPolarChartData(polar_data: Number[]) {
+        const documentStyle = getComputedStyle(document.documentElement);
+        const textColor = documentStyle.getPropertyValue('--text-color');
+        
         this.polarChartUsersStatusData = {
             datasets: [
                 {
                     data: polar_data,
-                    backgroundColor: ['#28B463', '#F8C471', '#FA8072', '#2874A6'],
-                    hoverBackgroundColor: ['#28B463', '#154360', '#F5B041', '#F5B041'],
+                    backgroundColor: [documentStyle.getPropertyValue('--p-cyan-500'), documentStyle.getPropertyValue('--p-orange-500'), documentStyle.getPropertyValue('--p-pink-500'), documentStyle.getPropertyValue('--p-gray-500')],
+                    hoverBackgroundColor: [documentStyle.getPropertyValue('--p-cyan-400'), documentStyle.getPropertyValue('--p-orange-400'),  documentStyle.getPropertyValue('--p-pink-400'), documentStyle.getPropertyValue('--p-gray-400')],
                     label: 'System Users Status'
-                }
+                }      
             ],
             labels: ['Active', 'Inactive', 'Account Locked', 'Credential Expired']
         };

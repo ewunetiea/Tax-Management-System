@@ -84,7 +84,6 @@
         <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
     </div>
 
-
     <div *ngIf="!loading">
         <div class="card w-full">
             <div class="font-semibold text-xl mb-4">Status Of Users</div>
@@ -93,10 +92,11 @@
     </div>
 
     <!-- Recent Activity Card -->
+     <div *ngIf="loading" class="card w-full">
+        <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
+    </div>
     <div class="card w-full">
-        <div *ngIf="loading">
-            <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
-        </div>
+    
 
         <div *ngIf="!loading">
             <div class="card w-full">

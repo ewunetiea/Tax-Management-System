@@ -1,9 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MaxFailedAndJwtControlService } from '../../../service/admin/max-failed-and-jwt-control.service';
 import { SharedUiModule } from '../../../../../shared-ui';
 import { Table } from 'primeng/table';
 import { ConfirmationService, MessageService, MenuItem } from 'primeng/api';
+import { MaxFailedAndJwtControlService } from '../../../../service/admin/max-failed-and-jwt-control.service';
 
 @Component({
     standalone: true,

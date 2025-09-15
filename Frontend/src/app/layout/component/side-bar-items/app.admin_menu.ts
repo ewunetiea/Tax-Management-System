@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { AppMenuitem } from '../app.menuitem';
-import { StorageService } from '../../../pages/service/admin/storage.service';
+import { StorageService } from '../../../service/sharedService/storage.service';
 
 @Component({
     selector: 'app-admin_menu',
@@ -31,7 +31,7 @@ export class AppMenuAdmin {
 
     constructor(
         private storageService: StorageService,
-        public router: Router,
+        public router: Router
     ) {}
 
     ngOnInit() {
@@ -46,7 +46,7 @@ export class AppMenuAdmin {
                 label: 'Region Management',
                 items: [
                     { label: 'Manage Region', icon: 'pi pi-map-marker', routerLink: ['/applayout/admin/manage-region'] },
-                    { label: 'Manage Branch', icon: 'pi pi-map-marker', routerLink: ['/applayout/admin/manage-branch'] },
+                    { label: 'Manage Branch', icon: 'pi pi-map-marker', routerLink: ['/applayout/admin/manage-branch'] }
                 ]
             },
             {
@@ -54,7 +54,9 @@ export class AppMenuAdmin {
                 icon: 'pi pi-fw pi-briefcase',
                 items: [
                     {
-                        label: 'Manage Role',  icon: 'pi pi-user', routerLink: ['/applayout/admin/manage-role']
+                        label: 'Manage Role',
+                        icon: 'pi pi-user',
+                        routerLink: ['/applayout/admin/manage-role']
                     },
                     {
                         label: 'Manage Job Position',
@@ -109,7 +111,7 @@ export class AppMenuAdmin {
                                 routerLink: ['/applayout/admin/replace-hr-data']
                             }
                         ]
-                    },
+                    }
                 ]
             },
 
@@ -133,7 +135,7 @@ export class AppMenuAdmin {
                                 routerLink: ['/applayout/admin/menu-items']
                             }
                         ]
-                    },
+                    }
                 ]
             },
             {
@@ -154,9 +156,9 @@ export class AppMenuAdmin {
                                 label: 'User Activities',
                                 icon: 'pi pi-fw pi-times-circle',
                                 routerLink: ['/applayout/admin/user-recent-activity']
-                            },
+                            }
                         ]
-                    },
+                    }
                 ]
             },
 
@@ -168,7 +170,7 @@ export class AppMenuAdmin {
                         label: 'Backup Database',
                         icon: 'pi pi-fw pi-database',
                         routerLink: ['/applayout/admin/backup']
-                    },
+                    }
                 ]
             },
 
@@ -180,10 +182,9 @@ export class AppMenuAdmin {
                         label: 'Schedule',
                         icon: 'pi pi-fw pi-stopwatch',
                         routerLink: ['/applayout/admin/manage-schedules']
-                    },
+                    }
                 ]
-            },
-
+            }
         ];
 
         this.general_items = [
@@ -320,8 +321,7 @@ export class AppMenuAdmin {
                 ]
             }
         ];
-                        this.model = this.admin_items;
-
+        this.model = this.admin_items;
 
         // if (this.isLoggedIn) {
         //     const user = this.storageService.getUser();

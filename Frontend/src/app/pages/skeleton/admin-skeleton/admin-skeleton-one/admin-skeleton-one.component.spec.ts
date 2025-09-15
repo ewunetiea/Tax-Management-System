@@ -8,7 +8,7 @@ describe('AdminSkeletonOneComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdminSkeletonOneComponent]
+      declarations: [ AdminSkeletonOneComponent ]
     })
     .compileComponents();
 

@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { User } from '../../../../models/admin/user';
 import { Functionalities } from '../../../../models/admin/functionalities';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { UserFunctionalityService } from '../../../service/admin/user-functionality-service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Table } from 'primeng/table';
 import { UserSearchEngineComponent } from '../../user/user-search-engine/user-search-engine.component';
 import { SharedUiModule } from '../../../../../shared-ui';
+import { UserFunctionalityService } from '../../../../service/admin/user-functionality-service';
 
 @Component({
     selector: 'app-manage-user-permissions',
@@ -50,7 +50,6 @@ export class ManageUserPermissionsComponent {
   }
 
   onViewFunctionalities(user: User): void {
-    console.log("Fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff:", user);
     this.user = user;
     this.functionalityStatusDialog = true;
     this.assignedFunctionalities = this.user.functionalities || [];

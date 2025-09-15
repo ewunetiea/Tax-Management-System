@@ -1,46 +1,29 @@
 import { Component } from '@angular/core';
 import { Contact } from '../../../../models/admin/contact';
 import { Feedback } from '../../../../models/admin/feedback';
-import { StorageService } from '../../../service/admin/storage.service';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { ContactService } from '../../../service/admin/contact-service';
 import { Table } from 'primeng/table';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SharedUiModule } from '../../../../../shared-ui';
+import { StorageService } from '../../../../service/sharedService/storage.service';
+import { ContactService } from '../../../../service/admin/contact-service';
 
 @Component({
-  selector: 'app-manage-contact',
+    selector: 'app-manage-contact',
     imports: [SharedUiModule],
     providers: [MessageService, ConfirmationService],
     templateUrl: './manage-contact.component.html',
     styleUrl: './manage-contact.component.scss'
 })
 export class ManageContactComponent {
-
     public config = {
         toolbar: {
-            items: [
-                'heading',
-                '|',
-                'bold',
-                'italic',
-                '|',
-                'bulletedList',
-                'numberedList',
-                '|',
-                'insertTable',
-                'tableColumn',
-                'tableRow',
-                'mergeTableCells',
-                '|',
-                'undo',
-                'redo',
-            ],
+            items: ['heading', '|', 'bold', 'italic', '|', 'bulletedList', 'numberedList', '|', 'insertTable', 'tableColumn', 'tableRow', 'mergeTableCells', '|', 'undo', 'redo']
         },
         language: 'en',
         table: {
-            contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'],
-        },
+            contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+        }
     };
 
     isLoggedIn = false;
@@ -78,7 +61,7 @@ export class ManageContactComponent {
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
         private contactService: ContactService
-    ) { }
+    ) {}
 
     ngOnInit(): void {
         this.home = { icon: 'pi pi-home', routerLink: '/' };
@@ -102,12 +85,9 @@ export class ManageContactComponent {
                 this.contact_loading = false;
                 this.messageService.add({
                     severity: 'error',
-                    summary:
-                        error.status == 401
-                            ? 'You are not permitted to perform this action!'
-                            : 'Something went wrong while fetching contacts!',
+                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching contacts!',
 
-                    detail: '',
+                    detail: ''
                 });
             }
         );
@@ -117,9 +97,7 @@ export class ManageContactComponent {
         this.contactService.getFeedbacks().subscribe(
             async (response: any) => {
                 this.feedbacks = response;
-                this.respondedFeedbacks = this.feedbacks.filter(
-                    (val) => val.response != null
-                );
+                this.respondedFeedbacks = this.feedbacks.filter((val) => val.response != null);
 
                 this.feedbacks = this.feedbacks.filter((val) => val.response == null);
 
@@ -129,12 +107,9 @@ export class ManageContactComponent {
                 this.feedback_loading = false;
                 this.messageService.add({
                     severity: 'error',
-                    summary:
-                        error.status == 401
-                            ? 'You are not permitted to perform this action!'
-                            : 'Something went wrong while fetching feedbacks!',
+                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching feedbacks!',
 
-                    detail: '',
+                    detail: ''
                 });
             }
         );
@@ -147,21 +122,20 @@ export class ManageContactComponent {
             next: (res) => {
                 this.contact_form_loading = false;
                 if (this.selectedContact.id) {
-                    this.allContact[this.findIndexContactById(this.selectedContact.id)] =
-                        this.selectedContact;
+                    this.allContact[this.findIndexContactById(this.selectedContact.id)] = this.selectedContact;
 
                     this.messageService.add({
                         severity: 'success',
                         summary: ` Contact successfully updated`,
                         detail: '',
-                        life: 3000,
+                        life: 3000
                     });
                 } else {
                     this.messageService.add({
                         severity: 'success',
                         summary: ` Contact successfully created`,
                         detail: '',
-                        life: 3000,
+                        life: 3000
                     });
 
                     this.getContacts();
@@ -173,14 +147,11 @@ export class ManageContactComponent {
                 this.contact_form_loading = false;
                 this.messageService.add({
                     severity: 'error',
-                    summary:
-                        error.status == 401
-                            ? 'You are not permitted to perform this action!'
-                            : 'Something went wrong while adding contact!',
+                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while adding contact!',
 
-                    detail: '',
+                    detail: ''
                 });
-            },
+            }
         });
     }
 
@@ -214,7 +185,7 @@ export class ManageContactComponent {
                     severity: 'success',
                     summary: 'Successful',
                     detail: 'Response Added',
-                    life: 3000,
+                    life: 3000
                 });
                 this.feedback_loading = false;
                 this.feedbackDialog = false;
@@ -223,13 +194,10 @@ export class ManageContactComponent {
                 this.feedback_loading = false;
                 this.messageService.add({
                     severity: 'error',
-                    summary:
-                        error.status == 401
-                            ? 'You are not permitted to perform this action!'
-                            : 'Something went wrong while adding response!',
-                    detail: '',
+                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while adding response!',
+                    detail: ''
                 });
-            },
+            }
         });
     }
 
@@ -264,15 +232,13 @@ export class ManageContactComponent {
             accept: () => {
                 this.contactService.deleteContacts(this.passContacts).subscribe({
                     next: (response) => {
-                        this.allContact = this.allContact.filter(
-                            (val) => val.id !== contact.id
-                        );
+                        this.allContact = this.allContact.filter((val) => val.id !== contact.id);
                         this.contact = new Contact();
                         this.messageService.add({
                             severity: 'success',
                             summary: 'Successful',
                             detail: 'Contact deleted',
-                            life: 3000,
+                            life: 3000
                         });
                         this.contact_loading = false;
                     },
@@ -280,15 +246,12 @@ export class ManageContactComponent {
                         this.contact_loading = false;
                         this.messageService.add({
                             severity: 'error',
-                            summary:
-                                error.status == 401
-                                    ? 'You are not permitted to perform this action!'
-                                    : 'Something went wrong while deleting contact!',
-                            detail: '',
+                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while deleting contact!',
+                            detail: ''
                         });
-                    },
+                    }
                 });
-            },
+            }
         });
     }
 
@@ -300,15 +263,13 @@ export class ManageContactComponent {
             accept: () => {
                 this.contactService.deleteContacts(this.selectedContacts).subscribe({
                     next: (response) => {
-                        this.allContact = this.allContact.filter(
-                            (val) => !this.selectedContacts.includes(val)
-                        );
+                        this.allContact = this.allContact.filter((val) => !this.selectedContacts.includes(val));
                         this.selectedContacts = [];
                         this.messageService.add({
                             severity: 'success',
                             summary: 'Successful',
                             detail: 'Contacts Deleted',
-                            life: 3000,
+                            life: 3000
                         });
                         this.contact_loading = false;
                     },
@@ -316,15 +277,12 @@ export class ManageContactComponent {
                         this.contact_loading = false;
                         this.messageService.add({
                             severity: 'error',
-                            summary:
-                                error.status == 401
-                                    ? 'You are not permitted to perform this action!'
-                                    : 'Something went wrong while deleting contacts!',
-                            detail: '',
+                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while deleting contacts!',
+                            detail: ''
                         });
-                    },
+                    }
                 });
-            },
+            }
         });
     }
 
@@ -339,13 +297,9 @@ export class ManageContactComponent {
                 this.contactService.closeFeedbacks(this.passFeedbacks).subscribe({
                     next: (response) => {
                         if (state.includes('pending')) {
-                            this.feedbacks = this.feedbacks.filter(
-                                (val) => val.id !== feedback.id
-                            );
+                            this.feedbacks = this.feedbacks.filter((val) => val.id !== feedback.id);
                         } else {
-                            this.respondedFeedbacks = this.respondedFeedbacks.filter(
-                                (val) => val.id !== feedback.id
-                            );
+                            this.respondedFeedbacks = this.respondedFeedbacks.filter((val) => val.id !== feedback.id);
                         }
 
                         this.feedback = new Feedback();
@@ -353,7 +307,7 @@ export class ManageContactComponent {
                             severity: 'success',
                             summary: 'Successful',
                             detail: 'Feedback deleted',
-                            life: 3000,
+                            life: 3000
                         });
                         this.feedback_loading = false;
                     },
@@ -361,15 +315,12 @@ export class ManageContactComponent {
                         this.feedback_loading = false;
                         this.messageService.add({
                             severity: 'error',
-                            summary:
-                                error.status == 401
-                                    ? 'You are not permitted to perform this action!'
-                                    : 'Something went wrong while deleting feedback!',
-                            detail: '',
+                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while deleting feedback!',
+                            detail: ''
                         });
-                    },
+                    }
                 });
-            },
+            }
         });
     }
 
@@ -387,14 +338,10 @@ export class ManageContactComponent {
                 this.contactService.closeFeedbacks(this.passFeedbacks).subscribe({
                     next: (response) => {
                         if (state.includes('pending')) {
-                            this.feedbacks = this.feedbacks.filter(
-                                (val) => !this.selectedFeedbacks.includes(val)
-                            );
+                            this.feedbacks = this.feedbacks.filter((val) => !this.selectedFeedbacks.includes(val));
                             this.selectedFeedbacks = [];
                         } else {
-                            this.respondedFeedbacks = this.respondedFeedbacks.filter(
-                                (val) => !this.selectedRespondedFeedbacks.includes(val)
-                            );
+                            this.respondedFeedbacks = this.respondedFeedbacks.filter((val) => !this.selectedRespondedFeedbacks.includes(val));
                             this.selectedRespondedFeedbacks = [];
                         }
 
@@ -402,7 +349,7 @@ export class ManageContactComponent {
                             severity: 'success',
                             summary: 'Successful',
                             detail: 'Feedbacks Deleted',
-                            life: 3000,
+                            life: 3000
                         });
                         this.feedback_loading = false;
                     },
@@ -410,15 +357,12 @@ export class ManageContactComponent {
                         this.feedback_loading = false;
                         this.messageService.add({
                             severity: 'error',
-                            summary:
-                                error.status == 401
-                                    ? 'You are not permitted to perform this action!'
-                                    : 'Something went wrong while deleting feedbacks!',
-                            detail: '',
+                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while deleting feedbacks!',
+                            detail: ''
                         });
-                    },
+                    }
                 });
-            },
+            }
         });
     }
 }

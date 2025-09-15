@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
 import { SharedUiModule } from '../../../../shared-ui';
-import { Region } from '../../../models/admin/region';
-import { Branch } from '../../../models/admin/branch';
-import { User } from '../../../models/admin/user';
 import { JobPosition } from '../../../models/admin/job-position';
-import { BranchService } from '../../service/admin/branchService';
-import { RegionService } from '../../service/admin/regionService';
-import { ValidationService } from '../../service/admin/validationService';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { AuthService } from '../../service/admin/auth.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, of, switchMap } from 'rxjs';
-import { AppFloatingConfigurator } from "../../../layout/component/app.floatingconfigurator";
+import { AppFloatingConfigurator } from '../../../layout/component/app.floatingconfigurator';
+import { Branch } from '../../../models/admin/branch';
+import { Region } from '../../../models/admin/region';
+import { User } from '../../../models/admin/user';
+import { BranchService } from '../../../service/admin/branchService';
+import { RegionService } from '../../../service/admin/regionService';
+import { ValidationService } from '../../../service/sharedService/validationService';
+import { AuthService } from '../../../service/sharedService/auth.service';
 
 @Component({
     selector: 'app-signup',

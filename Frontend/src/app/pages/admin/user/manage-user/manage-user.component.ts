@@ -5,24 +5,17 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
 import { Region } from '../../../../models/admin/region';
 import { Role } from '../../../../models/admin/role';
-import { BranchService } from '../../../service/admin/branchService';
-import { ExportExcelService } from '../../../service/admin/export-excel.service';
-import { RegionService } from '../../../service/admin/regionService';
-import { UserService } from '../../../service/admin/user.service';
 import { Branch } from '../../../../models/admin/branch';
 import { MultiUserRole } from '../../../../models/admin/multiUserRole';
-import { RoleService } from '../../../service/admin/roleService';
 import { CreateEditUserComponent } from '../create-edit-user/create-edit-user.component';
-import { ChipModule } from 'primeng/chip';
-import { FieldsetModule } from 'primeng/fieldset';
-import { AccordionModule } from 'primeng/accordion';
-import { ButtonModule } from 'primeng/button';
-import { TabViewModule } from 'primeng/tabview';
-import { ToolbarModule } from 'primeng/toolbar';
-import { CardModule } from 'primeng/card';
-import { Table, TableModule, TableRowCollapseEvent, TableRowExpandEvent } from 'primeng/table';
+import { Table, TableRowCollapseEvent, TableRowExpandEvent } from 'primeng/table';
 import { UserSearchEngineComponent } from '../user-search-engine/user-search-engine.component';
 import { SharedUiModule } from '../../../../../shared-ui';
+import { RoleService } from '../../../../service/admin/roleService';
+import { UserService } from '../../../../service/admin/user.service';
+import { RegionService } from '../../../../service/admin/regionService';
+import { ExportExcelService } from '../../../../service/sharedService/export-excel.service';
+import { BranchService } from '../../../../service/admin/branchService';
 
 @Component({
     selector: 'app-manage-user',
@@ -168,29 +161,27 @@ export class ManageUserComponent {
         table.clear();
     }
 
-
     openRoleDropDown() {
-    const value = this.role_radio_value;
+        const value = this.role_radio_value;
 
-    if (value.includes('Specific')) {
-        this.roles = this.categoryRoles;
-        if (this.selectedUser.roles) {
-            for (const role of this.selectedUser.roles) {
-                this.roles[this.findRoleIndexById(role.id)] = role;
+        if (value.includes('Specific')) {
+            this.roles = this.categoryRoles;
+            if (this.selectedUser.roles) {
+                for (const role of this.selectedUser.roles) {
+                    this.roles[this.findRoleIndexById(role.id)] = role;
+                }
             }
-        }
-    } else {
-        this.roles = this.allRoles;
+        } else {
+            this.roles = this.allRoles;
 
-        console.log(this.allRoles)
-        if (this.selectedUser.roles) {
-            for (const role of this.selectedUser.roles) {
-                this.roles.push(role);
+            console.log(this.allRoles);
+            if (this.selectedUser.roles) {
+                for (const role of this.selectedUser.roles) {
+                    this.roles.push(role);
+                }
             }
         }
     }
-}
-
 
     openModal(user: User) {
         try {
@@ -380,8 +371,8 @@ export class ManageUserComponent {
     }
 
     onDataChange(data: any) {
-console.log("++++++++++++   from manage user ++++++++++++++++++")
-        console.log(data)
+        console.log('++++++++++++   from manage user ++++++++++++++++++');
+        console.log(data);
         if (data[1]) {
             // this.getUsers();
             this.users = [...this.users];

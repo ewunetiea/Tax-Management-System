@@ -5,18 +5,18 @@ import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
-import { RoleFunctionalityService } from '../../../service/admin/roleFunctionalityService';
-import { RoleService } from '../../../service/admin/roleService';
+import { RoleService } from '../../../../service/admin/roleService';
 import { MessageService, SelectItem } from 'primeng/api';
 import { Functionalities } from '../../../../models/admin/functionalities';
 import { HttpErrorResponse } from '@angular/common/http';
-import { StorageService } from '../../../service/admin/storage.service';
 import { User } from '../../../../models/admin/user';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TextareaModule } from 'primeng/textarea';
 import { MessageModule } from 'primeng/message';
 import { Select } from 'primeng/select';
+import { RoleFunctionalityService } from '../../../../service/admin/roleFunctionalityService';
+import { StorageService } from '../../../../service/sharedService/storage.service';
 
 @Component({
     selector: 'app-create-edit-functionalities',
@@ -75,22 +75,21 @@ export class CreateEditFunctionalitiesComponent {
         }
     }
 
-  editFunctionality(data: any) {
-  this.functionality = { ...data };
-  this.nameExists = false;
+    editFunctionality(data: any) {
+        this.functionality = { ...data };
+        this.nameExists = false;
 
-  this.functionalityForm.patchValue({
-    id: this.functionality.id,
-    name: this.functionality.name,
-    description: this.functionality.description,
-    categories: this.functionality.category ? this.functionality.category.split(',').map((c: string) => c.trim()) : [],
-    method: this.functionality.method,
-    status: this.functionality.status
-  });
+        this.functionalityForm.patchValue({
+            id: this.functionality.id,
+            name: this.functionality.name,
+            description: this.functionality.description,
+            categories: this.functionality.category ? this.functionality.category.split(',').map((c: string) => c.trim()) : [],
+            method: this.functionality.method,
+            status: this.functionality.status
+        });
 
-  this.getRolesCode();
-}
-
+        this.getRolesCode();
+    }
 
     openNew() {
         this.functionality = new Functionalities();
@@ -99,8 +98,8 @@ export class CreateEditFunctionalitiesComponent {
     }
 
     emitData(data: any[]) {
-    this.editedFunctionality.emit(data);
-  }
+        this.editedFunctionality.emit(data);
+    }
 
     saveFunctionality(): void {
         this.checkNameExists();

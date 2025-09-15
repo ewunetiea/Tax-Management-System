@@ -69,12 +69,12 @@
 // export class StatsWidget {}
 
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../../models/admin/user';
+import { User } from '../../models/admin/user';
 import { Subscription } from 'rxjs';
 import { AdminDashboard } from '../../../models/admin/admin-dashboard';
 import { AppConfig } from '../../../models/admin/appconfig';
 import { MenuItem, MessageService } from 'primeng/api';
-import { StorageService } from '../../service/admin/storage.service';
+import { StorageService } from '../../../service/sharedService/storage.service';
 import { UserService } from '../../service/admin/user.service';
 import { SharedUiModule } from '../../../../shared-ui';
 import { HttpErrorResponse } from '@angular/common/http';

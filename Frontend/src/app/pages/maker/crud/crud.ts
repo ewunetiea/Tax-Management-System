@@ -20,7 +20,7 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FileUpload } from 'primeng/fileupload';
-import { Product, ProductService } from '../../service/product.service';
+import { Product, ProductService } from '../../../service/product.service';
 
 interface Column {
     field: string;

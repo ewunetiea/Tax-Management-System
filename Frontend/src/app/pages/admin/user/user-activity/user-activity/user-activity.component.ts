@@ -1,12 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
-import { ExportExcelService } from '../../../../service/admin/export-excel.service';
-import { UserService } from '../../../../service/admin/user.service';
 import { PaginatorPayLoad } from '../../../../../models/admin/paginator-payload';
 import { OnlineFailedUsers } from '../../../../../models/admin/online-failed-users';
 import { Table } from 'primeng/table';
 import { SharedUiModule } from '../../../../../../shared-ui';
+import { UserService } from '../../../../../service/admin/user.service';
+import { ExportExcelService } from '../../../../../service/sharedService/export-excel.service';
 
 @Component({
     standalone: true,
@@ -31,10 +31,10 @@ export class UserActivityComponent {
         fileName: string;
         hiddenColumns: boolean;
     } = {
-            columnsHeader: true,
-            fileName: 'default_filename',
-            hiddenColumns: false
-        };
+        columnsHeader: true,
+        fileName: 'default_filename',
+        hiddenColumns: false
+    };
     totalRecords: any = 0;
     paginatorPayload = new PaginatorPayLoad();
     breadcrumbText: string = 'User Login Status';
@@ -48,7 +48,7 @@ export class UserActivityComponent {
         private exportService: ExportExcelService,
         private messageService: MessageService,
         private confirmationService: ConfirmationService
-    ) { }
+    ) {}
 
     ngOnInit(): void {
         this.home = { icon: 'pi pi-home', routerLink: '/' };
@@ -78,13 +78,10 @@ export class UserActivityComponent {
                 this.loading = false;
                 this.messageService.add({
                     severity: 'error',
-                    summary:
-                        error.status == 401
-                            ? 'You are not permitted to perform this action!'
-                            : 'Something went wrong while fetching users login status !',
-                    detail: '',
+                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching users login status !',
+                    detail: ''
                 });
-            },
+            }
         });
     }
 
@@ -110,7 +107,7 @@ export class UserActivityComponent {
         let time: any;
         for (const online of this.onlineFailedUsers) {
             let row: any = {
-                region: String,
+                region: String
             };
             let row2: any = {};
 
@@ -172,12 +169,11 @@ export class UserActivityComponent {
 
     excelExport(): void {
         const now = new Date();
-        var date =
-            now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
+        var date = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
         this.exportSettings = {
             columnsHeader: true,
             fileName: `Awash Bank - Users login status ${date}`,
-            hiddenColumns: false,
+            hiddenColumns: false
         };
         this.generateUserData();
 
@@ -185,7 +181,7 @@ export class UserActivityComponent {
             sheet_name: 'User Login Status',
             title: 'Audit Management System - User Login Status',
             data: this.generateExportData(),
-            headers: Object.keys(this.generateExportData()[0]),
+            headers: Object.keys(this.generateExportData()[0])
         };
         this.exportService.exportExcel(reportData);
     }
@@ -196,34 +192,27 @@ export class UserActivityComponent {
             header: 'Confirm',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                this.userService
-                    .updateLoginStatus(this.selectedOnlineFailedUsers)
-                    .subscribe({
-                        next: (response) => {
-                            this.onlineFailedUsers = this.onlineFailedUsers.filter(
-                                (val) => !this.selectedOnlineFailedUsers.includes(val)
-                            );
-                            this.selectedOnlineFailedUsers = [];
-                            this.messageService.add({
-                                severity: 'success',
-                                summary: 'Successful',
-                                detail: 'Login Statuses Deleted',
-                                life: 3000,
-                            });
-                        },
-                        error: (error: HttpErrorResponse) => {
-                            this.loading = false;
-                            this.messageService.add({
-                                severity: 'error',
-                                summary:
-                                    error.status == 401
-                                        ? 'You are not permitted to perform this action!'
-                                        : 'Something went wrong while deleting login status!',
-                                detail: '',
-                            });
-                        },
-                    });
-            },
+                this.userService.updateLoginStatus(this.selectedOnlineFailedUsers).subscribe({
+                    next: (response) => {
+                        this.onlineFailedUsers = this.onlineFailedUsers.filter((val) => !this.selectedOnlineFailedUsers.includes(val));
+                        this.selectedOnlineFailedUsers = [];
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Successful',
+                            detail: 'Login Statuses Deleted',
+                            life: 3000
+                        });
+                    },
+                    error: (error: HttpErrorResponse) => {
+                        this.loading = false;
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while deleting login status!',
+                            detail: ''
+                        });
+                    }
+                });
+            }
         });
     }
 }

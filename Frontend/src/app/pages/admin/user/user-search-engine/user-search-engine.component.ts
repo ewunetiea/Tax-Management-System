@@ -5,12 +5,12 @@ import { Branch } from '../../../../models/admin/branch';
 import { JobPosition } from '../../../../models/admin/job-position';
 import { Region } from '../../../../models/admin/region';
 import { User } from '../../../../models/admin/user';
-import { BranchService } from '../../../service/admin/branchService';
-import { RegionService } from '../../../service/admin/regionService';
-import { UserService } from '../../../service/admin/user.service';
-import { ValidationService } from '../../../service/admin/validationService';
+import { BranchService } from '../../../../service/admin/branchService';
+import { RegionService } from '../../../../service/admin/regionService';
+import { UserService } from '../../../../service/admin/user.service';
 
 import { SharedUiModule } from '../../../../../shared-ui';
+import { ValidationService } from '../../../../service/sharedService/validationService';
 
 @Component({
     selector: 'app-user-search-engine',

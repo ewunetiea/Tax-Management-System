@@ -6,14 +6,13 @@ import { SharedUiModule } from '../../../../shared-ui';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from '../../../service/admin/user.service';
 import { User } from '../../../models/admin/user';
-import { AdminSkeletonComponent } from '../../skeleton/admin-skeleton/admin-skeleton-new/admin-skeleton/admin-skeleton.component';
 import { CardSkeleton } from "../../skeleton/card/four-card";
 import { BarAndLineChartSkeleton } from "../../skeleton/bar-and-lign-chart/bar-and-lign-chart";
 
 @Component({
     standalone: true,
     selector: 'app-admin-dashboard',
-    imports: [SharedUiModule, CardSkeleton, AdminSkeletonComponent, BarAndLineChartSkeleton],
+    imports: [SharedUiModule, CardSkeleton, BarAndLineChartSkeleton],
     templateUrl: './admin-dashboard.component.html'
 })
 export class AdminDashboardComponent {
@@ -52,12 +51,7 @@ export class AdminDashboardComponent {
         this.home = { icon: 'pi pi-home', routerLink: '/' };
         this.items = [{ label: this.breadcrumbText }];
         this.isLoggedIn = this.storageService.isLoggedIn();
-        if (this.isLoggedIn) {
-            setTimeout(() => {
-                this.getDashBoardData();
-            }, 6000);
-        }
-
+        this.getDashBoardData();
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');
         const borderColor = documentStyle.getPropertyValue('--surface-border');

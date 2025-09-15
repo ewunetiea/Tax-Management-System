@@ -7,11 +7,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from '../../../service/admin/user.service';
 import { User } from '../../../models/admin/user';
 import { AdminSkeletonComponent } from '../../skeleton/admin-skeleton/admin-skeleton-new/admin-skeleton/admin-skeleton.component';
+import { CardSkeleton } from "../../skeleton/card/four-card";
+import { BarAndLineChartSkeleton } from "../../skeleton/bar-and-lign-chart/bar-and-lign-chart";
 
 @Component({
     standalone: true,
     selector: 'app-admin-dashboard',
-    imports: [SharedUiModule, AdminSkeletonComponent],
+    imports: [SharedUiModule, CardSkeleton, AdminSkeletonComponent, BarAndLineChartSkeleton],
     templateUrl: './admin-dashboard.component.html'
 })
 export class AdminDashboardComponent {

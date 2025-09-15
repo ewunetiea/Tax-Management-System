@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
-import { RoleFunctionalityService } from '../../../service/admin/roleFunctionalityService';
 import { CommonModule } from '@angular/common';
 import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -21,7 +20,8 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { SelectButton, SelectButtonModule } from 'primeng/selectbutton';
 import { PaginatorModule } from 'primeng/paginator';
 import { InputTextModule } from 'primeng/inputtext';
-import { RoleService } from '../../../service/admin/roleService';
+import { RoleService } from '../../../../service/admin/roleService';
+import { RoleFunctionalityService } from '../../../../service/admin/roleFunctionalityService';
 
 @Component({
     selector: 'app-role-functionalities',
@@ -74,7 +74,7 @@ export class RoleFunctionalitiesComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-         this.breadcrumbText = 'Manage Role Functionalities';
+        this.breadcrumbText = 'Manage Role Functionalities';
         this.home = { icon: 'pi pi-home', routerLink: '/' };
         this.items = [{ label: this.breadcrumbText }];
         this.sizes = [

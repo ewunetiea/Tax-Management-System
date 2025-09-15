@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { User } from '../../../models/admin/user';
 import { AdminDashboard } from '../../../models/admin/admin-dashboard';
 import { MenuItem, MessageService } from 'primeng/api';
-import { StorageService } from '../../service/admin/storage.service';
-import { UserService } from '../../service/admin/user.service';
+import { StorageService } from '../../../service/sharedService/storage.service';
 import { SharedUiModule } from '../../../../shared-ui';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UserService } from '../../../service/admin/user.service';
+import { User } from '../../../models/admin/user';
 
 @Component({
     standalone: true,
@@ -201,9 +201,12 @@ export class AdminDashboardComponent {
     }
 
     getUsersPerAuditandRegion(regions: String[], user_region_audit: Number[]) {
-        let IS = [], MGT = [], INS = [], BFA = [];
+        let IS = [],
+            MGT = [],
+            INS = [],
+            BFA = [];
 
-        for (let index = -1; index < user_region_audit.length;) {
+        for (let index = -1; index < user_region_audit.length; ) {
             IS.push(user_region_audit[++index]);
             MGT.push(user_region_audit[++index]);
             INS.push(user_region_audit[++index]);
@@ -224,9 +227,7 @@ export class AdminDashboardComponent {
     getUsersPerRoleandAuditHorizontalBarChart(horizontal_bar_chart_data: Number[], roles_name_BFA: String[]) {
         this.horizontal_bar_chart_data = {
             labels: ['Auditor', 'Reviewer', 'Division Compiler', 'Approver', 'Branch Manager', 'Regional Director'],
-            datasets: [
-                { label: ' Financial Audit Users per Roles', backgroundColor: '#34568B', data: horizontal_bar_chart_data }
-            ]
+            datasets: [{ label: ' Financial Audit Users per Roles', backgroundColor: '#34568B', data: horizontal_bar_chart_data }]
         };
     }
 
@@ -258,9 +259,12 @@ export class AdminDashboardComponent {
     }
 
     getUsersPerRoleandAuditBarChart(bar_chart_data: Number[], roles_length_IS_MGT_INS: Number[]) {
-        let approver = [], auditor = [], followup = [], reviewer = [];
+        let approver = [],
+            auditor = [],
+            followup = [],
+            reviewer = [];
 
-        for (let index = -1; index < bar_chart_data.length;) {
+        for (let index = -1; index < bar_chart_data.length; ) {
             approver.push(bar_chart_data[++index]);
             auditor.push(bar_chart_data[++index]);
             followup.push(bar_chart_data[++index]);
@@ -279,9 +283,12 @@ export class AdminDashboardComponent {
     }
 
     getLineChartData(line_chart_data: Number[]) {
-        let drafted_audits = [], passed_audits = [], reviewer_rejected_audits = [], reviewed_audits = [];
+        let drafted_audits = [],
+            passed_audits = [],
+            reviewer_rejected_audits = [],
+            reviewed_audits = [];
 
-        for (let index = -1; index < line_chart_data.length;) {
+        for (let index = -1; index < line_chart_data.length; ) {
             drafted_audits.push(line_chart_data[++index]);
             passed_audits.push(line_chart_data[++index]);
             reviewer_rejected_audits.push(line_chart_data[++index]);
@@ -300,9 +307,10 @@ export class AdminDashboardComponent {
     }
 
     getRadarData(age_data: Number[]) {
-        let active = [], inactive = [];
+        let active = [],
+            inactive = [];
 
-        for (let index = -1; index < age_data.length;) {
+        for (let index = -1; index < age_data.length; ) {
             active.push(age_data[++index]);
             inactive.push(age_data[++index]);
         }

@@ -2,8 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Table } from 'primeng/table';
 import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
-import { ExportExcelService } from '../../../service/admin/export-excel.service';
-import { BranchService } from '../../../service/admin/branchService';
+import { ExportExcelService } from '../../../../service/sharedService/export-excel.service';
+import { BranchService } from '../../../../service/admin/branchService';
 import { Branch } from '../../../../models/admin/branch';
 import { CreateEditBranchComponent } from '../create-edit-branch/create-edit-branch.component';
 import { PaginatorPayLoad } from '../../../../models/admin/paginator-payload';
@@ -64,7 +64,7 @@ export class ManagebranchComponent {
         table.clear();
     }
 
-   onGlobalFilter(table: Table, event: Event) {
+    onGlobalFilter(table: Table, event: Event) {
         const input = event.target as HTMLInputElement;
         table.filterGlobal(input.value, 'contains');
     }
@@ -128,7 +128,7 @@ export class ManagebranchComponent {
                         fileName: `Awash Bank - Branches ${date}`,
                         hiddenColumns: false
                     };
-                  this.paginatorPayload.totalRecords = data[0].total_records_paginator ?? 0;
+                    this.paginatorPayload.totalRecords = data[0].total_records_paginator ?? 0;
                 } else {
                     this.branches = [];
                     this.paginatorPayload.totalRecords = 0;

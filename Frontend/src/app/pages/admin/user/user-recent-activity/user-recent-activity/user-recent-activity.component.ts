@@ -3,14 +3,14 @@ import { environment } from '../../../../../../environments/environment.prod';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MenuItem, MessageService } from 'primeng/api';
 import { User } from '../../../../../models/admin/user';
-import { ExportExcelService } from '../../../../service/admin/export-excel.service';
-import { UserService } from '../../../../service/admin/user.service';
 import { RecentActivity } from '../../../../../models/admin/recent-activity';
 import { Report } from '../../../../../models/admin/report';
-import { RecentActivityService } from '../../../../service/admin/recent-activity-service';
-import { DateFormat } from '../../../../service/date-format';
 import { Table } from 'primeng/table';
 import { SharedUiModule } from '../../../../../../shared-ui';
+import { DateFormat } from '../../../../../service/date-format';
+import { ExportExcelService } from '../../../../../service/sharedService/export-excel.service';
+import { UserService } from '../../../../../service/admin/user.service';
+import { RecentActivityService } from '../../../../../service/sharedService/recent-activity-service';
 
 @Component({
     selector: 'app-user-recent-activity',

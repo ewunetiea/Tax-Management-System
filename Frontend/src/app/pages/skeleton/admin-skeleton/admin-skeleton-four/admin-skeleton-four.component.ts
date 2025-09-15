@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-admin-skeleton-four',
-  imports: [],
   templateUrl: './admin-skeleton-four.component.html',
-  styleUrl: './admin-skeleton-four.component.scss'
+  styleUrls: ['./admin-skeleton-four.component.css']
 })
 export class AdminSkeletonFourComponent {
 

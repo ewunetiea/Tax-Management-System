@@ -3,8 +3,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { User } from '../../../../../models/admin/user';
 import { UserSecurity } from '../../../../../models/admin/user-security';
-import { UserService } from '../../../../service/admin/user.service';
 import { SharedUiModule } from '../../../../../../shared-ui';
+import { UserService } from '../../../../../service/admin/user.service';
 
 @Component({
     standalone : true,

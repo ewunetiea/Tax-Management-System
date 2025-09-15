@@ -2,9 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { MaxFailedAndJwtControl } from '../../../models/admin/max-failed-and-jwt-control';
-import { MaxFailedAndJwtControlService } from '../../service/admin/max-failed-and-jwt-control.service';
 import { SharedUiModule } from '../../../../shared-ui';
 import { TimeagoModule } from 'ngx-timeago';
+import { MaxFailedAndJwtControlService } from '../../../service/admin/max-failed-and-jwt-control.service';
 
 @Component({
     standalone: true,

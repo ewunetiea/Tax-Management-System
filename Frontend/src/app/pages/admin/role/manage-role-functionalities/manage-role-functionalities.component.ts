@@ -2,14 +2,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService, SelectItem } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { RoleFunctionalityService } from '../../../service/admin/roleFunctionalityService';
 import { CommonModule } from '@angular/common';
 import { Table, TableModule } from 'primeng/table';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Functionalities } from '../../../../models/admin/functionalities';
-import { RoleService } from '../../../service/admin/roleService';
+import { RoleService } from '../../../../service/admin/roleService';
 import { DropdownModule } from 'primeng/dropdown';
 import { DialogModule } from 'primeng/dialog';
 import { Toolbar } from 'primeng/toolbar';
@@ -21,6 +20,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectButton } from 'primeng/selectbutton';
 import { Tooltip } from 'primeng/tooltip';
 import { CreateEditFunctionalitiesComponent } from '../create-edit-functionalities/create-edit-functionalities.component';
+import { RoleFunctionalityService } from '../../../../service/admin/roleFunctionalityService';
 
 @Component({
     selector: 'app-manage-role-functionalities',
@@ -94,7 +94,7 @@ export class ManageRoleFunctionalitiesComponent implements OnInit {
     }
 
     ngOnInit(): void {
-         this.home = { icon: 'pi pi-home', routerLink: '/' };
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
         this.items = [{ label: this.breadcrumbText }];
         this.sizes = [
             { name: 'Small', value: 'small' },
@@ -192,14 +192,14 @@ export class ManageRoleFunctionalitiesComponent implements OnInit {
     }
 
     editFunctionality(functionality: Functionalities) {
-         this.outputFunctionality = [];
-         this.functionality = { ...functionality };
-         this.isEditData = true;
-         this.outputFunctionality.push(this.functionality);
-         this.outputFunctionality.push(this.isEditData);
-         this.functionalityDialog = true;
-         this.getRolesCode();
-        }
+        this.outputFunctionality = [];
+        this.functionality = { ...functionality };
+        this.isEditData = true;
+        this.outputFunctionality.push(this.functionality);
+        this.outputFunctionality.push(this.isEditData);
+        this.functionalityDialog = true;
+        this.getRolesCode();
+    }
 
     onDataChange(data: any) {
         if (data[1]) {

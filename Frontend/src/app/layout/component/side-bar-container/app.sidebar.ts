@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AppMenuAdmin } from '../side-bar-items/app.admin_menu';
 import { AppMenuMaker } from '../side-bar-items/app.maker_menu';
 import { SharedUiModule } from '../../../../shared-ui';
-import { StorageService } from '../../../pages/service/admin/storage.service';
+import { StorageService } from '../../../service/sharedService/storage.service';
 
 @Component({
     selector: 'app-sidebar',

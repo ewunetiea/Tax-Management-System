@@ -2,27 +2,19 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Branch } from '../../../../models/admin/branch';
 import { MessageService } from 'primeng/api';
 import { Region } from '../../../../models/admin/region';
-import { BranchService } from '../../../service/admin/branchService';
-import { RegionService } from '../../../service/admin/regionService';
-import { StorageService } from '../../../service/admin/storage.service';
-import { ValidationService } from '../../../service/admin/validationService';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-import { DropdownModule } from 'primeng/dropdown';
-import { ToastModule } from 'primeng/toast';
-import { SkeletonModule } from 'primeng/skeleton';
-import { DialogModule } from 'primeng/dialog';
+import { BranchService } from '../../../../service/admin/branchService';
+import { RegionService } from '../../../../service/admin/regionService';
 import { PaginatorPayLoad } from '../../../../models/admin/paginator-payload';
-import { Select } from 'primeng/select';
 import { User } from '../../../../models/admin/user';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ValidationService } from '../../../../service/sharedService/validationService';
+import { StorageService } from '../../../../service/sharedService/storage.service';
+import { SharedUiModule } from '../../../../../shared-ui';
 
 @Component({
     selector: 'app-create-edit-branch',
     standalone: true,
-    imports: [CommonModule, FormsModule, InputTextModule, ButtonModule, DropdownModule, ToastModule, SkeletonModule, DialogModule, Select],
+    imports: [SharedUiModule],
     templateUrl: './create-edit-branch.component.html',
     styleUrl: './create-edit-branch.component.scss'
 })
@@ -99,50 +91,45 @@ export class CreateEditBranchComponent {
         );
     }
 
-
     saveBranch() {
-    this.loading = true;
-    this.branches.user_id = this.user.id;
-    this.branchService.createBranch(this.branches).subscribe({
-        next: (data) => {
-            this.message = true;
-            this.loading = false;
-            if (this.branches.id) {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: ` ${this.branches.name} successfully updated`,
-                    detail: '',
-                    life: 3000
-                });
-            } else {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: ` ${this.branches.name} successfully created`,
-                    detail: '',
-                    life: 3000
-                });
-                this.branches = new Branch();
-            }
-            this.passedBranch = [];
-            this.passedBranch.push(this.branches);
-            this.passedBranch.push(this.isEditData);
-            this.emitData(this.passedBranch);
-        },
-        error: (error: HttpErrorResponse) => {
+        this.loading = true;
+        this.branches.user_id = this.user.id;
+        this.branchService.createBranch(this.branches).subscribe({
+            next: (data) => {
+                this.message = true;
+                this.loading = false;
+                if (this.branches.id) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: ` ${this.branches.name} successfully updated`,
+                        detail: '',
+                        life: 3000
+                    });
+                } else {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: ` ${this.branches.name} successfully created`,
+                        detail: '',
+                        life: 3000
+                    });
+                    this.branches = new Branch();
+                }
+                this.passedBranch = [];
+                this.passedBranch.push(this.branches);
+                this.passedBranch.push(this.isEditData);
+                this.emitData(this.passedBranch);
+            },
+            error: (error: HttpErrorResponse) => {
                 this.loading = false;
                 this.messageService.add({
-                  severity: 'error',
-                  summary:
-                    error.status == 401
-                      ? 'You are not permitted to perform this action!'
-                      : 'Something went wrong while creating branch !',
-                  detail: '',
+                    severity: 'error',
+                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while creating branch !',
+                    detail: ''
                 });
                 this.errorMessage = error.error.message;
-              },
-    });
-}
-
+            }
+        });
+    }
 
     checkCodeStatus(event: any) {
         this.branch_code = event.target.value;

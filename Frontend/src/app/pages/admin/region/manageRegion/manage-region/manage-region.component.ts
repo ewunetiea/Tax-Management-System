@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { Region } from '../../../../../models/admin/region';
 import { HttpErrorResponse } from '@angular/common/http';
-import { StorageService } from '../../../../service/admin/storage.service';
 import { ConfirmationService, MessageService, MenuItem } from 'primeng/api';
-import { RegionService } from '../../../../service/admin/regionService';
-import { ExportExcelService } from '../../../../service/admin/export-excel.service';
 import { AddRegionComponent } from '../../addRegion/add-region/add-region.component';
 import { Table } from 'primeng/table';
 import { PaginatorPayLoad } from '../../../../../models/admin/paginator-payload';
 import { SharedUiModule } from '../../../../../../shared-ui';
+import { RegionService } from '../../../../../service/admin/regionService';
+import { StorageService } from '../../../../../service/sharedService/storage.service';
+import { ExportExcelService } from '../../../../../service/sharedService/export-excel.service';
 
 @Component({
     selector: 'app-manage-region',

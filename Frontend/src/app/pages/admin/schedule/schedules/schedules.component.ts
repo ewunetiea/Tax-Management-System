@@ -1,9 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MessageService, ConfirmationService, MenuItem} from 'primeng/api';
-import { ScheduleService } from '../../../service/admin/scheduleService';
 import { SharedUiModule } from '../../../../../shared-ui';
 import { Table } from 'primeng/table';
+import { ScheduleService } from '../../../../service/admin/scheduleService';
 
 interface Schedule {
     id: number;

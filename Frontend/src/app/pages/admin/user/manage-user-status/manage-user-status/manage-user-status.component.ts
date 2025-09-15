@@ -2,13 +2,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
 import { User } from '../../../../../models/admin/user';
-import { UserService } from '../../../../service/admin/user.service';
-
-
 import { UserSearchEngineComponent } from '../../user-search-engine/user-search-engine.component';
 import { SharedUiModule } from '../../../../../../shared-ui';
 import { AddUserSecurityComponent } from "../../security/add-user-security/add-user-security.component";
 import { Table } from 'primeng/table';
+import { UserService } from '../../../../../service/admin/user.service';
 
 @Component({
     selector: 'app-manage-user-status',

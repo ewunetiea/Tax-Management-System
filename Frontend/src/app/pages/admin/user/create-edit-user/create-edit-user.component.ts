@@ -6,15 +6,14 @@ import { Branch } from '../../../../models/admin/branch';
 import { JobPosition } from '../../../../models/admin/job-position';
 import { Region } from '../../../../models/admin/region';
 import { User } from '../../../../models/admin/user';
-import { BranchService } from '../../../service/admin/branchService';
-import { RegionService } from '../../../service/admin/regionService';
-import { StorageService } from '../../../service/admin/storage.service';
-import { UserService } from '../../../service/admin/user.service';
-import { ValidationService } from '../../../service/admin/validationService';
-
+import { BranchService } from '../../../../service/admin/branchService';
+import { RegionService } from '../../../../service/admin/regionService';
+import { UserService } from '../../../../service/admin/user.service';
 import { SharedUiModule } from '../../../../../shared-ui';
 import { catchError, of, switchMap } from 'rxjs';
-import { AuthService } from '../../../service/admin/auth.service';
+import { ValidationService } from '../../../../service/sharedService/validationService';
+import { StorageService } from '../../../../service/sharedService/storage.service';
+import { AuthService } from '../../../../service/sharedService/auth.service';
 
 interface AwashId {
     id_no: string;
@@ -29,9 +28,7 @@ interface AwashId {
     styleUrl: './create-edit-user.component.scss'
 })
 export class CreateEditUserComponent {
-
     user_name_status = false;
-
     email_status = false;
     phone_number_status = false;
     employee_id_status = false;
@@ -89,9 +86,8 @@ export class CreateEditUserComponent {
         private router: Router,
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
-        private authService: AuthService,
-
-    ) { }
+        private authService: AuthService
+    ) {}
 
     ngOnInit(): void {
         this.authenthicationOptions = [
@@ -140,8 +136,7 @@ export class CreateEditUserComponent {
     }
 
     emitData(data: any[]) {
-
-        console.log(data)
+        console.log(data);
         this.editedUser.emit(data);
     }
 
@@ -207,7 +202,6 @@ export class CreateEditUserComponent {
         this.user.admin_id = this.storageService.getUser().id;
         this.authService.signup(this.user).subscribe({
             next: (res) => {
-
                 this.loading = false;
                 this.confrimationDialog = false;
                 this.submitted = true;
@@ -377,7 +371,6 @@ export class CreateEditUserComponent {
         this.user.region = this.regions.find((region) => region.name === this.userFromHr.deptLocation);
     }
 
-
     openModal() {
         this.confrimationDialog = true;
     }
@@ -401,7 +394,7 @@ export class CreateEditUserComponent {
             next: (data) => {
                 this.job_positions = data;
             },
-            error: (e) => { }
+            error: (e) => {}
         });
     }
     getRegions() {

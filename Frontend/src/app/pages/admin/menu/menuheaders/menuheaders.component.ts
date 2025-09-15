@@ -21,14 +21,33 @@ import { DropdownModule } from 'primeng/dropdown';
 import { MenuHeader } from '../../../../models/admin/menu-headers';
 import { MenuItems } from '../../../../models/admin/menu-items';
 import { Role } from '../../../../models/admin/role';
-import { MenuService } from '../../../service/admin/menu-service';
-import { RoleService } from '../../../service/admin/roleService';
-import { StorageService } from '../../../service/admin/storage.service';
+import { RoleService } from '../../../../service/admin/roleService';
 import { InputTextModule } from 'primeng/inputtext';
+import { MenuService } from '../../../../service/admin/menu-service';
+import { StorageService } from '../../../../service/sharedService/storage.service';
 
 @Component({
     selector: 'app-menuheaders',
-    imports: [DialogModule, MultiSelectModule, AccordionModule, TabViewModule, ListboxModule, DropdownModule, ButtonModule, TableModule, FormsModule, ToolbarModule, CommonModule, ToastModule, CardModule, BreadcrumbModule, SelectButtonModule, InputIconModule, IconFieldModule, InputTextModule],
+    imports: [
+        DialogModule,
+        MultiSelectModule,
+        AccordionModule,
+        TabViewModule,
+        ListboxModule,
+        DropdownModule,
+        ButtonModule,
+        TableModule,
+        FormsModule,
+        ToolbarModule,
+        CommonModule,
+        ToastModule,
+        CardModule,
+        BreadcrumbModule,
+        SelectButtonModule,
+        InputIconModule,
+        IconFieldModule,
+        InputTextModule
+    ],
     providers: [MessageService, ConfirmationService],
     templateUrl: './menuheaders.component.html',
     styleUrl: './menuheaders.component.scss'
@@ -73,7 +92,7 @@ export class MenuheadersComponent {
     items: MenuItem[] | undefined;
     home: MenuItem | undefined;
     sizes!: any[];
-    selectedSize: any = 'normal'
+    selectedSize: any = 'normal';
 
     constructor(
         private menuService: MenuService,

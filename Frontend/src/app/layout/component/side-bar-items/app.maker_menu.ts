@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { AppMenuitem } from '../app.menuitem';
-import { StorageService } from '../../../pages/service/admin/storage.service';
+import { StorageService } from '../../../service/sharedService/storage.service';
 
 @Component({
     selector: 'app-maker_menu',
@@ -31,8 +31,8 @@ export class AppMenuMaker {
 
     constructor(
         private storageService: StorageService,
-        public router: Router,
-    ) { }
+        public router: Router
+    ) {}
 
     ngOnInit() {
         this.isLoggedIn = this.storageService.isLoggedIn();
@@ -42,11 +42,10 @@ export class AppMenuMaker {
                 items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/applayout'] }]
             },
 
-
             {
                 label: 'Customer',
                 items: [
-                    { label: 'Manage Customer', icon: 'pi pi-fw pi-pencil', routerLink: ['/applayout/maker/manage-customer'] },
+                    { label: 'Manage Customer', icon: 'pi pi-fw pi-pencil', routerLink: ['/applayout/maker/manage-customer'] }
 
                     // { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', routerLink: ['/applayout/uikit/formlayout'] },
                     // { label: 'Input', icon: 'pi pi-fw pi-check-square', routerLink: ['/applayout/uikit/input'] },
@@ -66,14 +65,9 @@ export class AppMenuMaker {
                 ]
             },
 
-
             {
                 label: 'Tax Information',
-                items: [
-
-                    { label: 'Manege Tax', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/manage-tax'] },
-
-                ]
+                items: [{ label: 'Manege Tax', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/manage-tax'] }]
             },
             {
                 label: 'UI Components',
@@ -129,7 +123,6 @@ export class AppMenuMaker {
                             }
                         ]
                     },
-
 
                     {
                         label: 'Not Found',
@@ -205,7 +198,5 @@ export class AppMenuMaker {
             }
         ];
         this.model = this.general_items;
-
-
     }
 }

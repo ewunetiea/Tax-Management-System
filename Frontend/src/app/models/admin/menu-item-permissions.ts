@@ -1,4 +1,4 @@
-import { Functionalities } from "./functionalities";
+import { Functionalities } from './functionalities';
 
 export class MenuItemPermissions {
     id?: number;

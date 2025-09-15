@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Table, TableModule } from 'primeng/table';
 import { JobPosition } from '../../../../models/admin/job-position';
 import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
-import { RoleService } from '../../../service/admin/roleService';
+import { RoleService } from '../../../../service/admin/roleService';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ListboxModule } from 'primeng/listbox';
 import { FormsModule } from '@angular/forms';
@@ -89,15 +89,14 @@ export class ManageJobPositionComponent {
         table.clear();
     }
 
-    
     onGlobalFilter(table: Table, event: Event) {
         const input = event.target as HTMLInputElement;
         table.filterGlobal(input.value, 'contains');
     }
-    
+
     onSizeChange() {
         // The table will automatically update its size based on the selectedSize binding
     }
-    
+
     openNew() {}
 }

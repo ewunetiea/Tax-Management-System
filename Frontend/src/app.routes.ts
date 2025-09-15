@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { AppLayout } from './app/layout/component/app.layout';
 import { Notfound } from './app/pages/notfound/notfound';
-import { AuthGuard } from './app/pages/service/admin/auth.guard';
 import { DashboardContainerComponent } from './app/pages/dashboard/dashboard-container/dashboard-container.component';
 import { Login } from './app/pages/auth/login';
 import { UserProfileComponent } from './app/pages/admin/user/user-profile/user-profile.component';
@@ -9,6 +8,7 @@ import { ManageContactComponent } from './app/pages/admin/user/manage-contact/ma
 import { AdminNotificationComponent } from './app/pages/admin/notification/admin-notification/admin-notification.component';
 import { ForgetPasswordComponent } from './app/pages/admin/forget-password/forget-password.component';
 import { SignupComponent } from './app/pages/auth/signup/signup.component';
+import { AuthGuard } from './app/service/admin/auth.guard';
 
 export const appRoutes: Routes = [
 

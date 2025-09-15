@@ -3,11 +3,7 @@ import { Component } from '@angular/core';
 import { environment } from '../../../../../environments/environment.prod';
 import { User } from '../../../../models/admin/user';
 import { Password } from '../../../../models/admin/password';
-import { StorageService } from '../../../service/admin/storage.service';
-import { UserService } from '../../../service/admin/user.service';
-import { PasswordService } from '../../../service/admin/password.service';
-import { ValidationService } from '../../../service/admin/validationService';
-import { AuthService } from '../../../service/admin/auth.service';
+import { UserService } from '../../../../service/admin/user.service';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -22,6 +18,10 @@ import { PanelModule } from 'primeng/panel';
 import { CardModule } from 'primeng/card';
 import { ImageSnippet } from '../../../../../helpers/image-snippet';
 import { SharedUiModule } from '../../../../../shared-ui';
+import { StorageService } from '../../../../service/sharedService/storage.service';
+import { PasswordService } from '../../../../service/admin/password.service';
+import { ValidationService } from '../../../../service/sharedService/validationService';
+import { AuthService } from '../../../../service/sharedService/auth.service';
 
 @Component({
     selector: 'app-user-profile',

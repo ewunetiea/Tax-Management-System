@@ -5,12 +5,9 @@ import { MenuItems } from '../../../../models/admin/menu-items';
 import { MenuHeader } from '../../../../models/admin/menu-headers';
 import { Functionalities } from '../../../../models/admin/functionalities';
 import { Table, TableModule } from 'primeng/table';
-import { MenuService } from '../../../service/admin/menu-service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MenuItemPermissions } from '../../../../models/admin/menu-item-permissions';
 import { Role } from '../../../../models/admin/role';
-import { RoleFunctionalityService } from '../../../service/admin/roleFunctionalityService';
-import { StorageService } from '../../../service/admin/storage.service';
 import { FormsModule } from '@angular/forms';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { CardModule } from 'primeng/card';
@@ -29,10 +26,33 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { IconFieldModule } from 'primeng/iconfield';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { InputIconModule } from 'primeng/inputicon';
+import { MenuService } from '../../../../service/admin/menu-service';
+import { RoleFunctionalityService } from '../../../../service/admin/roleFunctionalityService';
+import { StorageService } from '../../../../service/sharedService/storage.service';
 
 @Component({
     selector: 'app-menuitems',
-    imports: [FormsModule, MultiSelectModule, CardModule, ToolbarModule, CommonModule, Dialog, InputTextModule, AccordionModule, ListboxModule, MessagesModule, InputNumberModule, TabViewModule, ButtonModule, TableModule, ToastModule, BreadcrumbModule, IconFieldModule, SelectButtonModule, InputIconModule],
+    imports: [
+        FormsModule,
+        MultiSelectModule,
+        CardModule,
+        ToolbarModule,
+        CommonModule,
+        Dialog,
+        InputTextModule,
+        AccordionModule,
+        ListboxModule,
+        MessagesModule,
+        InputNumberModule,
+        TabViewModule,
+        ButtonModule,
+        TableModule,
+        ToastModule,
+        BreadcrumbModule,
+        IconFieldModule,
+        SelectButtonModule,
+        InputIconModule
+    ],
     providers: [MessageService, ConfirmationService],
     templateUrl: './menuitems.component.html',
     styleUrl: './menuitems.component.scss'
@@ -81,7 +101,7 @@ export class MenuitemsComponent {
     ) {}
 
     ngOnInit(): void {
-       this.breadcrumbText = 'Manage Menu Items';
+        this.breadcrumbText = 'Manage Menu Items';
         this.home = { icon: 'pi pi-home', routerLink: '/' };
         this.items = [{ label: this.breadcrumbText }];
         this.sizes = [
@@ -146,12 +166,12 @@ export class MenuitemsComponent {
     }
 
     clear(table: Table) {
-            table.clear();
-        }
-    
+        table.clear();
+    }
+
     onGlobalFilter(table: Table, event: Event) {
-      const inputValue = (event.target as HTMLInputElement).value;
-      }
+        const inputValue = (event.target as HTMLInputElement).value;
+    }
 
     hideDialog(): void {
         this.submitted = false;

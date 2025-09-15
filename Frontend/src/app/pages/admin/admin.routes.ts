@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { ManageRegionComponent } from './region/manageRegion/manage-region/manage-region.component';
 import { ManagebranchComponent } from './branch/managebranch/managebranch.component';
-import { AuthGuard } from '../service/admin/auth.guard';
 import { ManageRoleComponent } from './role/manage-role/manage-role.component';
 import { SchedulesComponent } from './schedule/schedules/schedules.component';
 import { ManageJobPositionComponent } from './jobPosition/manage-job-position/manage-job-position.component';
@@ -16,6 +15,7 @@ import { BackupComponent } from './backup/backup/backup.component';
 import { ManageUserPermissionsComponent } from './role/manage-user-permissions/manage-user-permissions.component';
 import { MenuheadersComponent } from './menu/menuheaders/menuheaders.component';
 import { MenuitemsComponent } from './menu/menuitems/menuitems.component';
+import { AuthGuard } from '../../service/admin/auth.guard';
 
 export default [
     {

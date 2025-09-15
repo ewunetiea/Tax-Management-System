@@ -6,9 +6,9 @@ import { debounceTime, Subscription } from 'rxjs';
 import { LayoutService } from '../../../layout/service/layout.service';
 import { StatsWidget } from "../components/statswidget";
 import { Skeleton } from "primeng/skeleton";
-import { CardSkeleton } from "../../skeleton/card-skeleton";
+import { CardSkeleton } from "../../skeleton/card/four-card";
 import { SharedUiModule } from '../../../../shared-ui';
-import { BarAndLineChartSkeleton } from "../../skeleton/bar-and-lign-chart";
+import { BarAndLineChartSkeleton } from "../../skeleton/bar-and-lign-chart/bar-and-lign-chart";
 
 @Component({
     selector: 'app-maker-dashboard',

@@ -84,26 +84,7 @@
 
             <!-- skeleton shown while loading -->
             <ng-template #chartLineSkeleton>
-                <!-- title placeholder -->
-                <p-skeleton width="6rem" height="1.5rem" styleClass="mb-4"></p-skeleton>
-
-                <!-- big rectangle to simulate the chart area -->
-
-                <div class="flex justify-center gap-4 mt-3 mb-2">
-                    <p-skeleton width="6rem" height="1rem"></p-skeleton>
-                    <p-skeleton width="6rem" height="1rem"></p-skeleton>
-                </div>
-
-                <p-skeleton width="100%" styleClass="!h-96"></p-skeleton>
-
-                <div class="flex justify-between mt-2">
-                    <p-skeleton width="2rem" height="1rem"></p-skeleton>
-                    <p-skeleton width="2rem" height="1rem"></p-skeleton>
-                    <p-skeleton width="2rem" height="1rem"></p-skeleton>
-                    <p-skeleton width="2rem" height="1rem"></p-skeleton>
-                    <p-skeleton width="2rem" height="1rem"></p-skeleton>
-                    <p-skeleton width="2rem" height="1rem"></p-skeleton>
-                </div>
+              <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
             </ng-template>
         </div>
     </div>

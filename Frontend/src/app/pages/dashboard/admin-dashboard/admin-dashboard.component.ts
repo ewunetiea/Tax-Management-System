@@ -6,11 +6,12 @@ import { SharedUiModule } from '../../../../shared-ui';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from '../../../service/admin/user.service';
 import { User } from '../../../models/admin/user';
+import { AdminSkeletonComponent } from '../../skeleton/admin-skeleton/admin-skeleton-new/admin-skeleton/admin-skeleton.component';
 
 @Component({
     standalone: true,
     selector: 'app-admin-dashboard',
-    imports: [SharedUiModule],
+    imports: [SharedUiModule, AdminSkeletonComponent],
     templateUrl: './admin-dashboard.component.html'
 })
 export class AdminDashboardComponent {
@@ -51,9 +52,8 @@ export class AdminDashboardComponent {
         this.isLoggedIn = this.storageService.isLoggedIn();
         if (this.isLoggedIn) {
             setTimeout(() => {
-                this.loading = false;
-            }, 4000);
-            this.getDashBoardData();
+                this.getDashBoardData();
+            }, 6000);
         }
 
         const documentStyle = getComputedStyle(document.documentElement);

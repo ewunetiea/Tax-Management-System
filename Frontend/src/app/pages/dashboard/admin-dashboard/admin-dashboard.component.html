@@ -1,6 +1,5 @@
 <main id="main" class="main">
     <p-toast></p-toast>
-    <ng-container *ngIf="!loading; else skeletonDashboard">
         <!-- Breadcrumb -->
         <div class="mb-6">
             <p-breadcrumb class="w-full" [model]="items" [home]="home"></p-breadcrumb>
@@ -9,6 +8,10 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <!-- IS Card -->
             <div class="card">
+                <div *ngIf="loading">
+                <app-admin-skeleton></app-admin-skeleton>
+              </div>
+              <div *ngIf="!loading">
                 <div class="flex justify-between mb-4">
                     <div>
                         <h5 class="card-title text-gray-500 font-medium mb-2">IS <span>| Total</span></h5>
@@ -22,9 +25,14 @@
                 </div>
                 <span class="text-primary font-medium">Users</span>
             </div>
+            </div>
 
             <!-- MGT Card -->
             <div class="card">
+                <div *ngIf="loading" class="mt-3">
+                <app-admin-skeleton></app-admin-skeleton>
+              </div>
+              <div *ngIf="!loading">
                 <div class="flex justify-between mb-4">
                     <div>
                         <h5 class="card-title text-gray-500 font-medium mb-2">MGT <span>| Total</span></h5>
@@ -37,10 +45,15 @@
                     </div>
                 </div>
                 <span class="text-primary font-medium">Users</span>
+              </div>
             </div>
 
             <!-- BFA Card -->
             <div class="card">
+                <div *ngIf="loading" class="mt-3">
+                <app-admin-skeleton></app-admin-skeleton>
+              </div>
+              <div *ngIf="!loading">
                 <div class="flex justify-between mb-4">
                     <div>
                         <h5 class="card-title text-gray-500 font-medium mb-2">BFA <span>| Total</span></h5>
@@ -53,10 +66,15 @@
                     </div>
                 </div>
                 <span class="text-primary font-medium">Users</span>
+              </div>
             </div>
 
             <!-- INS Card -->
             <div class="card">
+                <div *ngIf="loading" class="mt-3">
+                <app-admin-skeleton></app-admin-skeleton>
+              </div>
+                <div *ngIf="!loading">
                 <div class="flex justify-between mb-4">
                     <div>
                         <h5 class="card-title text-gray-500 font-medium mb-2">INS <span>| Total</span></h5>
@@ -69,18 +87,28 @@
                     </div>
                 </div>
                 <span class="text-gray-500">Users</span>
+                </div>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <!-- Status Of Users Card -->
+             <div *ngIf="loading" class="mt-3">
+                <app-admin-skeleton></app-admin-skeleton>
+              </div>
+              <div *ngIf="!loading" class="mt-3">
             <div class="card w-full">
                 <div class="font-semibold text-xl mb-4">Status Of Users</div>
                 <p-chart type="bar" [data]="polarChartUsersStatusData" [options]="polarChartOptions" class="h-80"></p-chart>
             </div>
+            </div>
 
             <!-- Recent Activity Card -->
             <div class="card w-full">
+                <div *ngIf="loading" class="mt-3">
+                <app-admin-skeleton></app-admin-skeleton>
+              </div>
+              <div *ngIf="!loading" class="mt-3">
                 <div class="card-body">
                     <div class="mt-3"></div>
                     <div>
@@ -98,99 +126,65 @@
                     </div>
                 </div>
             </div>
+            </div>
         </div>
 
         <!-- User Active Status -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
             <div class="card">
+                <div *ngIf="loading" class="mt-3">
+                <app-admin-skeleton></app-admin-skeleton>
+              </div>
+              <div *ngIf="!loading" class="mt-3">
                 <h5 class="card-title font-semibold">Users Active Status <span class="text-gray-500">| Audit</span></h5>
                 <p-chart type="radar" [data]="radar_data" [options]="chartOptions" class="w-2/5 mx-auto"></p-chart>
+              </div>
             </div>
 
             <div class="card">
+                <div *ngIf="loading" class="mt-3">
+                <app-admin-skeleton></app-admin-skeleton>
+              </div>
+              <div *ngIf="!loading" class="mt-3">
                 <div class="font-semibold text-xl mb-4">Revenue Stream</div>
                 <p-chart type="bar" [data]="polarChartUsersStatusData" [options]="chartOptionsRevenues" class="h-80" />
+              </div>
             </div>
 
             <div class="card col-span-2">
+                <div *ngIf="loading" class="mt-3">
+                <app-admin-skeleton></app-admin-skeleton>
+              </div>
+              <div *ngIf="!loading" class="mt-3">
                 <div class="card-body">
                     <h5 class="card-title font-semibold"># of Users <span class="text-gray-500">| Region and Audit</span></h5>
                     <p-chart type="line" [data]="usersPerRegionandAudit" [options]="basicOptions"></p-chart>
                 </div>
+              </div>
             </div>
 
             <div class="card col-span-2">
+                <div *ngIf="loading" class="mt-3">
+                <app-admin-skeleton></app-admin-skeleton>
+              </div>
+                <div *ngIf="!loading" class="mt-3">
                 <div class="card-body">
                     <h5 class="card-title font-semibold"># of Users <span class="text-gray-500">| Roles and IS, MGT and INS</span></h5>
                     <p-chart type="bar" [data]="barChartRolePerAudits" [options]="multiAxisOptions"></p-chart>
                 </div>
+                </div>
             </div>
 
             <div class="card col-span-2">
+                <div *ngIf="loading" class="mt-3">
+                <app-admin-skeleton></app-admin-skeleton>
+              </div>
+              <div *ngIf="!loading" class="mt-3">
                 <div class="card-body">
                     <h5 class="card-title font-semibold"># of Users <span class="text-gray-500">| Roles, BFA</span></h5>
                     <p-chart type="bar" [data]="horizontal_bar_chart_data" [options]="horizontalOptions"></p-chart>
                 </div>
+              </div>
             </div>
         </div>
-    </ng-container>
-
-    <ng-template #skeletonDashboard>
-        <div class="card">
-            <ng-template #body let-product>
-                <tr>
-                    <td><p-skeleton /></td>
-                    <td><p-skeleton /></td>
-                    <td><p-skeleton /></td>
-                    <td><p-skeleton /></td>
-                </tr>
-            </ng-template>
-        </div>
-
-        <div class="rounded border border-surface-200 dark:border-surface-700 p-6 bg-surface-0 dark:bg-surface-900">
-            <div class="flex mb-4">
-                <p-skeleton shape="circle" size="4rem" class="mr-2" />
-                <div>
-                    <p-skeleton width="10rem" class="mb-2" />
-                    <p-skeleton width="5rem" class="mb-2" />
-                    <p-skeleton height=".5rem" />
-                </div>
-            </div>
-            <p-skeleton width="100%" height="150px" />
-            <div class="flex justify-between mt-4">
-                <p-skeleton width="4rem" height="2rem" />
-                <p-skeleton width="4rem" height="2rem" />
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="flex flex-wrap">
-                <div class="w-full xl:w-6/12 p-4">
-                    <!-- <h5>Rectangle</h5> -->
-                    <p-skeleton class="mb-2" />
-                    <p-skeleton width="10rem" class="mb-2" />
-                    <p-skeleton width="5rem" class="mb-2" />
-                    <p-skeleton height="2rem" class="mb-2" />
-                    <p-skeleton width="10rem" height="4rem" />
-                </div>
-                <div class="w-full xl:w-6/12 p-4">
-                    <!-- <h5>Rounded</h5> -->
-                    <p-skeleton class="mb-2" borderRadius="16px" />
-                    <p-skeleton width="10rem" class="mb-2" borderRadius="16px" />
-                    <p-skeleton width="5rem" class="mb-2" borderRadius="16px" />
-                    <p-skeleton height="2rem" class="mb-2" borderRadius="16px" />
-                    <p-skeleton width="10rem" height="4rem" borderRadius="16px" />
-                </div>
-                <div class="w-full xl:w-6/12 p-4">
-                    <!-- <h5 class="mt-4">Square</h5> -->
-                    <div class="flex items-end">
-                        <p-skeleton size="2rem" class="mr-2" />
-                        <p-skeleton size="3rem" class="mr-2" />
-                        <p-skeleton size="4rem" class="mr-2" />
-                        <p-skeleton size="5rem" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </ng-template>
 </main>

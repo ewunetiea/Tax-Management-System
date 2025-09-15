@@ -4,11 +4,16 @@ import { ChartModule } from 'primeng/chart';
 import { FluidModule } from 'primeng/fluid';
 import { debounceTime, Subscription } from 'rxjs';
 import { LayoutService } from '../../../layout/service/layout.service';
+import { StatsWidget } from "../components/statswidget";
+import { Skeleton } from "primeng/skeleton";
+import { CardSkeleton } from "../../skeleton/card-skeleton";
+import { SharedUiModule } from '../../../../shared-ui';
+import { BarAndLineChartSkeleton } from "../../skeleton/bar-and-lign-chart";
 
 @Component({
     selector: 'app-maker-dashboard',
     standalone: true,
-    imports: [CommonModule, ChartModule, FluidModule],
+    imports: [SharedUiModule, CardSkeleton, BarAndLineChartSkeleton],
     templateUrl: './maker-dashboard.component.html',
 })
 export class MakerDashboard {
@@ -25,6 +30,7 @@ export class MakerDashboard {
     radarOptions: any;
 
     subscription: Subscription;
+    loading  = true;
 
     constructor(private layoutService: LayoutService) {
         this.subscription = this.layoutService.configUpdate$
@@ -35,7 +41,12 @@ export class MakerDashboard {
     }
 
     ngOnInit() {
+
+         setTimeout(() => {
+    this.loading = false;
+  }, 15000); // 15000 ms = 15 seconds
         this.initCharts();
+
     }
 
     initCharts() {

@@ -229,7 +229,6 @@ export class AdminDashboardComponent {
 
     getPolarChartData(polar_data: Number[]) {
         const documentStyle = getComputedStyle(document.documentElement);
-        const textColor = documentStyle.getPropertyValue('--text-color');
         
         this.polarChartUsersStatusData = {
             datasets: [

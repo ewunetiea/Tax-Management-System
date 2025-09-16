@@ -37,7 +37,6 @@ export class AppTopbar {
     admin_notification: any[] = [];
     admin = false;
     maker = false;
-
     roles: string[] = [];
     minutes: number = 0;
     subscription!: Subscription;
@@ -47,8 +46,7 @@ export class AppTopbar {
     admin_items: MenuItem[] = [];
     auditor_items: MenuItem[] = [];
     nestedMenuItems: MenuItem[] = [];
-        loading  = true;
-
+    loading = true;
 
     constructor(
         public layoutService: LayoutService,
@@ -59,8 +57,6 @@ export class AppTopbar {
     ) {}
 
     ngOnInit() {
-
-
         this.isLoggedIn = this.storageService.isLoggedIn();
         if (this.isLoggedIn) {
             const user = this.storageService.getUser();
@@ -72,7 +68,6 @@ export class AppTopbar {
             this.id_login_tracker = user.id_login_tracker;
             this.admin = this.roles.includes('ROLE_ADMIN');
             this.maker = this.roles.includes('ROLE_AUDITOR_MGT');
-
         }
 
         this.admin_items = [
@@ -156,11 +151,9 @@ export class AppTopbar {
             this.nestedMenuItems = this.auditor_items;
         }
 
-
-
-              setTimeout(() => {
-    this.loading = false;
-  }, 1000); // 1000 ms = 1 seconds
+        setTimeout(() => {
+            this.loading = false;
+        }, 1000); // 1000 ms = 1 seconds
     }
 
     toggleDarkMode() {

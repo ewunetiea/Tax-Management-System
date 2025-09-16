@@ -65,13 +65,12 @@
 </p-fluid>
 
 <p-fluid class="grid grid-cols-12 gap-4 mb-6" *ngIf="loading">
-  <ng-container *ngFor="let item of [1,2,3,4]">
-    <div class="col-span-12 lg:col-span-6 xl:col-span-3">
-      <app-card-skeleton></app-card-skeleton>
-    </div>
-  </ng-container>
+    <ng-container *ngFor="let item of [1, 2, 3, 4]">
+        <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+            <app-card-skeleton></app-card-skeleton>
+        </div>
+    </ng-container>
 </p-fluid>
-
 
 <p-fluid class="grid grid-cols-12 gap-8">
     <div class="col-span-12 xl:col-span-6">
@@ -84,7 +83,7 @@
 
             <!-- skeleton shown while loading -->
             <ng-template #chartLineSkeleton>
-              <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
+                <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
             </ng-template>
         </div>
     </div>
@@ -99,36 +98,73 @@
 
             <!-- skeleton shown while loading -->
             <ng-template #chartBarSkeleton>
-<app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
+                <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
             </ng-template>
         </div>
     </div>
 
     <div class="col-span-12 xl:col-span-6">
         <div class="card flex flex-col items-center">
-            <div class="font-semibold text-xl mb-4">Pie</div>
-            <p-chart type="pie" [data]="pieData" [options]="pieOptions"></p-chart>
+            <div class="font-semibold text-xl mb-4" *ngIf="!loading">Pie</div>
+
+            <p-chart type="pie" [data]="pieData" [options]="pieOptions" *ngIf="!loading"></p-chart>
+
+            <div class="flex justify-center gap-4 mb-3" *ngIf="loading">
+                <app-pie-dougnut-polar-description-skeleton></app-pie-dougnut-polar-description-skeleton>
+            </div>
+
+            <div *ngIf="loading">
+                <app-pie-dougnut-polar-skeleton></app-pie-dougnut-polar-skeleton>
+            </div>
+
+            <p-skeleton shape="circle" size="21rem" *ngIf="loading"></p-skeleton>
         </div>
     </div>
 
     <div class="col-span-12 xl:col-span-6">
         <div class="card flex flex-col items-center">
-            <div class="font-semibold text-xl mb-4">Doughnut</div>
-            <p-chart type="doughnut" [data]="pieData" [options]="pieOptions"></p-chart>
+            <div class="font-semibold text-xl mb-4" *ngIf="!loading">Doughnut</div>
+            <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" *ngIf="!loading"></p-chart>
+
+            <div class="flex justify-center gap-4 mb-3" *ngIf="loading">
+                <app-pie-dougnut-polar-description-skeleton></app-pie-dougnut-polar-description-skeleton>
+            </div>
+            <div *ngIf="loading">
+                <app-pie-dougnut-polar-skeleton></app-pie-dougnut-polar-skeleton>
+            </div>
+            <p-skeleton shape="circle" size="21rem" *ngIf="loading"></p-skeleton>
         </div>
     </div>
 
     <div class="col-span-12 xl:col-span-6">
         <div class="card flex flex-col items-center">
-            <div class="font-semibold text-xl mb-4">Polar Area</div>
-            <p-chart type="polarArea" [data]="polarData" [options]="polarOptions"></p-chart>
+            <div class="font-semibold text-xl mb-4"*ngIf="!loading" >Polar Area</div>
+            <p-chart type="polarArea" [data]="polarData" [options]="polarOptions" *ngIf="!loading"></p-chart>
+
+
+              <div class="flex justify-center gap-4 mb-3" *ngIf="loading">
+                <app-pie-dougnut-polar-description-skeleton></app-pie-dougnut-polar-description-skeleton>
+            </div>
+            <div *ngIf="loading">
+                <app-pie-dougnut-polar-skeleton></app-pie-dougnut-polar-skeleton>
+            </div>
+            <p-skeleton shape="circle" size="21rem" *ngIf="loading"></p-skeleton>
         </div>
+
     </div>
 
     <div class="col-span-12 xl:col-span-6">
         <div class="card flex flex-col items-center">
-            <div class="font-semibold text-xl mb-4">Radar</div>
-            <p-chart type="radar" [data]="radarData" [options]="radarOptions"></p-chart>
+            <div class="font-semibold text-xl mb-4" *ngIf="!loading">Radar</div>
+            <p-chart type="radar" [data]="radarData" [options]="radarOptions" *ngIf="!loading"></p-chart>
+
+              <div class="flex justify-center gap-4 mb-3" *ngIf="loading">
+                <app-pie-dougnut-polar-description-skeleton></app-pie-dougnut-polar-description-skeleton>
+            </div>
+            <div *ngIf="loading">
+                <app-pie-dougnut-polar-skeleton></app-pie-dougnut-polar-skeleton>
+            </div>
+            <p-skeleton shape="circle" size="21rem" *ngIf="loading"></p-skeleton>
         </div>
     </div>
 </p-fluid>

@@ -1,4 +1,4 @@
-<div class="layout-topbar w-full">
+<!-- <div class="layout-topbar w-full">
     <p-menubar [model]="nestedMenuItems" class="w-full">
         <ng-template #start>
             <div class="layout-topbar-logo-container flex items-center gap-2">
@@ -37,21 +37,97 @@
             </div>
         </ng-template>
     </p-menubar>
+</div> -->
+<div class="layout-topbar w-full">
+    <!-- Menubar skeleton -->
+    <div *ngIf="loading; else menubarContent" class="flex items-center justify-between px-4 py-2 w-full">
+        <!-- Start Section (Logo + Category) -->
+        <div class="flex items-center gap-2">
+            <!-- Left Section -->
+            <div class="flex items-center gap-2">
+                <p-skeleton shape="circle" size="2rem"></p-skeleton>
+                <p-skeleton shape="circle" size="2.5rem"></p-skeleton>
+                <p-skeleton width="6rem" height="1.5rem"></p-skeleton>
+            </div>
+
+            <!-- Middle Section (Fake Menu Items) -->
+            <div class="flex items-center gap-4 ml-20">
+                <p-skeleton width="6rem" height="1.25rem"></p-skeleton>
+                <p-skeleton width="6rem" height="1.25rem"></p-skeleton>
+                <p-skeleton width="6rem" height="1.25rem"></p-skeleton>
+                <p-skeleton width="6rem" height="1.25rem"></p-skeleton>
+                <p-skeleton width="6rem" height="1.25rem" *ngIf="!maker"></p-skeleton>
+                <p-skeleton width="6rem" height="1.25rem"  *ngIf="!maker"></p-skeleton>
+                <p-skeleton width="6rem" height="1.25rem"  *ngIf="!maker"></p-skeleton>
+
+            </div>
+        </div>
+
+        <!-- End Section (Dark mode + Palette + Search) -->
+        <div class="flex items-center gap-4">
+            <p-skeleton shape="circle" size="2rem"></p-skeleton>
+            <p-skeleton shape="circle" size="2rem"></p-skeleton>
+            <p-skeleton width="8rem" height="2rem"></p-skeleton>
+        </div>
+    </div>
+
+    <!-- Real menubar -->
+    <ng-template #menubarContent>
+        <p-menubar [model]="nestedMenuItems" class="w-full">
+            <!-- Start Section -->
+            <ng-template #start>
+                <div class="layout-topbar-logo-container flex items-center gap-2">
+                    <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()">
+                        <i class="pi pi-bars"></i>
+                    </button>
+                    <a class="layout-topbar-logo flex items-center gap-2" routerLink="/">
+                        <img src="assets/img/Awash_International_Bank.png" alt="Awash Bank Logo" class="mb-4 w-8 mx-auto" />
+                        <span class="font-semibold text-lg text-primary">{{ category }}</span>
+                    </a>
+                </div>
+            </ng-template>
+
+            <!-- End Section -->
+            <ng-template #end>
+                <div class="layout-config-menu flex items-center gap-4 w-full justify-end">
+                    <button type="button" class="layout-topbar-action" (click)="toggleDarkMode()">
+                        <i [ngClass]="{ pi: true, 'pi-moon': layoutService.isDarkTheme(), 'pi-sun': !layoutService.isDarkTheme() }"></i>
+                    </button>
+                    <div class="relative">
+                        <button
+                            class="layout-topbar-action layout-topbar-action-highlight"
+                            pStyleClass="@next"
+                            enterFromClass="hidden"
+                            enterActiveClass="animate-scalein"
+                            leaveToClass="hidden"
+                            leaveActiveClass="animate-fadeout"
+                            [hideOnOutsideClick]="true"
+                        >
+                            <i class="pi pi-palette"></i>
+                        </button>
+                        <app-configurator></app-configurator>
+                    </div>
+                    <p-iconfield>
+                        <p-inputicon class="pi pi-search" />
+                        <input type="text" pInputText placeholder="Search" />
+                    </p-iconfield>
+                </div>
+            </ng-template>
+        </p-menubar>
+    </ng-template>
 </div>
 
-
-<p-dialog header="JWT Info" [(visible)]="showJwtModal" modal="true" [closable]="true" [dismissableMask]="true" [style]="{width: '650px'}">
+<p-dialog header="JWT Info" [(visible)]="showJwtModal" modal="true" [closable]="true" [dismissableMask]="true" [style]="{ width: '650px' }">
     <app-setting-configuration></app-setting-configuration>
-    <button  class="p-button-secondary"  pButton type="button" label="Close Modal" (click)="showJwtModal = false"></button>
+    <button class="p-button-secondary" pButton type="button" label="Close Modal" (click)="showJwtModal = false"></button>
 </p-dialog>
 
-<p-dialog header="Log Info" [(visible)]="showLogModal" modal="true" [closable]="true" [dismissableMask]="true" [style]="{width: '800px'}">
+<p-dialog header="Log Info" [(visible)]="showLogModal" modal="true" [closable]="true" [dismissableMask]="true" [style]="{ width: '800px' }">
     <app-log></app-log>
     <button pButton type="button" label="Close Modal" (click)="showLogModal = false"></button>
 </p-dialog>
 
-
-<p-dialog header="Notifications" [(visible)]="showNotificationModal" modal="true" [closable]="true" [dismissableMask]="true" [style]="{width: '800px'}">
+<p-dialog header="Notifications" [(visible)]="showNotificationModal" modal="true" [closable]="true" [dismissableMask]="true" [style]="{ width: '800px' }">
     <app-admin-notification></app-admin-notification>
     <button pButton type="button" label="Close Modal" (click)="showNotificationModal = false"></button>
 </p-dialog>

@@ -26,7 +26,7 @@ export class AppSidebar {
     ngOnInit() {
         setTimeout(() => {
             this.loading = false;
-        }, 3000);
+        }, 1000);
 
         this.isLoggedIn = this.storageService.isLoggedIn();
         if (this.isLoggedIn) {

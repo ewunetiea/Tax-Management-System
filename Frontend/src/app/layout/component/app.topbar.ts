@@ -160,7 +160,7 @@ export class AppTopbar {
 
               setTimeout(() => {
     this.loading = false;
-  }, 3000); // 3000 ms = 3 seconds
+  }, 1000); // 1000 ms = 1 seconds
     }
 
     toggleDarkMode() {

@@ -1,19 +1,17 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ChartModule } from 'primeng/chart';
-import { FluidModule } from 'primeng/fluid';
 import { debounceTime, Subscription } from 'rxjs';
 import { LayoutService } from '../../../layout/service/layout.service';
-import { StatsWidget } from "../components/statswidget";
-import { Skeleton } from "primeng/skeleton";
+
 import { CardSkeleton } from "../../skeleton/card/four-card";
 import { SharedUiModule } from '../../../../shared-ui';
 import { BarAndLineChartSkeleton } from "../../skeleton/bar-and-lign-chart/bar-and-lign-chart";
+import { PieDougnutPolarSkeleton } from "../../skeleton/dougnut-polar-chart/pie-dougnut-polar";
+import { PieDougnutPolarSkeletonDescription } from "../../skeleton/dougnut-polar-chart/polar-pie-dougnut-title";
 
 @Component({
     selector: 'app-maker-dashboard',
     standalone: true,
-    imports: [SharedUiModule, CardSkeleton, BarAndLineChartSkeleton],
+    imports: [SharedUiModule, CardSkeleton, BarAndLineChartSkeleton, PieDougnutPolarSkeleton, PieDougnutPolarSkeletonDescription],
     templateUrl: './maker-dashboard.component.html',
 })
 export class MakerDashboard {

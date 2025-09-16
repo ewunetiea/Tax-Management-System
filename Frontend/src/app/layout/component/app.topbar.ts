@@ -71,10 +71,7 @@ export class AppTopbar {
             this.role = user?.roles[0] || '';
             this.id_login_tracker = user.id_login_tracker;
             this.admin = this.roles.includes('ROLE_ADMIN');
-
             this.maker = this.roles.includes('ROLE_AUDITOR_MGT');
-
-
 
         }
 
@@ -163,7 +160,7 @@ export class AppTopbar {
 
               setTimeout(() => {
     this.loading = false;
-  }, 15000); // 15000 ms = 15 seconds
+  }, 3000); // 3000 ms = 3 seconds
     }
 
     toggleDarkMode() {

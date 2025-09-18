@@ -3,6 +3,9 @@ import { Routes } from '@angular/router';
 import { MakerDashboard } from '../dashboard/maker-dashboard/maker-dashboard';
 import { Crud } from './crud/crud';
 import { ManageTax } from './tax/manage-tax';
+import { TaxRuleComponent } from './tax-rule/tax-rule.component';
+import { AccountDataComponent } from './account-data/account-data.component';
+import { TransactionComponent } from './transaction/transaction.component';
 
 export default [
     // { path: 'button', data: { breadcrumb: 'Button' }, component: ButtonDemo },
@@ -10,6 +13,12 @@ export default [
 
     { path: 'manage-customer', data: { breadcrumb: 'Manage Customer' }, component: Crud },
     { path: 'manage-tax', data: { breadcrumb: 'Tax Management' }, component: ManageTax },
+    { path: 'tax-rule', data: { breadcrumb: 'Tax Form' }, component: TaxRuleComponent },
+    { path: 'account', data: { breadcrumb: 'Tax Form' }, component: AccountDataComponent },
+
+    { path: 'transaction', data: { breadcrumb: 'Tax Form' }, component: TransactionComponent },
+
+
 
 
     // { path: 'file', data: { breadcrumb: 'File' }, component: FileDemo },

@@ -49,6 +49,10 @@
                         </div>
 
                         <p-button label="Sign In" styleClass="w-full" type="submit" [disabled]="f.invalid || loading" [loading]="loading"> </p-button>
+
+                        <div *ngIf="isLoginFailed" class="text-red-600 font-medium mt-2">
+                            <span class="block sm:inline">{{ errorMessage }}</span>
+                        </div>
                     </div>
 
                     <div class="mt-4 text-center">

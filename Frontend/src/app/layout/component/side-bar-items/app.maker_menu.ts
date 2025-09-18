@@ -32,7 +32,7 @@ export class AppMenuMaker {
     constructor(
         private storageService: StorageService,
         public router: Router
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.isLoggedIn = this.storageService.isLoggedIn();
@@ -45,11 +45,20 @@ export class AppMenuMaker {
             {
                 label: 'Customer',
                 items: [
-                    { label: 'Manage Customer', icon: 'pi pi-fw pi-pencil', routerLink: ['/applayout/maker/manage-customer'] }
+                    { label: 'Manage Customer', icon: 'pi pi-fw pi-pencil', routerLink: ['/applayout/maker/manage-customer'] },
 
-                    // { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', routerLink: ['/applayout/uikit/formlayout'] },
-                    // { label: 'Input', icon: 'pi pi-fw pi-check-square', routerLink: ['/applayout/uikit/input'] },
-                    // { label: 'Button', icon: 'pi pi-fw pi-mobile', class: 'rotated-icon', routerLink: ['/applayout/uikit/button'] },
+                    {
+                        label: 'Tax Rule',
+                        icon: 'pi pi-percentage',    routerLink: ['/applayout/maker/tax-rule']
+                    },
+                    {
+                        label: 'Account',  icon: 'pi pi-wallet', routerLink: ['/applayout/maker/account']
+                    },
+                    {
+                        label: 'Transaction',  icon: 'pi pi-exchange',  routerLink: ['/applayout/maker/transaction']
+                    }
+
+
                     // { label: 'Table', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/uikit/table'] },
                     // { label: 'List', icon: 'pi pi-fw pi-list', routerLink: ['/applayout/uikit/list'] },
                     // { label: 'Tree', icon: 'pi pi-fw pi-share-alt', routerLink: ['/applayout/uikit/tree'] },

@@ -12,7 +12,6 @@ import { SharedUiModule } from '../../../../../shared-ui';
 import { StorageService } from '../../../../service/sharedService/storage.service';
 import { AuthService } from '../../../../service/sharedService/auth.service';
 import { NotifyMeService } from '../../../../service/admin/notify-service';
-import { RealTimeService } from '../../../../service/admin/real-time-service';
 
 @Component({
     selector: 'app-admin-notification',
@@ -56,9 +55,9 @@ export class AdminNotificationComponent {
         private storageService: StorageService,
         private authService: AuthService,
         private notificationService: NotifyMeService,
-        private realTimeService: RealTimeService,
         private router: Router
     ) {}
+
     ngOnInit(): void {
         this.isLoggedIn = this.storageService.isLoggedIn();
         this.document.body.classList.toggle('toggle-sidebar');
@@ -163,13 +162,17 @@ export class AdminNotificationComponent {
                 this.storageService.clean();
                 window.location.reload();
             },
-            error: (err) => {}
+            error: (err) => {
+                console.log(err);
+            }
         });
     }
 
     viewedNotificationsByAdminDropDown(): void {
         this.notificationService.viewedNotificationsByAdmin(this.admin_notification).subscribe({
-            error: (err) => {}
+            error: (err) => {
+                console.log(err);
+            }
         });
     }
 
@@ -180,7 +183,9 @@ export class AdminNotificationComponent {
 
     viewedAdminNotificationsModal(): void {
         this.notificationService.viewedNotificationsByAdmin(this.admin_notification_list).subscribe({
-            error: (err) => {}
+            error: (err) => {
+                console.log(err);
+            }
         });
     }
 

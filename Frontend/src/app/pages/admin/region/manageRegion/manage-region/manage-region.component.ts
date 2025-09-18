@@ -70,7 +70,6 @@ export class ManageRegionComponent {
         const user = this.storageService.getUser();
         this.region.user_id = user.id;
         this.getRegion();
-        // this.getRegion(this.paginatorPayload);
     }
 
     getRegion(): void {
@@ -115,7 +114,6 @@ export class ManageRegionComponent {
         this.paginatorPayload.currentPage = event.first / event.rows + 1;
         this.paginatorPayload.pageSize = event.rows;
         this.paginatorPayload.event_length = event.rows;
-        // this.getRegion(this.paginatorPayload);
     }
 
     openNew() {
@@ -147,7 +145,6 @@ export class ManageRegionComponent {
 
     onDataChange(data: any) {
         if (data[1]) {
-            // this.getRegion(this.paginatorPayload);
             this.getRegion();
             this.regions = [...this.regions];
             this.regionEditDialog = false;
@@ -180,8 +177,6 @@ export class ManageRegionComponent {
                 this.regionService.deleteRegion(this.passRegions).subscribe({
                     next: (response) => {
                         this.getRegion();
-                        // this.getRegion(this.paginatorPayload);
-                        // this.regions = this.regions.filter((val) => val.id !== region.id);
                         this.region = new Region();
                         this.messageService.add({
                             severity: 'success',
@@ -214,10 +209,6 @@ export class ManageRegionComponent {
                 this.regionService.deleteRegion(this.selectedRegions).subscribe({
                     next: (response) => {
                         this.getRegion();
-                        // this.getRegion(this.paginatorPayload);
-                        // this.regions = this.regions.filter(
-                        //   (val) => !this.selectedRegions.includes(val)
-                        // );
                         this.selectedRegions = [];
                         this.messageService.add({
                             severity: 'success',

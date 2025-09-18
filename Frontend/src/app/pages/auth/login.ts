@@ -42,9 +42,9 @@ export class Login {
         private confirmationService: ConfirmationService,
         private router: Router,
         private platform: Platform
-    ) {}
+    ) { }
 
-    ngOnInit(): void {}
+    ngOnInit(): void { }
 
     togglePassword(): void {
         const passwordInput = document.querySelector('#yourPassword');
@@ -122,8 +122,14 @@ export class Login {
                 // }
             },
             error: (err) => {
+                console.log("____________FF_________________")
+                console.log(err)
                 this.loading = false;
                 this.errorMessage = err.error.message;
+
+                console.log(this.errorMessage)
+
+                console.log()
                 if (this.errorMessage.includes('password_expired')) {
                     this.change = true;
                     let errorM: any[] = this.errorMessage.split(' ');
@@ -131,6 +137,11 @@ export class Login {
                     this.errorMessage = 'User credentials expired.';
                 }
                 this.isLoginFailed = true;
+
+                setTimeout(() => {
+                    this.isLoginFailed = false;
+                    this.errorMessage = '';
+                }, 10000);
             }
         });
     }

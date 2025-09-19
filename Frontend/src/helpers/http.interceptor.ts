@@ -23,8 +23,6 @@ export const httpRequestInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req).pipe(
         catchError((error) => {
 
-            console.log
-
             console.log(error.message)
             if (error instanceof HttpErrorResponse && req.url.includes('auth/signin') && error.status === 500) {
 
@@ -37,13 +35,11 @@ export const httpRequestInterceptor: HttpInterceptorFn = (req, next) => {
                 });
             }
             if (error instanceof HttpErrorResponse && !req.url.includes('auth/signin') && error.status === 401) {
-
                 return handle401Error(req, next, storageService, authService, eventBusService);
             }
 
 
             if ((error.status === 0 || error.error instanceof TypeError) || error.error instanceof ErrorEvent) {
-
                 if (!window.navigator.onLine) {
                     return throwError(() => {
                         const err: HttpErrorResponse = new HttpErrorResponse({
@@ -62,17 +58,12 @@ export const httpRequestInterceptor: HttpInterceptorFn = (req, next) => {
                 });
             }
             else if (error instanceof HttpErrorResponse && error.status === 400) {
-
                 return handle400Error();
             } else if (error instanceof HttpErrorResponse && error.status === 404) {
-
                 return handle404Error();
             } else if (error instanceof HttpErrorResponse && error.status === 500) {
-
                 return handle500Error();
             }
-
-
             return throwError(() => error);
         })
     );

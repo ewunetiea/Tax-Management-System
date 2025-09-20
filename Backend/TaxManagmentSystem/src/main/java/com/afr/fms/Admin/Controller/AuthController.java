@@ -172,9 +172,7 @@ public class AuthController {
                                 .collect(Collectors.toList());
 
                 String title = userMapper.findByFusionUsername(loginRequest.getUsername()).getJobPosition().getTitle();
-                RefreshToken refreshToken = refreshTokenService.createRefreshToken(
-                                userDetails.getId(),
-                                id_login_tracker);
+                RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId(), id_login_tracker);
                 ResponseCookie jwtRefreshCookie = jwtUtils.generateRefreshJwtCookie(refreshToken.getToken(), request);
                 return ResponseEntity.ok()
                                 .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
@@ -207,8 +205,7 @@ public class AuthController {
         }
 
         @GetMapping("/signout/{id_login_tracker}")
-        public ResponseEntity<?> logoutUser(@PathVariable("id_login_tracker") Long id_login_tracker,
-                        HttpServletRequest request) {
+        public ResponseEntity<?> logoutUser(@PathVariable("id_login_tracker") Long id_login_tracker, HttpServletRequest request) {
                 try {
                         Object principle = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -252,12 +249,10 @@ public class AuthController {
                                                 .orElseThrow(() -> new TokenRefreshException(refreshToken,
                                                                 "Refresh token is not in database!"));
                         }
-                        return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                                        .body(new MessageResponse("Refresh Token is empty!"));
+                        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageResponse("Refresh Token is empty!"));
                 } catch (Exception e) {
                         logger.error("Error occurred during token refresh", e);
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse(
-                                        "An error occurred during token refresh. Please try again later."));
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("An error occurred during token refresh. Please try again later."));
                 }
         }
 
@@ -267,8 +262,7 @@ public class AuthController {
                         List<Role> roles = new ArrayList<>();
                         if (user != null) {
                                 if (user.getJobPosition() != null && user.getJobPosition().getId() != null) {
-                                        roles = jobPositionMapper.getRoleByJobPositionId(user.getJobPosition().getId(),
-                                                        user.getCategory());
+                                        roles = jobPositionMapper.getRoleByJobPositionId(user.getJobPosition().getId(),user.getCategory());
                                         if (roles != null) {
                                                 try {
                                                         List<String> rolesName = roles.stream()

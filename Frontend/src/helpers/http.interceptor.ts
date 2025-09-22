@@ -23,9 +23,7 @@ export const httpRequestInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req).pipe(
         catchError((error) => {
 
-            console.log
 
-            console.log(error.message)
             if (error instanceof HttpErrorResponse && req.url.includes('auth/signin') && error.status === 500) {
 
                 return throwError(() => {

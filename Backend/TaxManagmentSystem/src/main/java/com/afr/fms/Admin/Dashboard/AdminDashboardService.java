@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.afr.fms.Admin.Entity.Region;
 import com.afr.fms.Admin.Mapper.BranchMapper;
 import com.afr.fms.Admin.Mapper.RegionMapper;
@@ -82,7 +80,6 @@ public class AdminDashboardService {
         List<String> role_positions = List.of("IS", "MGT", "INS");
         List<String> roles = List.of("Approver", "Auditor", "Followup", "Reviewer");
         List<Integer> bar_chart_data = new ArrayList<>();
-
         for (String rolePosition : role_positions) {
             for (String code : roles) {
                 bar_chart_data.add(adminDashboardMapper.getUsersPerRoleandAudit(rolePosition, code));

@@ -3,52 +3,9 @@ package com.afr.fms.Admin.Dashboard;
 
 import java.util.List;
 import java.util.Map;
-
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.One;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import com.afr.fms.Admin.Entity.Role;
-import com.afr.fms.Admin.Entity.User;
-
-// @Mapper
-// public interface AdminDashboardMapper {
-
-//     @Select("select * from role where role_position = #{role_position} order by code")
-//     public List<Role> getRolesByAuditType(String role_position);
-
-
-//     @Select("select count(id) from [user] where category = #{category} and id in (select user_id from user_role where role_id in (select id from role where code like concat('%',#{code},'%') and role_position = #{category}) )")
-//     public Integer getUsersPerRoleandAudit(String category, String code);
-
-
-//     // Linechart per month current finding status
-//     @Select("select count(id) from [user] u where u.category = #{category} and (u.branch_id in (select br.id from branch br where br.region_id=#{region_id}) or u.region_id =#{region_id})")
-//     public Integer getUsersPerRegion(String category, Long region_id);
-
-//     // card
-//     @Select("select count(id)  from [user] where category = #{category}")
-//     public Integer getSystemUsersByCategory(String category);
-
-//     @Select("select count(id)  from user_tracker where status = #{status}")
-//     public Integer getUserLoginStatus(int status);
-
-//     @Select("select id, status from [user]")
-//     @Results(value = {
-//             @Result(property = "id", column = "id"),
-//             @Result(property = "user_security", column = "id", one = @One(select = "com.afr.fms.Security.UserSecurity.mapper.UserSecurityMapper.getUserSecurityInfoByUserId")),
-//     })
-//     public List<User> getUsersDashboard();
-
-//     @Select("select count(id)  from IS_Management_Audit where auditor_id = #{auditor_id} and auditor_status = 1 and review_status=0 ")
-//     public Integer getPassedCount(Long auditor_id);
-
-//     @Select("select count(id) from [user] where status = #{status} and category = #{category}")
-//     public Integer getUserActiveStatusPerAudit(int status, String category);
-
-// }
-
 
 @Mapper
 public interface AdminDashboardMapper {

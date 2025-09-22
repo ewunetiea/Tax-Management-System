@@ -56,26 +56,10 @@
         [rowHover]="true"
         dataKey="id"
         [rowsPerPageOptions]="[5, 10, 25, 50]"
-        [tableStyle]="{ 'min-width': '150rem' }"
+        [tableStyle]="{ 'min-width': '160rem' }"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [showCurrentPageReport]="true"
     >
-        <!-- <ng-template pTemplate="caption">
-                            <div class="flex justify-between items-center">
-                                <h5 class="m-0">Manage User Status</h5>
-                                <div class="relative">
-                                    <input
-                                        pInputText
-                                        type="text"
-                                        #searchData
-                                        (input)="dt.filterGlobal(searchData.value, 'contains')"
-                                        placeholder="Search..."
-                                        class="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    />
-                                    <i class="absolute left-3 top-2 pi pi-search"></i>
-                                </div>
-                            </div>
-                        </ng-template> -->
        <ng-template #caption>
             <div class="flex items-center justify-between">
                 <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
@@ -93,66 +77,66 @@
                 <th style="width: 3rem">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
-                <th style="min-width: 10rem">
-                    <div class="flex justify-content-center align-items-center">
+                <th style="min-width: 18rem">
+                    <div class="flex items-center">
                         Full Name
                         <p-columnFilter type="text" field="first_name" display="menu"></p-columnFilter>
                     </div>
                 </th>
                 <th style="min-width: 12rem">
-                    <div class="flex justify-content-center align-items-center">
+                    <div class="flex items-center">
                         Phone Number
                         <p-columnFilter type="text" field="phone_number" display="menu"></p-columnFilter>
                     </div>
                 </th>
-                <th style="min-width: 10rem">
-                    <div class="flex justify-content-center align-items-center">
+                <th style="min-width: 12rem">
+                    <div class="flex items-center">
                         Employee ID
                         <p-columnFilter type="text" field="employee_id" display="menu"></p-columnFilter>
                     </div>
                 </th>
 
                 <th style="width: 15rem">
-                    <div class="flex justify-content-center align-items-center">
+                    <div class="flex items-center">
                         User Status
                         <p-columnFilter type="boolean" field="status" display="menu"></p-columnFilter>
                     </div>
                 </th>
                 <th style="width: 15rem">
-                    <div class="flex justify-content-center align-items-center">
+                    <div class="flex items-center">
                         Account Lock
                         <p-columnFilter type="boolean" field="user_security.accountNonLocked" display="menu"></p-columnFilter>
                     </div>
                 </th>
                 <th style="width: 18rem">
-                    <div class="flex justify-content-center align-items-center">
+                    <div class="flex items-center">
                         Credential Expiration
                         <p-columnFilter type="boolean" field="user_security.credentialsNonExpired" display="menu"></p-columnFilter>
                     </div>
                 </th>
                 <th style="width: 18rem">
-                    <div class="flex justify-content-center align-items-center">
+                    <div class="flex items-center">
                         Account Expiration
                         <p-columnFilter type="boolean" field="user_security.accountNonExpired" display="menu"></p-columnFilter>
                     </div>
                 </th>
 
                 <th style="min-width: 15rem">
-                    <div class="flex justify-content-center align-items-center">
+                    <div class="flex items-center">
                         Number of Attempts
                         <p-columnFilter type="numeric" field="user_security.number_of_attempts" display="menu"></p-columnFilter>
                     </div>
                 </th>
 
                 <th style="min-width: 12rem">
-                    <div class="flex justify-content-center align-items-center">
+                    <div class="flex items-center">
                         Lock Time
                         <p-columnFilter type="date" field="user_security.lock_time" display="menu"></p-columnFilter>
                     </div>
                 </th>
 
                 <th style="min-width: 12rem">
-                    <div class="flex justify-content-center align-items-center">
+                    <div class="flex items-center">
                         Password Time
                         <p-columnFilter type="date" field="user_security.password_created_date" display="menu"></p-columnFilter>
                     </div>

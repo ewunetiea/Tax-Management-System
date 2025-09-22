@@ -111,10 +111,9 @@ export class ManageRoleFunctionalitiesComponent implements OnInit {
                 this.functionalities = resp;
                 this.loading = false;
             },
-            error: (error: HttpErrorResponse) => {
-                this.loading = false;
-                this.handleError(error.status === 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching functionalities!', error);
-            }
+             error: () => {
+            this.loading = false;
+        }
         });
     }
 
@@ -148,10 +147,9 @@ export class ManageRoleFunctionalitiesComponent implements OnInit {
                     value: 'ALL_IS_MGT'
                 });
             },
-            error: (error: HttpErrorResponse) => {
-                this.loading = false;
-                this.handleError(error.status === 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching roles!', error);
-            }
+            error: () => {
+            this.loading = false;
+        }
         });
     }
 
@@ -249,12 +247,9 @@ export class ManageRoleFunctionalitiesComponent implements OnInit {
                 this.functionalityLoading = false;
                 this.loadFunctionalities();
             },
-            error: (error) => {
-                this.handleError('Error saving functionality', error);
-            }
-            // complete: () => {
-            //   this.functionalityLoading = false;
-            // },
+             error: () => {
+            this.loading = false;
+        }
         });
     }
 
@@ -299,9 +294,9 @@ export class ManageRoleFunctionalitiesComponent implements OnInit {
                 this.loadFunctionalities();
                 this.selectedFunctionalities = [];
             },
-            error: (error: HttpErrorResponse) => {
-                this.handleError(error.status === 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while updating permissions!', error);
-            }
+            error: () => {
+            this.loading = false;
+        }
         });
     }
 
@@ -316,9 +311,9 @@ export class ManageRoleFunctionalitiesComponent implements OnInit {
                 this.loadFunctionalities();
                 this.selectedFunctionalities = [];
             },
-            error: (error: HttpErrorResponse) => {
-                this.handleError(error.status === 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while updating permissions!', error);
-            }
+             error: () => {
+            this.loading = false;
+        }
         });
     }
 
@@ -339,14 +334,9 @@ export class ManageRoleFunctionalitiesComponent implements OnInit {
                             life: 3000
                         });
                     },
-                    error: (error: HttpErrorResponse) => {
-                        this.loading = false;
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while deleting selected permissions!',
-                            detail: ''
-                        });
-                    }
+                     error: () => {
+            this.loading = false;
+        }
                 });
             }
         });

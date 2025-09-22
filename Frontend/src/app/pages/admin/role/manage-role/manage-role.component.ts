@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
 import { JobPosition } from '../../../../models/admin/job-position';
@@ -157,15 +156,9 @@ export class ManageRoleComponent {
                 this.roles = data;
                 this.loading = false;
             },
-            error: (error: HttpErrorResponse) => {
-                this.loading = false;
-                this.errorMessage = error.message ? error.message : 'Something went wrong while fetching roles!';
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.errorMessage as string,
-                    detail: ''
-                });
-            }
+             error: () => {
+            this.loading = false;
+        }
         });
     }
 
@@ -191,13 +184,9 @@ export class ManageRoleComponent {
             next: (data) => {
                 this.jobPositions = data;
             },
-            error: (error: HttpErrorResponse) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching  job position !',
-                    detail: ''
-                });
-            }
+             error: () => {
+            this.loading = false;
+        }
         });
     }
 
@@ -217,16 +206,9 @@ export class ManageRoleComponent {
                     detail: ''
                 });
             },
-            error: (error: HttpErrorResponse) => {
-                this.loading = false;
-                this.errorMessage = error.error.message;
-
-                this.messageService.add({
-                    severity: 'error',
-                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while updating job position !',
-                    detail: ''
-                });
-            }
+             error: () => {
+            this.loading = false;
+        }
         });
     }
 
@@ -301,16 +283,9 @@ export class ManageRoleComponent {
                             life: 3000
                         });
                     },
-                    error: (error: HttpErrorResponse) => {
-                        this.loading = false;
-                        this.errorMessage = error.message;
-                        this.submitted = true;
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while deactivating role!',
-                            detail: ''
-                        });
-                    }
+                     error: () => {
+            this.loading = false;
+        }
                 });
             }
         });
@@ -336,16 +311,9 @@ export class ManageRoleComponent {
                             life: 3000
                         });
                     },
-                    error: (error: HttpErrorResponse) => {
-                        this.loading = false;
-                        this.errorMessage = error.message;
-                        this.submitted = true;
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while deactivating roles!',
-                            detail: ''
-                        });
-                    }
+                     error: () => {
+            this.loading = false;
+        }
                 });
             }
         });
@@ -370,16 +338,9 @@ export class ManageRoleComponent {
                             life: 3000
                         });
                     },
-                    error: (error: HttpErrorResponse) => {
-                        this.loading = false;
-                        this.errorMessage = error.message;
-                        this.submitted = true;
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while activating role!',
-                            detail: ''
-                        });
-                    }
+                     error: () => {
+            this.loading = false;
+        }
                 });
             }
         });
@@ -402,16 +363,9 @@ export class ManageRoleComponent {
                             life: 3000
                         });
                     },
-                    error: (error: HttpErrorResponse) => {
-                        this.loading = false;
-                        this.errorMessage = error.message;
-                        this.submitted = true;
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while activating roles!',
-                            detail: ''
-                        });
-                    }
+                     error: () => {
+            this.loading = false;
+        }
                 });
             }
         });

@@ -97,15 +97,9 @@ export class CreateEditRoleComponent {
                 this.passedRole.push(this.isEditData);
                 this.emitData(this.passedRole);
             },
-            error: (error: HttpErrorResponse) => {
-                this.loading = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while creating role !',
-                    detail: '',
-                    life: 3000
-                });
-            }
+             error: () => {
+            this.loading = false;
+        }
         });
     }
 
@@ -119,9 +113,9 @@ export class CreateEditRoleComponent {
                     this.role_name_status = false;
                 }
             },
-            error: (error: HttpErrorResponse) => {
-                this.errorMessage = error.error.message;
-            }
+            error: () => {
+            this.loading = false;
+        }
         });
     }
 
@@ -135,9 +129,9 @@ export class CreateEditRoleComponent {
                     this.role_code_status = false;
                 }
             },
-            error: (error: HttpErrorResponse) => {
-                this.errorMessage = error.error.message;
-            }
+             error: () => {
+            this.loading = false;
+        }
         });
     }
 }

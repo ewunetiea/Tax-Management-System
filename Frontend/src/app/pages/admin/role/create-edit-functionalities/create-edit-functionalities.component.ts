@@ -8,7 +8,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { RoleService } from '../../../../service/admin/roleService';
 import { MessageService, SelectItem } from 'primeng/api';
 import { Functionalities } from '../../../../models/admin/functionalities';
-import { HttpErrorResponse } from '@angular/common/http';
 import { User } from '../../../../models/admin/user';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -126,9 +125,9 @@ export class CreateEditFunctionalitiesComponent {
                 this.functionalityLoading = false;
                 this.loadFunctionalities();
             },
-            error: (error) => {
-                this.handleError('Error saving functionality', error);
-            }
+             error: () => {
+            this.loading = false;
+        }
         });
     }
 
@@ -150,18 +149,9 @@ export class CreateEditFunctionalitiesComponent {
                 this.functionalities = resp;
                 this.loading = false;
             },
-            error: (error: HttpErrorResponse) => {
-                this.loading = false;
-                this.handleError(error.status === 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching functionalities!', error);
-            }
-        });
-    }
-
-    private handleError(summary: string, error: any): void {
-        this.messageService.add({
-            severity: 'error',
-            summary: summary,
-            detail: error.message || ''
+             error: () => {
+            this.loading = false;
+        }
         });
     }
 
@@ -183,10 +173,9 @@ export class CreateEditFunctionalitiesComponent {
                     value: 'ALL'
                 });
             },
-            error: (error: HttpErrorResponse) => {
-                this.loading = false;
-                this.handleError(error.status === 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching roles!', error);
-            }
+             error: () => {
+            this.loading = false;
+        }
         });
     }
 }

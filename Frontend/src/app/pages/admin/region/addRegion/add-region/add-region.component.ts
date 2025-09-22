@@ -103,15 +103,10 @@ export class AddRegionComponent {
                 this.passedRegion.push(this.isEditData);
                 this.emitData(this.passedRegion);
             },
-            error: (error: HttpErrorResponse) => {
-                this.loading = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while creating region !',
-                    detail: ''
-                });
-                this.errorMessage = error.error.message;
-            }
+             error: () => {
+            this.loading = false;
+            // ❌ no toast needed here, interceptor already handled it
+        }
         });
     }
 

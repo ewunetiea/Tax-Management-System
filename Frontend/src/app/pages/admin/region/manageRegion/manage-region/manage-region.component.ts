@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Region } from '../../../../../models/admin/region';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ConfirmationService, MessageService, MenuItem } from 'primeng/api';
 import { AddRegionComponent } from '../../addRegion/add-region/add-region.component';
 import { Table } from 'primeng/table';
@@ -14,7 +13,6 @@ import { ExportExcelService } from '../../../../../service/sharedService/export-
     selector: 'app-manage-region',
     standalone: true,
     imports: [SharedUiModule, AddRegionComponent],
-    providers: [MessageService, ConfirmationService],
     templateUrl: './manage-region.component.html',
     styleUrl: './manage-region.component.scss'
 })
@@ -70,7 +68,6 @@ export class ManageRegionComponent {
         const user = this.storageService.getUser();
         this.region.user_id = user.id;
         this.getRegion();
-        // this.getRegion(this.paginatorPayload);
     }
 
     getRegion(): void {
@@ -99,14 +96,8 @@ export class ManageRegionComponent {
                     this.paginatorPayload.totalRecords = 0;
                 }
             },
-            error: (err) => {
+            error: () => {
                 this.loading = false;
-
-                this.messageService.add({
-                    severity: 'error',
-                    summary: err.status === 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching regions!',
-                    detail: ''
-                });
             }
         });
     }
@@ -115,7 +106,6 @@ export class ManageRegionComponent {
         this.paginatorPayload.currentPage = event.first / event.rows + 1;
         this.paginatorPayload.pageSize = event.rows;
         this.paginatorPayload.event_length = event.rows;
-        // this.getRegion(this.paginatorPayload);
     }
 
     openNew() {
@@ -147,7 +137,6 @@ export class ManageRegionComponent {
 
     onDataChange(data: any) {
         if (data[1]) {
-            // this.getRegion(this.paginatorPayload);
             this.getRegion();
             this.regions = [...this.regions];
             this.regionEditDialog = false;
@@ -180,8 +169,6 @@ export class ManageRegionComponent {
                 this.regionService.deleteRegion(this.passRegions).subscribe({
                     next: (response) => {
                         this.getRegion();
-                        // this.getRegion(this.paginatorPayload);
-                        // this.regions = this.regions.filter((val) => val.id !== region.id);
                         this.region = new Region();
                         this.messageService.add({
                             severity: 'success',
@@ -190,15 +177,8 @@ export class ManageRegionComponent {
                             life: 3000
                         });
                     },
-                    error: (error: HttpErrorResponse) => {
+                    error: () => {
                         this.loading = false;
-                        this.errorMessage = error.message;
-                        this.submitted = true;
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while deactivating region!',
-                            detail: ''
-                        });
                     }
                 });
             }
@@ -214,10 +194,6 @@ export class ManageRegionComponent {
                 this.regionService.deleteRegion(this.selectedRegions).subscribe({
                     next: (response) => {
                         this.getRegion();
-                        // this.getRegion(this.paginatorPayload);
-                        // this.regions = this.regions.filter(
-                        //   (val) => !this.selectedRegions.includes(val)
-                        // );
                         this.selectedRegions = [];
                         this.messageService.add({
                             severity: 'success',
@@ -226,15 +202,8 @@ export class ManageRegionComponent {
                             life: 3000
                         });
                     },
-                    error: (error: HttpErrorResponse) => {
+                    error: () => {
                         this.loading = false;
-                        this.errorMessage = error.message;
-                        this.submitted = true;
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while deactivating regions!',
-                            detail: ''
-                        });
                     }
                 });
             }
@@ -260,15 +229,8 @@ export class ManageRegionComponent {
                             life: 3000
                         });
                     },
-                    error: (error: HttpErrorResponse) => {
+                    error: () => {
                         this.loading = false;
-                        this.errorMessage = error.message;
-                        this.submitted = true;
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while activating region!',
-                            detail: ''
-                        });
                     }
                 });
             }
@@ -292,15 +254,8 @@ export class ManageRegionComponent {
                             life: 3000
                         });
                     },
-                    error: (error: HttpErrorResponse) => {
+                    error: () => {
                         this.loading = false;
-                        this.errorMessage = error.message;
-                        this.submitted = true;
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while activating regions!',
-                            detail: ''
-                        });
                     }
                 });
             }
@@ -334,6 +289,7 @@ export class ManageRegionComponent {
     generateExportData() {
         return this.data2;
     }
+    
     excelExport(): void {
         let reportData = {
             sheet_name: 'Regions',

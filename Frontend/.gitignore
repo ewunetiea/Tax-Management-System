@@ -45,3 +45,6 @@ Thumbs.db
 
 # Development
 /src/environments/
+
+# Environment files
+.env

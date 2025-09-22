@@ -6,7 +6,6 @@ import { BranchService } from '../../../../service/admin/branchService';
 import { RegionService } from '../../../../service/admin/regionService';
 import { PaginatorPayLoad } from '../../../../models/admin/paginator-payload';
 import { User } from '../../../../models/admin/user';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ValidationService } from '../../../../service/sharedService/validationService';
 import { StorageService } from '../../../../service/sharedService/storage.service';
 import { SharedUiModule } from '../../../../../shared-ui';
@@ -119,15 +118,9 @@ export class CreateEditBranchComponent {
                 this.passedBranch.push(this.isEditData);
                 this.emitData(this.passedBranch);
             },
-            error: (error: HttpErrorResponse) => {
-                this.loading = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while creating branch !',
-                    detail: ''
-                });
-                this.errorMessage = error.error.message;
-            }
+             error: () => {
+            this.loading = false;
+        }
         });
     }
 
@@ -158,7 +151,7 @@ export class CreateEditBranchComponent {
                 }
             },
             (error) => {
-                //
+                this.errorMessage = error.error.message;
             }
         );
     }
@@ -168,14 +161,9 @@ export class CreateEditBranchComponent {
             next: (data) => {
                 this.regions = data;
             },
-            error: (error) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching regions !',
-                    detail: '',
-                    life: 3000
-                });
-            }
+             error: () => {
+            this.loading = false;
+        }
         });
     }
 

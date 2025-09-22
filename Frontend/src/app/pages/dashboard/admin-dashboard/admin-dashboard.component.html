@@ -10,13 +10,13 @@
             <div class="flex justify-between mb-4">
                 <div>
                     <h5 class="block text-muted-color font-medium mb-4">IS <span>| Total</span></h5>
-                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ adminDashboardData!.card_data?.[0] }}</div>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ cardData[0] }}</div>
                 </div>
                 <div class="flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
                     <i class="pi pi-users text-blue-500 !text-xl"></i>
                 </div>
             </div>
-            <span class="text-primary font-medium">{{ adminDashboardData!.card_data?.[0] }} </span>
+            <span class="text-primary font-medium">{{ cardData[0] }} </span>
             <span class="text-muted-color">Users</span>
         </div>
     </div>
@@ -26,13 +26,13 @@
             <div class="flex justify-between mb-4">
                 <div>
                     <h5 class="block text-muted-color font-medium mb-4">MGT <span>| Total</span></h5>
-                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ adminDashboardData!.card_data?.[1] }}</div>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ cardData[1] }}</div>
                 </div>
                 <div class="flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
                     <i class="pi pi-users text-orange-500 !text-xl"></i>
                 </div>
             </div>
-            <span class="text-primary font-medium">{{ adminDashboardData!.card_data?.[1] }} </span>
+            <span class="text-primary font-medium">{{ cardData[1] }} </span>
             <span class="text-muted-color">Users</span>
         </div>
     </div>
@@ -42,13 +42,13 @@
             <div class="flex justify-between mb-4">
                 <div>
                     <h5 class="block text-muted-color font-medium mb-4">BFA <span>| Total</span></h5>
-                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ adminDashboardData!.card_data?.[2] }}</div>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ cardData[2]  }}</div>
                 </div>
                 <div class="flex items-center justify-center bg-cyan-100 dark:bg-cyan-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
                     <i class="pi pi-users text-cyan-500 !text-xl"></i>
                 </div>
             </div>
-            <span class="text-primary font-medium">{{ adminDashboardData!.card_data?.[2] }} </span>
+            <span class="text-primary font-medium">{{ cardData[2] }} </span>
             <span class="text-muted-color">Users</span>
         </div>
     </div>
@@ -58,13 +58,13 @@
             <div class="flex justify-between mb-4">
                 <div>
                     <h5 class="block text-muted-color font-medium mb-4">INS <span>| Total</span></h5>
-                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ adminDashboardData!.card_data?.[3] }}</div>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{cardData[3] }}</div>
                 </div>
                 <div class="flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
                     <i class="pi pi-users text-purple-500 !text-xl"></i>
                 </div>
             </div>
-            <span class="text-primary font-medium">{{ adminDashboardData!.card_data?.[3] }} </span>
+            <span class="text-primary font-medium">{{ cardData[3] }} </span>
             <span class="text-muted-color">Users</span>
         </div>
     </div>
@@ -80,7 +80,7 @@
 
 <!-- All Charts in ONE Grid -->
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-  
+
   <!-- Status Of Users Card -->
   <div class="card chart-card">
     <ng-container *ngIf="loading; else statusOfUsers">
@@ -104,7 +104,7 @@
           [routerLink]="['/applayout/admin/user-recent-activity']"></button>
       </h5>
       <div class="space-y-3 mt-4">
-        <div *ngFor="let ra of adminDashboardData.recentActivity" class="flex items-start gap-3">
+        <div *ngFor="let ra of recentActivityies" class="flex items-start gap-3">
           <div class="w-1/4 text-sm text-gray-500">{{ ra.created_date | timeago: true }}</div>
           <i class="bi bi-circle-fill text-green-500 mt-1"></i>
           <div class="flex-1 text-sm">{{ ra.message }}</div>
@@ -120,7 +120,7 @@
     </ng-container>
     <ng-template #activeStatus>
       <h5 class="card-title font-semibold">Users Active Status <span class="text-gray-500">| Audit</span></h5>
-      <p-chart type="radar" [data]="radar_data" [options]="chartOptions" class="w-2/5 mx-auto"></p-chart>
+      <p-chart type="radar" [data]="radarData" [options]="chartOptions" class="w-2/5 mx-auto"></p-chart>
     </ng-template>
   </div>
 
@@ -164,7 +164,7 @@
     </ng-container>
     <ng-template #horizontalBar>
       <h5 class="card-title font-semibold"># of Users <span class="text-gray-500">| Roles, BFA</span></h5>
-      <p-chart type="bar" [data]="horizontal_bar_chart_data" [options]="horizontalOptions"></p-chart>
+      <p-chart type="bar" [data]="horizontalBarChartData" [options]="horizontalOptions"></p-chart>
     </ng-template>
   </div>
 

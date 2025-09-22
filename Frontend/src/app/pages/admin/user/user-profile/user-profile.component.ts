@@ -5,17 +5,6 @@ import { User } from '../../../../models/admin/user';
 import { Password } from '../../../../models/admin/password';
 import { UserService } from '../../../../service/admin/user.service';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-import { DividerModule } from 'primeng/divider';
-import { ToastModule } from 'primeng/toast';
-import { PasswordModule } from 'primeng/password';
-import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { TabViewModule } from 'primeng/tabview';
-import { PanelModule } from 'primeng/panel';
-import { CardModule } from 'primeng/card';
 import { ImageSnippet } from '../../../../../helpers/image-snippet';
 import { SharedUiModule } from '../../../../../shared-ui';
 import { StorageService } from '../../../../service/sharedService/storage.service';
@@ -67,7 +56,7 @@ export class UserProfileComponent {
         private authService: AuthService,
         private messageService: MessageService,
         private confirmationService: ConfirmationService
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.home = { icon: 'pi pi-home', routerLink: '/' };
@@ -196,7 +185,7 @@ export class UserProfileComponent {
                     this.storageService.clean();
                     window.location.reload();
                 },
-                error: (err) => {}
+                error: (err) => { }
             });
         }
     }

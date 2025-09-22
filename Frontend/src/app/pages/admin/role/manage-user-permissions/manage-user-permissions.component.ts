@@ -93,16 +93,9 @@ export class ManageUserPermissionsComponent {
             });
 
           },
-          error: (error: HttpErrorResponse) => {
-            this.messageService.add({
-              severity: 'error',
-              summary:
-                error.status == 401
-                  ? 'You are not permitted to perform this action!'
-                  : 'Something went wrong while revoking Permissions!',
-              detail: '',
-            });
-          },
+           error: () => {
+            this.loading = false;
+        }
         });
       },
     });
@@ -124,16 +117,9 @@ export class ManageUserPermissionsComponent {
                 detail: 'Permissions granted successfully!',
               });
             },
-            error: (error: HttpErrorResponse) => {
-              this.messageService.add({
-                severity: 'error',
-                summary:
-                  error.status == 401
-                    ? 'You are not permitted to perform this action!'
-                    : 'Something went wrong while granting Permissions!',
-                detail: '',
-              });
-            },
+            error: () => {
+            this.loading = false;
+        }
           });
       },
     });

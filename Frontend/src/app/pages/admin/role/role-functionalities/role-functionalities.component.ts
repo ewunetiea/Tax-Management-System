@@ -88,14 +88,9 @@ export class RoleFunctionalitiesComponent implements OnInit {
                 this.loading = false;
                 this.roles = data;
             },
-            error: (error: HttpErrorResponse) => {
-                this.loading = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while retriving roles !',
-                    detail: ''
-                });
-            }
+             error: () => {
+            this.loading = false;
+        }
         });
     }
 
@@ -118,14 +113,9 @@ export class RoleFunctionalitiesComponent implements OnInit {
                 this.functionalities = data;
                 this.loading = false;
             },
-            error: (error: HttpErrorResponse) => {
-                this.loading = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while retrieving functionalities !',
-                    detail: ''
-                });
-            }
+             error: () => {
+            this.loading = false;
+        }
         });
     }
 
@@ -136,14 +126,9 @@ export class RoleFunctionalitiesComponent implements OnInit {
                 this.role.functionalities = this.assignedFunctionalities;
                 this.functionalityLoading = false;
             },
-            error: (error: HttpErrorResponse) => {
-                this.functionalityLoading = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching functionalities!',
-                    detail: ''
-                });
-            }
+             error: () => {
+            this.loading = false;
+        }
         });
     }
 
@@ -171,13 +156,9 @@ export class RoleFunctionalitiesComponent implements OnInit {
                 this.assignedFunctionalities = role.functionalities || [];
                 this.functionalityDialog = false;
             },
-            error: (error: HttpErrorResponse) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while assigning functionalities!',
-                    detail: ''
-                });
-            }
+             error: () => {
+            this.loading = false;
+        }
         });
     }
 
@@ -195,13 +176,9 @@ export class RoleFunctionalitiesComponent implements OnInit {
                     detail: 'Functionalities updated successfully!'
                 });
             },
-            error: (error: HttpErrorResponse) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while updating functionalities!',
-                    detail: ''
-                });
-            }
+            error: () => {
+            this.loading = false;
+        }
         });
     }
 }

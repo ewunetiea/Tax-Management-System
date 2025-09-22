@@ -17,7 +17,7 @@ export class RegionService {
     // }
 
     getRegions(): Observable<Region[]> {
-        return this.httpClient.get<Region[]>(baseUrl + '/region');
+        return this.httpClient.get<Region[]>(baseUrl + '/regionsss');
     }
 
     getAllRegions(): Observable<Region[]> {

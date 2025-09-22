@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Table } from 'primeng/table';
 import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
@@ -89,7 +88,6 @@ export class ManagebranchComponent {
 
     onDataChange(data: any) {
         if (data[1]) {
-            // this.getBranches(this.paginatorPayload);
             this.getBranches();
             this.branches = [...this.branches];
             this.branchEditDialog = false;
@@ -134,13 +132,8 @@ export class ManagebranchComponent {
                     this.paginatorPayload.totalRecords = 0;
                 }
             },
-            error: (error) => {
+            error: () => {
                 this.loading = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching branches!',
-                    detail: ''
-                });
             }
         });
     }
@@ -149,7 +142,6 @@ export class ManagebranchComponent {
         this.paginatorPayload.currentPage = event.first / event.rows + 1;
         this.paginatorPayload.pageSize = event.rows;
         this.paginatorPayload.event_length = event.rows;
-        // this.getBranches(this.paginatorPayload);
     }
 
     generateData(): any[] {
@@ -208,8 +200,6 @@ export class ManagebranchComponent {
                 this.branchService.deleteBranches(this.passBranches).subscribe({
                     next: (response) => {
                         this.getBranches();
-                        // this.getBranches(this.paginatorPayload);
-                        // this.branchs = this.branchs.filter((val) => val.id !== branch.id);
                         this.branch = new Branch();
                         this.messageService.add({
                             severity: 'success',
@@ -218,15 +208,8 @@ export class ManagebranchComponent {
                             life: 3000
                         });
                     },
-                    error: (error: HttpErrorResponse) => {
+                    error: () => {
                         this.loading = false;
-                        this.errorMessage = error.message;
-                        this.submitted = true;
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while deactivating branch!',
-                            detail: ''
-                        });
                     }
                 });
             }
@@ -242,10 +225,6 @@ export class ManagebranchComponent {
                 this.branchService.deleteBranches(this.selectedBranches).subscribe({
                     next: (response) => {
                         this.getBranches();
-                        // this.getBranches(this.paginatorPayload);
-                        // this.branchs = this.branchs.filter(
-                        //   (val) => !this.selectedbranchs.includes(val)
-                        // );
                         this.selectedBranches = [];
                         this.messageService.add({
                             severity: 'success',
@@ -254,15 +233,8 @@ export class ManagebranchComponent {
                             life: 3000
                         });
                     },
-                    error: (error: HttpErrorResponse) => {
+                    error: () => {
                         this.loading = false;
-                        this.errorMessage = error.message;
-                        this.submitted = true;
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while deactivating branches!',
-                            detail: ''
-                        });
                     }
                 });
             }
@@ -288,15 +260,8 @@ export class ManagebranchComponent {
                             life: 3000
                         });
                     },
-                    error: (error: HttpErrorResponse) => {
+                    error: () => {
                         this.loading = false;
-                        this.errorMessage = error.message;
-                        this.submitted = true;
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while activating branch!',
-                            detail: ''
-                        });
                     }
                 });
             }
@@ -320,15 +285,8 @@ export class ManagebranchComponent {
                             life: 3000
                         });
                     },
-                    error: (error: HttpErrorResponse) => {
+                    error: () => {
                         this.loading = false;
-                        this.errorMessage = error.message;
-                        this.submitted = true;
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while activating branches!',
-                            detail: ''
-                        });
                     }
                 });
             }

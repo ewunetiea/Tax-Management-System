@@ -1,45 +1,9 @@
-<!-- <header id="header" class="header fixed-top d-flex align-items-center"> -->
-  <div class="row">
+<div class="row">
     <div class="col-lg-12">
     <p-toast></p-toast>
     <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
-        <li class="nav-item d-block d-lg-none">
-          <a class="nav-link nav-icon search-bar-toggle" href="#">
-            <i class="bi bi-search"></i>
-          </a>
-        </li>
-        <li class="nav-item dropdown">
-          <a
-            *ngIf="admin"
-            (click)="openLogModal()"
-            class="nav-link nav-icon"
-            href="#"
-            data-bs-toggle="dropdown"
-          >
-            <i
-              ><img
-                class="awash-bank-login-logo"
-                src="assets/img/log.png"
-                alt="Log"
-                width="20"
-                height="20"
-            /></i>
-          </a>
-        </li>
-  
-        <li class="nav-item dropdown">
-          <a
-            *ngIf="admin"
-            (click)="modalSetting()"
-            class="nav-link nav-icon"
-            href="#"
-            data-bs-toggle="dropdown"
-          >
-            <i class="bi bi-gear"></i>
-          </a>
-        </li>
-  
+      <ul class="d-flex align-items-center"><li class="nav-item dropdown">
+
         <li class="nav-item dropdown">
           <a
             *ngIf="admin"
@@ -114,7 +78,7 @@
     </nav>
     </div>
     </div>
-  <!-- </header> -->
+    
   
   <p-dialog
     [(visible)]="notificationDialog"
@@ -160,51 +124,6 @@
         icon="pi pi-times"
         class="p-button-text"
         (click)="notificationDialog = false"
-      ></button>
-    </ng-template>
-  </p-dialog>
-  
-  <p-dialog
-    [(visible)]="logDialog"
-    header="Log Information"
-    [modal]="true"
-    styleClass="p-fluid"
-    [maximizable]="true"
-  >
-    <ng-template pTemplate="content">
-      <app-log></app-log>
-    </ng-template>
-    <ng-template pTemplate="footer">
-      <button
-        pButton
-        pRipple
-        label="Cancel"
-        icon="pi pi-times"
-        class="p-button-text"
-        (click)="hideDialog()"
-      ></button>
-    </ng-template>
-  </p-dialog>
-  
-  <p-dialog
-    [(visible)]="settingDialog"
-    header="System Settings"
-    [modal]="true"
-    [style]="{ width: '600px' }"
-    styleClass="p-fluid"
-    [maximizable]="true"
-  >
-    <ng-template pTemplate="content">
-      <app-setting-configuration></app-setting-configuration>
-    </ng-template>
-    <ng-template pTemplate="footer">
-      <button
-        pButton
-        pRipple
-        label="Cancel"
-        icon="pi pi-times"
-        class="p-button-text"
-        (click)="hideDialog()"
       ></button>
     </ng-template>
   </p-dialog>

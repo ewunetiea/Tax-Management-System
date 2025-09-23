@@ -58,7 +58,6 @@ export class AppTopbar {
 
     ngOnInit() {
         this.isLoggedIn = this.storageService.isLoggedIn();
-        this.check_notification_list.length = 6; // Set default length to 6
         if (this.isLoggedIn) {
             const user = this.storageService.getUser();
             this.roles = user.roles;

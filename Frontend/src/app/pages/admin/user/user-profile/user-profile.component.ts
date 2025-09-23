@@ -15,7 +15,7 @@ import { AuthService } from '../../../../service/sharedService/auth.service';
 @Component({
     selector: 'app-user-profile',
     imports: [SharedUiModule],
-    providers: [MessageService, ConfirmationService],
+    
     templateUrl: './user-profile.component.html',
     styleUrl: './user-profile.component.scss'
 })

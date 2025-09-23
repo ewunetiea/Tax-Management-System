@@ -45,7 +45,7 @@ import { RoleFunctionalityService } from '../../../../service/admin/roleFunction
         Tooltip,
         CreateEditFunctionalitiesComponent
     ],
-    providers: [MessageService, ConfirmationService],
+    
     templateUrl: './manage-role-functionalities.component.html',
     styleUrl: './manage-role-functionalities.component.scss'
 })

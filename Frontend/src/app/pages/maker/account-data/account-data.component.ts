@@ -24,7 +24,7 @@ interface ExportColumn {
 @Component({
     standalone: true,
     selector: 'app-account-data',
-    providers: [MessageService, ConfirmationService],
+    
     imports: [
 
         DialogModule,

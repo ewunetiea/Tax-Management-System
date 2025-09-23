@@ -72,8 +72,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
         if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
           String username = jwtUtils.getUserNameFromJwtToken(jwt);
-
           User user = userMapper.findByEmail(username);
+          
           if (user == null) {
             throw new UnsupportedJwtException("User not found");
           }

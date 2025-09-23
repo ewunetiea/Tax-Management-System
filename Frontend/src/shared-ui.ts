@@ -106,7 +106,8 @@ import { PopoverModule } from 'primeng/popover';
         DatePicker,
         ChartModule,
         FluidModule,
-        PopoverModule
+        PopoverModule,
+        OverlayPanelModule
     ],
     exports: [
         CommonModule,
@@ -166,7 +167,8 @@ import { PopoverModule } from 'primeng/popover';
         DatePicker,
         ChartModule,
         FluidModule,
-        PopoverModule 
+        PopoverModule,
+        OverlayPanelModule
     ]
 })
 export class SharedUiModule {}

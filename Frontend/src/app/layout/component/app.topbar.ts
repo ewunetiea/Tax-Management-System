@@ -58,7 +58,6 @@ export class AppTopbar {
 
     ngOnInit() {
         this.isLoggedIn = this.storageService.isLoggedIn();
-        this.check_notification_list.length = 6; // Set default length to 5
         if (this.isLoggedIn) {
             const user = this.storageService.getUser();
             this.roles = user.roles;
@@ -94,7 +93,7 @@ export class AppTopbar {
                 routerLink: ['/applayout/manage-contact']
             },
             {
-                label: 'Notifications',
+                label: 'Notification',
                 icon: 'pi pi-fw pi-bell',
                 badge: this.check_notification_list.length > 0 ? this.check_notification_list.length.toString() : undefined,
                 badgeStyleClass: 'p-badge-danger' ,

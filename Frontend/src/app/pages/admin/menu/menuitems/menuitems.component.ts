@@ -53,7 +53,7 @@ import { StorageService } from '../../../../service/sharedService/storage.servic
         SelectButtonModule,
         InputIconModule
     ],
-    providers: [MessageService, ConfirmationService],
+    
     templateUrl: './menuitems.component.html',
     styleUrl: './menuitems.component.scss'
 })

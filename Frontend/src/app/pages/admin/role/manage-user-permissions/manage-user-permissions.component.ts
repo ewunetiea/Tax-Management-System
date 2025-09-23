@@ -11,7 +11,7 @@ import { UserFunctionalityService } from '../../../../service/admin/user-functio
 @Component({
     selector: 'app-manage-user-permissions',
     imports: [SharedUiModule, UserSearchEngineComponent],
-    providers: [MessageService, ConfirmationService],
+    
     templateUrl: './manage-user-permissions.component.html',
     styleUrl: './manage-user-permissions.component.scss'
 })

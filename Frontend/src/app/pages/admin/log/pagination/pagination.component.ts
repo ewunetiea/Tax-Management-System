@@ -8,7 +8,7 @@ import { MessageService } from 'primeng/api/messageservice';
     standalone:true,
   selector: 'app-pagination',
    imports: [  SharedUiModule ],
-         providers: [MessageService, ConfirmationService],
+         
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.css']
 })

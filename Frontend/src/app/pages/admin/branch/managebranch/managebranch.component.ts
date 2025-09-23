@@ -12,7 +12,7 @@ import { SharedUiModule } from '../../../../../shared-ui';
     selector: 'app-managebranch',
     standalone: true,
     imports: [SharedUiModule, CreateEditBranchComponent],
-    providers: [MessageService, ConfirmationService],
+    
     templateUrl: './managebranch.component.html',
     styleUrl: './managebranch.component.scss'
 })

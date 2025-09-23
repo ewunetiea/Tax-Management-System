@@ -15,7 +15,7 @@ import { WebSocketService } from '../../service/sharedService/WebSocketService';
     selector: 'app-login',
     standalone: true,
     imports: [AppFloatingConfigurator, SharedUiModule],
-    providers: [MessageService, ConfirmationService],
+    
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css']
 })

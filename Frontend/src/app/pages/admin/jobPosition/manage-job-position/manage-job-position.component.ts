@@ -40,7 +40,7 @@ import { InputTextModule } from 'primeng/inputtext';
         ButtonModule,
         InputTextModule
     ],
-    providers: [MessageService, ConfirmationService],
+    
     templateUrl: './manage-job-position.component.html',
     styleUrl: './manage-job-position.component.scss'
 })

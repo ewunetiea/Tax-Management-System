@@ -16,7 +16,7 @@ interface Schedule {
     selector: 'app-schedules',
     standalone: true,
     imports: [SharedUiModule],
-    providers: [MessageService, ConfirmationService],
+    
     templateUrl: './schedules.component.html',
     styleUrl: './schedules.component.scss'
 })

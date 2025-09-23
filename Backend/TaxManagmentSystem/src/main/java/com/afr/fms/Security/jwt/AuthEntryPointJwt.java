@@ -87,8 +87,7 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
       String username = userDetailsService.getUsername();
       String ip_address = HttpUtils.clientIp(request);
       UserAgent userAg = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
-      String browserType = userAg.getBrowser().getName() + " " + userAg.getBrowserVersion() + " "
-          + userAg.getOperatingSystem();
+      String browserType = userAg.getBrowser().getName() + " " + userAg.getBrowserVersion() + " "  + userAg.getOperatingSystem();
 
       userTrakerMapper.registerUnAutorizedUsers(username, browserType, ip_address);
       userSecurityMapper.addFailedUserName(username);

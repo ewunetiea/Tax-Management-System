@@ -47,12 +47,13 @@ import { CalendarModule } from 'primeng/calendar';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { DatePicker } from 'primeng/datepicker';
 import { FluidModule } from 'primeng/fluid';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { PopoverModule } from 'primeng/popover';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
-        ToastModule,
 
         // PrimeNG
         TextareaModule,
@@ -105,11 +106,11 @@ import { FluidModule } from 'primeng/fluid';
         DatePicker,
         ChartModule,
         FluidModule,
+        PopoverModule
     ],
     exports: [
         CommonModule,
         FormsModule,
-        ToastModule,
 
         // PrimeNG
         TextareaModule,
@@ -165,7 +166,7 @@ import { FluidModule } from 'primeng/fluid';
         DatePicker,
         ChartModule,
         FluidModule,
-        
+        PopoverModule 
     ]
 })
 export class SharedUiModule {}

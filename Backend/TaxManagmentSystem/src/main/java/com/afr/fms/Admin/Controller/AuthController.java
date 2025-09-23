@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import com.afr.fms.AD.Service.ADService;
 import com.afr.fms.Admin.Entity.Role;
 import com.afr.fms.Admin.Entity.User;
+import com.afr.fms.Admin.Entity.UserSession;
 import com.afr.fms.Admin.Mapper.JobPositionMapper;
 import com.afr.fms.Admin.Mapper.RoleMapper;
 import com.afr.fms.Admin.Mapper.UserMapper;
@@ -30,14 +31,16 @@ import com.afr.fms.Payload.request.LoginRequest;
 import com.afr.fms.Payload.response.MessageResponse;
 import com.afr.fms.Payload.response.UserInfoResponse;
 import com.afr.fms.Security.UserDetailsImpl;
+import com.afr.fms.Security.Password.ChangeMyPasswordDto;
 import com.afr.fms.Security.Password.PasswordService;
 import com.afr.fms.Security.UserSecurity.entity.RefreshToken;
+import com.afr.fms.Security.UserSecurity.entity.UserSecurity;
 import com.afr.fms.Security.UserSecurity.exception.TokenRefreshException;
 import com.afr.fms.Security.UserSecurity.service.RefreshTokenService;
 import com.afr.fms.Security.UserSecurity.service.UserSecurityService;
 import com.afr.fms.Security.WebSocket.SessionManager;
 import com.afr.fms.Security.WebSocket.UserSessionRepository;
-import com.afr.fms.Security.exception.MultipleSessionsException;
+import com.afr.fms.Security.exception.UserNotFoundException;
 import com.afr.fms.Security.jwt.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,25 +97,26 @@ public class AuthController {
         private SessionManager sessionManager;
 
         @PostMapping("/signin")
-        public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, HttpServletRequest request) throws MultipleSessionsException {
+        public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
+                        HttpServletRequest request) throws Exception {
+
                 String username = loginRequest.getUsername();
 
                 // Step 1: AD authentication
                 // try {
-                //         Object userDetail = adService.getADUserDetails(loginRequest.getUsername(),
-                //                         loginRequest.getPassword());
+                //         boolean userDetail = adService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword());
 
-                //         if (userDetail == null) {
+                //         if (!userDetail) {
                 //                 throw new UserNotFoundException(
                 //                                 "Invalid credentials. Please provide the correct username and password.");
                 //         }
                 // } catch (UserNotFoundException e) {
                 //         logger.error("User not found for username: {}", loginRequest.getUsername(),
-                //                         e);
+                //                         e.getMessage());
                 //         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse(e.getMessage()));
                 // } catch (Exception e) {
                 //         logger.error("Error while validating ad for username: {}",
-                //                         loginRequest.getUsername(), e);
+                //                         loginRequest.getUsername(), e.getMessage());
                 //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 //                         .body(new MessageResponse(
                 //                                         "An error occurred during authentication. Please try again later."));
@@ -121,7 +125,7 @@ public class AuthController {
                 // Step 2: Check if user already has an active session
                 // List<UserSession> sessions = userSessionRepository.findByUserName(username);
                 // if (sessions != null && sessions.size() > 0) {
-                //         throw MultipleSessionsException.forUser(username, sessions.size());
+                // throw MultipleSessionsException.forUser(username, sessions.size());
                 // }
 
                 // Step 3: Proceed with normal login
@@ -129,32 +133,36 @@ public class AuthController {
         }
 
         private ResponseEntity<?> doLogin(LoginRequest loginRequest, HttpServletRequest request) {
-                // try {
-                //         User user = userService.findByFusionUsername(loginRequest.getUsername());
-                //         if (user != null) {
-                //                 ChangeMyPasswordDto passDto = new ChangeMyPasswordDto();
-                //                 passDto.setId(user.getId());
-                //                 passDto.setPassword(loginRequest.getPassword());
-                //                 passDto.setOldPassword(user.getPassword());
+                try {
+                        User user = userService.findByFusionUsername(loginRequest.getUsername());
+                        if (user != null) {
+                                ChangeMyPasswordDto passDto = new ChangeMyPasswordDto();
+                                passDto.setId(user.getId());
+                                passDto.setPassword(loginRequest.getPassword());
+                                passDto.setOldPassword(user.getPassword());
 
-                //                 if (passwordService.passwordDoesnotMatchWithNewPasswordAD(passDto)) {
-                //                         passwordService.changeMyPassword(passDto);
-                //                 }
+                                if (passwordService.passwordDoesnotMatchWithNewPasswordAD(passDto)) {
+                                        passwordService.changeMyPassword(passDto);
+                                }
 
-                //                 UserSecurity us = user.getUser_security();
-                //                 userSecurityService.checkCredentialTimeExpired(us);
-                //         }
-                // } catch (Exception e) {
-                //         logger.error("Error checking user credential expiration for username: {}",
-                //                         loginRequest.getUsername(), e);
-                // }
+                                UserSecurity us = user.getUser_security();
+                                userSecurityService.checkCredentialTimeExpired(us);
+                        }
+                } catch (Exception e) {
+                        logger.error("Error checking user credential expiration for username: {}",
+                                        loginRequest.getUsername(), e);
+                }
 
-                Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+                Authentication authentication = authenticationManager
+                                .authenticate(new UsernamePasswordAuthenticationToken(
+                                                loginRequest.getUsername(), loginRequest.getPassword()));
+
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
                 // Generate tokens
                 ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails, request);
+
                 String ipAddress = HttpUtils.clientIp(request);
 
                 // Register login tracker
@@ -162,18 +170,24 @@ public class AuthController {
                                 loginRequest.getUsername(),
                                 loginRequest.getUserAgent(),
                                 ipAddress);
-                                
                 // Register session in DB
-                sessionManager.registerSession(loginRequest.getUsername(), id_login_tracker);
+
+                // sessionManager.registerSession(loginRequest.getUsername(), id_login_tracker);
 
                 // Prepare response
                 List<String> roles = userDetails.getAuthorities().stream()
                                 .map(item -> item.getAuthority())
                                 .collect(Collectors.toList());
 
-                String title = userMapper.findByFusionUsername(loginRequest.getUsername()).getJobPosition().getTitle();
-                RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId(), id_login_tracker);
+                String title = userMapper.findByFusionUsername(loginRequest.getUsername())
+                                .getJobPosition().getTitle();
+
+                RefreshToken refreshToken = refreshTokenService.createRefreshToken(
+                                userDetails.getId(),
+                                id_login_tracker);
+
                 ResponseCookie jwtRefreshCookie = jwtUtils.generateRefreshJwtCookie(refreshToken.getToken(), request);
+
                 return ResponseEntity.ok()
                                 .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                                 .header(HttpHeaders.SET_COOKIE, jwtRefreshCookie.toString())
@@ -205,7 +219,8 @@ public class AuthController {
         }
 
         @GetMapping("/signout/{id_login_tracker}")
-        public ResponseEntity<?> logoutUser(@PathVariable("id_login_tracker") Long id_login_tracker, HttpServletRequest request) {
+        public ResponseEntity<?> logoutUser(@PathVariable("id_login_tracker") Long id_login_tracker,
+                        HttpServletRequest request) {
                 try {
                         Object principle = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -215,19 +230,21 @@ public class AuthController {
 
                                 if (principle instanceof UserDetailsImpl) {
                                         String username = ((UserDetailsImpl) principle).getUsername();
-                                        sessionManager.invalidateSession(username, id_login_tracker);
+                                        // sessionManager.invalidateSession(username, id_login_tracker);
                                 }
                         }
 
                         ResponseCookie jwtCookie = jwtUtils.getCleanJwtCookie(request);
                         ResponseCookie jwtRefreshCookie = jwtUtils.getCleanJwtRefreshCookie(request);
+
                         return ResponseEntity.ok()
                                         .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                                         .header(HttpHeaders.SET_COOKIE, jwtRefreshCookie.toString())
                                         .body(new MessageResponse("You've been signed out!"));
                 } catch (Exception e) {
                         logger.error("Logout failed for tracker: {}", id_login_tracker, e);
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Logout failed. Please try again."));
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                        .body(new MessageResponse("Logout failed. Please try again."));
                 }
         }
 
@@ -241,18 +258,23 @@ public class AuthController {
                                                 .map(RefreshToken::getUser)
                                                 .map(user -> {
                                                         user.setUsername(user.getEmail());
-                                                        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(user, request);
+                                                        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(user,
+                                                                        request);
                                                         return ResponseEntity.ok()
-                                                                        .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                                                                        .body(new MessageResponse("JWT is refreshed successfully!"));
+                                                                        .header(HttpHeaders.SET_COOKIE,
+                                                                                        jwtCookie.toString())
+                                                                        .body(new MessageResponse(
+                                                                                        "JWT is refreshed successfully!"));
                                                 })
                                                 .orElseThrow(() -> new TokenRefreshException(refreshToken,
                                                                 "Refresh token is not in database!"));
                         }
-                        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageResponse("Refresh Token is empty!"));
+                        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                                        .body(new MessageResponse("Refresh Token is empty!"));
                 } catch (Exception e) {
                         logger.error("Error occurred during token refresh", e);
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("An error occurred during token refresh. Please try again later."));
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse(
+                                        "An error occurred during token refresh. Please try again later."));
                 }
         }
 
@@ -262,7 +284,8 @@ public class AuthController {
                         List<Role> roles = new ArrayList<>();
                         if (user != null) {
                                 if (user.getJobPosition() != null && user.getJobPosition().getId() != null) {
-                                        roles = jobPositionMapper.getRoleByJobPositionId(user.getJobPosition().getId(),user.getCategory());
+                                        roles = jobPositionMapper.getRoleByJobPositionId(user.getJobPosition().getId(),
+                                                        user.getCategory());
                                         if (roles != null) {
                                                 try {
                                                         List<String> rolesName = roles.stream()

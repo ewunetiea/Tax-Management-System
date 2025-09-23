@@ -1,13 +1,10 @@
-import { DOCUMENT } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment.prod';
 import { NotifyAdmin } from '../../../../models/admin/notify-admin';
 import { RealTime } from '../../../../models/admin/real-time';
-import { SettingConfigurationComponent } from '../../setting-configuration/setting-configuration.component';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { LogComponent } from '../../log/log/log.component';
 import { SharedUiModule } from '../../../../../shared-ui';
 import { StorageService } from '../../../../service/sharedService/storage.service';
 import { AuthService } from '../../../../service/sharedService/auth.service';
@@ -15,8 +12,7 @@ import { NotifyMeService } from '../../../../service/admin/notify-service';
 
 @Component({
     selector: 'app-admin-notification',
-    imports: [SharedUiModule, SettingConfigurationComponent, LogComponent],
-    providers: [MessageService, ConfirmationService],
+    imports: [SharedUiModule, CommonModule],
     templateUrl: './admin-notification.component.html',
     styleUrl: './admin-notification.component.scss'
 })
@@ -26,7 +22,6 @@ export class AdminNotificationComponent {
         fileName: string;
         hiddenColumns: boolean;
     };
-
     submitted: boolean = false;
     errorMessage = '';
     success: boolean = false;
@@ -194,10 +189,6 @@ export class AdminNotificationComponent {
         audio.src = 'assets/alert_sound/alert.mp3';
         audio.load();
         audio.play();
-    }
-
-    modalSetting() {
-        this.settingDialog = true;
     }
 
     back() {

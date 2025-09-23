@@ -1,43 +1,3 @@
-<!-- <div class="layout-topbar w-full">
-    <p-menubar [model]="nestedMenuItems" class="w-full">
-        <ng-template #start>
-            <div class="layout-topbar-logo-container flex items-center gap-2">
-                <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()">
-                    <i class="pi pi-bars"></i>
-                </button>
-                <a class="layout-topbar-logo flex items-center gap-2" routerLink="/">
-                    <img src="assets/img/Awash_International_Bank.png" alt="Awash Bank Logo" class="mb-4 w-8 mx-auto" />
-                    <span class="font-semibold text-lg text-primary">{{ category }}</span>
-                </a>
-            </div>
-        </ng-template>
-        <ng-template #end>
-            <div class="layout-config-menu flex items-center gap-4 w-full justify-end">
-                <button type="button" class="layout-topbar-action" (click)="toggleDarkMode()">
-                    <i [ngClass]="{ pi: true, 'pi-moon': layoutService.isDarkTheme(), 'pi-sun': !layoutService.isDarkTheme() }"></i>
-                </button>
-                <div class="relative">
-                    <button
-                        class="layout-topbar-action layout-topbar-action-highlight"
-                        pStyleClass="@next"
-                        enterFromClass="hidden"
-                        enterActiveClass="animate-scalein"
-                        leaveToClass="hidden"
-                        leaveActiveClass="animate-fadeout"
-                        [hideOnOutsideClick]="true"
-                    >
-                        <i class="pi pi-palette"></i>
-                    </button>
-                    <app-configurator></app-configurator>
-                </div>
-                <p-iconfield>
-                    <p-inputicon class="pi pi-search" />
-                    <input type="text" pInputText placeholder="Search" />
-                </p-iconfield>
-            </div>
-        </ng-template>
-    </p-menubar>
-</div> -->
 <div class="layout-topbar w-full">
     <!-- Menubar skeleton -->
     <div *ngIf="loading; else menubarContent" class="flex items-center justify-between px-4 py-2 w-full">
@@ -93,6 +53,7 @@
                     <button type="button" class="layout-topbar-action" (click)="toggleDarkMode()">
                         <i [ngClass]="{ pi: true, 'pi-moon': layoutService.isDarkTheme(), 'pi-sun': !layoutService.isDarkTheme() }"></i>
                     </button>
+                    
                     <div class="relative">
                         <button
                             class="layout-topbar-action layout-topbar-action-highlight"

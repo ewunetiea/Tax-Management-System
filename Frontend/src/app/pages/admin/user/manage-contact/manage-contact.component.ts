@@ -11,7 +11,7 @@ import { ContactService } from '../../../../service/admin/contact-service';
 @Component({
     selector: 'app-manage-contact',
     imports: [SharedUiModule],
-    providers: [MessageService, ConfirmationService],
+    
     templateUrl: './manage-contact.component.html',
     styleUrl: './manage-contact.component.scss'
 })

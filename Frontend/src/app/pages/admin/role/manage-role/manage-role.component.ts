@@ -19,7 +19,6 @@ interface ExportColumn {
     selector: 'app-manage-role',
     standalone: true,
     imports: [SharedUiModule, CreateEditRoleComponent],
-    providers: [MessageService, ConfirmationService],
     templateUrl: './manage-role.component.html',
     styleUrl: './manage-role.component.scss'
 })

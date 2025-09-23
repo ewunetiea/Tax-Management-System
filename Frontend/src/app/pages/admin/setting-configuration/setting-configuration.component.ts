@@ -11,7 +11,7 @@ import { MaxFailedAndJwtControlService } from '../../../service/admin/max-failed
     selector: 'app-setting-configuration',
     imports: [SharedUiModule],         // ✅ Must be here
 
-    providers: [MessageService, ConfirmationService],
+    
     templateUrl: './setting-configuration.component.html',
     styleUrls: ['./setting-configuration.component.css'],
 })

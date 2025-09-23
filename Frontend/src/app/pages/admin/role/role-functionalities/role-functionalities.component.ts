@@ -46,7 +46,7 @@ import { RoleFunctionalityService } from '../../../../service/admin/roleFunction
         InputTextModule,
         SelectButton
     ],
-    providers: [MessageService, ConfirmationService],
+    
     templateUrl: './role-functionalities.component.html',
     styleUrl: './role-functionalities.component.scss'
 })

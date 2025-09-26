@@ -36,8 +36,7 @@ public class JobPositionService {
         List<JobPosition> assignedJobPositions = jobPositionMapper.getJobPositionsByRoleIdList(jobPositionRole.getRole().getId());
         List<JobPosition> newjobPositionList = (List<JobPosition>) jobPositionRole.getRole().getJobPositions();
         List<JobPosition> removedJobPositions = new ArrayList<>();
-        List<Long> newJobPositionListIDs = newjobPositionList.stream().map(JobPosition::getId)
-                .collect(Collectors.toList());
+        List<Long> newJobPositionListIDs = newjobPositionList.stream().map(JobPosition::getId).collect(Collectors.toList());
         for (JobPosition jobPosition : assignedJobPositions) {
             // if (!jobPositionList.contains(jobPosition)) {
             // jobPositionRest.add(jobPosition);
@@ -50,15 +49,13 @@ public class JobPositionService {
         jobPositionMapper.deleteJobPositionsByRole(jobPositionRole);
 
         // Get users by their role id
-
         List<User> userList = new ArrayList<>();
         // for (JobPosition jobPosition2 : newjobPositionList) {
         // userList.addAll(userMapper.getUsersByJobPositionId(jobPosition2.getId()));
         // }
 
         for (JobPosition jobPosition2 : newjobPositionList) {
-            userList.addAll(
-                    userMapper.getUsersByJobPositionIdandRolePosition(jobPosition2.getId(), role.getRole_position()));
+            userList.addAll(userMapper.getUsersByJobPositionIdandRolePosition(jobPosition2.getId(), role.getRole_position()));
         }
 
         try {
@@ -70,7 +67,6 @@ public class JobPositionService {
                 userMapper.removeAllUserRoles(user.getId());
                 userMapper.addUserRole(user.getId(), jobPositionRole.getRole());
                 userMapper.changeUserStatus(user.getId(), true);
-
             }
 
             for (JobPosition jobPosition : removedJobPositions) {

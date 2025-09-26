@@ -11,8 +11,6 @@ import com.afr.fms.Admin.Entity.Role;
 @Mapper
 public interface JobPositionMapper {
 
-        ;
-
         @Select("Select * from role_job_position where role_id = #{id}")
         @Results(value = {
                         @Result(property = "role", column = "role_id", one = @One(select = "com.bfp.elfms.Admin.Mapper.UserRoleMapper.getRoleById")),

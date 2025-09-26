@@ -66,14 +66,11 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
           userSecurityService.increaseFailedAttempts(us);
         } else {
           userSecurityService.lock(us);
-          authException = new LockedException("Your account has been locked due to " + setting.getMaximum_attempt()
-              + " failed attempts."
-              + " It will be unlocked after " + lock_time + " hours. For more info contact with System Administrator");
+          authException = new LockedException("Your account has been locked due to " + setting.getMaximum_attempt() + " failed attempts." + " It will be unlocked after " + lock_time + " hours. For more info contact with System Administrator");
         }
       } else if (!us.isAccountNonLocked()) {
         if (!userSecurityService.unlockWhenTimeExpired(us)) {
-          authException = new LockedException("Your account has been locked. Please try to login again." +
-              " For more info contact with System Administrator");
+          authException = new LockedException("Your account has been locked. Please try to login again." +  " For more info contact with System Administrator");
         }
       }
 

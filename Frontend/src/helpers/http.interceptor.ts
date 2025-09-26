@@ -1,4 +1,3 @@
-// src/helpers/http.interceptor.ts
 import { HttpInterceptorFn, HttpRequest, HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Observable, throwError } from 'rxjs';

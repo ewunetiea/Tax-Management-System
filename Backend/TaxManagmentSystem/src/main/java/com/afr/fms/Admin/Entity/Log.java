@@ -8,11 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Log {
-    
     private Long id;
     private String name;
     private String exception;
     private String log_time;
- 
-
 }

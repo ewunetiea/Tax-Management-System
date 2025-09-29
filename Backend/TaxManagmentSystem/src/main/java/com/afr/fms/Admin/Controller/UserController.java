@@ -97,7 +97,6 @@ public class UserController {
             logger.error("Error occurred during replacing HR Data:", ex);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
 
     @PostMapping("/user/generate")

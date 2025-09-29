@@ -159,18 +159,12 @@ public class CopyFromHRSystemService {
 
                         // check the following code carefully
                         if (user.getJobPosition() != null)
-                            if (!user.getJobPosition().getTitle().trim()
-                                    .equalsIgnoreCase(userCopyFromHR.getPosition().trim())) {
-
-                                List<JobPosition> registeredJobPositions = jobPositionMapper
-                                        .getJobPositionsByTitle(userCopyFromHR.getPosition());
-
+                            if (!user.getJobPosition().getTitle().trim().equalsIgnoreCase(userCopyFromHR.getPosition().trim())) {
+                                List<JobPosition> registeredJobPositions = jobPositionMapper.getJobPositionsByTitle(userCopyFromHR.getPosition());
                                 JobPosition jobPositionForUser = registeredJobPositions.get(0);
-
                                 List<Role> roles = new ArrayList<>();
                                 for (JobPosition jobPosition : registeredJobPositions) {
-                                    roles = jobPositionMapper.getRoleByJobPositionId(jobPosition.getId(),
-                                            user.getCategory());
+                                    roles = jobPositionMapper.getRoleByJobPositionId(jobPosition.getId(), user.getCategory());
                                     if (roles != null) {
                                         jobPositionForUser = jobPosition;
                                         break;
@@ -202,7 +196,6 @@ public class CopyFromHRSystemService {
                 log.setName("Schedule that copy Users From HR System");
                 log.setException(e.getMessage());
                 logMapper.addLog(log);
-
                 logger.error("Error occurred while processing HR Data", e);
 
             }
@@ -235,9 +228,7 @@ public class CopyFromHRSystemService {
                     code = code + c;
                 }
             }
-
         }
-
         return code;
     }
 
@@ -260,13 +251,10 @@ public class CopyFromHRSystemService {
     }
 
     public char[] generateCode(int length, String code) {
-
         String[] spilitedCode = StringUtils.split(code);
-
         String storeChar = "";
         Random random = new Random();
         char[] generatedCode = new char[length];
-
         int index = 0;
         for (String c : spilitedCode) {
             generatedCode[index++] = c.charAt(0);

@@ -35,7 +35,7 @@ export class DashboardContainerComponent {
             this.approver = this.roles.includes('ROLE_APPROVER_IS') || this.roles.includes('ROLE_APPROVER_MGT');
             this.reviewer = this.roles.includes('ROLE_REVIEWER_IS') || this.roles.includes('ROLE_REVIEWER_MGT');
             this.followup_officer = this.roles.includes('ROLE_FOLLOWUP_OFFICER_IS') || this.roles.includes('ROLE_FOLLOWUP_OFFICER_MGT');
-            this.auditor = this.roles.includes('ROLE_AUDITOR_IS') || this.roles.includes('ROLE_AUDITOR_MGT');
+            this.auditor = this.roles.includes('ROLE_AUDITOR_INS') || this.roles.includes('ROLE_AUDITOR_MGT');
             this.auditee = this.roles.includes('ROLE_AUDITEE');
             this.auditee_division = this.roles.includes('ROLE_AUDITEE_DIVISION');
             this.higher_official = this.roles.includes('ROLE_HIGHER_OFFICIAL');

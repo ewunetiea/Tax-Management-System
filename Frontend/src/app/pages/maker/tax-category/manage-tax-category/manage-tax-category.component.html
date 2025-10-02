@@ -122,8 +122,21 @@
                 <td>{{ tax.type }}</td>
                 <td>{{ tax.description }}</td>
                 <td>{{ tax.created_by}}</td>
-                <td>{{ tax.created_date }}</td>
-                <td>{{ tax.updated_date }}</td>
+                <td>{{ tax.created_date | date:'yyyy-MM-dd' }}</td>
+                <td>
+                   <ng-container *ngIf="tax.updated_date; else pendingBtn">
+                    {{ tax.updated_date | date:'yyyy-MM-dd' }}
+                  </ng-container>
+                  <ng-template #pendingBtn>
+                    <button 
+                    pButton 
+                    pRipple 
+                    type="text" 
+                    label="Unupdated" 
+                    class="p-button-rounded p-button-secondary p-button-outlined p-button-sm"
+                    ></button>
+                  </ng-template>
+                </td>
                 <td>
                   <button
                     pButton

@@ -53,7 +53,14 @@ export class CreateEditTaxCategoryComponent {
 
     editBranch(passedData: any[]) {
         this.taxCategory = passedData[0];
+
+        // ✅ Update the form with existing values
+        this.form.patchValue({
+            type: this.taxCategory.type,
+            description: this.taxCategory.description
+        });
     }
+
 
     openNew() {
         this.taxCategory = new TaxCategory();
@@ -76,7 +83,7 @@ export class CreateEditTaxCategoryComponent {
             ...this.taxCategory,
             ...this.form.value,
             created_by: this.user.email,
-            user_id:this.user.id
+            user_id: this.user.id
         };
 
         this.taxCategoriesService.createTaxCategory(this.taxCategory).subscribe({

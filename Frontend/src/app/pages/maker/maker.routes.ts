@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-
 import { MakerDashboard } from '../dashboard/maker-dashboard/maker-dashboard';
 import { Crud } from './crud/crud';
 import { ManageTax } from './tax/manage-tax';

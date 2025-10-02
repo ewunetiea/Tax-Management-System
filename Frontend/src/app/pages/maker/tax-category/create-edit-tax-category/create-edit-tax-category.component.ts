@@ -17,7 +17,6 @@ export class CreateEditTaxCategoryComponent {
     taxCategory: TaxCategory = new TaxCategory();
     loading = false;
 
-
     @Input() passedTaxCategory: any[] = [];
     @Output() editedTaxCategory: EventEmitter<any> = new EventEmitter();
 
@@ -52,7 +51,6 @@ export class CreateEditTaxCategoryComponent {
     saveTaxCategory() {
         this.loading = true;
         // this.taxCategory.created_by = this.user.email;
-
         this.taxCategoriesService.createTaxCategory(this.taxCategory).subscribe({
             next: (data) => {
                 this.loading = false;

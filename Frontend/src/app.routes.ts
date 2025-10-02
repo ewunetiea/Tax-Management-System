@@ -11,8 +11,6 @@ import { SignupComponent } from './app/pages/auth/signup/signup.component';
 import { AuthGuard } from './app/service/admin/auth.guard';
 
 export const appRoutes: Routes = [
-
-
     { path: '', component: Login },
     // { path: '', component: LoginComponent },
     { path: 'forget-password', component: ForgetPasswordComponent },
@@ -26,12 +24,16 @@ export const appRoutes: Routes = [
             // { path: '', component: Dashboard },
 
             { path: '', component: DashboardContainerComponent },
-
             {
                 path: 'admin',
                 loadChildren: () => import('./app/pages/admin/admin.routes').then(m => m.default),
                 canActivate: [AuthGuard]
             },
+            {
+                path: 'maker',
+                loadChildren: () => import('./app/pages/maker/maker.routes').then(m => m.default),
+                canActivate: [AuthGuard]
+            }, 
             { path: 'user-profile', component: UserProfileComponent },
             { path: 'manage-contact', component: ManageContactComponent },
             { path: 'admin-notification', component: AdminNotificationComponent },
@@ -49,7 +51,6 @@ export const appRoutes: Routes = [
 
 
             { path: '', component: DashboardContainerComponent },
-
             { path: 'user-profile', component: UserProfileComponent },
             { path: 'manage-contact', component: ManageContactComponent },
             { path: 'admin-notification', component: AdminNotificationComponent },

@@ -10,7 +10,7 @@ import { PasswordService } from '../../../service/admin/password.service';
 @Component({
     selector: 'app-password-reset-otp',
     imports: [SharedUiModule],
-    providers: [MessageService, ConfirmationService],
+    
     templateUrl: './password-reset-otp.component.html',
     styleUrl: './password-reset-otp.component.scss'
 })

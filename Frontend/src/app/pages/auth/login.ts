@@ -15,7 +15,6 @@ import { WebSocketService } from '../../service/sharedService/WebSocketService';
     selector: 'app-login',
     standalone: true,
     imports: [AppFloatingConfigurator, SharedUiModule],
-    providers: [MessageService, ConfirmationService],
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css']
 })
@@ -122,14 +121,9 @@ export class Login {
                 // }
             },
             error: (err) => {
-                console.log("____________FF_________________")
-                console.log(err)
                 this.loading = false;
                 this.errorMessage = err.error.message;
-
-                console.log(this.errorMessage)
-
-                console.log()
+                console.log(this.errorMessage);
                 if (this.errorMessage.includes('password_expired')) {
                     this.change = true;
                     let errorM: any[] = this.errorMessage.split(' ');
@@ -137,7 +131,6 @@ export class Login {
                     this.errorMessage = 'User credentials expired.';
                 }
                 this.isLoginFailed = true;
-
                 setTimeout(() => {
                     this.isLoginFailed = false;
                     this.errorMessage = '';
@@ -160,7 +153,8 @@ export class Login {
         this.isLoginFailed = false;
         this.storageService.saveUser(data);
         const user = this.storageService.getUser();
-        window.location.href = '/applayout/';
+        this.router.navigate(['/applayout']);
+        // window.location.href = '/applayout/';
         // try {
         //   await this.webSocketService.connect();
         //   if (user.roles.includes('ROLE_BRANCHM_BFA') || user.roles.includes('ROLE_AUDITEE_INS')) {

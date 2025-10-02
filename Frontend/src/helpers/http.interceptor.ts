@@ -1,4 +1,3 @@
-// src/helpers/http.interceptor.ts
 import { HttpInterceptorFn, HttpRequest, HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
@@ -106,6 +105,7 @@ export const httpRequestInterceptor: HttpInterceptorFn = (req, next) => {
                     error: new Error('Internal server error!'),
                     status: 500
                 });
+                
                 showToast(messageService, customError.error.message, 'error');
                 return throwError(() => customError);
             }
@@ -115,6 +115,7 @@ export const httpRequestInterceptor: HttpInterceptorFn = (req, next) => {
                 error: new Error(error?.message || 'Unexpected error occurred'),
                 status: error.status || 0
             });
+
             showToast(messageService, fallbackError.error.message, 'error');
             return throwError(() => fallbackError);
         })

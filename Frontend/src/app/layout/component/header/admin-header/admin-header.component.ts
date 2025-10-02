@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment.prod';
 import { NotifyAdmin } from '../../../../models/admin/notify-admin';
 import { RealTime } from '../../../../models/admin/real-time';
-import { AuthService } from '../../../../pages/service/admin/auth.service';
-import { NotifyMeService } from '../../../../pages/service/admin/notify-service';
-import { RealTimeService } from '../../../../pages/service/admin/real-time-service';
-import { StorageService } from '../../../../pages/service/admin/storage.service';
 import {catchError, filter, of, Subject, Subscription, switchMap, timer} from 'rxjs';
+import { StorageService } from '../../../../service/sharedService/storage.service';
+import { AuthService } from '../../../../service/sharedService/auth.service';
+import { NotifyMeService } from '../../../../service/admin/notify-service';
+import { RealTimeService } from '../../../../service/admin/real-time-service';
 
 @Component({
   selector: 'app-admin-header',

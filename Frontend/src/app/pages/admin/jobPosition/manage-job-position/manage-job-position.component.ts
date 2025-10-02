@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Table, TableModule } from 'primeng/table';
 import { JobPosition } from '../../../../models/admin/job-position';
-import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { RoleService } from '../../../../service/admin/roleService';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ListboxModule } from 'primeng/listbox';
@@ -40,14 +40,14 @@ import { InputTextModule } from 'primeng/inputtext';
         ButtonModule,
         InputTextModule
     ],
-    providers: [MessageService, ConfirmationService],
+    
     templateUrl: './manage-job-position.component.html',
     styleUrl: './manage-job-position.component.scss'
 })
 export class ManageJobPositionComponent {
     jobPositions: JobPosition[] = [];
     selectedJobPositions: JobPosition[] = [];
-    loading = false;
+    loading = true;
     sizes!: any[];
     selectedSize: any = undefined;
     breadcrumbText: string = 'Manage job positions';
@@ -56,12 +56,10 @@ export class ManageJobPositionComponent {
     paginatorPayload = new PaginatorPayLoad();
 
     constructor(
-        private messageService: MessageService,
         private jobPositionService: RoleService
     ) {}
 
     ngOnInit(): void {
-        this.breadcrumbText = 'Manage Job Positions';
         this.home = { icon: 'pi pi-home', routerLink: '/' };
         this.items = [{ label: this.breadcrumbText }];
         this.sizes = [
@@ -69,21 +67,24 @@ export class ManageJobPositionComponent {
             { name: 'Normal', value: 'normal' },
             { name: 'Large', value: 'large' }
         ];
-        this.selectedSize = 'normal';
+        this.selectedSize = this.sizes[1].value;
+        this.getJobPosition();
+    }
+
+    getJobPosition() {
         this.jobPositionService.getMappedJobPositions().subscribe({
             next: (data) => {
                 this.jobPositions = data;
                 this.loading = false;
             },
-            error: (error) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching mapped job positions!',
-                    detail: ''
-                });
+            error: () => {
+               this.loading = false;
             }
-        });
+        }
+    );
+
     }
+
 
     clear(table: Table) {
         table.clear();
@@ -93,10 +94,4 @@ export class ManageJobPositionComponent {
         const input = event.target as HTMLInputElement;
         table.filterGlobal(input.value, 'contains');
     }
-
-    onSizeChange() {
-        // The table will automatically update its size based on the selectedSize binding
-    }
-
-    openNew() {}
 }

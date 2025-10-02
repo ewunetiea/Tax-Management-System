@@ -48,7 +48,7 @@ import { StorageService } from '../../../../service/sharedService/storage.servic
         IconFieldModule,
         InputTextModule
     ],
-    providers: [MessageService, ConfirmationService],
+    
     templateUrl: './menuheaders.component.html',
     styleUrl: './menuheaders.component.scss'
 })

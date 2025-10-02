@@ -12,7 +12,7 @@ import { PasswordService } from '../../../service/admin/password.service';
 @Component({
     selector: 'app-forget-password',
     imports: [SharedUiModule, PasswordResetOtpComponent],
-    providers: [MessageService, ConfirmationService],
+    
     templateUrl: './forget-password.component.html',
     styleUrl: './forget-password.component.scss'
 })

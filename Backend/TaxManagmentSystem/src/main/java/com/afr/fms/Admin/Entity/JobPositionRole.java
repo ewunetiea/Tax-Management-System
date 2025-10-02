@@ -1,7 +1,6 @@
 package com.afr.fms.Admin.Entity;
 
 import java.util.Collection;
-
 import lombok.Data;
 
 @Data

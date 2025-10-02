@@ -40,7 +40,6 @@ public class JobPositionController {
 
 	@GetMapping("/job_position/byRole")
 	public ResponseEntity<JobPositionRole> getJobPositionsByRole(HttpServletRequest request, @RequestBody Role role) {
-
 		try {
 			JobPositionRole jobPositionsByRole = jobPositionService.getJobPositionsByRole(role);
 			return new ResponseEntity<>(jobPositionsByRole, HttpStatus.OK);
@@ -52,7 +51,6 @@ public class JobPositionController {
 
 	@PostMapping("/jobPosition/manageJobPositions")
 	public ResponseEntity<?> manageJobPositions(HttpServletRequest request, @RequestBody JobPositionRole jobPositionRole) {
-		System.out.println("Ffffffffffffffffffffffffffffffffffffff Managing job positions for role: " + jobPositionRole.getRole().getName());
 		try {
 			jobPositionService.manageJobPositions(jobPositionRole);
 			User user = functionalitiesService.getUserFromHttpRequest(request);
@@ -77,15 +75,20 @@ public class JobPositionController {
 		}
 	}
 
-	@GetMapping("/jobPositions")
-	public ResponseEntity<List<JobPosition>> getMappedJobPositions(HttpServletRequest request) {
-		try {
-			return new ResponseEntity<>(jobPositionService.getMappedJobPositions(), HttpStatus.OK);
-		} catch (Exception e) {
-			System.out.println(e);
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-	}
+	// @GetMapping("/jobPositions")
+	// public ResponseEntity<List<JobPosition>> getMappedJobPositions(HttpServletRequest request) {
+	// 	try {
+	// 		return new ResponseEntity<>(jobPositionService.getMappedJobPositions(), HttpStatus.OK);
+	// 	} catch (Exception e) {
+	// 		System.out.println(e);
+	// 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	// 	}
+	// }
+
+	 @GetMapping("/jobPositions")
+    public ResponseEntity<List<JobPosition>> getMappedJobPositions(HttpServletRequest request) {
+        return ResponseEntity.ok(jobPositionService.getMappedJobPositions());
+    }
 
 	@GetMapping("/total_job_positions")
 	public ResponseEntity<List<JobPosition>> getTotalJobPositions(HttpServletRequest request) {
@@ -99,14 +102,12 @@ public class JobPositionController {
 
 	@GetMapping("/job_positions_admin")
 	public ResponseEntity<List<JobPosition>> getJobPositions(HttpServletRequest request) {
-
 		try {
 			return new ResponseEntity<>(jobPositionService.getAllJobPositions(), HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-
 	}
 
 }

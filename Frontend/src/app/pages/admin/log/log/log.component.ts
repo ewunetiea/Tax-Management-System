@@ -9,7 +9,6 @@ import { MaxFailedAndJwtControlService } from '../../../../service/admin/max-fai
     standalone: true,
     selector: 'app-log',
     imports: [SharedUiModule],
-    providers: [MessageService, ConfirmationService],
     templateUrl: './log.component.html',
     styleUrls: ['./log.component.css']
 })

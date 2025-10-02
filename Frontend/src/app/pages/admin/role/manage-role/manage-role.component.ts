@@ -19,7 +19,6 @@ interface ExportColumn {
     selector: 'app-manage-role',
     standalone: true,
     imports: [SharedUiModule, CreateEditRoleComponent],
-    providers: [MessageService, ConfirmationService],
     templateUrl: './manage-role.component.html',
     styleUrl: './manage-role.component.scss'
 })
@@ -156,9 +155,9 @@ export class ManageRoleComponent {
                 this.roles = data;
                 this.loading = false;
             },
-             error: () => {
-            this.loading = false;
-        }
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 
@@ -184,9 +183,9 @@ export class ManageRoleComponent {
             next: (data) => {
                 this.jobPositions = data;
             },
-             error: () => {
-            this.loading = false;
-        }
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 
@@ -202,13 +201,12 @@ export class ManageRoleComponent {
                 this.messageService.add({
                     severity: 'success',
                     summary: ` Relating role with Job position updated successfully`,
-
                     detail: ''
                 });
             },
-             error: () => {
-            this.loading = false;
-        }
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 
@@ -283,9 +281,9 @@ export class ManageRoleComponent {
                             life: 3000
                         });
                     },
-                     error: () => {
-            this.loading = false;
-        }
+                    error: () => {
+                        this.loading = false;
+                    }
                 });
             }
         });
@@ -293,7 +291,7 @@ export class ManageRoleComponent {
 
     deleteSelectedRole() {
         this.confirmationService.confirm({
-            message: 'Are you sure you want to deactivate selected roles?',
+            message: 'Are you sure you want to deactivate selected roles ?',
             header: 'Confirm',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
@@ -311,9 +309,9 @@ export class ManageRoleComponent {
                             life: 3000
                         });
                     },
-                     error: () => {
-            this.loading = false;
-        }
+                    error: () => {
+                        this.loading = false;
+                    }
                 });
             }
         });
@@ -323,7 +321,7 @@ export class ManageRoleComponent {
         this.passRole = role;
         this.passRoles.push(this.passRole);
         this.confirmationService.confirm({
-            message: 'Are you sure you want to activate selected role?',
+            message: 'Are you sure you want to activate selected role ?',
             header: 'Confirm',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
@@ -338,9 +336,9 @@ export class ManageRoleComponent {
                             life: 3000
                         });
                     },
-                     error: () => {
-            this.loading = false;
-        }
+                    error: () => {
+                        this.loading = false;
+                    }
                 });
             }
         });
@@ -363,9 +361,9 @@ export class ManageRoleComponent {
                             life: 3000
                         });
                     },
-                     error: () => {
-            this.loading = false;
-        }
+                    error: () => {
+                        this.loading = false;
+                    }
                 });
             }
         });

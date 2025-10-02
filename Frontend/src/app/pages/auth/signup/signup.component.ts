@@ -17,7 +17,7 @@ import { AuthService } from '../../../service/sharedService/auth.service';
 @Component({
     selector: 'app-signup',
     imports: [SharedUiModule, AppFloatingConfigurator],
-    providers: [MessageService, ConfirmationService],
+    
     templateUrl: './signup.component.html',
     styleUrl: './signup.component.scss'
 })

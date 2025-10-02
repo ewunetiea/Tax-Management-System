@@ -1,0 +1,177 @@
+<main id="main" class="main">
+    <p-toast></p-toast>
+    <div class="mb-6">
+      <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
+  </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <p-card>
+          <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+              <button
+                pButton
+                pRipple
+                label="New"
+                (click)="openNew()"
+                icon="pi pi-plus"
+                class="p-button-raised p-button-rounded mr-2"
+              ></button>
+              <button
+                pButton
+                pRipple
+                label="Delete"
+                icon="pi pi-times"
+                class="p-button-raised p-button-rounded p-button-danger mr-2"
+                (click)="deleteSelectedTaxCategories()"
+                [disabled]="!selectedTaxCategories || !selectedTaxCategories.length"
+              ></button>
+            </ng-template>
+
+            <ng-template pTemplate="right">
+              <div class="flex">
+                
+              </div>
+            </ng-template>
+          </p-toolbar>
+
+          <p-table
+            #dt
+            [value]="taxCategories"
+            [rows]="5"
+            [paginator]="true"
+            [loading]="loading"
+            [globalFilterFields]="[
+              'name',
+              'description',
+              'creator_id',
+              'created_date',
+              'updated_date',
+            ]"
+            [(selection)]="selectedTaxCategories"
+            [rowHover]="true"
+            dataKey="id"
+            [rowsPerPageOptions]="[5,10, 25, 50]"
+            [size]="selectedSize"
+            [tableStyle]="{ 'min-width': '82rem' }"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true"
+          >
+          <ng-template #caption>
+            <div class="flex items-center justify-between">
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                <div class="flex justify-center mb-4">
+                    <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value" />
+                </div>
+                <p-iconfield>
+                    <p-inputicon styleClass="pi pi-search" />
+                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." />
+                </p-iconfield>
+            </div>
+        </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <!-- <th style="width: 3rem"></th> -->
+                <th style="width: 3rem">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+
+                <th style="min-width: 15rem">
+                  <div class="flex items-center">
+                      Name
+                      <p-columnFilter type="text" field="name" display="menu" />
+                  </div>
+                </th>
+
+              <th style="min-width: 15rem">
+                <div class="flex items-center">
+                    Description
+                    <p-columnFilter type="text" field="description" display="menu" />
+                </div>
+              </th>
+
+            <th style="min-width: 15rem">
+              <div class="flex items-center">
+                  Created By
+                  <p-columnFilter type="text" field="creator_id" display="menu" />
+              </div>
+            </th>
+
+            <th style="min-width: 15rem">
+              <div class="flex items-center">
+                  Created Date
+                  <p-columnFilter type="numeric" field="created_date" display="menu" />
+              </div>
+            </th>
+
+            <th style="min-width: 15rem">
+              <div class="flex items-center">
+                Updated Date
+                  <p-columnFilter type="numeric" field="updated_date" display="menu" />
+              </div>
+            </th>
+            
+            <th style="width: 15rem">Action</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-tax let-expanded="expanded">
+              <tr>
+                <td>
+                  <p-tableCheckbox [value]="tax"></p-tableCheckbox>
+                </td>
+                <td>{{ tax.name }}</td>
+                <td>{{ tax.description }}</td>
+                <td>{{ tax.creator_id }}</td>
+                <td>{{ tax.created_date }}</td>
+                <td>{{ tax.updated_date }}</td>
+                <td>
+                  <button
+                    pButton
+                    pRipple
+                    pTooltip="Edit"
+                    tooltipPosition="bottom"
+                    (click)="editTaxCategory(tax)"
+                    icon="pi pi-pencil"
+                    class="p-button-rounded p-button-success mr-2"
+                  ></button>
+                  <button
+                    pButton
+                    pRipple
+                    pTooltip="Delete"
+                    tooltipPosition="bottom"
+                    (click)="deleteTaxCategory(tax)"
+                    icon="pi pi-times"
+                    class="p-button-rounded p-button-danger mr-2"
+                  ></button>
+                </td>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="summary">
+              <div class="p-d-flex p-ai-center p-jc-between">
+                In total there are {{ taxCategories ? taxCategories.length : 0 }} tax categories.
+              </div>
+            </ng-template>
+          </p-table>
+        </p-card>
+      </div>
+    </div>
+</main>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+
+<p-dialog
+    [(visible)]="taxCategoryDialog"
+    [style]="{ width: '600px' }"
+    header="Tax Category Details"
+    [modal]="true"
+    styleClass="p-fluid"
+    [maximizable]="true"
+  >
+    <ng-template pTemplate="content">
+      <app-create-edit-tax-category
+        [passedTaxCategory]="outputTaxCategory" 
+        (editedTaxCategory)="onDataChange($event)"
+      ></app-create-edit-tax-category>
+    </ng-template>
+  </p-dialog>

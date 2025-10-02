@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 import com.afr.fms.Admin.Entity.Branch;
 import com.afr.fms.Admin.Entity.JobPosition;
 import com.afr.fms.Admin.Entity.Log;
@@ -99,18 +97,14 @@ public class CopyFromHRSystemService {
                     Branch branch = new Branch();
                     User user = new User();
                     User user_store = new User();
-                    if (!regionNames.contains(userCopyFromHR.getDeptLocation())
-                            && !newRegionNames.contains(userCopyFromHR.getDeptLocation())
-                            && userCopyFromHR.getDeptLocation() != null) {
+                    if (!regionNames.contains(userCopyFromHR.getDeptLocation()) && !newRegionNames.contains(userCopyFromHR.getDeptLocation()) && userCopyFromHR.getDeptLocation() != null) {
                         newRegionNames.add(userCopyFromHR.getDeptLocation());
                         region.setName(userCopyFromHR.getDeptLocation());
                         region.setCode(processCodeGeneration(region.getName(), true));
                         regionMapper.createRegion(region);
                     }
 
-                    if (!branchNames.contains(userCopyFromHR.getUnit())
-                            && !newBranchNames.contains(userCopyFromHR.getUnit())
-                            && userCopyFromHR.getUnit() != null) {
+                    if (!branchNames.contains(userCopyFromHR.getUnit()) && !newBranchNames.contains(userCopyFromHR.getUnit()) && userCopyFromHR.getUnit() != null) {
                         newBranchNames.add(userCopyFromHR.getUnit());
                         branch.setName(userCopyFromHR.getUnit());
                         branch.setCode(processCodeGeneration(branch.getName(), false));
@@ -118,18 +112,15 @@ public class CopyFromHRSystemService {
                         branchMapper.createBranch(branch);
                     }
 
-                    if (!empIds.contains(userCopyFromHR.getEmpId())
-                            && !newEmpIds.contains(userCopyFromHR.getEmpId().trim())) {
+                    if (!empIds.contains(userCopyFromHR.getEmpId()) && !newEmpIds.contains(userCopyFromHR.getEmpId().trim())) {
                         newEmpIds.add(userCopyFromHR.getEmpId().trim());
                         userCopyFromHRMapper.addUserCopyHR(userCopyFromHR);
-
                     } else {
                         userCopyFromHRMapper.deleteByEmployeeId(userCopyFromHR.getEmpId().trim());
                         userCopyFromHRMapper.addUserCopyHR(userCopyFromHR);
                     }
 
-                    if (!jobTitles.contains(userCopyFromHR.getPosition())
-                            && !newJobTitles.contains(userCopyFromHR.getPosition())) {
+                    if (!jobTitles.contains(userCopyFromHR.getPosition()) && !newJobTitles.contains(userCopyFromHR.getPosition())) {
                         newJobTitles.add(userCopyFromHR.getPosition());
                         job_position.setTitle(userCopyFromHR.getPosition());
                         jobPositionMapper.addJobPosition(job_position);
@@ -142,15 +133,11 @@ public class CopyFromHRSystemService {
                             if (user.getBranch() != null) {
                                 if (!user.getBranch().getName().trim()
                                         .equalsIgnoreCase(userCopyFromHR.getUnit().trim())) {
-
                                     user_store.setBranch(branchMapper.getBranchByName(userCopyFromHR.getUnit()));
-
                                 }
 
                             } else {
-
                                 user_store.setBranch(branchMapper.getBranchByName(userCopyFromHR.getUnit()));
-
                             }
                         }
 
@@ -160,9 +147,7 @@ public class CopyFromHRSystemService {
                                     if (!user.getRegion().getName().trim()
                                             .equalsIgnoreCase(userCopyFromHR.getDeptLocation().trim())) {
                                         user_store
-                                                .setRegion(
-                                                        regionMapper
-                                                                .getRegionByName(userCopyFromHR.getDeptLocation()));
+                                                .setRegion(regionMapper.getRegionByName(userCopyFromHR.getDeptLocation()));
                                     }
                                 }
                             } else {
@@ -174,18 +159,12 @@ public class CopyFromHRSystemService {
 
                         // check the following code carefully
                         if (user.getJobPosition() != null)
-                            if (!user.getJobPosition().getTitle().trim()
-                                    .equalsIgnoreCase(userCopyFromHR.getPosition().trim())) {
-
-                                List<JobPosition> registeredJobPositions = jobPositionMapper
-                                        .getJobPositionsByTitle(userCopyFromHR.getPosition());
-
+                            if (!user.getJobPosition().getTitle().trim().equalsIgnoreCase(userCopyFromHR.getPosition().trim())) {
+                                List<JobPosition> registeredJobPositions = jobPositionMapper.getJobPositionsByTitle(userCopyFromHR.getPosition());
                                 JobPosition jobPositionForUser = registeredJobPositions.get(0);
-
                                 List<Role> roles = new ArrayList<>();
                                 for (JobPosition jobPosition : registeredJobPositions) {
-                                    roles = jobPositionMapper.getRoleByJobPositionId(jobPosition.getId(),
-                                            user.getCategory());
+                                    roles = jobPositionMapper.getRoleByJobPositionId(jobPosition.getId(), user.getCategory());
                                     if (roles != null) {
                                         jobPositionForUser = jobPosition;
                                         break;
@@ -217,7 +196,6 @@ public class CopyFromHRSystemService {
                 log.setName("Schedule that copy Users From HR System");
                 log.setException(e.getMessage());
                 logMapper.addLog(log);
-
                 logger.error("Error occurred while processing HR Data", e);
 
             }
@@ -250,9 +228,7 @@ public class CopyFromHRSystemService {
                     code = code + c;
                 }
             }
-
         }
-
         return code;
     }
 
@@ -275,13 +251,10 @@ public class CopyFromHRSystemService {
     }
 
     public char[] generateCode(int length, String code) {
-
         String[] spilitedCode = StringUtils.split(code);
-
         String storeChar = "";
         Random random = new Random();
         char[] generatedCode = new char[length];
-
         int index = 0;
         for (String c : spilitedCode) {
             generatedCode[index++] = c.charAt(0);

@@ -66,14 +66,11 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
           userSecurityService.increaseFailedAttempts(us);
         } else {
           userSecurityService.lock(us);
-          authException = new LockedException("Your account has been locked due to " + setting.getMaximum_attempt()
-              + " failed attempts."
-              + " It will be unlocked after " + lock_time + " hours. For more info contact with System Administrator");
+          authException = new LockedException("Your account has been locked due to " + setting.getMaximum_attempt() + " failed attempts." + " It will be unlocked after " + lock_time + " hours. For more info contact with System Administrator");
         }
       } else if (!us.isAccountNonLocked()) {
         if (!userSecurityService.unlockWhenTimeExpired(us)) {
-          authException = new LockedException("Your account has been locked. Please try to login again." +
-              " For more info contact with System Administrator");
+          authException = new LockedException("Your account has been locked. Please try to login again." +  " For more info contact with System Administrator");
         }
       }
 
@@ -87,8 +84,7 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
       String username = userDetailsService.getUsername();
       String ip_address = HttpUtils.clientIp(request);
       UserAgent userAg = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
-      String browserType = userAg.getBrowser().getName() + " " + userAg.getBrowserVersion() + " "
-          + userAg.getOperatingSystem();
+      String browserType = userAg.getBrowser().getName() + " " + userAg.getBrowserVersion() + " "  + userAg.getOperatingSystem();
 
       userTrakerMapper.registerUnAutorizedUsers(username, browserType, ip_address);
       userSecurityMapper.addFailedUserName(username);

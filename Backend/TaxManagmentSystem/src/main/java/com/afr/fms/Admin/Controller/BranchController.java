@@ -26,6 +26,7 @@ public class BranchController {
 
 	@Autowired
 	private BranchService branchService;
+	
 	@Autowired
 	private RecentActivityMapper recentActivityMapper;
 

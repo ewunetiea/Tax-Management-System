@@ -1,12 +1,12 @@
-package com.afr.fms.maker.service;
+package com.afr.fms.Maker.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.afr.fms.maker.entity.Account;
-import com.afr.fms.maker.mapper.AccountMapper;
+import com.afr.fms.Maker.entity.Account;
+import com.afr.fms.Maker.mapper.AccountMapper;
 
 
 @Service

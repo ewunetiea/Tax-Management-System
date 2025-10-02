@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Branch } from '../../models/admin/branch';
 import { environment } from '../../../environments/environment.prod';
 import { TaxCategory } from '../../models/maker/tax-category';
 const baseUrl = environment.backendUrl;
@@ -12,27 +11,28 @@ const baseUrl = environment.backendUrl;
 export class TaxCategoriesService {
     constructor(private http: HttpClient) {}
 
+    createTaxCategory(taxCategories: TaxCategory): Observable<object> {
+        return this.http.post(`${baseUrl}/tax-category/create-edit`, taxCategories);
+    }
+
     getTaxCategories(): Observable<TaxCategory[]> {
-        return this.http.get<TaxCategory[]>(`${baseUrl}/tax-categories`);
+        return this.http.get<TaxCategory[]>(`${baseUrl}/tax-category/fetch`);
     }
 
     getActiveTaxCategoriesList(): Observable<TaxCategory[]> {
-        return this.http.get<TaxCategory[]>(`${baseUrl}/tax-categories/active`);
+        return this.http.get<TaxCategory[]>(`${baseUrl}/tax-category/active`);
     }
 
-    createTaxCategory(taxCategories: TaxCategory): Observable<object> {
-        return this.http.post(`${baseUrl}/tax-categories`, taxCategories);
-    }
 
     getTaxCategoryById(id: number): Observable<TaxCategory> {
-        return this.http.get<TaxCategory>(`${baseUrl}/tax-categories/${id}`);
+        return this.http.get<TaxCategory>(`${baseUrl}/tax-category/${id}`);
     }
 
     deleteTaxCategories(taxCategories: TaxCategory[]): Observable<object> {
-        return this.http.post(`${baseUrl}/tax-categories/delete`, taxCategories);
+        return this.http.post(`${baseUrl}/tax-category/delete`, taxCategories);
     }
 
     activateTaxCategories(taxCategories: TaxCategory[]): Observable<object> {
-        return this.http.post(`${baseUrl}/tax-categories/activate`, taxCategories);
+        return this.http.post(`${baseUrl}/tax-category/activate`, taxCategories);
     }
 }

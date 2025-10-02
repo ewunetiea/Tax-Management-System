@@ -1,10 +1,10 @@
-package com.afr.fms.maker.mapper;
+package com.afr.fms.Maker.mapper;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.*;
 
-import com.afr.fms.maker.entity.Account;
+import com.afr.fms.Maker.entity.Account;
 
 @Mapper
 public interface AccountMapper {

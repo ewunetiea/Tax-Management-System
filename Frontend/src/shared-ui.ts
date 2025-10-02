@@ -107,7 +107,7 @@ import { PopoverModule } from 'primeng/popover';
         ChartModule,
         FluidModule,
         PopoverModule,
-        OverlayPanelModule
+        OverlayPanelModule,
     ],
     exports: [
         CommonModule,
@@ -162,7 +162,6 @@ import { PopoverModule } from 'primeng/popover';
         SkeletonModule,
         CalendarModule,
         InputSwitchModule,
-        ReactiveFormsModule,
         SkeletonModule,
         DatePicker,
         ChartModule,

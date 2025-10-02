@@ -6,20 +6,25 @@ import { ManageTax } from './tax/manage-tax';
 import { TaxRuleComponent } from './tax-rule/tax-rule.component';
 import { AccountDataComponent } from './account-data/account-data.component';
 import { TransactionComponent } from './transaction/transaction.component';
+import { ManageTaxCategoryComponent } from './tax-category/manage-tax-category/manage-tax-category.component';
+import { AuthGuard } from '../../service/admin/auth.guard';
 
 export default [
+    {
+        path: 'manage-tax-category',
+        component: ManageTaxCategoryComponent,
+        canActivate: [AuthGuard],
+        data: {
+            roles: ['ROLE_AUDITOR_MGT'],
+        }
+    },
     // { path: 'button', data: { breadcrumb: 'Button' }, component: ButtonDemo },
     { path: 'charts', data: { breadcrumb: 'Charts' }, component: MakerDashboard },
-
     { path: 'manage-customer', data: { breadcrumb: 'Manage Customer' }, component: Crud },
     { path: 'manage-tax', data: { breadcrumb: 'Tax Management' }, component: ManageTax },
     { path: 'tax-rule', data: { breadcrumb: 'Tax Form' }, component: TaxRuleComponent },
     { path: 'account', data: { breadcrumb: 'Tax Form' }, component: AccountDataComponent },
-
     { path: 'transaction', data: { breadcrumb: 'Tax Form' }, component: TransactionComponent },
-
-
-
 
     // { path: 'file', data: { breadcrumb: 'File' }, component: FileDemo },
     // { path: 'formlayout', data: { breadcrumb: 'Form Layout' }, component: FormLayoutDemo },

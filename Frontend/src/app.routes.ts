@@ -29,6 +29,11 @@ export const appRoutes: Routes = [
                 loadChildren: () => import('./app/pages/admin/admin.routes').then(m => m.default),
                 canActivate: [AuthGuard]
             },
+            {
+                path: 'maker',
+                loadChildren: () => import('./app/pages/maker/maker.routes').then(m => m.default),
+                canActivate: [AuthGuard]
+            }, 
             { path: 'user-profile', component: UserProfileComponent },
             { path: 'manage-contact', component: ManageContactComponent },
             { path: 'admin-notification', component: AdminNotificationComponent },
@@ -46,7 +51,6 @@ export const appRoutes: Routes = [
 
 
             { path: '', component: DashboardContainerComponent },
-
             { path: 'user-profile', component: UserProfileComponent },
             { path: 'manage-contact', component: ManageContactComponent },
             { path: 'admin-notification', component: AdminNotificationComponent },

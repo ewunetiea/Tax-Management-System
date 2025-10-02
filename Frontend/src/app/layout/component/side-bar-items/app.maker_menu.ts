@@ -43,8 +43,10 @@ export class AppMenuMaker {
             },
 
             {
-                label: 'Customer',
+                label: 'Tax Management',
                 items: [
+                    { label: 'Manage Tax Categories', icon: 'pi pi-fw pi-dollar', routerLink: ['/applayout/maker/manage-tax-category'] },
+
                     { label: 'Manage Customer', icon: 'pi pi-fw pi-pencil', routerLink: ['/applayout/maker/manage-customer'] },
 
                     {

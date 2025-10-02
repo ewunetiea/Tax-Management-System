@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Table, TableModule } from 'primeng/table';
 import { JobPosition } from '../../../../models/admin/job-position';
-import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { RoleService } from '../../../../service/admin/roleService';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ListboxModule } from 'primeng/listbox';

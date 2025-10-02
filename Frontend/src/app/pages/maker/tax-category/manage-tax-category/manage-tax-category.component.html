@@ -42,7 +42,7 @@
             [paginator]="true"
             [loading]="loading"
             [globalFilterFields]="[
-              'name',
+              'type',
               'description',
               'creator_id',
               'created_date',
@@ -76,35 +76,35 @@
                   <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
 
-                <th style="min-width: 15rem">
+                <th style="min-width: 10rem">
                   <div class="flex items-center">
-                      Name
-                      <p-columnFilter type="text" field="name" display="menu" />
+                      Type
+                      <p-columnFilter type="text" field="type" display="menu" />
                   </div>
                 </th>
 
-              <th style="min-width: 15rem">
+              <th style="min-width: 10rem">
                 <div class="flex items-center">
                     Description
                     <p-columnFilter type="text" field="description" display="menu" />
                 </div>
               </th>
 
-            <th style="min-width: 15rem">
+            <th style="min-width: 10rem">
               <div class="flex items-center">
                   Created By
                   <p-columnFilter type="text" field="creator_id" display="menu" />
               </div>
             </th>
 
-            <th style="min-width: 15rem">
+            <th style="min-width: 10rem">
               <div class="flex items-center">
                   Created Date
                   <p-columnFilter type="numeric" field="created_date" display="menu" />
               </div>
             </th>
 
-            <th style="min-width: 15rem">
+            <th style="min-width: 10rem">
               <div class="flex items-center">
                 Updated Date
                   <p-columnFilter type="numeric" field="updated_date" display="menu" />
@@ -119,9 +119,9 @@
                 <td>
                   <p-tableCheckbox [value]="tax"></p-tableCheckbox>
                 </td>
-                <td>{{ tax.name }}</td>
+                <td>{{ tax.type }}</td>
                 <td>{{ tax.description }}</td>
-                <td>{{ tax.creator_id }}</td>
+                <td>{{ tax.created_by}}</td>
                 <td>{{ tax.created_date }}</td>
                 <td>{{ tax.updated_date }}</td>
                 <td>

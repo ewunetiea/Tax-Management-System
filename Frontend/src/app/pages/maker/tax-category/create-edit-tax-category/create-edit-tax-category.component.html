@@ -16,7 +16,7 @@
                 />
 
                 <!-- Error Messages -->
-                <div *ngIf="submitted && f['type'].errors">
+                <div *ngIf="(submitted || f['type'].touched) && f['type'].errors">
                     <small class="text-red-600" *ngIf="f['type'].errors['required']">Type is required</small>
                     <small class="text-red-600" *ngIf="f['type'].errors['minlength']">Type must be at least {{f['type'].errors['minlength'].requiredLength }} characters.</small>
                     <small class="text-red-600" *ngIf="f['type'].errors['maxlength']">Type cannot exceed {{f['type'].errors['maxlength'].requiredLength }} characters.</small>
@@ -38,7 +38,7 @@
                  />
 
                 <!-- Error Messages -->
-                <div *ngIf="submitted && f['description'].errors">
+                <div *ngIf="(submitted || f['description'].touched) && f['description'].errors">
                     <small class="text-red-600" *ngIf="f['description'].errors['required']">Description is required</small>
                     <small class="text-red-600" *ngIf="f['description'].errors['minlength']">Description must be at least {{ f['description'].errors['minlength'].requiredLength }} characters.</small>
                     <small class="text-red-600" *ngIf="f['description'].errors['maxlength']">Description cannot exceed{{ f['description'].errors['maxlength'].requiredLength }} characters.</small>

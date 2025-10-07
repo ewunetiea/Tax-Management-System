@@ -28,7 +28,7 @@ public class TaxCategoryController {
 
     RecentActivity recentActivity = new RecentActivity();
 
-    @PostMapping("/create-edit")
+    @PostMapping("/create-edits")
     public ResponseEntity<HttpStatus> createEditTaxCategory(@RequestBody TaxCategory tax) {
         User user = new User();
         if (tax.getId() == null) {
@@ -41,7 +41,6 @@ public class TaxCategoryController {
         user.setId(tax.getUser_id());
         recentActivity.setUser(user);
         recentActivityMapper.addRecentActivity(recentActivity);
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

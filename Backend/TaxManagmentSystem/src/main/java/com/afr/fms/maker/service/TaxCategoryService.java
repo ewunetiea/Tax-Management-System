@@ -3,6 +3,8 @@ package com.afr.fms.Maker.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.afr.fms.Admin.Entity.Branch;
 import com.afr.fms.Maker.entity.TaxCategory;
 import com.afr.fms.Maker.mapper.TaxCategoryMapper;
 
@@ -22,6 +24,10 @@ public class TaxCategoryService {
 
     public List<TaxCategory> getTaxCategories() {
         return taxCategoryMapper.getTaxCategories();
+    }
+
+    public void deleteTaxCategory(TaxCategory tax) {
+        taxCategoryMapper.deleteTaxCategory(tax);
     }
 
 }

@@ -86,12 +86,11 @@ export class ManageTaxCategoryComponent {
 
 onDataChange(data: any) {
   if (data[1]) {
-      this.getTaxCategories();
-      this.taxCategories = [...this.taxCategories];
-      this.taxCategoryDialog = false;
-      this.taxCategory = new TaxCategory();
-  } else {
       this.taxCategories[this.findIndexById(data[0].id)] = data[0];
+  } else {
+    this.getTaxCategories();
+      this.taxCategories = [...this.taxCategories];
+      this.taxCategory = new TaxCategory();
   }
   this.taxCategoryDialog = false;
 }

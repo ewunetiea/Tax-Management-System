@@ -4,11 +4,12 @@ import { AppMenuAdmin } from '../side-bar-items/app.admin_menu';
 import { AppMenuMaker } from '../side-bar-items/app.maker_menu';
 import { SharedUiModule } from '../../../../shared-ui';
 import { StorageService } from '../../../service/sharedService/storage.service';
+import { AppMenuHO } from '../side-bar-items/app.ho_menu';
 
 @Component({
     selector: 'app-sidebar',
     standalone: true,
-    imports: [AppMenuAdmin, AppMenuMaker, SharedUiModule],
+    imports: [AppMenuAdmin, AppMenuMaker,AppMenuHO, SharedUiModule],
     templateUrl: './app.sidebar.component.html'
 })
 export class AppSidebar {
@@ -34,8 +35,13 @@ export class AppSidebar {
             this.roles = user?.roles || [];
             if (this.roles.includes('ROLE_ADMIN')) {
                 this.role_type = 'admin';
-            } else if (this.roles.includes('ROLE_AUDITOR_INS')) {
+            }
+             else if (this.roles.includes('ROLE_AUDITOR_INS')) {
                 this.role_type = 'maker';
+            }
+
+              else if (this.roles.includes('ROLE_HO')) {
+                this.role_type = 'ho';
             }
         }
     }

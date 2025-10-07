@@ -1,0 +1,52 @@
+import { Routes } from '@angular/router';
+import { MakerDashboard } from '../dashboard/maker-dashboard/maker-dashboard';
+
+import { AuthGuard } from '../../service/admin/auth.guard';
+import { TaxRuleComponent } from '../maker/tax-rule/tax-rule.component';
+import { ManageTax } from '../maker/tax/manage-tax';
+import { AnnouncementComponent } from './announcement/announcement.component';
+
+export default [
+    {
+        path: 'ongoing-announcement',
+        component: AnnouncementComponent,
+        canActivate: [AuthGuard],
+        data: {
+            roles: ['ROLE_HO'],
+            status: 'ongoing'
+
+
+        }
+    },
+
+    {
+        path: 'archived-announcement',
+        component: AnnouncementComponent,
+        canActivate: [AuthGuard],
+        data: {
+            roles: ['ROLE_HO'],
+            status: 'archived'
+
+
+        }
+    },
+    // { path: 'button', data: { breadcrumb: 'Button' }, component: ButtonDemo },
+    { path: 'charts', data: { breadcrumb: 'Charts' }, component: MakerDashboard },
+    { path: 'manage-tax', data: { breadcrumb: 'Tax Management' }, component: ManageTax },
+    { path: 'tax-rule', data: { breadcrumb: 'Tax Form' }, component: TaxRuleComponent },
+
+    // { path: 'file', data: { breadcrumb: 'File' }, component: FileDemo },
+    // { path: 'formlayout', data: { breadcrumb: 'Form Layout' }, component: FormLayoutDemo },
+    // { path: 'input', data: { breadcrumb: 'Input' }, component: InputDemo },
+    // { path: 'list', data: { breadcrumb: 'List' }, component: ListDemo },
+    // { path: 'media', data: { breadcrumb: 'Media' }, component: MediaDemo },
+    // { path: 'message', data: { breadcrumb: 'Message' }, component: MessagesDemo },
+    // { path: 'misc', data: { breadcrumb: 'Misc' }, component: MiscDemo },
+    // { path: 'panel', data: { breadcrumb: 'Panel' }, component: PanelsDemo },
+    // { path: 'timeline', data: { breadcrumb: 'Timeline' }, component: TimelineDemo },
+    // { path: 'table', data: { breadcrumb: 'Table' }, component: TableDemo },
+    // { path: 'overlay', data: { breadcrumb: 'Overlay' }, component: OverlayDemo },
+    // { path: 'tree', data: { breadcrumb: 'Tree' }, component: TreeDemo },
+    // { path: 'menu', data: { breadcrumb: 'Menu' }, component: MenuDemo },
+    // { path: '**', redirectTo: '/notfound' }
+] as Routes;

@@ -59,7 +59,7 @@ public class AdminDashboardService {
             counts.getOrDefault("active_users", 0),
             counts.getOrDefault("inactive_users", 0),
             counts.getOrDefault("account_locked_users", 0),
-            counts.getOrDefault("credential_expired_users", 0)
+            counts.getOrDefault("acredential_expired_users", 0)
         );
     }
 

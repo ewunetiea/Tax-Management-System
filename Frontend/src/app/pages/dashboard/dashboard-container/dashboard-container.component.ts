@@ -3,11 +3,12 @@ import { AdminDashboardComponent } from '../admin-dashboard/admin-dashboard.comp
 import { SharedUiModule } from '../../../../shared-ui';
 import { MakerDashboard } from '../maker-dashboard/maker-dashboard';
 import { StorageService } from '../../../service/sharedService/storage.service';
+import { HODashboard } from '../ho-dashboard/ho-dashboard';
 
 @Component({
     standalone: true,
     selector: 'app-dashboard-container',
-    imports: [SharedUiModule, AdminDashboardComponent, MakerDashboard],
+    imports: [SharedUiModule, AdminDashboardComponent, MakerDashboard,HODashboard],
     templateUrl: './dashboard-container.component.html'
 })
 export class DashboardContainerComponent {
@@ -15,12 +16,12 @@ export class DashboardContainerComponent {
     private roles: string[] = [];
     admin = false;
     approver = false;
-    followup_officer = false;
+    maker = false;
     reviewer = false;
     auditee = false;
     auditee_division = false;
-    auditor = false;
-    auditor_followup_officer = false;
+    checker = false;
+    ho = false;
     approver_reviewer = false;
     higher_official = false;
 
@@ -34,14 +35,16 @@ export class DashboardContainerComponent {
             this.admin = this.roles.includes('ROLE_ADMIN');
             this.approver = this.roles.includes('ROLE_APPROVER_IS') || this.roles.includes('ROLE_APPROVER_MGT');
             this.reviewer = this.roles.includes('ROLE_REVIEWER_IS') || this.roles.includes('ROLE_REVIEWER_MGT');
-            this.followup_officer = this.roles.includes('ROLE_FOLLOWUP_OFFICER_IS') || this.roles.includes('ROLE_FOLLOWUP_OFFICER_MGT');
-            this.auditor = this.roles.includes('ROLE_AUDITOR_IS') || this.roles.includes('ROLE_AUDITOR_MGT');
+            this.ho = this.roles.includes('ROLE_HO') ;
+            console.log
+            this.checker = this.roles.includes('ROLE_CHECKER');
+
+        this.maker = this.roles.includes('ROLE_MAKER');
+
             this.auditee = this.roles.includes('ROLE_AUDITEE');
             this.auditee_division = this.roles.includes('ROLE_AUDITEE_DIVISION');
             this.higher_official = this.roles.includes('ROLE_HIGHER_OFFICIAL');
-            if (this.auditor && this.followup_officer) {
-                this.auditor_followup_officer = true;
-            }
+           
             if (this.approver && this.reviewer) {
                 this.approver_reviewer = true;
             }

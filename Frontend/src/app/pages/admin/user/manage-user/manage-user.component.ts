@@ -48,6 +48,7 @@ export class ManageUserComponent {
     passUsers: User[] = [];
     activeIndex1: number = 0;
     activeState: boolean[] = [true, false, false];
+    
     events1: any[] = [];
     risk_levels: any[] = [];
     auditor = new User();

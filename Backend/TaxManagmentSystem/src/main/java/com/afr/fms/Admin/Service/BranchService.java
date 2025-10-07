@@ -1,10 +1,8 @@
 package com.afr.fms.Admin.Service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.afr.fms.Admin.Mapper.BranchMapper;
 import com.afr.fms.Admin.Entity.Branch;
 

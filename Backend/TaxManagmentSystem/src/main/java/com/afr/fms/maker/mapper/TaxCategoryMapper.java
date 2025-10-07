@@ -1,7 +1,7 @@
 package com.afr.fms.Maker.mapper;
 
 import java.util.List;
-
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -20,7 +20,8 @@ public interface TaxCategoryMapper {
     @Select("select * from tblTaxCategory")
 	public List<TaxCategory> getTaxCategories();
 
-
+    @Delete("DELETE FROM tblTaxCategory WHERE id = #{id}")
+    public void deleteTaxCategory(TaxCategory tax);
 
 
 }

@@ -7,7 +7,6 @@ import { AuthService } from '../app/service/sharedService/auth.service';
 import { EventBusService } from '../app/service/sharedService/event-bus.service';
 import { StorageService } from '../app/service/sharedService/storage.service';
 import { MessageService } from 'primeng/api';
-
 let isRefreshing = false;
 
 export const httpRequestInterceptor: HttpInterceptorFn = (req, next) => {

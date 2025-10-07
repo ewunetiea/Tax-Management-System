@@ -1,34 +1,57 @@
-<!-- #branchesForm="ngForm" -->
-<form (ngSubmit)="saveTaxCategory()"  class="flex flex-col md:flex-row gap-8">
-    <div class="card flex flex-col gap-4">
-        <!-- <div class="flex flex-col gap-2">
-            <label for="branch_name"><strong class="text-red-600">*</strong>Tax Category Name</label>
-            <input 
-            pInputText 
-            type="text"
-             [(ngModel)]="taxCategory.name" 
-             name="name" 
-             autocomplete="off" 
-             class="form-control"
-             required 
-              #branchName="ngModel" 
-              [ngClass]="{ 'p-invalid': branchName.touched && branchName.invalid }"/>
-            <div *ngIf="branchName.errors && branchName.touched">
-                <small class="text-red-600" *ngIf="branchName.errors['required']">Branch name is required</small>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col md:flex-row gap-8">
+    <div class="w-full">
+        <div class="card flex flex-col gap-4">
+
+            <!-- TYPE FIELD -->
+            <div class="flex flex-col gap-2">
+                <label for="type"><strong class="text-red-600">*</strong>Type</label>
+                <input 
+                pInputText id="type" 
+                type="text" 
+                formControlName="type" 
+                class="form-control" 
+                autocomplete="off"
+                required 
+                [ngClass]="{ 'is-invalid': submitted && f['type'].errors }" 
+                />
+
+                <!-- Error Messages -->
+                <div *ngIf="(submitted || f['type'].touched) && f['type'].errors">
+                    <small class="text-red-600" *ngIf="f['type'].errors['required']">Type is required</small>
+                    <small class="text-red-600" *ngIf="f['type'].errors['minlength']">Type must be at least {{f['type'].errors['minlength'].requiredLength }} characters.</small>
+                    <small class="text-red-600" *ngIf="f['type'].errors['maxlength']">Type cannot exceed {{f['type'].errors['maxlength'].requiredLength }} characters.</small>
+                </div>
             </div>
-        </div> -->
-        <div class="flex flex-col gap-2">
-            <label for="name1">Name</label>
-            <input pInputText id="name1" type="text" />
-        </div>
-        <div class="flex flex-col gap-2">
-            <label for="email1">Email</label>
-            <input pInputText id="email1" type="text" />
-        </div>
-        <div class="flex flex-col gap-2">
-            <label for="age1">Age</label>
-            <input pInputText id="age1" type="text" />
+
+            <!-- DESCRIPTION FIELD -->
+            <div class="flex flex-col gap-2">
+                <label for="description"><strong class="text-red-600">*</strong>Description</label>
+                <input 
+                pInputText 
+                id="description" 
+                type="text" 
+                formControlName="description" 
+                class="form-control"
+                required 
+                autocomplete="off"
+                 [ngClass]="{ 'is-invalid': submitted && f['description'].errors }" 
+                 />
+
+                <!-- Error Messages -->
+                <div *ngIf="(submitted || f['description'].touched) && f['description'].errors">
+                    <small class="text-red-600" *ngIf="f['description'].errors['required']">Description is required</small>
+                    <small class="text-red-600" *ngIf="f['description'].errors['minlength']">Description must be at least {{ f['description'].errors['minlength'].requiredLength }} characters.</small>
+                    <small class="text-red-600" *ngIf="f['description'].errors['maxlength']">Description cannot exceed{{ f['description'].errors['maxlength'].requiredLength }} characters.</small>
+                </div>
+            </div>
+
+            <!-- Submit & Reset -->
+            <div class="flex gap-4 mt-4">
+                <p-button label="Save" [loading]="submitted" type="submit" severity="success" [disabled]="form.invalid"/>
+                <p-button label="Reset" type="button" (click)="onReset()" severity="danger"/>
+            </div>
         </div>
     </div>
-
 </form>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

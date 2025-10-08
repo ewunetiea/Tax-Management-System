@@ -1,4 +1,4 @@
-package com.afr.fms.Maker.controller;
+package com.afr.fms.maker.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.afr.fms.Admin.Entity.User;
 import com.afr.fms.Common.RecentActivity.RecentActivity;
 import com.afr.fms.Common.RecentActivity.RecentActivityMapper;
-import com.afr.fms.Maker.entity.TaxCategory;
-import com.afr.fms.Maker.service.TaxCategoryService;
+import com.afr.fms.maker.entity.TaxCategory;
+import com.afr.fms.maker.service.TaxCategoryService;
+
 
 @RestController
 @RequestMapping("/api/tax-category")

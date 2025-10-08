@@ -1,4 +1,4 @@
-package com.afr.fms.Maker.service;
+package com.afr.fms.maker.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -19,7 +19,6 @@ import com.afr.fms.Common.RecentActivity.RecentActivity;
 import com.afr.fms.Common.RecentActivity.RecentActivityMapper;
 import com.afr.fms.HO.entity.Announcement;
 import com.afr.fms.HO.service.AnnouncementService;
-import com.afr.fms.maker.entity.Account;
 
 @RestController
 @RequestMapping("/api/announcement")
@@ -90,7 +89,7 @@ public class AnnouncementController {
 	}
 
 	@PostMapping("/delete")
-	public ResponseEntity<Account> deleteAnnouncements(@RequestBody List<Announcement> announcements,
+	public ResponseEntity<Announcement> deleteAnnouncements(@RequestBody List<Announcement> announcements,
 			HttpServletRequest request) {
 		try {
 

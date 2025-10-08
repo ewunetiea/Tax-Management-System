@@ -5,9 +5,12 @@ import { TaxCategory } from '../../../../models/maker/tax-category';
 import { TaxCategoriesService } from '../../../../service/maker/tax-categories-service';
 import { Table } from 'primeng/table';
 import { CreateEditTaxCategoryComponent } from '../create-edit-tax-category/create-edit-tax-category.component';
+import { StorageService } from '../../../../service/sharedService/storage.service';
+import { User } from '../../../../models/admin/user';
 
 @Component({
     selector: 'app-manage-tax-category',
+    providers: [MessageService, ConfirmationService],
     imports: [SharedUiModule, CreateEditTaxCategoryComponent],
     templateUrl: './manage-tax-category.component.html',
     styleUrl: './manage-tax-category.component.scss'
@@ -27,14 +30,17 @@ export class ManageTaxCategoryComponent {
     taxCategoryDialog = false;
     passCategory = new TaxCategory();
     passCategories: TaxCategory[] = [];
+    user: User = new User();
 
     constructor(
       private taxCategoriesService: TaxCategoriesService,
       private confirmationService: ConfirmationService,
       private messageService: MessageService,
+      private storageService: StorageService,
     ) {}
 
     ngOnInit(): void {
+        this.user = this.storageService.getUser();
         this.home = { icon: 'pi pi-home', routerLink: '/' };
         this.items = [{ label: this.breadcrumbText }];
         this.sizes = [
@@ -107,6 +113,9 @@ findIndexById(id: number): number {
 }
 
 deleteSelectedTaxCategories() {
+     this.selectedTaxCategories.forEach(tax => {
+    tax.user_id = this.user.id;
+  });
   this.confirmationService.confirm({
       message: 'Are you sure you want to deactivate selected tax categories?',
       header: 'Confirm',
@@ -133,6 +142,7 @@ deleteSelectedTaxCategories() {
 
 
 deleteTaxCategory(tax: TaxCategory) {
+    tax.user_id = this.user.id;
     this.passCategory = tax;
     this.passCategories.push(this.passCategory)
     this.confirmationService.confirm({

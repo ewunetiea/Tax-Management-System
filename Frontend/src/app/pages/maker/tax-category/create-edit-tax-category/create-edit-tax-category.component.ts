@@ -40,7 +40,7 @@ export class CreateEditTaxCategoryComponent {
 
         this.isEditData = this.passedTaxCategory[1];
         if (this.isEditData) {
-            this.editBranch(this.passedTaxCategory);
+            this.editTaxCategory(this.passedTaxCategory);
         } else {
             this.openNew();
         }
@@ -51,13 +51,13 @@ export class CreateEditTaxCategoryComponent {
     }
 
 
-    editBranch(passedData: any[]) {
+    editTaxCategory(passedData: any[]) {
         this.taxCategory = passedData[0];
 
         // ✅ Update the form with existing values
         this.form.patchValue({
-            type: this.taxCategory.type,
-            description: this.taxCategory.description
+            type: this.taxCategory.type?.trim(),
+            description: this.taxCategory.description?.trim()
         });
     }
 

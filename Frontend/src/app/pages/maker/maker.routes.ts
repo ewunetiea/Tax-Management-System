@@ -14,7 +14,7 @@ export default [
         component: ManageTaxCategoryComponent,
         canActivate: [AuthGuard],
         data: {
-            roles: ['ROLE_AUDITOR_MGT'],
+            roles: ['ROLE_MAKER'],
         }
     },
     // { path: 'button', data: { breadcrumb: 'Button' }, component: ButtonDemo },

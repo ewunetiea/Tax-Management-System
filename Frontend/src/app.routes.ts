@@ -22,7 +22,6 @@ export const appRoutes: Routes = [
         canActivate: [AuthGuard],
         children: [
             // { path: '', component: Dashboard },
-
             { path: '', component: DashboardContainerComponent },
             {
                 path: 'admin',
@@ -35,6 +34,11 @@ export const appRoutes: Routes = [
                 canActivate: [AuthGuard]
             }, 
 
+            {
+                path: 'checker',
+                loadChildren: () => import('./app/pages/checker/checker.routes').then(m => m.default),
+                canActivate: [AuthGuard]
+            },
 
               {
                 path: 'ho',
@@ -55,8 +59,6 @@ export const appRoutes: Routes = [
         canActivate: [AuthGuard],
         children: [
             // { path: '', component: Dashboard },
-
-
             { path: '', component: DashboardContainerComponent },
             { path: 'user-profile', component: UserProfileComponent },
             { path: 'manage-contact', component: ManageContactComponent },
@@ -65,8 +67,6 @@ export const appRoutes: Routes = [
             { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
         ],
     },
-
-
     { path: 'notfound', component: Notfound },
     { path: '**', redirectTo: 'notfound' }
 ];

@@ -8,6 +8,10 @@
       <app-maker_menu></app-maker_menu>
     </div>
 
+    <div *ngIf="!loading && role_type === 'checker'">
+      <app-checker_menu></app-checker_menu>
+    </div>
+
      <div *ngIf="!loading && role_type === 'ho'">
       <app-ho_menu></app-ho_menu>
     </div>

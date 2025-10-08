@@ -36,9 +36,7 @@ export class DashboardContainerComponent {
             this.approver = this.roles.includes('ROLE_APPROVER_IS') || this.roles.includes('ROLE_APPROVER_MGT');
             this.reviewer = this.roles.includes('ROLE_REVIEWER_IS') || this.roles.includes('ROLE_REVIEWER_MGT');
             this.ho = this.roles.includes('ROLE_HO') ;
-            console.log
             this.checker = this.roles.includes('ROLE_CHECKER');
-
         this.maker = this.roles.includes('ROLE_MAKER');
 
             this.auditee = this.roles.includes('ROLE_AUDITEE');

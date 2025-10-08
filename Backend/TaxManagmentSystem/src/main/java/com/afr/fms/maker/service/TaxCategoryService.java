@@ -1,12 +1,12 @@
-package com.afr.fms.Maker.service;
+package com.afr.fms.maker.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.afr.fms.Admin.Entity.Branch;
-import com.afr.fms.Maker.entity.TaxCategory;
-import com.afr.fms.Maker.mapper.TaxCategoryMapper;
+import com.afr.fms.maker.entity.TaxCategory;
+import com.afr.fms.maker.mapper.TaxCategoryMapper;
+
 
 @Service
 public class TaxCategoryService {

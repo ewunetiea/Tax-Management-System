@@ -1,4 +1,4 @@
-package com.afr.fms.Maker.entity;
+package com.afr.fms.maker.entity;
 
 import java.util.Date;
 import lombok.AllArgsConstructor;

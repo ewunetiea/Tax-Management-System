@@ -1,6 +1,5 @@
 package com.afr.fms.Common.Report.IS_Report.Entity;
 
-import com.afr.fms.Model.MGT.AssetAndLiability;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,7 +31,6 @@ public class ISManagementAuditDTO {
     private String finding_identified_on;
     private String auditee_id;
      private String audit_type;
-    private AssetAndLiability assetAndLiability;
     private String reviewed_date;
     private String approved_date;
     private String finding_date;

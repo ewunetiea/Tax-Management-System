@@ -41,11 +41,12 @@ export class AppMenuChecker {
                 label: 'Home',
                 items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/applayout'] }]
             },
-
             {
                 label: 'Tax Management',
                 items: [
-                    { label: 'Manage Tax', icon: 'pi pi-fw pi-dollar', routerLink: ['/applayout/checker/manage_tax'] },
+                    { label: 'Pending Taxes',  icon: 'pi pi-clock', routerLink: ['/applayout/checker/manage_tax', 'pending'] },
+                    { label: 'Rejected Taxes', icon: 'pi pi-times-circle', routerLink: ['/applayout/checker/manage_tax', 'rejected'] },
+                    { label: 'Approved Taxes', icon: 'pi pi-check-circle',  routerLink: ['/applayout/checker/manage_tax', 'approved'] },
                 ]
             },
 

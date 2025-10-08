@@ -18,7 +18,7 @@ import com.afr.fms.Maker.service.TaxCategoryService;
 
 
 @RestController
-@RequestMapping("/api/tax-category")
+@RequestMapping("/api/maker/tax-category")
 public class TaxCategoryController {
 
     @Autowired

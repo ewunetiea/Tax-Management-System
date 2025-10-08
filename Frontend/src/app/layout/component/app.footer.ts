@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
     selector: 'app-footer',
     template: `<div class="layout-footer">
         Tax Management System
-        <a href="https://primeng.org" target="_blank" rel="noopener noreferrer" class="text-primary font-bold hover:underline">© Copyright {{currentYear}} Awash Bank. All Rights Reserved</a>
+        <a href="https://primeng.org" target="_blank" rel="noopener noreferrer" class="text-primary font-bold hover:underline">© Copyright {{currentYear}} Awash Bank</a>
     </div>`
 })
 export class AppFooter {

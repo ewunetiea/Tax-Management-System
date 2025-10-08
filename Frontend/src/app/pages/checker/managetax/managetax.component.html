@@ -12,19 +12,11 @@
               <button
                 pButton
                 pRipple
-                label="New"
-                (click)="openNew()"
-                icon="pi pi-plus"
-                class="p-button-raised p-button-rounded mr-2"
-              ></button>
-              <button
-                pButton
-                pRipple
-                label="Delete"
-                icon="pi pi-times"
-                class="p-button-raised p-button-rounded p-button-danger mr-2"
-                (click)="deleteSelectedTaxCategories()"
-                [disabled]="!selectedTaxCategories || !selectedTaxCategories.length"
+                label="Review"
+                icon="pi pi-verified"
+                class="p-button-rounded p-button-outlined p-button-success mr-2 "
+                (click)="reviewSelectedTaxes()"
+                [disabled]="!selectedTaxes || !selectedTaxes.length"
               ></button>
             </ng-template>
 
@@ -37,23 +29,43 @@
 
           <p-table
             #dt
-            [value]="taxCategories"
+            [value]="taxes"
             [rows]="5"
             [paginator]="true"
             [loading]="loading"
             [globalFilterFields]="[
-              'type',
-              'description',
-              'creator_id',
-              'created_date',
-              'updated_date',
+              'mainGuid',
+              'from_',
+              'sendTo_',
+              'taxCategory',
+              'noOfEmployee',
+              'taxableAmount',
+              'taxWithHold',
+              'incometaxPoolAmount',
+              'graduatetaxPool',
+              'graduatetaxPool1',
+              'graduaTotBasSalary',
+              'graduateTotaEmployee',
+              'graduatetaxWithHold',
+              'taxCategoryList',
+              'maker_name',
+              'maker_date',
+              'checker_name',
+              'checked_Date',
+              'updated_user_name',
+              'updated_event_date',
+              'from_List',
+              'sendTo_List',
+              'Category_List',
+              'FileDetail',
+              'status'
             ]"
-            [(selection)]="selectedTaxCategories"
+            [(selection)]="selectedTaxes"
             [rowHover]="true"
             dataKey="id"
             [rowsPerPageOptions]="[5,10, 25, 50]"
             [size]="selectedSize"
-            [tableStyle]="{ 'min-width': '82rem' }"
+            [tableStyle]="{ 'min-width': '250rem' }"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [showCurrentPageReport]="true"
           >
@@ -78,40 +90,125 @@
 
                 <th style="min-width: 10rem">
                   <div class="flex items-center">
-                      Type
-                      <p-columnFilter type="text" field="type" display="menu" />
+                      From
+                      <p-columnFilter type="numeric" field="from_" display="menu" />
                   </div>
                 </th>
 
               <th style="min-width: 10rem">
                 <div class="flex items-center">
-                    Description
-                    <p-columnFilter type="text" field="description" display="menu" />
+                    To
+                    <p-columnFilter type="numeric" field="sendTo_" display="menu" />
                 </div>
               </th>
 
             <th style="min-width: 10rem">
               <div class="flex items-center">
-                  Created By
-                  <p-columnFilter type="text" field="creator_id" display="menu" />
+                Tax Category
+                  <p-columnFilter type="numeric" field="taxCategory" display="menu" />
               </div>
             </th>
 
             <th style="min-width: 10rem">
               <div class="flex items-center">
-                  Created Date
-                  <p-columnFilter type="numeric" field="created_date" display="menu" />
+                  Number of Employee
+                  <p-columnFilter type="numeric" field="noOfEmployee" display="menu" />
+              </div>
+            </th>
+
+            <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Taxable Amount
+                  <p-columnFilter type="numeric" field="taxableAmount" display="menu" />
+              </div>
+            </th>
+
+             <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Tax With Hold
+                  <p-columnFilter type="numeric" field="taxWithHold" display="menu" />
+              </div>
+            </th>
+
+             <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Graduate Tax Pool
+                  <p-columnFilter type="numeric" field="graduatetaxPool" display="menu" />
+              </div>
+            </th>
+
+             <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Graduate Tax Pool1
+                  <p-columnFilter type="numeric" field="graduatetaxPool1" display="menu" />
+              </div>
+            </th>
+
+             <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Graduate Base Salary
+                  <p-columnFilter type="numeric" field="graduaTotBasSalary" display="menu" />
+              </div>
+            </th>
+
+             <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Graduate Total Employee
+                  <p-columnFilter type="numeric" field="graduateTotaEmployee" display="menu" />
+              </div>
+            </th>
+
+             <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Graduate Tax With Hold
+                  <p-columnFilter type="numeric" field="graduatetaxWithHold" display="menu" />
+              </div>
+            </th>
+
+            <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Maker Name
+                  <p-columnFilter type="text" field="maker_name" display="menu" />
+              </div>
+            </th>
+
+
+            <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Maker Date
+                  <p-columnFilter type="date" field="maker_date" display="menu" />
+              </div>
+            </th>
+
+            <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Checked By
+                  <p-columnFilter type="text" field="checker_name" display="menu" />
+              </div>
+            </th>
+
+            <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Checked Date
+                  <p-columnFilter type="date" field="checked_Date" display="menu" />
+              </div>
+            </th>
+
+            <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Updated By
+                  <p-columnFilter type="text" field="updated_user_name" display="menu" />
               </div>
             </th>
 
             <th style="min-width: 10rem">
               <div class="flex items-center">
                 Updated Date
-                  <p-columnFilter type="numeric" field="updated_date" display="menu" />
+                  <p-columnFilter type="date" field="updated_event_date" display="menu" />
               </div>
             </th>
-            
-            <th style="width: 15rem">Action</th>
+
+            <th style="width: 12rem">Action</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-tax let-expanded="expanded">
@@ -119,13 +216,64 @@
                 <td>
                   <p-tableCheckbox [value]="tax"></p-tableCheckbox>
                 </td>
-                <td>{{ tax.type }}</td>
-                <td>{{ tax.description }}</td>
-                <td>{{ tax.created_by}}</td>
-                <td>{{ tax.created_date | date:'yyyy-MM-dd' }}</td>
+                <td>{{ tax.from_ }}</td>
+                <td>{{ tax.sendTo_ }}</td>
+                <td>{{ tax.taxCategory}}</td>
+                <td>{{tax.noOfEmployee}}</td>
+                <td>{{ tax.taxableAmount | number:'1.0-2' }}</td>
+                <td>{{tax.taxWithHold | number:'1.0-2'}}</td>
+                <td>{{tax.graduatetaxPool | number:'1.0-2'}}</td>
+                <td>{{tax.graduatetaxPool1 | number:'1.0-2' }}</td>
+                <td>{{tax.graduaTotBasSalary | number:'1.0-2' }}</td>
+                <td>{{tax.graduateTotaEmployee | number:'1.0-2'}}</td>
+                <td>{{tax.graduatetaxWithHold | number:'1.0-2' }}</td>
+                <td>{{tax.maker_name}}</td>
+                <td>{{ tax.maker_date | date:'yyyy-MM-dd' }}</td>
                 <td>
-                   <ng-container *ngIf="tax.updated_date; else pendingBtn">
-                    {{ tax.updated_date | date:'yyyy-MM-dd' }}
+                   <ng-container *ngIf="tax.checker_name; else pendingBtn">
+                    {{ tax.checker_name }}
+                  </ng-container>
+                  <ng-template #pendingBtn>
+                    <button 
+                    pButton 
+                    pRipple 
+                    type="text" 
+                    label="Unchecked" 
+                    class="p-button-rounded p-button-secondary p-button-outlined p-button-sm"
+                    ></button>
+                  </ng-template>
+                </td>
+                <td>
+                   <ng-container *ngIf="tax.checked_Date; else pendingBtn">
+                    {{ tax.checked_Date | date:'yyyy-MM-dd' }}
+                  </ng-container>
+                  <ng-template #pendingBtn>
+                    <button 
+                    pButton 
+                    pRipple 
+                    type="text" 
+                    label="Unchecked" 
+                    class="p-button-rounded p-button-secondary p-button-outlined p-button-sm"
+                    ></button>
+                  </ng-template>
+                </td>
+                <td>
+                   <ng-container *ngIf="tax.updated_user_name; else pendingBtn">
+                    {{ tax.updated_user_name }}
+                  </ng-container>
+                  <ng-template #pendingBtn>
+                    <button 
+                    pButton 
+                    pRipple 
+                    type="text" 
+                    label="Unupdated" 
+                    class="p-button-rounded p-button-secondary p-button-outlined p-button-sm"
+                    ></button>
+                  </ng-template>
+                </td>
+                <td>
+                   <ng-container *ngIf="tax.updated_event_date; else pendingBtn">
+                    {{ tax.updated_event_date | date:'yyyy-MM-dd' }}
                   </ng-container>
                   <ng-template #pendingBtn>
                     <button 
@@ -143,18 +291,27 @@
                     pRipple
                     pTooltip="Edit"
                     tooltipPosition="bottom"
-                    (click)="editTaxCategory(tax)"
+                    (click)="editTax(tax)"
                     icon="pi pi-pencil"
-                    class="p-button-rounded p-button-success mr-2"
+                    class="p-button-rounded p-button-outlined p-button-info mr-2"
                   ></button>
                   <button
                     pButton
                     pRipple
-                    pTooltip="Delete"
+                    pTooltip="Review"
                     tooltipPosition="bottom"
-                    (click)="deleteTaxCategory(tax)"
-                    icon="pi pi-times"
-                    class="p-button-rounded p-button-danger mr-2"
+                    (click)="reviewTax(tax)"
+                    icon="pi pi-verified"
+                    class="p-button-rounded p-button-outlined p-button-success mr-2"
+                  ></button>
+                  <button
+                    pButton
+                    pRipple
+                    pTooltip="Reject"
+                    tooltipPosition="bottom"
+                    (click)="reviewTax(tax)"
+                    icon="pi pi-times-circle"
+                    class="p-button-rounded p-button-outlined p-button-danger"
                   ></button>
                 </td>
               </tr>
@@ -162,7 +319,7 @@
 
             <ng-template pTemplate="summary">
               <div class="p-d-flex p-ai-center p-jc-between">
-                In total there are {{ taxCategories ? taxCategories.length : 0 }} tax categories.
+                In total there are {{ taxes ? taxes.length : 0 }} taxes.
               </div>
             </ng-template>
           </p-table>
@@ -172,19 +329,3 @@
 </main>
 
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
-
-<p-dialog
-    [(visible)]="taxCategoryDialog"
-    [style]="{ width: '600px' }"
-    header="Tax Category Details"
-    [modal]="true"
-    styleClass="p-fluid"
-    [maximizable]="true"
-  >
-    <ng-template pTemplate="content">
-      <app-create-edit-tax-category
-        [passedTaxCategory]="outputTaxCategory" 
-        (editedTaxCategory)="onDataChange($event)"
-      ></app-create-edit-tax-category>
-    </ng-template>
-  </p-dialog>

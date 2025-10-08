@@ -27,16 +27,10 @@ public class TaxController {
 	private static final Logger logger = LoggerFactory.getLogger(TaxController.class);
 
 	@GetMapping("/fetch/{user_id}")
-	public ResponseEntity<List<Tax>> getTax(HttpServletRequest request,
-			@PathVariable("user_id") int user_id) {
+	public ResponseEntity<List<Tax>> getTax(HttpServletRequest request, @PathVariable("user_id") int user_id) {
 		try {
-			
-
 			List<Tax> tax = new ArrayList<>();
-			
 			tax =	taxableService.fetchTax();
-			
-			
 			return new ResponseEntity<>(tax, HttpStatus.OK);
 		} catch (Exception ex) {
 			logger.error("Error while fetching on going announcements", ex);

@@ -1,16 +1,13 @@
-package com.afr.fms.maker.mapper;
+package com.afr.fms.Maker.mapper;
 
 import java.util.List;
-
-import javax.ws.rs.DELETE;
-
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.afr.fms.maker.entity.Tax;
+import com.afr.fms.Maker.entity.Tax;
 
 @Mapper
 public interface TaxableMapper {

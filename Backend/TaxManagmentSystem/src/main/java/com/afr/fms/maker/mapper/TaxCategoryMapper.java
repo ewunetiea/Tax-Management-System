@@ -1,4 +1,4 @@
-package com.afr.fms.maker.mapper;
+package com.afr.fms.Maker.mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Delete;
@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.afr.fms.maker.entity.TaxCategory;
+import com.afr.fms.Maker.entity.TaxCategory;
 
 @Mapper
 public interface TaxCategoryMapper {

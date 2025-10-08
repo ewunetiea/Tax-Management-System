@@ -1,6 +1,4 @@
-package com.afr.fms.maker.controller;
-
-
+package com.afr.fms.Maker.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.afr.fms.Admin.Entity.User;
-import com.afr.fms.Common.RecentActivity.RecentActivity;
-import com.afr.fms.Common.RecentActivity.RecentActivityMapper;
-import com.afr.fms.HO.entity.Announcement;
-import com.afr.fms.HO.service.AnnouncementService;
-import com.afr.fms.maker.entity.Tax;
-import com.afr.fms.maker.service.TaxableService;
+import com.afr.fms.Maker.entity.Tax;
+import com.afr.fms.Maker.service.TaxableService;
 
 @RestController
 @RequestMapping("/api/tax")
@@ -42,7 +35,6 @@ public class TaxController {
 			List<Tax> tax = new ArrayList<>();
 			
 			tax =	taxableService.fetchTax();
-
 			
 			
 			return new ResponseEntity<>(tax, HttpStatus.OK);

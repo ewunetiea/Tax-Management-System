@@ -1,4 +1,4 @@
-package com.afr.fms.maker.service;
+package com.afr.fms.Maker.service;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.afr.fms.maker.entity.Tax;
-import com.afr.fms.maker.mapper.TaxableMapper;
+import com.afr.fms.Maker.entity.Tax;
+import com.afr.fms.Maker.mapper.TaxableMapper;
 
 @Service
 

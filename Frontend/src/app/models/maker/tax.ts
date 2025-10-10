@@ -5,6 +5,9 @@ import { TaxFile } from "./tax-file";
 export class Tax {
     id?: number;
     mainGuid?: String;
+export class Tax {
+    id?:number;
+    mainGuid?: String
     from_?: number;
     sendTo_?: number;
     taxCategory?: number;
@@ -38,4 +41,12 @@ export class Tax {
   destination_branch?: String; // The branch that receives/sends to
 
 
+    user_id?: number;
+    rejector_checker_id?: number;
+    checker_rejected_date?: Date;
+    checker_rejected_reason?: string;
+    rejector_approver_id?: number;
+    approver_rejected_reason?: string;
+    approver_rejected_date?: Date;
+    reference_number? : string;
 }

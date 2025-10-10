@@ -61,13 +61,13 @@ export class AppTopbar {
         if (this.isLoggedIn) {
             const user = this.storageService.getUser();
             this.roles = user.roles;
-            this.category = user?.category;
+            this.category = this.roles.length > 0 ? this.roles[0].replace('ROLE_', '') : '';
             this.isLoggedIn = true;
             this.email = user?.email;
             this.role = user?.roles[0] || '';
             this.id_login_tracker = user.id_login_tracker;
             this.admin = this.roles.includes('ROLE_ADMIN');
-            this.maker = this.roles.includes('ROLE_AUDITOR_MGT');
+            this.maker = this.roles.includes('ROLE_MAKER');
         }
 
         this.admin_items = [

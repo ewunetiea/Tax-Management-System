@@ -36,7 +36,7 @@ public class Tax {
     private Date updated_event_date;
     private String from_List;
     private String sendTo_List;
-    private     String Category_List;
+    private String Category_List;
     private int FileDetail;
     private int status;
     private List<TaxFile> taxFile;
@@ -44,6 +44,12 @@ public class Tax {
     private String reference_number;
     private String initiator_branch;
    private String destination_branch;
-
-
+    private Long user_id;
+    private String reference_number;
+    private Date approver_rejected_date;
+    private String approver_rejected_reason;
+    private Long rejector_approver_id;
+    private String checker_rejected_reason;
+    private Date checker_rejected_date;
+    private Long rejector_checker_id;
 }

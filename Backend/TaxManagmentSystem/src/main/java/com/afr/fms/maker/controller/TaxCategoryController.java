@@ -18,7 +18,7 @@ import com.afr.fms.Maker.service.TaxCategoryService;
 
 
 @RestController
-@RequestMapping("/api/tax-category")
+@RequestMapping("/api/maker/tax-category")
 public class TaxCategoryController {
 
     @Autowired
@@ -28,7 +28,6 @@ public class TaxCategoryController {
     private RecentActivityMapper recentActivityMapper;
 
     RecentActivity recentActivity = new RecentActivity();
-
 
     @PostMapping("/create-edit")
     public ResponseEntity<HttpStatus> createEditTaxCategory(@RequestBody TaxCategory tax) {

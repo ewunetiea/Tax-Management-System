@@ -4,6 +4,7 @@ import { MakerDashboard } from '../dashboard/maker-dashboard/maker-dashboard';
 import { AuthGuard } from '../../service/admin/auth.guard';
 import { ManageTax } from '../maker/tax/manage-tax';
 import { AnnouncementComponent } from './announcement/announcement.component';
+import { ManageTaxHoComponent } from './manage-tax-ho/manage-tax-ho.component';
 
 export default [
     {
@@ -13,8 +14,6 @@ export default [
         data: {
             roles: ['ROLE_HO'],
             status: 'ongoing'
-
-
         }
     },
 
@@ -25,14 +24,21 @@ export default [
         data: {
             roles: ['ROLE_HO'],
             status: 'archived'
-
-
         }
     },
+
+    {
+        path: 'manage-tax-ho/:status',
+        component: ManageTaxHoComponent,
+        canActivate: [AuthGuard],
+        data: {
+            roles: ['ROLE_HO']
+        }
+    },
+
     // { path: 'button', data: { breadcrumb: 'Button' }, component: ButtonDemo },
     { path: 'charts', data: { breadcrumb: 'Charts' }, component: MakerDashboard },
     { path: 'manage-tax', data: { breadcrumb: 'Tax Management' }, component: ManageTax },
-
     // { path: 'file', data: { breadcrumb: 'File' }, component: FileDemo },
     // { path: 'formlayout', data: { breadcrumb: 'Form Layout' }, component: FormLayoutDemo },
     // { path: 'input', data: { breadcrumb: 'Input' }, component: InputDemo },

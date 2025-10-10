@@ -41,29 +41,19 @@ export class AppMenuHO {
                 label: 'Home',
                 items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/applayout'] }]
             },
-
+            {
+                label: 'Manage Taxes',
+                items: [
+                    { label: 'Pending Taxes',  icon: 'pi pi-clock', routerLink: ['/applayout/ho/manage-tax-ho', 'pending'] },
+                    { label: 'Rejected Taxes', icon: 'pi pi-times-circle', routerLink: ['/applayout/ho/manage-tax-ho', 'rejected'] },
+                    { label: 'Approved Taxes', icon: 'pi pi-check-circle',  routerLink: ['/applayout/ho/manage-tax-ho', 'approved'] },
+                ]
+            },
             {
                 label: 'Announcements',
                 items: [
                     { label: 'Ongoing ', icon: 'pi pi-fw pi-dollar', routerLink: ['/applayout/ho/ongoing-announcement'] },
-
                     { label: 'Archived', icon: 'pi pi-fw pi-pencil', routerLink: ['/applayout/ho/archived-announcement'] },
-
-                    
-
-
-                    // { label: 'Table', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/uikit/table'] },
-                    // { label: 'List', icon: 'pi pi-fw pi-list', routerLink: ['/applayout/uikit/list'] },
-                    // { label: 'Tree', icon: 'pi pi-fw pi-share-alt', routerLink: ['/applayout/uikit/tree'] },
-                    // { label: 'Panel', icon: 'pi pi-fw pi-tablet', routerLink: ['/applayout/uikit/panel'] },
-                    // { label: 'Overlay', icon: 'pi pi-fw pi-clone', routerLink: ['/applayout/uikit/overlay'] },
-                    // { label: 'Media', icon: 'pi pi-fw pi-image', routerLink: ['/applayout/uikit/media'] },
-                    // { label: 'Menu', icon: 'pi pi-fw pi-bars', routerLink: ['/applayout/uikit/menu'] },
-                    // { label: 'Message', icon: 'pi pi-fw pi-comment', routerLink: ['/applayout/uikit/message'] },
-                    // { label: 'File', icon: 'pi pi-fw pi-file', routerLink: ['/applayout/uikit/file'] },
-                    // { label: 'Chart', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/applayout/maker/charts'] },
-                    // { label: 'Timeline', icon: 'pi pi-fw pi-calendar', routerLink: ['/applayout/uikit/timeline'] },
-                    // { label: 'Misc', icon: 'pi pi-fw pi-circle', routerLink: ['/applayout/uikit/misc'] }
                 ]
             },
 

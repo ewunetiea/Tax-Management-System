@@ -1,7 +1,5 @@
-
-
-
 export class Tax {
+    id?:number;
     mainGuid?: String
     from_?: number;
     sendTo_?: number;
@@ -27,5 +25,12 @@ export class Tax {
     Category_List?: String;
     FileDetail?: number;
     status?: number;
-
+    user_id?: number;
+    rejector_checker_id?: number;
+    checker_rejected_date?: Date;
+    checker_rejected_reason?: string;
+    rejector_approver_id?: number;
+    approver_rejected_reason?: string;
+    approver_rejected_date?: Date;
+    reference_number? : string;
 }

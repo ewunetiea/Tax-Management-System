@@ -1,0 +1,48 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col md:flex-row gap-8">
+    <div class="w-full">
+        <div class="card flex flex-col gap-4">
+
+            <!-- REFERENCE NUMBER FIELD -->
+            <div class="flex flex-col gap-2">
+                <label for="reference_number">Reference Number</label>
+                <input 
+                pInputText 
+                id="reference_number" 
+                type="text" 
+                formControlName="reference_number"
+                class="form-control" 
+                readonly
+                 />
+            </div>
+
+            <!-- REJECTION REASON FIELD -->
+            <div class="flex flex-col gap-2">
+                <label for="checker_rejected_reason"><strong class="text-red-600">*</strong>Rejection Reason </label>
+                <textarea 
+                pInputTextarea 
+                id="checker_rejected_reason" 
+                formControlName="checker_rejected_reason"
+                class="form-control" 
+                rows="3" 
+                required 
+                autocomplete="off"
+                [ngClass]="{ 'is-invalid': submitted && f['checker_rejected_reason'].errors }"
+                ></textarea>
+
+                <!-- ERROR MESSAGES -->
+                <div *ngIf="(submitted || f['checker_rejected_reason'].touched) && f['checker_rejected_reason'].errors">
+                    <small class="text-red-600" *ngIf="f['checker_rejected_reason'].errors['required']">Rejection reason is required</small>
+                    <small class="text-red-600" *ngIf="f['checker_rejected_reason'].errors['minlength']">Rejection reason must be at least {{ f['checker_rejected_reason'].errors['minlength'].requiredLength }} characters </small>
+                </div>
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="flex gap-4 mt-4">
+                <p-button label="Save" [loading]="submitted" type="submit" severity="success" [disabled]="form.invalid"></p-button>
+                <p-button label="Reset" type="button" (click)="onReset()" severity="danger"></p-button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

@@ -4,11 +4,12 @@ import { SharedUiModule } from '../../../../shared-ui';
 import { MakerDashboard } from '../maker-dashboard/maker-dashboard';
 import { StorageService } from '../../../service/sharedService/storage.service';
 import { HODashboard } from '../ho-dashboard/ho-dashboard';
+import { CheckerDashboardComponent } from '../checker-dashboard/checker-dashboard.component';
 
 @Component({
     standalone: true,
     selector: 'app-dashboard-container',
-    imports: [SharedUiModule, AdminDashboardComponent, MakerDashboard,HODashboard],
+    imports: [SharedUiModule, AdminDashboardComponent, MakerDashboard, CheckerDashboardComponent, HODashboard],
     templateUrl: './dashboard-container.component.html'
 })
 export class DashboardContainerComponent {
@@ -33,15 +34,9 @@ export class DashboardContainerComponent {
             const user = this.storageService.getUser();
             this.roles = user.roles;
             this.admin = this.roles.includes('ROLE_ADMIN');
-            this.approver = this.roles.includes('ROLE_APPROVER_IS') || this.roles.includes('ROLE_APPROVER_MGT');
-            this.reviewer = this.roles.includes('ROLE_REVIEWER_IS') || this.roles.includes('ROLE_REVIEWER_MGT');
             this.ho = this.roles.includes('ROLE_HO') ;
             this.checker = this.roles.includes('ROLE_CHECKER');
-        this.maker = this.roles.includes('ROLE_MAKER');
-
-            this.auditee = this.roles.includes('ROLE_AUDITEE');
-            this.auditee_division = this.roles.includes('ROLE_AUDITEE_DIVISION');
-            this.higher_official = this.roles.includes('ROLE_HIGHER_OFFICIAL');
+            this.maker = this.roles.includes('ROLE_MAKER');
            
             if (this.approver && this.reviewer) {
                 this.approver_reviewer = true;

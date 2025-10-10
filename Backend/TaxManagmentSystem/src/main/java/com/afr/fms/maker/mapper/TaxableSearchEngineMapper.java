@@ -12,9 +12,9 @@ public interface TaxableSearchEngineMapper {
     @Select({
         "<script>",
         "SELECT * FROM tblTaxable",
-        "WHERE 1 = 1",
+        "<where>",
 
-        // ✅ Router Status -> mapped numeric codes
+        // ✅ Router status
         "<if test='router_status != null'>",
         "   <choose>",
         "       <when test='router_status == \"pending\"'>AND status = 1</when>",
@@ -23,77 +23,48 @@ public interface TaxableSearchEngineMapper {
         "   </choose>",
         "</if>",
 
-        // ✅ Filter by Branch
         "<if test='branch_id != null'>AND from_ = #{branch_id}</if>",
-
-        // ✅ Filter by Category
         "<if test='tax_category_id != null'>AND taxCategory = #{tax_category_id}</if>",
+        "<if test='reference_number != null and reference_number.trim() != \"\"'>AND reference_number = #{reference_number}</if>",
 
-        // ✅ Reference Number
-        "<if test='reference_number != null and reference_number.trim() != \"\"'>",
-        "   AND reference_number = #{reference_number}",
-        "</if>",
-
-        // ✅ Maker Date (between or single)
+        // ✅ Maker date range
         "<if test='maked_date != null and maked_date.size > 0'>",
         "   <choose>",
-        "       <when test='maked_date.size == 2'>",
-        "           AND maker_date BETWEEN #{maked_date[0]} AND #{maked_date[1]}",
-        "       </when>",
-        "       <otherwise>",
-        "           AND maker_date = #{maked_date[0]}",
-        "       </otherwise>",
+        "       <when test='maked_date.size == 2'>AND maker_date BETWEEN #{maked_date[0]} AND #{maked_date[1]}</when>",
+        "       <otherwise>AND maker_date = #{maked_date[0]}</otherwise>",
         "   </choose>",
         "</if>",
 
-        // ✅ Checked Date
+        // ✅ Checked date range
         "<if test='checked_date != null and checked_date.size > 0'>",
         "   <choose>",
-        "       <when test='checked_date.size == 2'>",
-        "           AND checked_date BETWEEN #{checked_date[0]} AND #{checked_date[1]}",
-        "       </when>",
-        "       <otherwise>",
-        "           AND checked_date = #{checked_date[0]}",
-        "       </otherwise>",
+        "       <when test='checked_date.size == 2'>AND checked_date BETWEEN #{checked_date[0]} AND #{checked_date[1]}</when>",
+        "       <otherwise>AND checked_date = #{checked_date[0]}</otherwise>",
         "   </choose>",
         "</if>",
 
-        // ✅ Approved Date
+        // ✅ Approved date range
         "<if test='approved_date != null and approved_date.size > 0'>",
         "   <choose>",
-        "       <when test='approved_date.size == 2'>",
-        "           AND approved_date BETWEEN #{approved_date[0]} AND #{approved_date[1]}",
-        "       </when>",
-        "       <otherwise>",
-        "           AND approved_date = #{approved_date[0]}",
-        "       </otherwise>",
+        "       <when test='approved_date.size == 2'>AND approved_date BETWEEN #{approved_date[0]} AND #{approved_date[1]}</when>",
+        "       <otherwise>AND approved_date = #{approved_date[0]}</otherwise>",
         "   </choose>",
         "</if>",
 
-        // ✅ Rejected Date
+        // ✅ Rejected date range
         "<if test='rejected_date != null and rejected_date.size > 0'>",
         "   <choose>",
-        "       <when test='rejected_date.size == 2'>",
-        "           AND checker_rejected_date BETWEEN #{rejected_date[0]} AND #{rejected_date[1]}",
-        "       </when>",
-        "       <otherwise>",
-        "           AND checker_rejected_date = #{rejected_date[0]}",
-        "       </otherwise>",
+        "       <when test='rejected_date.size == 2'>AND checker_rejected_date BETWEEN #{rejected_date[0]} AND #{rejected_date[1]}</when>",
+        "       <otherwise>AND checker_rejected_date = #{rejected_date[0]}</otherwise>",
         "   </choose>",
         "</if>",
 
-        // ✅ Document Type
-        "<if test='document_type != null and document_type.trim() != \"\"'>",
-        "   AND mainGuid = #{document_type}",
-        "</if>",
+        "<if test='document_type != null and document_type.trim() != \"\"'>AND mainGuid = #{document_type}</if>",
+        // "<if test='search_by != null and search_by.trim() != \"\"'>AND maker_name = #{search_by}</if>",
 
-        // ✅ Search by Maker
-        "<if test='search_by != null and search_by.trim() != \"\"'>",
-        "   AND maker_name = #{search_by}",
-        "</if>",
-
+        "</where>",
         "ORDER BY id DESC",
         "</script>"
     })
-    public List<Tax> getTaxableSearchEngine(TaxableSearchEngine tax);
+   public List<Tax> getTaxableSearchEngine(TaxableSearchEngine tax);
 }

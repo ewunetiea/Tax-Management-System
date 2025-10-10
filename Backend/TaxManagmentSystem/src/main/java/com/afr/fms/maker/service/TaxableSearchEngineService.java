@@ -13,7 +13,6 @@ public class TaxableSearchEngineService {
     private TaxableSearchEngineMapper taxableSearchEngineMapper;
 
      public List<Tax> getTaxableSearchEngine(TaxableSearchEngine tax) {
-        System.out.println("taxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx " + tax);
         return taxableSearchEngineMapper.getTaxableSearchEngine(tax);
     }
 

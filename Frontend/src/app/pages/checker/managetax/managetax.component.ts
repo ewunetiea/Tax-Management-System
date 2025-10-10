@@ -6,16 +6,17 @@ import { ManageTaxService } from '../../../service/checker/manage_tax_service';
 import { User } from '../../../models/admin/user';
 import { Table } from 'primeng/table';
 import { Tax } from '../../../models/maker/tax';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { PaginatorPayLoad } from '../../../models/admin/paginator-payload';
 import { RejectCheckerApproverComponent } from '../reject-checker-approver/reject-checker-approver.component';
 import { TaxableSearchEngineComponent } from '../../maker/taxable-search-engine/taxable-search-engine.component';
+import { TaxCreateEditComponent } from '../../maker/tax-rule/tax-create-edit.component';
 
 @Component({
   selector: 'app-managetax',
   providers: [MessageService, ConfirmationService],
-  imports: [SharedUiModule, RejectCheckerApproverComponent, TaxableSearchEngineComponent],
+  imports: [SharedUiModule, RejectCheckerApproverComponent, TaxableSearchEngineComponent, TaxCreateEditComponent],
   templateUrl: './managetax.component.html',
   styleUrl: './managetax.component.scss'
 })
@@ -24,7 +25,7 @@ export class ManagetaxComponent implements OnInit {
   selectedSize: any = 'normal';
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
-  breadcrumbText: string = 'Manage Tax';
+  breadcrumbText: string = 'Manage Taxes';
   user: User = new User();
   taxes: Tax[] = [];
   selectedTaxes: Tax[] = [];
@@ -35,13 +36,16 @@ export class ManagetaxComponent implements OnInit {
   outputRejectedTax: any[] = [];
   tax: Tax = new Tax();
   fetching = false;
+  taxDialog = false
+  isEdit = false;
 
   constructor(
     private manageTaxService: ManageTaxService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private storageService: StorageService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -57,11 +61,34 @@ export class ManagetaxComponent implements OnInit {
       { name: 'Large', value: 'large' }
     ];
 
-    // Watch route param changes dynamically
-    this.route.paramMap.subscribe(params => {
-      this.statusRoute = params.get('status') || 'pending';
-      this.getTaxes(); // reload taxes on route change
+    
+    this.setStatusRoute();
+    this.router.events.subscribe(() => {
+      this.setStatusRoute(); // detect route change
     });
+
+    // Watch route param changes dynamically
+    // this.route.paramMap.subscribe(params => {
+    //   this.statusRoute = params.get('status') || 'pending';
+    //   this.getTaxes(); 
+    // });
+  }
+
+  setStatusRoute() {
+    const currentRoute = this.router.url.toLowerCase();
+    if (currentRoute.includes('approved')) this.statusRoute = 'approved';
+    else if (currentRoute.includes('rejected')) this.statusRoute = 'rejected';
+    else this.statusRoute = 'pending';
+
+    // 🧹 reset when route changes
+    this.taxes = [];
+    this.fetching = false;
+  }
+
+  onDataGenerated(data: Tax[]) {
+    this.taxes = data;
+    this.fetching = true;
+    this.loading = false;
   }
 
   /** Fetch taxes by status type */
@@ -151,14 +178,32 @@ export class ManagetaxComponent implements OnInit {
     });
   }
 
-  editTax(taxCategory: Tax) {
-    // this.outputTaxCategory = [];
-    // this.taxCategory = { ...taxCategory };
-    // this.isEditData = true;
-    // this.outputTaxCategory.push(this.taxCategory);
-    // this.outputTaxCategory.push(this.isEditData);
-    // this.taxCategoryDialog = true;
-  }
+  editTax(tax: Tax) {
+        this.tax = { ...tax };
+        this.taxDialog = true;
+        this.isEdit = true;
+    }
+
+  hideDialog() {
+        this.taxDialog = false;
+    }
+
+     onTaxesaved(saveTax: Tax) {
+        if (this.isEdit) {
+            const index = this.taxes.findIndex(a => a.mainGuid === saveTax.mainGuid);
+            if (index !== -1) {
+                this.taxes[index] = saveTax;
+            }
+        } else {
+
+
+
+            this.taxes = [saveTax, ...this.taxes];
+        }
+
+        this.taxDialog = false;
+        this.tax = {} as Tax;
+    }
 
   /** Review single tax record */
   reviewTax(tax: Tax) {
@@ -224,13 +269,5 @@ export class ManagetaxComponent implements OnInit {
     }
     return index;
   }
-
-  onDataGenerated(data: Tax[]) {
-        this.loading = false;
-        if (data != null) {
-            this.fetching = true;
-            this.taxes = data;
-        }
-    }
 
 }

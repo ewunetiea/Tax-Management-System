@@ -13,13 +13,12 @@ public class TaxableSearchEngine {
     private Long branch_id;
     private Long tax_category_id;
     private String reference_number;
-    private Long status_id;
+    private String router_status;
     private List<Date> maked_date;
     private List<Date> checked_date;
     private List<Date> approved_date;
     private List<Date> rejected_date;
     private String document_type;
     private Long user_id;
-    private String router_status;
     private String search_by;
 }

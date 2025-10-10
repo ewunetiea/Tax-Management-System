@@ -40,17 +40,16 @@
       <!-- Status & Reference Number -->
       <div class="flex flex-col md:flex-row gap-6">
         <div class="flex flex-wrap gap-2 w-full">
-          <label for="status_id">Status</label>
-          <p-dropdown
-            id="status_id"
-            [options]="status"
-            formControlName="status_id"
-            optionLabel="name"
-            optionValue="id"
-            [filter]="true"
-            placeholder="Select One"
+          <label for="reference_number">Status</label>
+          <input
+            pInputText
+            id="router_status"
+            formControlName="router_status"
+            type="text"
+            autocomplete="off"
             class="w-full"
-          ></p-dropdown>
+            readonly
+          />
         </div>
 
         <div class="flex flex-wrap gap-2 w-full">

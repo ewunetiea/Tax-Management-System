@@ -6,10 +6,9 @@
       <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
   </div>
 
-  
 <div class="mb-2">
     <p-card>
-      <app-taxable-search-engine (generatedTaxes)="onDataGenerated($any($event))"></app-taxable-search-engine>
+       <app-taxable-search-engine [statusRoute]="statusRoute" (generatedTaxes)="onDataGenerated($any($event))"></app-taxable-search-engine>
     </p-card>
 </div>
 
@@ -20,6 +19,7 @@
           <p-toolbar styleClass="p-mb-4">
             <ng-template pTemplate="left">
               <button
+               *ngIf="statusRoute !== 'approved'"
                 pButton
                 pRipple
                 label="Review"
@@ -226,7 +226,7 @@
               </div>
             </th>
 
-            <th style="width: 12rem">Action</th>
+            <th *ngIf="statusRoute !== 'approved'" style="width: 12rem">Action</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-tax let-expanded="expanded">
@@ -249,10 +249,10 @@
                 <td>{{tax.maker_name}}</td>
                 <td>{{ tax.maker_date | date:'yyyy-MM-dd' }}</td>
                 <td>
-                   <ng-container *ngIf="tax.checker_name; else pendingBtn">
+                   <ng-container *ngIf="tax.checker_name; else uncheckednameBtn">
                     {{ tax.checker_name }}
                   </ng-container>
-                  <ng-template #pendingBtn>
+                  <ng-template #uncheckednameBtn>
                     <button 
                     pButton 
                     pRipple 
@@ -263,10 +263,10 @@
                   </ng-template>
                 </td>
                 <td>
-                   <ng-container *ngIf="tax.checked_Date; else pendingBtn">
+                   <ng-container *ngIf="tax.checked_Date; else uncheckedDateBtn">
                     {{ tax.checked_Date | date:'yyyy-MM-dd' }}
                   </ng-container>
-                  <ng-template #pendingBtn>
+                  <ng-template #uncheckedDateBtn>
                     <button 
                     pButton 
                     pRipple 
@@ -277,10 +277,10 @@
                   </ng-template>
                 </td>
                 <td>
-                   <ng-container *ngIf="tax.updated_user_name; else pendingBtn">
+                   <ng-container *ngIf="tax.updated_user_name; else unupdateusernameBtn">
                     {{ tax.updated_user_name }}
                   </ng-container>
-                  <ng-template #pendingBtn>
+                  <ng-template #unupdateusernameBtn>
                     <button 
                     pButton 
                     pRipple 
@@ -291,10 +291,10 @@
                   </ng-template>
                 </td>
                 <td>
-                   <ng-container *ngIf="tax.updated_event_date; else pendingBtn">
+                   <ng-container *ngIf="tax.updated_event_date; else unupdatedteBtn">
                     {{ tax.updated_event_date | date:'yyyy-MM-dd' }}
                   </ng-container>
-                  <ng-template #pendingBtn>
+                  <ng-template #unupdatedteBtn>
                     <button 
                     pButton 
                     pRipple 
@@ -306,6 +306,7 @@
                 </td>
                 <td>
                   <button
+                  *ngIf="statusRoute === 'pending'"
                     pButton
                     pRipple
                     pTooltip="Edit"
@@ -315,6 +316,7 @@
                     class="p-button-rounded p-button-outlined p-button-info mr-2"
                   ></button>
                   <button
+                  *ngIf="statusRoute !== 'approved'"
                     pButton
                     pRipple
                     pTooltip="Review"
@@ -324,6 +326,7 @@
                     class="p-button-rounded p-button-outlined p-button-success mr-2"
                   ></button>
                   <button
+                  *ngIf="statusRoute !== 'approved'"
                     pButton
                     pRipple
                     pTooltip="Reject"
@@ -365,3 +368,10 @@
       ></app-reject-checker-approver>
     </ng-template>
   </p-dialog>
+  
+<app-tax-create-edit 
+[(visible)]="taxDialog"
+ [tax]="tax" 
+ (saved)="onTaxesaved($event)"
+ (cancel)="hideDialog()"
+ ></app-tax-create-edit>

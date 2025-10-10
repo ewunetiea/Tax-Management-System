@@ -1,0 +1,177 @@
+<p-dialog [(visible)]="visible" [style]="{ width: '1000px' }" header="Announcement Details" [modal]="true"
+    (onHide)="onCancel()">
+    <ng-template #content>
+        <form ngNativeValidate #taxForm="ngForm" class="p-fluid" (ngSubmit)="onSave()">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-field">
+                    <label for="taxableAmount" class="block font-bold mb-3">
+                        <strong class="text-danger">*</strong> Taxable Amount
+                    </label>
+                    <p-inputnumber [(ngModel)]="tax.taxableAmount" name="taxableAmount" inputId="taxableAmount"
+                        mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" required autocomplete="off" fluid
+                        class="w-full h-14 " />
+                    <div *ngIf="taxForm.controls['taxableAmount']?.invalid && taxForm.controls['taxableAmount']?.touched"
+                        class="text-danger">
+                        Taxable amount is required.
+                    </div>
+                </div>
+
+                <div class="p-field">
+                    <label for="taxWithHold" class="block font-bold mb-3">
+                        <strong class="text-danger">*</strong> Tax With Hold
+                    </label>
+                    <p-inputnumber [(ngModel)]="tax.taxWithHold" name="taxWithHold" inputId="taxWithHold" mode="decimal"
+                        [minFractionDigits]="2" [maxFractionDigits]="5" required autocomplete="off" fluid
+                        class="w-full h-14 " />
+                    <div *ngIf="taxForm.controls['taxWithHold']?.invalid && taxForm.controls['taxWithHold']?.touched"
+                        class="text-danger">
+                        Tax With Hold is required.
+                    </div>
+                </div>
+
+                <div class="p-field">
+                    <label for="incometaxPoolAmount" class="block font-bold mb-3">
+                        <strong class="text-danger">*</strong> Income Tax Pool
+                    </label>
+                    <p-inputnumber [(ngModel)]="tax.incometaxPoolAmount" name="incometaxPoolAmount"
+                        inputId="incometaxPoolAmount" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"
+                        required autocomplete="off" fluid class="w-full h-14 " />
+                    <div *ngIf="taxForm.controls['incometaxPoolAmount']?.invalid && taxForm.controls['incometaxPoolAmount']?.touched"
+                        class="text-danger">
+                        Income Tax Pool is required.
+                    </div>
+                </div>
+
+                <div class="p-field">
+                    <label for="graduatetaxPool" class="block font-bold mb-3">
+                        <strong class="text-danger">*</strong> Graduate Taxpool
+                    </label>
+                    <p-inputnumber [(ngModel)]="tax.graduatetaxPool" name="graduatetaxPool" inputId="graduatetaxPool"
+                        mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" required autocomplete="off" fluid
+                        class="w-full h-14 " />
+                    <div *ngIf="taxForm.controls['graduatetaxPool']?.invalid && taxForm.controls['graduatetaxPool']?.touched"
+                        class="text-danger">
+                        Graduate Taxpool is required.
+                    </div>
+                </div>
+
+                <div class="p-field">
+                    <label for="graduatetaxPool1" class="block font-bold mb-3">
+                        <strong class="text-danger">*</strong> Graduate Taxpool 1
+                    </label>
+                    <p-inputnumber [(ngModel)]="tax.graduatetaxPool1" name="graduatetaxPool1" inputId="graduatetaxPool1"
+                        mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" required autocomplete="off" fluid
+                        class="w-full h-14 " />
+                    <div *ngIf="taxForm.controls['graduatetaxPool1']?.invalid && taxForm.controls['graduatetaxPool1']?.touched"
+                        class="text-danger">
+                        Graduate Taxpool is required.
+                    </div>
+                </div>
+
+                <div class="p-field">
+                    <label for="graduaTotBasSalary" class="block font-bold mb-3">
+                        <strong class="text-danger">*</strong> Graduate Total Base Salary
+                    </label>
+                    <p-inputnumber [(ngModel)]="tax.graduaTotBasSalary" name="graduaTotBasSalary"
+                        inputId="graduaTotBasSalary" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"
+                        required autocomplete="off" fluid class="w-full h-14 " />
+                    <div *ngIf="taxForm.controls['graduaTotBasSalary']?.invalid && taxForm.controls['graduaTotBasSalary']?.touched"
+                        class="text-danger">
+                        Graduate total base salary is required.
+                    </div>
+                </div>
+
+                <div class="p-field">
+                    <label for="graduateTotaEmployee" class="block font-bold mb-3">
+                        <strong class="text-danger">*</strong> Graduate Total Employee
+                    </label>
+                    <p-inputnumber [(ngModel)]="tax.graduateTotaEmployee" name="graduateTotaEmployee"
+                        inputId="graduateTotaEmployee" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"
+                        required autocomplete="off" fluid class="w-full h-14 " />
+                    <div *ngIf="taxForm.controls['graduateTotaEmployee']?.invalid && taxForm.controls['graduateTotaEmployee']?.touched"
+                        class="text-danger">
+                        Graduate total employee is required.
+                    </div>
+                </div>
+
+                <div class="p-field">
+                    <label for="graduatetaxWithHold" class="block font-bold mb-3">
+                        <strong class="text-danger">*</strong> Graduate Tax With Hold
+                    </label>
+                    <p-inputnumber [(ngModel)]="tax.graduatetaxWithHold" name="graduatetaxWithHold"
+                        inputId="graduatetaxWithHold" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"
+                        required autocomplete="off" fluid class="w-full h-14 " />
+                    <div *ngIf="taxForm.controls['graduatetaxWithHold']?.invalid && taxForm.controls['graduatetaxWithHold']?.touched"
+                        class="text-danger">
+                        Graduate tax with hold is required.
+                    </div>
+                </div>
+
+
+                <div class="p-field">
+
+                    <label for="taxCategory" class="block font-bold mb-3">
+                        <strong class="text-danger">*</strong> Tax Category
+                    </label>
+                    <p-select [options]="taxCategories" [(ngModel)]="tax.taxCategory" optionLabel="type"
+                        optionValue="id" name="taxCategory" id="taxCategory" placeholder="Select Tax Category"
+                        [filter]="true" [showClear]="true" scrollHeight="200px" class="w-full h-14"></p-select>
+                </div>
+
+                <div class="p-field">
+
+                    <label for="sendTo_" class="block font-bold mb-3">
+                        <strong class="text-danger">*</strong> Target Branch
+                    </label>
+                    <p-select [options]="branches" [(ngModel)]="tax.sendTo_" optionLabel="name" optionValue="id"
+                        name="sendTo_" id="sendTo_" placeholder="Select Branch" [filter]="true" [showClear]="true"
+                        scrollHeight="200px" class="w-full h-14" [virtualScroll]="true"
+                        [virtualScrollItemSize]="40"></p-select>
+                </div>
+
+
+
+                <div class="col-span-2 p-field">
+                    <label for="remark" class="block font-bold mb-3">Remark</label>
+                    <textarea id="remark" pTextarea [(ngModel)]="tax.remark" name="remark" rows="3" cols="20"
+                        fluid></textarea>
+                </div>
+
+                <div class="p-field">
+                    <label for="maker_date" class="block font-bold mb-3">
+                        <strong class="text-danger">*</strong> Created Date
+                    </label>
+                    <p-datepicker id="maker_date" [(ngModel)]="tax.maker_date" name="maker_date" dateFormat="dd-mm-yy"
+                        [showIcon]="true" [readonlyInput]="true" inputId="maker_date" placeholder="Select created date"
+                        required class="w-full custom-datepicker"></p-datepicker>
+
+                    <div *ngIf="taxForm.controls['maker_date']?.invalid && taxForm.controls['maker_date']?.touched"
+                        class="text-danger">
+                        Created date is required.
+                    </div>
+                </div>
+
+                <div class="p-field">
+                    <label for="fileUpload" class="block mb-3">Upload Files</label>
+                    <p-fileUpload name="demo[]" mode="advanced" [multiple]="false" [maxFileSize]="1000000"
+                        customUpload="true"
+                        accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        (onSelect)="onFileSelect($event)">
+                        <ng-template #empty>
+                            <div>Drag and drop files here to upload (Image, PDF, Word).</div>
+                        </ng-template>
+                    </p-fileUpload>
+                </div>
+
+            </div>
+
+            <div class="flex justify-between mt-4 gap-4">
+                <p-button pButton pRipple label="Cancel" icon="pi pi-times" text (click)="onCancel()"
+                    class="p-button-rounded"></p-button>
+
+                <p-button pButton pRipple type="submit" label="Save" icon="pi pi-check" [disabled]="taxForm.invalid"
+                    class="p-button-rounded"></p-button>
+            </div>
+        </form>
+    </ng-template>
+</p-dialog>

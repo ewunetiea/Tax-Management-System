@@ -20,6 +20,9 @@ export class BranchService {
         return this.http.get<Branch[]>(`${baseUrl}/branch`);
     }
 
+      getBranchesDropDown(): Observable<Branch[]> {
+        return this.http.get<Branch[]>(`${baseUrl}/branch/dropdown`);
+    }
     getActiveBranchesList(): Observable<Branch[]> {
         return this.http.get<Branch[]>(`${baseUrl}/branch/active`);
     }

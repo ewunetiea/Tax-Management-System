@@ -46,6 +46,18 @@ public class BranchController {
 
 	}
 
+	@GetMapping("/branch/dropdown")
+	public ResponseEntity<List<Branch>> getBranchesDropDown(HttpServletRequest request) {
+		try {
+			List<Branch> branches = branchService.getBranchesDropDown();
+			return new ResponseEntity<>(branches, HttpStatus.OK);
+		} catch (Exception ex) {
+			logger.error("Error while fetching branches", ex);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+
 	@GetMapping("/branch/active")
 	public ResponseEntity<List<Branch>> getActiveBranches() {
 		try {

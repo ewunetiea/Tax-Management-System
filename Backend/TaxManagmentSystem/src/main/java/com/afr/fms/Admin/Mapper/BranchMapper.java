@@ -73,4 +73,12 @@ public interface BranchMapper {
 
 	@Select("select count(id) from branch where region_id=#{id}")
 	public long findNumberofBranchesByRegioId(long id);
+
+
+
+
+	
+@Select("SELECT id, name FROM branch ORDER BY name ASC")
+List<Branch> getBranchForDropDown();
+
 }

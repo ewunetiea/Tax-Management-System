@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { MakerDashboard } from '../dashboard/maker-dashboard/maker-dashboard';
 
 import { AuthGuard } from '../../service/admin/auth.guard';
-import { TaxRuleComponent } from '../maker/tax-rule/tax-rule.component';
 import { ManageTax } from '../maker/tax/manage-tax';
 import { AnnouncementComponent } from './announcement/announcement.component';
 
@@ -33,7 +32,6 @@ export default [
     // { path: 'button', data: { breadcrumb: 'Button' }, component: ButtonDemo },
     { path: 'charts', data: { breadcrumb: 'Charts' }, component: MakerDashboard },
     { path: 'manage-tax', data: { breadcrumb: 'Tax Management' }, component: ManageTax },
-    { path: 'tax-rule', data: { breadcrumb: 'Tax Form' }, component: TaxRuleComponent },
 
     // { path: 'file', data: { breadcrumb: 'File' }, component: FileDemo },
     // { path: 'formlayout', data: { breadcrumb: 'Form Layout' }, component: FormLayoutDemo },

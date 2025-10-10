@@ -1,0 +1,17 @@
+.text-danger {
+    color: red; /* or any other color code you prefer */
+}
+
+
+
+
+:host ::ng-deep .custom-datepicker,
+:host ::ng-deep .custom-datepicker .p-inputwrapper,
+:host ::ng-deep .custom-datepicker .p-inputtext {
+  @apply w-full;
+}
+
+:host ::ng-deep .custom-datepicker .p-inputtext,
+:host ::ng-deep .custom-datepicker .p-datepicker-trigger {
+  @apply h-14;
+}

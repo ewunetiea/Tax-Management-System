@@ -15,6 +15,11 @@ public class BranchService {
         return branchMapper.getBranches();
     }
 
+      public List<Branch> getBranchesDropDown() {
+        return branchMapper.getBranchForDropDown();
+    }
+
+
     public List<Branch> getActiveBranches() {
         return branchMapper.getActiveBranches();
     }

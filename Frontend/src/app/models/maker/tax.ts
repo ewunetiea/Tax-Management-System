@@ -1,8 +1,10 @@
+import { TaxFile } from "./tax-file";
 
 
 
 export class Tax {
-    mainGuid?: String
+    id?: number;
+    mainGuid?: String;
     from_?: number;
     sendTo_?: number;
     taxCategory?: number;
@@ -27,5 +29,13 @@ export class Tax {
     Category_List?: String;
     FileDetail?: number;
     status?: number;
+    taxFile?: TaxFile[] = []
+    remark?: String
+    reference_number?: String
+   
+
+    initiator_branch?:String;   // The branch that initiated the tax
+  destination_branch?: String; // The branch that receives/sends to
+
 
 }

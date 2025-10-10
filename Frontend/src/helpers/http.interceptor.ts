@@ -15,10 +15,16 @@ export const httpRequestInterceptor: HttpInterceptorFn = (req, next) => {
     const eventBusService = inject(EventBusService);
     const messageService = inject(MessageService);
 
+    // req = req.clone({
+    //     withCredentials: true,
+    //     setHeaders: { 'Content-Type': 'application/json' }
+    // });
+
     req = req.clone({
-        withCredentials: true,
-        setHeaders: { 'Content-Type': 'application/json' }
-    });
+    withCredentials: true,
+    setHeaders: req.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }
+});
+
 
     return next(req).pipe(
         catchError((error: HttpErrorResponse) => {

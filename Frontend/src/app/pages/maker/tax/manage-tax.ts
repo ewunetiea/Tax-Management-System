@@ -1,214 +1,357 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { InputTextModule } from 'primeng/inputtext';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { SelectModule } from 'primeng/select';
-import { SliderModule } from 'primeng/slider';
-import { Table, TableModule } from 'primeng/table';
-import { ProgressBarModule } from 'primeng/progressbar';
-import { ToggleButtonModule } from 'primeng/togglebutton';
-import { ToastModule } from 'primeng/toast';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { RatingModule } from 'primeng/rating';
-import { RippleModule } from 'primeng/ripple';
-import { InputIconModule } from 'primeng/inputicon';
-import { IconFieldModule } from 'primeng/iconfield';
-import { TagModule } from 'primeng/tag';
-import { Customer, CustomerService, Representative } from '../../../service/customer.service';
-import { Product, ProductService } from '../../../service/product.service';
 
 
-interface expandedRows {
-    [key: string]: boolean;
+
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
+
+import { HttpErrorResponse } from '@angular/common/http';
+import { ProductService } from '../../../service/product.service';
+import { SharedUiModule } from '../../../../shared-ui';
+
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+import { TaxCreateEditComponent } from '../tax-rule/tax-create-edit.component';
+import { Tax } from '../../../models/maker/tax';
+import { TaxService } from '../../../service/maker/tax-service';
+import { StorageService } from '../../../service/sharedService/storage.service';
+import { FileDownloadService } from '../../../service/maker/file-download-service';
+
+
+
+interface Column {
+    field: string;
+    header: string;
+    customExportHeader?: string;
 }
+
+interface ExportColumn {
+    title: string;
+    dataKey: string;
+}
+
 
 @Component({
     selector: 'app-manage-tax',
     standalone: true,
     imports: [
-        TableModule,
-        MultiSelectModule,
-        SelectModule,
-        InputIconModule,
-        TagModule,
-        InputTextModule,
-        SliderModule,
-        ProgressBarModule,
-        ToggleButtonModule,
-        ToastModule,
-        CommonModule,
-        FormsModule,
-        ButtonModule,
-        RatingModule,
-        RippleModule,
-        IconFieldModule
+        SharedUiModule, TaxCreateEditComponent
     ],
-     templateUrl: './manage-tax.component.html',
+    templateUrl: './manage-tax.component.html',
     styleUrls: ['./manage-tax.component.css'],
-    
-    providers: [ConfirmationService, MessageService, CustomerService, ProductService]
+
+    providers: [ConfirmationService, MessageService, ProductService]
 })
 export class ManageTax implements OnInit {
-    customers1: Customer[] = [];
 
-    customers2: Customer[] = [];
+    expandedRows: { [key: number]: boolean } = {};
+    selectedPdf: SafeResourceUrl | null = null; // PDF to preview
+    showPdfModal = false;
+    taxDialog: boolean = false;
+    taxes: Tax[] = [];
+    tax!: Tax;
+    selectedTaxes!: Tax[] | null;
+    submitted: boolean = false;
+    statuses!: any[];
+    @ViewChild('dt') dt!: Table;
+    exportColumns!: ExportColumn[];
+    cols!: Column[];
+    uploadedFiles: any[] = [];
 
-    customers3: Customer[] = [];
+    maker_name: String = ''
+    isEdit = false;
+    activeIndex1: number = 0;
+    activeState: boolean[] = [true, false, false];
+    pdfSrc: any;
 
-    selectedCustomers1: Customer[] = [];
+    sizes!: any[];
+    selectedSize: any = 'normal';
+    breadcrumbText: string = 'Manage Tax';
+    items: MenuItem[] | undefined;
 
-    selectedCustomer: Customer = {};
+    rowToggles: { [id: number]: { message: boolean; file: boolean } } = {};
 
-    representatives: Representative[] = [];
-
-    statuses: any[] = [];
-
-    products: Product[] = [];
-
-    rowGroupMetadata: any;
-
-    expandedRows: expandedRows = {};
-
-    activityValues: number[] = [0, 100];
-
-    isExpanded: boolean = false;
-
-    balanceFrozen: boolean = false;
-
+    status!: string;
     loading: boolean = true;
 
-    @ViewChild('filter') filter!: ElementRef;
-
     constructor(
-        private customerService: CustomerService,
-        private productService: ProductService
-    ) {}
+        private taxService: TaxService,
+        private messageService: MessageService,
+        private confirmationService: ConfirmationService,
+        private sanitizer: DomSanitizer,
+        private route: ActivatedRoute,
+        private staorageService: StorageService,
+        private fileDownloadService: FileDownloadService,
+    ) { }
 
-    ngOnInit() {
-        this.customerService.getCustomersLarge().then((customers) => {
-            this.customers1 = customers;
-            this.loading = false;
+    ngOnInit(): void {
 
-            // @ts-ignore
-            this.customers1.forEach((customer) => (customer.date = new Date(customer.date)));
-        });
-        this.customerService.getCustomersMedium().then((customers) => (this.customers2 = customers));
-        this.customerService.getCustomersLarge().then((customers) => (this.customers3 = customers));
-        this.productService.getProductsWithOrdersSmall().then((data) => (this.products = data));
+        this.maker_name = this.staorageService.getUser().username
+        // this.route.snapshot.data['status'];
 
-        this.representatives = [
-            { name: 'Amy Elsner', image: 'amyelsner.png' },
-            { name: 'Anna Fali', image: 'annafali.png' },
-            { name: 'Asiya Javayant', image: 'asiyajavayant.png' },
-            { name: 'Bernardo Dominic', image: 'bernardodominic.png' },
-            { name: 'Elwin Sharvill', image: 'elwinsharvill.png' },
-            { name: 'Ioni Bowcher', image: 'ionibowcher.png' },
-            { name: 'Ivan Magalhaes', image: 'ivanmagalhaes.png' },
-            { name: 'Onyama Limba', image: 'onyamalimba.png' },
-            { name: 'Stephen Shaw', image: 'stephenshaw.png' },
-            { name: 'XuXue Feng', image: 'xuxuefeng.png' }
+        this.items = [{ label: this.breadcrumbText }];
+        this.sizes = [
+            { name: 'Small', value: 'small' },
+            { name: 'Normal', value: 'normal' },
+            { name: 'Large', value: 'large' }
         ];
 
-        this.statuses = [
-            { label: 'Unqualified', value: 'unqualified' },
-            { label: 'Qualified', value: 'qualified' },
-            { label: 'New', value: 'new' },
-            { label: 'Negotiation', value: 'negotiation' },
-            { label: 'Renewal', value: 'renewal' },
-            { label: 'Proposal', value: 'proposal' }
-        ];
+        this.loadTaxes(this.maker_name);
     }
 
-    onSort() {
-        this.updateRowGroupMetaData();
-    }
 
-    updateRowGroupMetaData() {
-        this.rowGroupMetadata = {};
+    loadTaxes(maker_name: String) {
+        this.taxService.fetchTaxes(maker_name).subscribe(
+            (response) => {
 
-        if (this.customers3) {
-            for (let i = 0; i < this.customers3.length; i++) {
-                const rowData = this.customers3[i];
-                const representativeName = rowData?.representative?.name || '';
 
-                if (i === 0) {
-                    this.rowGroupMetadata[representativeName] = { index: 0, size: 1 };
-                } else {
-                    const previousRowData = this.customers3[i - 1];
-                    const previousRowGroup = previousRowData?.representative?.name;
-                    if (representativeName === previousRowGroup) {
-                        this.rowGroupMetadata[representativeName].size++;
-                    } else {
-                        this.rowGroupMetadata[representativeName] = { index: i, size: 1 };
+                console.log(response)
+                this.taxes = (response as any).map((announcement: any) => {
+                    // Detect file type from base64
+                    const fileType = this.getFileType(announcement.image);
+                    announcement.fileType = fileType;
+
+                    // Prepare PDF blob URL if PDF
+                    if (fileType === 'application/pdf') {
+                        const byteCharacters = atob(announcement.image);
+                        const byteNumbers = new Array(byteCharacters.length);
+                        for (let i = 0; i < byteCharacters.length; i++) {
+                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                        }
+                        const byteArray = new Uint8Array(byteNumbers);
+                        const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+                        const url = URL.createObjectURL(blob);
+                        announcement.pdfUrl = url;
+                        announcement.safePdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url) as SafeResourceUrl;
                     }
-                }
+                    this.loading = false;
+
+
+                    return announcement;
+                });
+            },
+            (error: HttpErrorResponse) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary:
+                        error.status === 401
+                            ? 'You are not permitted to perform this action!'
+                            : 'Something went wrong while fetching announcements!',
+                    detail: '',
+                });
             }
-        }
+        );
     }
 
-    expandAll() {
-        if (!this.isExpanded) {
-            this.products.forEach((product) => (product && product.name ? (this.expandedRows[product.name] = true) : ''));
-        } else {
-            this.expandedRows = {};
-        }
-        this.isExpanded = !this.isExpanded;
-    }
-
-    formatCurrency(value: number) {
-        return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-    }
 
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
 
-    clear(table: Table) {
-        table.clear();
-        this.filter.nativeElement.value = '';
+    openNew() {
+        this.tax = { created_date: new Date() } as Tax; // default date avoids null crash
+
+        this.submitted = false;
+        this.taxDialog = true;
+        this.isEdit = false
     }
+
+    editTax(tax: Tax) {
+        this.tax = { ...tax };
+        this.taxDialog = true;
+
+        this.isEdit = true;
+    }
+
+    deleteTaxes(taxes: Tax | Tax[] | null) {
+        // Normalize to array
+        const itemsToDelete = Array.isArray(taxes) ? taxes : [taxes];
+
+        this.confirmationService.confirm({
+            message: `Are you sure you want to delete ${itemsToDelete.length} tax(es)?`,
+            header: 'Confirm',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.taxService.deleteSelectedTaxes(itemsToDelete as any).subscribe({
+                    next: () => {
+                        // Remove deleted items from local list
+                        this.taxes = this.taxes.filter(
+                            val => !itemsToDelete.includes(val)
+                        );
+                        // Clear selection if it was a bulk delete
+                        if (Array.isArray(taxes)) {
+                            this.selectedTaxes = null;
+                        }
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Successful',
+                            detail: 'taxes Deleted',
+                            life: 3000
+                        });
+                    },
+                    error: (err) => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Error',
+                            detail: 'Failed to delete taxes',
+                            life: 3000
+                        });
+                        console.error(err);
+                    }
+                });
+            }
+        });
+    }
+
+
+
+    hideDialog() {
+        this.taxDialog = false;
+        this.submitted = false;
+    }
+
+
+
+    findIndexById(mainGuid: String): number {
+        return this.taxes.findIndex((p) => p.mainGuid === mainGuid);
+    }
+
+
+
 
     getSeverity(status: string) {
         switch (status) {
-            case 'qualified':
-            case 'instock':
-            case 'INSTOCK':
-            case 'DELIVERED':
-            case 'delivered':
-                return 'success';
-
-            case 'negotiation':
-            case 'lowstock':
-            case 'LOWSTOCK':
-            case 'PENDING':
-            case 'pending':
-                return 'warn';
-
-            case 'unqualified':
-            case 'outofstock':
-            case 'OUTOFSTOCK':
-            case 'CANCELLED':
-            case 'cancelled':
-                return 'danger';
-
-            default:
-                return 'info';
+            case 'INSTOCK': return 'success';
+            case 'LOWSTOCK': return 'warn';
+            case 'OUTOFSTOCK': return 'danger';
+            default: return 'info';
         }
     }
 
-    calculateCustomerTotal(name: string) {
-        let total = 0;
 
-        if (this.customers2) {
-            for (let customer of this.customers2) {
-                if (customer.representative?.name === name) {
-                    total++;
-                }
+    onTaxesaved(saveTax: Tax) {
+
+        if (this.isEdit) {
+            const index = this.taxes.findIndex(a => a.mainGuid === saveTax.mainGuid);
+            if (index !== -1) {
+                this.taxes[index] = saveTax;
             }
+        } else {
+
+
+
+            this.taxes = [saveTax, ...this.taxes];
         }
 
-        return total;
+        this.taxDialog = false;
+        this.tax = {} as Tax;
     }
+
+
+    getFileType(base64: string): string {
+        if (!base64) return '';
+
+        // Common base64 prefixes
+        if (base64.startsWith('/9j/')) return 'image/jpeg'; // JPEG
+        if (base64.startsWith('iVBOR')) return 'image/png'; // PNG
+        if (base64.startsWith('JVBER')) return 'application/pdf'; // PDF
+        if (base64.startsWith('UEsDB')) return 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'; // DOCX
+        if (base64.startsWith('0M8R4')) return 'application/msword'; // DOC
+
+        return 'unknown';
+    }
+
+
+
+    toggle(index: number) {
+        this.activeState = this.activeState.map((_, i) => i === index ? !this.activeState[i] : false);
+    }
+
+
+    clear(table: Table) {
+        table.clear();
+    }
+
+
+    onRowExpand(event: any) {
+        const tax = event.data;
+        const file = tax.taxFile?.[0];
+
+        if (!file?.fileName) {
+            return;
+        }
+
+        this.fileDownloadService.fetchFileByFileName(file.fileName).subscribe((blob: Blob) => {
+            console.log('Received Blob:', blob);
+
+            const newFile = { ...file };
+            newFile.fileType = blob.type;
+
+            if (blob.type === 'application/pdf') {
+                console.log('Blob type is PDF, processing for PDF.');
+                newFile.file = null; // clear image
+                const blobUrl = URL.createObjectURL(blob);
+                newFile.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl); // ✅ sanitize
+            } else if (blob.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e: any) => {
+                    newFile.file = e.target.result.split(',')[1]; // base64
+                    newFile.pdfUrl = null;
+
+
+                    tax.taxFile = [newFile];
+                };
+                reader.readAsDataURL(blob);
+                return; // exit early since assignment happens in onload
+            } else {
+                newFile.file = blob; // Word or other types
+                newFile.pdfUrl = null;
+            }
+
+
+            tax.taxFile = [newFile]; // replace array to trigger change detection
+        }, error => {
+            console.error('Error fetching file:', error);
+        });
+    }
+
+
+
+    onRowCollapse(event: any) {
+        const tax = event.data;
+        delete this.expandedRows[tax.Id];
+    }
+    previewPdf(file: any) {
+        if (file.pdfUrl) {
+            this.selectedPdf = file.pdfUrl;
+            this.showPdfModal = true;
+        }
+    }
+
+
+
+    downloadPdf(file: any) {
+        if (!file.pdfUrl && !file.fileType) return;
+
+        // If we have the blob stored (recommended)
+        this.fileDownloadService.fetchFileByFileName(file.fileName).subscribe((blob: Blob) => {
+            const link = document.createElement('a');
+            const blobUrl = URL.createObjectURL(blob); // create object URL from blob
+            link.href = blobUrl;
+            link.download = file.fileName || 'document.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(blobUrl); // cleanup
+        });
+    }
+
+
+
+    closeModal() {
+        this.showPdfModal = false;
+        this.selectedPdf = null;
+    }
+
 }

@@ -50,8 +50,8 @@ export class AppMenuMaker {
                     { label: 'Manage Customer', icon: 'pi pi-fw pi-pencil', routerLink: ['/applayout/maker/manage-customer'] },
 
                     {
-                        label: 'Tax Rule',
-                        icon: 'pi pi-percentage',    routerLink: ['/applayout/maker/tax-rule']
+                        label: 'Tax ',
+                        icon: 'pi pi-percentage',    routerLink: ['/applayout/maker/tax']
                     },
                     {
                         label: 'Account',  icon: 'pi pi-wallet', routerLink: ['/applayout/maker/account']

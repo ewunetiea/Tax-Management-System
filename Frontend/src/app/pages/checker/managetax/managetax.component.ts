@@ -34,7 +34,7 @@ export class ManagetaxComponent implements OnInit {
   rejectTaxDialog = false;
   outputRejectedTax: any[] = [];
   tax: Tax = new Tax();
-  searchClicked = false;
+  fetching = false;
 
   constructor(
     private manageTaxService: ManageTaxService,
@@ -225,5 +225,12 @@ export class ManagetaxComponent implements OnInit {
     return index;
   }
 
+  onDataGenerated(data: Tax[]) {
+        this.loading = false;
+        if (data != null) {
+            this.fetching = true;
+            this.taxes = data;
+        }
+    }
 
 }

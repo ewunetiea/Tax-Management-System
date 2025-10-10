@@ -1,11 +1,19 @@
-<app-taxable-search-engine></app-taxable-search-engine>
+<p-toast></p-toast>
 
-<main id="main" class="main" *ngIf="searchClicked">
-    <p-toast></p-toast>
+<main id="main" class="main">
+
     <div class="mb-6">
       <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
   </div>
 
+  
+<div class="mb-2">
+    <p-card>
+      <app-taxable-search-engine (generatedTaxes)="onDataGenerated($any($event))"></app-taxable-search-engine>
+    </p-card>
+</div>
+
+<p-card *ngIf="fetching">
     <div class="row">
       <div class="col-lg-12">
         <p-card>
@@ -337,6 +345,7 @@
         </p-card>
       </div>
     </div>
+</p-card>
 </main>
 
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

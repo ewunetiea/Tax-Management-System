@@ -3,7 +3,6 @@ package com.afr.fms.Maker.entity;
 
 import java.util.Date;
 import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,9 +40,8 @@ public class Tax {
     private int status;
     private List<TaxFile> taxFile;
     private String remark;
-    private String reference_number;
     private String initiator_branch;
-   private String destination_branch;
+    private String destination_branch;
     private Long user_id;
     private String reference_number;
     private Date approver_rejected_date;

@@ -1,4 +1,6 @@
-<main id="main" class="main">
+<app-taxable-search-engine></app-taxable-search-engine>
+
+<main id="main" class="main" *ngIf="searchClicked">
     <p-toast></p-toast>
     <div class="mb-6">
       <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
@@ -58,7 +60,8 @@
               'sendTo_List',
               'Category_List',
               'FileDetail',
-              'status'
+              'status',
+              'reference_number',
             ]"
             [(selection)]="selectedTaxes"
             [rowHover]="true"
@@ -99,6 +102,13 @@
                 <div class="flex items-center">
                     To
                     <p-columnFilter type="numeric" field="sendTo_" display="menu" />
+                </div>
+              </th>
+
+              <th style="min-width: 10rem">
+                <div class="flex items-center">
+                    Reference Number
+                    <p-columnFilter type="text" field="reference_number" display="menu" />
                 </div>
               </th>
 
@@ -218,6 +228,7 @@
                 </td>
                 <td>{{ tax.from_ }}</td>
                 <td>{{ tax.sendTo_ }}</td>
+                <td>{{ tax.reference_number }}</td>
                 <td>{{ tax.taxCategory}}</td>
                 <td>{{tax.noOfEmployee}}</td>
                 <td>{{ tax.taxableAmount | number:'1.0-2' }}</td>
@@ -309,7 +320,7 @@
                     pRipple
                     pTooltip="Reject"
                     tooltipPosition="bottom"
-                    (click)="reviewTax(tax)"
+                    (click)="rejectTax(tax)"
                     icon="pi pi-times-circle"
                     class="p-button-rounded p-button-outlined p-button-danger"
                   ></button>
@@ -329,3 +340,19 @@
 </main>
 
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+
+<p-dialog
+    [(visible)]="rejectTaxDialog"
+    [style]="{ width: '600px' }"
+    header="Tax Rejection Details"
+    [modal]="true"
+    styleClass="p-fluid"
+    [maximizable]="true"
+  >
+    <ng-template pTemplate="content">
+      <app-reject-checker-approver
+        [passedRejectedTax]="outputRejectedTax" 
+        (rejectedTax)="onDataChange($event)"
+      ></app-reject-checker-approver>
+    </ng-template>
+  </p-dialog>

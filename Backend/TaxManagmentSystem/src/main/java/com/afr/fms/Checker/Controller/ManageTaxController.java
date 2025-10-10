@@ -24,7 +24,8 @@ public class ManageTaxController {
     private static final Logger logger = LoggerFactory.getLogger(ManageTaxController.class);
 
     @PostMapping("/pending")
-    public ResponseEntity<List<Tax>> getProgressCashCount(@RequestBody PaginatorPayLoad paginatorPayLoad, HttpServletRequest request) {
+    public ResponseEntity<List<Tax>> getProgressCashCount(@RequestBody PaginatorPayLoad paginatorPayLoad,
+            HttpServletRequest request) {
         try {
             return new ResponseEntity<>(manageTaxService.getPendingTaxes(paginatorPayLoad), HttpStatus.OK);
         } catch (Exception ex) {
@@ -34,7 +35,8 @@ public class ManageTaxController {
     }
 
     @PostMapping("/rejected")
-    public ResponseEntity<List<Tax>> getRejectedTaxes(@RequestBody PaginatorPayLoad paginatorPayLoad,  HttpServletRequest request) {
+    public ResponseEntity<List<Tax>> getRejectedTaxes(@RequestBody PaginatorPayLoad paginatorPayLoad,
+            HttpServletRequest request) {
         try {
             return new ResponseEntity<>(manageTaxService.getRejectedTaxes(paginatorPayLoad), HttpStatus.OK);
         } catch (Exception ex) {
@@ -44,7 +46,8 @@ public class ManageTaxController {
     }
 
     @PostMapping("/approved")
-    public ResponseEntity<List<Tax>> getApprovedTaxes(@RequestBody PaginatorPayLoad paginatorPayLoad,  HttpServletRequest request) {
+    public ResponseEntity<List<Tax>> getApprovedTaxes(@RequestBody PaginatorPayLoad paginatorPayLoad,
+            HttpServletRequest request) {
         try {
             return new ResponseEntity<>(manageTaxService.getApprovedTaxes(paginatorPayLoad), HttpStatus.OK);
         } catch (Exception ex) {
@@ -57,6 +60,17 @@ public class ManageTaxController {
     public ResponseEntity<Void> reviewTaxes(@RequestBody List<Tax> taxes) {
         manageTaxService.reviewTaxes(taxes);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/reject")
+    public ResponseEntity<Void> rejectTax(@RequestBody Tax tax) {
+        try {
+            manageTaxService.rejectTax(tax);
+            return ResponseEntity.ok().build();
+        } catch (Exception ex) {
+            logger.error("An error occurred while rejecting tax: {}", ex.getMessage(), ex);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 }

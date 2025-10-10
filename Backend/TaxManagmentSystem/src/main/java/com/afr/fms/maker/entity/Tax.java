@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Tax {
+    private Long id;
     private String mainGuid;
     private int from_;
     private int sendTo_;

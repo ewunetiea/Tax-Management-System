@@ -1,4 +1,5 @@
 export class Tax {
+    id?:number;
     mainGuid?: String
     from_?: number;
     sendTo_?: number;

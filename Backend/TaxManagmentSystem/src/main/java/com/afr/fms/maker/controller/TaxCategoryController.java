@@ -29,7 +29,6 @@ public class TaxCategoryController {
 
     RecentActivity recentActivity = new RecentActivity();
 
-
     @PostMapping("/create-edit")
     public ResponseEntity<HttpStatus> createEditTaxCategory(@RequestBody TaxCategory tax) {
         User user = new User();

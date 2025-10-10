@@ -14,7 +14,6 @@ export class ManageTaxService {
   constructor(private http: HttpClient) {}
 
   getPendingTaxes(paginatorPayLoad: PaginatorPayLoad): Observable<Tax[]> {
-    console.log(paginatorPayLoad)
     return this.http.post<Tax[]>(`${baseUrl}/pending`, paginatorPayLoad);
   }
 
@@ -28,6 +27,10 @@ export class ManageTaxService {
 
   reviewTaxes(taxes: Tax[]): Observable<any> {
     return this.http.post(`${baseUrl}/review`, taxes);
+  }
+
+  rejectTax(tax: Tax): Observable<any> {
+    return this.http.post(`${baseUrl}/reject`, tax);
   }
 
 

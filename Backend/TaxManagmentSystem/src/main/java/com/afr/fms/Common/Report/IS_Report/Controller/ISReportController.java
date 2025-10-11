@@ -39,7 +39,7 @@ public class ISReportController {
 
 					HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 

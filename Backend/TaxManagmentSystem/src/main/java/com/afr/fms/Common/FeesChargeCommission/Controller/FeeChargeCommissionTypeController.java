@@ -36,7 +36,7 @@ public class FeeChargeCommissionTypeController {
 			return new ResponseEntity<>(feeChargeCommissionTypeService.getFeeChargeCommissionCTypeById(id),
 					HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		// } else {
@@ -51,7 +51,7 @@ public class FeeChargeCommissionTypeController {
 		try {
 			return new ResponseEntity<>(feeChargeCommissionTypeService.FeeChargeCommissionType(), HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		// } else {
@@ -72,7 +72,7 @@ public class FeeChargeCommissionTypeController {
 
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		// } else {
@@ -90,7 +90,7 @@ public class FeeChargeCommissionTypeController {
 			feeChargeCommissionTypeService.deleteFeeChargeCommissionType(id);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		// } else {
@@ -110,7 +110,7 @@ public class FeeChargeCommissionTypeController {
 			}
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		// } else {

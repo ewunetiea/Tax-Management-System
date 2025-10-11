@@ -38,7 +38,7 @@ public class SMSController {
 			List<SMS> sms = smsService.getSMS();
 			return new ResponseEntity<>(sms, HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -50,7 +50,7 @@ public class SMSController {
 			List<SMS> sms = smsService.getActiveSMS();
 			return new ResponseEntity<>(sms, HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -75,7 +75,7 @@ public class SMSController {
 
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 

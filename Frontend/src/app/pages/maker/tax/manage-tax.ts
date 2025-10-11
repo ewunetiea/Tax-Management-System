@@ -105,7 +105,7 @@ export class ManageTax implements OnInit {
             (response) => {
 
 
-                console.log(response)
+
                 this.taxes = (response as any).map((announcement: any) => {
                     // Detect file type from base64
                     const fileType = this.getFileType(announcement.image);
@@ -283,13 +283,13 @@ export class ManageTax implements OnInit {
         }
 
         this.fileDownloadService.fetchFileByFileName(file.fileName).subscribe((blob: Blob) => {
-            console.log('Received Blob:', blob);
+
 
             const newFile = { ...file };
             newFile.fileType = blob.type;
 
             if (blob.type === 'application/pdf') {
-                console.log('Blob type is PDF, processing for PDF.');
+
                 newFile.file = null; // clear image
                 const blobUrl = URL.createObjectURL(blob);
                 newFile.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl); // ✅ sanitize

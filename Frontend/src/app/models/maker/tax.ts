@@ -39,4 +39,6 @@ export class Tax {
   rejector_approver_id?: number;
   approver_rejected_reason?: string;
   approver_rejected_date?: Date;
+  approver_name?: string;
+  approved_date?: Date;
 }

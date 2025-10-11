@@ -22,13 +22,34 @@ public class TaxableSearchEngineController {
     private TaxableSearchEngineService taxableSearchEngineService;
 
     private static final Logger logger = LoggerFactory.getLogger(TaxableSearchEngineController.class);
-    
-    @PostMapping("/search")
-    public ResponseEntity<List<Tax>> getTaxableSearchEngine(@RequestBody TaxableSearchEngine tax, HttpServletRequest request) {
+
+    @PostMapping("/maker/search")
+    public ResponseEntity<List<Tax>> getTaxableSearchEngineForMaker(@RequestBody TaxableSearchEngine tax, HttpServletRequest request) {
         try {
-            return new ResponseEntity<>(taxableSearchEngineService.getTaxableSearchEngine(tax), HttpStatus.OK);
+            return new ResponseEntity<>(taxableSearchEngineService.getTaxableSearchEngineForMaker(tax), HttpStatus.OK);
         } catch (Exception ex) {
-            logger.error("An error occurred while retrieving pending taxes : {}", ex.getMessage(), ex);
+            logger.error("An error occurred while searching taxes : {}", ex.getMessage(), ex);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/checker/search")
+    public ResponseEntity<List<Tax>> getTaxableSearchEngineForChecker(@RequestBody TaxableSearchEngine tax, HttpServletRequest request) {
+        try {
+            return new ResponseEntity<>(taxableSearchEngineService.getTaxableSearchEngineForChecker(tax), HttpStatus.OK);
+        } catch (Exception ex) {
+            logger.error("An error occurred while retrieving searching taxes : {}", ex.getMessage(), ex);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/ho/search")
+    public ResponseEntity<List<Tax>> getTaxableSearchEngineForHo(@RequestBody TaxableSearchEngine tax,
+            HttpServletRequest request) {
+        try {
+            return new ResponseEntity<>(taxableSearchEngineService.getTaxableSearchEngineForHo(tax), HttpStatus.OK);
+        } catch (Exception ex) {
+            logger.error("An error occurred while retrieving searching taxes : {}", ex.getMessage(), ex);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

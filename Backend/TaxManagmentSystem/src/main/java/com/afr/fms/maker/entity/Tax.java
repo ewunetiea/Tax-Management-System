@@ -50,4 +50,6 @@ public class Tax {
     private String checker_rejected_reason;
     private Date checker_rejected_date;
     private Long rejector_checker_id;
+    private String approver_name;
+    private Date approved_date;
 }

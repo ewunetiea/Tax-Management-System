@@ -35,7 +35,7 @@ public class TaxableService {
     // @Transactional
     // public String createTax(Tax tax) {
 
-    // System.out.println(tax);
+    // 
     // String mainGuid = "";
 
     // mainGuid = generateGuid();
@@ -43,7 +43,7 @@ public class TaxableService {
 
     // taxableMapper.createTax(tax);
 
-    // System.out.println("Generated mainGuid " + mainGuid);
+    // 
 
     // return mainGuid;
 
@@ -53,7 +53,7 @@ public class TaxableService {
     // public String createTaxWithFiles(Tax tax, MultipartFile[] files) throws
     // IOException {
 
-    // System.out.println(tax);
+    // 
     // TaxFile taxFile= new TaxFile();
 
     // // 1️⃣ Create DB record
@@ -83,7 +83,7 @@ public class TaxableService {
 
     // // taxableMapper.insertFile(taxFile);
 
-    // System.out.println("Saved file: " + destination.getAbsolutePath());
+    // 
     // }
     // }
     // }
@@ -133,13 +133,13 @@ public class TaxableService {
                     // 4️⃣ Insert into DB
                     taxFileMapper.insertFile(tf);
 
-                    System.out.println("Saved file: " + destination.getAbsolutePath());
-                    System.out.println("Updated taxFile object: " + tf);
+                    
+                    
                 }
             }
         }
 
-        System.out.println("Final Tax object with updated taxFile: " + tax);
+        
         return mainGuid;
     }
 

@@ -114,7 +114,7 @@ public class UserService {
                 }
                 return null;
             } catch (Exception e) {
-                System.out.println(e);
+                
                 userRoleMapper.removeAllUserRoles(user.getId());
                 secureTokenMapper.deleteByUserId(user_id);
                 userSecurityMapper.deleteUserSecurityByUserID(user_id);
@@ -286,7 +286,7 @@ public class UserService {
                 recentActivityMapper.addRecentActivity(recentActivity1);
             }
         } catch (Exception e) {
-            System.out.println(e);
+            
         }
 
     }
@@ -306,7 +306,7 @@ public class UserService {
                 recentActivityMapper.addRecentActivity(recentActivity1);
             }
         } catch (Exception e) {
-            System.out.println(e);
+            
         }
     }
 

@@ -12,8 +12,16 @@ public class TaxableSearchEngineService {
     @Autowired
     private TaxableSearchEngineMapper taxableSearchEngineMapper;
 
-     public List<Tax> getTaxableSearchEngine(TaxableSearchEngine tax) {
-        return taxableSearchEngineMapper.getTaxableSearchEngine(tax);
+    public List<Tax> getTaxableSearchEngineForMaker(TaxableSearchEngine tax) {
+        return taxableSearchEngineMapper.getTaxableSearchEngineForMaker(tax);
+    }
+
+    public List<Tax> getTaxableSearchEngineForChecker(TaxableSearchEngine tax) {
+        return taxableSearchEngineMapper.getTaxableSearchEngineForChecker(tax);
+    }
+
+    public List<Tax> getTaxableSearchEngineForHo(TaxableSearchEngine tax) {
+        return taxableSearchEngineMapper.getTaxableSearchEngineForHo(tax);
     }
 
 }

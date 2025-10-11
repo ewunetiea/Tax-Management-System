@@ -93,7 +93,7 @@ public class RefreshTokenService {
     }
 
     catch (Exception e) {
-      System.out.println(e);
+      
     }
   }
 }

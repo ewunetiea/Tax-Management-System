@@ -66,5 +66,124 @@ public interface TaxableSearchEngineMapper {
         "ORDER BY id DESC",
         "</script>"
     })
-   public List<Tax> getTaxableSearchEngine(TaxableSearchEngine tax);
+   public List<Tax> getTaxableSearchEngineForMaker(TaxableSearchEngine tax);
+
+   
+    @Select({
+        "<script>",
+        "SELECT * FROM tblTaxable",
+        "<where>",
+
+        // ✅ Router status
+        "<if test='router_status != null'>",
+        "   <choose>",
+        "       <when test='router_status == \"pending\"'>AND status = 1</when>",
+        "       <when test='router_status == \"rejected\"'>AND status = 2</when>",
+        "       <when test='router_status == \"approved\"'>AND status = 5</when>",
+        "   </choose>",
+        "</if>",
+
+        "<if test='branch_id != null'>AND from_ = #{branch_id}</if>",
+        "<if test='tax_category_id != null'>AND taxCategory = #{tax_category_id}</if>",
+        "<if test='reference_number != null and reference_number.trim() != \"\"'>AND reference_number = #{reference_number}</if>",
+
+        // ✅ Maker date range
+        "<if test='maked_date != null and maked_date.size > 0'>",
+        "   <choose>",
+        "       <when test='maked_date.size == 2'>AND maker_date BETWEEN #{maked_date[0]} AND #{maked_date[1]}</when>",
+        "       <otherwise>AND maker_date = #{maked_date[0]}</otherwise>",
+        "   </choose>",
+        "</if>",
+
+        // ✅ Checked date range
+        "<if test='checked_date != null and checked_date.size > 0'>",
+        "   <choose>",
+        "       <when test='checked_date.size == 2'>AND checked_date BETWEEN #{checked_date[0]} AND #{checked_date[1]}</when>",
+        "       <otherwise>AND checked_date = #{checked_date[0]}</otherwise>",
+        "   </choose>",
+        "</if>",
+
+        // ✅ Approved date range
+        "<if test='approved_date != null and approved_date.size > 0'>",
+        "   <choose>",
+        "       <when test='approved_date.size == 2'>AND approved_date BETWEEN #{approved_date[0]} AND #{approved_date[1]}</when>",
+        "       <otherwise>AND approved_date = #{approved_date[0]}</otherwise>",
+        "   </choose>",
+        "</if>",
+
+        // ✅ Rejected date range
+        "<if test='rejected_date != null and rejected_date.size > 0'>",
+        "   <choose>",
+        "       <when test='rejected_date.size == 2'>AND checker_rejected_date BETWEEN #{rejected_date[0]} AND #{rejected_date[1]}</when>",
+        "       <otherwise>AND checker_rejected_date = #{rejected_date[0]}</otherwise>",
+        "   </choose>",
+        "</if>",
+
+        "<if test='document_type != null and document_type.trim() != \"\"'>AND mainGuid = #{document_type}</if>",
+        // "<if test='search_by != null and search_by.trim() != \"\"'>AND maker_name = #{search_by}</if>",
+
+        "</where>",
+        "ORDER BY id DESC",
+        "</script>"
+    })
+   public List<Tax> getTaxableSearchEngineForChecker(TaxableSearchEngine tax);
+   
+    @Select({
+        "<script>",
+        "SELECT * FROM tblTaxable",
+        "<where>",
+
+        // ✅ Router status
+        "<if test='router_status != null'>",
+        "   <choose>",
+        "       <when test='router_status == \"pending\"'>AND status = 0</when>",
+        "       <when test='router_status == \"rejected\"'>AND status = 2</when>",
+        "       <when test='router_status == \"approved\"'>AND status = 5</when>",
+        "   </choose>",
+        "</if>",
+
+        "<if test='branch_id != null'>AND from_ = #{branch_id}</if>",
+        "<if test='tax_category_id != null'>AND taxCategory = #{tax_category_id}</if>",
+        "<if test='reference_number != null and reference_number.trim() != \"\"'>AND reference_number = #{reference_number}</if>",
+
+        // ✅ Maker date range
+        "<if test='maked_date != null and maked_date.size > 0'>",
+        "   <choose>",
+        "       <when test='maked_date.size == 2'>AND maker_date BETWEEN #{maked_date[0]} AND #{maked_date[1]}</when>",
+        "       <otherwise>AND maker_date = #{maked_date[0]}</otherwise>",
+        "   </choose>",
+        "</if>",
+
+        // ✅ Checked date range
+        "<if test='checked_date != null and checked_date.size > 0'>",
+        "   <choose>",
+        "       <when test='checked_date.size == 2'>AND checked_date BETWEEN #{checked_date[0]} AND #{checked_date[1]}</when>",
+        "       <otherwise>AND checked_date = #{checked_date[0]}</otherwise>",
+        "   </choose>",
+        "</if>",
+
+        // ✅ Approved date range
+        "<if test='approved_date != null and approved_date.size > 0'>",
+        "   <choose>",
+        "       <when test='approved_date.size == 2'>AND approved_date BETWEEN #{approved_date[0]} AND #{approved_date[1]}</when>",
+        "       <otherwise>AND approved_date = #{approved_date[0]}</otherwise>",
+        "   </choose>",
+        "</if>",
+
+        // ✅ Rejected date range
+        "<if test='rejected_date != null and rejected_date.size > 0'>",
+        "   <choose>",
+        "       <when test='rejected_date.size == 2'>AND checker_rejected_date BETWEEN #{rejected_date[0]} AND #{rejected_date[1]}</when>",
+        "       <otherwise>AND checker_rejected_date = #{rejected_date[0]}</otherwise>",
+        "   </choose>",
+        "</if>",
+
+        "<if test='document_type != null and document_type.trim() != \"\"'>AND mainGuid = #{document_type}</if>",
+        // "<if test='search_by != null and search_by.trim() != \"\"'>AND maker_name = #{search_by}</if>",
+
+        "</where>",
+        "ORDER BY id DESC",
+        "</script>"
+    })
+   public List<Tax> getTaxableSearchEngineForHo(TaxableSearchEngine tax);
 }

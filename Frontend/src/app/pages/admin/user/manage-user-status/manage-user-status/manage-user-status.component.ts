@@ -72,7 +72,7 @@ export class ManageUserStatusComponent implements OnInit {
     }
 
     onRowEditInit(user: User) {
-        console.log()
+
         if (user.id) {
             this.clonedUsers[user.id] = { ...user };
         }
@@ -133,7 +133,7 @@ export class ManageUserStatusComponent implements OnInit {
 
     updatePasswordModifiedDate(value: Date) {
         // You can handle any additional logic here if needed
-        console.log('Selected date:', value);
+
     }
 
     openNew() {

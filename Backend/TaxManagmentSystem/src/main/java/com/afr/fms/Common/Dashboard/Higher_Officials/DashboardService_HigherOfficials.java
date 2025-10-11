@@ -38,7 +38,7 @@ public class DashboardService_HigherOfficials {
   }
 
 	public List<TotalsForTimeSeriesModuleSpecificE> getTotalsForTimeSeriesIs_approvedE() {
-	System.out.println("service code e42");
+	
     return dashboardMapper.getTotalsForTimeSeriesIs_approvedE();
   }
 
@@ -55,7 +55,7 @@ public class DashboardService_HigherOfficials {
   }
 
 	public List<TotalsForTimeSeriesModuleSpecificE> getTotalsForTimeSeriesMgt_approvedE() {
-	System.out.println("service code e42");
+	
     return dashboardMapper.getTotalsForTimeSeriesMgt_approvedE();
   }
 
@@ -72,7 +72,7 @@ public class DashboardService_HigherOfficials {
   }
 
 	public List<TotalsForTimeSeriesModuleSpecificE> getTotalsForTimeSeriesInspection_approvedE() {
-	System.out.println("service code e42");
+	
     return dashboardMapper.getTotalsForTimeSeriesInspection_approvedE();
   }
 
@@ -89,7 +89,7 @@ public class DashboardService_HigherOfficials {
   }
 
 	public List<TotalsForTimeSeriesModuleSpecificE> getTotalsForTimeSeriesBranch_approvedE() {
-	System.out.println("service code e42");
+	
     return dashboardMapper.getTotalsForTimeSeriesBranch_approvedE();
   }
 

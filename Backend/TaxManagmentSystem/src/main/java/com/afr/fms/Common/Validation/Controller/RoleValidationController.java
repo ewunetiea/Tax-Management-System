@@ -27,7 +27,7 @@ public class RoleValidationController {
 		try {
 			return new ResponseEntity<>(roleValidationService.checkRoleCode(code), HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -37,7 +37,7 @@ public class RoleValidationController {
 		try {
 			return new ResponseEntity<>(roleValidationService.checkRoleName(name), HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}

@@ -123,7 +123,7 @@ export class Login {
             error: (err) => {
                 this.loading = false;
                 this.errorMessage = err.error.message;
-                console.log(this.errorMessage);
+
                 if (this.errorMessage.includes('password_expired')) {
                     this.change = true;
                     let errorM: any[] = this.errorMessage.split(' ');
@@ -176,7 +176,7 @@ export class Login {
     private handleLoginError(err: any, username: string, password: string): void {
         this.loading = false;
         this.errorMessage = err.error.message || 'Login failed';
-        console.log(err);
+
         if (err.status === 409 && err.error.error === 'MULTIPLE_SESSIONS') {
             this.handleActiveSessionError(err, username, password);
         } else {

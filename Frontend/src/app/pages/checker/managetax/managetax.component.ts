@@ -61,7 +61,7 @@ export class ManagetaxComponent implements OnInit {
       { name: 'Large', value: 'large' }
     ];
 
-    
+
     this.setStatusRoute();
     this.router.events.subscribe(() => {
       this.setStatusRoute(); // detect route change
@@ -144,9 +144,9 @@ export class ManagetaxComponent implements OnInit {
   /** Review multiple selected taxes */
   reviewSelectedTaxes(): void {
     this.selectedTaxes.forEach(tax => {
-       tax.user_id = this.user.id;
-       tax.checker_name = this.user.email?.split('@')[0] || '';
-      });
+      tax.user_id = this.user.id;
+      tax.checker_name = this.user.email?.split('@')[0] || '';
+    });
     this.confirmationService.confirm({
       message: 'Are you sure you want to review the selected taxes ?',
       header: 'Confirm Review',
@@ -179,31 +179,27 @@ export class ManagetaxComponent implements OnInit {
   }
 
   editTax(tax: Tax) {
-        this.tax = { ...tax };
-        this.taxDialog = true;
-        this.isEdit = true;
-    }
+    this.tax = { ...tax };
+    this.taxDialog = true;
+    this.isEdit = true;
+  }
 
   hideDialog() {
-        this.taxDialog = false;
+    this.taxDialog = false;
+  }
+
+  onTaxesaved(saveTax: Tax) {
+    if (this.isEdit) {
+      const index = this.taxes.findIndex(a => a.mainGuid === saveTax.mainGuid);
+      if (index !== -1) {
+        this.taxes[index] = saveTax;
+      }
+    } else {
+      this.taxes = [saveTax, ...this.taxes];
     }
-
-     onTaxesaved(saveTax: Tax) {
-        if (this.isEdit) {
-            const index = this.taxes.findIndex(a => a.mainGuid === saveTax.mainGuid);
-            if (index !== -1) {
-                this.taxes[index] = saveTax;
-            }
-        } else {
-
-
-
-            this.taxes = [saveTax, ...this.taxes];
-        }
-
-        this.taxDialog = false;
-        this.tax = {} as Tax;
-    }
+    this.taxDialog = false;
+    this.tax = {} as Tax;
+  }
 
   /** Review single tax record */
   reviewTax(tax: Tax) {

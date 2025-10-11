@@ -43,7 +43,7 @@ public class LogController {
             return new ResponseEntity<>(HttpStatus.OK);
 
         } catch (Exception ex) {
-            System.out.println(ex);
+            
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         }

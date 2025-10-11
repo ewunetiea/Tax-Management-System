@@ -37,7 +37,7 @@ public class FraudCaseController {
 			}
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -50,7 +50,7 @@ public class FraudCaseController {
 
 			return new ResponseEntity<>(fraudCaseService.getInitialFraudCase(initial), HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -62,7 +62,7 @@ public class FraudCaseController {
 
 			return new ResponseEntity<>(fraudCaseService.getDraftedFraudAuditor(auditor_id), HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -75,7 +75,7 @@ public class FraudCaseController {
 
 			return new ResponseEntity<>(fraudCaseService.getPassedFraudAuditor(auditor_id), HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -88,7 +88,7 @@ public class FraudCaseController {
 
 			return new ResponseEntity<>(fraudCaseService.getApprovedFraudAuditor(auditor_id), HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -101,7 +101,7 @@ public class FraudCaseController {
 
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -114,7 +114,7 @@ public class FraudCaseController {
 
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -128,7 +128,7 @@ public class FraudCaseController {
 
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
@@ -145,7 +145,7 @@ public class FraudCaseController {
 
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
@@ -157,7 +157,7 @@ public class FraudCaseController {
 		try {
 			return new ResponseEntity<>(fraudCaseService.getPendingFraudCasesApprover(), HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
@@ -171,7 +171,7 @@ public class FraudCaseController {
 
 			return new ResponseEntity<>(fraudCaseService.getApprovedFraudCasesApprover(approver_id), HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
@@ -185,7 +185,7 @@ public class FraudCaseController {
 
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		

@@ -52,15 +52,20 @@ export class AppMenuHO {
             {
                 label: 'Announcements',
                 items: [
-                    { label: 'Ongoing ', icon: 'pi pi-fw pi-dollar', routerLink: ['/applayout/ho/ongoing-announcement'] },
-                    { label: 'Archived', icon: 'pi pi-fw pi-pencil', routerLink: ['/applayout/ho/archived-announcement'] },
+                    { label: 'Ongoing ', icon: 'pi pi-clock', routerLink: ['/applayout/ho/ongoing-announcement'] },
+                    { label: 'Archived', icon: 'pi pi-fw pi-trash', routerLink: ['/applayout/ho/archived-announcement'] },
                 ]
             },
-
+            {
+                label: 'Configurations',
+                items: [{ label: 'Tax Type', icon: 'pi pi-fw pi-dollar', routerLink: ['/applayout/ho/manage-tax-category'] }]
+            },
             {
                 label: 'Tax Information',
-                items: [{ label: 'Manege Tax', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/manage-tax'] }]
+                items: [{ label: 'Manege Tax', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/manage-tax'] }  
+            ]
             },
+
             {
                 label: 'UI Components',
                 items: [

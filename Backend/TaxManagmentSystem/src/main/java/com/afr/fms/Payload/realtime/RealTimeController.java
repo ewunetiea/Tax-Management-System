@@ -22,7 +22,7 @@ public class RealTimeController {
 			realTimeService.insertRealTimeInfo(realTime);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
-			System.out.println(e);
+			
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -33,7 +33,7 @@ public class RealTimeController {
 		try {
 			return new ResponseEntity<>(realTimeService.getRealTimeByUserId(realTime), HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}

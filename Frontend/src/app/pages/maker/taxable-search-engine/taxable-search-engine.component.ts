@@ -10,10 +10,10 @@ import { BranchService } from '../../../service/admin/branchService';
 import { Branch } from '../../../models/admin/branch';
 import { TaxCategory } from '../../../models/maker/tax-category';
 import { Tax } from '../../../models/maker/tax';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PaginatorPayLoad } from '../../../models/admin/paginator-payload';
-import { catchError, finalize, Observable, of } from 'rxjs';
 import { TaxableSearchEngineService } from '../../../service/maker/taxable-search-engine-service';
+import { Role } from '../../../models/admin/role';
 
 @Component({
   selector: 'app-taxable-search-engine',
@@ -34,6 +34,7 @@ export class TaxableSearchEngineComponent {
   status: any[] | undefined;
   paginatorPayLoad: PaginatorPayLoad = new PaginatorPayLoad();
   maxDate = new Date();
+  role = '';
 
   @Output() generatedTaxes: EventEmitter<any> = new EventEmitter();
   @Input() statusRoute: string = '';
@@ -44,8 +45,8 @@ export class TaxableSearchEngineComponent {
     private taxCategoriesService: TaxCategoriesService,
     private messageService: MessageService,
     private branchService: BranchService,
-    private router: Router,
     private taxableSearchEngineService: TaxableSearchEngineService,
+    private route: ActivatedRoute
   ) { }
 
 
@@ -58,12 +59,23 @@ export class TaxableSearchEngineComponent {
       branch_id: ['',],
       tax_category_id: [''],
       reference_number: [''],
-      router_status: [{ value: 'statusRoute', disabled: true }],
+      router_status: [{ value: '', disabled: true }],
       maked_date: [''],
       checked_date: [''],
       approved_date: [''],
       rejected_date: [''],
       document_type: [''],
+    });
+
+    // 🔥 React to route param changes
+    this.route.paramMap.subscribe(params => {
+      const status = params.get('status')?.toLowerCase() || 'pending';
+
+      // Reset the form completely
+      this.onReset();
+
+      // Update the router_status after reset
+      this.form.get('router_status')?.setValue(status);
     });
   }
 
@@ -123,18 +135,32 @@ export class TaxableSearchEngineComponent {
 
   generateTaxes(): void {
     this.submitted = true;
-
     const routerStatus = this.statusRoute?.toLowerCase() || 'pending';
     this.form.patchValue({ router_status: routerStatus });
-
     const payload = { ...this.form.value };
 
-    // clean payload (empty strings → null)
+    // Clean payload (convert empty strings to null)
     Object.keys(payload).forEach(k => {
       if (payload[k] === '') payload[k] = null;
     });
 
-    this.taxableSearchEngineService.getTaxes(payload).subscribe({
+    // ✅ Normalize roles
+    const normalizedRoles: Role[] = (this.user?.roles ?? []).map(r =>
+      typeof r === 'string' ? { name: r } as Role : r
+    );
+    const roleNames = normalizedRoles.map(r => r.name ?? '');
+
+    let request$;
+
+    if (roleNames.includes('ROLE_HO')) {
+      request$ = this.taxableSearchEngineService.getTaxesforApprover(payload);
+    } else if (roleNames.includes('ROLE_CHECKER')) {
+      request$ = this.taxableSearchEngineService.getTaxesForChecker(payload);
+    } else {
+      request$ = this.taxableSearchEngineService.getTaxesFormaker(payload);
+    }
+
+    request$.subscribe({
       next: (data) => {
         this.taxes = data;
         this.generatedTaxes.emit(data);
@@ -150,9 +176,6 @@ export class TaxableSearchEngineComponent {
       }
     });
   }
-
-
-
 
 
 }

@@ -64,7 +64,7 @@ public class Mgt_Report_Service {
         // return ismgtService.filterAudits(audits);
 
 
-        System.out.println(audits);
+        
         return audits;
 
     }

@@ -175,7 +175,7 @@ export class ManageUserComponent {
         } else {
             this.roles = this.allRoles;
 
-            console.log(this.allRoles);
+
             if (this.selectedUser.roles) {
                 for (const role of this.selectedUser.roles) {
                     this.roles.push(role);

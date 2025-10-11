@@ -9,14 +9,6 @@ import { AuthGuard } from '../../service/admin/auth.guard';
 import { TaxCreateEditComponent } from './tax-rule/tax-create-edit.component';
 
 export default [
-    {
-        path: 'manage-tax-category',
-        component: ManageTaxCategoryComponent,
-        canActivate: [AuthGuard],
-        data: {
-            roles: ['ROLE_MAKER'],
-        }
-    },
     // { path: 'button', data: { breadcrumb: 'Button' }, component: ButtonDemo },
     { path: 'charts', data: { breadcrumb: 'Charts' }, component: MakerDashboard },
     { path: 'manage-customer', data: { breadcrumb: 'Manage Customer' }, component: Crud },

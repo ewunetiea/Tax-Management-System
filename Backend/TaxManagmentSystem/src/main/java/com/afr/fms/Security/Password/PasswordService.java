@@ -68,7 +68,7 @@ public class PasswordService {
         boolean flag;
         String oldPassword = mapper.getUserPassword(passDto.getId());
         flag = passwordEncoder.matches(passDto.getOldPassword(), oldPassword);
-        System.out.println("password " + flag);
+        
         return flag;
     }
 
@@ -111,7 +111,7 @@ public class PasswordService {
         try {
             emailService.sendMail(emailContext);
         } catch (Exception e) {
-            System.out.println(e);
+            
             e.printStackTrace();
         }
     }
@@ -144,7 +144,7 @@ public class PasswordService {
         try {
             smsService.sendPasswordResetSMS(user, otp);
         } catch (Exception e) {
-            System.out.println(e);
+            
             e.printStackTrace();
         }
 

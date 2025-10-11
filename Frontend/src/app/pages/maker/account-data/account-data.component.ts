@@ -204,7 +204,7 @@ export class AccountDataComponent {
 
         this.accountService.createAccount(this.account).subscribe({
             next: (accountResponse) => {
-                console.log("account response", accountResponse)
+
                 // Add imageSrc field
                 const updatedAccount = {
                     ...accountResponse

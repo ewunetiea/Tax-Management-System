@@ -46,7 +46,7 @@ export class TaxCreateEditComponent {
 
 
     ngOnInit(): void {
-        console.log(this.storageService.getUser())
+
 
         this.getTaxCategories()
         this.getBranches()
@@ -60,11 +60,11 @@ export class TaxCreateEditComponent {
             next: (data) => {
                 this.taxCategories = data;
 
-                console.log(data)
+
             },
             error: (error) => {
 
-                console.log(error)
+
             }
         });
     }
@@ -77,7 +77,7 @@ export class TaxCreateEditComponent {
             },
             error: () => {
 
-                console.log(this.branches)
+
             }
         });
     }

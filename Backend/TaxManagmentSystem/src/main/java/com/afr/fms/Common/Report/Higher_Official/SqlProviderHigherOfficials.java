@@ -53,7 +53,7 @@ public class SqlProviderHigherOfficials {
     if (branch_id != null) {
       sql.AND().WHERE("br.id = #{branch_id}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -101,7 +101,7 @@ public class SqlProviderHigherOfficials {
     if (branch_id != null) {
       sql.AND().WHERE("br.id = #{branch_id}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -152,7 +152,7 @@ public class SqlProviderHigherOfficials {
     if (branch_id != null) {
       sql.AND().WHERE("br.id = #{branch_id}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -215,7 +215,7 @@ public class SqlProviderHigherOfficials {
     if (branch_id != null) {
       sql.AND().WHERE("br.id = #{branch_id}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -278,7 +278,7 @@ public class SqlProviderHigherOfficials {
     if (branch_id != null) {
       sql.AND().WHERE("br.id = #{branch_id}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -341,7 +341,7 @@ public class SqlProviderHigherOfficials {
     if (branch_id != null) {
       sql.AND().WHERE("br.id = #{branch_id}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -392,7 +392,7 @@ public class SqlProviderHigherOfficials {
     if (branch_id != null) {
       sql.AND().WHERE("br.id = #{branch_id}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -455,7 +455,7 @@ public class SqlProviderHigherOfficials {
     if (branch_id != null) {
       sql.AND().WHERE("br.id = #{branch_id}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -518,7 +518,7 @@ public class SqlProviderHigherOfficials {
     if (branch_id != null) {
       sql.AND().WHERE("br.id = #{branch_id}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -588,7 +588,7 @@ public class SqlProviderHigherOfficials {
     if (branch_id != null) {
       sql.AND().WHERE("br.id = #{branch_id}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -655,7 +655,7 @@ public class SqlProviderHigherOfficials {
     if (branch_id != null) {
       sql.AND().WHERE("br.id = #{branch_id}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -711,7 +711,7 @@ public class SqlProviderHigherOfficials {
     if (branch_id != null) {
       sql.AND().WHERE("br.id = #{branch_id}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -768,7 +768,7 @@ public class SqlProviderHigherOfficials {
     if (branch_id != null) {
       sql.AND().WHERE("br.id = #{branch_id}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -837,7 +837,7 @@ public class SqlProviderHigherOfficials {
     if (branch_id != null) {
       sql.AND().WHERE("br.id = #{branch_id}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -911,7 +911,7 @@ public class SqlProviderHigherOfficials {
     if (branch_id != null) {
       sql.AND().WHERE("br.id = #{branch_id}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -982,14 +982,14 @@ public class SqlProviderHigherOfficials {
       @Param("amount_max") Double amount_max,
       @Param("user_id") Long user_id,
       @Param("user_roles") String[] user_roles) {
-    System.out.println("region_id: " + region_id);
-    System.out.println("branch_id: " + branch_id);
-    System.out.println("module_type: " + module_type);
-    System.out.println("risk_level: " + risk_level);
-    System.out.println("amount_min: " + amount_min);
-    System.out.println("amount_max: " + amount_max);
-    System.out.println("user_id: " + user_id);
-    System.out.println("user_roles: " + Arrays.toString(user_roles));
+    
+    
+    
+    
+    
+    
+    
+    
 
     SQL sql = new SQL();
     if (module_type.equalsIgnoreCase("IS") ||
@@ -1083,7 +1083,7 @@ public class SqlProviderHigherOfficials {
     if (module_type.equalsIgnoreCase("Branch Financial")) {
     }
 
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -1096,14 +1096,14 @@ public class SqlProviderHigherOfficials {
       @Param("amount_max") Double amount_max,
       @Param("user_id") Long user_id,
       @Param("user_roles") String[] user_roles) {
-    System.out.println("region_id: " + region_id);
-    System.out.println("branch_id: " + branch_id);
-    System.out.println("module_type: " + module_type);
-    System.out.println("risk_level: " + risk_level);
-    System.out.println("amount_min: " + amount_min);
-    System.out.println("amount_max: " + amount_max);
-    System.out.println("user_id: " + user_id);
-    System.out.println("user_roles: " + Arrays.toString(user_roles));
+    
+    
+    
+    
+    
+    
+    
+    
 
     SQL sql = new SQL();
 
@@ -1132,7 +1132,7 @@ public class SqlProviderHigherOfficials {
     if (risk_level != null) {
       sql.AND().WHERE("ida.risk_level = #{risk_level}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -1145,14 +1145,14 @@ public class SqlProviderHigherOfficials {
       @Param("amount_max") Double amount_max,
       @Param("user_id") Long user_id,
       @Param("user_roles") String[] user_roles) {
-    System.out.println("region_id: " + region_id);
-    System.out.println("branch_id: " + branch_id);
-    System.out.println("module_type: " + module_type);
-    System.out.println("risk_level: " + risk_level);
-    System.out.println("amount_min: " + amount_min);
-    System.out.println("amount_max: " + amount_max);
-    System.out.println("user_id: " + user_id);
-    System.out.println("user_roles: " + Arrays.toString(user_roles));
+    
+    
+    
+    
+    
+    
+    
+    
 
     SQL sql = new SQL();
 
@@ -1222,7 +1222,7 @@ public class SqlProviderHigherOfficials {
     if (risk_level != null) {
       sql.AND().WHERE("ida.risk_level = #{risk_level}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -1235,14 +1235,14 @@ public class SqlProviderHigherOfficials {
       @Param("amount_max") Double amount_max,
       @Param("user_id") Long user_id,
       @Param("user_roles") String[] user_roles) {
-    System.out.println("region_id: " + region_id);
-    System.out.println("branch_id: " + branch_id);
-    System.out.println("module_type: " + module_type);
-    System.out.println("risk_level: " + risk_level);
-    System.out.println("amount_min: " + amount_min);
-    System.out.println("amount_max: " + amount_max);
-    System.out.println("user_id: " + user_id);
-    System.out.println("user_roles: " + Arrays.toString(user_roles));
+    
+    
+    
+    
+    
+    
+    
+    
 
     SQL sql = new SQL();
 
@@ -1342,7 +1342,7 @@ public class SqlProviderHigherOfficials {
     if (risk_level != null) {
       sql.AND().WHERE("ida.risk_level = #{risk_level}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -1355,14 +1355,14 @@ public class SqlProviderHigherOfficials {
       @Param("amount_max") Double amount_max,
       @Param("user_id") Long user_id,
       @Param("user_roles") String[] user_roles) {
-    System.out.println("region_id: " + region_id);
-    System.out.println("branch_id: " + branch_id);
-    System.out.println("module_type: " + module_type);
-    System.out.println("risk_level: " + risk_level);
-    System.out.println("amount_min: " + amount_min);
-    System.out.println("amount_max: " + amount_max);
-    System.out.println("user_id: " + user_id);
-    System.out.println("user_roles: " + Arrays.toString(user_roles));
+    
+    
+    
+    
+    
+    
+    
+    
 
     SQL sql = new SQL();
 
@@ -1408,7 +1408,7 @@ public class SqlProviderHigherOfficials {
     if (risk_level != null) {
       sql.AND().WHERE("ida.risk_level = #{risk_level}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -1421,14 +1421,14 @@ public class SqlProviderHigherOfficials {
       @Param("amount_max") Double amount_max,
       @Param("user_id") Long user_id,
       @Param("user_roles") String[] user_roles) {
-    System.out.println("region_id: " + region_id);
-    System.out.println("branch_id: " + branch_id);
-    System.out.println("module_type: " + module_type);
-    System.out.println("risk_level: " + risk_level);
-    System.out.println("amount_min: " + amount_min);
-    System.out.println("amount_max: " + amount_max);
-    System.out.println("user_id: " + user_id);
-    System.out.println("user_roles: " + Arrays.toString(user_roles));
+    
+    
+    
+    
+    
+    
+    
+    
 
     SQL sql = new SQL();
 
@@ -1474,7 +1474,7 @@ public class SqlProviderHigherOfficials {
     if (risk_level != null) {
       sql.AND().WHERE("ida.risk_level = #{risk_level}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -1487,14 +1487,14 @@ public class SqlProviderHigherOfficials {
       @Param("amount_max") Double amount_max,
       @Param("user_id") Long user_id,
       @Param("user_roles") String[] user_roles) {
-    System.out.println("region_id: " + region_id);
-    System.out.println("branch_id: " + branch_id);
-    System.out.println("module_type: " + module_type);
-    System.out.println("risk_level: " + risk_level);
-    System.out.println("amount_min: " + amount_min);
-    System.out.println("amount_max: " + amount_max);
-    System.out.println("user_id: " + user_id);
-    System.out.println("user_roles: " + Arrays.toString(user_roles));
+    
+    
+    
+    
+    
+    
+    
+    
 
     SQL sql = new SQL();
 
@@ -1530,7 +1530,7 @@ public class SqlProviderHigherOfficials {
     if (risk_level != null) {
       sql.AND().WHERE("ida.risk_level = #{risk_level}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -1543,14 +1543,14 @@ public class SqlProviderHigherOfficials {
       @Param("amount_max") Double amount_max,
       @Param("user_id") Long user_id,
       @Param("user_roles") String[] user_roles) {
-    System.out.println("region_id: " + region_id);
-    System.out.println("branch_id: " + branch_id);
-    System.out.println("module_type: " + module_type);
-    System.out.println("risk_level: " + risk_level);
-    System.out.println("amount_min: " + amount_min);
-    System.out.println("amount_max: " + amount_max);
-    System.out.println("user_id: " + user_id);
-    System.out.println("user_roles: " + Arrays.toString(user_roles));
+    
+    
+    
+    
+    
+    
+    
+    
 
     SQL sql = new SQL();
 
@@ -1608,7 +1608,7 @@ public class SqlProviderHigherOfficials {
     if (risk_level != null) {
       sql.AND().WHERE("ida.risk_level = #{risk_level}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -1621,14 +1621,14 @@ public class SqlProviderHigherOfficials {
       @Param("amount_max") Double amount_max,
       @Param("user_id") Long user_id,
       @Param("user_roles") String[] user_roles) {
-    System.out.println("region_id: " + region_id);
-    System.out.println("branch_id: " + branch_id);
-    System.out.println("module_type: " + module_type);
-    System.out.println("risk_level: " + risk_level);
-    System.out.println("amount_min: " + amount_min);
-    System.out.println("amount_max: " + amount_max);
-    System.out.println("user_id: " + user_id);
-    System.out.println("user_roles: " + Arrays.toString(user_roles));
+    
+    
+    
+    
+    
+    
+    
+    
 
     SQL sql = new SQL();
 
@@ -1674,7 +1674,7 @@ public class SqlProviderHigherOfficials {
     if (risk_level != null) {
       sql.AND().WHERE("ida.risk_level = #{risk_level}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -1687,14 +1687,14 @@ public class SqlProviderHigherOfficials {
       @Param("amount_max") Double amount_max,
       @Param("user_id") Long user_id,
       @Param("user_roles") String[] user_roles) {
-    System.out.println("region_id: " + region_id);
-    System.out.println("branch_id: " + branch_id);
-    System.out.println("module_type: " + module_type);
-    System.out.println("risk_level: " + risk_level);
-    System.out.println("amount_min: " + amount_min);
-    System.out.println("amount_max: " + amount_max);
-    System.out.println("user_id: " + user_id);
-    System.out.println("user_roles: " + Arrays.toString(user_roles));
+    
+    
+    
+    
+    
+    
+    
+    
 
     SQL sql = new SQL();
 
@@ -1758,7 +1758,7 @@ public class SqlProviderHigherOfficials {
     if (risk_level != null) {
       sql.AND().WHERE("ida.risk_level = #{risk_level}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -1771,14 +1771,14 @@ public class SqlProviderHigherOfficials {
       @Param("amount_max") Double amount_max,
       @Param("user_id") Long user_id,
       @Param("user_roles") String[] user_roles) {
-    System.out.println("region_id: " + region_id);
-    System.out.println("branch_id: " + branch_id);
-    System.out.println("module_type: " + module_type);
-    System.out.println("risk_level: " + risk_level);
-    System.out.println("amount_min: " + amount_min);
-    System.out.println("amount_max: " + amount_max);
-    System.out.println("user_id: " + user_id);
-    System.out.println("user_roles: " + Arrays.toString(user_roles));
+    
+    
+    
+    
+    
+    
+    
+    
 
     SQL sql = new SQL();
 
@@ -1824,7 +1824,7 @@ public class SqlProviderHigherOfficials {
     if (risk_level != null) {
       sql.AND().WHERE("ida.risk_level = #{risk_level}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -1837,14 +1837,14 @@ public class SqlProviderHigherOfficials {
       @Param("amount_max") Double amount_max,
       @Param("user_id") Long user_id,
       @Param("user_roles") String[] user_roles) {
-    System.out.println("region_id: " + region_id);
-    System.out.println("branch_id: " + branch_id);
-    System.out.println("module_type: " + module_type);
-    System.out.println("risk_level: " + risk_level);
-    System.out.println("amount_min: " + amount_min);
-    System.out.println("amount_max: " + amount_max);
-    System.out.println("user_id: " + user_id);
-    System.out.println("user_roles: " + Arrays.toString(user_roles));
+    
+    
+    
+    
+    
+    
+    
+    
 
     SQL sql = new SQL();
 
@@ -1890,7 +1890,7 @@ public class SqlProviderHigherOfficials {
     if (risk_level != null) {
       sql.AND().WHERE("ida.risk_level = #{risk_level}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -1903,14 +1903,14 @@ public class SqlProviderHigherOfficials {
       @Param("amount_max") Double amount_max,
       @Param("user_id") Long user_id,
       @Param("user_roles") String[] user_roles) {
-    System.out.println("region_id: " + region_id);
-    System.out.println("branch_id: " + branch_id);
-    System.out.println("module_type: " + module_type);
-    System.out.println("risk_level: " + risk_level);
-    System.out.println("amount_min: " + amount_min);
-    System.out.println("amount_max: " + amount_max);
-    System.out.println("user_id: " + user_id);
-    System.out.println("user_roles: " + Arrays.toString(user_roles));
+    
+    
+    
+    
+    
+    
+    
+    
 
     SQL sql = new SQL();
 
@@ -1962,7 +1962,7 @@ public class SqlProviderHigherOfficials {
     if (risk_level != null) {
       sql.AND().WHERE("ida.risk_level = #{risk_level}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -1975,14 +1975,14 @@ public class SqlProviderHigherOfficials {
       @Param("amount_max") Double amount_max,
       @Param("user_id") Long user_id,
       @Param("user_roles") String[] user_roles) {
-    System.out.println("region_id: " + region_id);
-    System.out.println("branch_id: " + branch_id);
-    System.out.println("module_type: " + module_type);
-    System.out.println("risk_level: " + risk_level);
-    System.out.println("amount_min: " + amount_min);
-    System.out.println("amount_max: " + amount_max);
-    System.out.println("user_id: " + user_id);
-    System.out.println("user_roles: " + Arrays.toString(user_roles));
+    
+    
+    
+    
+    
+    
+    
+    
 
     SQL sql = new SQL();
 
@@ -2016,7 +2016,7 @@ public class SqlProviderHigherOfficials {
     if (risk_level != null) {
       sql.AND().WHERE("ida.risk_level = #{risk_level}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -2029,14 +2029,14 @@ public class SqlProviderHigherOfficials {
       @Param("amount_max") Double amount_max,
       @Param("user_id") Long user_id,
       @Param("user_roles") String[] user_roles) {
-    System.out.println("region_id: " + region_id);
-    System.out.println("branch_id: " + branch_id);
-    System.out.println("module_type: " + module_type);
-    System.out.println("risk_level: " + risk_level);
-    System.out.println("amount_min: " + amount_min);
-    System.out.println("amount_max: " + amount_max);
-    System.out.println("user_id: " + user_id);
-    System.out.println("user_roles: " + Arrays.toString(user_roles));
+    
+    
+    
+    
+    
+    
+    
+    
 
     SQL sql = new SQL();
 
@@ -2070,7 +2070,7 @@ public class SqlProviderHigherOfficials {
     if (risk_level != null) {
       sql.AND().WHERE("ida.risk_level = #{risk_level}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -2083,14 +2083,14 @@ public class SqlProviderHigherOfficials {
       @Param("amount_max") Double amount_max,
       @Param("user_id") Long user_id,
       @Param("user_roles") String[] user_roles) {
-    System.out.println("region_id: " + region_id);
-    System.out.println("branch_id: " + branch_id);
-    System.out.println("module_type: " + module_type);
-    System.out.println("risk_level: " + risk_level);
-    System.out.println("amount_min: " + amount_min);
-    System.out.println("amount_max: " + amount_max);
-    System.out.println("user_id: " + user_id);
-    System.out.println("user_roles: " + Arrays.toString(user_roles));
+    
+    
+    
+    
+    
+    
+    
+    
 
     SQL sql = new SQL();
 
@@ -2130,7 +2130,7 @@ public class SqlProviderHigherOfficials {
     if (risk_level != null) {
       sql.AND().WHERE("ida.risk_level = #{risk_level}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 
@@ -2143,14 +2143,14 @@ public class SqlProviderHigherOfficials {
       @Param("amount_max") Double amount_max,
       @Param("user_id") Long user_id,
       @Param("user_roles") String[] user_roles) {
-    System.out.println("region_id: " + region_id);
-    System.out.println("branch_id: " + branch_id);
-    System.out.println("module_type: " + module_type);
-    System.out.println("risk_level: " + risk_level);
-    System.out.println("amount_min: " + amount_min);
-    System.out.println("amount_max: " + amount_max);
-    System.out.println("user_id: " + user_id);
-    System.out.println("user_roles: " + Arrays.toString(user_roles));
+    
+    
+    
+    
+    
+    
+    
+    
 
     SQL sql = new SQL();
 
@@ -2179,7 +2179,7 @@ public class SqlProviderHigherOfficials {
     if (risk_level != null) {
       sql.AND().WHERE("ida.risk_level = #{risk_level}");
     }
-    System.out.println("sql to string: " + sql.toString());
+    
     return sql.toString();
   }
 }

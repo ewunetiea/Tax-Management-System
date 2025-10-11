@@ -52,7 +52,7 @@ public class RegionController {
 
             return AGPResponse.success("Region successfully " + (region.getId() != null ? "updated" : "created"));
         } catch (Exception ex) {
-            System.out.println(ex);
+            
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -87,7 +87,7 @@ public class RegionController {
 
             return AGPResponse.success("region sucessfully saved");
         } catch (Exception ex) {
-            System.out.println(ex);
+            
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -165,7 +165,7 @@ public class RegionController {
         try {
             return new ResponseEntity<>(regionService.drawRegionLineChart(), HttpStatus.OK);
         } catch (Exception ex) {
-            System.out.println(ex);
+            
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -30,12 +30,12 @@ public class FileDownloderController {
 
     // try {
 
-    // System.out.println("________________get filname from disk________________");
+    // 
 
     // Resource resource = fileDownloadService.getFileResource(fileName);
 
-    // System.out.println("_____FFF______________");
-    // System.out.println(resource);
+    // 
+    // 
 
     // return new ResponseEntity<>(resource, HttpStatus.OK);
     // } catch (Exception ex) {

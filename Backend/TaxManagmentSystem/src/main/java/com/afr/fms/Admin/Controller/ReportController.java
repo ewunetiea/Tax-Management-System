@@ -42,7 +42,7 @@ public class ReportController {
         try {
             return new ResponseEntity<>(regionService.drawBranchPerRegionLineChart(), HttpStatus.OK);
         } catch (Exception ex) {
-            System.out.println(ex);
+            
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -52,7 +52,7 @@ public class ReportController {
         try {
             return new ResponseEntity<>(reportService.drawBarChartUsersPerRegion(), HttpStatus.OK);
         } catch (Exception ex) {
-            System.out.println(ex);
+            
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -70,7 +70,7 @@ public class JobPositionController {
 		try {
 			return new ResponseEntity<>(jobPositionService.getJobPositions(), HttpStatus.OK);
 		} catch (Exception e) {
-			System.out.println(e);
+			
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -80,7 +80,7 @@ public class JobPositionController {
 	// 	try {
 	// 		return new ResponseEntity<>(jobPositionService.getMappedJobPositions(), HttpStatus.OK);
 	// 	} catch (Exception e) {
-	// 		System.out.println(e);
+	// 		
 	// 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	// 	}
 	// }
@@ -95,7 +95,7 @@ public class JobPositionController {
 		try {
 			return new ResponseEntity<>(jobPositionService.getTotalJobPositions(), HttpStatus.OK);
 		} catch (Exception e) {
-			System.out.println(e);
+			
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -105,7 +105,7 @@ public class JobPositionController {
 		try {
 			return new ResponseEntity<>(jobPositionService.getAllJobPositions(), HttpStatus.OK);
 		} catch (Exception e) {
-			System.out.println(e);
+			
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}

@@ -3,11 +3,11 @@ import { JobPosition } from "./job-position";
 
 export class Role {
 id?: any;
-  code?: String;
-  name?: String;
-  description?: String;
-  role_level?: Number;
-  role_position?: String;
+  code?: string;
+  name?: string;
+  description?: string;
+  role_level?: number;
+  role_position?: string;
   status?: boolean;
   dynamic_menu?: boolean;
   jobPositions?: JobPosition[];

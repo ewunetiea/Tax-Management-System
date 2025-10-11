@@ -79,7 +79,7 @@ export class AnnouncementCreateEditComponent {
                 detail: 'Image uploaded as byte array!'
             });
 
-            console.log('Image byte array:', this.announcement.image);
+
         };
         reader.readAsArrayBuffer(file);
     }

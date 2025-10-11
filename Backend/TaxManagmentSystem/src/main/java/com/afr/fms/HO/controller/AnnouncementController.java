@@ -35,7 +35,7 @@ public class AnnouncementController {
 		try {
 			
 
-			System.out.println("____________________announcement type______________");
+			
 			System.out.print(announcemnetType);
 			List<Announcement> announcements = new ArrayList<>();
 			if (announcemnetType.contains("ongoing")) {
@@ -45,7 +45,7 @@ public class AnnouncementController {
 			announcements =	announcementService.getArchivedAnnouncements();
 
 
-			System.out.println("array size is   "+ announcements.size());
+			
 			}
 			return new ResponseEntity<>(announcements, HttpStatus.OK);
 		} catch (Exception ex) {

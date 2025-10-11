@@ -36,7 +36,7 @@ export class WebSocketService implements OnDestroy {
 
                 onConnect: () => {
                     this.connectionAttempts = 0;
-                    console.log('WebSocket connected');
+
                     this.isConnected$.next(true);
                 },
 
@@ -68,7 +68,7 @@ export class WebSocketService implements OnDestroy {
 
     public connect(): Promise<boolean> {
         return new Promise((resolve) => {
-            console.log('WebSocketService: Attempting to connect...');
+
             if (this.isConnected$.value) {
                 resolve(true);
                 return;
@@ -121,7 +121,7 @@ export class WebSocketService implements OnDestroy {
 
             const sub = this.stompClient.subscribe('/user/queue/logout', (message: IMessage) => {
                 try {
-                    console.log('message .... ' + message);
+
                     subscriber.next(message.body);
                 } catch (e) {
                     this.handleError(`Error processing logout message: ${e}`);

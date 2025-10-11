@@ -158,7 +158,7 @@ export class AdminNotificationComponent {
                 window.location.reload();
             },
             error: (err) => {
-                console.log(err);
+
             }
         });
     }
@@ -166,7 +166,7 @@ export class AdminNotificationComponent {
     viewedNotificationsByAdminDropDown(): void {
         this.notificationService.viewedNotificationsByAdmin(this.admin_notification).subscribe({
             error: (err) => {
-                console.log(err);
+
             }
         });
     }
@@ -179,7 +179,7 @@ export class AdminNotificationComponent {
     viewedAdminNotificationsModal(): void {
         this.notificationService.viewedNotificationsByAdmin(this.admin_notification_list).subscribe({
             error: (err) => {
-                console.log(err);
+
             }
         });
     }

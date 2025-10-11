@@ -91,7 +91,7 @@ public class NotificationController {
 		try {
 			return new ResponseEntity<>(userSecurityService.notifyAdmin(realtime), HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -105,7 +105,7 @@ public class NotificationController {
 			userSecurityService.viewedNotificationsByAdmin(adminNotification);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 

@@ -22,10 +22,10 @@
                *ngIf="statusRoute !== 'approved'"
                 pButton
                 pRipple
-                label="Review"
+                label="Approve"
                 icon="pi pi-verified"
                 class="p-button-rounded p-button-outlined p-button-success mr-2 "
-                (click)="reviewSelectedTaxes()"
+                (click)="approveSelectedTaxes()"
                 [disabled]="!selectedTaxes || !selectedTaxes.length"
               ></button>
             </ng-template>
@@ -319,9 +319,9 @@
                   *ngIf="statusRoute !== 'approved'"
                     pButton
                     pRipple
-                    pTooltip="Review"
+                    pTooltip="Approve"
                     tooltipPosition="bottom"
-                    (click)="reviewTax(tax)"
+                    (click)="approveTax(tax)"
                     icon="pi pi-verified"
                     class="p-button-rounded p-button-outlined p-button-success mr-2"
                   ></button>

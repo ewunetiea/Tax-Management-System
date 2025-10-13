@@ -44,8 +44,7 @@ public class TaxableSearchEngineController {
     }
 
     @PostMapping("/ho/search")
-    public ResponseEntity<List<Tax>> getTaxableSearchEngineForHo(@RequestBody TaxableSearchEngine tax,
-            HttpServletRequest request) {
+    public ResponseEntity<List<Tax>> getTaxableSearchEngineForHo(@RequestBody TaxableSearchEngine tax, HttpServletRequest request) {
         try {
             return new ResponseEntity<>(taxableSearchEngineService.getTaxableSearchEngineForHo(tax), HttpStatus.OK);
         } catch (Exception ex) {

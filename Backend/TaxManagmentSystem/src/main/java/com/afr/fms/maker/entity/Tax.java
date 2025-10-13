@@ -42,6 +42,7 @@ public class Tax {
     private String remark;
     private String initiator_branch;
     private String destination_branch;
+    private String taxType;
     private Long user_id;
     private String reference_number;
     private Date approver_rejected_date;
@@ -52,4 +53,5 @@ public class Tax {
     private Long rejector_checker_id;
     private String approver_name;
     private Date approved_date;
+    
 }

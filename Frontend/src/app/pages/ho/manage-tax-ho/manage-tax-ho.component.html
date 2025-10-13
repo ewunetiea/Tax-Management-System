@@ -76,7 +76,7 @@
             dataKey="id"
             [rowsPerPageOptions]="[5,10, 25, 50]"
             [size]="selectedSize"
-            [tableStyle]="{ 'min-width': '250rem' }"
+            [tableStyle]="{ 'min-width': '230rem' }"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [showCurrentPageReport]="true"
           >
@@ -101,14 +101,14 @@
 
                 <th style="min-width: 10rem">
                   <div class="flex items-center">
-                      From
+                      Unit
                       <p-columnFilter type="numeric" field="from_" display="menu" />
                   </div>
                 </th>
 
               <th style="min-width: 10rem">
                 <div class="flex items-center">
-                    To
+                    Director
                     <p-columnFilter type="numeric" field="sendTo_" display="menu" />
                 </div>
               </th>
@@ -152,13 +152,6 @@
               <div class="flex items-center">
                 Graduate Tax Pool
                   <p-columnFilter type="numeric" field="graduatetaxPool" display="menu" />
-              </div>
-            </th>
-
-             <th style="min-width: 10rem">
-              <div class="flex items-center">
-                Graduate Tax Pool1
-                  <p-columnFilter type="numeric" field="graduatetaxPool1" display="menu" />
               </div>
             </th>
 
@@ -234,15 +227,14 @@
                 <td>
                   <p-tableCheckbox [value]="tax"></p-tableCheckbox>
                 </td>
-                <td>{{ tax.from_ }}</td>
-                <td>{{ tax.sendTo_ }}</td>
+                <td>{{ tax.initiator_branch }}</td>
+                <td>{{ tax.destination_branch }}</td>
                 <td>{{ tax.reference_number }}</td>
-                <td>{{ tax.taxCategory}}</td>
+                <td>{{ tax.taxType}}</td>
                 <td>{{tax.noOfEmployee}}</td>
                 <td>{{ tax.taxableAmount | number:'1.0-2' }}</td>
                 <td>{{tax.taxWithHold | number:'1.0-2'}}</td>
                 <td>{{tax.graduatetaxPool | number:'1.0-2'}}</td>
-                <td>{{tax.graduatetaxPool1 | number:'1.0-2' }}</td>
                 <td>{{tax.graduaTotBasSalary | number:'1.0-2' }}</td>
                 <td>{{tax.graduateTotaEmployee | number:'1.0-2'}}</td>
                 <td>{{tax.graduatetaxWithHold | number:'1.0-2' }}</td>
@@ -253,13 +245,13 @@
                     {{ tax.checker_name }}
                   </ng-container>
                   <ng-template #uncheckednameBtn>
-                    <button 
-                    pButton 
-                    pRipple 
-                    type="text" 
-                    label="Unchecked" 
-                    class="p-button-rounded p-button-secondary p-button-outlined p-button-sm"
-                    ></button>
+                     <button 
+                     pButton 
+                     pRipple 
+                     type="text" 
+                     icon="pi pi-times" 
+                     label="Unchecked" 
+                     class="p-button-rounded p-button-danger p-button-outlined p-button-sm"></button>
                   </ng-template>
                 </td>
                 <td>
@@ -267,13 +259,13 @@
                     {{ tax.checked_Date | date:'yyyy-MM-dd' }}
                   </ng-container>
                   <ng-template #uncheckedDateBtn>
-                    <button 
-                    pButton 
-                    pRipple 
-                    type="text" 
-                    label="Unchecked" 
-                    class="p-button-rounded p-button-secondary p-button-outlined p-button-sm"
-                    ></button>
+                     <button 
+                     pButton 
+                     pRipple 
+                     type="text" 
+                     icon="pi pi-times" 
+                     label="Unchecked" 
+                     class="p-button-rounded p-button-danger p-button-outlined p-button-sm"></button>
                   </ng-template>
                 </td>
                 <td>
@@ -285,9 +277,9 @@
                     pButton 
                     pRipple 
                     type="text" 
+                      icon="pi pi-times" 
                     label="Unupdated" 
-                    class="p-button-rounded p-button-secondary p-button-outlined p-button-sm"
-                    ></button>
+                    class="p-button-rounded p-button-danger p-button-outlined p-button-sm"></button>
                   </ng-template>
                 </td>
                 <td>
@@ -299,8 +291,9 @@
                     pButton 
                     pRipple 
                     type="text" 
+                    icon="pi pi-times" 
                     label="Unupdated" 
-                    class="p-button-rounded p-button-secondary p-button-outlined p-button-sm"
+                    class="p-button-rounded p-button-danger p-button-outlined p-button-sm"
                     ></button>
                   </ng-template>
                 </td>

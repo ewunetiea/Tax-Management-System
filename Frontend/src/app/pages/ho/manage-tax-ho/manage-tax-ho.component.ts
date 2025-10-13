@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { MenuItem, ConfirmationService, MessageService } from 'primeng/api';
 import { finalize } from 'rxjs';
 import { PaginatorPayLoad } from '../../../models/admin/paginator-payload';
@@ -44,7 +44,6 @@ export class ManageTaxHoComponent {
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private storageService: StorageService,
-    private route: ActivatedRoute,
     private router: Router,
   ) { }
 
@@ -202,7 +201,6 @@ export class ManageTaxHoComponent {
     if (data[1]) {
       this.taxes[this.findIndexById(data[0].id)] = data[0];
     } else {
-      // this.getTaxes();
       this.taxes = [...this.taxes];
       this.tax = new Tax();
     }

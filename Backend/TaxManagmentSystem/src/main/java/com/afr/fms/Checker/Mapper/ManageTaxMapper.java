@@ -25,7 +25,7 @@ public interface ManageTaxMapper {
     @Update("UPDATE tblTaxable SET status = 4, checker_name = #{checker_name}, checked_Date = CURRENT_TIMESTAMP WHERE id = #{id}")
     public void reviewTaxes(Tax tax);
 
-    @Update("UPDATE tblTaxable SET status = 2, checker_rejected_reason = #{checker_rejected_reason}, rejector_checker_id = #{rejector_checker_id}, checker_rejected_date = CURRENT_TIMESTAMP WHERE id = #{id}")
+    @Update("UPDATE tblTaxable SET status = 2, checker_rejected_reason = #{checker_rejected_reason}, rejector_checker_id = #{user_id}, checker_rejected_date = CURRENT_TIMESTAMP WHERE id = #{id}")
     public void rejectTax(Tax tax);
 
 }

@@ -16,11 +16,11 @@ export class BackupService {
         // .pipe(
         //   map((resp:HttpResponse<Blob>) => {
         //     const blob = resp.body
-        //     console.log(data)
+        //     
         //     if(blob){
         //       const url = window.URL.createObjectURL(blob);
         //       const a = document.createElement('a');
-        //       // console.log(backup)
+        //       // 
         //       document.body.appendChild(a);
         //       a.href = url;
         //       a.download = resp.headers.get('content-disposition')?.split(";")[1].slice(11).replace('"', "")!

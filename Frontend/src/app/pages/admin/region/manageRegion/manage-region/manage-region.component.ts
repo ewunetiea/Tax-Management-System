@@ -13,8 +13,7 @@ import { ExportExcelService } from '../../../../../service/sharedService/export-
     selector: 'app-manage-region',
     standalone: true,
     imports: [SharedUiModule, AddRegionComponent],
-      providers: [MessageService, ConfirmationService],
-    
+    providers: [MessageService, ConfirmationService],
     templateUrl: './manage-region.component.html',
     styleUrl: './manage-region.component.scss'
 })

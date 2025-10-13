@@ -21,7 +21,6 @@ export class TaxableSearchEngineService {
   }
 
   getTaxesforApprover(tax: TaxableSearchEngine): Observable<Tax[]> {
-    console.log("Fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff: ", tax);
     return this.http.post<Tax[]>(`${baseUrl}/ho/search`, tax);
   }
 

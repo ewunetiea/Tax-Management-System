@@ -497,7 +497,7 @@ export class ManageUserComponent {
             this.data2[i] = row2;
             i++;
         }
-        // console.log(this.data2)
+        // 
         return data;
     }
 

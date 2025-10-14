@@ -61,7 +61,8 @@ public class CopyFromHRSystemService {
 
     private static final Logger logger = LoggerFactory.getLogger(CopyFromHRSystemService.class);
 
-    @Scheduled(cron = "0 0 19 * * ?")
+    // @Scheduled(cron = "0 0 19 * * ?")
+// @Scheduled(initialDelay = 50000, fixedDelay = Long.MAX_VALUE) // 50000 ms = 50 seconds
     public void scheduledCopyUsersFromHrSystem() {
 
         // if (scheduleService.checkScheduleStatus("copy_users_info_hr_system")) {
@@ -70,8 +71,8 @@ public class CopyFromHRSystemService {
         String formattedDate = formatter.format(date);
         final String uri = "https://hr.awashbank.com/hr/api/empInfo/" + formattedDate;
 
-        // final String uri = "https://hr.awashbank.com/hr/api/empInfo/2021-01-01
-        // 00:00:00";
+        // final String uri = "https://hr.awashbank.com/hr/api/empInfo/2020-01-01 00:00:00";
+
 
         RestTemplate restTemplate = new RestTemplate();
         UserCopyFromHR[] users_copy = restTemplate.getForObject(uri, UserCopyFromHR[].class);

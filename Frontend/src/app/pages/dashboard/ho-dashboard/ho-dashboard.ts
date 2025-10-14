@@ -42,7 +42,7 @@ export class HODashboard {
 
          setTimeout(() => {
     this.loading = false;
-  }, 15000); // 15000 ms = 15 seconds
+  }, 1000); // 1000 ms = 1 seconds
         this.initCharts();
 
     }

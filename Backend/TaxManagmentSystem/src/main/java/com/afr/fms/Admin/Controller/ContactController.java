@@ -113,7 +113,7 @@ public class ContactController {
         try {
             return new ResponseEntity<>(contactService.getFeedbacks(), HttpStatus.OK);
         } catch (Exception ex) {
-            System.out.println(ex);
+            
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -128,7 +128,7 @@ public class ContactController {
             }
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            System.out.println(e);
+            
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -143,7 +143,7 @@ public class ContactController {
             }
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            System.out.println(e);
+            
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -160,7 +160,7 @@ public class ContactController {
             }
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            System.out.println(e);
+            
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

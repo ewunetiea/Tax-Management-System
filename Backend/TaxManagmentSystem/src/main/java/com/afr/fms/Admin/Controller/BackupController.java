@@ -33,7 +33,7 @@ public class BackupController {
 			backupService.createBackup(backup);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -68,13 +68,13 @@ public class BackupController {
 					.body("Couldn't find " + file.getName() +
 							" => " + e.getMessage());
 		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		} finally {
 			if (file.delete()) {
-				System.out.println("File deleted");
+				
 			} else {
-				System.out.println("File not deleted!");
+				
 			}
 			;
 		}
@@ -87,7 +87,7 @@ public class BackupController {
 		try {
 			return new ResponseEntity<>(backupService.getBackupByUserId(id), HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 

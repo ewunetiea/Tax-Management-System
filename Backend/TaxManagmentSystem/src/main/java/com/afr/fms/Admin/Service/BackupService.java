@@ -31,7 +31,7 @@ public class BackupService {
             return backup;
 
         }catch(Exception ex){
-            System.out.println(ex.getMessage());
+            
             return null;
         }
 

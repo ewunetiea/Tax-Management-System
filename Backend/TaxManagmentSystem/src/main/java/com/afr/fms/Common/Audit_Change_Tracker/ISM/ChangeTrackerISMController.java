@@ -31,7 +31,7 @@ public class ChangeTrackerISMController {
 			changeTrackerISMService.insertChanges(change_Tracker_ISM);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -43,7 +43,7 @@ public class ChangeTrackerISMController {
 		try {
 			return new ResponseEntity<>(changeTrackerISMService.getChanges(audit_id), HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 

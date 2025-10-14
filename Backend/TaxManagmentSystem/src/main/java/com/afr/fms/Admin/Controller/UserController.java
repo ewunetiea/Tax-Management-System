@@ -146,7 +146,7 @@ public class UserController {
                         }
 
                     } catch (Exception ex) {
-                        System.out.println(ex);
+                        
                     }
                 }
 
@@ -201,7 +201,7 @@ public class UserController {
         try {
             return new ResponseEntity<>(userService.searchUser(key), HttpStatus.OK);
         } catch (Exception ex) {
-            System.out.println(ex);
+            
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

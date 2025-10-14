@@ -175,7 +175,7 @@ export class ManageUserComponent {
         } else {
             this.roles = this.allRoles;
 
-            console.log(this.allRoles);
+
             if (this.selectedUser.roles) {
                 for (const role of this.selectedUser.roles) {
                     this.roles.push(role);
@@ -372,10 +372,8 @@ export class ManageUserComponent {
     }
 
     onDataChange(data: any) {
-        console.log('++++++++++++   from manage user ++++++++++++++++++');
-        console.log(data);
         if (data[1]) {
-            // this.getUsers();
+            this.getUsers();
             this.users = [...this.users];
             this.userEditDialog = false;
             this.user = new User();
@@ -499,7 +497,7 @@ export class ManageUserComponent {
             this.data2[i] = row2;
             i++;
         }
-        // console.log(this.data2)
+        // 
         return data;
     }
 

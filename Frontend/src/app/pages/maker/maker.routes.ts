@@ -1,21 +1,10 @@
 import { Routes } from '@angular/router';
 import { MakerDashboard } from '../dashboard/maker-dashboard/maker-dashboard';
 import { Crud } from './crud/crud';
-import { ManageTax } from './tax/manage-tax';
 import { AccountDataComponent } from './account-data/account-data.component';
-import { ManageTaxCategoryComponent } from './tax-category/manage-tax-category/manage-tax-category.component';
 import { AuthGuard } from '../../service/admin/auth.guard';
-import { TaxCreateEditComponent } from './tax-create-edit/tax-create-edit.component';
 
 export default [
-    {
-        path: 'manage-tax-category',
-        component: ManageTaxCategoryComponent,
-        canActivate: [AuthGuard],
-        data: {
-            roles: ['ROLE_MAKER'],
-        }
-    },
     // { path: 'button', data: { breadcrumb: 'Button' }, component: ButtonDemo },
     { path: 'charts', data: { breadcrumb: 'Charts' }, component: MakerDashboard },
     { path: 'manage-customer', data: { breadcrumb: 'Manage Customer' }, component: Crud },

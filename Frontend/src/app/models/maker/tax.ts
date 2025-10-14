@@ -1,8 +1,5 @@
 import { TaxFile } from "./tax-file";
 
-
-
-
 export class Tax {
   id?: number;
   mainGuid?: String
@@ -18,23 +15,24 @@ export class Tax {
   graduaTotBasSalary?: number;
   graduateTotaEmployee?: number;
   graduatetaxWithHold?: number;
-  taxCategoryList?: String;
-  maker_name?: String;
+  taxCategoryList?: string;
+  maker_name?: string;
   maker_date?: Date;
-  checker_name?: String;
+  checker_name?: string;
   checked_Date?: Date;
-  updated_user_name?: String;
+  updated_user_name?: string;
   updated_event_date?: Date;
-  from_List?: String;
-  sendTo_List?: String;
+  from_List?: string;
+  sendTo_List?: string;
   Category_List?: String;
   FileDetail?: number;
   status?: number;
   taxFile?: TaxFile[] = []
-  remark?: String
-  reference_number?: String
-  initiator_branch?: String;   // The branch that initiated the tax
-  destination_branch?: String; // The branch that receives/sends to
+  remark?: string
+  reference_number?: string
+  initiator_branch?: string;   // The branch that initiated the tax
+  destination_branch?: string; // The branch that receives/sends to
+  taxType?: string; // tax category type
   user_id?: number;
   rejector_checker_id?: number;
   checker_rejected_date?: Date;
@@ -42,4 +40,6 @@ export class Tax {
   rejector_approver_id?: number;
   approver_rejected_reason?: string;
   approver_rejected_date?: Date;
+  approver_name?: string;
+  approved_date?: Date;
 }

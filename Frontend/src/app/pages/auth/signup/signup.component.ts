@@ -171,7 +171,7 @@ export class SignupComponent {
                     if (firstRes && firstRes.id != null) {
                         this.employee_id_status_system = true;
                         this.proceed = false;
-                        console.log('User already exists in the system');
+
                         return of(null); // Return empty observable to complete the chain
                     } else {
                         this.employee_id_status_system = false;

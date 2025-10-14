@@ -1,0 +1,91 @@
+<form [formGroup]="form" (ngSubmit)="generateTaxes()" class="p-fluid">
+  <div class="flex mt-8">
+    <div class="card flex flex-col gap-6 w-full">
+
+      <!-- Branch & Tax Type -->
+      <div class="flex flex-col md:flex-row gap-6">
+        <div class="flex flex-wrap gap-2 w-full">
+          <label for="branch_id">Unit</label>
+          <p-dropdown id="branch_id" [options]="branches" formControlName="branch_id" optionLabel="name"
+            optionValue="id" [filter]="true" [loading]="branchLoading"
+            [placeholder]="branchLoading ? 'Loading...' : 'Select One'" (onShow)="getBranches()"
+            class="w-full"></p-dropdown>
+        </div>
+
+        <div class="flex flex-wrap gap-2 w-full">
+          <label for="tax_category_id">Tax Type</label>
+          <p-dropdown id="tax_category_id" [options]="taxCategories" formControlName="tax_category_id"
+            optionLabel="type" optionValue="id" [filter]="true" [loading]="taxCategoryLoading"
+            [placeholder]="taxCategoryLoading ? 'Loading...' : 'Select One'" (onShow)="getTaxCategories()"
+            class="w-full"></p-dropdown>
+        </div>
+      </div>
+
+      <!-- Status & Reference Number -->
+      <div class="flex flex-col md:flex-row gap-6">
+        <div class="flex flex-wrap gap-2 w-full">
+          <label for="reference_number">Status</label>
+          <input pInputText id="router_status" formControlName="router_status" type="text" autocomplete="off"
+            class="w-full" readonly />
+        </div>
+
+        <div class="flex flex-wrap gap-2 w-full">
+          <label for="reference_number">Reference Number</label>
+          <input pInputText id="reference_number" formControlName="reference_number" type="text" autocomplete="off"
+            class="w-full" />
+        </div>
+      </div>
+
+      <!-- Maked & Checked Date -->
+      <div class="flex flex-col md:flex-row gap-6">
+        <div class="flex flex-wrap gap-2 w-full">
+          <label for="maked_date">Maked Date</label>
+          <p-datepicker id="maked_date" formControlName="maked_date" selectionMode="range" showIcon="true"
+            dateFormat="yy-mm-dd" [maxDate]="maxDate" class="w-full"></p-datepicker>
+        </div>
+
+        <div class="flex flex-wrap gap-2 w-full">
+          <label for="checked_date">Checked Date</label>
+          <p-datepicker id="checked_date" formControlName="checked_date" selectionMode="range" showIcon="true"
+            dateFormat="yy-mm-dd" [maxDate]="maxDate" class="w-full"></p-datepicker>
+        </div>
+      </div>
+
+      <!-- Approved & Rejected Date -->
+      <div class="flex flex-col md:flex-row gap-6">
+        <div class="flex flex-wrap gap-2 w-full">
+          <label for="approved_date">Approved Date</label>
+          <p-datepicker id="approved_date" formControlName="approved_date" selectionMode="range" showIcon="true"
+            dateFormat="yy-mm-dd" [maxDate]="maxDate" class="w-full"></p-datepicker>
+        </div>
+
+        <div class="flex flex-wrap gap-2 w-full">
+          <label for="rejected_date">Rejected Date</label>
+          <p-datepicker id="rejected_date" formControlName="rejected_date" selectionMode="range" showIcon="true"
+            dateFormat="yy-mm-dd" [maxDate]="maxDate" class="w-full"></p-datepicker>
+        </div>
+      </div>
+
+      <!-- Submit & Reset -->
+      <div class="flex gap-4 mt-4">
+        <button 
+        pButton 
+        pRipple 
+        type="submit" 
+        icon="pi pi-search" 
+        label="Search" 
+        [loading]="submitted"
+        [disabled]="form.invalid"
+        class="p-button-rounded p-button-success p-button-outlined "></button>
+        <button 
+        pButton 
+        pRipple 
+        type="reset" 
+        icon="pi pi-times" 
+        label="Reset" 
+        (click)="onReset()"
+        class="p-button-rounded p-button-danger p-button-outlined "></button>
+      </div>
+    </div>
+  </div>
+</form>

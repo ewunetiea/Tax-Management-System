@@ -26,7 +26,7 @@ public class AdminDashboardController {
             List<Integer> cardData = dashboardService.computeCardData();
             return new ResponseEntity<>(cardData, HttpStatus.OK);
         } catch (Exception ex) {
-            System.out.println(ex);
+            
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -38,7 +38,7 @@ public class AdminDashboardController {
             List<Integer> polarData = dashboardService.computePolarData(); // Updated to not require userId
             return new ResponseEntity<>(polarData, HttpStatus.OK);
         } catch (Exception ex) {
-            System.out.println(ex);
+            
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -50,7 +50,7 @@ public class AdminDashboardController {
             List<Integer> barChartData = dashboardService.computeBarChartData();
             return new ResponseEntity<>(barChartData, HttpStatus.OK);
         } catch (Exception ex) {
-            System.out.println(ex);
+            
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -62,7 +62,7 @@ public class AdminDashboardController {
             List<Integer> horizontalBarChartData = dashboardService.computeHorizontalBarChartData();
             return new ResponseEntity<>(horizontalBarChartData, HttpStatus.OK);
         } catch (Exception ex) {
-            System.out.println(ex);
+            
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -74,7 +74,7 @@ public class AdminDashboardController {
             List<Integer> radarAgeData = dashboardService.computeRadarAgeData();
             return new ResponseEntity<>(radarAgeData, HttpStatus.OK);
         } catch (Exception ex) {
-            System.out.println(ex);
+            
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -86,7 +86,7 @@ public class AdminDashboardController {
             Map<String, List<Integer>> lineChartData = dashboardService.computeLineChartData();
             return new ResponseEntity<>(lineChartData, HttpStatus.OK);
         } catch (Exception ex) {
-            System.out.println(ex);
+            
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -98,7 +98,7 @@ public class AdminDashboardController {
             List<RecentActivity> recentActivity = dashboardService.getRecentActivity(userId);
             return new ResponseEntity<>(recentActivity, HttpStatus.OK);
         } catch (Exception ex) {
-            System.out.println(ex);
+            
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

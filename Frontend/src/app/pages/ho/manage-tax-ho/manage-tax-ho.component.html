@@ -22,10 +22,10 @@
                *ngIf="statusRoute !== 'approved'"
                 pButton
                 pRipple
-                label="Review"
+                label="Approve"
                 icon="pi pi-verified"
                 class="p-button-rounded p-button-outlined p-button-success mr-2 "
-                (click)="reviewSelectedTaxes()"
+                (click)="approveSelectedTaxes()"
                 [disabled]="!selectedTaxes || !selectedTaxes.length"
               ></button>
             </ng-template>
@@ -154,7 +154,6 @@
                   <p-columnFilter type="numeric" field="graduatetaxPool" display="menu" />
               </div>
             </th>
-            
 
              <th style="min-width: 10rem">
               <div class="flex items-center">
@@ -246,14 +245,13 @@
                     {{ tax.checker_name }}
                   </ng-container>
                   <ng-template #uncheckednameBtn>
-                    <button 
-                    pButton 
-                    pRipple 
-                    type="text" 
-                    label="Unchecked" 
+                     <button 
+                     pButton 
+                     pRipple 
+                     type="text" 
                      icon="pi pi-times" 
-                    class="p-button-rounded p-button-danger p-button-outlined p-button-sm"
-                    ></button>
+                     label="Unchecked" 
+                     class="p-button-rounded p-button-danger p-button-outlined p-button-sm"></button>
                   </ng-template>
                 </td>
                 <td>
@@ -261,14 +259,13 @@
                     {{ tax.checked_Date | date:'yyyy-MM-dd' }}
                   </ng-container>
                   <ng-template #uncheckedDateBtn>
-                    <button 
-                    pButton 
-                    pRipple 
-                    type="text" 
-                    label="Unchecked" 
+                     <button 
+                     pButton 
+                     pRipple 
+                     type="text" 
                      icon="pi pi-times" 
-                    class="p-button-rounded p-button-danger p-button-outlined p-button-sm"
-                    ></button>
+                     label="Unchecked" 
+                     class="p-button-rounded p-button-danger p-button-outlined p-button-sm"></button>
                   </ng-template>
                 </td>
                 <td>
@@ -280,10 +277,9 @@
                     pButton 
                     pRipple 
                     type="text" 
+                      icon="pi pi-times" 
                     label="Unupdated" 
-                     icon="pi pi-times" 
-                    class="p-button-rounded p-button-danger p-button-outlined p-button-sm"
-                    ></button>
+                    class="p-button-rounded p-button-danger p-button-outlined p-button-sm"></button>
                   </ng-template>
                 </td>
                 <td>
@@ -295,8 +291,8 @@
                     pButton 
                     pRipple 
                     type="text" 
+                    icon="pi pi-times" 
                     label="Unupdated" 
-                     icon="pi pi-times" 
                     class="p-button-rounded p-button-danger p-button-outlined p-button-sm"
                     ></button>
                   </ng-template>
@@ -316,9 +312,9 @@
                   *ngIf="statusRoute !== 'approved'"
                     pButton
                     pRipple
-                    pTooltip="Review"
+                    pTooltip="Approve"
                     tooltipPosition="bottom"
-                    (click)="reviewTax(tax)"
+                    (click)="approveTax(tax)"
                     icon="pi pi-verified"
                     class="p-button-rounded p-button-outlined p-button-success mr-2"
                   ></button>

@@ -267,7 +267,7 @@ export class Crud implements OnInit {
 
         this.productService.createProduct(this.product).subscribe({
             next: (productResponse) => {
-                console.log("product response", productResponse)
+
                 // Add imageSrc field
                 const updatedProduct = {
                     ...productResponse,
@@ -329,7 +329,7 @@ this.product = {} as Product;  // empty product
                 detail: 'Image uploaded as byte array!'
             });
 
-            console.log('Image byte array:', this.product.image);
+
         };
         reader.readAsArrayBuffer(file);
     }

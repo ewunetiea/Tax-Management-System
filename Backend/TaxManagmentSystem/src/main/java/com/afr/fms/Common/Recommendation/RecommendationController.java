@@ -36,7 +36,7 @@ public class RecommendationController {
 				return new ResponseEntity<>(recommendationService.getRecommendation(user_id), HttpStatus.OK);
 			} catch (Exception ex) {
 
-				System.out.println(ex);
+				
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		
@@ -50,7 +50,7 @@ public class RecommendationController {
 				return new ResponseEntity<>(recommendationService.getRecommendations(identifier), HttpStatus.OK);
 			} catch (Exception ex) {
 
-				System.out.println(ex);
+				
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		
@@ -66,7 +66,7 @@ public class RecommendationController {
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {
 
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 			
@@ -89,7 +89,7 @@ public class RecommendationController {
 			}
 
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 
 			return AGPResponse.error("Error", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -108,7 +108,7 @@ public class RecommendationController {
 			}
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	

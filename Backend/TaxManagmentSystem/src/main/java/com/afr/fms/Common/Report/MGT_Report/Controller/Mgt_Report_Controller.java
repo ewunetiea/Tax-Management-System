@@ -34,7 +34,7 @@ public class Mgt_Report_Controller {
 		try {
 			return new ResponseEntity<>(mgt_Report_Service.getManagementReport(isReport), HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -61,7 +61,7 @@ public class Mgt_Report_Controller {
 		try {
 			return new ResponseEntity<>(newMgt_Report_Service.getManagementReport(isReport), HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -73,7 +73,7 @@ public class Mgt_Report_Controller {
 			return new ResponseEntity<>(newMgt_Report_Service.fetchCreditDocumentationNewReport(isReport),
 					HttpStatus.OK);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 

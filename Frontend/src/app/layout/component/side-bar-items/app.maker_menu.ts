@@ -45,8 +45,6 @@ export class AppMenuMaker {
             {
                 label: 'Tax Management',
                 items: [
-                    { label: 'Manage Tax Categories', icon: 'pi pi-fw pi-dollar', routerLink: ['/applayout/maker/manage-tax-category'] },
-
                     { label: 'Manage Customer', icon: 'pi pi-fw pi-pencil', routerLink: ['/applayout/maker/manage-customer'] },
 
                     {
@@ -59,34 +57,16 @@ export class AppMenuMaker {
                     {
                         label: 'Transaction', icon: 'pi pi-exchange', routerLink: ['/applayout/maker/transaction']
                     }
-
-
-                    // { label: 'Table', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/uikit/table'] },
-                    // { label: 'List', icon: 'pi pi-fw pi-list', routerLink: ['/applayout/uikit/list'] },
-                    // { label: 'Tree', icon: 'pi pi-fw pi-share-alt', routerLink: ['/applayout/uikit/tree'] },
-                    // { label: 'Panel', icon: 'pi pi-fw pi-tablet', routerLink: ['/applayout/uikit/panel'] },
-                    // { label: 'Overlay', icon: 'pi pi-fw pi-clone', routerLink: ['/applayout/uikit/overlay'] },
-                    // { label: 'Media', icon: 'pi pi-fw pi-image', routerLink: ['/applayout/uikit/media'] },
-                    // { label: 'Menu', icon: 'pi pi-fw pi-bars', routerLink: ['/applayout/uikit/menu'] },
-                    // { label: 'Message', icon: 'pi pi-fw pi-comment', routerLink: ['/applayout/uikit/message'] },
-                    // { label: 'File', icon: 'pi pi-fw pi-file', routerLink: ['/applayout/uikit/file'] },
-                    // { label: 'Chart', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/applayout/maker/charts'] },
-                    // { label: 'Timeline', icon: 'pi pi-fw pi-calendar', routerLink: ['/applayout/uikit/timeline'] },
-                    // { label: 'Misc', icon: 'pi pi-fw pi-circle', routerLink: ['/applayout/uikit/misc'] }
                 ]
             },
 
             {
                 label: 'Tax Information',
-                items: [{ label: 'Drafted ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/drafted-tax'] }
-                    ,
+                items: [{ label: 'Drafted ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/drafted-tax'] },
                 { label: 'Submited ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/submited-tax'] },
                  { label: 'Approved ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/approved-tax'] },
-
                 { label: 'Rejected', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/rejected-tax'] }
                 ],
-
-
 
             },
             

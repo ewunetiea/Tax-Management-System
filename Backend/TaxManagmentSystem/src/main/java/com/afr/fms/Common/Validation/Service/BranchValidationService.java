@@ -20,7 +20,7 @@ public class BranchValidationService {
 					return branch;
 				}
 			} catch (Exception e) {
-				System.out.println(e);
+				
 
 			}
 		}
@@ -36,7 +36,7 @@ public class BranchValidationService {
 					return branch;
 				}
 			} catch (Exception e) {
-				System.out.println(e);
+				
 
 			}
 		}

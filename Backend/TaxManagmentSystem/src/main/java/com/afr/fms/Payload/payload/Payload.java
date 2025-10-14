@@ -1,0 +1,38 @@
+package com.afr.fms.Payload.payload;
+
+import java.sql.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+
+@AllArgsConstructor
+
+@NoArgsConstructor
+
+public class Payload {
+
+    private Long id;
+    private String routeControl;
+    private String user_name;
+    private int status;
+
+    private Long branch_id;
+    private int tax_category_id;
+    private String reference_number;
+    private int status_id;
+    private Date maked_date;
+    private Date checked_date;
+    private Date approved_date;
+    private Date rejected_date;
+    private String document_type;
+    private Long user_id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private List<Date> maker_date; 
+
+}

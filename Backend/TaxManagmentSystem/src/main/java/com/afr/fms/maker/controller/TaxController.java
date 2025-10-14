@@ -1,7 +1,5 @@
 package com.afr.fms.Maker.controller;
 
-import java.io.File;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.afr.fms.Maker.entity.Tax;
+import com.afr.fms.Maker.mapper.TaxFileMapper;
 import com.afr.fms.Maker.service.TaxableService;
+import com.afr.fms.Payload.payload.Payload;
+
 import org.springframework.http.MediaType;
 
 @RestController
@@ -30,16 +31,20 @@ public class TaxController {
 	@Autowired
 	private TaxableService taxableService;
 
+	@Autowired
+
+	private TaxFileMapper taxFileMapper;
+
 	private static final Logger logger = LoggerFactory.getLogger(TaxController.class);
 
-	@GetMapping("/fetch/{maker_name}")
-	public ResponseEntity<List<Tax>> getTax(HttpServletRequest request,
-			@PathVariable("maker_name") String maker_name) {
+	@PostMapping("/fetchTaxBasedonStatus")
+	public ResponseEntity<List<Tax>> getTax(@RequestBody Payload payload,  HttpServletRequest request) {
 		try {
 
 			List<Tax> tax = new ArrayList<>();
 
-			tax = taxableService.fetchTax(maker_name);
+
+			tax = taxableService.fetchTaxBasedonStatus(payload);
 
 			return new ResponseEntity<>(tax, HttpStatus.OK);
 		} catch (Exception ex) {
@@ -56,88 +61,19 @@ public class TaxController {
 
 	}
 
-	// @PostMapping("/create")
-	// public ResponseEntity<Tax> saveTax(@RequestBody Tax tax,
-	// HttpServletRequest request) {
-	// try {
-
-	// String mainGuid = "";
-	// if (tax.getMainGuid() == null) {
-	// mainGuid = taxableService.createTax(tax);
-	// tax.setMainGuid(mainGuid);
-
-	// } else {
-
-	// taxableService.updateTax(tax);
-
-	// }
-
-	// return new ResponseEntity<>(tax, HttpStatus.OK);
-	// } catch (Exception ex) {
-	// logger.error("Error while saving account", ex);
-	// return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	// }
-
-	// }
-
-	// @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	// public ResponseEntity<Tax> saveTax(
-	// 		@RequestPart("tax") Tax tax,
-	// 		@RequestPart(value = "files", required = false) MultipartFile[] files,
-	// 		HttpServletRequest request) {
-	// 	try {
-	// 		// Relative folder directly inside project root
-	// 		String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();
-
-	// 		// Create folder if it doesn't exist
-	// 		File dir = new File(uploadDir);
-	// 		if (!dir.exists()) {
-	// 			dir.mkdirs(); // creates the taxFiles folder
-	// 		}
-
-	// 		// Save uploaded files
-	// 		if (files != null && files.length > 0) {
-	// 			for (MultipartFile file : files) {
-	// 				if (!file.isEmpty()) {
-	// 					File destination = new File(dir, file.getOriginalFilename());
-	// 					file.transferTo(destination);
-	// 					System.out.println("Saved file: " + destination.getAbsolutePath());
-	// 				}
-	// 			}
-	// 		}
-
-	// 		// Handle tax creation/updation
-	// 		String mainGuid = "";
-	// 		if (tax.getMainGuid() == null) {
-	// 			mainGuid = taxableService.createTax(tax);
-	// 			tax.setMainGuid(mainGuid);
-	// 		} else {
-	// 			taxableService.updateTax(tax);
-	// 		}
-
-	// 		return new ResponseEntity<>(tax, HttpStatus.OK);
-	// 	} catch (Exception ex) {
-	// 		logger.error("Error while saving tax", ex);
-	// 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	// 	}
-	// }
-
-
 	@PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-public ResponseEntity<Tax> saveTax(
-        @RequestPart("tax") Tax tax,
-        @RequestPart(value = "files", required = false) MultipartFile[] files
-) {
-    try {
-        String mainGuid = taxableService.createTaxWithFiles(tax, files);
-        tax.setMainGuid(mainGuid);
-        return new ResponseEntity<>(tax, HttpStatus.OK);
-    } catch (Exception ex) {
-        logger.error("Error while saving tax", ex);
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-}
-
+	public ResponseEntity<Tax> saveTax(
+			@RequestPart("tax") Tax tax,
+			@RequestPart(value = "files", required = false) MultipartFile[] files) {
+		try {
+			String mainGuid = taxableService.createTaxWithFiles(tax, files);
+			tax.setMainGuid(mainGuid);
+			return new ResponseEntity<>(tax, HttpStatus.OK);
+		} catch (Exception ex) {
+			logger.error("Error while saving tax", ex);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
 	@PostMapping("/delete")
 	public ResponseEntity<Tax> deleteTax(@RequestBody List<Tax> taxs,
@@ -145,7 +81,7 @@ public ResponseEntity<Tax> saveTax(
 		try {
 
 			for (Tax acc : taxs) {
-				taxableService.deleteTax(acc.getMainGuid());
+				taxableService.deleteTax(acc.getId());
 			}
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {
@@ -156,6 +92,38 @@ public ResponseEntity<Tax> saveTax(
 
 
 
-	
+	@PostMapping("/submit")
+	public ResponseEntity<?> submitTaxToBranchManger(@RequestBody List<Tax> taxs,
+			HttpServletRequest request) {
+		try {
+
+			for (Tax acc : taxs) {
+				taxableService.submitTaxToBranchManger(acc.getId());
+			}
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception ex) {
+			logger.error("Error while deleting account", ex);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@PostMapping("/back")
+	public ResponseEntity<Tax> backTaxToBranchManger(@RequestBody List<Tax> taxs,
+			HttpServletRequest request) {
+		try {
+
+			for (Tax acc : taxs) {
+				taxableService.backTaxToDraftedState(acc.getId());
+			}
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception ex) {
+			logger.error("Error while deleting account", ex);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 
 }
+
+
+

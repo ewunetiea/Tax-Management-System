@@ -5,18 +5,17 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 
-import { HttpErrorResponse } from '@angular/common/http';
 import { ProductService } from '../../../service/product.service';
 import { SharedUiModule } from '../../../../shared-ui';
 
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { TaxCreateEditComponent } from '../tax-rule/tax-create-edit.component';
+import { TaxCreateEditComponent } from '../tax-create-edit/tax-create-edit.component';
 import { Tax } from '../../../models/maker/tax';
 import { TaxService } from '../../../service/maker/tax-service';
-import { StorageService } from '../../../service/sharedService/storage.service';
 import { FileDownloadService } from '../../../service/maker/file-download-service';
-
+import { ButtonSeverity } from 'primeng/button';
+import { MakerSearchEnginePayLoadComponent } from '../tax-search-payload/maker-search-payload';
 
 
 interface Column {
@@ -35,7 +34,7 @@ interface ExportColumn {
     selector: 'app-manage-tax',
     standalone: true,
     imports: [
-        SharedUiModule, TaxCreateEditComponent
+        SharedUiModule, TaxCreateEditComponent, MakerSearchEnginePayLoadComponent
     ],
     templateUrl: './manage-tax.component.html',
     styleUrls: ['./manage-tax.component.css'],
@@ -49,7 +48,7 @@ export class ManageTax implements OnInit {
     showPdfModal = false;
     taxDialog: boolean = false;
     taxes: Tax[] = [];
-    tax!: Tax;
+    tax: Tax = new Tax();
     selectedTaxes!: Tax[] | null;
     submitted: boolean = false;
     statuses!: any[];
@@ -58,7 +57,6 @@ export class ManageTax implements OnInit {
     cols!: Column[];
     uploadedFiles: any[] = [];
 
-    maker_name: String = ''
     isEdit = false;
     activeIndex1: number = 0;
     activeState: boolean[] = [true, false, false];
@@ -73,6 +71,9 @@ export class ManageTax implements OnInit {
 
     status!: string;
     loading: boolean = true;
+    routeControl: string = ''
+
+
 
     constructor(
         private taxService: TaxService,
@@ -80,14 +81,13 @@ export class ManageTax implements OnInit {
         private confirmationService: ConfirmationService,
         private sanitizer: DomSanitizer,
         private route: ActivatedRoute,
-        private staorageService: StorageService,
         private fileDownloadService: FileDownloadService,
     ) { }
 
     ngOnInit(): void {
 
-        this.maker_name = this.staorageService.getUser().username
-        // this.route.snapshot.data['status'];
+        this.routeControl = this.route.snapshot.data['status'];
+
 
         this.items = [{ label: this.breadcrumbText }];
         this.sizes = [
@@ -96,52 +96,6 @@ export class ManageTax implements OnInit {
             { name: 'Large', value: 'large' }
         ];
 
-        this.loadTaxes(this.maker_name);
-    }
-
-
-    loadTaxes(maker_name: String) {
-        this.taxService.fetchTaxes(maker_name).subscribe(
-            (response) => {
-
-
-                console.log(response)
-                this.taxes = (response as any).map((announcement: any) => {
-                    // Detect file type from base64
-                    const fileType = this.getFileType(announcement.image);
-                    announcement.fileType = fileType;
-
-                    // Prepare PDF blob URL if PDF
-                    if (fileType === 'application/pdf') {
-                        const byteCharacters = atob(announcement.image);
-                        const byteNumbers = new Array(byteCharacters.length);
-                        for (let i = 0; i < byteCharacters.length; i++) {
-                            byteNumbers[i] = byteCharacters.charCodeAt(i);
-                        }
-                        const byteArray = new Uint8Array(byteNumbers);
-                        const blob = new Blob([byteArray], { type: 'application/pdf' });
-
-                        const url = URL.createObjectURL(blob);
-                        announcement.pdfUrl = url;
-                        announcement.safePdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url) as SafeResourceUrl;
-                    }
-                    this.loading = false;
-
-
-                    return announcement;
-                });
-            },
-            (error: HttpErrorResponse) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary:
-                        error.status === 401
-                            ? 'You are not permitted to perform this action!'
-                            : 'Something went wrong while fetching announcements!',
-                    detail: '',
-                });
-            }
-        );
     }
 
 
@@ -149,9 +103,35 @@ export class ManageTax implements OnInit {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
 
-    openNew() {
-        this.tax = { created_date: new Date() } as Tax; // default date avoids null crash
 
+
+    onSearchResults(taxes: Tax[]) { //  search results are passed from child to parent
+        this.taxes = taxes;
+        console.log(this.taxes)
+        this.loading = false;
+
+    }
+
+    onTaxesaved(saveTax: Tax) { // newly created tax are passed from parent to child
+
+        if (this.isEdit) {
+            const index = this.taxes.findIndex(a => a.mainGuid === saveTax.mainGuid);
+            if (index !== -1) {
+                this.taxes[index] = saveTax;
+            }
+        } else {
+
+            this.taxes = [saveTax, ...this.taxes];
+        }
+
+        this.taxDialog = false;
+        this.tax = {} as Tax;
+    }
+
+
+
+    openNew() {
+        this.tax = { created_date: new Date() } as Tax;
         this.submitted = false;
         this.taxDialog = true;
         this.isEdit = false
@@ -162,6 +142,80 @@ export class ManageTax implements OnInit {
         this.taxDialog = true;
 
         this.isEdit = true;
+    }
+
+    submitToBranchManager(taxes: Tax | Tax[] | null) {
+        const itemsToSubmit = Array.isArray(taxes) ? taxes : [taxes];
+        this.confirmationService.confirm({
+            message: `Are you sure you want to submit ${itemsToSubmit.length} tax(es)?`,
+            header: 'Confirm',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.taxService.submitToBranchManager(itemsToSubmit as any).subscribe({
+                    next: () => {
+                        this.taxes = this.taxes.filter(
+                            val => !itemsToSubmit.includes(val)
+                        );
+                        if (Array.isArray(taxes)) {
+                            this.selectedTaxes = null;
+                        }
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Successful',
+                            detail: 'selected tax (es) submited',
+                            life: 3000
+                        });
+                    },
+                    error: (err) => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Error',
+                            detail: 'Failed to submit tax (es)',
+                            life: 3000
+                        });
+                        console.error(err);
+                    }
+                });
+            }
+        });
+    }
+
+    backToDraftedState(taxes: Tax | Tax[] | null) {
+        const itemsToBack = Array.isArray(taxes) ? taxes : [taxes];
+
+        this.confirmationService.confirm({
+            message: `Are you sure you want to delete ${itemsToBack.length} tax(es)?`,
+            header: 'Confirm',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.taxService.backtoDraftState(itemsToBack as any).subscribe({
+                    next: () => {
+                        this.taxes = this.taxes.filter(
+                            val => !itemsToBack.includes(val)
+                        );
+                        // Clear selection if it was a bulk delete
+                        if (Array.isArray(taxes)) {
+                            this.selectedTaxes = null;
+                        }
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Successful',
+                            detail: 'taxes back to drafted',
+                            life: 3000
+                        });
+                    },
+                    error: (err) => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Error',
+                            detail: 'Failed to back tax(es)',
+                            life: 3000
+                        });
+                        console.error(err);
+                    }
+                });
+            }
+        });
     }
 
     deleteTaxes(taxes: Tax | Tax[] | null) {
@@ -205,7 +259,6 @@ export class ManageTax implements OnInit {
     }
 
 
-
     hideDialog() {
         this.taxDialog = false;
         this.submitted = false;
@@ -216,38 +269,6 @@ export class ManageTax implements OnInit {
     findIndexById(mainGuid: String): number {
         return this.taxes.findIndex((p) => p.mainGuid === mainGuid);
     }
-
-
-
-
-    getSeverity(status: string) {
-        switch (status) {
-            case 'INSTOCK': return 'success';
-            case 'LOWSTOCK': return 'warn';
-            case 'OUTOFSTOCK': return 'danger';
-            default: return 'info';
-        }
-    }
-
-
-    onTaxesaved(saveTax: Tax) {
-
-        if (this.isEdit) {
-            const index = this.taxes.findIndex(a => a.mainGuid === saveTax.mainGuid);
-            if (index !== -1) {
-                this.taxes[index] = saveTax;
-            }
-        } else {
-
-
-
-            this.taxes = [saveTax, ...this.taxes];
-        }
-
-        this.taxDialog = false;
-        this.tax = {} as Tax;
-    }
-
 
     getFileType(base64: string): string {
         if (!base64) return '';
@@ -274,54 +295,185 @@ export class ManageTax implements OnInit {
     }
 
 
-    onRowExpand(event: any) {
-        const tax = event.data;
-        const file = tax.taxFile?.[0];
+    // onRowExpand(event: any) {
+    //     console.log(event)
+    //     const tax = event.data;
+    //     console.log(tax)
+    //     const file = tax.taxFile?.[0];
 
-        if (!file?.fileName) {
-            return;
+
+    //     if (!file?.fileName) {
+    //         return;
+    //     }
+
+
+    //     this.fileDownloadService.fetchFileByFileName(file.fileName).subscribe((blob: Blob) => {
+    //         console.log('Received Blob:', blob);
+
+    //         const newFile = { ...file };
+    //         newFile.fileType = blob.type;
+
+    //         if (blob.type === 'application/pdf') {
+    //             console.log('Blob type is PDF, processing for PDF.');
+    //             newFile.file = null; // clear image
+    //             const blobUrl = URL.createObjectURL(blob);
+    //             newFile.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl); // ✅ sanitize
+    //         } else if (blob.type.startsWith('image/')) {
+    //             const reader = new FileReader();
+    //             reader.onload = (e: any) => {
+    //                 newFile.file = e.target.result.split(',')[1]; // base64
+    //                 newFile.pdfUrl = null;
+
+
+    //                 tax.taxFile = [newFile];
+    //             };
+    //             reader.readAsDataURL(blob);
+    //             return; // exit early since assignment happens in onload
+    //         } else {
+    //             newFile.file = blob; // Word or other types
+    //             newFile.pdfUrl = null;
+    //         }
+
+
+    //         tax.taxFile = [newFile]; // replace array to trigger change detection
+    //     }, error => {
+    //         console.error('Error fetching file:', error);
+    //     });
+
+        
+    // }
+
+
+//  onRowExpand(event: any) {
+//   const tax = event.data;
+//   console.log("Expanded tax:", tax);
+
+//   if (!tax.taxFile || tax.taxFile.length === 0) {
+//     return;
+//   }
+
+//   const fileFetchPromises = tax.taxFile.map((file: any) => {
+//     if (!file?.fileName) return Promise.resolve(null);
+
+//     return this.fileDownloadService.fetchFileByFileName(file.fileName).toPromise()
+//       .then((blob: Blob | undefined) => {
+//         if (!blob) {
+//           console.warn(`No blob returned for file: ${file.fileName}`);
+//           return null;
+//         }
+
+//         const newFile = { ...file };
+//         newFile.fileType = blob.type;
+
+//         if (blob.type === 'application/pdf') {
+//           const blobUrl = URL.createObjectURL(blob);
+//           newFile.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl);
+//           newFile.file = null;
+//           return newFile;
+//         } 
+        
+//         if (blob.type.startsWith('image/')) {
+//           return new Promise((resolve) => {
+//             const reader = new FileReader();
+//             reader.onload = (e: any) => {
+//               newFile.file = e.target.result.split(',')[1];
+//               newFile.pdfUrl = null;
+//               resolve(newFile);
+//             };
+//             reader.readAsDataURL(blob);
+//           });
+//         }
+
+//         // For Word or other file types
+//         newFile.file = blob;
+//         newFile.pdfUrl = null;
+//         return newFile;
+//       })
+//       .catch((error) => {
+//         console.error('Error fetching file:', error);
+//         return null;
+//       });
+//   });
+
+//   Promise.all(fileFetchPromises).then((results) => {
+//     tax.taxFile = results.filter(file => file !== null);
+//     console.log('✅ All files fetched:', tax.taxFile);
+//   });
+// }
+
+
+
+onRowExpand(event: any) {
+  const tax = event.data;
+  console.log("Expanded tax:", tax);
+
+  if (!tax.taxFile || tax.taxFile.length === 0) {
+    return;
+  }
+
+  const fileFetchPromises = tax.taxFile.map((file: any) => {
+    if (!file?.fileName) return Promise.resolve(null);
+
+    return this.fileDownloadService.fetchFileByFileName(file.fileName).toPromise()
+      .then((blob: Blob | undefined) => {
+        if (!blob) {
+          console.warn(`No blob returned for file: ${file.fileName}`);
+          return null;
         }
 
-        this.fileDownloadService.fetchFileByFileName(file.fileName).subscribe((blob: Blob) => {
-            console.log('Received Blob:', blob);
+        const newFile = { ...file };
+        newFile.fileType = blob.type;
 
-            const newFile = { ...file };
-            newFile.fileType = blob.type;
+        // PDF
+        if (blob.type === 'application/pdf') {
+          // Revoke previous URL if exists
+          if (newFile.pdfUrl) {
+            URL.revokeObjectURL(
+              (newFile.pdfUrl as any).changingThisBreaksApplicationSecurity
+            );
+          }
+          const blobUrl = URL.createObjectURL(blob);
+          newFile.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl);
+          newFile.file = null;
+          return newFile;
+        }
 
-            if (blob.type === 'application/pdf') {
-                console.log('Blob type is PDF, processing for PDF.');
-                newFile.file = null; // clear image
-                const blobUrl = URL.createObjectURL(blob);
-                newFile.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl); // ✅ sanitize
-            } else if (blob.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = (e: any) => {
-                    newFile.file = e.target.result.split(',')[1]; // base64
-                    newFile.pdfUrl = null;
+        // Image
+        if (blob.type.startsWith('image/')) {
+          return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = (e: any) => {
+              newFile.file = e.target.result.split(',')[1]; // base64
+              newFile.pdfUrl = null;
+              resolve(newFile);
+            };
+            reader.readAsDataURL(blob);
+          });
+        }
+
+        // Word or other files
+        newFile.file = blob;
+        newFile.pdfUrl = null;
+        return newFile;
+      })
+      .catch((error) => {
+        console.error('Error fetching file:', error);
+        return null;
+      });
+  });
+
+  Promise.all(fileFetchPromises).then((results) => {
+    tax.taxFile = results.filter(file => file !== null);
+
+    // Force change detection for PDFs
+    setTimeout(() => {
+      console.log('✅ All files fetched:', tax.taxFile);
+    }, 0);
+  });
+}
 
 
-                    tax.taxFile = [newFile];
-                };
-                reader.readAsDataURL(blob);
-                return; // exit early since assignment happens in onload
-            } else {
-                newFile.file = blob; // Word or other types
-                newFile.pdfUrl = null;
-            }
 
-
-            tax.taxFile = [newFile]; // replace array to trigger change detection
-        }, error => {
-            console.error('Error fetching file:', error);
-        });
-    }
-
-
-
-    onRowCollapse(event: any) {
-        const tax = event.data;
-        delete this.expandedRows[tax.Id];
-    }
     previewPdf(file: any) {
         if (file.pdfUrl) {
             this.selectedPdf = file.pdfUrl;
@@ -348,10 +500,41 @@ export class ManageTax implements OnInit {
     }
 
 
+        onRowCollapse(event: any) {
+        const tax = event.data;
+        delete this.expandedRows[tax.Id];
+    }
 
     closeModal() {
         this.showPdfModal = false;
         this.selectedPdf = null;
     }
+
+
+    private statusMap: { [key: number]: { label: string; severity: ButtonSeverity } } = {
+        6: { label: "Not Submited", severity: "help" as ButtonSeverity },
+        0: { label: "waiting for approval", severity: "primary" as ButtonSeverity },
+        1: { label: "Branch Manager Approved", severity: "help" as ButtonSeverity },
+        2: { label: "Reject", severity: "danger" as ButtonSeverity },
+        4: { label: "Reviewed", severity: "primary" as ButtonSeverity },
+        5: { label: "Approved", severity: "success" as ButtonSeverity }
+    };
+
+    getStatusInfo(status: number): { label: string; severity: ButtonSeverity } {
+        return this.statusMap[status] || { label: "Unknown status", severity: "info" as ButtonSeverity };
+    }
+
+
+
+
+
+    taxCategoryMap: { [key: number]: string } = {
+        1: 'Income Tax',
+        2: 'Withholding',
+        3: 'VAT',
+        4: '5(%) in Saving',
+        5: 'Pension',
+        6: 'Stamp Duty'
+    };
 
 }

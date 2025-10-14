@@ -1,4 +1,3 @@
-
 package com.afr.fms.Maker.entity;
 
 import java.util.Date;

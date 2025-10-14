@@ -7,12 +7,10 @@ import { AuthGuard } from '../../service/admin/auth.guard';
 import { TaxCreateEditComponent } from './tax/tax-create-edit/tax-create-edit.component';
 
 export default [
-    // { path: 'button', data: { breadcrumb: 'Button' }, component: ButtonDemo },
     { path: 'charts', data: { breadcrumb: 'Charts' }, component: MakerDashboard },
     { path: 'manage-customer', data: { breadcrumb: 'Manage Customer' }, component: Crud },
     {
         path: 'drafted-tax', component: ManageTax,
-
         canActivate: [AuthGuard],
         data: {
             roles: ['ROLE_MAKER'],
@@ -22,7 +20,6 @@ export default [
 
      {
         path: 'submited-tax', component: ManageTax,
-
         canActivate: [AuthGuard],
         data: {
             roles: ['ROLE_MAKER'],

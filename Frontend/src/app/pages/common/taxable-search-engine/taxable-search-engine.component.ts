@@ -3,7 +3,7 @@ import { StorageService } from '../../../service/sharedService/storage.service';
 import { MessageService } from 'primeng/api';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TaxCategoriesService } from '../../../service/maker/tax-categories-service';
-import { TaxableSearchEngine } from '../../../models/maker/taxable-search-engine';
+import { TaxableSearchEngine } from '../../../models/common/taxable-search-engine';
 import { User } from '../../../models/admin/user';
 import { SharedUiModule } from '../../../../shared-ui';
 import { BranchService } from '../../../service/admin/branchService';
@@ -12,7 +12,7 @@ import { TaxCategory } from '../../../models/maker/tax-category';
 import { Tax } from '../../../models/maker/tax';
 import { ActivatedRoute } from '@angular/router';
 import { PaginatorPayLoad } from '../../../models/admin/paginator-payload';
-import { TaxableSearchEngineService } from '../../../service/maker/taxable-search-engine-service';
+import { TaxableSearchEngineService } from '../../../service/common/taxable-search-engine-service';
 import { Role } from '../../../models/admin/role';
 import { finalize, of, catchError } from 'rxjs';
 

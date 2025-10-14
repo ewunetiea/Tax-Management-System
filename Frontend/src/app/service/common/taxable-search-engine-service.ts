@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.prod';
 import { Tax } from '../../models/maker/tax';
-import { TaxableSearchEngine } from '../../models/maker/taxable-search-engine';
+import { TaxableSearchEngine } from '../../models/common/taxable-search-engine';
 const baseUrl = `${environment.backendUrl}/maker`;
 
 @Injectable({

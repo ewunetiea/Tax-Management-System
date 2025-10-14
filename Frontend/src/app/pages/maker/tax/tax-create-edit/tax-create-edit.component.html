@@ -3,6 +3,38 @@
     <ng-template #content>
         <form ngNativeValidate #taxForm="ngForm" class="p-fluid" (ngSubmit)="onSave()">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <div class="p-field">
+
+                    <label for="from_" class="block font-bold mb-3">
+                        <strong class="text-danger"> </strong> Request Generated From
+                    </label>
+                    <input type="text" name="from_" id="remark" pInputText [(ngModel)]="user_branch" fluid readonly
+                        class="w-full h-14 " />
+
+                </div>
+                <div class="p-field">
+
+                    <label for="sendTo_" class="block font-bold mb-3">
+                        <strong class="text-danger">*</strong> Send To
+                    </label>
+                    <p-select [options]="branches" [(ngModel)]="selectedBranchId"
+                        (ngModelChange)="onBranchChange($event)" optionLabel="name" optionValue="id" name="sendTo_"
+                        id="sendTo_" placeholder="Select Branch" [filter]="true" [showClear]="true" scrollHeight="300px"
+                        class="w-full h-14" [virtualScroll]="true" [virtualScrollItemSize]="40">
+                    </p-select>
+                </div>
+
+                <div class="p-field">
+
+                    <label for="taxCategory" class="block font-bold mb-3">
+                        <strong class="text-danger">*</strong> Tax Category
+                    </label>
+                    <p-select [options]="taxCategories" [(ngModel)]="tax.taxCategory" optionLabel="type"
+                        optionValue="id" name="taxCategory" id="taxCategory" placeholder="Select Tax Category"
+                        [filter]="true" [showClear]="true" scrollHeight="200px" class="w-full h-14"></p-select>
+                </div>
+
                 <div class="p-field">
                     <label for="taxableAmount" class="block font-bold mb-3">
                         <strong class="text-danger">*</strong> Taxable Amount
@@ -41,27 +73,15 @@
                     </div>
                 </div>
 
+
                 <div class="p-field">
                     <label for="graduatetaxPool" class="block font-bold mb-3">
-                        <strong class="text-danger">*</strong> Graduate Taxpool
+                        <strong class="text-danger">*</strong> Graduate Taxpool 1
                     </label>
                     <p-inputnumber [(ngModel)]="tax.graduatetaxPool" name="graduatetaxPool" inputId="graduatetaxPool"
                         mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" required autocomplete="off" fluid
                         class="w-full h-14 " />
                     <div *ngIf="taxForm.controls['graduatetaxPool']?.invalid && taxForm.controls['graduatetaxPool']?.touched"
-                        class="text-danger">
-                        Graduate Taxpool is required.
-                    </div>
-                </div>
-
-                <div class="p-field">
-                    <label for="graduatetaxPool1" class="block font-bold mb-3">
-                        <strong class="text-danger">*</strong> Graduate Taxpool 1
-                    </label>
-                    <p-inputnumber [(ngModel)]="tax.graduatetaxPool1" name="graduatetaxPool1" inputId="graduatetaxPool1"
-                        mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" required autocomplete="off" fluid
-                        class="w-full h-14 " />
-                    <div *ngIf="taxForm.controls['graduatetaxPool1']?.invalid && taxForm.controls['graduatetaxPool1']?.touched"
                         class="text-danger">
                         Graduate Taxpool is required.
                     </div>
@@ -107,33 +127,12 @@
                 </div>
 
 
-                <div class="p-field">
-
-                    <label for="taxCategory" class="block font-bold mb-3">
-                        <strong class="text-danger">*</strong> Tax Category
-                    </label>
-                    <p-select [options]="taxCategories" [(ngModel)]="tax.taxCategory" optionLabel="type"
-                        optionValue="id" name="taxCategory" id="taxCategory" placeholder="Select Tax Category"
-                        [filter]="true" [showClear]="true" scrollHeight="200px" class="w-full h-14"></p-select>
-                </div>
 
                 <div class="p-field">
-
-                    <label for="sendTo_" class="block font-bold mb-3">
-                        <strong class="text-danger">*</strong> Target Branch
-                    </label>
-                    <p-select [options]="branches" [(ngModel)]="tax.sendTo_" optionLabel="name" optionValue="id"
-                        name="sendTo_" id="sendTo_" placeholder="Select Branch" [filter]="true" [showClear]="true"
-                        scrollHeight="200px" class="w-full h-14" [virtualScroll]="true"
-                        [virtualScrollItemSize]="40"></p-select>
-                </div>
-
-
-
-                <div class="col-span-2 p-field">
                     <label for="remark" class="block font-bold mb-3">Remark</label>
-                    <textarea id="remark" pTextarea [(ngModel)]="tax.remark" name="remark" rows="3" cols="20"
-                        fluid></textarea>
+
+                    <input type="text" name="remark" id="remark" pInputText [(ngModel)]="tax.remark" fluid
+                        class="w-full h-14 " />
                 </div>
 
                 <div class="p-field">
@@ -152,7 +151,7 @@
 
                 <div class="p-field">
                     <label for="fileUpload" class="block mb-3">Upload Files</label>
-                    <p-fileUpload name="demo[]" mode="advanced" [multiple]="false" [maxFileSize]="1000000"
+                    <p-fileUpload name="demo[]" mode="advanced" [multiple]="true" [maxFileSize]="1000000"
                         customUpload="true"
                         accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                         (onSelect)="onFileSelect($event)">

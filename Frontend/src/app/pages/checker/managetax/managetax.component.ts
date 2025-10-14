@@ -10,8 +10,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { PaginatorPayLoad } from '../../../models/admin/paginator-payload';
 import { RejectCheckerApproverComponent } from '../reject-checker-approver/reject-checker-approver.component';
-import { TaxableSearchEngineComponent } from '../../maker/taxable-search-engine/taxable-search-engine.component';
-import { TaxCreateEditComponent } from '../../maker/tax-rule/tax-create-edit.component';
+import { TaxCreateEditComponent } from '../../maker/tax/tax-create-edit/tax-create-edit.component';
+import { TaxableSearchEngineComponent } from '../../common/taxable-search-engine/taxable-search-engine.component';
 
 @Component({
   selector: 'app-managetax',

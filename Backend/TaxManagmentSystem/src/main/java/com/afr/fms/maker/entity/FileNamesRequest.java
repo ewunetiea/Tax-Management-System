@@ -1,5 +1,7 @@
 package com.afr.fms.Maker.entity;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaxFile {
-    private String Id;
-    private String fileName;
-    private String extension;
-    private String supportId;
-    private Long tax_id;
+public class FileNamesRequest {
+    private List<String> fileNames;
+
+  
 }
+
+

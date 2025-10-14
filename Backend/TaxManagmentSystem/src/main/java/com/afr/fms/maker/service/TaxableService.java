@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -18,9 +20,9 @@ import com.afr.fms.Maker.entity.Tax;
 import com.afr.fms.Maker.entity.TaxFile;
 import com.afr.fms.Maker.mapper.TaxFileMapper;
 import com.afr.fms.Maker.mapper.TaxableMapper;
+import com.afr.fms.Payload.payload.Payload;
+
 import org.springframework.core.io.Resource;
-
-
 
 @Service
 
@@ -28,9 +30,9 @@ public class TaxableService {
 
     @Autowired
     private TaxableMapper taxableMapper;
-     
+
     @Autowired
-   private  TaxFileMapper taxFileMapper;
+    private TaxFileMapper taxFileMapper;
 
     // @Transactional
     // public String createTax(Tax tax) {
@@ -161,10 +163,27 @@ public class TaxableService {
 
     }
 
-    public List<Tax> fetchTax(String maker_name) {
+// @Transactional(readOnly = true)
 
-        return taxableMapper.fetchTax(maker_name);
+    public List<Tax> fetchTaxBasedonStatus(Payload payload) {
 
+        System.out.println("_______________FF_______________________");
+        System.out.println(payload);
+
+        Map<String, Integer> statusMap = new HashMap<>();
+        statusMap.put("drafted", 6);
+        statusMap.put("submited", 0);
+        statusMap.put("approved", 1);
+        statusMap.put("rejected", 2);
+
+        for (String control : statusMap.keySet()) {
+            if (payload.getRouteControl().contains(control)) {
+                payload.setStatus(statusMap.get(control));
+                break; // Exit the loop once a match is found
+            }
+        }
+
+        return taxableMapper.fetchTaxBasedonStatus(payload);
     }
 
     private String generateReferenceNumber() {
@@ -186,19 +205,23 @@ public class TaxableService {
         return "TAX" + nextNumber;
     }
 
-    public void deleteTax(String mainGuid) {
+    public void deleteTax(Long id) {
 
-        taxableMapper.deleteTaxById(mainGuid);
+        taxableMapper.deleteTaxById(id);
     }
 
+    public void submitTaxToBranchManger(Long id) { // set status to 0 or waiting state
 
+        taxableMapper.submitToBrancManager(id);
+    }
 
-    
+    public void backTaxToDraftedState(Long id) { // set status to 6
+
+        taxableMapper.backToDraftedState(id);
+    }
+
     private final String folderPath = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();
 
-    /**
-     * Fetch file from folder by filename
-     */
     public File getFileByFileName(String fileName) throws FileNotFoundException {
         File file = new File(folderPath, fileName);
         if (!file.exists() || !file.isFile()) {
@@ -207,9 +230,6 @@ public class TaxableService {
         return file;
     }
 
-    /**
-     * Optional: Return as Spring Resource for download
-     */
     public Resource getFileResource(String fileName) throws FileNotFoundException {
         File file = getFileByFileName(fileName);
         return new FileSystemResource(file);

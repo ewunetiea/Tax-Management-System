@@ -1,9 +1,11 @@
 
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.prod';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Tax } from '../../models/maker/tax';
+import { TaxableSearchEngine } from '../../models/maker/taxable-search-engine';
+import { MakerSearchPayload } from '../../models/payload/maker-search-payload';
 const baseUrl = environment.backendUrl + '/tax';
 
 
@@ -24,11 +26,16 @@ export class TaxService {
   createTax(tax: any): Observable<any> {
     return this.http.post(baseUrl + '/create', tax);
   }
+fetchTaxesBasedOnStatus(payload: MakerSearchPayload): Observable<Tax[]> {
+    return this.http.post<Tax[]>(baseUrl + '/fetchTaxBasedonStatus', payload);
+}
 
-  fetchTaxes(maker_name: String) {
+  fetchGeneralStatusTaxes(payload: MakerSearchPayload) {
+    return this.http.post(baseUrl + '/fetchTaxStatus', payload);
 
-    return this.http.get(baseUrl + '/fetch/' + `${maker_name}`);
+
   }
+
 
 
 
@@ -39,6 +46,15 @@ export class TaxService {
   fetchTaxById(id: any) {
     return this.http.delete(baseUrl + '/' + `${id}`);
   }
+
+  submitToBranchManager(anoncment: Tax[]) { // update status to 0
+    return this.http.post(baseUrl + '/submit', anoncment);
+  }
+
+  backtoDraftState(anoncment: Tax[]) { // update status to 0
+    return this.http.post(baseUrl + '/back', anoncment);
+  }
+
 }
 
 

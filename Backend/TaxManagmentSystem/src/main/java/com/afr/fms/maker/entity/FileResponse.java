@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaxFile {
-    private String Id;
-    private String fileName;
-    private String extension;
-    private String supportId;
-    private Long tax_id;
+
+public class FileResponse {
+    
+      private String fileName;
+    private String base64;
+    private String fileType;
 }

@@ -9,9 +9,9 @@ import { StorageService } from '../../../service/sharedService/storage.service';
 import { Table } from 'primeng/table';
 import { SharedUiModule } from '../../../../shared-ui';
 import { RejectCheckerApproverComponent } from '../../checker/reject-checker-approver/reject-checker-approver.component';
-import { TaxCreateEditComponent } from '../../maker/tax-rule/tax-create-edit.component';
-import { TaxableSearchEngineComponent } from '../../maker/taxable-search-engine/taxable-search-engine.component';
 import { ManageTaxHoService } from '../../../service/ho/manage-tax-ho-service';
+import { TaxCreateEditComponent } from '../../maker/tax/tax-create-edit/tax-create-edit.component';
+import { TaxableSearchEngineComponent } from '../../common/taxable-search-engine/taxable-search-engine.component';
 
 @Component({
   selector: 'app-manage-tax-ho',

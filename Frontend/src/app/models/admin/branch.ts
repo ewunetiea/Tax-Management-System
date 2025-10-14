@@ -1,7 +1,7 @@
 import { Region } from "./region";
 
 export class Branch {
-    id?:any;
+    id?:number;
     name?:string;
     code?:string;
     region?:Region;

@@ -49,21 +49,35 @@ export class AppMenuMaker {
 
                     {
                         label: 'Tax ',
-                        icon: 'pi pi-percentage',    routerLink: ['/applayout/maker/tax']
+                        icon: 'pi pi-percentage', routerLink: ['/applayout/maker/tax']
                     },
                     {
-                        label: 'Account',  icon: 'pi pi-wallet', routerLink: ['/applayout/maker/account']
+                        label: 'Account', icon: 'pi pi-wallet', routerLink: ['/applayout/maker/account']
                     },
                     {
-                        label: 'Transaction',  icon: 'pi pi-exchange',  routerLink: ['/applayout/maker/transaction']
+                        label: 'Transaction', icon: 'pi pi-exchange', routerLink: ['/applayout/maker/transaction']
                     }
                 ]
             },
 
             {
                 label: 'Tax Information',
-                items: [{ label: 'Manege Tax', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/manage-tax'] }]
+                items: [{ label: 'Drafted ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/drafted-tax'] },
+                { label: 'Submited ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/submited-tax'] },
+                 { label: 'Approved ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/approved-tax'] },
+                { label: 'Rejected', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/rejected-tax'] }
+                ],
+
             },
+            
+            {
+                label: 'Tax Progress',
+                items: [{ label: 'General Status ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/general-tax-status'] }
+               
+                ],
+
+            },
+
             {
                 label: 'UI Components',
                 items: [

@@ -2,7 +2,7 @@ import { TaxFile } from "./tax-file";
 
 export class Tax {
   id?: number;
-  mainGuid?: string
+  mainGuid?: String
   from_?: number;
   sendTo_?: number;
   taxCategory?: number;

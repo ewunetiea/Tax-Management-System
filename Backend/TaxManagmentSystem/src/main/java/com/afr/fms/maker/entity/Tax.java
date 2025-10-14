@@ -21,7 +21,6 @@ public class Tax {
     private float taxWithHold;
     private float incometaxPoolAmount;
     private float graduatetaxPool;
-    private float graduatetaxPool1;
     private float graduaTotBasSalary;
     private int graduateTotaEmployee;
     private float graduatetaxWithHold;
@@ -36,7 +35,6 @@ public class Tax {
     private String from_List;
     private String sendTo_List;
     private String Category_List;
-    private int FileDetail;
     private int status;
     private List<TaxFile> taxFile;
     private String remark;
@@ -44,7 +42,6 @@ public class Tax {
     private String destination_branch;
     private String taxType;
     private Long user_id;
-    private String reference_number;
     private Date approver_rejected_date;
     private String approver_rejected_reason;
     private Long rejector_approver_id;
@@ -53,5 +50,5 @@ public class Tax {
     private Long rejector_checker_id;
     private String approver_name;
     private Date approved_date;
-    
+    private String reference_number;
 }

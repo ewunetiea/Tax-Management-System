@@ -36,13 +36,13 @@ export const appRoutes: Routes = [
 
             {
                 path: 'checker',
-                loadChildren: () => import('./app/pages/checker/checker.routes').then(m => m.default),
+                loadChildren: () => import('./app/pages/reviewer/checker.routes').then(m => m.default),
                 canActivate: [AuthGuard]
             },
 
               {
                 path: 'ho',
-                loadChildren: () => import('./app/pages/ho/ho.routes').then(m => m.default),
+                loadChildren: () => import('./app/pages/approver/ho.routes').then(m => m.default),
                 canActivate: [AuthGuard]
             }, 
             { path: 'user-profile', component: UserProfileComponent },

@@ -34,8 +34,8 @@ export class DashboardContainerComponent {
             const user = this.storageService.getUser();
             this.roles = user.roles;
             this.admin = this.roles.includes('ROLE_ADMIN');
-            this.ho = this.roles.includes('ROLE_HO') ;
-            this.checker = this.roles.includes('ROLE_CHECKER');
+            this.ho = this.roles.includes('ROLE_APPROVER') ;
+            this.checker = this.roles.includes('ROLE_REVIEWER');
             this.maker = this.roles.includes('ROLE_MAKER');
            
             if (this.approver && this.reviewer) {

@@ -38,9 +38,9 @@ export class AppSidebar {
                 this.role_type = 'admin';
             }else if (this.roles.includes('ROLE_MAKER')) {
                 this.role_type = 'maker';
-            } else if(this.roles.includes('ROLE_CHECKER')){
+            } else if(this.roles.includes('ROLE_REVIEWER')){
                 this.role_type = 'checker';
-            }else if(this.roles.includes('ROLE_HO')) {
+            }else if(this.roles.includes('ROLE_APPROVER')) {
                 this.role_type = 'ho';
             }
         }

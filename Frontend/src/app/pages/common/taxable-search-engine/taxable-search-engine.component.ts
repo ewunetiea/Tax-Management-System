@@ -163,9 +163,9 @@ export class TaxableSearchEngineComponent {
 
     // ✅ Select appropriate API endpoint
     let request$;
-    if (roleNames.includes('ROLE_HO')) {
+    if (roleNames.includes('ROLE_APPROVER')) {
       request$ = this.taxableSearchEngineService.getTaxesforApprover(payload);
-    } else if (roleNames.includes('ROLE_CHECKER')) {
+    } else if (roleNames.includes('ROLE_REVIEWER')) {
       request$ = this.taxableSearchEngineService.getTaxesForChecker(payload);
     } else {
       request$ = this.taxableSearchEngineService.getTaxesFormaker(payload);

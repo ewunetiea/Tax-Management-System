@@ -1,0 +1,480 @@
+<p-toast></p-toast>
+
+<main id="main" class="main">
+
+    <div class="mb-6">
+      <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
+  </div>
+
+<div class="mb-2">
+    <p-card>
+       <app-taxable-search-engine [statusRoute]="statusRoute" (generatedTaxes)="onDataGenerated($any($event))"></app-taxable-search-engine>
+    </p-card>
+</div>
+
+<p-card *ngIf="fetching">
+    <div class="row">
+      <div class="col-lg-12">
+        <p-card>
+          <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+              <button
+               *ngIf="statusRoute !== 'approved'"
+                pButton
+                pRipple
+                label="Approve"
+                icon="pi pi-verified"
+                class="p-button-rounded p-button-outlined p-button-success mr-2 "
+                (click)="approveSelectedTaxes()"
+                [disabled]="!selectedTaxes || !selectedTaxes.length"
+              ></button>
+            </ng-template>
+
+            <ng-template pTemplate="right">
+              <div class="flex">
+                
+              </div>
+            </ng-template>
+          </p-toolbar>
+
+          <p-table
+            #dt
+            [value]="taxes"
+            [rows]="5"
+            [paginator]="true"
+            [loading]="loading"
+            [globalFilterFields]="[
+              'mainGuid',
+              'from_',
+              'sendTo_',
+              'taxCategory',
+              'noOfEmployee',
+              'taxableAmount',
+              'taxWithHold',
+              'incometaxPoolAmount',
+              'graduatetaxPool',
+              'graduatetaxPool1',
+              'graduaTotBasSalary',
+              'graduateTotaEmployee',
+              'graduatetaxWithHold',
+              'taxCategoryList',
+              'maker_name',
+              'maker_date',
+              'checker_name',
+              'checked_Date',
+              'updated_user_name',
+              'updated_event_date',
+              'from_List',
+              'sendTo_List',
+              'Category_List',
+              'FileDetail',
+              'status',
+              'reference_number',
+            ]"
+            [(selection)]="selectedTaxes"
+            [rowHover]="true"
+            dataKey="id"
+            [rowsPerPageOptions]="[5,10, 25, 50]"
+            [size]="selectedSize"
+            [expandedRowKeys]="expandedRows" 
+            (onRowExpand)="onRowExpand($event)"
+             (onRowCollapse)="onRowCollapse($event)"
+            [tableStyle]="{ 'min-width': '230rem' }"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true"
+          >
+          <ng-template #caption>
+            <div class="flex items-center justify-between">
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                <div class="flex justify-center mb-4">
+                    <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value" />
+                </div>
+                <p-iconfield>
+                    <p-inputicon styleClass="pi pi-search" />
+                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." />
+                </p-iconfield>
+            </div>
+        </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 3rem"></th>
+                <th style="width: 3rem">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+
+                <th style="min-width: 10rem">
+                  <div class="flex items-center">
+                      Unit
+                      <p-columnFilter type="numeric" field="from_" display="menu" />
+                  </div>
+                </th>
+
+              <th style="min-width: 10rem">
+                <div class="flex items-center">
+                    Director
+                    <p-columnFilter type="numeric" field="sendTo_" display="menu" />
+                </div>
+              </th>
+
+              <th style="min-width: 10rem">
+                <div class="flex items-center">
+                    Reference Number
+                    <p-columnFilter type="text" field="reference_number" display="menu" />
+                </div>
+              </th>
+
+            <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Tax Category
+                  <p-columnFilter type="numeric" field="taxCategory" display="menu" />
+              </div>
+            </th>
+
+            <th style="min-width: 10rem">
+              <div class="flex items-center">
+                  Number of Employee
+                  <p-columnFilter type="numeric" field="noOfEmployee" display="menu" />
+              </div>
+            </th>
+
+            <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Taxable Amount
+                  <p-columnFilter type="numeric" field="taxableAmount" display="menu" />
+              </div>
+            </th>
+
+             <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Tax With Hold
+                  <p-columnFilter type="numeric" field="taxWithHold" display="menu" />
+              </div>
+            </th>
+
+             <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Graduate Tax Pool
+                  <p-columnFilter type="numeric" field="graduatetaxPool" display="menu" />
+              </div>
+            </th>
+
+             <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Graduate Base Salary
+                  <p-columnFilter type="numeric" field="graduaTotBasSalary" display="menu" />
+              </div>
+            </th>
+
+             <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Graduate Total Employee
+                  <p-columnFilter type="numeric" field="graduateTotaEmployee" display="menu" />
+              </div>
+            </th>
+
+             <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Graduate Tax With Hold
+                  <p-columnFilter type="numeric" field="graduatetaxWithHold" display="menu" />
+              </div>
+            </th>
+
+            <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Maker Name
+                  <p-columnFilter type="text" field="maker_name" display="menu" />
+              </div>
+            </th>
+
+
+            <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Maker Date
+                  <p-columnFilter type="date" field="maker_date" display="menu" />
+              </div>
+            </th>
+
+            <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Checked By
+                  <p-columnFilter type="text" field="checker_name" display="menu" />
+              </div>
+            </th>
+
+            <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Checked Date
+                  <p-columnFilter type="date" field="checked_Date" display="menu" />
+              </div>
+            </th>
+
+            <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Updated By
+                  <p-columnFilter type="text" field="updated_user_name" display="menu" />
+              </div>
+            </th>
+
+            <th style="min-width: 10rem">
+              <div class="flex items-center">
+                Updated Date
+                  <p-columnFilter type="date" field="updated_event_date" display="menu" />
+              </div>
+            </th>
+
+            <th *ngIf="statusRoute !== 'approved'" style="width: 12rem">Action</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-tax let-expanded="expanded">
+              <tr>
+                <td>
+                  <p-button type="button" pRipple [pRowToggler]="tax" [text]="true" [rounded]="true"
+                  [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
+                </td>
+                <td>
+                  <p-tableCheckbox [value]="tax"></p-tableCheckbox>
+                </td>
+                <td>{{ tax.initiator_branch }}</td>
+                <td>{{ tax.destination_branch }}</td>
+                <td>{{ tax.reference_number }}</td>
+                <td>{{ tax.taxType}}</td>
+                <td>{{tax.noOfEmployee}}</td>
+                <td>{{ tax.taxableAmount | number:'1.0-2' }}</td>
+                <td>{{tax.taxWithHold | number:'1.0-2'}}</td>
+                <td>{{tax.graduatetaxPool | number:'1.0-2'}}</td>
+                <td>{{tax.graduaTotBasSalary | number:'1.0-2' }}</td>
+                <td>{{tax.graduateTotaEmployee | number:'1.0-2'}}</td>
+                <td>{{tax.graduatetaxWithHold | number:'1.0-2' }}</td>
+                <td>{{tax.maker_name}}</td>
+                <td>{{ tax.maker_date | date:'yyyy-MM-dd' }}</td>
+                <td>
+                   <ng-container *ngIf="tax.checker_name; else uncheckednameBtn">
+                    {{ tax.checker_name }}
+                  </ng-container>
+                  <ng-template #uncheckednameBtn>
+                     <button 
+                     pButton 
+                     pRipple 
+                     type="text" 
+                     icon="pi pi-times" 
+                     label="Unchecked" 
+                     class="p-button-rounded p-button-danger p-button-outlined p-button-sm"></button>
+                  </ng-template>
+                </td>
+                <td>
+                   <ng-container *ngIf="tax.checked_Date; else uncheckedDateBtn">
+                    {{ tax.checked_Date | date:'yyyy-MM-dd' }}
+                  </ng-container>
+                  <ng-template #uncheckedDateBtn>
+                     <button 
+                     pButton 
+                     pRipple 
+                     type="text" 
+                     icon="pi pi-times" 
+                     label="Unchecked" 
+                     class="p-button-rounded p-button-danger p-button-outlined p-button-sm"></button>
+                  </ng-template>
+                </td>
+                <td>
+                   <ng-container *ngIf="tax.updated_user_name; else unupdateusernameBtn">
+                    {{ tax.updated_user_name }}
+                  </ng-container>
+                  <ng-template #unupdateusernameBtn>
+                    <button 
+                    pButton 
+                    pRipple 
+                    type="text" 
+                      icon="pi pi-times" 
+                    label="Unupdated" 
+                    class="p-button-rounded p-button-danger p-button-outlined p-button-sm"></button>
+                  </ng-template>
+                </td>
+                <td>
+                   <ng-container *ngIf="tax.updated_event_date; else unupdatedteBtn">
+                    {{ tax.updated_event_date | date:'yyyy-MM-dd' }}
+                  </ng-container>
+                  <ng-template #unupdatedteBtn>
+                    <button 
+                    pButton 
+                    pRipple 
+                    type="text" 
+                    icon="pi pi-times" 
+                    label="Unupdated" 
+                    class="p-button-rounded p-button-danger p-button-outlined p-button-sm"
+                    ></button>
+                  </ng-template>
+                </td>
+                <td>
+                  <button
+                  *ngIf="statusRoute === 'pending'"
+                    pButton
+                    pRipple
+                    pTooltip="Edit"
+                    tooltipPosition="bottom"
+                    (click)="editTax(tax)"
+                    icon="pi pi-pencil"
+                    class="p-button-rounded p-button-outlined p-button-info mr-2"
+                  ></button>
+                  <button
+                  *ngIf="statusRoute !== 'approved'"
+                    pButton
+                    pRipple
+                    pTooltip="Approve"
+                    tooltipPosition="bottom"
+                    (click)="approveTax(tax)"
+                    icon="pi pi-verified"
+                    class="p-button-rounded p-button-outlined p-button-success mr-2"
+                  ></button>
+                  <button
+                  *ngIf="statusRoute !== 'approved'"
+                    pButton
+                    pRipple
+                    pTooltip="Reject"
+                    tooltipPosition="bottom"
+                    (click)="rejectTax(tax)"
+                    icon="pi pi-times-circle"
+                    class="p-button-rounded p-button-outlined p-button-danger"
+                  ></button>
+                </td>
+              </tr>
+            </ng-template>
+
+             <ng-template #expandedrow let-tax>
+                <tr>
+                    <td colspan="9">
+                        <div class="p-3">
+                            <div class="flex space-x-2 py-2">
+                                <button
+                                    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full px-4 py-2"
+                                    (click)="activeIndex1 = 0">
+                                    <i class="pi pi-plus mr-1"></i>Tax Details
+                                </button>
+                            </div>
+
+                            <p-tabView [(activeIndex)]="activeIndex1">
+                                <p-tabPanel>
+                                    <div class="py-3 flex space-x-2">
+                                        <p-button *ngIf="tax.message"
+                                            [icon]="activeState[0] ? 'pi pi-minus' : 'pi pi-plus'" (click)="toggle(0)"
+                                            styleClass="p-button-text" label="Message Detail"></p-button>
+
+                                        <p-button *ngIf="tax.image"
+                                            [icon]="activeState[1] ? 'pi pi-minus' : 'pi pi-plus'" (click)="toggle(1)"
+                                            styleClass="p-button-text" label="Attached File"></p-button>
+                                    </div>
+
+                                    <div class="flex gap-4 items-start mt-3">
+                                        <div class="flex-1" *ngIf="tax.message && activeState[0]">
+                                            <h6 class="font-bold mb-2 text-gray-700">Message</h6>
+
+                                            <div
+                                                class="w-full border rounded-md p-4 bg-surface-50 text-gray-700 whitespace-pre-wrap max-h-70 overflow-auto">
+                                                {{ tax.message }}
+                                            </div>
+                                        </div>
+
+
+                                        <div *ngIf="tax.taxFile?.length" class="border p-3 rounded mb-3">
+                                            <div class="flex flex-wrap gap-4">
+                                                <div *ngFor="let file of tax.taxFile"
+                                                    class="border p-3 rounded w-64 flex-shrink-0 flex flex-col items-center">
+                                                    <ng-container *ngIf="file.fileType">
+
+                                                        <img *ngIf="file.fileType.startsWith('image/') && file.file"
+                                                            [src]="'data:' + file.fileType + ';base64,' + file.file"
+                                                            [alt]="file.fileName"
+                                                            class="max-h-64 object-contain rounded-lg mb-2 w-full" />
+
+                                                        <div class="flex gap-2 mb-2 justify-center"
+                                                            *ngIf="file.fileType === 'application/pdf' || file.pdfUrl">
+                                                            <button class="p-button p-component p-button-sm"
+                                                                (click)="previewPdf(file)">
+                                                                Preview
+                                                            </button>
+                                                            <button class="p-button p-component p-button-sm"
+                                                                (click)="downloadPdf(file)">
+                                                                Download
+                                                            </button>
+                                                        </div>
+
+                                                        <div *ngIf="file.fileType?.includes('word') && file.file"
+                                                            class="text-center text-blue-600 mb-2">
+                                                            <i class="pi pi-file-word text-4xl mb-2"></i>
+                                                            <span class="block text-sm truncate">{{ file.fileName
+                                                                }}</span>
+                                                            <a [href]="'data:' + file.fileType + ';base64,' + file.file"
+                                                                [download]="file.fileName"
+                                                                class="text-blue-500 underline text-sm mt-1 block">
+                                                                Download
+                                                            </a>
+                                                        </div>
+
+                                                        <!-- ⚠️ No file -->
+                                                        <span *ngIf="!file.file && !file.pdfUrl"
+                                                            class="text-gray-400 text-sm">
+                                                            No File
+                                                        </span>
+
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <p-dialog [(visible)]="showPdfModal" modal="true"
+                                            [style]="{width: '70%', height: '80%'}" (onHide)="closeModal()">
+                                            <iframe *ngIf="selectedPdf" [src]="selectedPdf"
+                                                class="w-full h-full"></iframe>
+                                        </p-dialog>
+
+
+                                        <p-dialog [(visible)]="showPdfModal" modal="true"
+                                            [style]="{width: '70%', height: '80%'}" (onHide)="closeModal()">
+                                            <iframe *ngIf="selectedPdf" [src]="selectedPdf"
+                                                class="w-full h-full"></iframe>
+                                        </p-dialog>
+
+
+                                    </div>
+                                </p-tabPanel>
+                            </p-tabView>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="summary">
+              <div class="p-d-flex p-ai-center p-jc-between">
+                In total there are {{ taxes ? taxes.length : 0 }} taxes.
+              </div>
+            </ng-template>
+          </p-table>
+        </p-card>
+      </div>
+    </div>
+</p-card>
+</main>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+
+<p-dialog
+    [(visible)]="rejectTaxDialog"
+    [style]="{ width: '600px' }"
+    header="Tax Rejection Details"
+    [modal]="true"
+    styleClass="p-fluid"
+    [maximizable]="true"
+  >
+    <ng-template pTemplate="content">
+      <app-reject-checker-approver
+        [passedRejectedTax]="outputRejectedTax" 
+        (rejectedTax)="onDataChange($event)"
+      ></app-reject-checker-approver>
+    </ng-template>
+  </p-dialog>
+  
+<app-tax-create-edit 
+[(visible)]="taxDialog"
+ [tax]="tax" 
+ (saved)="onTaxesaved($event)"
+ (cancel)="hideDialog()"
+ ></app-tax-create-edit>

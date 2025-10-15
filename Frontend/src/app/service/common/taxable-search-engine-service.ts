@@ -16,12 +16,12 @@ export class TaxableSearchEngineService {
     return this.http.post<Tax[]>(`${baseUrl}/maker/search`, tax);
   }
 
-  getTaxesForChecker(tax: TaxableSearchEngine): Observable<Tax[]> {
-    return this.http.post<Tax[]>(`${baseUrl}/checker/search`, tax);
+  getTaxesForReviewer(tax: TaxableSearchEngine): Observable<Tax[]> {
+    return this.http.post<Tax[]>(`${baseUrl}/reviewer/search`, tax);
   }
 
   getTaxesforApprover(tax: TaxableSearchEngine): Observable<Tax[]> {
-    return this.http.post<Tax[]>(`${baseUrl}/ho/search`, tax);
+    return this.http.post<Tax[]>(`${baseUrl}/approver/search`, tax);
   }
 
 

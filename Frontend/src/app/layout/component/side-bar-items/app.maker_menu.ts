@@ -67,7 +67,6 @@ export class AppMenuMaker {
                  { label: 'Approved ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/approved-tax'] },
                 { label: 'Rejected', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/rejected-tax'] }
                 ],
-
             },
             
             {

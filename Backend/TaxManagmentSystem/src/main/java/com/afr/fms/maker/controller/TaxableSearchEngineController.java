@@ -33,20 +33,20 @@ public class TaxableSearchEngineController {
         }
     }
 
-    @PostMapping("/checker/search")
-    public ResponseEntity<List<Tax>> getTaxableSearchEngineForChecker(@RequestBody TaxableSearchEngine tax, HttpServletRequest request) {
+    @PostMapping("/reviewer/search")
+    public ResponseEntity<List<Tax>> getTaxableSearchEngineForReviewer(@RequestBody TaxableSearchEngine tax, HttpServletRequest request) {
         try {
-            return new ResponseEntity<>(taxableSearchEngineService.getTaxableSearchEngineForChecker(tax), HttpStatus.OK);
+            return new ResponseEntity<>(taxableSearchEngineService.getTaxableSearchEngineForReviewer(tax), HttpStatus.OK);
         } catch (Exception ex) {
             logger.error("An error occurred while retrieving searching taxes : {}", ex.getMessage(), ex);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PostMapping("/ho/search")
-    public ResponseEntity<List<Tax>> getTaxableSearchEngineForHo(@RequestBody TaxableSearchEngine tax, HttpServletRequest request) {
+    @PostMapping("/approver/search")
+    public ResponseEntity<List<Tax>> getTaxableSearchEngineForApprover(@RequestBody TaxableSearchEngine tax, HttpServletRequest request) {
         try {
-            return new ResponseEntity<>(taxableSearchEngineService.getTaxableSearchEngineForHo(tax), HttpStatus.OK);
+            return new ResponseEntity<>(taxableSearchEngineService.getTaxableSearchEngineForApprover(tax), HttpStatus.OK);
         } catch (Exception ex) {
             logger.error("An error occurred while retrieving searching taxes : {}", ex.getMessage(), ex);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

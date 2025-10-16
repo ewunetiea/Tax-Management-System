@@ -18,12 +18,12 @@ public class TaxableSearchEngineService {
         return taxableSearchEngineMapper.getTaxableSearchEngineForMaker(tax);
     }
 
-    public List<Tax> getTaxableSearchEngineForChecker(TaxableSearchEngine tax) {
-        return taxableSearchEngineMapper.getTaxableSearchEngineForChecker(tax);
+    public List<Tax> getTaxableSearchEngineForReviewer(TaxableSearchEngine tax) {
+        return taxableSearchEngineMapper.getTaxableSearchEngineForReviewer(tax);
     }
 
-    public List<Tax> getTaxableSearchEngineForHo(TaxableSearchEngine tax) {
-        return taxableSearchEngineMapper.getTaxableSearchEngineForHo(tax);
+    public List<Tax> getTaxableSearchEngineForApprover(TaxableSearchEngine tax) {
+        return taxableSearchEngineMapper.getTaxableSearchEngineForApprover(tax);
     }
 
 }

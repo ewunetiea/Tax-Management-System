@@ -3,7 +3,7 @@ import { StorageService } from '../../../service/sharedService/storage.service';
 import { MessageService } from 'primeng/api';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TaxCategoriesService } from '../../../service/maker/tax-categories-service';
-import { TaxableSearchEngine } from '../../../models/maker/taxable-search-engine';
+import { TaxableSearchEngine } from '../../../models/common/taxable-search-engine';
 import { User } from '../../../models/admin/user';
 import { SharedUiModule } from '../../../../shared-ui';
 import { BranchService } from '../../../service/admin/branchService';
@@ -12,7 +12,7 @@ import { TaxCategory } from '../../../models/maker/tax-category';
 import { Tax } from '../../../models/maker/tax';
 import { ActivatedRoute } from '@angular/router';
 import { PaginatorPayLoad } from '../../../models/admin/paginator-payload';
-import { TaxableSearchEngineService } from '../../../service/maker/taxable-search-engine-service';
+import { TaxableSearchEngineService } from '../../../service/common/taxable-search-engine-service';
 import { Role } from '../../../models/admin/role';
 import { finalize, of, catchError } from 'rxjs';
 
@@ -34,6 +34,8 @@ export class TaxableSearchEngineComponent {
   taxCategoryLoading = false;
   paginatorPayLoad: PaginatorPayLoad = new PaginatorPayLoad();
   maxDate = new Date();
+  isApprover = false;
+  roles: string[] = [];
 
   @Output() generatedTaxes: EventEmitter<Tax[]> = new EventEmitter<Tax[]>();
   @Input() statusRoute: string = '';
@@ -49,14 +51,17 @@ export class TaxableSearchEngineComponent {
   ) {}
 
   ngOnInit(): void {
-    // ✅ Get logged-in user info
     this.user = this.storageService.getUser();
+    const users = this.storageService.getUser();
     this.paginatorPayLoad.branch_id = this.user.branch?.id;
     this.paginatorPayLoad.user_id = this.user.id;
+    this.roles = users.roles;
+    this.isApprover = this.roles.includes('ROLE_APPROVER');
+    
 
     // ✅ Initialize form controls
     this.form = this.fb.group({
-      branch_id: [''],
+     branch_id: [this.user.branch?.id || ''],
       tax_category_id: [''],
       reference_number: [''],
       router_status: [''],
@@ -65,8 +70,9 @@ export class TaxableSearchEngineComponent {
       approved_date: [''],
       rejected_date: [''],
       document_type: [''],
-      user_id: [''],
-      search_by: ['']
+      user_id: [this.user.id || ''],
+      director_id: [''],
+      search_by: [this.user.email?.split('@')[0] || '']
     });
 
     // ✅ Automatically detect router status from route param
@@ -133,61 +139,77 @@ export class TaxableSearchEngineComponent {
     this.generatedTaxes.emit([]); // tell parent to clear table
   }
 
-  // ✅ Main search logic
   generateTaxes(): void {
-    this.submitted = true;
+  this.submitted = true;
 
-    // ✅ Determine router status dynamically
-    const routerStatus = this.statusRoute?.toLowerCase() || 'pending';
+  const routerStatus = this.statusRoute?.toLowerCase() || 'pending';
 
-    // ✅ Safely patch values into the form
-    this.form.patchValue({
-      router_status: routerStatus,
-      user_id: this.user.id,
-      search_by: this.user.email?.split('@')[0] || ''
-    });
+  // ✅ Normalize roles
+  const normalizedRoles: Role[] = (this.user?.roles ?? []).map(r =>
+    typeof r === 'string' ? ({ name: r } as Role) : r
+  );
+  const roleNames = normalizedRoles.map(r => r.name ?? '');
 
-    // ✅ Construct clean payload
-    const payload = { ...this.form.value };
+  // ✅ Determine branch_id and director_id based on role
+  let branchId: number | null = null;
+  let directorId: number | null = null;
 
-    // Convert empty strings to null for backend clarity
-    Object.keys(payload).forEach(k => {
-      if (payload[k] === '') payload[k] = null;
-    });
-
-    // ✅ Normalize roles
-    const normalizedRoles: Role[] = (this.user?.roles ?? []).map(r =>
-      typeof r === 'string' ? ({ name: r } as Role) : r
-    );
-    const roleNames = normalizedRoles.map(r => r.name ?? '');
-
-    // ✅ Select appropriate API endpoint
-    let request$;
-    if (roleNames.includes('ROLE_HO')) {
-      request$ = this.taxableSearchEngineService.getTaxesforApprover(payload);
-    } else if (roleNames.includes('ROLE_CHECKER')) {
-      request$ = this.taxableSearchEngineService.getTaxesForChecker(payload);
-    } else {
-      request$ = this.taxableSearchEngineService.getTaxesFormaker(payload);
-    }
-
-    // ✅ Subscribe to request
-    request$
-      .pipe(
-        finalize(() => (this.submitted = false)),
-        catchError((error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Failed to fetch taxes'
-          });
-          return of([]);
-        })
-      )
-      .subscribe((data: Tax[]) => {
-        this.taxes = data;
-        
-        this.generatedTaxes.emit(data);
-      });
+  if (roleNames.includes('ROLE_APPROVER')) {
+    // Approver can choose a branch or leave it null
+    branchId = this.form.value.branch_id ?? null;
+    directorId = this.user.branch?.id ?? null;
+  } else {
+    // Maker or reviewer — branch_id fixed to user’s own branch
+    branchId = this.user.branch?.id ?? null;
+    directorId = null;
   }
+
+  // ✅ Patch values into the form
+  this.form.patchValue({
+    router_status: routerStatus,
+    user_id: this.user.id,
+    branch_id: branchId,
+    director_id: directorId,
+    search_by: this.user.email?.split('@')[0] || ''
+  });
+
+  // ✅ Construct clean payload
+  const payload = { ...this.form.value };
+
+  // Convert empty strings to null
+  Object.keys(payload).forEach(k => {
+    if (payload[k] === '') payload[k] = null;
+  });
+
+  // ✅ Select appropriate API endpoint
+  let request$;
+  if (roleNames.includes('ROLE_APPROVER')) {
+    request$ = this.taxableSearchEngineService.getTaxesforApprover(payload);
+  } else if (roleNames.includes('ROLE_REVIEWER')) {
+    request$ = this.taxableSearchEngineService.getTaxesForReviewer(payload);
+  } else {
+    request$ = this.taxableSearchEngineService.getTaxesFormaker(payload);
+  }
+
+  // ✅ Handle API result
+  request$
+    .pipe(
+      finalize(() => (this.submitted = false)),
+      catchError((error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to fetch taxes'
+        });
+        return of([]);
+      })
+    )
+    .subscribe((data: Tax[]) => {
+      this.taxes = data;
+      this.generatedTaxes.emit(data);
+    });
+}
+
+
+
 }

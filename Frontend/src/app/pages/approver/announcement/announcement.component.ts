@@ -1,9 +1,6 @@
-
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Table, TableRowCollapseEvent, TableRowExpandEvent } from 'primeng/table';
-
 import { HttpErrorResponse } from '@angular/common/http';
 import { ProductService } from '../../../service/product.service';
 import { Announcement } from '../../../models/approver/announcement';
@@ -14,7 +11,6 @@ import { DataViewModule } from 'primeng/dataview';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-
 
 interface Column {
   field: string;
@@ -32,16 +28,12 @@ interface ExportColumn {
   standalone: true,
   templateUrl: './announcement.component.html',
   styleUrl: './announcement.component.scss',
-
   providers: [MessageService, ProductService, ConfirmationService],
-  imports: [
-    SharedUiModule, AnnouncementCreateEditComponent, DataViewModule,
-    SplitButtonModule
-  ]
+  imports: [SharedUiModule, AnnouncementCreateEditComponent, DataViewModule, SplitButtonModule]
 })
 export class AnnouncementComponent implements OnInit {
   expandedRows = {};
-  selectedPdf: SafeResourceUrl | null = null; // PDF to preview
+  selectedPdf: SafeResourceUrl | null = null; 
   showPdfModal = false;
   announcemetDialog: boolean = false;
   announcements: Announcement[] = [];
@@ -53,21 +45,18 @@ export class AnnouncementComponent implements OnInit {
   exportColumns!: ExportColumn[];
   cols!: Column[];
   uploadedFiles: any[] = [];
-
   announcement_type: String = ''
   isEdit = false;
   activeIndex1: number = 0;
   activeState: boolean[] = [true, false, false];
   pdfSrc: any;
-
   sizes!: any[];
   selectedSize: any = 'normal';
   breadcrumbText: string = 'Manage Anouncement';
   items: MenuItem[] | undefined;
-
   rowToggles: { [id: number]: { message: boolean; file: boolean } } = {};
 
-status!: string;
+  status!: string;
 
   constructor(
     private announcemetService: AnnouncementService,
@@ -77,10 +66,8 @@ status!: string;
     private route: ActivatedRoute
   ) { }
 
-  ngOnInit() : void{
-
-   this.announcement_type = this.route.snapshot.data['status'];
-
+  ngOnInit(): void {
+    this.announcement_type = this.route.snapshot.data['status'];
     this.items = [{ label: this.breadcrumbText }];
     this.sizes = [
       { name: 'Small', value: 'small' },
@@ -91,12 +78,10 @@ status!: string;
     this.loadAnnouncements(this.announcement_type);
   }
 
- 
+
   loadAnnouncements(announcement_type: String) {
     this.announcemetService.fetchAnnouncemets(announcement_type).subscribe(
       (response) => {
-
-
         this.announcements = (response as any).map((announcement: any) => {
           // Detect file type from base64
           const fileType = this.getFileType(announcement.image);
@@ -152,7 +137,7 @@ status!: string;
 
 
 
- 
+
 
   onRowExpand(event: TableRowExpandEvent) {
     this.messageService.add({ severity: 'info', summary: 'User Information Expanded', detail: event.data.name, life: 3000 });
@@ -231,14 +216,14 @@ status!: string;
     this.submitted = false;
   }
 
-  
+
 
   findIndexById(id: any): number {
     return this.announcements.findIndex((p) => p.id === id);
   }
 
 
- 
+
 
   getSeverity(status: string) {
     switch (status) {
@@ -316,7 +301,7 @@ status!: string;
       this.rowToggles[announcement.id!].message = false;
     }
   }
-  
+
 
   toggle(index: number) {
     this.activeState = this.activeState.map((_, i) => i === index ? !this.activeState[i] : false);

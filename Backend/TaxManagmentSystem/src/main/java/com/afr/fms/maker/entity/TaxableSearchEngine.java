@@ -21,4 +21,5 @@ public class TaxableSearchEngine {
     private String document_type;
     private Long user_id;
     private String search_by;
+    private Long director_id;
 }

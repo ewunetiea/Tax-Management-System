@@ -10,4 +10,5 @@ export class TaxableSearchEngine {
     document_type?: string;
     user_id?: number;
     search_by?: string; 
+    director_id?: number;
 }

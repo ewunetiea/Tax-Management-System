@@ -4,11 +4,19 @@
     <!-- Branch & Tax Type -->
     <div class="flex flex-col md:flex-row gap-6">
       
-      <div class="flex flex-wrap gap-2 w-full" >
+      <div class="flex flex-wrap gap-2 w-full" *ngIf="isApprover" >
         <label for="branch_id">Unit</label>
-        <p-select id="branch_id" [options]="branches" formControlName="branch_id" name="branch_id" optionLabel="name"
-          optionValue="id" [filter]="true" [loading]="branchLoading"
-          [placeholder]="branchLoading ? 'Loading...' : 'Select unit'" (onShow)="getBranches()" class="w-full">
+        <p-select 
+        id="branch_id" 
+        [options]="branches" 
+        formControlName="branch_id" 
+        name="branch_id" 
+        optionLabel="name"
+        optionValue="id"
+         [filter]="true" 
+         [loading]="branchLoading"
+          [placeholder]="branchLoading ? 'Loading...' : 'Select unit'" 
+          (onShow)="getBranches()" class="w-full">
         </p-select>
       </div>
 

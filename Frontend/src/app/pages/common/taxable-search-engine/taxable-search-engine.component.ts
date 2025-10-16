@@ -71,6 +71,7 @@ export class TaxableSearchEngineComponent {
       rejected_date: [''],
       document_type: [''],
       user_id: [this.user.id || ''],
+      director_id: [''],
       search_by: [this.user.email?.split('@')[0] || '']
     });
 
@@ -149,23 +150,18 @@ export class TaxableSearchEngineComponent {
   );
   const roleNames = normalizedRoles.map(r => r.name ?? '');
 
-  // ✅ Determine branch_id based on role
+  // ✅ Determine branch_id and director_id based on role
   let branchId: number | null = null;
-  if (roleNames.includes('ROLE_APPROVER')) {
-    branchId = this.form.value.branch_id ?? null;
+  let directorId: number | null = null;
 
-    // ❌ If branch_id not selected, show warning and stop
-    if (!branchId) {
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Warning',
-        detail: 'Please select a unit before searching'
-      });
-      this.submitted = false;
-      return; // stop further execution
-    }
+  if (roleNames.includes('ROLE_APPROVER')) {
+    // Approver can choose a branch or leave it null
+    branchId = this.form.value.branch_id ?? null;
+    directorId = this.user.branch?.id ?? null;
   } else {
+    // Maker or reviewer — branch_id fixed to user’s own branch
     branchId = this.user.branch?.id ?? null;
+    directorId = null;
   }
 
   // ✅ Patch values into the form
@@ -173,6 +169,7 @@ export class TaxableSearchEngineComponent {
     router_status: routerStatus,
     user_id: this.user.id,
     branch_id: branchId,
+    director_id: directorId,
     search_by: this.user.email?.split('@')[0] || ''
   });
 
@@ -212,6 +209,7 @@ export class TaxableSearchEngineComponent {
       this.generatedTaxes.emit(data);
     });
 }
+
 
 
 }

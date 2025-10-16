@@ -15,19 +15,13 @@ const headers = new HttpHeaders({
 
 
 export class AnnouncementService {
-    
-
-
     constructor(private http: HttpClient) {}
-
-
-
+    
     createAnnouncemet(announcement: any): Observable<any> {
         return this.http.post(baseUrl + '/create', announcement);
     }
 
     fetchAnnouncemets(Announcement_type: String) {
-
         return this.http.get(baseUrl + '/fetch/' + `${Announcement_type}`);
     }
 

@@ -6,6 +6,7 @@ import { ManageTax } from '../maker/tax/manage-tax/manage-tax';
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { ManageTaxHoComponent } from './manage-tax-approver/manage-tax-ho.component';
 import { ManageTaxCategoryComponent } from './tax-category/manage-tax-category/manage-tax-category.component';
+import { ReportComponent } from '../common/report/report.component';
 
 export default [
     {
@@ -43,6 +44,15 @@ export default [
         canActivate: [AuthGuard],
         data: {
             roles: ['ROLE_APPROVER']
+        }
+    },
+
+    {
+        path: 'report',
+        component: ReportComponent,
+        canActivate: [AuthGuard],
+        data: {
+            roles: ['ROLE_APPROVER', 'ROLE_REVIEWER', 'ROLE_MAKER']
         }
     },
 ] as Routes;

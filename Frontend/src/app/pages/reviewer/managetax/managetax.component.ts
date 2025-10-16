@@ -44,7 +44,7 @@ export class ManagetaxComponent implements OnInit {
   activeIndex1: number = 0;
   activeState: boolean[] = [true, false, false];
   pdfSrc: any;
-  selectedPdf: SafeResourceUrl | null = null; // PDF to preview
+  selectedPdf: SafeResourceUrl | null = null; 
   showPdfModal = false;
 
   constructor(

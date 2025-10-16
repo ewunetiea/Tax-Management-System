@@ -35,13 +35,13 @@ export const appRoutes: Routes = [
             }, 
 
             {
-                path: 'checker',
+                path: 'reviewer',
                 loadChildren: () => import('./app/pages/reviewer/checker.routes').then(m => m.default),
                 canActivate: [AuthGuard]
             },
 
               {
-                path: 'ho',
+                path: 'approver',
                 loadChildren: () => import('./app/pages/approver/ho.routes').then(m => m.default),
                 canActivate: [AuthGuard]
             }, 

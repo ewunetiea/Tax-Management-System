@@ -71,7 +71,7 @@ export const httpRequestInterceptor: HttpInterceptorFn = (req, next) => {
                     status: 400
                 });
 
-                console.log("error" + error.message)
+
                 showToast(messageService, customError.error.message, 'error');
                 return throwError(() => customError);
             }

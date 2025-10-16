@@ -313,7 +313,7 @@ export class ManagetaxComponent implements OnInit {
     
 onRowExpand(event: any) {
   const tax = event.data;
-  console.log("Expanded tax:", tax);
+
 
   if (!tax.taxFile || tax.taxFile.length === 0) {
     return;
@@ -375,7 +375,7 @@ onRowExpand(event: any) {
 
     // Force change detection for PDFs
     setTimeout(() => {
-      console.log('✅ All files fetched:', tax.taxFile);
+
     }, 0);
   });
 }

@@ -57,7 +57,7 @@ export class MakerSearchEnginePayLoadComponent {
       { name: 'Approved', id: '5' },
     ]
 
-    console.log(this.routeControl)
+
 
     this.payload.branch_name = this.storageService.getUser().branch.name
 

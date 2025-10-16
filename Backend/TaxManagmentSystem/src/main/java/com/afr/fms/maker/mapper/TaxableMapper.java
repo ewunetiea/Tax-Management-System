@@ -23,12 +23,12 @@ public interface TaxableMapper {
                         "graduatetaxWithHold, " + "taxCategoryList, " + "Remark, " + "maker_name, " +
                         "maker_date, " + "checker_name, " + "checked_Date, " + "updated_user_name, "
                         + "updated_event_date, " +
-                        "from_List, " + "sendTo_List, " + "Category_List, "  + "status, "
+                        "from_List, " + "sendTo_List, " + "Category_List, " + "status, "
                         + "reference_number" +
                         ") OUTPUT inserted.Id VALUES (" +
                         "#{mainGuid}, " + "#{from_}, " + "#{sendTo_}, " + "#{taxCategory}, " + "#{noOfEmployee}, " +
                         "#{taxableAmount}, " + "#{taxWithHold}, " + "#{incometaxPoolAmount}, " + "#{graduatetaxPool}, "
-                   
+
                         + "#{graduaTotBasSalary}, " + "#{graduateTotaEmployee}, " +
                         "#{graduatetaxWithHold}, " + "#{taxCategoryList}, " + "#{remark}, " +
                         "#{maker_name}, " + "#{maker_date}, " + "#{checker_name}, " + "#{checked_Date}, "
@@ -102,7 +102,7 @@ public interface TaxableMapper {
                         "t.graduatetaxPool, t.graduaTotBasSalary, t.graduateTotaEmployee, t.graduatetaxWithHold,",
                         "t.taxCategoryList, t.Remark, t.maker_name, t.maker_date, t.checker_name, t.checked_Date,",
                         "t.updated_user_name, t.updated_event_date, t.from_List, t.sendTo_List, t.Category_List,",
-                        " t.status, t.reference_number",
+                        " t.status, t.reference_number, t.remark ",
                         "FROM tblTaxable t",
                         "LEFT JOIN unit b ON t.from_ = b.id",
                         "LEFT JOIN unit b2 ON t.sendTo_ = b2.id",
@@ -122,19 +122,13 @@ public interface TaxableMapper {
 
                         "</script>"
         })
-@Results(value = {
-    @Result(property = "id", column = "id"),
-    
+        @Results(value = {
+                        @Result(property = "id", column = "id"),
 
-   @Result(property = "taxFile", column = "id", many = @Many(select = "com.afr.fms.Maker.mapper.TaxFileMapper.getFileByFileById")),
+                        @Result(property = "taxFile", column = "id", many = @Many(select = "com.afr.fms.Maker.mapper.TaxFileMapper.getFileByFileById")),
 
-})
+        })
 
-        // @Results(value = {
-        //                 @Result(property = "id", column = "id"), // crucial
-
-        //                 @Result(property = "taxFile", column = "id", many = @Many(select = "com.afr.fms.Maker.mapper.TaxFileMapper.getFileByFileById",  fetchType = FetchType.DEFAULT))
-        // })
         public List<Tax> fetchTaxBasedonStatus(Payload payload);
 
         @Delete("delete from tblTaxable   where id  = #{id}")

@@ -58,6 +58,11 @@ export class MakerSearchEnginePayLoadComponent {
     ]
 
     console.log(this.routeControl)
+
+    this.payload.branch_name = this.storageService.getUser().branch.name
+
+        this.payload.branch_id = this.storageService.getUser().branch.id
+
   }
 
   getBranches() {

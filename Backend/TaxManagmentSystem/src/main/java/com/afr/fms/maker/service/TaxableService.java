@@ -37,7 +37,7 @@ public class TaxableService {
     // @Transactional
     // public String createTax(Tax tax) {
 
-    // 
+    //
     // String mainGuid = "";
 
     // mainGuid = generateGuid();
@@ -45,7 +45,7 @@ public class TaxableService {
 
     // taxableMapper.createTax(tax);
 
-    // 
+    //
 
     // return mainGuid;
 
@@ -55,7 +55,7 @@ public class TaxableService {
     // public String createTaxWithFiles(Tax tax, MultipartFile[] files) throws
     // IOException {
 
-    // 
+    //
     // TaxFile taxFile= new TaxFile();
 
     // // 1️⃣ Create DB record
@@ -85,26 +85,17 @@ public class TaxableService {
 
     // // taxableMapper.insertFile(taxFile);
 
-    // 
+    //
     // }
     // }
     // }
 
     // return mainGuid;
     // }
+@Transactional
+public String createTaxWithFiles(Tax tax, MultipartFile[] files) throws  IOException  {
+    String mainGuid = generateGuid();
 
-    @Transactional
-    public String createTaxWithFiles(Tax tax, MultipartFile[] files) throws IOException {
-
-        // 1️⃣ Generate and set main ID for tax
-        String mainGuid = generateGuid();
-        tax.setMainGuid(mainGuid);
-
-        String referenceNumber = generateReferenceNumber();
-        tax.setReference_number(referenceNumber);
-        Long tax_id = taxableMapper.createTax(tax);
-
-        // 2️⃣ If there are files
         if (files != null && files.length > 0 && tax.getTaxFile() != null) {
             String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();
             File dir = new File(uploadDir);
@@ -112,38 +103,51 @@ public class TaxableService {
                 dir.mkdirs();
             }
 
+            // Check for existing files in the database
+            for (MultipartFile file : files) {
+                System.out.println("Checking file: " + file.getOriginalFilename());
+                if (!file.isEmpty()) {
+                    // Check if the file already exists in the database
+                    if (taxFileMapper.checkFilnameExistance(file.getOriginalFilename())) {
+                        // Notify user that the file already exists
+                        return "Exists";
+                    }
+                }
+            }
+
+            tax.setMainGuid(mainGuid);
+            tax.setReference_number(generateReferenceNumber());
+
+            // Create tax entry
+            Long tax_id = taxableMapper.createTax(tax);
+
+            // Process and store the files
             for (int i = 0; i < files.length; i++) {
                 MultipartFile file = files[i];
                 TaxFile tf = tax.getTaxFile().get(i);
                 tf.setTax_id(tax_id);
 
-                // reference to the actual object in tax
-
                 if (!file.isEmpty()) {
                     File destination = new File(dir, file.getOriginalFilename());
+
+                    // Transfer the file to the destination
                     file.transferTo(destination);
 
-                    // 3️⃣ Generate ID and update the taxFile object
+                    // Generate ID and update the taxFile object
                     String fileId = generateGuid();
                     tf.setId(mainGuid);
                     tf.setSupportId(fileId);
                     tf.setFileName(file.getOriginalFilename());
-                    // tf.setExtension(tf.getExtension()); // already set from frontend
 
-                    // ✅ at this point, tax.getTaxFile().get(i) is updated in memory
-
-                    // 4️⃣ Insert into DB
+                    // Insert the file record in the database
                     taxFileMapper.insertFile(tf);
-
-                    
-                    
                 }
             }
         }
+    
 
-        
-        return mainGuid;
-    }
+    return mainGuid;
+}
 
     public String generateGuid() {
         UUID uuid = UUID.randomUUID(); // Generate a random UUID
@@ -163,7 +167,7 @@ public class TaxableService {
 
     }
 
-// @Transactional(readOnly = true)
+    // @Transactional(readOnly = true)
 
     public List<Tax> fetchTaxBasedonStatus(Payload payload) {
 

@@ -133,6 +133,8 @@ export class TaxCreateEditComponent implements OnInit {
         // Send FormData instead of JSON
         this.taxService.createTax(formData).subscribe({
             next: (response) => {
+
+                console.log(response)
                 this.saved.emit(response); // emit created tax
 
                 // close dialog and notify parent
@@ -182,5 +184,25 @@ export class TaxCreateEditComponent implements OnInit {
     }
 
 
+    onFileClear() {
+    this.tax!.taxFile = []; // revoke all selected files
+    this.messageService.add({
+        severity: 'info',
+        summary: 'Files Cleared',
+        detail: 'All selected files have been removed.'
+    });
+}
 
+
+onFileRemove(event: any) {
+    const removedFile = event.file; // this is the File object being removed
+    if (this.tax!.taxFile) {
+        this.tax!.taxFile = this.tax!.taxFile.filter(f => f.file !== removedFile);
+    }
+    this.messageService.add({
+        severity: 'info',
+        summary: 'File Removed',
+        detail: `${removedFile.name} has been removed.`
+    });
+}
 }

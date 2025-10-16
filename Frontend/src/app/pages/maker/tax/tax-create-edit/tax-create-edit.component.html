@@ -1,5 +1,5 @@
-<p-dialog [(visible)]="visible" [style]="{ width: '1000px' }" header="Announcement Details" [modal]="true"
-    (onHide)="onCancel()">
+<p-dialog [(visible)]="visible" [style]="{ width: '1000px' }" header="Tax Input fields" [modal]="true"
+    (onHide)="onCancel()" [dismissableMask]="false">
     <ng-template #content>
         <form ngNativeValidate #taxForm="ngForm" class="p-fluid" (ngSubmit)="onSave()">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -76,7 +76,7 @@
 
                 <div class="p-field">
                     <label for="graduatetaxPool" class="block font-bold mb-3">
-                        <strong class="text-danger">*</strong> Graduate Taxpool 1
+                        <strong class="text-danger">*</strong> Graduate Taxpool
                     </label>
                     <p-inputnumber [(ngModel)]="tax.graduatetaxPool" name="graduatetaxPool" inputId="graduatetaxPool"
                         mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" required autocomplete="off" fluid
@@ -149,17 +149,17 @@
                     </div>
                 </div>
 
-                <div class="p-field">
-                    <label for="fileUpload" class="block mb-3">Upload Files</label>
-                    <p-fileUpload name="demo[]" mode="advanced" [multiple]="true" [maxFileSize]="1000000"
-                        customUpload="true"
-                        accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                        (onSelect)="onFileSelect($event)">
-                        <ng-template #empty>
-                            <div>Drag and drop files here to upload (Image, PDF, Word).</div>
-                        </ng-template>
-                    </p-fileUpload>
-                </div>
+
+                <p-fileUpload name="demo[]" mode="advanced" [multiple]="true" [maxFileSize]="1000000"
+                    customUpload="true"
+                    accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    (onSelect)="onFileSelect($event)" (onClear)="onFileClear()" (onRemove)="onFileRemove($event)">
+                    <ng-template #empty>
+                        <div>Drag and drop files here to upload (Image, PDF, Word).</div>
+                    </ng-template>
+                </p-fileUpload>
+
+
 
             </div>
 

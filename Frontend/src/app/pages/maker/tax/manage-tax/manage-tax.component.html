@@ -35,7 +35,7 @@
             (onRowCollapse)="onRowCollapse($event)" #dt [value]="taxes" [loading]="loading" [rows]="5" [columns]="cols"
             [paginator]="true"
             [globalFilterFields]="['taxCategory', 'sendTo_', 'noOfEmployee', 'taxableAmount','taxWithHold', 'incometaxPoolAmount', 'graduatetaxPool',
-     'graduaTotBasSalary','graduateTotaEmployee','graduatetaxWithHold', 'taxCategoryList','remark', 'maker_name','status', 'maker_date', 'initiator_branch', 'destination_branch', 'reference_number']"
+     'graduaTotBasSalary','graduateTotaEmployee','graduatetaxWithHold', 'taxCategoryList','remark', 'maker_name','status', 'maker_date', 'initiator_branch', 'destination_branch', 'reference_number','remark']"
             [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedTaxes" [rowHover]="true" dataKey="id"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} taxes" [showCurrentPageReport]="true"
             [rowsPerPageOptions]="[10, 20, 30]" [size]="selectedSize">
@@ -126,6 +126,12 @@
                         <p-sortIcon field="taxCategory" />
                     </th>
 
+                    <th pSortableColumn="remark" style="min-width: 10rem">
+                        Remark
+                        <p-sortIcon field="remark" />
+                    </th>
+
+
                     <th pSortableColumn="maker_date" style="min-width: 12rem">
                         Created Date
                         <p-sortIcon field="maker_date" />
@@ -168,6 +174,8 @@
                     <td>{{ tax.graduatetaxWithHold }}</td>
 
                     <td>{{ taxCategoryMap[tax.taxCategory] || 'Unknown' }}</td>
+                    <td>{{ tax.remark }}</td>
+
 
                     <td>{{ tax.maker_date | date:'yyyy-MM-dd' }}</td>
                     <td>
@@ -237,21 +245,58 @@
                                                     class="border p-3 rounded w-64 flex-shrink-0 flex flex-col items-center">
                                                     <ng-container *ngIf="file.fileType">
 
-                                                        <img *ngIf="file.fileType.startsWith('image/') && file.file"
-                                                            [src]="'data:' + file.fileType + ';base64,' + file.file"
-                                                            [alt]="file.fileName"
-                                                            class="max-h-64 object-contain rounded-lg mb-2 w-full" />
+                                                        <div *ngIf="file.fileType.startsWith('image/') && file.file">
+                                                            <div class="flex items-center">
+                                                                <img [src]="'data:' + file.fileType + ';base64,' + file.file"
+                                                                    [alt]="file.fileName || 'Image'"
+                                                                    class="max-h-64 object-contain rounded-lg mb-2 w-full cursor-pointer"
+                                                                    (error)="onImageError($event)" />
 
-                                                        <div class="flex gap-2 mb-2 justify-center"
-                                                            *ngIf="file.fileType === 'application/pdf' || file.pdfUrl">
-                                                            <button class="p-button p-component p-button-sm"
-                                                                (click)="previewPdf(file)">
+                                                                <i class="pi pi-eye cursor-pointer ml-2"
+                                                                    (click)="openDialogImage()"
+                                                                    title="Preview Image"></i>
+
+                                                            </div>
+
+                                                            <a class="btn-download ml-2" (click)="openDialogImage()">
                                                                 Preview
-                                                            </button>
-                                                            <button class="p-button p-component p-button-sm"
-                                                                (click)="downloadPdf(file)">
-                                                                Download
-                                                            </button>
+                                                            </a>
+
+                                                            <a [href]="'data:' + file.fileType + ';base64,' + file.file"
+                                                                [download]="file.fileName"
+                                                                class="btn-download ml-2">Download</a>
+
+                                                            <p-dialog header="Image Preview"
+                                                                [(visible)]="isDialogVisible" [modal]="true"
+                                                                [responsive]="true">
+                                                                <img [src]="'data:' + file.fileType + ';base64,' + file.file"
+                                                                    [alt]="file.fileName || 'Preview Image'"
+                                                                    class="dialog-image" />
+                                                                <p-footer>
+                                                                    <button type="button"
+                                                                        (click)="isDialogVisible = false">Close</button>
+                                                                </p-footer>
+                                                            </p-dialog>
+                                                        </div>
+
+                                                        <div class="flex flex-col gap-2 mb-2 justify-center"
+                                                            *ngIf="file.fileType === 'application/pdf' || file.pdfUrl">
+
+                                                            <div class="text-center font-medium">
+                                                                {{ file.fileName }}
+                                                            </div>
+
+                                                            <div class="flex gap-3 justify-center">
+                                                                <button class="p-button p-component p-button-sm"
+                                                                    (click)="previewPdf(file)">
+                                                                    Preview
+                                                                </button>
+                                                                <button class="p-button p-component p-button-sm"
+                                                                    (click)="downloadPdf(file)">
+                                                                    Download
+                                                                </button>
+                                                            </div>
+
                                                         </div>
 
                                                         <div *ngIf="file.fileType?.includes('word') && file.file"
@@ -259,14 +304,12 @@
                                                             <i class="pi pi-file-word text-4xl mb-2"></i>
                                                             <span class="block text-sm truncate">{{ file.fileName
                                                                 }}</span>
-                                                            <a [href]="'data:' + file.fileType + ';base64,' + file.file"
-                                                                [download]="file.fileName"
-                                                                class="text-blue-500 underline text-sm mt-1 block">
+                                                            <button class="text-blue-500 underline text-sm mt-1 block"
+                                                                (click)="downloadWord(file)">
                                                                 Download
-                                                            </a>
+                                                            </button>
                                                         </div>
 
-                                                        <!-- ⚠️ No file -->
                                                         <span *ngIf="!file.file && !file.pdfUrl"
                                                             class="text-gray-400 text-sm">
                                                             No File
@@ -278,14 +321,14 @@
                                         </div>
 
                                         <p-dialog [(visible)]="showPdfModal" modal="true"
-                                            [style]="{width: '70%', height: '80%'}" (onHide)="closeModal()">
+                                            [style]="{width: '70%', height: '80%'}" (onHide)="closeModalPDF()">
                                             <iframe *ngIf="selectedPdf" [src]="selectedPdf"
                                                 class="w-full h-full"></iframe>
                                         </p-dialog>
 
 
                                         <p-dialog [(visible)]="showPdfModal" modal="true"
-                                            [style]="{width: '70%', height: '80%'}" (onHide)="closeModal()">
+                                            [style]="{width: '70%', height: '80%'}" (onHide)="closeModalPDF()">
                                             <iframe *ngIf="selectedPdf" [src]="selectedPdf"
                                                 class="w-full h-full"></iframe>
                                         </p-dialog>
@@ -307,10 +350,10 @@
 
 
 <app-tax-create-edit [(visible)]="taxDialog" [tax]="tax" (saved)="onTaxesaved($event)"
-    (cancel)="hideDialog()"></app-tax-create-edit>
+    (cancel)="hideDialogCrateEdit()"></app-tax-create-edit>
 
 
-<p-dialog [(visible)]="showPdfModal" modal="true" [style]="{width: '70%', height: '80%'}" (onHide)="closeModal()">
+<p-dialog [(visible)]="showPdfModal" modal="true" [style]="{width: '70%', height: '80%'}" (onHide)="closeModalPDF()">
     <iframe *ngIf="selectedPdf" [src]="selectedPdf" class="w-full h-full"></iframe>
 </p-dialog>
 

@@ -10,6 +10,7 @@ export class MakerSearchPayload {
     user_id?: number;
     maker_date?: Date[]; 
     checked_date?: Date[];
+    branch_name?:String
 
  routeControl?: string;
 

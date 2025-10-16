@@ -54,7 +54,7 @@ export default [
         canActivate: [AuthGuard],
         data: {
             roles: ['ROLE_MAKER'],
-            status:'general status'
+            status:'generalstatus'
         }
     },
     { path: 'tax', data: { breadcrumb: 'Tax Form' }, component: TaxCreateEditComponent },

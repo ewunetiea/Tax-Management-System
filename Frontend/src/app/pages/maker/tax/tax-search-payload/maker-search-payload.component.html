@@ -2,13 +2,13 @@
     <form (ngSubmit)="onSubmit()" ngNativeValidate #taxForm="ngForm" class="p-fluid">
 
         <div *ngIf="routeControl === 'drafted'"
-            class="flex items-center justify-center text-xl font-semibold text-blue-600 mb-3 space-x-2">
+            class="flex items-center justify-center text-xl font-semibold text-purple-600 mb-3 space-x-2">
             <i class="pi pi-pencil text-blue-500"></i>
             <span>Search Drafted Taxes</span>
         </div>
 
         <div *ngIf="routeControl === 'submited'"
-            class="flex items-center justify-center text-xl font-semibold text-green-600 mb-3 space-x-2">
+            class="flex items-center justify-center text-xl font-semibold text-blue-600 mb-3 space-x-2">
             <i class="pi pi-send text-green-500"></i>
             <span>Search Submitted Taxes</span>
         </div>
@@ -18,34 +18,55 @@
             <i class="pi pi-times-circle text-red-500"></i>
             <span>Search Rejected Taxes</span>
         </div>
-
+         <div *ngIf="routeControl === 'approved'"
+            class="flex items-center justify-center text-xl font-semibold text-green-600 mb-3 space-x-2">
+            <i class="pi pi-send text-green-500"></i>
+            <span>Search Approved Taxes</span>
+        </div>
+    <div *ngIf="routeControl === 'generalstatus'"
+     class="flex items-center justify-center text-xl font-semibold text-green-600 mb-3 space-x-2">
+<i class="pi pi-spinner pi-spin bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text"></i>
+  <span>Search Tax Progress</span>
+</div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-            <div class="p-field">
+            <!-- <div class="p-field">
                 <label for="branch_id" class="block font-bold mb-3">Unit</label>
                 <p-select id="branch_id" [options]="branches" name="branch_id" [(ngModel)]="payload.branch_id"
                     optionLabel="name" optionValue="id" [filter]="true" [loading]="branchLoading"
                     [placeholder]="branchLoading ? 'Loading...' : 'Select One'" (onClick)="getBranches()"
                     class="w-full h-14 "></p-select>
+
+            </div> -->
+
+
+             <div class="p-field" *ngIf="routeControl !='generalstatus'" >
+                <label for="branch_name" class="block font-bold mb-3">Initiator Branch</label>
+
+                <input pInputText id="branch_name" name="branch_name" [(ngModel)]="payload.branch_name"
+                    type="text" autocomplete="off" class="w-full h-14 " readonly />
             </div>
+
+              <div class="p-field" *ngIf="routeControl ==='generalstatus'">
+                <label for="status_id" class="block font-bold mb-3"> Status of Tax</label>
+                <p-select id="status_id" name="status_id" [options]="status" [(ngModel)]="payload.status_id"
+                    optionLabel="name" optionValue="id" [filter]="true" placeholder="Select Tax Status"
+                    class="w-full h-14 "></p-select>
+            </div>
+
 
             <div class="p-field">
                 <label for="tax_category_id" class="block font-bold mb-3">Tax Type</label>
                 <p-select id="tax_category_id" name="tax_category_id" [options]="taxCategories"
                     [(ngModel)]="payload.tax_category_id" optionLabel="type" optionValue="id" [filter]="true"
-                    [loading]="taxCategoryLoading" [placeholder]="taxCategoryLoading ? 'Loading...' : 'Select One'"
+                    [loading]="taxCategoryLoading" [placeholder]="taxCategoryLoading ? 'Loading...' : 'Select Tax Type'"
                     (onClick)="getTaxCategories()" class="w-full h-14 "></p-select>
             </div>
 
-            <div class="p-field" *ngIf="routeControl ==='generalStatus'">
-                <label for="status_id" class="block font-bold mb-3">Status</label>
-                <p-select id="status_id" name="status_id" [options]="status" [(ngModel)]="payload.status_id"
-                    optionLabel="name" optionValue="id" [filter]="true" placeholder="Select One"
-                    class="w-full h-14 "></p-select>
-            </div>
+          
 
-            <div class="p-field">
+            <div class="p-field" *ngIf="routeControl !='approved'">
                 <label for="reference_number" class="block font-bold mb-3">Reference Number</label>
 
                 <input pInputText id="reference_number" name="reference_number" [(ngModel)]="payload.reference_number"
@@ -65,7 +86,7 @@
 
             </div>
 
-            <div class="p-field" *ngIf="routeControl ==='rejected'">
+            <div class="p-field" *ngIf="routeControl ==='rejected' || routeControl ==='generalstatus' ">
                 <label for="maker_date" class="block font-bold mb-3">
                     <strong class="text-danger"></strong> Rejected Date
                 </label>
@@ -75,7 +96,7 @@
 
             </div>
 
-            <div class="p-field" *ngIf="routeControl ==='approved'">
+            <div class="p-field" *ngIf="routeControl ==='approved' || routeControl ==='generalstatus' ">
                 <label for="maker_date" class="block font-bold mb-3">
                     <strong class="text-danger"></strong> Checking Date
                 </label>

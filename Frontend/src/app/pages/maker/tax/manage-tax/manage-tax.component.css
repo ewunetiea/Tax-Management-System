@@ -5,3 +5,32 @@
 .p-datatable-scrollable .p-frozen-column {
     font-weight: bold;
 }
+
+
+.btn-download {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.btn-download:hover {
+  background-color: #0056b3;
+}
+
+.dialog-image {
+  width: 100%;
+  height: auto;
+}
+
+
+.cursor-pointer {
+  cursor: pointer; /* Changes the cursor to a pointer */
+}
+
+.ml-2 {
+  margin-left: 0.5rem; /* Margin for spacing */
+}

@@ -4,12 +4,12 @@
 
 // export const environment = {
 //   production: false,
-//   auditorFileApi: 'http://localhost:8441/api',//to hnadle auditor uploading files
-//   auditeeFileApi: 'http://localhost:8441/api', // to handle auditee response files
-//   imagesUserApi: 'http://localhost:8441/api/user/image/',
+//   auditorFileApi: 'http://localhost:8442/api',//to hnadle auditor uploading files
+//   auditeeFileApi: 'http://localhost:8442/api', // to handle auditee response files
+//   imagesUserApi: 'http://localhost:8442/api/user/image/',
 //   blankPic: 'assets/img/Blank-Profile-Picture.jpg',
-//   backendUrl: 'http://localhost:8441/api',
-//   webSocketUrl: 'http://localhost:8441/api',
+//   backendUrl: 'http://localhost:8442/api',
+//   webSocketUrl: 'http://localhost:8442/api',
 //   idleTimeout: 6 * 60 * 1000, // 6 minutes
 //   idleCountdownSeconds: 60, // 1 minute
 //   warningTimeout: 5 * 60 * 1000, // 5 minutes

@@ -1,7 +1,10 @@
 package com.afr.fms.Maker.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,11 +41,10 @@ public class TaxController {
 	private static final Logger logger = LoggerFactory.getLogger(TaxController.class);
 
 	@PostMapping("/fetchTaxBasedonStatus")
-	public ResponseEntity<List<Tax>> getTax(@RequestBody Payload payload,  HttpServletRequest request) {
+	public ResponseEntity<List<Tax>> getTax(@RequestBody Payload payload, HttpServletRequest request) {
 		try {
 
 			List<Tax> tax = new ArrayList<>();
-
 
 			tax = taxableService.fetchTaxBasedonStatus(payload);
 
@@ -66,13 +68,30 @@ public class TaxController {
 			@RequestPart("tax") Tax tax,
 			@RequestPart(value = "files", required = false) MultipartFile[] files) {
 		try {
+
 			String mainGuid = taxableService.createTaxWithFiles(tax, files);
-			tax.setMainGuid(mainGuid);
-			return new ResponseEntity<>(tax, HttpStatus.OK);
+
+			if (mainGuid.contains("Exists")) {
+
+				  Map<String, String> response = new HashMap<>();
+            response.put("message", "File already exists");
+            // return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+				return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+
+			} else {
+
+				tax.setMainGuid(mainGuid);
+
+				
+				return new ResponseEntity<>(tax, HttpStatus.OK);
+
+			}
+
 		} catch (Exception ex) {
 			logger.error("Error while saving tax", ex);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+
 	}
 
 	@PostMapping("/delete")
@@ -89,8 +108,6 @@ public class TaxController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
-
 
 	@PostMapping("/submit")
 	public ResponseEntity<?> submitTaxToBranchManger(@RequestBody List<Tax> taxs,
@@ -122,8 +139,4 @@ public class TaxController {
 		}
 	}
 
-
 }
-
-
-

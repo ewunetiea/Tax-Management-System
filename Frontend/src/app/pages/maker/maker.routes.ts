@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
 import { MakerDashboard } from '../dashboard/maker-dashboard/maker-dashboard';
 import { Crud } from './crud/crud';
+import { ManageTax } from './tax/manage-tax/manage-tax';
 import { AccountDataComponent } from './account-data/account-data.component';
 import { AuthGuard } from '../../service/admin/auth.guard';
+import { TaxCreateEditComponent } from './tax/tax-create-edit/tax-create-edit.component';
 
 export default [
     // { path: 'button', data: { breadcrumb: 'Button' }, component: ButtonDemo },
@@ -55,7 +57,7 @@ export default [
         canActivate: [AuthGuard],
         data: {
             roles: ['ROLE_MAKER'],
-            status:'general status'
+            status:'generalstatus'
         }
     },
     { path: 'tax', data: { breadcrumb: 'Tax Form' }, component: TaxCreateEditComponent },

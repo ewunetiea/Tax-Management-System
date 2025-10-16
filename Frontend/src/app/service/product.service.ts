@@ -1330,7 +1330,7 @@ export class ProductService {
     // If you wanted to be explicit (though often not necessary for JSON bodies):
 
     createProduct(product: any): Observable<any> {
-        console.log('________________________from create product service _________________');
+
         return this.http.post(baseUrl + '/create', product, { headers: headers });
     }
 

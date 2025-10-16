@@ -29,9 +29,8 @@ export class ManageTaxService {
     return this.http.post(`${baseUrl}/review`, taxes);
   }
 
-  rejectTax(tax: Tax): Observable<any> {
+  rejectReviewerTax(tax: Tax): Observable<any> {
     return this.http.post(`${baseUrl}/reject`, tax);
   }
-
 
 }

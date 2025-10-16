@@ -21,6 +21,8 @@ import { TaxableSearchEngineComponent } from '../../common/taxable-search-engine
   styleUrl: './managetax.component.scss'
 })
 export class ManagetaxComponent implements OnInit {
+  paginatorPayLoad: PaginatorPayLoad = new PaginatorPayLoad();
+  expandedRows: { [key: number]: boolean } = {};
   sizes!: any[];
   selectedSize: any = 'normal';
   items: MenuItem[] | undefined;
@@ -31,7 +33,6 @@ export class ManagetaxComponent implements OnInit {
   selectedTaxes: Tax[] = [];
   loading = true;
   statusRoute: string = '';
-  paginatorPayLoad: PaginatorPayLoad = new PaginatorPayLoad();
   rejectTaxDialog = false;
   outputRejectedTax: any[] = [];
   tax: Tax = new Tax();

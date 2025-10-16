@@ -70,6 +70,8 @@ export const httpRequestInterceptor: HttpInterceptorFn = (req, next) => {
                     error: new Error('Bad request. Please check your input and try again'),
                     status: 400
                 });
+
+                console.log("error" + error.message)
                 showToast(messageService, customError.error.message, 'error');
                 return throwError(() => customError);
             }
@@ -103,6 +105,29 @@ export const httpRequestInterceptor: HttpInterceptorFn = (req, next) => {
                 showToast(messageService, customError.error.message, 'error');
                 return throwError(() => customError);
             }
+
+if (error.status === 409) {
+    // Custom frontend message
+    const customMsg = 'File name already exists. Please rename or upload another';
+    
+    // Show toast
+    showToast(messageService, customMsg, 'error');
+    
+    // Create a new HttpErrorResponse with your custom message
+    const modifiedError = new HttpErrorResponse({
+        error: { message: customMsg },
+        headers: '' as any,
+        status: error.status,
+        statusText: " File name  already exists Please rename your file name",
+        url: ''
+    });
+
+    // Re-throw the modified error
+    return throwError(() => modifiedError);
+}
+
+
+
 
             // 🔹 Internal server error
             if (error instanceof HttpErrorResponse && error.status === 500) {

@@ -4,7 +4,7 @@ import { SharedUiModule } from '../../../../shared-ui';
 import { StorageService } from '../../../service/sharedService/storage.service';
 import { ManageTaxService } from '../../../service/reviewer/manage_tax_reviewer-service';
 import { User } from '../../../models/admin/user';
-import { Table} from 'primeng/table';
+import { Table } from 'primeng/table';
 import { Tax } from '../../../models/maker/tax';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
@@ -44,7 +44,7 @@ export class ManagetaxComponent implements OnInit {
   activeIndex1: number = 0;
   activeState: boolean[] = [true, false, false];
   pdfSrc: any;
-  selectedPdf: SafeResourceUrl | null = null; 
+  selectedPdf: SafeResourceUrl | null = null;
   showPdfModal = false;
 
   constructor(
@@ -75,12 +75,6 @@ export class ManagetaxComponent implements OnInit {
     this.router.events.subscribe(() => {
       this.setStatusRoute(); // detect route change
     });
-
-    // Watch route param changes dynamically
-    // this.route.paramMap.subscribe(params => {
-    //   this.statusRoute = params.get('status') || 'pending';
-    //   this.getTaxes(); 
-    // });
   }
 
   setStatusRoute() {
@@ -94,9 +88,9 @@ export class ManagetaxComponent implements OnInit {
     this.fetching = false;
   }
 
-  onDataGenerated(data: Tax[]) {
-    this.taxes = data;
-    this.fetching = true;
+  onDataGenerated(event: { data: Tax[]; fetching: boolean }): void {
+    this.taxes = event.data;
+    this.fetching = event.fetching;
     this.loading = false;
   }
 
@@ -287,12 +281,8 @@ export class ManagetaxComponent implements OnInit {
     }
   }
 
-
-
   downloadPdf(file: any) {
     if (!file.pdfUrl && !file.fileType) return;
-
-    // If we have the blob stored (recommended)
     this.fileDownloadService.fetchFileByFileName(file.fileName).subscribe((blob: Blob) => {
       const link = document.createElement('a');
       const blobUrl = URL.createObjectURL(blob); // create object URL from blob
@@ -301,88 +291,88 @@ export class ManagetaxComponent implements OnInit {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      URL.revokeObjectURL(blobUrl); 
+      URL.revokeObjectURL(blobUrl);
     });
   }
 
-   closeModal() {
-        this.showPdfModal = false;
-        this.selectedPdf = null;
-    }
-
-    
-onRowExpand(event: any) {
-  const tax = event.data;
-
-
-  if (!tax.taxFile || tax.taxFile.length === 0) {
-    return;
+  closeModal() {
+    this.showPdfModal = false;
+    this.selectedPdf = null;
   }
 
-  const fileFetchPromises = tax.taxFile.map((file: any) => {
-    if (!file?.fileName) return Promise.resolve(null);
 
-    return this.fileDownloadService.fetchFileByFileName(file.fileName).toPromise()
-      .then((blob: Blob | undefined) => {
-        if (!blob) {
-          console.warn(`No blob returned for file: ${file.fileName}`);
-          return null;
-        }
+  onRowExpand(event: any) {
+    const tax = event.data;
 
-        const newFile = { ...file };
-        newFile.fileType = blob.type;
 
-        // PDF
-        if (blob.type === 'application/pdf') {
-          // Revoke previous URL if exists
-          if (newFile.pdfUrl) {
-            URL.revokeObjectURL(
-              (newFile.pdfUrl as any).changingThisBreaksApplicationSecurity
-            );
-          }
-          const blobUrl = URL.createObjectURL(blob);
-          newFile.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl);
-          newFile.file = null;
-          return newFile;
-        }
-
-        // Image
-        if (blob.type.startsWith('image/')) {
-          return new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.onload = (e: any) => {
-              newFile.file = e.target.result.split(',')[1]; // base64
-              newFile.pdfUrl = null;
-              resolve(newFile);
-            };
-            reader.readAsDataURL(blob);
-          });
-        }
-
-        // Word or other files
-        newFile.file = blob;
-        newFile.pdfUrl = null;
-        return newFile;
-      })
-      .catch((error) => {
-        console.error('Error fetching file:', error);
-        return null;
-      });
-  });
-
-  Promise.all(fileFetchPromises).then((results) => {
-    tax.taxFile = results.filter(file => file !== null);
-
-    // Force change detection for PDFs
-    setTimeout(() => {
-
-    }, 0);
-  });
-}
-
- onRowCollapse(event: any) {
-        const tax = event.data;
-        delete this.expandedRows[tax.Id];
+    if (!tax.taxFile || tax.taxFile.length === 0) {
+      return;
     }
+
+    const fileFetchPromises = tax.taxFile.map((file: any) => {
+      if (!file?.fileName) return Promise.resolve(null);
+
+      return this.fileDownloadService.fetchFileByFileName(file.fileName).toPromise()
+        .then((blob: Blob | undefined) => {
+          if (!blob) {
+            console.warn(`No blob returned for file: ${file.fileName}`);
+            return null;
+          }
+
+          const newFile = { ...file };
+          newFile.fileType = blob.type;
+
+          // PDF
+          if (blob.type === 'application/pdf') {
+            // Revoke previous URL if exists
+            if (newFile.pdfUrl) {
+              URL.revokeObjectURL(
+                (newFile.pdfUrl as any).changingThisBreaksApplicationSecurity
+              );
+            }
+            const blobUrl = URL.createObjectURL(blob);
+            newFile.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl);
+            newFile.file = null;
+            return newFile;
+          }
+
+          // Image
+          if (blob.type.startsWith('image/')) {
+            return new Promise((resolve) => {
+              const reader = new FileReader();
+              reader.onload = (e: any) => {
+                newFile.file = e.target.result.split(',')[1]; // base64
+                newFile.pdfUrl = null;
+                resolve(newFile);
+              };
+              reader.readAsDataURL(blob);
+            });
+          }
+
+          // Word or other files
+          newFile.file = blob;
+          newFile.pdfUrl = null;
+          return newFile;
+        })
+        .catch((error) => {
+          console.error('Error fetching file:', error);
+          return null;
+        });
+    });
+
+    Promise.all(fileFetchPromises).then((results) => {
+      tax.taxFile = results.filter(file => file !== null);
+
+      // Force change detection for PDFs
+      setTimeout(() => {
+
+      }, 0);
+    });
+  }
+
+  onRowCollapse(event: any) {
+    const tax = event.data;
+    delete this.expandedRows[tax.Id];
+  }
 
 }

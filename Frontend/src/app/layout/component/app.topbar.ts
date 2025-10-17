@@ -44,7 +44,7 @@ export class AppTopbar {
     realTime = new RealTime();
     realTimeInfo: RealTime = {};
     admin_items: MenuItem[] = [];
-    auditor_items: MenuItem[] = [];
+    maker_items: MenuItem[] = [];
     nestedMenuItems: MenuItem[] = [];
     loading = true;
 
@@ -117,7 +117,7 @@ export class AppTopbar {
             }
         ];
 
-        this.auditor_items = [
+        this.maker_items = [
             {
                 label: 'Home',
                 icon: 'pi pi-home',
@@ -126,7 +126,8 @@ export class AppTopbar {
 
             {
                 label: 'Contact',
-                icon: 'pi pi-envelope'
+                icon: 'pi pi-envelope',
+                routerLink: ['/applayout/manage-contact']
             },
             {
                 label: 'Profile',
@@ -149,7 +150,7 @@ export class AppTopbar {
         if (this.admin) {
             this.nestedMenuItems = this.admin_items;
         } else {
-            this.nestedMenuItems = this.auditor_items;
+            this.nestedMenuItems = this.maker_items;
         }
 
         setTimeout(() => {

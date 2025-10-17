@@ -1,14 +1,13 @@
 <p-toast></p-toast>
 
 <main id="main" class="main">
-
     <div class="mb-6">
       <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
   </div>
 
 <div class="mb-2">
-    <p-card>
-       <app-taxable-search-engine (generatedTaxes)="onDataGenerated($any($event))"></app-taxable-search-engine>
+    <p-card> 
+       <app-report-search-engine (generatedTaxes)="onDataGenerated($any($event))"></app-report-search-engine>
     </p-card>
 </div>
 
@@ -49,7 +48,7 @@
                   pRipple
                   icon="pi pi-file-pdf"
                   (click)="exportPDF()"
-                  class="p-button-warning mr-2"
+                  class="p-button-danger mr-2"
                   pTooltip="PDF"
                   tooltipPosition="bottom"
                 ></button>
@@ -117,7 +116,7 @@
         </ng-template>
             <ng-template pTemplate="header">
               <tr>
-                <th style="width: 3rem"></th>
+                <!-- <th style="width: 3rem"></th> -->
                 <th style="width: 3rem">
                   <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
@@ -245,10 +244,10 @@
             </ng-template>
             <ng-template pTemplate="body" let-tax let-expanded="expanded">
               <tr>
-                <td>
+                <!-- <td>
                   <p-button type="button" pRipple [pRowToggler]="tax" [text]="true" [rounded]="true"
                   [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
-                </td>
+                </td> -->
                 <td>
                   <p-tableCheckbox [value]="tax"></p-tableCheckbox>
                 </td>
@@ -324,110 +323,6 @@
                 </td>
               </tr>
             </ng-template>
-
-             <ng-template #expandedrow let-tax>
-                <tr>
-                    <td colspan="9">
-                        <div class="p-3">
-                            <div class="flex space-x-2 py-2">
-                                <button
-                                    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full px-4 py-2"
-                                    (click)="activeIndex1 = 0">
-                                    <i class="pi pi-plus mr-1"></i>Tax Details
-                                </button>
-                            </div>
-
-                            <p-tabView [(activeIndex)]="activeIndex1">
-                                <p-tabPanel>
-                                    <div class="py-3 flex space-x-2">
-                                        <p-button *ngIf="tax.message"
-                                            [icon]="activeState[0] ? 'pi pi-minus' : 'pi pi-plus'" (click)="toggle(0)"
-                                            styleClass="p-button-text" label="Message Detail"></p-button>
-
-                                        <p-button *ngIf="tax.image"
-                                            [icon]="activeState[1] ? 'pi pi-minus' : 'pi pi-plus'" (click)="toggle(1)"
-                                            styleClass="p-button-text" label="Attached File"></p-button>
-                                    </div>
-
-                                    <div class="flex gap-4 items-start mt-3">
-                                        <div class="flex-1" *ngIf="tax.message && activeState[0]">
-                                            <h6 class="font-bold mb-2 text-gray-700">Message</h6>
-
-                                            <div
-                                                class="w-full border rounded-md p-4 bg-surface-50 text-gray-700 whitespace-pre-wrap max-h-70 overflow-auto">
-                                                {{ tax.message }}
-                                            </div>
-                                        </div>
-
-
-                                        <div *ngIf="tax.taxFile?.length" class="border p-3 rounded mb-3">
-                                            <div class="flex flex-wrap gap-4">
-                                                <div *ngFor="let file of tax.taxFile"
-                                                    class="border p-3 rounded w-64 flex-shrink-0 flex flex-col items-center">
-                                                    <ng-container *ngIf="file.fileType">
-
-                                                        <img *ngIf="file.fileType.startsWith('image/') && file.file"
-                                                            [src]="'data:' + file.fileType + ';base64,' + file.file"
-                                                            [alt]="file.fileName"
-                                                            class="max-h-64 object-contain rounded-lg mb-2 w-full" />
-
-                                                        <div class="flex gap-2 mb-2 justify-center"
-                                                            *ngIf="file.fileType === 'application/pdf' || file.pdfUrl">
-                                                            <button class="p-button p-component p-button-sm"
-                                                                (click)="previewPdf(file)">
-                                                                Preview
-                                                            </button>
-                                                            <button class="p-button p-component p-button-sm"
-                                                                (click)="downloadPdf(file)">
-                                                                Download
-                                                            </button>
-                                                        </div>
-
-                                                        <div *ngIf="file.fileType?.includes('word') && file.file"
-                                                            class="text-center text-blue-600 mb-2">
-                                                            <i class="pi pi-file-word text-4xl mb-2"></i>
-                                                            <span class="block text-sm truncate">{{ file.fileName
-                                                                }}</span>
-                                                            <a [href]="'data:' + file.fileType + ';base64,' + file.file"
-                                                                [download]="file.fileName"
-                                                                class="text-blue-500 underline text-sm mt-1 block">
-                                                                Download
-                                                            </a>
-                                                        </div>
-
-                                                        <!-- ⚠️ No file -->
-                                                        <span *ngIf="!file.file && !file.pdfUrl"
-                                                            class="text-gray-400 text-sm">
-                                                            No File
-                                                        </span>
-
-                                                    </ng-container>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <p-dialog [(visible)]="showPdfModal" modal="true"
-                                            [style]="{width: '70%', height: '80%'}" (onHide)="closeModal()">
-                                            <iframe *ngIf="selectedPdf" [src]="selectedPdf"
-                                                class="w-full h-full"></iframe>
-                                        </p-dialog>
-
-
-                                        <p-dialog [(visible)]="showPdfModal" modal="true"
-                                            [style]="{width: '70%', height: '80%'}" (onHide)="closeModal()">
-                                            <iframe *ngIf="selectedPdf" [src]="selectedPdf"
-                                                class="w-full h-full"></iframe>
-                                        </p-dialog>
-
-
-                                    </div>
-                                </p-tabPanel>
-                            </p-tabView>
-                        </div>
-                    </td>
-                </tr>
-            </ng-template>
-
             <ng-template pTemplate="summary">
               <div class="p-d-flex p-ai-center p-jc-between">
                 In total there are {{ taxes ? taxes.length : 0 }} taxes.

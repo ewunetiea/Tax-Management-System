@@ -95,7 +95,7 @@ export class ManageTax implements OnInit {
 
     onSearchResults(taxes: Tax[]) { //  search results are passed from child to parent
         this.taxes = taxes;
-        console.log(this.taxes)
+
         this.loading = false;
 
     }
@@ -459,7 +459,7 @@ export class ManageTax implements OnInit {
 
     onRowExpand(event: any) {
         const tax = event.data;
-        console.log("Expanded tax:", tax);
+
 
         if (!tax.taxFile || tax.taxFile.length === 0) {
             return;
@@ -537,7 +537,7 @@ export class ManageTax implements OnInit {
 
             // Force change detection for PDFs
             setTimeout(() => {
-                console.log('✅ All files fetched:', tax.taxFile);
+
             }, 0);
         });
     }
@@ -584,12 +584,12 @@ export class ManageTax implements OnInit {
                 }
 
                 // Debug: Log the decoded binary and byte array
-                console.log('Decoded binary:', binary);
-                console.log('Byte array:', byteArray);
+
+
             } else {
                 // If it's already a Blob, use it directly
                 const blob = new Blob([file.file], { type: file.fileType });
-                console.log('Using existing Blob of size:', blob.size);
+
 
                 const link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);

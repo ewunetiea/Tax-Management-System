@@ -68,7 +68,7 @@ export class TaxCreateEditComponent implements OnInit {
                 this.taxCategories = data;
             },
             error: (error) => {
-                console.log(error)
+
             }
         });
     }
@@ -91,7 +91,7 @@ export class TaxCreateEditComponent implements OnInit {
                     }
                 } else {
                     this.selectedBranchId = Number(this.tax.sendTo_);
-                    console.log('sendTo_ already set:', this.tax.sendTo_);
+
                 }
             },
             error: (error) => {
@@ -101,7 +101,7 @@ export class TaxCreateEditComponent implements OnInit {
     }
     onBranchChange(value: number) {
         this.tax.sendTo_ = value;
-        console.log('Branch changed, tax.sendTo_:', this.tax.sendTo_);
+
     }
 
     onSave() {
@@ -134,7 +134,7 @@ export class TaxCreateEditComponent implements OnInit {
         this.taxService.createTax(formData).subscribe({
             next: (response) => {
 
-                console.log(response)
+
                 this.saved.emit(response); // emit created tax
 
                 // close dialog and notify parent

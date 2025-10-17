@@ -37,7 +37,7 @@ export class TaxableSearchEngineComponent {
   isApprover = false;
   roles: string[] = [];
 
-  @Output() generatedTaxes: EventEmitter<Tax[]> = new EventEmitter<Tax[]>();
+ @Output() generatedTaxes = new EventEmitter<{ data: Tax[]; fetching: boolean }>();
   @Input() statusRoute: string = '';
 
   constructor(
@@ -70,7 +70,7 @@ export class TaxableSearchEngineComponent {
       approved_date: [''],
       rejected_date: [''],
       document_type: [''],
-      user_id: [this.user.id || ''],
+      user_id: [''],
       director_id: [''],
       search_by: [this.user.email?.split('@')[0] || '']
     });
@@ -89,8 +89,8 @@ export class TaxableSearchEngineComponent {
     }
   }
 
-  emitData(data: Tax[]) {
-    this.generatedTaxes.emit(data);
+   private emitData(data: Tax[], fetching: boolean) {
+    this.generatedTaxes.emit({ data, fetching });
   }
 
   // ✅ Load branches dynamically
@@ -135,13 +135,12 @@ export class TaxableSearchEngineComponent {
   onReset(): void {
     this.form.reset();
     this.submitted = false;
-    this.taxes = [];
-    this.generatedTaxes.emit([]); // tell parent to clear table
+    this.emitData([], false);
   }
 
   generateTaxes(): void {
   this.submitted = true;
-
+  this.emitData([], false);
   const routerStatus = this.statusRoute?.toLowerCase() || 'pending';
 
   // ✅ Normalize roles
@@ -201,12 +200,12 @@ export class TaxableSearchEngineComponent {
           summary: 'Error',
           detail: 'Failed to fetch taxes'
         });
+        this.emitData([], false); 
         return of([]);
       })
     )
     .subscribe((data: Tax[]) => {
-      this.taxes = data;
-      this.generatedTaxes.emit(data);
+      this.emitData(data, true);
     });
 }
 

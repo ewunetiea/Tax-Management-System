@@ -58,12 +58,7 @@ export class AppMenuHO {
             },
             {
                 label: 'Configurations',
-                items: [{ label: 'Tax Type', icon: 'pi pi-fw pi-dollar', routerLink: ['/applayout/approver/manage-tax-category'] }]
-            },
-            {
-                label: 'Tax Information',
-                items: [{ label: 'Manege Tax', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/manage-tax'] }  
-            ]
+                items: [{ label: 'Tax Type', icon: 'pi pi-fw pi-image', routerLink: ['/applayout/approver/manage-tax-category'] }]
             },
 
             {

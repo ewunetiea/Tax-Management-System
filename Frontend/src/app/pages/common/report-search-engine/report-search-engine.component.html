@@ -1,0 +1,97 @@
+<form [formGroup]="form" (ngSubmit)="generateTaxes()" class="p-fluid">
+  <div class="card flex flex-col gap-6 w-full">
+
+    <!-- Branch & Tax Type -->
+    <div class="flex flex-col md:flex-row gap-6">
+      <div class="flex flex-wrap gap-2 w-full" *ngIf="isApprover" >
+        <label for="branch_id">Unit</label>
+        <p-select 
+        id="branch_id" 
+        [options]="branches" 
+        formControlName="branch_id" 
+        name="branch_id" 
+        optionLabel="name"
+        optionValue="id"
+         [filter]="true" 
+         [loading]="branchLoading"
+          [placeholder]="branchLoading ? 'Loading...' : 'Select unit'" 
+          (onShow)="getBranches()" class="w-full">
+        </p-select>
+      </div>
+
+      <div class="flex flex-wrap gap-2 w-full">
+        <label for="tax_category_id">Tax Type</label>
+        <p-dropdown id="tax_category_id" [options]="taxCategories" formControlName="tax_category_id" optionLabel="type"
+          optionValue="id" [filter]="true" [loading]="taxCategoryLoading"
+          [placeholder]="taxCategoryLoading ? 'Loading...' : 'Select tax type'" (onShow)="getTaxCategories()" class="w-full">
+        </p-dropdown>
+      </div>
+    </div>
+
+    <!-- Status & Reference Number -->
+    <div class="flex flex-col md:flex-row gap-6">
+       <div class="flex flex-wrap gap-2 w-full">
+        <label for="reference_number">Reference Number</label>
+        <input pInputText id="reference_number" placeholder="Enter reference number" formControlName="reference_number" type="text" autocomplete="off" class="w-full" />
+      </div>
+
+      <div class="flex flex-wrap gap-2 w-full">
+        <label for="document_type">Status</label>
+        <p-select [options]="status" [filter]="true" formControlName="router_status" optionLabel="name" optionValue="name" placeholder="Select a Status"  class="w-full" />
+      </div>
+    </div>
+
+    <!-- Created Date & Checked Date -->
+    <div class="flex flex-col md:flex-row gap-6">
+      <!-- maked Date -->
+      <div class="p-field w-full md:w-1/2">
+        <label for="approved_date">Created Date</label>
+        <p-datepicker id="maked_date" formControlName="maked_date" dateFormat="yy-mm-dd" [maxDate]="maxDate"
+          [showIcon]="true" inputId="maked_date" [selectionMode]="'range'" placeholder="Select created date"
+          styleClass="w-full custom-datepicker">
+        </p-datepicker>
+      </div>
+
+      <!-- Checked Date -->
+      <div class="p-field w-full md:w-1/2">
+        <label for="checked_date" >Checked Date</label>
+        <p-datepicker id="checked_date" formControlName="checked_date" dateFormat="yy-mm-dd" [maxDate]="maxDate"
+          [showIcon]="true" inputId="checked_date" [selectionMode]="'range'" placeholder="Select checked date"
+          styleClass="w-full custom-datepicker">
+        </p-datepicker>
+      </div>
+    </div>
+
+
+    <div class="flex flex-col md:flex-row gap-6">
+      <!-- Approved Date -->
+      <div class="p-field w-full md:w-1/2">
+        <label for="approved_date">Approved Date</label>
+        <p-datepicker id="approved_date" formControlName="approved_date" dateFormat="yy-mm-dd" [maxDate]="maxDate"
+          [showIcon]="true" inputId="approved_date" [selectionMode]="'range'" placeholder="Select approved date"
+          styleClass="w-full custom-datepicker">
+        </p-datepicker>
+      </div>
+
+      <!-- Rejected Date -->
+      <div class="p-field w-full md:w-1/2">
+        <label for="rejected_date" >Rejected Date</label>
+        <p-datepicker id="rejected_date" formControlName="rejected_date" dateFormat="yy-mm-dd" [maxDate]="maxDate"
+          [showIcon]="true" inputId="rejected_date" [selectionMode]="'range'" placeholder="Select rejected date"
+          styleClass="w-full custom-datepicker">
+        </p-datepicker>
+      </div>
+    </div>
+
+    <!-- Submit & Reset -->
+    <div class="flex gap-4 mt-4 justify-left">
+      <button pButton pRipple type="submit" icon="pi pi-search" label="Search" [loading]="submitted"
+        [disabled]="form.invalid" class="p-button-rounded p-button-success p-button-outlined">
+      </button>
+
+      <button pButton pRipple type="reset" icon="pi pi-times" label="Reset" (click)="onReset()"
+        class="p-button-rounded p-button-danger p-button-outlined">
+      </button>
+    </div>
+  </div>
+</form>

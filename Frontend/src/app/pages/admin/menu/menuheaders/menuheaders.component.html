@@ -9,13 +9,13 @@
                 <p-card>
                     <p-toolbar styleClass="p-mb-4">
                         <ng-template pTemplate="left">
-                            <button pButton pRipple label="New" (click)="openNew()" icon="pi pi-plus" class="p-button-raised p-button-rounded p-button-outlined p-button-outlined mr-2"></button>
+                            <button pButton pRipple label="New" (click)="openNew()" icon="pi pi-plus" class="p-button-rounded p-button-outlined p-button-outlined mr-2"></button>
                             <button
                                 pButton
                                 pRipple
                                 label="Deactivate"
                                 icon="pi pi-times"
-                                class="p-button-raised p-button-rounded p-button-outlined p-button-outlined p-button-danger mr-2"
+                                class="p-button-rounded p-button-outlined p-button-outlined p-button-danger mr-2"
                                 (click)="confirmDeactivateSelected()"
                                 [disabled]="!selectedMenuHeaders || !selectedMenuHeaders.length"
                             ></button>
@@ -24,7 +24,7 @@
                                 pRipple
                                 label="Activate"
                                 icon="pi pi-verified"
-                                class="p-button-raised p-button-outlined p-button-rounded p-button-secondary"
+                                class="p-button-outlined p-button-rounded p-button-secondary"
                                 (click)="confirmActivateSelected()"
                                 [disabled]="!selectedMenuHeaders || !selectedMenuHeaders.length"
                             ></button>
@@ -226,9 +226,9 @@
                                 <td colspan="7">
                                     <div class="p-3">
                                         <div style="padding: 0.5em 0 1em 0">
-                                            <p-button (click)="activeIndex1 = 0" icon="pi pi-plus" styleClass="p-button-raised p-button-rounded p-button-outlined p-ml-2" label="Detail"></p-button>
-                                            <p-button icon="pi pi-cog" styleClass="p-button-raised p-button-rounded p-button-outlined p-ml-2" label="Manage Roles" (click)="openManageRoles(menu)"></p-button>
-                                            <p-button icon="pi pi-cog" styleClass="p-button-raised p-button-rounded p-button-outlined p-ml-2" label="Manage Menu Items" (click)="openManageMenuItems(menu)"></p-button>
+                                            <p-button (click)="activeIndex1 = 0" icon="pi pi-plus" styleClass="p-button-rounded p-button-outlined p-ml-2" label="Detail"></p-button>
+                                            <p-button icon="pi pi-cog" styleClass="p-button-rounded p-button-outlined p-ml-2" label="Manage Roles" (click)="openManageRoles(menu)"></p-button>
+                                            <p-button icon="pi pi-cog" styleClass="p-button-rounded p-button-outlined p-ml-2" label="Manage Menu Items" (click)="openManageMenuItems(menu)"></p-button>
                                         </div>
                                         <p-tabView [(activeIndex)]="activeIndex1">
                                             <p-tabPanel header="Mapped Roles">

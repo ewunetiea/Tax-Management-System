@@ -15,14 +15,14 @@
                 label="New"
                 (click)="openNew()"
                 icon="pi pi-plus"
-                class="p-button-raised p-button-rounded mr-2"
+                class="p-button-rounded mr-2"
               ></button>
               <button
                 pButton
                 pRipple
                 label="Delete"
                 icon="pi pi-times"
-                class="p-button-raised p-button-rounded p-button-danger mr-2"
+                class="p-button-rounded p-button-outlined p-button-danger mr-2"
                 (click)="deleteSelectedTaxCategories()"
                 [disabled]="!selectedTaxCategories || !selectedTaxCategories.length"
               ></button>
@@ -154,7 +154,7 @@
                     tooltipPosition="bottom"
                     (click)="deleteTaxCategory(tax)"
                     icon="pi pi-times"
-                    class="p-button-rounded p-button-danger mr-2"
+                    class="p-button-rounded p-button-outlined p-button-danger mr-2"
                   ></button>
                 </td>
               </tr>

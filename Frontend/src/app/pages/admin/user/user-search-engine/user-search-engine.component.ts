@@ -39,7 +39,7 @@ export class UserSearchEngineComponent {
     branchDropdownOptions: Branch[] = [];
     hoDropdownOptions: Branch[] = [];
     isEditData = false;
-    
+
     @Output() generatedUsers: EventEmitter<any> = new EventEmitter();
 
     constructor(
@@ -49,7 +49,7 @@ export class UserSearchEngineComponent {
         private userService: UserService,
         private userFunctionalityService: UserFunctionalityService,
         private router: Router,
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.jobDropdownOptions = Array.from({ length: 1000 });
@@ -84,10 +84,10 @@ export class UserSearchEngineComponent {
                     this.loading = false;
                     this.emitData(res);
                 },
-                 error: () => {
-                this.loading = false;
-                this.submitted = false;
-            }
+                error: () => {
+                    this.loading = false;
+                    this.submitted = false;
+                }
             });
         } else {
             // Call generate users function
@@ -97,9 +97,9 @@ export class UserSearchEngineComponent {
                     this.emitData(res);
                 },
                 error: () => {
-                this.loading = false;
-                this.submitted = false;
-            }
+                    this.loading = false;
+                    this.submitted = false;
+                }
             });
         }
     }

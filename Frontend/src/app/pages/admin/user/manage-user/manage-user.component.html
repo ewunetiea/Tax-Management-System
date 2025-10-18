@@ -14,16 +14,12 @@
     <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
             <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full px-4 py-2 mr-2 flex items-center" (click)="openNew()"><i class="pi pi-plus mr-1"></i> New</button>
-
             <button
                 class="bg-green-500 hover:bg-green-600 text-white font-semibold rounded-full px-4 py-2 mr-2 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
                 pTooltip="This action sets the selected users' category to 'Special', which is exempt from automatic configuration algorithms. Designed specifically for branch reviewers and managers."
                 (click)="makeSpecialSelectedUsers()"
-                [disabled]="!selectedUsers || !selectedUsers.length"
-            >
-                <i class="pi pi-verified mr-1"></i> Specialize
-            </button>
-
+                [disabled]="!selectedUsers || !selectedUsers.length">
+                <i class="pi pi-verified mr-1"></i> Specialize </button>
             <button
                 class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-full px-4 py-2 mr-2 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
                 pTooltip="This feature provides options to filter users by a given role and assign multiple intended roles to them. Furthermore, this feature removes any previously assigned roles and adds the intended ones."
@@ -37,8 +33,7 @@
         <ng-template pTemplate="right">
             <div class="flex">
                 <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
-                <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="excelExport()" class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
-
+                <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="excelExport()" class="p-button-success p-button-outlined p-button-rounded mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
                 <button type="button" pButton pRipple icon="pi pi-filter" (click)="dt.exportCSV({ selectionOnly: true })" class="p-button-info ml-auto" pTooltip="Selection Only" tooltipPosition="bottom"></button>
             </div>
         </ng-template>
@@ -160,18 +155,18 @@
                     <span *ngIf="user.region">{{ user.region?.name }}</span>
                 </td>
                 <td>
-                    <button *ngIf="user.status == 1" pButton pRipple type="text" icon="pi pi-verified" label="Active" class="p-button-rounded p-button-success p-button-outlined p-button-sm"></button>
-                    <button *ngIf="user.status == 0" pButton pRipple type="text" icon="pi pi-times" label="Inactive" class="p-button-rounded p-button-danger p-button-outlined p-button-sm"></button>
+                    <button *ngIf="user.status == 1" pButton pRipple type="text" icon="pi pi-verified" label="Active" class="p-button-rounded p-button-success p-button-outlined "></button>
+                    <button *ngIf="user.status == 0" pButton pRipple type="text" icon="pi pi-times" label="Inactive" class="p-button-rounded p-button-danger p-button-outlined "></button>
                 </td>
 
                 <td>
-                    <button *ngIf="user.special_user == 1" pButton pRipple type="text" label="Special" class="p-button-rounded p-button-outlined p-button-sm"></button>
-                    <button *ngIf="user.special_user != 1" pButton pRipple type="text" label="Normal" class="p-button-rounded p-button-secondary p-button-outlined p-button-sm"></button>
+                    <button *ngIf="user.special_user == 1" pButton pRipple type="text" label="Special" class="p-button-rounded p-button-outlined "></button>
+                    <button *ngIf="user.special_user != 1" pButton pRipple type="text" label="Normal" class="p-button-rounded p-button-secondary p-button-outlined "></button>
                 </td>
 
                 <td>
-                    <button pButton pRipple icon="pi pi-pencil" pTooltip="Edit User" class="p-button-outlined p-button-primary mr-2" (click)="editUser(user)"></button>
-                    <button pButton pRipple icon="pi pi-verified" pTooltip="Make Special" class="p-button-outlined p-button-success mr-2" (click)="makeSpecialUser(user)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" pTooltip="Edit User" class="p-button-outlined p-button-rounded p-button-primary mr-2" (click)="editUser(user)"></button>
+                    <button pButton pRipple icon="pi pi-verified" pTooltip="Make Special" class="p-button-outlined p-button-rounded p-button-success mr-2" (click)="makeSpecialUser(user)"></button>
                 </td>
             </tr>
         </ng-template>
@@ -358,7 +353,7 @@
 
         <div class="p-formgrid p-grid mt-6">
             <div class="p-field p-col-3">
-                <button *ngIf="!multipleRoleUserLoading" pButton pRipple label="Save" [disabled]="multipleRoleUserForm.form.invalid" icon="pi pi-check" class="p-button-raised p-button-rounded" (click)="manageMultipleUserRole()"></button>
+                <button *ngIf="!multipleRoleUserLoading" pButton pRipple label="Save" [disabled]="multipleRoleUserForm.form.invalid" icon="pi pi-check" class="p-button-rounded" (click)="manageMultipleUserRole()"></button>
                 <button *ngIf="multipleRoleUserLoading" type="button" disabled class="btn btn-primary">
                     Loading...
 
@@ -368,7 +363,7 @@
             <div class="p-field p-col-3">
                 <button pButton pRipple type="reset" label="Reset" icon="pi pi-times" severity="danger" class="border rounded-md p-2 bg-red-500 text-white hover:bg-red-600"></button>
 
-                <!-- <button class="col-md-5" pButton pRipple type="reset"  label="Reset" severity= "danger" icon="pi pi-times" class="p-button-raised p-button-danger p-button-rounded"></button> -->
+                <!-- <button class="col-md-5" pButton pRipple type="reset"  label="Reset" severity= "danger" icon="pi pi-times" class="p-button-danger p-button-rounded"></button> -->
             </div>
         </div>
     </form>

@@ -13,53 +13,62 @@
                             pButton 
                             pRipple 
                             label="New" 
-                            (click)="openNew()" 
-                            icon="pi pi-plus" 
-                            class="p-button-raised p-button-rounded mr-2">
-                        </button>
-                            <button
-                                pButton
-                                pRipple
-                                label="Deactivate"
-                                icon="pi pi-trash"
-                                class="p-button-raised p-button-rounded p-button-danger mr-2"
-                                (click)="deleteSelectedRegion()"
-                                [disabled]="!selectedRegions || !selectedRegions.length"
-                            ></button>
-                            <button pButton pRipple label="Activate" icon="pi pi-verified" class="p-button-raised p-button-rounded p-button-success" (click)="activateSelectedRegion()" [disabled]="!selectedRegions || !selectedRegions.length"></button>
+                            (click)="openNew()"
+                             icon="pi pi-plus"
+                            class="p-button-rounded p-button-outlined mr-2">
+                            </button>
+                            <button 
+                            pButton 
+                            pRipple 
+                            label="Deactivate" 
+                            icon="pi pi-trash"
+                            class="p-button-rounded p-button-outlined p-button-danger mr-2"
+                            (click)="deleteSelectedRegion()"
+                            [disabled]="!selectedRegions || !selectedRegions.length"></button>
+                            <button 
+                            pButton 
+                            pRipple 
+                            label="Activate" 
+                            icon="pi pi-verified"
+                            class="p-button-rounded p-button-outlined p-button-success"
+                            (click)="activateSelectedRegion()"
+                            [disabled]="!selectedRegions || !selectedRegions.length"></button>
                         </ng-template>
 
                         <ng-template pTemplate="right">
                             <div class="flex">
-                                <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="excelExport()" class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+                                
                             </div>
                         </ng-template>
                     </p-toolbar>
 
                     <p-table
-                        #dt
-                        [value]="regions"
-                        [rows]="5"
-                        [paginator]="true"
-                        [loading]="loading"
+                     #dt 
+                     [value]="regions"
+                      [rows]="5" 
+                      [paginator]="true" 
+                      [loading]="loading"
                         [globalFilterFields]="['name', 'code', 'status']"
-                        [(selection)]="selectedRegions"
+                         [(selection)]="selectedRegions"
                         [rowHover]="true"
-                        dataKey="id"
-                        [rowsPerPageOptions]="[5, 10, 25, 50]"
+                         dataKey="id" 
+                         [rowsPerPageOptions]="[5, 10, 25, 50]"
                         [tableStyle]="{ 'min-width': '75rem' }"
-                        [size]="selectedSize"
+                         [size]="selectedSize"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                        [showCurrentPageReport]="true" >
+                        [showCurrentPageReport]="true">
                         <ng-template #caption>
                             <div class="flex items-center justify-between">
-                                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                                    (click)="clear(dt)"></button>
                                 <div class="flex justify-center mb-4">
-                                    <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value" />
+                                    <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false"
+                                        optionLabel="name" optionValue="value" />
                                 </div>
                                 <p-iconfield>
                                     <p-inputicon styleClass="pi pi-search" />
-                                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)"  placeholder="Search..." /> 
+                                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)"
+                                        placeholder="Search..." />
                                 </p-iconfield>
                             </div>
                         </ng-template>
@@ -98,19 +107,41 @@
                                 <td>{{ region.name }}</td>
                                 <td>{{ region.code }}</td>
                                 <td>
-                                    <button *ngIf="region.status == 1" pButton pRipple type="text" icon="pi pi-verified" label="Active" class="p-button-rounded p-button-success p-button-outlined p-button-sm"></button>
-                                    <button *ngIf="region.status == 0" pButton pRipple type="text" icon="pi pi-times" label="Inactive" class="p-button-rounded p-button-danger p-button-outlined p-button-sm"></button>
+                                    <button *ngIf="region.status == 1" pButton pRipple type="text" icon="pi pi-verified"
+                                        label="Active"
+                                        class="p-button-rounded p-button-success p-button-outlined"></button>
+                                    <button *ngIf="region.status == 0" pButton pRipple type="text" icon="pi pi-times"
+                                        label="Inactive"
+                                        class="p-button-rounded p-button-danger p-button-outlined"></button>
                                 </td>
                                 <td>
-                                    <button pButton pRipple pTooltip="Edit" tooltipPosition="bottom" (click)="editRegion(region)" icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" ></button>
-                                    <button *ngIf="region.status == 1" pButton pRipple pTooltip="Deactivate" tooltipPosition="bottom" (click)="deleteRegion(region)" icon="pi pi-times" class="p-button-rounded p-button-danger mr-2"></button>
-                                    <button *ngIf="region.status == 0" pButton pRipple pTooltip="Activate" tooltipPosition="bottom" (click)="activateRegion(region)" icon="pi pi-verified" class="p-button-rounded p-button-secondary"></button>
+                                    <button 
+                                    pButton 
+                                    pRipple 
+                                    pTooltip="Edit"
+                                     tooltipPosition="bottom"
+                                     (click)="editRegion(region)" 
+                                     icon="pi pi-pencil"
+                                     class="p-button-rounded p-button-outlined mr-2"></button>
+                                    <button 
+                                    *ngIf="region.status == 1" 
+                                    pButton 
+                                    pRipple 
+                                    pTooltip="Deactivate"
+                                    tooltipPosition="bottom" 
+                                    (click)="deleteRegion(region)" 
+                                    icon="pi pi-times"
+                                    class="p-button-rounded p-button-outlined p-button-danger mr-2"></button>
+                                    <button *ngIf="region.status == 0" pButton pRipple pTooltip="Activate"
+                                        tooltipPosition="bottom" (click)="activateRegion(region)" icon="pi pi-verified"
+                                        class="p-button-rounded p-button-secondary"></button>
                                 </td>
                             </tr>
                         </ng-template>
 
                         <ng-template pTemplate="summary">
-                            <div class="p-d-flex p-ai-center p-jc-between">In total there are {{ regions ? regions.length : 0 }} regions.</div>
+                            <div class="p-d-flex p-ai-center p-jc-between">In total there are {{ regions ?
+                                regions.length : 0 }} regions.</div>
                         </ng-template>
                     </p-table>
                 </p-card>
@@ -119,13 +150,8 @@
     </section>
 </main>
 
-<p-dialog 
-[(visible)]="regionEditDialog"
-[style]="{ width: '600px' }"
-header="Region Details"
-[modal]="true"
-styleClass="p-fluid"
-[maximizable]="true">
+<p-dialog [(visible)]="regionEditDialog" [style]="{ width: '600px' }" header="Region Details" [modal]="true"
+    styleClass="p-fluid" [maximizable]="true">
     <ng-template pTemplate="content">
         <app-add-region [passedRegion]="outputRegion" (editedRegion)="onDataChange($event)"></app-add-region>
     </ng-template>

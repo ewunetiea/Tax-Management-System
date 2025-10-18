@@ -27,8 +27,13 @@
     </div>
 
     <div class="field flex gap-2 mt-3">
-        <button [loading]="loading" type="submit" pButton label="{{ getSubmitButtonText() }}" class="p-button-primary p-button-success mr-2" [disabled]="regionForm.form.invalid || region_name_exist_status || region_code_exist_status"></button>
-        <button type="reset" pButton label="Reset" class="p-button-raised p-button-rounded p-button-danger"></button>
+        <button 
+        [loading]="loading" 
+        type="submit" 
+        pButton label="{{ getSubmitButtonText() }}" 
+        class="p-button-primary p-button-success mr-2" 
+        [disabled]="regionForm.form.invalid || region_name_exist_status || region_code_exist_status"></button>
+        <button type="reset" pButton label="Reset" class="p-button-rounded p-button-danger"></button>
     </div>
 </form>
 

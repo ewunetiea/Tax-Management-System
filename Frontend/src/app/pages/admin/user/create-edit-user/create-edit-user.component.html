@@ -1,5 +1,4 @@
-
- <form ngNativeValidate #userForm="ngForm" class="space-y-4">
+<form ngNativeValidate #userForm="ngForm" class="space-y-4">
                         <div class="flex flex-col gap-2">
                             <label for="employee_id"><strong class="text-red-600">*</strong>Awash Bank ID</label>
                             <input
@@ -200,32 +199,24 @@
                             <label class="mb-3"><strong class="text-red-600">*</strong>User Category</label>
                             <div class="flex flex-col md:flex-row gap-4">
                                 <div class="col-span-4 flex items-center gap-2 mb-2">
-                                    <p-radioButton id="is" name="category" value="IS" #category="ngModel" required="true" [ngClass]="{ 'border-red-500': category.invalid && category.touched }" [(ngModel)]="user.category"></p-radioButton>
-                                    <label for="is">IS</label>
+                                    <p-radioButton id="maker" name="category" value="Maker" #category="ngModel" required="true" [ngClass]="{ 'border-red-500': category.invalid && category.touched }" [(ngModel)]="user.category"></p-radioButton>
+                                    <label for="is">Maker</label>
                                 </div>
                                 <div class="col-span-4 flex items-center gap-2 mb-2">
-                                    <p-radioButton id="mgt" name="category" value="MGT" #category="ngModel" required="true" [ngClass]="{ 'border-red-500': category.invalid && category.touched }" [(ngModel)]="user.category"></p-radioButton>
-                                    <label for="mgt">MGT</label>
+                                    <p-radioButton id="Reviewer" name="category" value="Reviewer" #category="ngModel" required="true" [ngClass]="{ 'border-red-500': category.invalid && category.touched }" [(ngModel)]="user.category"></p-radioButton>
+                                    <label for="mgt">Reviewer</label>
                                 </div>
                                 <div class="col-span-4 flex items-center gap-2 mb-2">
                                     <p-radioButton
-                                        id="branch_financial"
+                                        id="Approver"
                                         name="category"
-                                        value="BFA"
+                                        value="Approver"
                                         [(ngModel)]="user.category"
                                         #category="ngModel"
                                         required="true"
                                         [ngClass]="{ 'border-red-500': category.invalid && category.touched }"
                                     ></p-radioButton>
-                                    <label for="branch_financial">Financial</label>
-                                </div>
-                                <div class="col-span-4 flex items-center gap-2 mb-2">
-                                    <p-radioButton id="inspection" name="category" value="INS" [(ngModel)]="user.category" #category="ngModel" required="true" [ngClass]="{ 'border-red-500': category.invalid && category.touched }"></p-radioButton>
-                                    <label for="inspection">Inspection</label>
-                                </div>
-                                <div class="col-span-4 flex items-center gap-2 mb-2">
-                                    <p-radioButton id="general" name="category" value="GENERAL" [(ngModel)]="user.category" #category="ngModel" required="true" [ngClass]="{ 'border-red-500': category.invalid && category.touched }"></p-radioButton>
-                                    <label for="general">General</label>
+                                    <label for="branch_financial">Approver</label>
                                 </div>
                                 <div class="col-span-4 flex items-center gap-2 mb-2">
                                     <p-radioButton id="admin" name="admin" value="ADMIN" [(ngModel)]="user.category" #category="ngModel" required="true" [ngClass]="{ 'border-red-500': category.invalid && category.touched }"></p-radioButton>
@@ -264,12 +255,12 @@
                                     label="Save"
                                     [disabled]="userForm.form.invalid || !proceed || phone_number_status || email_status || user_name_status"
                                     icon="pi pi-check"
-                                    class="p-button-raised p-button-rounded p-button-outlined"
+                                    class="p-button-rounded p-button-outlined"
                                     (click)="openModal()"
                                 ></button>
                             </div>
                             <div class="col-span-3">
-                                <button class="col-md-3" pButton pRipple type="reset" label="Reset" icon="pi pi-times" class="p-button-raised p-button-outlined p-button-danger p-button-rounded"></button>
+                                <button class="col-md-3" pButton pRipple type="reset" label="Reset" icon="pi pi-times" class="p-button-outlined p-button-danger p-button-rounded"></button>
                             </div>
                         </div>
                     </form>

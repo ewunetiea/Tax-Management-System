@@ -71,78 +71,50 @@
   <div class="flex flex-wrap gap-4">
     <div class="w-1/3 flex items-center gap-3">
       <p-radioButton
-        id="is"
+        id="Maker"
         name="role_position"
-        value="IS"
+        value="Maker"
         #role_position="ngModel"
         [(ngModel)]="role.role_position"
         required
         [class.ng-invalid]="role_position.invalid && (role_position.touched || roleForm.submitted)"
         [class.ng-dirty]="role_position.dirty || role_position.touched"
       ></p-radioButton>
-      <label for="is">IS</label>
+      <label for="is">Maker</label>
     </div>
 
     <div class="w-1/3 flex items-center gap-2">
       <p-radioButton
-        id="mgt"
+        id="Reviewer"
         name="role_position"
-        value="MGT"
+        value="Reviewer"
         #role_position="ngModel"
         [(ngModel)]="role.role_position"
         required
         [class.ng-invalid]="role_position.invalid && (role_position.touched || roleForm.submitted)"
         [class.ng-dirty]="role_position.dirty || role_position.touched"
       ></p-radioButton>
-      <label for="mgt">MGT</label>
+      <label for="mgt">Reviewer</label>
     </div>
 
     <div class="w-1/3 flex items-center gap-2">
       <p-radioButton
-        id="branch_financial"
+        id="Approver"
         name="role_position"
-        value="BFA"
+        value="Approver"
         #role_position="ngModel"
         [(ngModel)]="role.role_position"
         required
         [class.ng-invalid]="role_position.invalid && (role_position.touched || roleForm.submitted)"
         [class.ng-dirty]="role_position.dirty || role_position.touched"
       ></p-radioButton>
-      <label for="branch_financial">Financial</label>
-    </div>
-
-    <div class="w-1/3 flex items-center gap-2">
-      <p-radioButton
-        id="inspection"
-        name="role_position"
-        value="INS"
-        #role_position="ngModel"
-        [(ngModel)]="role.role_position"
-        required
-        [class.ng-invalid]="role_position.invalid && (role_position.touched || roleForm.submitted)"
-        [class.ng-dirty]="role_position.dirty || role_position.touched"
-      ></p-radioButton>
-      <label for="inspection">Inspection</label>
-    </div>
-
-    <div class="w-1/3 flex items-center gap-2">
-      <p-radioButton
-        id="general"
-        name="role_position"
-        value="GENERAL"
-        #role_position="ngModel"
-        [(ngModel)]="role.role_position"
-        required
-        [class.ng-invalid]="role_position.invalid && (role_position.touched || roleForm.submitted)"
-        [class.ng-dirty]="role_position.dirty || role_position.touched"
-      ></p-radioButton>
-      <label for="general">General</label>
+      <label for="branch_financial">Approver</label>
     </div>
     <div class="w-1/3 flex items-center gap-2">
       <p-radioButton
         id="admin"
         name="role_position"
-        value="ADMIN"
+        value="Admin"
         #role_position="ngModel"
         [(ngModel)]="role.role_position"
         required

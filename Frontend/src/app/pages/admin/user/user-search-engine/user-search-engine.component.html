@@ -107,24 +107,16 @@
             <label class="font-medium">User Category</label>
             <div class="flex flex-wrap gap-4">
                 <div class="flex items-center gap-1">
-                    <p-radioButton id="is" name="category" value="IS" [(ngModel)]="user.category"></p-radioButton>
-                    <label for="is">IS</label>
+                    <p-radioButton id="maker" name="category" value="Maker" [(ngModel)]="user.category"></p-radioButton>
+                    <label for="is">Maker</label>
                 </div>
                 <div class="flex items-center gap-1">
-                    <p-radioButton id="mgt" name="category" value="MGT" [(ngModel)]="user.category"></p-radioButton>
-                    <label for="mgt">MGT</label>
+                    <p-radioButton id="Reviewer" name="category" value="Reviewer" [(ngModel)]="user.category"></p-radioButton>
+                    <label for="mgt">Reviewer</label>
                 </div>
                 <div class="flex items-center gap-1">
-                    <p-radioButton id="branch_financial" name="category" value="BFA" [(ngModel)]="user.category"></p-radioButton>
-                    <label for="branch_financial">Financial</label>
-                </div>
-                <div class="flex items-center gap-1">
-                    <p-radioButton id="inspection" name="category" value="INS" [(ngModel)]="user.category"></p-radioButton>
-                    <label for="inspection">Inspection</label>
-                </div>
-                <div class="flex items-center gap-1">
-                    <p-radioButton id="general" name="category" value="GENERAL" [(ngModel)]="user.category"></p-radioButton>
-                    <label for="general">General</label>
+                    <p-radioButton id="Approver" name="category" value="Approver" [(ngModel)]="user.category"></p-radioButton>
+                    <label for="branch_financial">Approver</label>
                 </div>
                 <div class="flex items-center gap-1">
                     <p-radioButton id="admin" name="category" value="ADMIN" [(ngModel)]="user.category"></p-radioButton>

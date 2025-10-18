@@ -7,7 +7,6 @@ import { PaginatorPayLoad } from '../../../../../models/admin/paginator-payload'
 import { SharedUiModule } from '../../../../../../shared-ui';
 import { RegionService } from '../../../../../service/admin/regionService';
 import { StorageService } from '../../../../../service/sharedService/storage.service';
-import { ExportExcelService } from '../../../../../service/sharedService/export-excel.service';
 
 @Component({
     selector: 'app-manage-region',
@@ -53,10 +52,9 @@ export class ManageRegionComponent {
     constructor(
         private regionService: RegionService,
         private storageService: StorageService,
-        private exportService: ExportExcelService,
         private messageService: MessageService,
         private confirmationService: ConfirmationService
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.home = { icon: 'pi pi-home', routerLink: '/' };
@@ -290,14 +288,5 @@ export class ManageRegionComponent {
     generateExportData() {
         return this.data2;
     }
-    
-    excelExport(): void {
-        let reportData = {
-            sheet_name: 'Regions',
-            title: 'FCY & Loan Management System - Regions',
-            data: this.generateExportData(),
-            headers: Object.keys(this.generateExportData()[0])
-        };
-        this.exportService.exportExcel(reportData);
-    }
+
 }

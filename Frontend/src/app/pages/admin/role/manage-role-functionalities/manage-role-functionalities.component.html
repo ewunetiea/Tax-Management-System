@@ -9,13 +9,13 @@
                 <p-card>
                     <p-toolbar>
                         <ng-template pTemplate="right">
-                            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-raised p-button-rounded p-button-outlined mr-2" (click)="openNew()"></button>
+                            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-rounded p-button-outlined mr-2" (click)="openNew()"></button>
                             <button
                                 pButton
                                 type="button"
                                 label="Activate"
                                 icon="pi pi-check-circle"
-                                class="p-button-raised p-button-rounded p-button-outlined p-button-success mr-2"
+                                class="p-button-rounded p-button-outlined p-button-success mr-2"
                                 [disabled]="!selectedFunctionalities || !selectedFunctionalities.length"
                                 (click)="confirmActivateSelected()"
                             ></button>
@@ -24,7 +24,7 @@
                                 type="button"
                                 label="Deactivate"
                                 icon="pi pi-times-circle"
-                                class="p-button-raised p-button-rounded p-button-outlined p-button-danger mr-2"
+                                class="p-button-rounded p-button-outlined p-button-danger mr-2"
                                 [disabled]="!selectedFunctionalities || !selectedFunctionalities.length"
                                 (click)="confirmDeactivateSelected()"
                             ></button>
@@ -33,7 +33,7 @@
                                 type="button"
                                 label="Delete"
                                 icon="pi pi-trash"
-                                class="p-button-raised p-button-rounded p-button-outlined p-button-danger"
+                                class="p-button-rounded p-button-outlined p-button-danger"
                                 [disabled]="!selectedFunctionalities || !selectedFunctionalities.length"
                                 (click)="deletePermissions()"
                             ></button>

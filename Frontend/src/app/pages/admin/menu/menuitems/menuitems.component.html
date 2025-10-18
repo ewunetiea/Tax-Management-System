@@ -15,14 +15,14 @@
                 label="New"
                 (click)="openNew()"
                 icon="pi pi-plus"
-                class="p-button-raised p-button-rounded p-button-outlined p-button-outlined mr-2"
+                class="p-button-rounded p-button-outlined p-button-outlined mr-2"
               ></button>
               <button
                 pButton
                 pRipple
                 label="Deactivate"
                 icon="pi pi-times"
-                class="p-button-raised p-button-rounded p-button-outlined p-button-outlined p-button-danger mr-2"
+                class="p-button-rounded p-button-outlined p-button-outlined p-button-danger mr-2"
                 (click)="confirmDeactivateSelected()"
                 [disabled]="!selectedMenuItems || !selectedMenuItems.length"
               ></button>
@@ -31,7 +31,7 @@
                 pRipple
                 label="Activate"
                 icon="pi pi-verified"
-                class="p-button-raised p-button-outlined p-button-rounded p-button-secondary"
+                class="p-button-outlined p-button-rounded p-button-secondary"
                 (click)="confirmActivateSelected()"
                 [disabled]="!selectedMenuItems || !selectedMenuItems.length"
               ></button>
@@ -333,12 +333,12 @@
                       <p-button
                         (click)="activeIndex1 = 0"
                         icon="pi pi-plus"
-                        styleClass="p-button-raised p-button-rounded p-button-outlined p-ml-2"
+                        styleClass="p-button-rounded p-button-outlined p-ml-2"
                         label="Detail"
                       ></p-button>
                       <p-button
                         icon="pi pi-cog"
-                        styleClass="p-button-raised p-button-rounded p-button-outlined p-ml-2"
+                        styleClass="p-button-rounded p-button-outlined p-ml-2"
                         label="Manage Permissions"
                         (click)="openManagePermissions(menu)"
                       ></p-button>
@@ -533,7 +533,7 @@
           icon="pi pi-check"
           label="Submit"
           [disabled]="menuForm.invalid"
-          class="p-button-rounded p-button-raised p-button-outlined"
+          class="p-button-rounded p-button-outlined"
         ></button>
       </div>
       <div class="p-field col-4">
@@ -541,7 +541,7 @@
           pButton
           type="button"
           icon="pi pi-times"
-          class="p-button-secondary p-button-rounded p-button-raised p-button-outlined"
+          class="p-button-secondary p-button-rounded p-button-outlined"
           (click)="menuForm.resetForm()"
           label="Reset"
         ></button>

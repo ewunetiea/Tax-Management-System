@@ -14,7 +14,7 @@
                 pRipple
                 label="Deactivate"
                 icon="pi pi-times"
-                class="p-button-raised p-button-rounded p-button-outlined p-button-outlined p-button-outlined p-button-danger mr-2"
+                class="p-button-rounded p-button-outlined p-button-outlined p-button-outlined p-button-danger mr-2"
                 (click)="updateStatus('Deactivate')"
                 [disabled]="!selectedSchedules || !selectedSchedules.length"
               ></button>
@@ -23,7 +23,7 @@
                 pRipple
                 label="Activate"
                 icon="pi pi-verified"
-                class="p-button-raised p-button-outlined p-button-rounded p-button-outlined p-button-secondary"
+                class="p-button-outlined p-button-rounded p-button-outlined p-button-secondary"
                 (click)="updateStatus('Activate')"
                 [disabled]="!selectedSchedules || !selectedSchedules.length"
               ></button>

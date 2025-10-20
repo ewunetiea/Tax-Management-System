@@ -1,4 +1,4 @@
-package com.afr.fms.Admin.Dashboard;
+package com.afr.fms.Dashboard.admin;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

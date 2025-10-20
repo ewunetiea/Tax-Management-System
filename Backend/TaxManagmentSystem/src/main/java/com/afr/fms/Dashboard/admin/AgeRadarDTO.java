@@ -1,4 +1,5 @@
-package com.afr.fms.Admin.Dashboard;
+package com.afr.fms.Dashboard.admin;
+
 
 
 import lombok.AllArgsConstructor;
@@ -9,10 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 @NoArgsConstructor
-public class RoleCountDTO {
-    private String rolePosition;
-    private String code;
-    private int count;
+public class AgeRadarDTO {
+    private String category;
+    private int active;
+    private int inactive;
 
     // getters and setters
 }

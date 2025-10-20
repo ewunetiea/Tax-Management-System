@@ -1,5 +1,5 @@
 
-package com.afr.fms.Admin.Dashboard;
+package com.afr.fms.Dashboard.admin;
 
 import java.util.List;
 import com.afr.fms.Common.RecentActivity.RecentActivity;

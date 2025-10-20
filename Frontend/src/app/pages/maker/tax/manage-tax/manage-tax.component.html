@@ -12,16 +12,16 @@
             <p-button label="New" icon="pi pi-plus" severity="info" class="mr-2" (onClick)="openNew()"
                 *ngIf="routeControl ==='drafted'" />
 
-            <p-button severity="help" label="Submit To Branch Manager" icon="pi pi-check" outlined
+            <p-button severity="success" label="Submit To Branch Manager" icon="pi pi-check" 
                 (click)="submitToBranchManager(selectedTaxes)" [disabled]="!selectedTaxes || !selectedTaxes.length"
                 class="mr-2" *ngIf="routeControl ==='drafted'" />
 
-            <p-button severity="danger" label="Delete" icon="pi pi-trash" outlined (click)="deleteTaxes(selectedTaxes)"
+            <p-button severity="danger" label="Delete" icon="pi pi-trash"  (click)="deleteTaxes(selectedTaxes)"
                 [disabled]="!selectedTaxes || !selectedTaxes.length" class="mr-2" *ngIf="routeControl ==='drafted'" />
 
-            <p-button severity="primary" label="Back Selected To Drafted State" icon="pi pi-trash" outlined
+            <p-button severity="help" label="Back Selected To Drafted State" icon="pi pi-trash" 
                 (click)="backToDraftedState(selectedTaxes)" [disabled]="!selectedTaxes || !selectedTaxes.length"
-                class="mr-2" *ngIf="routeControl !=='drafted' " />
+                class="mr-2" *ngIf="routeControl !=='drafted' && routeControl !='generalstatus' && routeControl !='approved' " />
         </ng-template>
 
         <ng-template pTemplate="center">
@@ -32,11 +32,11 @@
     </p-toolbar>
     <div *ngIf="!loading">
         <p-table [expandedRowKeys]="expandedRows" (onRowExpand)="onRowExpand($event)"
-            (onRowCollapse)="onRowCollapse($event)" #dt [value]="taxes" [loading]="loading" [rows]="5" [columns]="cols"
+            (onRowCollapse)="onRowCollapse($event)" #dt [value]="taxes" [loading]="loading" [rows]="5"
             [paginator]="true"
             [globalFilterFields]="['taxCategory', 'sendTo_', 'noOfEmployee', 'taxableAmount','taxWithHold', 'incometaxPoolAmount', 'graduatetaxPool',
      'graduaTotBasSalary','graduateTotaEmployee','graduatetaxWithHold', 'taxCategoryList','remark', 'maker_name','status', 'maker_date', 'initiator_branch', 'destination_branch', 'reference_number','remark']"
-            [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedTaxes" [rowHover]="true" dataKey="id"
+            [tableStyle]="{ 'width': '100%' }" [(selection)]="selectedTaxes" [rowHover]="true" dataKey="id"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} taxes" [showCurrentPageReport]="true"
             [rowsPerPageOptions]="[10, 20, 30]" [size]="selectedSize">
             <ng-template #caption>
@@ -69,64 +69,64 @@
                     </th>
 
 
-                    <th pSortableColumn="from_" style="min-width: 12rem">
+                    <th pSortableColumn="from_" style="min-width: 18rem">
                         Tax Reference Number
                         <p-sortIcon field="reference_number" />
                     </th>
 
-                    <th pSortableColumn="sendTo_" style="min-width: 12rem">
+                    <th pSortableColumn="sendTo_" style="min-width: 18rem">
                         Target Branch (Directorate)
                         <p-sortIcon field="sendTo_" />
                     </th>
 
-                    <th pSortableColumn="taxableAmount" style="min-width: 10rem">
+                    <th pSortableColumn="taxableAmount" style="min-width: 18rem">
                         Taxable Amount
                         <p-sortIcon field="taxableAmount" />
                     </th>
 
-                    <th pSortableColumn="taxWithHold" style="min-width: 10rem">
+                    <th pSortableColumn="taxWithHold" style="min-width: 18rem">
                         Tax With Hold
                         <p-sortIcon field="taxWithHold" />
                     </th>
 
-                    <th pSortableColumn="incometaxPoolAmount" style="min-width: 10rem">
+                    <th pSortableColumn="incometaxPoolAmount" style="min-width: 18rem">
                         Income Tax Pool Amount
                         <p-sortIcon field="incometaxPoolAmount" />
                     </th>
 
-                    <th pSortableColumn="graduatetaxPool" style="min-width: 10rem">
+                    <th pSortableColumn="graduatetaxPool" style="min-width: 18rem">
                         Graduate Taxpool
                         <p-sortIcon field="graduatetaxPool" />
                     </th>
 
 
 
-                    <th pSortableColumn="graduaTotBasSalary" style="min-width: 12rem">
+                    <th pSortableColumn="graduaTotBasSalary" style="min-width: 18rem">
                         Graduate Total Base Salary
                         <p-sortIcon field="graduaTotBasSalary" />
                     </th>
 
-                    <th pSortableColumn="graduateTotaEmployee" style="min-width: 10rem">
+                    <th pSortableColumn="graduateTotaEmployee" style="min-width: 18rem">
                         Graduate Total Employee
                         <p-sortIcon field="graduateTotaEmployee" />
                     </th>
 
-                    <th pSortableColumn="noOfEmployee" style="min-width: 10rem">
+                    <th pSortableColumn="noOfEmployee" style="min-width: 18rem">
                         Number of Employees
                         <p-sortIcon field="noOfEmployee" />
                     </th>
 
-                    <th pSortableColumn="graduatetaxWithHold" style="min-width: 10rem">
+                    <th pSortableColumn="graduatetaxWithHold" style="min-width: 18rem">
                         Graduate Tax With Hold
                         <p-sortIcon field="graduatetaxWithHold" />
                     </th>
 
-                    <th pSortableColumn="taxCategory" style="min-width: 10rem">
+                    <th pSortableColumn="taxCategory" style="min-width: 12rem">
                         Tax Category
                         <p-sortIcon field="taxCategory" />
                     </th>
 
-                    <th pSortableColumn="remark" style="min-width: 10rem">
+                    <th pSortableColumn="remark" style="min-width: 20rem">
                         Remark
                         <p-sortIcon field="remark" />
                     </th>
@@ -138,11 +138,12 @@
                     </th>
 
                     <th pSortableColumn="status" style="min-width: 15rem">
-                        Status
+                        Status of Tax
                         <p-sortIcon field="status" />
                     </th>
 
-                    <th pSortableColumn="status" style="min-width: 16rem" *ngIf="routeControl !='approved'">
+                    <th pSortableColumn="status" style="min-width: 16rem"
+                        *ngIf="routeControl !='approved' && routeControl !='generalstatus' ">
                         Action
                         <p-sortIcon field="status" />
                     </th>
@@ -156,7 +157,8 @@
                 <tr>
                     <td>
                         <p-button type="button" pRipple [pRowToggler]="tax" [text]="true" [rounded]="true"
-                            [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
+                            severity="info" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-angle-double-right'"
+                            pTooltip="Click >> Icon to see file details" tooltipPosition="right" />
                     </td>
                     <td><p-tableCheckbox [value]="tax" /></td>
 
@@ -179,9 +181,13 @@
 
                     <td>{{ tax.maker_date | date:'yyyy-MM-dd' }}</td>
                     <td>
-                        <p-button [label]="getStatusInfo(tax.status).label" [raised]="true"
+
+
+                        <p-tag [value]="getStatusInfo(tax.status).label"
                             [severity]="getStatusInfo(tax.status).severity">
-                        </p-button>
+                        </p-tag>
+
+
                     </td>
                     <td>
                         <p-button pTooltip="Edit Tax " tooltipPosition="top" icon="pi pi-pencil" class="mr-2"
@@ -195,7 +201,7 @@
                             severity="danger" [rounded]="true" [outlined]="true" (click)="deleteTaxes(tax)" class="mr-2"
                             *ngIf=" routeControl ==='drafted' " />
 
-                        <p-button pTooltip="Back to Draft State" tooltipPosition="top" icon="pi pi-chevron-left"
+                        <p-button pTooltip="Back to Draft State" tooltipPosition="top" icon="pi pi-backward"
                             severity="info" [rounded]="true" [outlined]="true" (click)="backToDraftedState(tax)"
                             class="mr-2" *ngIf=" routeControl ==='submited' || routeControl ==='rejected' " />
 
@@ -206,13 +212,13 @@
 
             <ng-template #expandedrow let-tax>
                 <tr>
-                    <td colspan="9">
+                    <td colspan="18">
                         <div class="p-3">
                             <div class="flex space-x-2 py-2">
                                 <button
                                     class="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full px-4 py-2"
                                     (click)="activeIndex1 = 0">
-                                    <i class="pi pi-plus mr-1"></i>Tax Details
+                                    <i class="pi pi-plus mr-1"></i>Attached File Details
                                 </button>
                             </div>
 

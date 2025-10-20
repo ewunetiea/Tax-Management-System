@@ -1,4 +1,4 @@
-package com.afr.fms.Admin.Dashboard;
+package com.afr.fms.Dashboard.admin;
 
 import java.util.List;
 import java.util.Map;

@@ -16,7 +16,7 @@ import { StorageService } from '../../../service/sharedService/storage.service';
         </ng-container>
     </ul> `
 })
-export class AppMenuHO {
+export class AppMenuApprover {
     model: MenuItem[] = [];
     general_items: MenuItem[] = [];
     admin_items: MenuItem[] = [];

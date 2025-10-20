@@ -78,7 +78,7 @@
                 CreatedBy / Auther
                 <p-sortIcon field="message" />
             </th>
-            <th style="min-width: 12rem"></th>
+            <th style="min-width: 12rem"> Action</th>
         </tr>
     </ng-template>
 
@@ -121,6 +121,9 @@
                                     [icon]="activeState[0] ? 'pi pi-minus' : 'pi pi-plus'" (click)="toggle(0)"
                                     styleClass="p-button-text" label="Message Detail"></p-button>
 
+
+
+
                                 <p-button *ngIf="announcement.image"
                                     [icon]="activeState[1] ? 'pi pi-minus' : 'pi pi-plus'" (click)="toggle(1)"
                                     styleClass="p-button-text" label="Attached File"></p-button>
@@ -132,10 +135,35 @@
                                 <div class="flex-1" *ngIf="announcement.message && activeState[0]">
                                     <h6 class="font-bold mb-2 text-gray-700">Message</h6>
 
-                                    <div
+                                    <!-- <div
                                         class="w-full border rounded-md p-4 bg-surface-50 text-gray-700 whitespace-pre-wrap max-h-70 overflow-auto">
                                         {{ announcement.message }}
-                                    </div>
+                                    </div> -->
+
+                                    <!-- <div
+  class="w-full border rounded-md p-4 bg-surface-50 text-gray-700 whitespace-pre-wrap max-h-70 overflow-auto"
+  [innerHTML]="announcement.message">
+</div> -->
+
+                                   <p-editor
+  [(ngModel)]="announcement.message"
+  [readonly]="true"
+  styleClass="w-full border rounded-md bg-surface-50 text-gray-700 max-h-70 overflow-auto">
+
+<ng-template pTemplate="header">
+  <div class="flex justify-between items-center w-full space-x-4">
+    <div class="font-semibold"> Subject : {{ announcement.title }}</div>
+    <div  class="font-semibold">Posted Date :{{ announcement.created_date | date:'yyyy-MM-dd' }}</div>
+    <div class="font-semibold"> Expiry Date: {{  announcement.expiry_date | date:'yyyy-MM-dd' }}</div>
+  </div>
+</ng-template>
+
+  <!-- <ng-template pTemplate="header">
+    <div class="text-right text-sm text-gray-500">
+    
+    </div>
+  </ng-template> -->
+</p-editor>
 
                                     <!-- <textarea id="float-input" rows="6" [readOnly]="true" [value]="announcement.message"
                                         pInputTextarea class="w-full border rounded-md p-3 bg-surface-50"></textarea>                                                                            -->

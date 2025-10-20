@@ -107,21 +107,28 @@ public interface TaxableMapper {
                         "LEFT JOIN unit b ON t.from_ = b.id",
                         "LEFT JOIN unit b2 ON t.sendTo_ = b2.id",
 
-                        "WHERE t.status = #{status}",
+                        "WHERE t.status = #{status} and  b.id = #{branch_id}  ",
 
                         "<if test='tax_category_id != null and tax_category_id != 0'>",
                         "   AND t.taxCategory = #{tax_category_id}",
                         "</if>",
 
-                        "<if test='branch_id != null and branch_id != 0 '>",
-                        "   AND b.id = #{branch_id}",
-                        "</if>",
                         "<if test= 'maker_date != null and maker_date.size() == 2 '> " +
                                         "  AND t.maker_date BETWEEN #{maker_date[0]} AND #{maker_date[1]} " +
                                         "   </if> ",
 
+                        "<if test= 'checked_date != null and checked_date.size() == 2 '> " +
+                                        "  AND t.checked_Date BETWEEN #{checked_date[0]} AND #{checked_date[1]} " +
+                                        "   </if> ",
+                        "<if test= 'rejected_date != null and rejected_date.size() == 2 '> " +
+                                        "  AND t.checker_rejected_date BETWEEN #{rejected_date[0]} AND #{rejected_date[1]} "
+                                        +
+                                        "   </if> ",
+
                         "</script>"
+
         })
+
         @Results(value = {
                         @Result(property = "id", column = "id"),
 

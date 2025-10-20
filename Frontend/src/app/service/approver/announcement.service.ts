@@ -24,6 +24,9 @@ export class AnnouncementService {
     fetchAnnouncemets(Announcement_type: String) {
         return this.http.get(baseUrl + '/fetch/' + `${Announcement_type}`);
     }
+      fetchAnnouncemetForDashBoard() {
+        return this.http.get(baseUrl + '/fetch/dashboard' );
+    }
 
     deleteAnnouncemets(id: any) {
         return this.http.delete(baseUrl + '/delete/' + `${id}`);

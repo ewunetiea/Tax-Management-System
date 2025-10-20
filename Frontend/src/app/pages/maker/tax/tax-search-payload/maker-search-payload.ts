@@ -107,12 +107,21 @@ export class MakerSearchEnginePayLoadComponent {
     this.payload.routeControl = this.routeControl ?? '';
     const user = this.storageService.getUser();
     this.payload.user_id = user ? user.id : 0;
-    const formattedDates = this.payload.maker_date?.map(date => {
+    const makerFormattedDates = this.payload.maker_date?.map(date => {
       const d = new Date(date);
       return new Date(`${d.getFullYear()}-${('0' + (d.getMonth() + 1)).slice(-2)}-${('0' + d.getDate()).slice(-2)}`);
     }) || [];
 
-    this.payload.maker_date = formattedDates;
+
+    const approverFormattedDates = this.payload.checked_date?.map(date => {
+      const d = new Date(date);
+      return new Date(`${d.getFullYear()}-${('0' + (d.getMonth() + 1)).slice(-2)}-${('0' + d.getDate()).slice(-2)}`);
+    }) || [];
+
+    this.payload.maker_date = makerFormattedDates;
+
+     this.payload.checked_date = approverFormattedDates;
+
 
     this.taxService.fetchTaxesBasedOnStatus(this.payload).subscribe({
       next: (data) => {

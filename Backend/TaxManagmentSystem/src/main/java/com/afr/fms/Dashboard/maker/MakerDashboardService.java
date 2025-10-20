@@ -1,9 +1,14 @@
-package com.afr.fms.Admin.Dashboard;
+package com.afr.fms.Dashboard.maker;
+
+
+
+
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import com.afr.fms.Security.jwt.AllowListProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.afr.fms.Admin.Entity.Region;
@@ -15,10 +20,11 @@ import com.afr.fms.Common.RecentActivity.RecentActivity;
 import com.afr.fms.Common.RecentActivity.RecentActivityMapper;
 
 @Service
-public class AdminDashboardService {
+public class MakerDashboardService {
+
 
     @Autowired
-    private AdminDashboardMapper adminDashboardMapper;
+    private MakerDashboardMapper makerDashboardMapper;
 
     @Autowired
     private RecentActivityMapper recentActivityMapper;
@@ -37,6 +43,7 @@ public class AdminDashboardService {
 
     private static final List<String> AUDITS = List.of("IS", "MGT", "INS", "BFA");
 
+
     // Line chart
     public Map<String, List<Integer>> computeLineChartData() {
         List<Region> regions = regionMapper.getRegions();
@@ -45,7 +52,7 @@ public class AdminDashboardService {
         for (Region region : regions) {
             List<Integer> userCounts = new ArrayList<>(AUDITS.size());
             for (String audit : AUDITS) {
-                userCounts.add(adminDashboardMapper.getUsersPerRegion(audit, region.getId()));
+                userCounts.add(makerDashboardMapper.getUsersPerRegion(audit, region.getId()));
             }
             lineChartData.put(region.getName(), userCounts);
         }
@@ -54,7 +61,7 @@ public class AdminDashboardService {
 
     // ✅ Polar data (now uses single query)
     public List<Integer> computePolarData() {
-        Map<String, Integer> counts = adminDashboardMapper.getPolarDataCounts();
+        Map<String, Integer> counts = makerDashboardMapper.getPolarDataCounts();
         return List.of(
             counts.getOrDefault("active_users", 0),
             counts.getOrDefault("inactive_users", 0),
@@ -65,13 +72,17 @@ public class AdminDashboardService {
 
     // Card data
     public List<Integer> computeCardData() {
+        // description
+        // 6 : drafted
+        // 0 : waiting for approval
+        // 1 : branch manager approved
+        // 2 : branch manager rejeced
         return List.of(
-            adminDashboardMapper.getSystemUsersByCategory("IS"),
-            adminDashboardMapper.getSystemUsersByCategory("MGT"),
-            adminDashboardMapper.getSystemUsersByCategory("BFA"),
-            adminDashboardMapper.getSystemUsersByCategory("INS"),
-            adminDashboardMapper.getUserLoginStatus(1),
-            adminDashboardMapper.getUserLoginStatus(2)
+            makerDashboardMapper.getTaxStatus(6),
+            makerDashboardMapper.getTaxStatus(0),
+            makerDashboardMapper.getTaxStatus(1),
+            makerDashboardMapper.getTaxStatus(2)
+          
         );
     }
 
@@ -82,7 +93,7 @@ public class AdminDashboardService {
         List<Integer> bar_chart_data = new ArrayList<>();
         for (String rolePosition : role_positions) {
             for (String code : roles) {
-                bar_chart_data.add(adminDashboardMapper.getUsersPerRoleandAudit(rolePosition, code));
+                bar_chart_data.add(makerDashboardMapper.getUsersPerRoleandAudit(rolePosition, code));
             }
         }
         return bar_chart_data;
@@ -94,7 +105,7 @@ public class AdminDashboardService {
         List<Integer> bar_chart_data = new ArrayList<>();
 
         for (String code : roles) {
-            bar_chart_data.add(adminDashboardMapper.getUsersPerRoleandAudit("BFA", code));
+            bar_chart_data.add(makerDashboardMapper.getUsersPerRoleandAudit("BFA", code));
         }
         return bar_chart_data;
     }
@@ -102,14 +113,14 @@ public class AdminDashboardService {
     // Radar age data
     public List<Integer> computeRadarAgeData() {
         return List.of(
-            adminDashboardMapper.getUserActiveStatusPerAudit(1, "IS"),
-            adminDashboardMapper.getUserActiveStatusPerAudit(0, "IS"),
-            adminDashboardMapper.getUserActiveStatusPerAudit(1, "MGT"),
-            adminDashboardMapper.getUserActiveStatusPerAudit(0, "MGT"),
-            adminDashboardMapper.getUserActiveStatusPerAudit(1, "BFA"),
-            adminDashboardMapper.getUserActiveStatusPerAudit(0, "BFA"),
-            adminDashboardMapper.getUserActiveStatusPerAudit(1, "INS"),
-            adminDashboardMapper.getUserActiveStatusPerAudit(0, "INS")
+            makerDashboardMapper.getUserActiveStatusPerAudit(1, "IS"),
+            makerDashboardMapper.getUserActiveStatusPerAudit(0, "IS"),
+            makerDashboardMapper.getUserActiveStatusPerAudit(1, "MGT"),
+            makerDashboardMapper.getUserActiveStatusPerAudit(0, "MGT"),
+            makerDashboardMapper.getUserActiveStatusPerAudit(1, "BFA"),
+            makerDashboardMapper.getUserActiveStatusPerAudit(0, "BFA"),
+            makerDashboardMapper.getUserActiveStatusPerAudit(1, "INS"),
+            makerDashboardMapper.getUserActiveStatusPerAudit(0, "INS")
         );
     }
 

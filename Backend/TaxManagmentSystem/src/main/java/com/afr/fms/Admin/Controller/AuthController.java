@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -104,22 +105,24 @@ public class AuthController {
 
                 // Step 1: AD authentication
                 // try {
-                //         boolean userDetail = adService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword());
+                // boolean userDetail = adService.authenticateUser(loginRequest.getUsername(),
+                // loginRequest.getPassword());
 
-                //         if (!userDetail) {
-                //                 throw new UserNotFoundException(
-                //                                 "Invalid credentials. Please provide the correct username and password.");
-                //         }
+                // if (!userDetail) {
+                // throw new UserNotFoundException(
+                // "Invalid credentials. Please provide the correct username and password.");
+                // }
                 // } catch (UserNotFoundException e) {
-                //         logger.error("User not found for username: {}", loginRequest.getUsername(),
-                //                         e.getMessage());
-                //         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse(e.getMessage()));
+                // logger.error("User not found for username: {}", loginRequest.getUsername(),
+                // e.getMessage());
+                // return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new
+                // MessageResponse(e.getMessage()));
                 // } catch (Exception e) {
-                //         logger.error("Error while validating ad for username: {}",
-                //                         loginRequest.getUsername(), e.getMessage());
-                //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                //                         .body(new MessageResponse(
-                //                                         "An error occurred during authentication. Please try again later."));
+                // logger.error("Error while validating ad for username: {}",
+                // loginRequest.getUsername(), e.getMessage());
+                // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                // .body(new MessageResponse(
+                // "An error occurred during authentication. Please try again later."));
                 // }
 
                 // Step 2: Check if user already has an active session
@@ -278,45 +281,31 @@ public class AuthController {
                 }
         }
 
+
+        @Transactional
         @PostMapping("/signup")
         public ResponseEntity<?> signup(@RequestBody User user) {
                 try {
+
+
                         List<Role> roles = new ArrayList<>();
                         if (user != null) {
                                 if (user.getJobPosition() != null && user.getJobPosition().getId() != null) {
-                                        roles = jobPositionMapper.getRoleByJobPositionId(user.getJobPosition().getId(),
+                                  roles = jobPositionMapper.getRoleByJobPositionId(user.getJobPosition().getId(),
                                                         user.getCategory());
-                                        if (roles != null) {
-                                                try {
-                                                        List<String> rolesName = roles.stream()
-                                                                        .map(Role::getName)
-                                                                        .collect(Collectors.toList());
 
-                                                        if (rolesName.contains("ROLE_AUDITEE_INS")) {
-                                                                roles.add(roleMapper.getRoleByCode("BRANCHM_BFA"));
-                                                                user.setSpecial_user(true);
-                                                        } else if (rolesName.contains("ROLE_BRANCHM_BFA")) {
-                                                                roles.add(roleMapper.getRoleByCode("AUDITEE_INS"));
-                                                                user.setSpecial_user(true);
-                                                        } else {
-                                                                user.setSpecial_user(false);
-                                                        }
-                                                } catch (Exception ex) {
-                                                        logger.error("Error while processing roles for user: {}",
-                                                                        user.getUsername(), ex);
-                                                }
-                                        }
+                                        user.setSpecial_user(false);
+
                                         user.setRoles(roles);
                                 }
                         }
-                        Exception e = userService.saveUser(user);
-                        if (e == null) {
-                                return new ResponseEntity<>(HttpStatus.ACCEPTED);
-                        } else {
-                                logger.error("Error occurred during signup for employee ID: {}", user.getEmployee_id(),
-                                                e);
-                                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                        }
+                         
+                        userService.saveUser(user);
+                     
+                   return new ResponseEntity<>(HttpStatus.ACCEPTED);
+                   
+                              
+                        
                 } catch (Exception e) {
                         logger.error("Error occurred during signup for employee ID: {}", user.getEmployee_id(), e);
                         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

@@ -4,13 +4,13 @@ import { AppMenuAdmin } from '../side-bar-items/app.admin_menu';
 import { AppMenuMaker } from '../side-bar-items/app.maker_menu';
 import { SharedUiModule } from '../../../../shared-ui';
 import { StorageService } from '../../../service/sharedService/storage.service';
-import { AppMenuHO } from '../side-bar-items/app.ho_menu';
 import { AppMenuChecker } from '../side-bar-items/app.checker_menu';
+import { AppMenuApprover } from '../side-bar-items/app.approver_menu';
 
 @Component({
     selector: 'app-sidebar',
     standalone: true,
-    imports: [AppMenuAdmin, AppMenuMaker, AppMenuChecker, AppMenuHO, SharedUiModule],
+    imports: [AppMenuAdmin, AppMenuMaker, AppMenuChecker, AppMenuApprover, SharedUiModule],
     templateUrl: './app.sidebar.component.html'
 })
 export class AppSidebar {

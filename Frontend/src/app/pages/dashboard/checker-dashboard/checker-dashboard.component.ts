@@ -6,10 +6,16 @@ import { BarAndLineChartSkeleton } from '../../skeleton/bar-and-lign-chart/bar-a
 import { CardSkeleton } from '../../skeleton/card/four-card';
 import { PieDougnutPolarSkeleton } from '../../skeleton/dougnut-polar-chart/pie-dougnut-polar';
 import { PieDougnutPolarSkeletonDescription } from '../../skeleton/dougnut-polar-chart/polar-pie-dougnut-title';
+import { Announcement } from '../../../models/approver/announcement';
+import { AnnouncementService } from '../../../service/approver/announcement.service';
+import { MessageService } from 'primeng/api';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { HttpErrorResponse } from '@angular/common/http';
+import { EditorModule } from 'primeng/editor';
 
 @Component({
   selector: 'app-checker-dashboard',
-  imports: [SharedUiModule, CardSkeleton, BarAndLineChartSkeleton, PieDougnutPolarSkeleton, PieDougnutPolarSkeletonDescription],
+  imports: [SharedUiModule, CardSkeleton, BarAndLineChartSkeleton, PieDougnutPolarSkeleton, PieDougnutPolarSkeletonDescription,EditorModule],
   templateUrl: './checker-dashboard.component.html',
   styleUrl: './checker-dashboard.component.scss'
 })
@@ -28,8 +34,12 @@ export class CheckerDashboardComponent {
   
       subscription: Subscription;
       loading  = true;
+       announcement: Announcement = new Announcement();
   
-      constructor(private layoutService: LayoutService) {
+      constructor(private layoutService: LayoutService, 
+         private announcemetService: AnnouncementService,
+                  private messageService: MessageService,
+                      private sanitizer: DomSanitizer) {
           this.subscription = this.layoutService.configUpdate$
               .pipe(debounceTime(25))
               .subscribe(() => {
@@ -43,8 +53,69 @@ export class CheckerDashboardComponent {
       this.loading = false;
     }, 1000); // 1000 ms = 1 seconds
           this.initCharts();
+
+          this.loadAnnouncements()
   
       }
+
+
+
+
+
+      
+         loadAnnouncements() {
+        this.announcemetService.fetchAnnouncemetForDashBoard().subscribe(
+          (announcement: any) => {   // directly the single object
+            if (announcement) {
+              // Detect file type from base64
+              const fileType = this.getFileType(announcement.image);
+              announcement.fileType = fileType;
+      
+              // Prepare PDF blob URL if PDF
+              if (fileType === 'application/pdf') {
+                const byteCharacters = atob(announcement.image);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                  byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                const blob = new Blob([byteArray], { type: 'application/pdf' });
+      
+                const url = URL.createObjectURL(blob);
+                announcement.pdfUrl = url;
+                announcement.safePdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url) as SafeResourceUrl;
+              }
+      
+              this.announcement = announcement; // directly assign the object
+            }
+          },
+          (error: HttpErrorResponse) => {
+            this.messageService.add({
+              severity: 'error',
+              summary:
+                error.status === 401
+                  ? 'You are not permitted to perform this action!'
+                  : 'Something went wrong while fetching announcements!',
+              detail: '',
+            });
+          }
+        );
+      }
+      
+          
+      
+             getFileType(base64: string): string {
+          if (!base64) return '';
+      
+          // Common base64 prefixes
+          if (base64.startsWith('/9j/')) return 'image/jpeg'; // JPEG
+          if (base64.startsWith('iVBOR')) return 'image/png'; // PNG
+          if (base64.startsWith('JVBER')) return 'application/pdf'; // PDF
+          if (base64.startsWith('UEsDB')) return 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'; // DOCX
+          if (base64.startsWith('0M8R4')) return 'application/msword'; // DOC
+      
+          return 'unknown';
+        }
   
       initCharts() {
           const documentStyle = getComputedStyle(document.documentElement);

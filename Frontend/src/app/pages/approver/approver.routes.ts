@@ -14,7 +14,7 @@ export default [
         component: AnnouncementComponent,
         canActivate: [AuthGuard],
         data: {
-            roles: ['ROLE_APPROVER'],
+            roles: ['ROLE_APPROVER', 'ROLE_MAKER','ROLE_REVIEWER'],
             status: 'ongoing'
         }
     },

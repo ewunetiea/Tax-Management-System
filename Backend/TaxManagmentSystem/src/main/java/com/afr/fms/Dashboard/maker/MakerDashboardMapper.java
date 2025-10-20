@@ -1,5 +1,5 @@
+package com.afr.fms.Dashboard.maker;
 
-package com.afr.fms.Admin.Dashboard;
 
 import java.util.List;
 import java.util.Map;
@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import com.afr.fms.Admin.Entity.Role;
 
 @Mapper
-public interface AdminDashboardMapper {
+public interface MakerDashboardMapper {
 
     // Roles by type
     @Select("SELECT * FROM role WHERE role_position = #{role_position} ORDER BY code")
@@ -40,8 +40,9 @@ public interface AdminDashboardMapper {
     Integer getUsersPerRegion(String category, Long region_id);
 
     // System users by category
-    @Select("SELECT COUNT(id) FROM [user] WHERE category = #{category}")
-    Integer getSystemUsersByCategory(String category);
+    @Select("SELECT COUNT(id) FROM tblTaxable WHERE status = #{taxtStatus}")
+    Integer getTaxStatus(int taxtStatus);
+    
 
     // User login status
     @Select("SELECT COUNT(id) FROM user_tracker WHERE status = #{status}")

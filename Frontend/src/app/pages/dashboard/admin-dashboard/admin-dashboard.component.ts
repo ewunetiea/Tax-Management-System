@@ -147,7 +147,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     }
 
     return {
-      labels: ['IS', 'MGT', 'INS'],
+      labels: ['Maker', 'Reviewer', 'Approver'],
       datasets: [
         { type: 'bar', label: 'Auditor', backgroundColor: '#48C9B0', data: auditor },
         { type: 'bar', label: 'Reviewer', backgroundColor: '#F8C471', data: reviewer },
@@ -173,7 +173,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     }
 
     return {
-      labels: ['IS', 'MGT', 'BFA', 'INS'],
+      labels: ['Admin', 'Maker', 'Reviewer', 'Approver'],
       datasets: [
         { label: 'Active', backgroundColor: 'rgba(26,188,156,0.2)', borderColor: 'rgba(26,188,156,1)', data: active },
         { label: 'Inactive', backgroundColor: 'rgba(26,82,118,0.2)', borderColor: 'rgba(26,82,118,1)', data: inactive }

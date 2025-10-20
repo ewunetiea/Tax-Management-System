@@ -288,13 +288,13 @@ export class ManageTax implements OnInit {
 
 
     //     this.fileDownloadService.fetchFileByFileName(file.fileName).subscribe((blob: Blob) => {
-    //         console.log('Received Blob:', blob);
+    //         
 
     //         const newFile = { ...file };
     //         newFile.fileType = blob.type;
 
     //         if (blob.type === 'application/pdf') {
-    //             console.log('Blob type is PDF, processing for PDF.');
+    //             
     //             newFile.file = null; // clear image
     //             const blobUrl = URL.createObjectURL(blob);
     //             newFile.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl); // ✅ sanitize
@@ -326,7 +326,7 @@ export class ManageTax implements OnInit {
 
     //  onRowExpand(event: any) {
     //   const tax = event.data;
-    //   console.log("Expanded tax:", tax);
+    //   
 
     //   if (!tax.taxFile || tax.taxFile.length === 0) {
     //     return;
@@ -377,7 +377,7 @@ export class ManageTax implements OnInit {
 
     //   Promise.all(fileFetchPromises).then((results) => {
     //     tax.taxFile = results.filter(file => file !== null);
-    //     console.log('✅ All files fetched:', tax.taxFile);
+    //     
     //   });
     // }
 
@@ -385,7 +385,7 @@ export class ManageTax implements OnInit {
 
     // onRowExpand(event: any) {
     //   const tax = event.data;
-    //   console.log("Expanded tax:", tax);
+    //   
 
     //   if (!tax.taxFile || tax.taxFile.length === 0) {
     //     return;
@@ -423,9 +423,9 @@ export class ManageTax implements OnInit {
     //           return new Promise((resolve) => {
     //             const reader = new FileReader();
     //             reader.onload = (e: any) => {
-    //   console.log('Base64 Result:', e.target.result); // Log the base64 result
+    //    // Log the base64 result
     //   newFile.file = e.target.result.split(',')[1]; // base64
-    //   console.log('File Type:', newFile.fileType); // Log the file type
+    //    // Log the file type
     //   newFile.pdfUrl = null;
     //   resolve(newFile);
     // };
@@ -449,7 +449,7 @@ export class ManageTax implements OnInit {
 
     //     // Force change detection for PDFs
     //     setTimeout(() => {
-    //       console.log('✅ All files fetched:', tax.taxFile);
+    //       
     //     }, 0);
     //   });
     // }
@@ -469,7 +469,7 @@ export class ManageTax implements OnInit {
 
             return this.fileDownloadService.fetchFileByFileName(file.fileName).toPromise()
                 .then((blob: Blob | undefined) => {
-                    console.log('Fetched Blob:', blob); // Log the fetched blob
+                     // Log the fetched blob
                     if (!blob) {
                         console.warn(`No blob returned for file: ${file.fileName}`);
                         return null;
@@ -506,9 +506,9 @@ export class ManageTax implements OnInit {
                         return new Promise((resolve) => {
                             const reader = new FileReader();
                             reader.onload = (e: any) => {
-                                console.log('Base64 Result:', e.target.result); // Log the base64 result
+                                 // Log the base64 result
                                 newFile.file = e.target.result.split(',')[1]; // base64
-                                console.log('File Type:', newFile.fileType); // Log the file type
+                                 // Log the file type
                                 newFile.pdfUrl = null;
                                 resolve(newFile);
                             };
@@ -599,7 +599,7 @@ export class ManageTax implements OnInit {
             }
 
             const blob = new Blob([byteArray as any], { type: file.fileType });
-            console.log('Blob size:', blob.size); // Debug: Log the blob size
+             // Debug: Log the blob size
 
             const link = document.createElement('a');
             link.href = window.URL.createObjectURL(blob);

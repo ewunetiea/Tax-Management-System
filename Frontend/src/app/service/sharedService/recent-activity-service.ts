@@ -13,12 +13,15 @@ export class RecentActivityService {
     addRecentActivity(data: any): Observable<any> {
         return this.http.post(`${rootURL}/addRecentActivity`, data);
     }
-    getRecentActivity(id: any): Observable<any> {
+
+    getRecentActivity(id: number): Observable<any> {
         return this.http.get(`${rootURL}/getRecentActivity/${id}`);
     }
+
     getRecentActivityAdmin(report: any): Observable<any> {
         return this.http.post(`${rootURL}/getRecentActivityAdmin`, report);
     }
+
     getAllRecentActivityByUserId(report: any): Observable<any> {
         return this.http.post(`${rootURL}/getAllRecentActivityByUserId`, report);
     }

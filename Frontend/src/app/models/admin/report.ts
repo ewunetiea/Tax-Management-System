@@ -2,13 +2,13 @@ import { User } from "../admin/user";
 
 export class Report {
   user_id?: number;
-  branch_code?: String;
-  startDateTime?: String;
-  endDateTime?: String;
+  branch_code?: string;
+  startDateTime?: string;
+  endDateTime?: string;
   action_date?: string[];
-  content?:String;
-  age?:Number;
-  age_range?:Number[];
+  content?:string;
+  age?:number;
+  age_range?:number[];
   users?:User[]
-  user_ids?:Number[]
+  user_ids?:number[]
 }

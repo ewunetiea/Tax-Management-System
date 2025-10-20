@@ -15,7 +15,7 @@
   list-style: none;
   width: 20px;
   height: 20px;
-  background: #F57C00;
+  background: #4CAF50; /* ✅ Changed to green */
   animation: animate 25s linear infinite;
   bottom: -150px;
 }
@@ -32,12 +32,12 @@
 .circles li:nth-child(10){ left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; }
 
 @keyframes animate {
-  0%{
+  0% {
     transform: translateY(0) rotate(0deg);
     opacity: 0.2;
     border-radius: 0;
   }
-  100%{
+  100% {
     transform: translateY(-1000px) rotate(720deg);
     opacity: 0;
     border-radius: 50%;

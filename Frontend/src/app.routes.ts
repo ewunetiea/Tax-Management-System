@@ -42,7 +42,7 @@ export const appRoutes: Routes = [
 
               {
                 path: 'approver',
-                loadChildren: () => import('./app/pages/approver/ho.routes').then(m => m.default),
+                loadChildren: () => import('./app/pages/approver/approver.routes').then(m => m.default),
                 canActivate: [AuthGuard]
             }, 
             { path: 'user-profile', component: UserProfileComponent },

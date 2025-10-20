@@ -3,6 +3,7 @@ package com.afr.fms.Admin.Service;
 import java.util.List;
 
 import javax.mail.MessagingException;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -78,7 +79,8 @@ public class UserService {
     // @Value("${site.base.url.https}")
     private String baseURL = Endpoint.URL;
 
-    public Exception saveUser(User user) {
+    @Transactional
+    public void saveUser(User user) {
         if (user.getId() == null) {
 
             // if (user.isAuthenthication_media()) {
@@ -102,7 +104,7 @@ public class UserService {
 
             addAllUserRoles(user);
             user.setPassword(password1);
-            try {
+          
                 
                 if (user.getAdmin_id() != null) {
                     User admin = new User();
@@ -112,15 +114,8 @@ public class UserService {
                     recentActivity.setUser(admin);
                     recentActivityMapper.addRecentActivity(recentActivity);
                 }
-                return null;
-            } catch (Exception e) {
                 
-                userRoleMapper.removeAllUserRoles(user.getId());
-                secureTokenMapper.deleteByUserId(user_id);
-                userSecurityMapper.deleteUserSecurityByUserID(user_id);
-                userMapper.deleteUserById(user_id);
-                return e;
-            }
+              
         } else {
             userMapper.updateUser(user);
             userRoleMapper.removeAllUserRoles(user.getId());
@@ -133,7 +128,6 @@ public class UserService {
             admin.setId(user.getAdmin_id());
             recentActivity.setUser(admin);
             recentActivityMapper.addRecentActivity(recentActivity);
-            return null;
         }
     }
 

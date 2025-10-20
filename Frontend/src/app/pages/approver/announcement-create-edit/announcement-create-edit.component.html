@@ -61,7 +61,7 @@
                         Title is required.
                     </div>
                 </div>
-                <div class="p-field">
+                <!-- <div class="p-field">
                     <label for="message" class="block font-bold mb-3"><strong class="text-danger">*</strong> Message
                         Content</label>
                     <textarea id="message" pTextarea [(ngModel)]="announcement.message" name="message" required rows="3"
@@ -70,7 +70,19 @@
                         class="text-danger">
                         Message content is required.
                     </div>
+                </div> -->
+
+                <div class="p-field">
+                    <label for="message" class="block font-bold mb-3"><strong class="text-danger">*</strong> Message
+                        Body</label>
+
+
+                    <p-editor name="message" id="message" [(ngModel)]="announcement.message"
+                        [style]="{ height: '320px' }" />
                 </div>
+
+
+
                 <div class="p-field">
                     <span class="block font-bold mb-4">Audience</span>
                     <div class="grid grid-cols-12 gap-4">

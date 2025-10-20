@@ -27,12 +27,16 @@ public class Payload {
     private String reference_number;
     private int status_id;
     private Date maked_date;
-    private Date checked_date;
-    private Date approved_date;
-    private Date rejected_date;
     private String document_type;
     private Long user_id;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private List<Date> maker_date; 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+     private List<Date> checked_date;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+
+     private List<Date> rejected_date;
+
+
 
 }

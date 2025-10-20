@@ -26,6 +26,10 @@ public class AnnouncementService {
         return announcementMapper.getOngoingAnnouncements();
     }
 
+      public Announcement getAnnouncementForDashBoard() {
+        return announcementMapper.getAnnouncementForDashBoard();
+    }
+
     public List<Announcement> getArchivedAnnouncements() {
         return announcementMapper.getArchivedAnnouncements();
     }

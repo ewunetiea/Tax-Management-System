@@ -153,13 +153,10 @@ public class UserController {
                 user.setRoles(roles);
             }
 
-            Exception e = userService.saveUser(user);
+             userService.saveUser(user);
 
-            if (e == null) {
                 return AGPResponse.success("SUCCESS");
-            } else {
-                return AGPResponse.error("Error", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+          
         } catch (Exception ex) {
             logger.error("Error occurred during creating user account for : {}",
                     user != null ? user.getEmployee_id() : null,

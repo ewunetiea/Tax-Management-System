@@ -11,6 +11,7 @@ import { DataViewModule } from 'primeng/dataview';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { EditorModule } from 'primeng/editor';
 
 interface Column {
   field: string;
@@ -29,7 +30,7 @@ interface ExportColumn {
   templateUrl: './announcement.component.html',
   styleUrl: './announcement.component.scss',
   providers: [MessageService, ProductService, ConfirmationService],
-  imports: [SharedUiModule, AnnouncementCreateEditComponent, DataViewModule, SplitButtonModule]
+  imports: [SharedUiModule, AnnouncementCreateEditComponent, DataViewModule, SplitButtonModule, EditorModule]
 })
 export class AnnouncementComponent implements OnInit {
   expandedRows = {};

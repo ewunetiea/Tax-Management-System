@@ -6,12 +6,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { SharedUiModule } from '../../../../shared-ui';
 import { StorageService } from '../../../service/sharedService/storage.service';
 import { FileUpload } from 'primeng/fileupload';
+import { EditorModule } from 'primeng/editor';
+
 
 @Component({
   standalone: true,
   selector: 'app-announcement-create-edit',
-  imports:[SharedUiModule,  FileUpload,
-  ],
+  imports:[SharedUiModule,  FileUpload, EditorModule],
   templateUrl: './announcement-create-edit.component.html',
   styleUrl: './announcement-create-edit.component.scss'
 })

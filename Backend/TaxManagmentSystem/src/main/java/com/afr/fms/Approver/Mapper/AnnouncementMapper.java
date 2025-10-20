@@ -14,7 +14,14 @@ public interface AnnouncementMapper {
                         "FROM announcements " +
                         "WHERE expiry_date >= GETDATE() " +
                         "ORDER BY id  DESC")
-        List<Announcement> getOngoingAnnouncements();
+     public    List<Announcement> getOngoingAnnouncements();
+
+@Select("SELECT TOP 1 * " +
+        "FROM announcements " +
+        "WHERE expiry_date >= GETDATE() " +
+        "ORDER BY created_date DESC")
+public Announcement getAnnouncementForDashBoard();
+
 
         // Fetch archived (expired) announcements
         @Select("SELECT * " +

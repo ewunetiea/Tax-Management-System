@@ -228,48 +228,7 @@
                                 ></p-dropdown>
                             </div>
                         </div>
-
-                        <div class="flex flex-col gap-2" *ngIf="proceed">
-                            <label class="mb-3"><strong class="text-red-600">*</strong>User Category</label>
-                            <div class="flex flex-col md:flex-row gap-4">
-                                <div class="col-span-4 flex items-center gap-2 mb-2">
-                                    <p-radioButton id="is" name="category" value="IS" #category="ngModel" required="true" [ngClass]="{ 'border-red-500': category.invalid && category.touched }" [(ngModel)]="user.category"></p-radioButton>
-                                    <label for="is">IS</label>
-                                </div>
-                                <div class="col-span-4 flex items-center gap-2 mb-2">
-                                    <p-radioButton id="mgt" name="category" value="MGT" #category="ngModel" required="true" [ngClass]="{ 'border-red-500': category.invalid && category.touched }" [(ngModel)]="user.category"></p-radioButton>
-                                    <label for="mgt">MGT</label>
-                                </div>
-                                <div class="col-span-4 flex items-center gap-2 mb-2">
-                                    <p-radioButton
-                                        id="branch_financial"
-                                        name="category"
-                                        value="BFA"
-                                        [(ngModel)]="user.category"
-                                        #category="ngModel"
-                                        required="true"
-                                        [ngClass]="{ 'border-red-500': category.invalid && category.touched }"
-                                    ></p-radioButton>
-                                    <label for="branch_financial">Financial</label>
-                                </div>
-                                <div class="col-span-4 flex items-center gap-2 mb-2">
-                                    <p-radioButton id="inspection" name="category" value="INS" [(ngModel)]="user.category" #category="ngModel" required="true" [ngClass]="{ 'border-red-500': category.invalid && category.touched }"></p-radioButton>
-                                    <label for="inspection">Inspection</label>
-                                </div>
-                                <div class="col-span-4 flex items-center gap-2 mb-2">
-                                    <p-radioButton id="general" name="category" value="GENERAL" [(ngModel)]="user.category" #category="ngModel" required="true" [ngClass]="{ 'border-red-500': category.invalid && category.touched }"></p-radioButton>
-                                    <label for="general">General</label>
-                                </div>
-                                <div class="col-span-4 flex items-center gap-2 mb-2">
-                                    <p-radioButton id="admin" name="admin" value="ADMIN" [(ngModel)]="user.category" #category="ngModel" required="true" [ngClass]="{ 'border-red-500': category.invalid && category.touched }"></p-radioButton>
-                                    <label for="admin">Admin</label>
-                                </div>
-                                <small class="text-red-600" [class.hidden]="category.valid || category.untouched">User Category is required<br /></small>
-                            </div>
-                        </div>
-
-
-
+                   
                         <div class="flex flex-col gap-2" *ngIf="proceed">
                             <label class="ml-3"> <strong class="text-red-600">*</strong> Authentication Media </label>
                             <div class="col-span-6 mb-1">
@@ -374,11 +333,7 @@
                 >Place of Work: <b>{{ user.branch?.name }}</b></label
             >
         </div>
-        <div class="col-md-12">
-            <label class="Form-label"
-                >User Category: <b>{{ user.category }}</b></label
-            >
-        </div>
+       
 
         <div class="col-md-12">
             <label *ngIf="user.authenthication_media" class="Form-label"

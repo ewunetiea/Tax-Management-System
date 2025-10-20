@@ -14,11 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.afr.fms.Admin.Entity.User;
 import com.afr.fms.Approver.Entity.Announcement;
 import com.afr.fms.Approver.Service.AnnouncementService;
-import com.afr.fms.Common.RecentActivity.RecentActivity;
-import com.afr.fms.Common.RecentActivity.RecentActivityMapper;
 
 @RestController
 @RequestMapping("/api/announcement")
@@ -97,6 +94,21 @@ public class AnnouncementController {
 			logger.error("Error while deleting account", ex);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	@GetMapping("/fetch/dashboard")
+	public ResponseEntity<Announcement> getAnnouncementForDashbpard(HttpServletRequest request) {
+		try {
+
+			Announcement announcement = new Announcement();
+			announcement = announcementService.getAnnouncementForDashBoard();
+
+			return new ResponseEntity<>(announcement, HttpStatus.OK);
+		} catch (Exception ex) {
+			logger.error("Error while fetching on going announcements", ex);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
 	}
 
 }

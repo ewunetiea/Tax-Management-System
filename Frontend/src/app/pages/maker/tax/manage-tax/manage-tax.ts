@@ -49,7 +49,6 @@ export class ManageTax implements OnInit {
     statuses!: any[];
     @ViewChild('dt') dt!: Table;
     exportColumns!: ExportColumn[];
-    cols!: Column[];
     uploadedFiles: any[] = [];
     isEdit = false;
     activeIndex1: number = 0;

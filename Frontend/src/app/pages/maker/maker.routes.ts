@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { MakerDashboard } from '../dashboard/maker-dashboard/maker-dashboard';
 import { Crud } from './crud/crud';
 import { ManageTax } from './tax/manage-tax/manage-tax';
-import { AccountDataComponent } from './account-data/account-data.component';
 import { AuthGuard } from '../../service/admin/auth.guard';
 import { TaxCreateEditComponent } from './tax/tax-create-edit/tax-create-edit.component';
 
@@ -58,7 +57,6 @@ export default [
         }
     },
     { path: 'tax', data: { breadcrumb: 'Tax Form' }, component: TaxCreateEditComponent },
-    { path: 'account', data: { breadcrumb: 'Tax Form' }, component: AccountDataComponent },
 
     // { path: 'file', data: { breadcrumb: 'File' }, component: FileDemo },
     // { path: 'formlayout', data: { breadcrumb: 'Form Layout' }, component: FormLayoutDemo },

@@ -5,9 +5,14 @@ package com.afr.fms.Dashboard.maker;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.transaction.Transactional;
+
 import com.afr.fms.Security.jwt.AllowListProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,34 +46,9 @@ public class MakerDashboardService {
     @Autowired
     private FunctionalitiesMapper functionalitiesMapper;
 
-    private static final List<String> AUDITS = List.of("IS", "MGT", "INS", "BFA");
 
-
-    // Line chart
-    public Map<String, List<Integer>> computeLineChartData() {
-        List<Region> regions = regionMapper.getRegions();
-        Map<String, List<Integer>> lineChartData = new LinkedHashMap<>(regions.size());
-
-        for (Region region : regions) {
-            List<Integer> userCounts = new ArrayList<>(AUDITS.size());
-            for (String audit : AUDITS) {
-                userCounts.add(makerDashboardMapper.getUsersPerRegion(audit, region.getId()));
-            }
-            lineChartData.put(region.getName(), userCounts);
-        }
-        return lineChartData;
-    }
-
-    // ✅ Polar data (now uses single query)
-    public List<Integer> computePolarData() {
-        Map<String, Integer> counts = makerDashboardMapper.getPolarDataCounts();
-        return List.of(
-            counts.getOrDefault("active_users", 0),
-            counts.getOrDefault("inactive_users", 0),
-            counts.getOrDefault("account_locked_users", 0),
-            counts.getOrDefault("acredential_expired_users", 0)
-        );
-    }
+  
+    @Transactional
 
     // Card data
     public List<Integer> computeCardData() {
@@ -78,54 +58,76 @@ public class MakerDashboardService {
         // 1 : branch manager approved
         // 2 : branch manager rejeced
         return List.of(
-            makerDashboardMapper.getTaxStatus(6),
-            makerDashboardMapper.getTaxStatus(0),
-            makerDashboardMapper.getTaxStatus(1),
-            makerDashboardMapper.getTaxStatus(2)
+            makerDashboardMapper.getCardDataTaxStatus(6),
+            makerDashboardMapper.getCardDataTaxStatus(0),
+            makerDashboardMapper.getCardDataTaxStatus(1),
+            makerDashboardMapper.getCardDataTaxStatus(2)
           
         );
     }
 
-    // Bar chart
-    public List<Integer> computeBarChartData() {
-        List<String> role_positions = List.of("IS", "MGT", "INS");
-        List<String> roles = List.of("Approver", "Auditor", "Followup", "Reviewer");
-        List<Integer> bar_chart_data = new ArrayList<>();
-        for (String rolePosition : role_positions) {
-            for (String code : roles) {
-                bar_chart_data.add(makerDashboardMapper.getUsersPerRoleandAudit(rolePosition, code));
-            }
-        }
-        return bar_chart_data;
-    }
 
-    // Horizontal bar chart
-    public List<Integer> computeHorizontalBarChartData() {
-        List<String> roles = List.of("Auditor", "Reviewer", "COMPILER", "Approver", "BRANCHM", "REGIONALD");
-        List<Integer> bar_chart_data = new ArrayList<>();
 
-        for (String code : roles) {
-            bar_chart_data.add(makerDashboardMapper.getUsersPerRoleandAudit("BFA", code));
-        }
-        return bar_chart_data;
-    }
 
-    // Radar age data
-    public List<Integer> computeRadarAgeData() {
-        return List.of(
-            makerDashboardMapper.getUserActiveStatusPerAudit(1, "IS"),
-            makerDashboardMapper.getUserActiveStatusPerAudit(0, "IS"),
-            makerDashboardMapper.getUserActiveStatusPerAudit(1, "MGT"),
-            makerDashboardMapper.getUserActiveStatusPerAudit(0, "MGT"),
-            makerDashboardMapper.getUserActiveStatusPerAudit(1, "BFA"),
-            makerDashboardMapper.getUserActiveStatusPerAudit(0, "BFA"),
-            makerDashboardMapper.getUserActiveStatusPerAudit(1, "INS"),
-            makerDashboardMapper.getUserActiveStatusPerAudit(0, "INS")
-        );
+    @Transactional
+public List<List<Integer>> computeBarChartDataPerMonth() {
+    // SINGLE QUERY - 36x faster!
+    List<BarChartRow> allData = makerDashboardMapper.countAllByStatusAndMonthGrouped();
+    
+    // Build result map
+    Map<Integer, Map<Integer, Integer>> countsByMonth = new HashMap<>();
+    for (BarChartRow row : allData) {
+        countsByMonth.computeIfAbsent(row.getMonth(), k -> new HashMap<>())
+                    .put(row.getStatus(), row.getCount());
     }
+    
+    List<List<Integer>> barChartData = new ArrayList<>();
+    for (int month = 1; month <= 12; month++) {
+        Map<Integer, Integer> monthCounts = countsByMonth.getOrDefault(month, new HashMap<>());
+        int waiting = monthCounts.getOrDefault(0, 0);
+        int reviewed = monthCounts.getOrDefault(1, 0);
+        int approved = monthCounts.getOrDefault(5, 0);
+        barChartData.add(Arrays.asList(waiting, reviewed, approved));
+    }
+    return barChartData;
+}
 
-    // Recent activity
-    public List<RecentActivity> getRecentActivity(Long userId) {
-        return recentActivityMapper.getAllRecentActivity(userId);
-    }
+    //   @Transactional
+
+    //  public List<List<Integer>> computeBarChartDataPerMonth() {
+    //     List<List<Integer>> barChartData = new ArrayList<>();
+
+    //     for (int month = 1; month <= 12; month++) {
+    //         // int drafted = makerDashboardMapper.countByStatusAndMonth(6, month);
+
+    //         int waiting = makerDashboardMapper.countByStatusAndMonth(0, month);
+    //         int reviewed = makerDashboardMapper.countByStatusAndMonth(1, month);
+    //         int approved = makerDashboardMapper.countByStatusAndMonth(5, month);
+
+    //         barChartData.add(Arrays.asList( waiting, reviewed, approved));
+    //     }
+
+
+    //     return barChartData;
+    // }
+    
+    @Transactional
+
+ public Map<String, Object> getPolarChartData() {
+
+    System.out.println("_____________EEE________________________________");
+    System.out.println(makerDashboardMapper.fetchPolarDataSingleRow());
+    return makerDashboardMapper.fetchPolarDataSingleRow();
+}
+
+
+ public List<RadarPayload> getRadarChart() {
+
+    System.out.println("_____________Radar________________________________");
+    System.out.println(makerDashboardMapper.getStatusCountsForCurrentAndPreviousYear());
+    return makerDashboardMapper.getStatusCountsForCurrentAndPreviousYear();
+}
+
+
+
 }

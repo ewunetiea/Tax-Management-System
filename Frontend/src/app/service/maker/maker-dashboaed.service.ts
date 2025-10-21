@@ -5,9 +5,25 @@ import { RecentActivity } from '../../models/admin/recent-activity';
 import { environment } from '../../../environments/environment.prod';
 const apiUrl = environment.backendUrl + '/maker/dashboard';
 
+
+export interface PolarChartData {
+  drafted: number;
+  waiting: number;
+  reviewed: number;
+  approved: number;
+}
+
+
+export interface PieChartData {
+  waiting: number;
+  reviewer_rejected: number;
+  approver_rejected: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
+
 export class MakerDashboardService {
 
 
@@ -18,33 +34,28 @@ export class MakerDashboardService {
     return this.http.get<number[]>(`${apiUrl}/card-data`);
   }
 
-  // Get Polar Data
-  getPolarData(userId: number): Observable<number[]> {
-    const params = new HttpParams().set('userId', userId.toString());
-    return this.http.get<number[]>(`${apiUrl}/polar-data`, { params });
-  }
+
 
   // Get Bar Chart Data
-  getBarChartData(): Observable<number[]> {
-    return this.http.get<number[]>(`${apiUrl}/bar-chart`);
+  getBarChartData(): Observable<number[][]> {
+    return this.http.get<number[][]>(`${apiUrl}/bar-chart`);
   }
 
   // Get Horizontal Bar Chart Data
-  getHorizontalBarChartData(): Observable<number[]> {
-    return this.http.get<number[]>(`${apiUrl}/horizontal-bar-chart`);
-  }
+
+polarChartData(): Observable<PolarChartData> {
+  return this.http.get<PolarChartData>(`${apiUrl}/polar-chart`);
+}
 
   // Get Radar Age Data
-  getRadarAgeData(): Observable<number[]> {
-    return this.http.get<number[]>(`${apiUrl}/radar-age`);
+  getRadarAgeData(): Observable<any> {
+    return this.http.get<any>(`${apiUrl}/radar`);
   }
 
   // Get Line Chart Data per Region
-  getLineChartData(): Observable<Map<string, number[]>> {
-
-
-    return this.http.get<Map<string, number[]>>(`${apiUrl}/line-chart-data`);
-  }
+ getPieChartData(): Observable<PieChartData> {
+  return this.http.get<PieChartData>(`${apiUrl}/pie-chart`);
+}
 
   // Get Recent Activity
   getRecentActivity(userId: number): Observable<RecentActivity[]> {

@@ -21,7 +21,7 @@ public interface TaxableMapper {
                         "noOfEmployee, " + "taxableAmount, " + "taxWithHold, " + "incometaxPoolAmount, " +
                         "graduatetaxPool, " + "graduaTotBasSalary, " + "graduateTotaEmployee, " +
                         "graduatetaxWithHold, " + "taxCategoryList, " + "Remark, " + "maker_name, " +
-                        "maker_date, " + "checker_name, " + "checked_Date, " + "updated_user_name, "
+                        "drafted_date, " + "checker_name, " + "checked_Date, " + "updated_user_name, "
                         + "updated_event_date, " +
                         "from_List, " + "sendTo_List, " + "Category_List, " + "status, "
                         + "reference_number" +
@@ -142,11 +142,11 @@ public interface TaxableMapper {
 
         public void deleteTaxById(Long id);
 
-        @Update("update  tblTaxable   set status = 0  where  status = 6 and id  = #{id}")
+        @Update("update  tblTaxable   set status = 0 , maker_date = CURRENT_TIMESTAMP  where  status = 6 and id  = #{id}")
 
         public void submitToBrancManager(Long id);
 
-        @Update("update  tblTaxable   set status = 6  where status = 0 and  id  = #{id}")
+        @Update("update  tblTaxable   set status = 6 AND maker_date = ''  where status = 0 and  id  = #{id}")
 
         public void backToDraftedState(Long id);
 

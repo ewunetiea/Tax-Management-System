@@ -105,6 +105,7 @@ export class TaxCreateEditComponent implements OnInit {
     }
 
     onSave() {
+        this.tax.user_id = this.storageService.getUser().id
         this.tax.from_ = this.storageService.getUser().branch.id;
         this.tax.sendTo_ = this.selectedBranchId
         this.tax.maker_name = this.storageService.getUser().username;

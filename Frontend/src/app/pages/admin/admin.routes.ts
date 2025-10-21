@@ -135,7 +135,7 @@ export default [
         component: UserRecentActivityComponent,
         canActivate: [AuthGuard],
         data: {
-            roles: ['ROLE_ADMIN'],
+            roles: ['ROLE_ADMIN','ROLE_MAKER'],
         }
     },
     {

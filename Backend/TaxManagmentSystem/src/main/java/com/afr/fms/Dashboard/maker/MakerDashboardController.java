@@ -33,75 +33,48 @@ public class MakerDashboardController {
         }
     }
 
-    // ===== Get Polar Data =====
-    @GetMapping("/polar-data")
-    public ResponseEntity<List<Integer>> getPolarData(@RequestParam Long userId, HttpServletRequest reques) {
-        try {
-            List<Integer> polarData = makerDashboardService.computePolarData(); // Updated to not require userId
-            return new ResponseEntity<>(polarData, HttpStatus.OK);
-        } catch (Exception ex) {
-            
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 
     // ===== Get Bar Chart Data =====
     @GetMapping("/bar-chart")
-    public ResponseEntity<List<Integer>> getBarChartData(HttpServletRequest request) {
+    public ResponseEntity<List<List<Integer>>> getBarChartData(HttpServletRequest request) {
         try {
-            List<Integer> barChartData = makerDashboardService.computeBarChartData();
+           List< List<Integer>> barChartData = makerDashboardService.computeBarChartDataPerMonth();
             return new ResponseEntity<>(barChartData, HttpStatus.OK);
         } catch (Exception ex) {
-            
+
+            System.out.println(ex);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     // ===== Get Horizontal Bar Chart Data =====
-    @GetMapping("/horizontal-bar-chart")
-    public ResponseEntity<List<Integer>> getHorizontalBarChartData(HttpServletRequest request) {
+    @GetMapping("/polar-chart")
+    public ResponseEntity<Map<String, Object>> getPolarChartData(HttpServletRequest request) {
         try {
-            List<Integer> horizontalBarChartData = makerDashboardService.computeHorizontalBarChartData();
-            return new ResponseEntity<>(horizontalBarChartData, HttpStatus.OK);
+
+Map<String, Object> polarChartData = makerDashboardService.getPolarChartData();
+
+            return new ResponseEntity<>(polarChartData, HttpStatus.OK);
         } catch (Exception ex) {
+
+            System.out.println(ex);
             
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     // ===== Get Radar Age Data =====
-    @GetMapping("/radar-age")
-    public ResponseEntity<List<Integer>> getRadarAgeData(HttpServletRequest reques) {
+    @GetMapping("/radar")
+    public ResponseEntity<List<RadarPayload>> getRadarAgeData(HttpServletRequest reques) {
         try {
-            List<Integer> radarAgeData = makerDashboardService.computeRadarAgeData();
-            return new ResponseEntity<>(radarAgeData, HttpStatus.OK);
+          
+            return new ResponseEntity<>(makerDashboardService.getRadarChart(), HttpStatus.OK);
         } catch (Exception ex) {
             
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    // ===== Get Line Chart Data per Region =====
-    @GetMapping("/line-chart-data")
-    public ResponseEntity<Map<String, List<Integer>>> getLineChartData(HttpServletRequest reques) {
-        try {
-            Map<String, List<Integer>> lineChartData = makerDashboardService.computeLineChartData();
-            return new ResponseEntity<>(lineChartData, HttpStatus.OK);
-        } catch (Exception ex) {
-            
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    // ===== Get Recent Activity =====
-    @GetMapping("/recent-activity/{userId}")
-    public ResponseEntity<List<RecentActivity>> getRecentActivity(@PathVariable Long userId,HttpServletRequest reques) {
-        try {
-            List<RecentActivity> recentActivity = makerDashboardService.getRecentActivity(userId);
-            return new ResponseEntity<>(recentActivity, HttpStatus.OK);
-        } catch (Exception ex) {
-            
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    
+   
 }

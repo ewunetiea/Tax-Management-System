@@ -16,6 +16,9 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.afr.fms.Admin.Entity.User;
+import com.afr.fms.Common.RecentActivity.RecentActivity;
+import com.afr.fms.Common.RecentActivity.RecentActivityMapper;
 import com.afr.fms.Maker.entity.Tax;
 import com.afr.fms.Maker.entity.TaxFile;
 import com.afr.fms.Maker.mapper.TaxFileMapper;
@@ -34,67 +37,15 @@ public class TaxableService {
     @Autowired
     private TaxFileMapper taxFileMapper;
 
-    // @Transactional
-    // public String createTax(Tax tax) {
+    @Autowired
 
-    //
-    // String mainGuid = "";
+    private RecentActivityMapper recentActivityMapper;
 
-    // mainGuid = generateGuid();
-    // tax.setMainGuid(mainGuid);
+    RecentActivity recentActivity = new RecentActivity();
 
-    // taxableMapper.createTax(tax);
-
-    //
-
-    // return mainGuid;
-
-    // }
-
-    // @Transactional
-    // public String createTaxWithFiles(Tax tax, MultipartFile[] files) throws
-    // IOException {
-
-    //
-    // TaxFile taxFile= new TaxFile();
-
-    // // 1️⃣ Create DB record
-    // String mainGuid = generateGuid();
-    // tax.setMainGuid(mainGuid);
-    // taxableMapper.createTax(tax); // DB insert happens inside transaction
-    // // 2️⃣ Save files only after DB insert
-    // if (files != null && files.length > 0) {
-    // String uploadDir = Paths.get(System.getProperty("user.dir"),
-    // "taxFiles").toString();
-    // File dir = new File(uploadDir);
-    // if (!dir.exists()) {
-    // dir.mkdirs();
-    // }
-
-    // for (MultipartFile file : files) {
-    // if (!file.isEmpty()) {
-    // File destination = new File(dir, file.getOriginalFilename());
-    // file.transferTo(destination);
-
-    // taxFile.setFileName(file.getOriginalFilename());
-    // taxFile.setExtension(mainGuid);
-
-    // String FileId = generateGuid();
-    // taxFile.setId(mainGuid);
-    // taxFile.setSupportId(FileId);// foreign key that refernces main Guid
-
-    // // taxableMapper.insertFile(taxFile);
-
-    //
-    // }
-    // }
-    // }
-
-    // return mainGuid;
-    // }
-@Transactional
-public String createTaxWithFiles(Tax tax, MultipartFile[] files) throws  IOException  {
-    String mainGuid = generateGuid();
+    @Transactional
+    public String createTaxWithFiles(Tax tax, MultipartFile[] files) throws IOException {
+        String mainGuid = generateGuid();
 
         if (files != null && files.length > 0 && tax.getTaxFile() != null) {
             String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();
@@ -141,13 +92,20 @@ public String createTaxWithFiles(Tax tax, MultipartFile[] files) throws  IOExcep
 
                     // Insert the file record in the database
                     taxFileMapper.insertFile(tf);
+
+                    User user = new User();
+                    recentActivity
+                            .setMessage("Tax  with Reference number  " + tax.getReference_number() + " is created");
+                    user.setId(tax.getUser_id());
+                    recentActivity.setUser(user);
+                    recentActivityMapper.addRecentActivity(recentActivity);
+
                 }
             }
         }
-    
 
-    return mainGuid;
-}
+        return mainGuid;
+    }
 
     public String generateGuid() {
         UUID uuid = UUID.randomUUID(); // Generate a random UUID

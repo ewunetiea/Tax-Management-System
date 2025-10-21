@@ -3,15 +3,15 @@
         <div class="card mb-0">
             <div class="flex justify-between mb-4">
                 <div>
-                    <span class="block text-muted-color font-medium mb-4">Orders</span>
-                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">152</div>
+                    <span class="block text-muted-color font-medium mb-4">Drafted </span>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ cardData[0] }}</div>
                 </div>
                 <div class="flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-border"
                     style="width: 2.5rem; height: 2.5rem">
-                    <i class="pi pi-shopping-cart text-blue-500 !text-xl"></i>
+                    <i class="pi pi-file-edit text-blue-500 !text-xl"></i>
                 </div>
             </div>
-            <span class="text-primary font-medium">24 new </span>
+            <span class="text-primary font-medium">taxes </span>
             <span class="text-muted-color">since last visit</span>
         </div>
     </div>
@@ -20,16 +20,16 @@
         <div class="card mb-0">
             <div class="flex justify-between mb-4">
                 <div>
-                    <span class="block text-muted-color font-medium mb-4">Revenue</span>
-                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">$2.100</div>
+                    <span class="block text-muted-color font-medium mb-4">Waiting for review</span>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ cardData[1] }}</div>
                 </div>
                 <div class="flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-border"
                     style="width: 2.5rem; height: 2.5rem">
-                    <i class="pi pi-dollar text-orange-500 !text-xl"></i>
+                    <i class="pi pi-clock  text-orange-500 !text-xl"></i>
                 </div>
             </div>
-            <span class="text-primary font-medium">%52+ </span>
-            <span class="text-muted-color">since last week</span>
+            <span class="text-primary font-medium"> taxes </span>
+            <span class="text-muted-color">since last visit</span>
         </div>
     </div>
 
@@ -37,16 +37,16 @@
         <div class="card mb-0">
             <div class="flex justify-between mb-4">
                 <div>
-                    <span class="block text-muted-color font-medium mb-4">Customers</span>
-                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">28441</div>
+                    <span class="block text-muted-color font-medium mb-4">Reviewed</span>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ cardData[2] }}</div>
                 </div>
                 <div class="flex items-center justify-center bg-cyan-100 dark:bg-cyan-400/10 rounded-border"
                     style="width: 2.5rem; height: 2.5rem">
-                    <i class="pi pi-users text-cyan-500 !text-xl"></i>
+                    <i class="pi pi-check-circle text-cyan-500 !text-xl"></i>
                 </div>
             </div>
-            <span class="text-primary font-medium">520 </span>
-            <span class="text-muted-color">newly registered</span>
+            <span class="text-primary font-medium"> taxes </span>
+            <span class="text-muted-color">since last visit</span>
         </div>
     </div>
 
@@ -54,16 +54,16 @@
         <div class="card mb-0">
             <div class="flex justify-between mb-4">
                 <div>
-                    <span class="block text-muted-color font-medium mb-4">Comments</span>
-                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">152 Unread</div>
+                    <span class="block text-muted-color font-medium mb-4">Rejected Tax</span>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ cardData[3] }} </div>
                 </div>
                 <div class="flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-border"
                     style="width: 2.5rem; height: 2.5rem">
-                    <i class="pi pi-comment text-purple-500 !text-xl"></i>
+                    <i class="pi pi-times-circle text-purple-500 !text-xl"></i>
                 </div>
             </div>
-            <span class="text-primary font-medium">85 </span>
-            <span class="text-muted-color">responded</span>
+            <span class="text-primary font-medium"> taxes </span>
+            <span class="text-muted-color"> since last visit </span>
         </div>
     </div>
 </p-fluid>
@@ -78,12 +78,73 @@
 
 
 <p-fluid class="grid grid-cols-12 gap-8">
-    <div class="col-span-12 xl:col-span-6">
+
+
+
+    <div class="col-span-12 xl:col-span-12" *ngIf="announcement">
+        <div class="card">
+
+            <ng-container *ngIf="!loading; else chartBarSkeleton">
+
+                <!-- Toggle Switch -->
+                <div class="flex justify-center items-center mb-1 gap-2">
+                    <span class="font-semibold text-sm">Latest
+                        Announcement</span>
+
+
+                </div>
+
+                <!-- Announcement -->
+                <ng-container>
+                    <!-- <div class="font-semibold text-xl mb-4">Latest Announcement</div> -->
+
+                    <p-editor [(ngModel)]="announcement.message" [readonly]="true"
+                        styleClass="w-full border rounded-md bg-surface-50 text-gray-700 max-h-70 overflow-auto">
+
+                        <ng-template pTemplate="header">
+                            <div class="flex justify-between items-center w-full space-x-4">
+                                <div class="font-semibold">Subject: {{ announcement.title }}</div>
+                                <div class="font-semibold">Posted Date: {{ announcement.created_date | date:'yyyy-MM-dd'
+                                    }}</div>
+                                <div class="font-semibold">Expiry Date: {{ announcement.expiry_date | date:'yyyy-MM-dd'
+                                    }}</div>
+                            </div>
+                        </ng-template>
+                    </p-editor>
+
+                    <div class="mt-2">
+                        <a class="p-button p-component p-button-raised p-button-rounded flex items-center justify-center"
+                            [routerLink]="['/applayout/approver/ongoing-announcement']">
+                            <i class="pi pi-eye mr-2"></i>
+                            See More
+                        </a>
+                    </div>
+                </ng-container>
+
+
+
+            </ng-container>
+
+            <ng-template #chartBarSkeleton>
+                <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
+            </ng-template>
+
+
+            <ng-template #chartBarSkeleton>
+                <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
+            </ng-template>
+        </div>
+    </div>
+
+
+    <div class="col-span-12 xl:col-span-12">
         <div class="card">
             <!-- real content when not loading -->
             <ng-container *ngIf="!loading; else chartLineSkeleton">
-                <div class="font-semibold text-xl mb-4">Linear</div>
-                <p-chart type="line" [data]="lineData" [options]="lineOptions"></p-chart>
+                <div class="font-semibold text-xl mb-4"> Waiting for review, reviewed & approved tax records per month
+                </div>
+                <p-chart type="bar" [data]="barChartData" [options]="barChartOptions" class="h-[30rem]" />
+
             </ng-container>
 
             <!-- skeleton shown while loading -->
@@ -93,81 +154,8 @@
         </div>
     </div>
 
-    <div class="col-span-12 xl:col-span-6">
-        <div class="card">
-
-            <ng-container *ngIf="!loading; else chartBarSkeleton">
 
 
-                <div class="font-semibold text-xl mb-4">Lattest Announcement</div>
-
-
-                <p-editor [(ngModel)]="announcement.message" [readonly]="true"
-                    styleClass="w-full border rounded-md bg-surface-50 text-gray-700 max-h-70 overflow-auto">
-
-                    <ng-template pTemplate="header">
-                        <div class="flex justify-between items-center w-full space-x-4">
-                            <div class="font-semibold"> Subject : {{ announcement.title }}</div>
-                            <div class="font-semibold">Posted Date :{{ announcement.created_date | date:'yyyy-MM-dd' }}
-                            </div>
-                            <div class="font-semibold"> Expiry Date: {{ announcement.expiry_date | date:'yyyy-MM-dd' }}
-                            </div>
-                        </div>
-                    </ng-template>
-
-
-                </p-editor>
-                <div class="mt-2">
-                    <a class="p-button p-component p-button-raised p-button-rounded flex items-center justify-center"
-                        [routerLink]="['/applayout/approver/ongoing-announcement']">
-                        <i class="pi pi-eye  mr-10 mt-2 "></i>
-                        See More
-                    </a>
-                </div>
-
-                <!-- Bar -->
-                <!-- <p-chart type="bar" [data]="barData" [options]="barOptions"></p-chart> -->
-            </ng-container>
-
-            <!-- skeleton shown while loading -->
-            <ng-template #chartBarSkeleton>
-                <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
-            </ng-template>
-        </div>
-    </div>
-
-    <div class="col-span-12 xl:col-span-6">
-        <div class="card flex flex-col items-center">
-            <div class="font-semibold text-xl mb-4" *ngIf="!loading">Pie</div>
-
-            <p-chart type="pie" [data]="pieData" [options]="pieOptions" *ngIf="!loading"></p-chart>
-
-            <div class="flex justify-center gap-4 mb-3" *ngIf="loading">
-                <app-pie-dougnut-polar-description-skeleton></app-pie-dougnut-polar-description-skeleton>
-            </div>
-
-            <div *ngIf="loading">
-                <app-pie-dougnut-polar-skeleton></app-pie-dougnut-polar-skeleton>
-            </div>
-
-            <p-skeleton shape="circle" size="21rem" *ngIf="loading"></p-skeleton>
-        </div>
-    </div>
-
-    <div class="col-span-12 xl:col-span-6">
-        <div class="card flex flex-col items-center">
-            <div class="font-semibold text-xl mb-4" *ngIf="!loading">Doughnut</div>
-            <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" *ngIf="!loading"></p-chart>
-
-            <div class="flex justify-center gap-4 mb-3" *ngIf="loading">
-                <app-pie-dougnut-polar-description-skeleton></app-pie-dougnut-polar-description-skeleton>
-            </div>
-            <div *ngIf="loading">
-                <app-pie-dougnut-polar-skeleton></app-pie-dougnut-polar-skeleton>
-            </div>
-            <p-skeleton shape="circle" size="21rem" *ngIf="loading"></p-skeleton>
-        </div>
-    </div>
 
     <div class="col-span-12 xl:col-span-6">
         <div class="card flex flex-col items-center">

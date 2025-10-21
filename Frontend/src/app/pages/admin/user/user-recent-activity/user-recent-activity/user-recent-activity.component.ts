@@ -11,6 +11,7 @@ import { DateFormat } from '../../../../../service/date-format';
 import { ExportExcelService } from '../../../../../service/sharedService/export-excel.service';
 import { UserService } from '../../../../../service/admin/user.service';
 import { RecentActivityService } from '../../../../../service/sharedService/recent-activity-service';
+import { StorageService } from 'app/service/sharedService/storage.service';
 
 @Component({
     selector: 'app-user-recent-activity',
@@ -31,19 +32,23 @@ export class UserRecentActivityComponent {
     errorMessage: string = '';
     data2: any[] = [];
     users: User[] = [];
+    user: User = new User();
     breadcrumbText: string = 'User Activities';
     items: MenuItem[] | undefined;
     home: MenuItem | undefined;
     sizes!: any[];
     selectedSize: any = 'normal';
     calendarValue: any = null;
+    isAdmin = false;
+    roles: string[] = [];
 
     constructor(
         private messageService: MessageService,
         private exportService: ExportExcelService,
         private userService: UserService,
-        private recentactivityService: RecentActivityService
-    ) {}
+        private recentactivityService: RecentActivityService,
+        private storageService: StorageService,
+    ) { }
 
     ngOnInit(): void {
         this.home = { icon: 'pi pi-home', routerLink: '/' };
@@ -53,27 +58,91 @@ export class UserRecentActivityComponent {
             { name: 'Normal', value: 'normal' },
             { name: 'Large', value: 'large' }
         ];
+        this.user = this.storageService.getUser();
+        const users = this.storageService.getUser();
+        this.roles = users.roles;
+        this.isAdmin = this.roles.includes('ROLE_ADMIN');
         this.getUsers();
     }
 
-    generateActivities(): void {
-        this.generateButtonClicked = true;
+    // generateActivities(): void {
+    //     this.generateButtonClicked = true;
+    //     this.recentactivityService.getRecentActivityAdmin(this.report).subscribe({
+    //         next: (response) => {
+    //             this.userActivities = response;
+    //             this.loading = false;
+    //         },
+    //         error: (error: HttpErrorResponse) => {
+    //             this.errorMessage = error.message;
+    //             this.messageService.add({
+    //                 severity: 'error',
+    //                 summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching user activities!',
+    //                 detail: ''
+    //             });
+    //             this.loading = false;
+    //         }
+    //     });
+    // }
+
+  generateActivities(): void {
+    this.generateButtonClicked = true;
+    this.loading = true;
+
+    if (this.isAdmin) {
+        // Admin activity fetch
         this.recentactivityService.getRecentActivityAdmin(this.report).subscribe({
             next: (response) => {
-                this.loading = false;
                 this.userActivities = response;
-                // this.generateUserActivity();
+                this.loading = false;
             },
-            error: (error: HttpErrorResponse) => {
-                this.errorMessage = error.message;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching user activities!',
-                    detail: ''
+            error: (error: HttpErrorResponse) => this.handleError(error)
+        });
+    } else {
+        // Non-admin activity fetch
+        const userId: number | undefined = this.user?.id;
+
+        if (!this.report.action_date && !this.report.content) {
+            if (userId !== undefined) {
+                this.recentactivityService.getRecentActivity(userId).subscribe({
+                    next: (response) => {
+                        this.userActivities = response;
+                        this.loading = false;
+                    },
+                    error: (error: HttpErrorResponse) => this.handleError(error)
                 });
+            } else {
+                console.error('User ID is undefined. Cannot fetch activities.');
                 this.loading = false;
             }
-        });
+        } else {
+            this.recentactivityService.getActivityByDateAndContent(this.report).subscribe({
+                next: (response) => {
+                    this.userActivities = response;
+                    this.loading = false;
+                },
+                error: (error: HttpErrorResponse) => this.handleError(error)
+            });
+        }
+    }
+}
+
+// Centralized error handling
+private handleError(error: HttpErrorResponse): void {
+    this.errorMessage = error.message;
+    this.messageService.add({
+        severity: 'error',
+        summary: error.status === 401
+            ? 'You are not permitted to perform this action!'
+            : 'Something went wrong while fetching user activities!',
+        detail: ''
+    });
+    this.loading = false;
+}
+
+    resetActivities() {
+        this.report = new Report();
+        this.loading = false;
+        this.generateButtonClicked = false;
     }
 
     getUsers(): void {
@@ -127,7 +196,6 @@ export class UserRecentActivityComponent {
                         row['full_name'] = u_activity.user?.first_name + ' ' + u_activity.user?.last_name;
                         row['message'] = u_activity?.message;
                         row['date_created'] = this.date_format.dateFormatter(u_activity?.created_date);
-
                         row2['Full Name'] = u_activity.user?.first_name + ' ' + u_activity.user?.last_name;
                         row2['Message'] = u_activity?.message;
                         row2['Date Created'] = this.date_format.dateFormatter(u_activity?.created_date);

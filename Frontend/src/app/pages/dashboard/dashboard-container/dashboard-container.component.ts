@@ -3,8 +3,8 @@ import { AdminDashboardComponent } from '../admin-dashboard/admin-dashboard.comp
 import { SharedUiModule } from '../../../../shared-ui';
 import { MakerDashboard } from '../maker-dashboard/maker-dashboard';
 import { StorageService } from '../../../service/sharedService/storage.service';
-import { HODashboard } from '../ho-dashboard/ho-dashboard';
-import { CheckerDashboardComponent } from '../checker-dashboard/checker-dashboard.component';
+import { HODashboard } from '../approver-dashboard/ho-dashboard';
+import { CheckerDashboardComponent } from '../reviewer-dashboard/checker-dashboard.component';
 
 @Component({
     standalone: true,

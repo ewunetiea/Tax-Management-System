@@ -13,7 +13,7 @@
          
             <!-- Content and Users Row -->
             <div class="flex flex-wrap gap-6">
-              <div class="flex-1 min-w-[250px] flex flex-col">
+              <div class="flex-1 min-w-[250px] flex flex-col" *ngIf="isAdmin">
                     <label for="finding_date" class="mb-1 font-medium"><strong class="text-red-500">*</strong> Users</label>
                     <p-multiSelect
                         [options]="users"
@@ -39,14 +39,14 @@
             <div class="flex flex-wrap gap-6">
                 <div class="flex-1 min-w-[300px] flex flex-col">
                     <label for="action_date" class="mb-1 font-medium">Action Date</label>
-                    <p-datepicker [(ngModel)]="report.action_date" selectionMode="range" inputId="action_date" [readonlyInput]="false" dateFormat="mm-dd-yy" name="action_date" inputStyleClass="w-full" class="w-full"></p-datepicker>
+                    <p-datepicker [(ngModel)]="report.action_date" selectionMode="range" inputId="action_date" [readonlyInput]="false" dateFormat="mm-dd-yy" name="action_date" class="w-full custom-datepicker"></p-datepicker>
                 </div>
             </div>
 
             <!-- Action Buttons -->
             <div class="flex gap-6">
                 <p-button type="button" label="Generate" styleClass="p-button-outlined p-button-rounded p-button-primary" (click)="generateActivities()"></p-button>
-                <p-button type="reset" label="Reset" styleClass="p-button-outlined p-button-rounded p-button-danger"></p-button>
+                <p-button type="reset" label="Reset"  (click)="resetActivities()" styleClass="p-button-outlined p-button-rounded p-button-danger"></p-button>
             </div>
         </div>
     </p-card>

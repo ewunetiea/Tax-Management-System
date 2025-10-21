@@ -1,0 +1,162 @@
+<p-fluid class="grid grid-cols-12 gap-4 mb-6" *ngIf="!loading">
+    <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+        <div class="card mb-0">
+            <div class="flex justify-between mb-4">
+                <div>
+                    <span class="block text-muted-color font-medium mb-4">Pending</span>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ taxStatus[0] }}</div>
+                </div>
+                <div class="flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-border"
+                    style="width: 2.5rem; height: 2.5rem">
+                    <i class="pi pi-clock text-blue-500 !text-xl"></i>
+                </div>
+            </div>
+            <span class="text-primary font-medium">{{ taxStatus[0] }} </span>
+            <span class="text-muted-color">pending</span>
+        </div>
+    </div>
+
+    <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+        <div class="card mb-0">
+            <div class="flex justify-between mb-4">
+                <div>
+                    <span class="block text-muted-color font-medium mb-4">Approved</span>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ taxStatus[1] }}</div>
+                </div>
+                <div class="flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-border"
+                    style="width: 2.5rem; height: 2.5rem">
+                    <i class="pi pi-verified text-orange-500 !text-xl"></i>
+                </div>
+            </div>
+            <span class="text-primary font-medium">{{ taxStatus[1] }} </span>
+            <span class="text-muted-color">Approved</span>
+        </div>
+    </div>
+
+    <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+        <div class="card mb-0">
+            <div class="flex justify-between mb-4">
+                <div>
+                    <span class="block text-muted-color font-medium mb-4">Rejected</span>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ taxStatus[2] }}</div>
+                </div>
+                <div class="flex items-center justify-center bg-cyan-100 dark:bg-cyan-400/10 rounded-border"
+                    style="width: 2.5rem; height: 2.5rem">
+                    <i class="pi pi-times-circle text-pink-500 !text-xl"></i>
+                </div>
+            </div>
+            <span class="text-primary font-medium">{{ taxStatus[2] }} </span>
+            <span class="text-muted-color">rejected</span>
+        </div>
+    </div>
+
+    <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+        <div class="card mb-0">
+            <div class="flex justify-between mb-4">
+                <div>
+                    <span class="block text-muted-color font-medium mb-4">Comments</span>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{0}}</div>
+                </div>
+                <div class="flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-border"
+                    style="width: 2.5rem; height: 2.5rem">
+                    <i class="pi pi-comment text-purple-500 !text-xl"></i>
+                </div>
+            </div>
+            <span class="text-primary font-medium">{{0}} </span>
+            <span class="text-muted-color">comment</span>
+        </div>
+    </div>
+</p-fluid>
+
+<p-fluid class="grid grid-cols-12 gap-4 mb-6" *ngIf="loading">
+    <ng-container *ngFor="let item of [1, 2, 3, 4]">
+        <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+            <app-card-skeleton></app-card-skeleton>
+        </div>
+    </ng-container>
+</p-fluid>
+
+<p-fluid class="grid grid-cols-12 gap-8">
+    <div class="card col-span-12 xl:col-span-6">
+        <div class="card">
+            <ng-container *ngIf="!loading; else chartBarSkeleton">
+                <div class="font-semibold text-xl mb-4">Lattest Announcement</div>
+                <p-editor [(ngModel)]="announcement.message" [readonly]="true"
+                    styleClass="w-full border rounded-md bg-surface-50 text-gray-700 max-h-70 overflow-auto">
+                    <ng-template pTemplate="header">
+                        <div class="flex justify-between items-center w-full space-x-4">
+                            <div class="font-semibold"> Subject : {{ announcement.title }}</div>
+                            <div class="font-semibold">Posted Date :{{ announcement.created_date | date:'yyyy-MM-dd' }}
+                            </div>
+                            <div class="font-semibold"> Expiry Date: {{ announcement.expiry_date | date:'yyyy-MM-dd' }}
+                            </div>
+                        </div>
+                    </ng-template>
+
+
+                </p-editor>
+                <div class="mt-2">
+                    <a class="p-button p-component p-button-raised p-button-rounded flex items-center justify-center"
+                        [routerLink]="['/applayout/approver/ongoing-announcement']">
+                        <i class="pi pi-eye  mr-10 mt-2 "></i>See More</a>
+                </div>
+            </ng-container>
+
+            <!-- skeleton shown while loading -->
+            <ng-template #chartBarSkeleton>
+                <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
+            </ng-template>
+        </div>
+    </div>
+
+    <div class="card col-span-12 xl:col-span-6">
+        <!-- Always show card, but switch content -->
+        <div *ngIf="loading; else activityContent">
+            <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
+        </div>
+
+        <ng-template #activityContent>
+            <!-- if activities exist -->
+            <h5 class="card-title flex justify-between items-center">
+                Recent Activity
+                <button pButton pRipple icon="pi pi-external-link" class="p-button-text p-button-info"
+                    [routerLink]="['/applayout/admin/user-recent-activity']">
+                </button>
+            </h5>
+            <div *ngIf="recentActivityies && recentActivityies.length > 0; else noActivity">
+                <div class="space-y-3 mt-4">
+                    <div *ngFor="let ra of recentActivityies" class="flex items-start gap-3">
+                        <div class="w-1/4 text-sm text-gray-500">{{ ra.created_date | timeago: true }}</div>
+                        <i class="bi bi-circle-fill text-green-500 mt-1"></i>
+                        <div class="flex-1 text-sm">{{ ra.message }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- show this when there are no activities -->
+            <ng-template #noActivity>
+                <div class="text-center text-gray-500 italic mt-4">
+                    No recent activities found.
+                </div>
+            </ng-template>
+        </ng-template>
+    </div>
+
+  <div class="card col-span-12 xl:col-span-12">
+    <p-chart
+      type="bar"
+      [data]="stackedBarTaxesStatusData"
+      [options]="stackedBarOptions"
+      *ngIf="!loading"
+      class="h-[30rem]"
+    ></p-chart>
+
+    <ng-container *ngIf="loading">
+      <div class="flex justify-center gap-4 mb-3">
+        <app-pie-dougnut-polar-description-skeleton></app-pie-dougnut-polar-description-skeleton>
+      </div>
+      <app-pie-dougnut-polar-skeleton class="mb-3"></app-pie-dougnut-polar-skeleton>
+      <p-skeleton shape="rectangle" size="21rem"></p-skeleton>
+    </ng-container>
+  </div>
+</p-fluid>

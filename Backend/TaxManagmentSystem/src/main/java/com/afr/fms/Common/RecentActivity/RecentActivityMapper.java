@@ -77,9 +77,13 @@ public interface RecentActivityMapper {
                         @Result(property = "user", column = "user_id", one = @One(select = "com.afr.fms.Admin.Mapper.UserMapper.getUserById")),
         })
 
-        public List<RecentActivity> getAllRecentActivities(
-                        @Param("user_id") Long user_id,
-                        @Param("message") String message,
-                        @Param("action_date") List<Date> action_date);
+        public List<RecentActivity> getAllRecentActivities(@Param("user_id") Long user_id, @Param("message") String message, @Param("action_date") List<Date> action_date);
+
+         @Select("select * from recent_activity where user_id = #{user_id} ORDER BY id DESC")
+          @Results(value = {
+                        @Result(property = "id", column = "id"),
+                        @Result(property = "user", column = "user_id", one = @One(select = "com.afr.fms.Admin.Mapper.UserMapper.getUserById")),
+        })
+        public List<RecentActivity> getAllRecentActivityByUserId(Long user_id);
 
 }

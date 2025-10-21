@@ -77,6 +77,12 @@ export class AppMenuMaker {
 
             },
 
+             {
+                label: 'Report',
+                items: [{ label: 'Report', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/approver/report'] }  
+            ]
+            },
+
             {
                 label: 'UI Components',
                 items: [

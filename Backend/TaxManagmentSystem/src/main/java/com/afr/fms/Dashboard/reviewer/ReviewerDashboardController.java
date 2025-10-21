@@ -35,15 +35,15 @@ public class ReviewerDashboardController {
 
 
     @GetMapping("/tax-status-stacked-bar/{id}")
-    public ResponseEntity<List<Map<String, Object>>> getStackedBarTaxesStatusData(@PathVariable("id") Long branch_id) {
-        try {
-            List<Map<String, Object>> taxStatusData = reviewerDashboardService.getStackedBarTaxesStatusData(branch_id);
-            return new ResponseEntity<>(taxStatusData, HttpStatus.OK);
-        } catch (Exception ex) {
-            logger.error("Error occurred while fetching tax status for reviewer dashboard: {}", ex.getMessage(), ex);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+public ResponseEntity<List<Map<String, Object>>> getStackedBarTaxesStatusData(@PathVariable("id") Long branch_id) {
+    try {
+        List<Map<String, Object>> taxStatusData = reviewerDashboardService.getStackedBarTaxesStatusData(branch_id);
+        return new ResponseEntity<>(taxStatusData, HttpStatus.OK);
+    } catch (Exception ex) {
+        logger.error("Error occurred while fetching tax status for reviewer dashboard: {}", ex.getMessage(), ex);
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+}
 
 
 }

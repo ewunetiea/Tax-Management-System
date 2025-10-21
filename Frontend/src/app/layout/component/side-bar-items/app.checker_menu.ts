@@ -55,6 +55,12 @@ export class AppMenuChecker {
                 items: [{ label: 'Report', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/approver/report'] }  
             ]
             },
+
+             {
+                label: 'Activity',
+                items: [{ label: 'Recent Activity', icon: 'pi pi-fw pi-comment', routerLink: ['/applayout/admin/user-recent-activity'] }  
+            ]
+            },
         ];
         this.model = this.general_items;
     }

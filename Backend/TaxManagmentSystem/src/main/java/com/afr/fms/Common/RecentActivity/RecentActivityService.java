@@ -44,7 +44,6 @@ public class RecentActivityService {
     }
 
     public List<RecentActivity> getAllRecentActivities(RecentActivity recentActivity) {
-
         List<String> actionDates = recentActivity.getAction_date();
         List<Date> parsedActionDates = null;
         if (actionDates != null && actionDates.size() == 2) {
@@ -66,8 +65,14 @@ public class RecentActivityService {
 
     public List<RecentActivity> getRecentActivityByUserId(Long user_id) {
         return recentActivityMapper.getAllRecentActivity(user_id);
-    }public List<User> getUsers() {
+    }
+
+    public List<User> getUsers() {
         return recentActivityMapper.getUsers();
+    }
+
+     public List<RecentActivity> getAllRecentActivityByUserId(Long user_id) {
+        return recentActivityMapper.getAllRecentActivityByUserId(user_id);
     }
 
 }

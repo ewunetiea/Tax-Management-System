@@ -51,13 +51,14 @@ export class AppMenuChecker {
             },
 
             {
-                label: 'Tax Information',
-                items: [{ label: 'Manege Tax', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/reviewer/manage_tax'] }]
-            },
-
-            {
                 label: 'Report',
                 items: [{ label: 'Report', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/approver/report'] }  
+            ]
+            },
+
+             {
+                label: 'Activity',
+                items: [{ label: 'Recent Activity', icon: 'pi pi-fw pi-comment', routerLink: ['/applayout/admin/user-recent-activity'] }  
             ]
             },
         ];

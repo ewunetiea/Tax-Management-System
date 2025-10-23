@@ -47,8 +47,25 @@
 
             <!-- Submit & Reset -->
             <div class="flex gap-4 mt-4">
-                <p-button label="Save" [loading]="submitted" type="submit" severity="success" [disabled]="form.invalid"/>
-                <p-button label="Reset" type="button" (click)="onReset()" severity="danger"/>
+                <button
+                    pButton
+                    pRipple
+                    label="Save"
+                   type="submit"
+                   [loading]="submitted"
+                   [disabled]="form.invalid"
+                    icon="pi pi-check-circle"
+                    class="p-button-rounded p-button-outlined p-button-success mr-2"
+                  ></button>
+                  <button
+                    pButton
+                    pRipple
+                    label="Reset"
+                   type="reset"
+                    icon="pi pi-times-circle"
+                    (click)="onReset()"
+                    class="p-button-rounded p-button-outlined p-button-danger"
+                  ></button>
             </div>
         </div>
     </div>

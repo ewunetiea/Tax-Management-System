@@ -13,5 +13,4 @@ import lombok.NoArgsConstructor;
 public class ReviewerDashboardData {
     private List<Integer> tax_status;
     private List<RecentActivity> recentActivity;
-
 }

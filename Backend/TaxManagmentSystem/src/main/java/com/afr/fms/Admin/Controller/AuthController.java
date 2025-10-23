@@ -281,31 +281,23 @@ public class AuthController {
                 }
         }
 
-
         @Transactional
         @PostMapping("/signup")
         public ResponseEntity<?> signup(@RequestBody User user) {
                 try {
-
-
                         List<Role> roles = new ArrayList<>();
                         if (user != null) {
                                 if (user.getJobPosition() != null && user.getJobPosition().getId() != null) {
-                                  roles = jobPositionMapper.getRoleByJobPositionId(user.getJobPosition().getId(),
-                                                        user.getCategory());
-
+                                        roles = jobPositionMapper.getRoleByJobPositionId(user.getJobPosition().getId(), user.getCategory());
                                         user.setSpecial_user(false);
-
                                         user.setRoles(roles);
                                 }
                         }
-                         
+
                         userService.saveUser(user);
-                     
-                   return new ResponseEntity<>(HttpStatus.ACCEPTED);
-                   
-                              
-                        
+
+                        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+
                 } catch (Exception e) {
                         logger.error("Error occurred during signup for employee ID: {}", user.getEmployee_id(), e);
                         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

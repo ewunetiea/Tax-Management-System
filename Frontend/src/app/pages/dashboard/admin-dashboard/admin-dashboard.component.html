@@ -17,7 +17,7 @@
                 </div>
             </div>
             <span class="text-primary font-medium">{{ cardData[0] }} </span>
-            <span class="text-muted-color">Users</span>
+            <span class="text-muted-color">Admin Users</span>
         </div>
     </div>
 
@@ -33,7 +33,7 @@
                 </div>
             </div>
             <span class="text-primary font-medium">{{ cardData[1] }} </span>
-            <span class="text-muted-color">Users</span>
+            <span class="text-muted-color">Maker Users</span>
         </div>
     </div>
 
@@ -49,7 +49,7 @@
                 </div>
             </div>
             <span class="text-primary font-medium">{{ cardData[2] }} </span>
-            <span class="text-muted-color">Users</span>
+            <span class="text-muted-color">Reviewer Users</span>
         </div>
     </div>
 
@@ -65,7 +65,7 @@
                 </div>
             </div>
             <span class="text-primary font-medium">{{ cardData[3] }} </span>
-            <span class="text-muted-color">Users</span>
+            <span class="text-muted-color">Approver Users</span>
         </div>
     </div>
 </p-fluid>
@@ -110,28 +110,6 @@
           <div class="flex-1 text-sm">{{ ra.message }}</div>
         </div>
       </div>
-    </ng-template>
-  </div>
-
-  <!-- Users Active Status -->
-  <div class="card chart-card">
-    <ng-container *ngIf="loading; else activeStatus">
-      <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
-    </ng-container>
-    <ng-template #activeStatus>
-      <h5 class="card-title font-semibold">Users Active Status <span class="text-gray-500">| Tax</span></h5>
-      <p-chart type="radar" [data]="radarData" [options]="chartOptions" class="w-2/5 mx-auto"></p-chart>
-    </ng-template>
-  </div>
-
-  <!-- Revenue Stream -->
-  <div class="card chart-card">
-    <ng-container *ngIf="loading; else revenueStream">
-      <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
-    </ng-container>
-    <ng-template #revenueStream>
-      <div class="font-semibold text-xl mb-4">Revenue Stream</div>
-      <p-chart type="bar" [data]="polarChartUsersStatusData" [options]="chartOptionsRevenues" class="h-80"></p-chart>
     </ng-template>
   </div>
 

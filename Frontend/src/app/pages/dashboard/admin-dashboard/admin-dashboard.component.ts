@@ -29,7 +29,6 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   polarChartUsersStatusData: any;
   barChartRolePerAudits: any;
   horizontalBarChartData: any;
-  radarData: any;
   usersPerRegionandAudit: any;
   lineChartData: any;
   recentActivity: RecentActivity[] = [];
@@ -68,7 +67,6 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       polarData: this.adminDashboardService.getPolarData(this.currentUser.id as any),
       barData: this.adminDashboardService.getBarChartData(),
       horizontalData: this.adminDashboardService.getHorizontalBarChartData(),
-      radarData: this.adminDashboardService.getRadarAgeData(),
       lineData: this.adminDashboardService.getLineChartData(),
       recentActivities: this.adminDashboardService.getRecentActivity(this.currentUser.id as any)
     })
@@ -79,7 +77,6 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
         polarData,
         barData,
         horizontalData,
-        radarData,
         lineData,
         recentActivities
       }) => {
@@ -87,13 +84,10 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
         this.polarChartUsersStatusData = this.buildPolarChart(polarData);
         this.barChartRolePerAudits = this.buildBarChart(barData);
         this.horizontalBarChartData = this.buildHorizontalChart(horizontalData);
-        this.radarData = this.buildRadarChart(radarData);
         this.usersPerRegionandAudit = this.buildLineChart(lineData as any);
         this.recentActivityies = recentActivities;
         this.loading = false;
-                console.error('data come:');
-
-
+        console.error('data come:');
       },
       error: (err) => {
         console.error('Error loading dashboard data:', err);
@@ -161,23 +155,6 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     return {
       labels: ['Auditor', 'Reviewer', 'Division Compiler', 'Approver', 'Branch Manager', 'Regional Director'],
       datasets: [{ label: 'Financial Audit Users per Roles', backgroundColor: '#34568B', data }]
-    };
-  }
-
-  private buildRadarChart(data: number[]) {
-    const active: number[] = [];
-    const inactive: number[] = [];
-    for (let i = 0; i < data.length;) {
-      active.push(data[i++]);
-      inactive.push(data[i++]);
-    }
-
-    return {
-      labels: ['Admin', 'Maker', 'Reviewer', 'Approver'],
-      datasets: [
-        { label: 'Active', backgroundColor: 'rgba(26,188,156,0.2)', borderColor: 'rgba(26,188,156,1)', data: active },
-        { label: 'Inactive', backgroundColor: 'rgba(26,82,118,0.2)', borderColor: 'rgba(26,82,118,1)', data: inactive }
-      ]
     };
   }
 

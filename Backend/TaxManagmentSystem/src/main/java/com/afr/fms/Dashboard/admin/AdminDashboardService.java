@@ -7,10 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.afr.fms.Admin.Entity.Region;
-import com.afr.fms.Admin.Mapper.BranchMapper;
 import com.afr.fms.Admin.Mapper.RegionMapper;
-import com.afr.fms.Admin.Mapper.UserMapper;
-import com.afr.fms.Common.Permission.Mapper.FunctionalitiesMapper;
 import com.afr.fms.Common.RecentActivity.RecentActivity;
 import com.afr.fms.Common.RecentActivity.RecentActivityMapper;
 
@@ -25,15 +22,6 @@ public class AdminDashboardService {
 
     @Autowired
     private RegionMapper regionMapper;
-
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private BranchMapper branchMapper;
-
-    @Autowired
-    private FunctionalitiesMapper functionalitiesMapper;
 
     private static final List<String> AUDITS = List.of("IS", "MGT", "INS", "BFA");
 
@@ -66,10 +54,10 @@ public class AdminDashboardService {
     // Card data
     public List<Integer> computeCardData() {
         return List.of(
-            adminDashboardMapper.getSystemUsersByCategory("IS"),
-            adminDashboardMapper.getSystemUsersByCategory("MGT"),
-            adminDashboardMapper.getSystemUsersByCategory("BFA"),
-            adminDashboardMapper.getSystemUsersByCategory("INS"),
+            adminDashboardMapper.getSystemUsersByCategory("ADMIN"),
+            adminDashboardMapper.getSystemUsersByCategory("Maker"),
+            adminDashboardMapper.getSystemUsersByCategory("Reviewer"),
+            adminDashboardMapper.getSystemUsersByCategory("Approver"),
             adminDashboardMapper.getUserLoginStatus(1),
             adminDashboardMapper.getUserLoginStatus(2)
         );
@@ -97,20 +85,6 @@ public class AdminDashboardService {
             bar_chart_data.add(adminDashboardMapper.getUsersPerRoleandAudit("BFA", code));
         }
         return bar_chart_data;
-    }
-
-    // Radar age data
-    public List<Integer> computeRadarAgeData() {
-        return List.of(
-            adminDashboardMapper.getUserActiveStatusPerAudit(1, "IS"),
-            adminDashboardMapper.getUserActiveStatusPerAudit(0, "IS"),
-            adminDashboardMapper.getUserActiveStatusPerAudit(1, "MGT"),
-            adminDashboardMapper.getUserActiveStatusPerAudit(0, "MGT"),
-            adminDashboardMapper.getUserActiveStatusPerAudit(1, "BFA"),
-            adminDashboardMapper.getUserActiveStatusPerAudit(0, "BFA"),
-            adminDashboardMapper.getUserActiveStatusPerAudit(1, "INS"),
-            adminDashboardMapper.getUserActiveStatusPerAudit(0, "INS")
-        );
     }
 
     // Recent activity

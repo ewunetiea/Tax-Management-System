@@ -1,16 +1,13 @@
 package com.afr.fms.Admin.Controller;
 
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import com.afr.fms.Admin.Entity.Schedule;
 import com.afr.fms.Admin.Entity.User;
 import com.afr.fms.Admin.Mapper.UserMapper;
@@ -44,8 +41,7 @@ public class ScheduleController {
     }
 
     @PutMapping("/schedule")
-    public ResponseEntity<HttpStatus> updateScheduleStatus(@RequestBody List<Schedule> schedule_status,
-            HttpServletRequest request) {
+    public ResponseEntity<HttpStatus> updateScheduleStatus(@RequestBody List<Schedule> schedule_status, HttpServletRequest request) {
         try {
             String jwt = jwtUtils.getJwtFromCookies(request);
             String username = jwtUtils.getUserNameFromJwtToken(jwt);

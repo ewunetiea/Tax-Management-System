@@ -34,11 +34,6 @@ export class AdminDashboardService {
     return this.http.get<number[]>(`${apiUrl}/horizontal-bar-chart`);
   }
 
-  // Get Radar Age Data
-  getRadarAgeData(): Observable<number[]> {
-    return this.http.get<number[]>(`${apiUrl}/radar-age`);
-  }
-
   // Get Line Chart Data per Region
   getLineChartData(): Observable<Map<string, number[]>> {
 

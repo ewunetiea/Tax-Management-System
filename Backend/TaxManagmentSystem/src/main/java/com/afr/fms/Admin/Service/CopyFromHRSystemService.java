@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.afr.fms.Admin.Entity.Branch;
@@ -64,7 +63,6 @@ public class CopyFromHRSystemService {
     // @Scheduled(cron = "0 0 19 * * ?")
 // @Scheduled(initialDelay = 50000, fixedDelay = Long.MAX_VALUE) // 50000 ms = 50 seconds
     public void scheduledCopyUsersFromHrSystem() {
-
         // if (scheduleService.checkScheduleStatus("copy_users_info_hr_system")) {
         Date date = new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

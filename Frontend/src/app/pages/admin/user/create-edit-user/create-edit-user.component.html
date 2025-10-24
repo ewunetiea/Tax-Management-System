@@ -195,37 +195,7 @@
                             </div>
                         </div>
 
-                        <div class="flex flex-col gap-2" *ngIf="proceed">
-                            <label class="mb-3"><strong class="text-red-600">*</strong>User Category</label>
-                            <div class="flex flex-col md:flex-row gap-4">
-                                <div class="col-span-4 flex items-center gap-2 mb-2">
-                                    <p-radioButton id="maker" name="category" value="Maker" #category="ngModel" required="true" [ngClass]="{ 'border-red-500': category.invalid && category.touched }" [(ngModel)]="user.category"></p-radioButton>
-                                    <label for="is">Maker</label>
-                                </div>
-                                <div class="col-span-4 flex items-center gap-2 mb-2">
-                                    <p-radioButton id="Reviewer" name="category" value="Reviewer" #category="ngModel" required="true" [ngClass]="{ 'border-red-500': category.invalid && category.touched }" [(ngModel)]="user.category"></p-radioButton>
-                                    <label for="mgt">Reviewer</label>
-                                </div>
-                                <div class="col-span-4 flex items-center gap-2 mb-2">
-                                    <p-radioButton
-                                        id="Approver"
-                                        name="category"
-                                        value="Approver"
-                                        [(ngModel)]="user.category"
-                                        #category="ngModel"
-                                        required="true"
-                                        [ngClass]="{ 'border-red-500': category.invalid && category.touched }"
-                                    ></p-radioButton>
-                                    <label for="branch_financial">Approver</label>
-                                </div>
-                                <div class="col-span-4 flex items-center gap-2 mb-2">
-                                    <p-radioButton id="admin" name="admin" value="ADMIN" [(ngModel)]="user.category" #category="ngModel" required="true" [ngClass]="{ 'border-red-500': category.invalid && category.touched }"></p-radioButton>
-                                    <label for="admin">Admin</label>
-                                </div>
-                                <small class="text-red-600" [class.hidden]="category.valid || category.untouched">User Category is required<br /></small>
-                            </div>
-                        </div>
-
+                    
 
 
                         <div class="flex flex-col gap-2" *ngIf="proceed">
@@ -279,8 +249,6 @@
       <p><strong>Job Title:</strong> {{ user.jobPosition?.title }}</p>
       <p *ngIf="user.region?.name"><strong>Place of Work:</strong> {{ user.region?.name }}</p>
       <p *ngIf="user.branch?.name"><strong>Place of Work:</strong> {{ user.branch?.name }}</p>
-      <p><strong>User Category:</strong> {{ user.category }}</p>
-      <p><strong>{{ user.category == 'BFA' || user.category == 'INS' ? 'Banking Category' : 'Management Audit' }}:</strong> {{ user.banking }}</p>
       <p><strong>Authentication Media:</strong> {{ user.authenthication_media || user.phone_number }}</p>
     </div>
   </ng-template>

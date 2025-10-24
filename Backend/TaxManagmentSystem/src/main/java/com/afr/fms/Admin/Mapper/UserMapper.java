@@ -37,9 +37,7 @@ public interface UserMapper {
                         "    AND  gender LIKE '%' + #{gender} + '%' " +
                         "  </if>  " +
 
-                        "  <if test=\"category != null\">  " +
-                        "    AND  category = #{category}  " +
-                        "  </if>  " +
+                
 
                         "  <if test=\"employee_id != null\">  " +
                         "    AND  emp_id LIKE '%' + #{employee_id} + '%' " +
@@ -69,7 +67,6 @@ public interface UserMapper {
                         @Param("last_name") String last_name,
                         @Param("email") String email,
                         @Param("phone_number") String phone_number,
-                        @Param("category") String category,
                         @Param("branchId") Long branchId,
                         @Param("regionId") Long regionId,
                         @Param("positionId") Long positionId,
@@ -142,8 +139,8 @@ public interface UserMapper {
         @Select("select * from [user] where RIGHT(phone_number, 9) = RIGHT(#{phone_number}, 9)")
         public User getUserIdByPhoneNumber(String phone_number);
 
-        @Select("INSERT INTO [user](username, first_name, middle_name, last_name, email, password, phone_number, status, branch_id, photo_url, region_id, gender, emp_id, job_position_id, category, banking, special_user)"
-                        + "  OUTPUT inserted.id VALUES (#{username}, #{first_name},#{middle_name}, #{last_name}, #{email}, #{password}, #{phone_number},1, #{branch.id}, #{photoUrl}, #{region.id}, #{gender}, #{employee_id}, #{jobPosition.id}, #{category}, #{banking}, #{special_user})")
+        @Select("INSERT INTO [user](username, first_name, middle_name, last_name, email, password, phone_number, status, branch_id, photo_url, region_id, gender, emp_id, job_position_id)"
+                        + "  OUTPUT inserted.id VALUES (#{username}, #{first_name},#{middle_name}, #{last_name}, #{email}, #{password}, #{phone_number},1, #{branch.id}, #{photoUrl}, #{region.id}, #{gender}, #{employee_id}, #{jobPosition.id}})")
         public Long create_user(User user);
 
         @Update("UPDATE [user] "
@@ -159,10 +156,7 @@ public interface UserMapper {
                         + " emp_id = #{employee_id} ,"
                         + " photo_url = #{photoUrl} ,"
                         + " gender = #{gender},"
-                        + " job_position_id = #{jobPosition.id},"
-                        + " category = #{category}, "
-                        + " special_user = #{special_user}, "
-                        + " banking = #{banking}"
+                        + " job_position_id = #{jobPosition.id}"
                         + " WHERE id = #{id}")
         public void updateUser(User user);
 
@@ -183,8 +177,7 @@ public interface UserMapper {
         @Update("UPDATE [user] SET region_id = #{region.id} WHERE id=#{id}")
         public void transferRegion(User user);
 
-        @Update("UPDATE [user] SET special_user = #{special_user} WHERE id=#{id}")
-        public void makeSpecialUser(User user);
+       
 
         @Update("UPDATE [user] SET region_id = #{region.id}, branch_id = #{branch.id} WHERE id=#{id}")
         public void transferUser(User user);
@@ -316,14 +309,14 @@ public interface UserMapper {
         })
         public List<User> getUsersByJobPositionId(Long job_position_id);
 
-        @Select("select * from [user] where job_position_id = #{job_position_id} and category = #{role_location} and special_user != 1")
+        @Select("select * from [user] where job_position_id = #{job_position_id} ")
         @Results(value = {
                         @Result(property = "id", column = "id"),
                         @Result(property = "jobPosition", column = "job_position_id", one = @One(select = "com.afr.fms.Admin.Mapper.JobPositionMapper.getJobPositionById")),
                         @Result(property = "roles", javaType = List.class, column = "id", many = @Many(select = "com.afr.fms.Admin.Mapper.RoleMapper.getRolesByUserId")),
 
         })
-        public List<User> getUsersByJobPositionIdandRolePosition(Long job_position_id, String role_location);
+        public List<User> getUsersByJobPositionIdandRolePosition(Long job_position_id);
 
         @Select("Select * from [user] where id in (SELECT user_id from user_role where role_id = #{role_id})")
         @Results(value = {
@@ -332,17 +325,17 @@ public interface UserMapper {
         })
         public List<User> getUsersByRole(Long role_id);
 
-        @Select("Select * from [user] where id in (SELECT user_id from user_role where role_id in (select id from role where code = #{code})) and category= #{category}")
+        @Select("Select * from [user] where id in (SELECT user_id from user_role where role_id in (select id from role where code = #{code}))")
         @Results(value = {
                         @Result(property = "id", column = "id"),
                         @Result(property = "jobPosition", column = "job_position_id", one = @One(select = "com.afr.fms.Admin.Mapper.JobPositionMapper.getJobPositionById")),
         })
-        public User getUserByRole(String code, String category);
+        public User getUserByRole(String code);
 
         @Delete("delete from [user] where id = #{user_id}")
         public void deleteUserById(Long user_id);
 
-        @Select("SELECT * FROM [user] WHERE category= #{category}")
+        @Select("SELECT * FROM [user]")
         @Results(value = {
                         @Result(property = "id", column = "id"),
                         @Result(property = "employee_id", column = "emp_id"),
@@ -351,25 +344,9 @@ public interface UserMapper {
                         @Result(property = "roles", javaType = List.class, column = "id", many = @Many(select = "com.afr.fms.Admin.Mapper.RoleMapper.getRolesByUserId")),
                         @Result(property = "jobPosition", column = "job_position_id", one = @One(select = "com.afr.fms.Admin.Mapper.JobPositionMapper.getJobPositionById")),
         })
-        public List<User> getUserByCategory(String category);
+        public List<User> getUserByCategory();
 
-        // @Select("select * from [user] u  " + //
-        //                 "inner join IS_Management_Audit isma1 on (isma1.auditor_id = u.id  " + //
-        //                 "or isma1.reviewer_id = u.id  " + //
-        //                 "or isma1.approver_id = u.id  " + //
-        //                 "or isma1.followup_id = u.id) and isma1.id = #{id}  " + //
-        //                 "where u.category = #{category}")
-        // @Results(value = {
-        //                 @Result(property = "id", column = "id"),
-        //                 @Result(property = "employee_id", column = "emp_id"),
-        //                 @Result(property = "photoUrl", column = "photo_url"),
-        //                 @Result(property = "branch", column = "branch_id", one = @One(select = "com.afr.fms.Admin.Mapper.BranchMapper.getBranchById")),
-        //                 @Result(property = "roles", javaType = List.class, column = "id", many = @Many(select = "com.afr.fms.Admin.Mapper.RoleMapper.getRolesByUserId")),
-        //                 @Result(property = "jobPosition", column = "job_position_id", one = @One(select = "com.afr.fms.Admin.Mapper.JobPositionMapper.getJobPositionById")),
-        // })
-        // public List<User> getUsersRemark(AuditISM auditISM);
-
-        @Select("SELECT * FROM [user] WHERE id in (select user_id from user_role where role_id in ( select id from role where code = #{role} )) and category= #{category} ")
+        @Select("SELECT * FROM [user] WHERE id in (select user_id from user_role where role_id in ( select id from role where code = #{role} ))  ")
         @Results(value = {
                         @Result(property = "id", column = "id"),
                         @Result(property = "employee_id", column = "emp_id"),
@@ -378,7 +355,7 @@ public interface UserMapper {
                         @Result(property = "roles", javaType = List.class, column = "id", many = @Many(select = "com.afr.fms.Admin.Mapper.RoleMapper.getRolesByUserId")),
                         @Result(property = "jobPosition", column = "job_position_id", one = @One(select = "com.afr.fms.Admin.Mapper.JobPositionMapper.getJobPositionById")),
         })
-        public List<User> getUserByCategoryandRole(String category, String role);
+        public List<User> getUserByCategoryandRole(String role);
 
         @Select("SELECT id, email FROM [user] WHERE id in (select user_id from user_role where role_id in ( select id from role where name = #{role} )) ")
         @Results(value = {
@@ -386,7 +363,7 @@ public interface UserMapper {
         })
         public List<User> getUserByRoleName(String role);
 
-        @Select("SELECT * FROM [user] WHERE id in (select user_id from user_role where role_id in ( select id from role where code = #{role} )) and banking= #{banking} ")
+        @Select("SELECT * FROM [user] WHERE id in (select user_id from user_role where role_id in ( select id from role where code = #{role} ))  ")
         @Results(value = {
                         @Result(property = "id", column = "id"),
                         @Result(property = "employee_id", column = "emp_id"),
@@ -395,7 +372,7 @@ public interface UserMapper {
                         @Result(property = "roles", javaType = List.class, column = "id", many = @Many(select = "com.afr.fms.Admin.Mapper.RoleMapper.getRolesByUserId")),
                         @Result(property = "jobPosition", column = "job_position_id", one = @One(select = "com.afr.fms.Admin.Mapper.JobPositionMapper.getJobPositionById")),
         })
-        public List<User> getUserByBankingandRole(String banking, String role);
+        public List<User> getUserByBankingandRole( String role);
 
         @Select("SELECT * FROM [user] WHERE id in (select user_id from user_role where role_id in ( select id from role where code = #{role} )) and branch_id = #{branch_id}")
         @Results(value = {

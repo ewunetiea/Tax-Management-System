@@ -33,10 +33,7 @@ public class User {
     private JobPosition jobPosition;
     private List<JobPosition> jobPositions;
     private UserCopyFromHR userCopyFromHR;
-    private String category;
     private boolean authenthication_media;
-    private String banking;
-    private boolean special_user;
     private int page_number; // for pagination purpose only, it will not be saved in db, just for UI pagination
     private int page_size; // for pagination purpose only, it will not be saved in db, just for UI pagination
     private int total_records; // for pagination purpose only, it will not be saved in db, just for UI pagination

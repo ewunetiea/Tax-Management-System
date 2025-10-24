@@ -28,13 +28,11 @@ public class UserDetailsImpl implements UserDetails {
 
   private String photoUrl;
 
-  private String category;
 
   private Branch branch;
 
   private Region region;
 
-  private String banking;
 
   private UserSecurity userSecurity;
 
@@ -43,7 +41,7 @@ public class UserDetailsImpl implements UserDetails {
   private Collection<? extends GrantedAuthority> authorities;
 
   public UserDetailsImpl(Long id, String username, String email, String password,
-      boolean status, String photoUrl, String category, Branch branch, Region region, String banking,
+      boolean status, String photoUrl, Branch branch, Region region, 
       UserSecurity userSecurity,
       Collection<? extends GrantedAuthority> authorities) {
     this.id = id;
@@ -51,12 +49,10 @@ public class UserDetailsImpl implements UserDetails {
     this.password = password;
     this.status = status;
     this.photoUrl = photoUrl;
-    this.category = category;
     this.username = username;
     this.branch = branch;
     this.region = region;
     this.userSecurity = userSecurity;
-    this.banking = banking;
     this.authorities = authorities;
   }
 
@@ -73,10 +69,8 @@ public class UserDetailsImpl implements UserDetails {
         user.getPassword(),
         user.isStatus(),
         user.getPhotoUrl(),
-        user.getCategory(),
         user.getBranch(),
         user.getRegion(),
-        user.getBanking(),
         user.getUser_security(),
         authorities);
   }
@@ -86,13 +80,6 @@ public class UserDetailsImpl implements UserDetails {
     return authorities;
   }
 
-  public String getBanking() {
-    return banking;
-  }
-
-  public void setBanking(String banking) {
-    this.banking = banking;
-  }
 
   public Long getId() {
     return id;
@@ -102,9 +89,6 @@ public class UserDetailsImpl implements UserDetails {
     return photoUrl;
   }
 
-  public String getCategory() {
-    return category;
-  }
 
   public String getEmail() {
     return email;

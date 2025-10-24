@@ -152,7 +152,7 @@ public class UserService {
 
     public List<User> generatedUsers(User user) {
         return userMapper.generatedUsers(user.getFirst_name(), user.getMiddle_name(), user.getLast_name(),
-                user.getEmail(), user.getPhone_number(), user.getCategory(),
+                user.getEmail(), user.getPhone_number(),
                 user.getBranch() != null ? user.getBranch().getId() : null,
                 user.getRegion() != null ? user.getRegion().getId() : null,
                 user.getJobPosition() != null ? user.getJobPosition().getId() : null, user.getGender(),
@@ -290,46 +290,12 @@ public class UserService {
             
         }
     }
-
-    public void makeSpecialUser(List<User> users, User admin) {
-        try {
-            boolean is_special = users.get(0).isSpecial_user();
-            for (User user : users) {
-                user.setSpecial_user(is_special);
-                userMapper.makeSpecialUser(user);
-            }
-
-            if (admin != null) {
-                RecentActivity recentActivity1 = new RecentActivity();
-                recentActivity1.setMessage("Users' category has been updated to 'Special'.");
-                recentActivity1.setUser(admin);
-                recentActivityMapper.addRecentActivity(recentActivity1);
-            }
-        } catch (Exception e) {
-            logger.error("Error updating special user status for users: {}",
-                    admin != null ? admin.getEmail() : null, e);
-        }
-    }
-
-    public void manageMultipleUsersRole(List<User> users, User admin) {
+ public void manageMultipleUsersRole(List<User> users, User admin) {
         try {
             List<Role> roles = (List<Role>) users.get(0).getRoles();
             for (User user : users) {
                 user.setRoles(roles);
                 manageRoles(user);
-            }
-
-            if (roles != null) {
-                List<String> rolesName = roles.stream()
-                        .map(Role::getName)
-                        .collect(Collectors.toList());
-
-                if (rolesName.contains("ROLE_AUDITEE_INS") || rolesName.contains("ROLE_BRANCHM_BFA")) {
-                    for (User user : users) {
-                        user.setSpecial_user(true);
-                        userMapper.makeSpecialUser(user);
-                    }
-                }
             }
 
             if (admin != null) {

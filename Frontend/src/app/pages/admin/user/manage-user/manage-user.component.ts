@@ -186,7 +186,6 @@ export class ManageUserComponent {
 
     openModal(user: User) {
         try {
-            this.getRoles(user.category);
             this.getAllRoles();
         } catch (error) {}
         this.roles = this.categoryRoles;
@@ -318,21 +317,7 @@ export class ManageUserComponent {
         });
     }
 
-    getRoles(category: any) {
-        this.roleService.getRolesCategory(category).subscribe({
-            next: (data) => {
-                this.categoryRoles = data;
-            },
-            error: (error: HttpErrorResponse) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching roles !',
-                    detail: ''
-                });
-            }
-        });
-    }
-
+ 
     openMultipleUserRoleDialog() {
         this.getAllRoles();
         this.multipleUserRoleDialog = true;
@@ -515,70 +500,6 @@ export class ManageUserComponent {
         this.exportService.exportExcel(reportData);
     }
 
-    makeSpecialUser(user: User) {
-        user.special_user = true;
-        this.passUsers.push(user);
-        this.confirmationService.confirm({
-            message: 'Are you sure you want to change selected user category to special?',
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.userService.makeUserSpecial(this.passUsers).subscribe({
-                    next: (response) => {
-                        // this.users = this.users.filter((val) => val.id !== user.id);
-                        this.passUsers = [];
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: 'Successful',
-                            detail: 'Selected user category updated to special.',
-                            life: 3000
-                        });
-                    },
-                    error: (error: HttpErrorResponse) => {
-                        this.loading = false;
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while updating user category!',
-                            detail: ''
-                        });
-                    }
-                });
-            }
-        });
-    }
-
-    makeSpecialSelectedUsers() {
-        this.selectedUsers[0].special_user = true;
-        this.confirmationService.confirm({
-            message: 'Are you sure you want to update the selected users category to Special?',
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.userService.makeUserSpecial(this.selectedUsers).subscribe({
-                    next: (response) => {
-                        // this.users = this.users.filter(
-                        //   (val) => !this.selectedUsers.includes(val)
-                        // );
-                        this.selectedUsers = [];
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: 'Successful',
-                            detail: 'Selected users category updated to special.',
-                            life: 3000
-                        });
-                    },
-                    error: (error: HttpErrorResponse) => {
-                        this.loading = false;
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while updating users category!',
-                            detail: ''
-                        });
-                    }
-                });
-            }
-        });
-    }
 
     // Function to filter users based on role_id
     filterUsersByRoleId = (users: User[], roleId: number): User[] => {

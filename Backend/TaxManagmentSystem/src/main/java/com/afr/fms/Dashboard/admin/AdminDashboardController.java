@@ -28,11 +28,14 @@ public class AdminDashboardController {
     }
 
     // ===== Get Polar Data =====
-    @GetMapping("/polar-data")
-    public ResponseEntity<List<Integer>> getPolarData(@RequestParam Long userId, HttpServletRequest reques) {
+    @GetMapping("/dougnut")
+    public ResponseEntity<Map<String, Integer>> getPolarData(@RequestParam Long userId, HttpServletRequest reques) {
         try {
-            List<Integer> polarData = dashboardService.computePolarData(); // Updated to not require userId
-            return new ResponseEntity<>(polarData, HttpStatus.OK);
+           // Updated to not require userId
+           System.out.println("_______________________user status_____________");
+
+           System.out.println(dashboardService.getDougnutData());
+            return new ResponseEntity<>(dashboardService.getDougnutData(), HttpStatus.OK);
         } catch (Exception ex) {
             
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -40,37 +43,16 @@ public class AdminDashboardController {
     }
 
     // ===== Get Bar Chart Data =====
-    @GetMapping("/bar-chart")
-    public ResponseEntity<List<Integer>> getBarChartData(HttpServletRequest request) {
+    @GetMapping("/branch-per-region")
+    public ResponseEntity<Map<String, List<?>>> getBarChartData(HttpServletRequest request) {
         try {
-            List<Integer> barChartData = dashboardService.computeBarChartData();
-            return new ResponseEntity<>(barChartData, HttpStatus.OK);
+           
+            return new ResponseEntity<>(dashboardService.getRegionBranchDashboardData(), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    // ===== Get Horizontal Bar Chart Data =====
-    @GetMapping("/horizontal-bar-chart")
-    public ResponseEntity<List<Integer>> getHorizontalBarChartData(HttpServletRequest request) {
-        try {
-            List<Integer> horizontalBarChartData = dashboardService.computeHorizontalBarChartData();
-            return new ResponseEntity<>(horizontalBarChartData, HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    // ===== Get Line Chart Data per Region =====
-    @GetMapping("/line-chart-data")
-    public ResponseEntity<Map<String, List<Integer>>> getLineChartData(HttpServletRequest reques) {
-        try {
-            Map<String, List<Integer>> lineChartData = dashboardService.computeLineChartData();
-            return new ResponseEntity<>(lineChartData, HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    
 
     // ===== Get Recent Activity =====
     @GetMapping("/recent-activity/{userId}")

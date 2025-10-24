@@ -24,11 +24,8 @@ export class User {
   employee_id?: String;
   jobPosition?: JobPosition;
   userCopyFromHR?: any;
-  category?: string;
   unseen_remark?: number;
   authenthication_media?: Boolean;
-  banking?: string;
-  special_user?: boolean;
   page_number?: number; // for paginator purpose only, it will not be saved in db
   page_size?: number; // for paginator purpose only, it will not be saved in db
   functionalities?: Functionalities[] = []; // This will hold the functionalities assigned to the user

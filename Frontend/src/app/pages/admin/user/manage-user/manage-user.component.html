@@ -14,12 +14,7 @@
     <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
             <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full px-4 py-2 mr-2 flex items-center" (click)="openNew()"><i class="pi pi-plus mr-1"></i> New</button>
-            <button
-                class="bg-green-500 hover:bg-green-600 text-white font-semibold rounded-full px-4 py-2 mr-2 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
-                pTooltip="This action sets the selected users' category to 'Special', which is exempt from automatic configuration algorithms. Designed specifically for branch reviewers and managers."
-                (click)="makeSpecialSelectedUsers()"
-                [disabled]="!selectedUsers || !selectedUsers.length">
-                <i class="pi pi-verified mr-1"></i> Specialize </button>
+          
             <button
                 class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-full px-4 py-2 mr-2 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
                 pTooltip="This feature provides options to filter users by a given role and assign multiple intended roles to them. Furthermore, this feature removes any previously assigned roles and adds the intended ones."
@@ -95,19 +90,9 @@
                     </div>
                 </th>
 
-                <th style="min-width: 10rem">
-                    <div class="flex items-center">
-                        Category
-                        <p-columnFilter type="text" field="category" display="menu"></p-columnFilter>
-                    </div>
-                </th>
+               
 
-                <th style="min-width: 10rem">
-                    <div class="flex items-center">
-                        Banking
-                        <p-columnFilter type="text" field="banking" display="menu"></p-columnFilter>
-                    </div>
-                </th>
+              
 
                 <th style="min-width: 8rem">
                     <div class="flex items-center">
@@ -123,13 +108,7 @@
                     </div>
                 </th>
 
-                <th style="width: 8rem">
-                    <div class="flex items-center">
-                        Special
-                        <p-columnFilter type="boolean" field="special_user" display="menu"></p-columnFilter>
-                    </div>
-                </th>
-
+              
                 <th style="width: 12rem">Action</th>
             </tr>
         </ng-template>
@@ -144,11 +123,7 @@
                 <td>{{ user.first_name }}</td>
                 <td>{{ user.middle_name }}</td>
                 <td>{{ user.last_name }}</td>
-                <td>{{ user.category }}</td>
-                <td>
-                    <span *ngIf="user.banking">{{ user.banking }}</span>
-                    <span *ngIf="!user.banking">{{ user.category }}</span>
-                </td>
+                
 
                 <td>
                     <span *ngIf="user.branch">{{ user.branch?.name }} </span>
@@ -159,14 +134,10 @@
                     <button *ngIf="user.status == 0" pButton pRipple type="text" icon="pi pi-times" label="Inactive" class="p-button-rounded p-button-danger p-button-outlined "></button>
                 </td>
 
-                <td>
-                    <button *ngIf="user.special_user == 1" pButton pRipple type="text" label="Special" class="p-button-rounded p-button-outlined "></button>
-                    <button *ngIf="user.special_user != 1" pButton pRipple type="text" label="Normal" class="p-button-rounded p-button-secondary p-button-outlined "></button>
-                </td>
+               
 
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" pTooltip="Edit User" class="p-button-outlined p-button-rounded p-button-primary mr-2" (click)="editUser(user)"></button>
-                    <button pButton pRipple icon="pi pi-verified" pTooltip="Make Special" class="p-button-outlined p-button-rounded p-button-success mr-2" (click)="makeSpecialUser(user)"></button>
                 </td>
             </tr>
         </ng-template>

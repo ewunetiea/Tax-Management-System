@@ -13,8 +13,6 @@ public class UserInfoResponse {
 	private String photoUrl;
 	private List<String> roles;
 	private String title;
-	private String category;
-	private String banking;
 	
 
 	private Branch branch;
@@ -23,27 +21,19 @@ public class UserInfoResponse {
 	
 
 	public UserInfoResponse(Long id, Long id_login_tracker, String username, String email, String photoUrl,
-			String title, String category,Branch branch, Region region, String banking, List<String> roles) {
+			String title,Branch branch, Region region , List<String> roles) {
 		this.id = id;
 		this.id_login_tracker = id_login_tracker;
 		this.username = username;
 		this.email = email;
 		this.photoUrl = photoUrl;
 		this.title = title;
-		this.category = category;
 		this.branch = branch;
 		this.region = region;
 		this.roles = roles;
-		this.banking = banking;
 	}
 
-	public String getBanking() {
-		return banking;
-	}
 
-	public void setBanking(String banking) {
-		this.banking = banking;
-	}
 
 	public Long getId() {
 		return id;
@@ -85,13 +75,9 @@ public class UserInfoResponse {
 		this.title = title;
 	}
 
-	public String getCategory() {
-		return category;
-	}
 
-	public void setCategory(String category) {
-		this.category = category;
-	}
+
+	
 
 	public Branch getBranch() {
 		return branch;

@@ -36,8 +36,6 @@ export class AdminDashboardService {
 
   // Get Line Chart Data per Region
   getLineChartData(): Observable<Map<string, number[]>> {
-
-
     return this.http.get<Map<string, number[]>>(`${apiUrl}/line-chart-data`);
   }
 

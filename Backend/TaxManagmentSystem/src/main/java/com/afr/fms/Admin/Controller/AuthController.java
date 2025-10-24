@@ -152,20 +152,15 @@ public class AuthController {
                                 userSecurityService.checkCredentialTimeExpired(us);
                         }
                 } catch (Exception e) {
-                        logger.error("Error checking user credential expiration for username: {}",
-                                        loginRequest.getUsername(), e);
+                        logger.error("Error checking user credential expiration for username: {}", loginRequest.getUsername(), e);
                 }
 
-                Authentication authentication = authenticationManager
-                                .authenticate(new UsernamePasswordAuthenticationToken(
-                                                loginRequest.getUsername(), loginRequest.getPassword()));
-
+                Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
                 // Generate tokens
                 ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails, request);
-
                 String ipAddress = HttpUtils.clientIp(request);
 
                 // Register login tracker
@@ -182,13 +177,8 @@ public class AuthController {
                                 .map(item -> item.getAuthority())
                                 .collect(Collectors.toList());
 
-                String title = userMapper.findByFusionUsername(loginRequest.getUsername())
-                                .getJobPosition().getTitle();
-
-                RefreshToken refreshToken = refreshTokenService.createRefreshToken(
-                                userDetails.getId(),
-                                id_login_tracker);
-
+                String title = userMapper.findByFusionUsername(loginRequest.getUsername()).getJobPosition().getTitle();
+                RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId(), id_login_tracker);
                 ResponseCookie jwtRefreshCookie = jwtUtils.generateRefreshJwtCookie(refreshToken.getToken(), request);
 
                 return ResponseEntity.ok()

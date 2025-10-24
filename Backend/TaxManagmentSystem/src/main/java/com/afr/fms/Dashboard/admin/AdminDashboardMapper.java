@@ -56,10 +56,7 @@ public interface AdminDashboardMapper {
             "FROM [user] u " +
             "LEFT JOIN user_security us ON u.id = us.user_id")
     Map<String, Integer> getPolarDataCounts();
-
-    // User active status per audit
-    @Select("SELECT COUNT(id) FROM [user] WHERE status = #{status} AND category = #{category}")
-    Integer getUserActiveStatusPerAudit(int status, String category);
+    
 
     // Audit sample
     @Select("SELECT COUNT(id) " +

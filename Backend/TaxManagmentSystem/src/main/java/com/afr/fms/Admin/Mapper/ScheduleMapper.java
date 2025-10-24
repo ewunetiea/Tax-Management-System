@@ -1,9 +1,7 @@
 package com.afr.fms.Admin.Mapper;
 
 import com.afr.fms.Admin.Entity.Schedule;
-
 import java.util.List;
-
 import org.apache.ibatis.annotations.*;
 
 @Mapper

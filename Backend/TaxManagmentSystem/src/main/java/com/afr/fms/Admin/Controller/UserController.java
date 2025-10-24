@@ -7,9 +7,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.afr.fms.Admin.Entity.Role;
 import com.afr.fms.Admin.Entity.User;
 import com.afr.fms.Admin.Mapper.JobPositionMapper;
@@ -100,8 +97,7 @@ public class UserController {
     }
 
     @PostMapping("/user/generate")
-    public ResponseEntity<List<User>> generatedUsers(HttpServletRequest request, @RequestBody User user)
-            throws NoUsersAvailableException {
+    public ResponseEntity<List<User>> generatedUsers(HttpServletRequest request, @RequestBody User user) throws NoUsersAvailableException {
         try {
             return new ResponseEntity<>(userService.generatedUsers(user), HttpStatus.OK);
         } catch (Exception ex) {
@@ -124,7 +120,6 @@ public class UserController {
 
     @PostMapping(path = "/user", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AGPResponse> create_user(HttpServletRequest request, @RequestBody User user) {
-
         try {
             List<Role> roles = new ArrayList<>();
             if (user != null) {
@@ -134,7 +129,6 @@ public class UserController {
                         List<String> rolesName = roles.stream()
                                 .map(Role::getName)
                                 .collect(Collectors.toList());
-
                         if (rolesName.contains("ROLE_AUDITEE_INS")) {
                             roles.add(roleMapper.getRoleByCode("BRANCHM_BFA"));
                             user.setSpecial_user(true);

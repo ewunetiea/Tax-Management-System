@@ -32,11 +32,12 @@ public interface ReviewerDashboardMapper {
                         "    UNION ALL SELECT 9 UNION ALL SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12 " +
                         ") m " +
                         "LEFT JOIN tblTaxable t " +
-                        "    ON MONTH(COALESCE(t.maker_date, t.checked_date, t.approved_date, t.checker_rejected_date)) = m.month " +
+                        "    ON MONTH(COALESCE(t.maker_date, t.checked_date, t.approved_date, t.checker_rejected_date)) = m.month "
+                        +
                         "    AND t.from_ = #{branch_id} " +
-                        "    AND YEAR(COALESCE(t.maker_date, t.checked_date, t.approved_date, t.checker_rejected_date)) = YEAR(CURRENT_TIMESTAMP) " +
+                        "    AND YEAR(COALESCE(t.maker_date, t.checked_date, t.approved_date, t.checker_rejected_date)) = YEAR(CURRENT_TIMESTAMP) "
+                        +
                         "GROUP BY m.month " +
                         "ORDER BY m.month")
         public List<Map<String, Object>> getStackedBarTaxesStatusData(@Param("branch_id") Long branch_id);
-
 }

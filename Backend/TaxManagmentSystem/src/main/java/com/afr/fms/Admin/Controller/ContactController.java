@@ -1,9 +1,7 @@
 package com.afr.fms.Admin.Controller;
 
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.afr.fms.Admin.Entity.Contact;
 import com.afr.fms.Admin.Entity.Feedback;
 import com.afr.fms.Admin.Service.ContactService;
@@ -32,7 +29,6 @@ public class ContactController {
     public ResponseEntity<?> createContact(@RequestBody Contact contact, HttpServletRequest request) {
         try {
             contactService.createContact(contact);
-
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (Exception e) {
             logger.error("Error creating contact: ", e);
@@ -43,7 +39,6 @@ public class ContactController {
 
     @PostMapping("/contact/delete")
     public ResponseEntity<?> deleteContact(@RequestBody List<Contact> contacts, HttpServletRequest request) {
-
         try {
             for (Contact contact : contacts) {
                 contactService.deleteContact(contact);
@@ -86,7 +81,6 @@ public class ContactController {
 
     @GetMapping("/feedback/{id}")
     public ResponseEntity<List<Feedback>> get(@PathVariable("id") long id, HttpServletRequest request) {
-
         try {
             return new ResponseEntity<>(contactService.getFeedbacksByUserID(id), HttpStatus.OK);
         } catch (Exception ex) {
@@ -113,7 +107,6 @@ public class ContactController {
         try {
             return new ResponseEntity<>(contactService.getFeedbacks(), HttpStatus.OK);
         } catch (Exception ex) {
-            
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

@@ -1,13 +1,9 @@
 package com.afr.fms.Admin.Service;
 
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
-import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.afr.fms.Admin.Entity.Role;
 import com.afr.fms.Admin.Entity.Schedule;
 import com.afr.fms.Admin.Entity.User;
@@ -54,15 +50,13 @@ public class ScheduleService {
 	}
 
 	public List<Schedule> getSchedules() {
-
 		return scheduleMapper.getSchedules();
 	}
 
 	public void updateScheduleStatus(List<Schedule> schedule_status, User user) {
 		boolean status = schedule_status.get(0).isStatus();
 		for (Schedule schedule : schedule_status) {
-			scheduleMapper.updateScheduleStatusById(
-					schedule.getId(), status);
+			scheduleMapper.updateScheduleStatusById(schedule.getId(), status);
 		}
 
 		if (user != null) {

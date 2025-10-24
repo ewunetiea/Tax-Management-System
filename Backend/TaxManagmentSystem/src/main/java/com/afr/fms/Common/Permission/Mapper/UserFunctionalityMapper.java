@@ -71,7 +71,6 @@ public interface UserFunctionalityMapper {
                         @Param("last_name") String last_name,
                         @Param("email") String email,
                         @Param("phone_number") String phone_number,
-                        @Param("category") String category,
                         @Param("branchId") Long branchId,
                         @Param("regionId") Long regionId,
                         @Param("positionId") Long positionId,

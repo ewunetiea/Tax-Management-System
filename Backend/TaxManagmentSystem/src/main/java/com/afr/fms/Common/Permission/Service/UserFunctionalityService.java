@@ -23,7 +23,7 @@ public class UserFunctionalityService {
 
     public List<User> generatedUsers(User user) {
         return userFunctionalityMapper.generatedUsers(user.getFirst_name(), user.getMiddle_name(), user.getLast_name(),
-                user.getEmail(), user.getPhone_number(), user.getCategory(),
+                user.getEmail(), user.getPhone_number(),
                 user.getBranch() != null ? user.getBranch().getId() : null,
                 user.getRegion() != null ? user.getRegion().getId() : null,
                 user.getJobPosition() != null ? user.getJobPosition().getId() : null, user.getGender(),

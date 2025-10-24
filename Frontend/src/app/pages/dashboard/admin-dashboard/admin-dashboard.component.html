@@ -81,16 +81,29 @@
 <!-- All Charts in ONE Grid -->
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-  <!-- Status Of Users Card -->
-  <div class="card chart-card">
-    <ng-container *ngIf="loading; else statusOfUsers">
+  <!-- # of Users per Roles -->
+  <div class="card col-span-2 chart-card">
+    <ng-container *ngIf="loading; else usersRoles">
       <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
     </ng-container>
-    <ng-template #statusOfUsers>
-      <div class="font-semibold text-xl mb-4">Status Of Users</div>
-      <p-chart type="bar" [data]="polarChartUsersStatusData" [options]="polarChartOptions" class="h-80"></p-chart>
+    <ng-template #usersRoles>
+      <h5 class="card-title font-semibold"># of Users <span class="text-gray-500">| Roles and Admin, Maker, Reviewer and Approver</span></h5>
+      <p-chart type="bar" [data]="barChartBranchperRegion" [options]="multiAxisOptions"></p-chart>
     </ng-template>
   </div>
+
+  <div class="card chart-card">
+  <ng-container *ngIf="loading; else statusOfUsers">
+    <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
+  </ng-container>
+
+  <ng-template #statusOfUsers>
+    <div class="font-semibold text-xl mb-4">Status Of Users</div>
+   
+      <p-chart type="pie" [data]="data" [options]="options" class="w-full md:w-[30rem]" />
+
+  </ng-template>
+</div>
 
   <!-- Recent Activity Card -->
   <div class="card chart-card">
@@ -113,59 +126,10 @@
     </ng-template>
   </div>
 
-  <!-- Users Active Status -->
-  <div class="card chart-card">
-    <ng-container *ngIf="loading; else activeStatus">
-      <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
-    </ng-container>
-    <ng-template #activeStatus>
-      <h5 class="card-title font-semibold">Users Active Status <span class="text-gray-500">| Tax</span></h5>
-      <p-chart type="radar" [data]="radarData" [options]="chartOptions" class="w-2/5 mx-auto"></p-chart>
-    </ng-template>
-  </div>
 
-  <!-- Revenue Stream -->
-  <div class="card chart-card">
-    <ng-container *ngIf="loading; else revenueStream">
-      <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
-    </ng-container>
-    <ng-template #revenueStream>
-      <div class="font-semibold text-xl mb-4">Revenue Stream</div>
-      <p-chart type="bar" [data]="polarChartUsersStatusData" [options]="chartOptionsRevenues" class="h-80"></p-chart>
-    </ng-template>
-  </div>
 
-  <!-- # of Users per Region -->
-  <div class="card col-span-2 chart-card">
-    <ng-container *ngIf="loading; else usersRegion">
-      <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
-    </ng-container>
-    <ng-template #usersRegion>
-      <h5 class="card-title font-semibold"># of Users <span class="text-gray-500">| Region and Tax</span></h5>
-      <p-chart type="line" [data]="usersPerRegionandAudit" [options]="basicOptions"></p-chart>
-    </ng-template>
-  </div>
+ 
 
-  <!-- # of Users per Roles -->
-  <div class="card col-span-2 chart-card">
-    <ng-container *ngIf="loading; else usersRoles">
-      <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
-    </ng-container>
-    <ng-template #usersRoles>
-      <h5 class="card-title font-semibold"># of Users <span class="text-gray-500">| Roles and Admin, Maker, Reviewer and Approver</span></h5>
-      <p-chart type="bar" [data]="barChartRolePerAudits" [options]="multiAxisOptions"></p-chart>
-    </ng-template>
-  </div>
-
-  <!-- Horizontal Bar -->
-  <div class="card col-span-2 chart-card">
-    <ng-container *ngIf="loading; else horizontalBar">
-      <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
-    </ng-container>
-    <ng-template #horizontalBar>
-      <h5 class="card-title font-semibold"># of Users <span class="text-gray-500">| Roles, Maker</span></h5>
-      <p-chart type="bar" [data]="horizontalBarChartData" [options]="horizontalOptions"></p-chart>
-    </ng-template>
-  </div>
+ 
 
 </div>

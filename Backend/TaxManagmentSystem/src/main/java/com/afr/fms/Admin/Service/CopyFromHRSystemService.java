@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import javax.transaction.Transactional;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,6 +66,9 @@ public class CopyFromHRSystemService {
 
     // @Scheduled(cron = "0 0 19 * * ?")
 // @Scheduled(initialDelay = 50000, fixedDelay = Long.MAX_VALUE) // 50000 ms = 50 seconds
+
+
+@Transactional
     public void scheduledCopyUsersFromHrSystem() {
 
         // if (scheduleService.checkScheduleStatus("copy_users_info_hr_system")) {
@@ -165,7 +171,7 @@ public class CopyFromHRSystemService {
                                 JobPosition jobPositionForUser = registeredJobPositions.get(0);
                                 List<Role> roles = new ArrayList<>();
                                 for (JobPosition jobPosition : registeredJobPositions) {
-                                    roles = jobPositionMapper.getRoleByJobPositionId(jobPosition.getId(), user.getCategory());
+                                    roles = jobPositionMapper.getRoleByJobPositionId(jobPosition.getId());
                                     if (roles != null) {
                                         jobPositionForUser = jobPosition;
                                         break;
@@ -173,7 +179,6 @@ public class CopyFromHRSystemService {
                                 }
 
                                 user_store.setJobPosition(jobPositionForUser);
-                                if (!user.isSpecial_user()) {
                                     if (roles != null) {
                                         if (!roles.containsAll(user.getRoles())) {
                                             user_store.setStatus(true);
@@ -186,7 +191,7 @@ public class CopyFromHRSystemService {
                                         userRoleMapper.removeAllUserRoles(user.getId());
                                         user_store.setStatus(false);
                                     }
-                                }
+                                
                             }
                         userMapper.updateUserScheduler(user_store);
                     }

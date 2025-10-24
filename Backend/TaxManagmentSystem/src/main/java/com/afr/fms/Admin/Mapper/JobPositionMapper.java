@@ -52,7 +52,7 @@ public interface JobPositionMapper {
         @Results(value = {
                         @Result(property = "id", column = "id"),
         })
-        public List<Role> getRoleByJobPositionId(Long job_position_id, String role_position);
+        public List<Role> getRoleByJobPositionId(Long job_position_id);
 
         @Select("Select * from role where id in (Select distinct(role_id) from role_job_position where job_position_id = #{job_position_id})")
         @Results(value = {

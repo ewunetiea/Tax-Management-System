@@ -55,7 +55,7 @@ public class JobPositionService {
         // }
 
         for (JobPosition jobPosition2 : newjobPositionList) {
-            userList.addAll(userMapper.getUsersByJobPositionIdandRolePosition(jobPosition2.getId(), role.getRole_position()));
+            userList.addAll(userMapper.getUsersByJobPositionIdandRolePosition(jobPosition2.getId()));
         }
 
         try {
@@ -70,8 +70,7 @@ public class JobPositionService {
             }
 
             for (JobPosition jobPosition : removedJobPositions) {
-                for (User user : userMapper.getUsersByJobPositionIdandRolePosition(jobPosition.getId(),
-                        role.getRole_position())) {
+                for (User user : userMapper.getUsersByJobPositionIdandRolePosition(jobPosition.getId())) {
                     userMapper.removeRolesByUserRole(user.getId(), role.getId());
                     if (user.getRoles() != null) {
                         if (user.getRoles().size() == 1) {

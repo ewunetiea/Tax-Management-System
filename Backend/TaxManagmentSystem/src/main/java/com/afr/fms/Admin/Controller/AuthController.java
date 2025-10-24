@@ -201,10 +201,8 @@ public class AuthController {
                                                 userDetails.getEmail(),
                                                 userDetails.getPhotoUrl(),
                                                 title,
-                                                userDetails.getCategory(),
                                                 userDetails.getBranch(),
                                                 userDetails.getRegion(),
-                                                userDetails.getBanking(),
                                                 roles));
         }
 
@@ -291,10 +289,8 @@ public class AuthController {
                         List<Role> roles = new ArrayList<>();
                         if (user != null) {
                                 if (user.getJobPosition() != null && user.getJobPosition().getId() != null) {
-                                  roles = jobPositionMapper.getRoleByJobPositionId(user.getJobPosition().getId(),
-                                                        user.getCategory());
+                                  roles = jobPositionMapper.getRoleByJobPositionId(user.getJobPosition().getId());
 
-                                        user.setSpecial_user(false);
 
                                         user.setRoles(roles);
                                 }

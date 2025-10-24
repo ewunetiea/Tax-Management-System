@@ -128,27 +128,7 @@ public class UserController {
         try {
             List<Role> roles = new ArrayList<>();
             if (user != null) {
-                roles = jobPositionMapper.getRoleByJobPositionId(user.getJobPosition().getId(), user.getCategory());
-                if (roles != null) {
-                    try {
-                        List<String> rolesName = roles.stream()
-                                .map(Role::getName)
-                                .collect(Collectors.toList());
-
-                        if (rolesName.contains("ROLE_AUDITEE_INS")) {
-                            roles.add(roleMapper.getRoleByCode("BRANCHM_BFA"));
-                            user.setSpecial_user(true);
-                        } else if (rolesName.contains("ROLE_BRANCHM_BFA")) {
-                            roles.add(roleMapper.getRoleByCode("AUDITEE_INS"));
-                            user.setSpecial_user(true);
-                        } else {
-                            user.setSpecial_user(false);
-                        }
-
-                    } catch (Exception ex) {
-                        
-                    }
-                }
+                roles = jobPositionMapper.getRoleByJobPositionId(user.getJobPosition().getId());
 
                 user.setRoles(roles);
             }
@@ -333,21 +313,6 @@ public class UserController {
         } catch (Exception ex) {
             logger.error("Error occurred during managing user security for : {}",
                     user != null ? user.getEmployee_id() : null, ex);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
-
-    @PostMapping("/user/special")
-    public ResponseEntity<HttpStatus> makeSpecialUser(HttpServletRequest request, @RequestBody List<User> users) {
-        try {
-            String jwt = jwtUtils.getJwtFromCookies(request);
-            String username = jwtUtils.getUserNameFromJwtToken(jwt);
-            User admin = userMapper.findByEmail(username);
-            userService.makeSpecialUser(users, admin);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception ex) {
-            logger.error("Error occurred during making users special ", ex);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

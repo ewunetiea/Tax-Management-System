@@ -38,11 +38,6 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   multiAxisOptions: any;
   horizontalOptions: any;
 
-  // Breadcrumb
-  breadcrumbText = 'Admin Dashboard';
-  items: MenuItem[] = [];
-  home: MenuItem | undefined;
-
   data: any;
 
   options: any;
@@ -55,16 +50,12 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoggedIn = this.storageService.isLoggedIn();
     this.currentUser = this.storageService.getUser();
-    this.home = { icon: 'pi pi-home', routerLink: '/' };
-    this.items = [{ label: this.breadcrumbText }];
-
 
     // Load all data in parallel
     forkJoin({
       cardData: this.adminDashboardService.getCardData(),
       pieChart: this.adminDashboardService.getPieChartData(this.currentUser.id as any),
       branchPerRegion: this.adminDashboardService.getBranchPerRegion(),
-
       recentActivities: this.adminDashboardService.getRecentActivity(this.currentUser.id as any)
     })
       .pipe(takeUntil(this.destroy$))
@@ -73,12 +64,10 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
           cardData,
           pieChart,
           branchPerRegion,
-
           recentActivities
         }) => {
           this.cardData = cardData;
           this.pieChartOption(pieChart);
-
           this.barChartBranchperRegion = this.buildBranchPerRegion(branchPerRegion);
           this.recentActivityies = recentActivities;
           this.loading = false;
@@ -136,10 +125,8 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
 
   private buildBranchPerRegion(data: any) {
-
     const regions = data.regions;
     const branchCounts = data.branchCounts;
-
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
 
@@ -147,8 +134,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       labels: regions,
       datasets: [
         {
-          label: 'Branch Count per Region',
-
+          label: 'Branch',
           backgroundColor: documentStyle.getPropertyValue('--p-cyan-500'),
           borderColor: documentStyle.getPropertyValue('--p-cyan-500'),
 

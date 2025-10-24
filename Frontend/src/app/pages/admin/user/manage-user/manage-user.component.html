@@ -226,25 +226,6 @@
 <p-dialog [(visible)]="roleDialog" [header]="'' + this.selectedUser.email" [modal]="true" [style]="{ width: '600px' }" [maximizable]="true" styleClass="tw-role-dialog">
     <ng-template pTemplate="content">
         <div class="space-y-6 p-4">
-            <div class="space-y-2">
-                <label class="text-sm font-medium">
-                    <span class="text-red-600">*</span>
-                    <span class="ml-1">User Category</span>
-                </label>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div class="flex items-center space-x-2">
-                        <p-radioButton id="spRB" name="category" [required]="true" value="Specific" [(ngModel)]="role_radio_value" (onClick)="openRoleDropDown()"></p-radioButton>
-                        <label for="spRB" class="text-sm">Specific</label>
-                    </div>
-
-                    <div class="flex items-center space-x-2">
-                        <p-radioButton id="allRB" name="category" [required]="true" value="ALL" [(ngModel)]="role_radio_value" (onClick)="openRoleDropDown()"></p-radioButton>
-                        <label for="allRB" class="text-sm">All</label>
-                    </div>
-                </div>
-            </div>
-
             <div>
                 <label for="roles" class="block text-sm font-medium mb-2">
                     <span class="text-red-600">*</span>

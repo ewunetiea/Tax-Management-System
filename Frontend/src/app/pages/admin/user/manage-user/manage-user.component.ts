@@ -162,28 +162,6 @@ export class ManageUserComponent {
         table.clear();
     }
 
-    openRoleDropDown() {
-        const value = this.role_radio_value;
-
-        if (value.includes('Specific')) {
-            this.roles = this.categoryRoles;
-            if (this.selectedUser.roles) {
-                for (const role of this.selectedUser.roles) {
-                    this.roles[this.findRoleIndexById(role.id)] = role;
-                }
-            }
-        } else {
-            this.roles = this.allRoles;
-
-
-            if (this.selectedUser.roles) {
-                for (const role of this.selectedUser.roles) {
-                    this.roles.push(role);
-                }
-            }
-        }
-    }
-
     openModal(user: User) {
         try {
             this.getAllRoles();
@@ -327,7 +305,16 @@ export class ManageUserComponent {
         this.roleService.getRoles().subscribe({
             next: (data) => {
                 this.allRoles = data;
-            },
+
+
+ this.roles = this.allRoles;
+            if (this.selectedUser.roles) {
+                for (const role of this.selectedUser.roles) {
+                    this.roles.push(role);
+                }
+            }        
+        
+        },
             error: (error: HttpErrorResponse) => {
                 this.messageService.add({
                     severity: 'error',

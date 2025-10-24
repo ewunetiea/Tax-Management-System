@@ -4,7 +4,7 @@ import { AppFloatingConfigurator } from '../../layout/component/app.floatingconf
 import { Platform } from '@angular/cdk/platform';
 import { Password } from '../../models/admin/password';
 import { User } from '../../models/admin/user';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 import { SharedUiModule } from '../../../shared-ui';
 import { AuthService } from '../../service/sharedService/auth.service';
 import { StorageService } from '../../service/sharedService/storage.service';
@@ -107,23 +107,11 @@ export class Login {
                 const user = this.storageService.getUser();
                 this.router.navigate(['/applayout']);
                 // window.location.href = '/applayout/';
-                // if (user.roles.includes('ROLE_BRANCHM_BFA') || user.roles.includes('ROLE_AUDITEE_INS')) {
-                //     const loginUrl = '/afrfms/afrfms-gateway';
-                //     window.location.href = loginUrl;
-                // } else {
-                //     if (user.category == 'BFA') {
-                //         const financialUrl = 'https://afrfms.awashbank.com/financial';
-                //         window.location.href = financialUrl;
-                //     } else if (user.category == 'INS') {
-                //         const inspectionUrl = 'https://afrfms.awashbank.com/inspection';
-                //         window.location.href = inspectionUrl;
-                //     } else this.relodePage();
-                // }
+                
             },
             error: (err) => {
                 this.loading = false;
                 this.errorMessage = err.error.message;
-
                 if (this.errorMessage.includes('password_expired')) {
                     this.change = true;
                     let errorM: any[] = this.errorMessage.split(' ');
@@ -141,7 +129,6 @@ export class Login {
 
     private attemptLogin(username: string, password: string, isForceLogin: boolean): void {
         const loginObservable = isForceLogin ? this.authService.forceLogin(username, password, this.userAgent) : this.authService.login(username, password, this.userAgent);
-
         loginObservable.subscribe({
             next: (data) => this.handleLoginSuccess(data),
             error: (err) => this.handleLoginError(err, username, password)
@@ -155,28 +142,11 @@ export class Login {
         const user = this.storageService.getUser();
         this.router.navigate(['/applayout']);
         // window.location.href = '/applayout/';
-        // try {
-        //   await this.webSocketService.connect();
-        //   if (user.roles.includes('ROLE_BRANCHM_BFA') || user.roles.includes('ROLE_AUDITEE_INS')) {
-        //     window.location.href = '/afrfms/afrfms-gateway';
-        //   } else if (user.category == 'BFA') {
-        //     window.location.href = 'https://audit.awashbank.com/financial';
-        //   } else if (user.category == 'INS') {
-        //     window.location.href = 'https://audit.awashbank.com/inspection';
-        //   } else {
-        //     this.relodePage();
-        //   }
-        // } catch (e) {
-        //   console.error('WebSocket connection failed:', e);
-        //   this.relodePage();
-
-        // }
     }
 
     private handleLoginError(err: any, username: string, password: string): void {
         this.loading = false;
         this.errorMessage = err.error.message || 'Login failed';
-
         if (err.status === 409 && err.error.error === 'MULTIPLE_SESSIONS') {
             this.handleActiveSessionError(err, username, password);
         } else {

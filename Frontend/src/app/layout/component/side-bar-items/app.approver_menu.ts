@@ -57,14 +57,13 @@ export class AppMenuApprover {
                 ]
             },
             {
-                label: 'Configurations',
-                items: [{ label: 'Tax Type', icon: 'pi pi-fw pi-image', routerLink: ['/applayout/approver/manage-tax-category'] }]
-            },
-
-            {
                 label: 'Report',
                 items: [{ label: 'Report', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/approver/report'] }  
             ]
+            },
+            {
+                label: 'Tax Category',
+                items: [{ label: 'Tax Type', icon: 'pi pi-fw pi-image', routerLink: ['/applayout/approver/manage-tax-category'] }]
             },
         ];
         

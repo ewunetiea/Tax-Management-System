@@ -25,7 +25,6 @@ export class ManageContactComponent {
             contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
         }
     };
-
     isLoggedIn = false;
     message = '';
     submitted = false;
@@ -86,7 +85,6 @@ export class ManageContactComponent {
                 this.messageService.add({
                     severity: 'error',
                     summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching contacts!',
-
                     detail: ''
                 });
             }
@@ -98,9 +96,7 @@ export class ManageContactComponent {
             async (response: any) => {
                 this.feedbacks = response;
                 this.respondedFeedbacks = this.feedbacks.filter((val) => val.response != null);
-
                 this.feedbacks = this.feedbacks.filter((val) => val.response == null);
-
                 this.feedback_loading = false;
             },
             (error: HttpErrorResponse) => {
@@ -108,7 +104,6 @@ export class ManageContactComponent {
                 this.messageService.add({
                     severity: 'error',
                     summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching feedbacks!',
-
                     detail: ''
                 });
             }

@@ -1,10 +1,8 @@
 package com.afr.fms.Admin.Service;
 
 import java.util.List;
-
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.afr.fms.Admin.Entity.Role;
@@ -23,14 +21,12 @@ import com.afr.fms.Security.exception.InvalidTokenException;
 import com.afr.fms.Security.token.SecureTokenService;
 import com.afr.fms.Security.token.entity.SecureToken;
 import com.afr.fms.Security.token.mapper.SecureTokenMapper;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import java.util.Random;
 import java.util.stream.Collectors;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
@@ -82,11 +78,8 @@ public class UserService {
     @Transactional
     public void saveUser(User user) {
         if (user.getId() == null) {
-
             // if (user.isAuthenthication_media()) {
-
             char[] password = generatePassword(8);
-
             String password1 = "";
 
             for (char p : password) {
@@ -104,12 +97,9 @@ public class UserService {
 
             addAllUserRoles(user);
             user.setPassword(password1);
-          
-                
                 if (user.getAdmin_id() != null) {
                     User admin = new User();
-                    recentActivity
-                            .setMessage("User " + user.getFirst_name() + " " + user.getMiddle_name() + " is added");
+                    recentActivity.setMessage("User " + user.getFirst_name() + " " + user.getMiddle_name() + " is added");
                     admin.setId(user.getAdmin_id());
                     recentActivity.setUser(admin);
                     recentActivityMapper.addRecentActivity(recentActivity);
@@ -120,11 +110,10 @@ public class UserService {
             userMapper.updateUser(user);
             userRoleMapper.removeAllUserRoles(user.getId());
             addAllUserRoles(user);
-
+            
             User admin = new User();
             recentActivity = new RecentActivity();
-            recentActivity.setMessage("User " + user.getFirst_name() + " " +
-                    user.getMiddle_name() + " is edited");
+            recentActivity.setMessage("User " + user.getFirst_name() + " " + user.getMiddle_name() + " is edited");
             admin.setId(user.getAdmin_id());
             recentActivity.setUser(admin);
             recentActivityMapper.addRecentActivity(recentActivity);
@@ -132,7 +121,6 @@ public class UserService {
     }
 
     // auto generating password
-
     public char[] generatePassword(int length) {
         String capitalCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
@@ -154,7 +142,6 @@ public class UserService {
     }
 
     public List<User> getUsers() {
-
         return userMapper.getUsers();
     }
 

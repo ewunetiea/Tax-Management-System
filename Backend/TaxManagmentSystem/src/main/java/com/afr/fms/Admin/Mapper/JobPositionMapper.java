@@ -1,9 +1,7 @@
 package com.afr.fms.Admin.Mapper;
 
 import java.util.List;
-
 import org.apache.ibatis.annotations.*;
-
 import com.afr.fms.Admin.Entity.JobPosition;
 import com.afr.fms.Admin.Entity.JobPositionRole;
 import com.afr.fms.Admin.Entity.Role;
@@ -48,7 +46,6 @@ public interface JobPositionMapper {
 
         // @Select("Select * from role where id in (Select distinct(role_id) from role_job_position where job_position_id = #{job_position_id}) and role_position = #{role_position}")   this was previewes user by category specially  ins, bfa, is, mgt, admin
                 @Select("Select * from role where id in (Select distinct(role_id) from role_job_position where job_position_id = #{job_position_id}) ")
-
         @Results(value = {
                         @Result(property = "id", column = "id"),
         })

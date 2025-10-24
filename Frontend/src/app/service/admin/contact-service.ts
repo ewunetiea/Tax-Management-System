@@ -22,9 +22,11 @@ export class ContactService {
     getContacts(): Observable<Contact[]> {
         return this.httpClient.get<Contact[]>(baseUrl + '/contacts');
     }
+    
     getContactById(id: any): Observable<any> {
         return this.httpClient.get<any>(baseUrl + '/contact/' + `${id}`);
     }
+
     saveFeedback(feedback: Feedback): Observable<any> {
         return this.httpClient.post(baseUrl + '/feedback', feedback);
     }

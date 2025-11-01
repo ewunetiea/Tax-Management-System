@@ -14,8 +14,8 @@
         optionValue="id"
          [filter]="true" 
          [loading]="branchLoading"
-          [placeholder]="branchLoading ? 'Loading...' : 'Select unit'" 
-          (onShow)="getBranches()" class="w-full">
+         [placeholder]="branchLoading ? 'Loading...' : 'Select unit'" 
+         (onShow)="getBranches()" class="w-full">
         </p-select>
       </div>
 
@@ -46,10 +46,17 @@
       <!-- maked Date -->
       <div class="p-field w-full md:w-1/2">
         <label for="approved_date">Created Date</label>
-        <p-datepicker id="maked_date" formControlName="maked_date" dateFormat="yy-mm-dd" [maxDate]="maxDate"
-          [showIcon]="true" inputId="maked_date" [selectionMode]="'range'" placeholder="Select created date"
-          styleClass="w-full custom-datepicker">
-        </p-datepicker>
+        <p-datepicker
+  id="maked_date"
+  formControlName="maked_date"
+  dateFormat="yy-mm-dd"
+  [maxDate]="maxDate"
+  [showIcon]="true"
+  inputId="maked_date"
+  selectionMode="range"
+  placeholder="Select created date"
+  styleClass="w-full custom-datepicker">
+</p-datepicker>
       </div>
 
       <!-- Checked Date -->

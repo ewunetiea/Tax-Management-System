@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AppConfigurator } from './app.configurator';
 import { LayoutService } from '../service/layout.service';
 import { NotifyAdmin } from '../../models/admin/notify-admin';
@@ -15,6 +15,7 @@ import { AuthService } from '../../service/sharedService/auth.service';
 import { NotifyMeService } from '../../service/admin/notify-service';
 import { RealTimeService } from '../../service/admin/real-time-service';
 import { StorageService } from '../../service/sharedService/storage.service';
+import { AutoLogoutService } from 'app/service/sharedService/auto-logout.service';
 
 @Component({
     selector: 'app-topbar',
@@ -53,7 +54,9 @@ export class AppTopbar {
         private storageService: StorageService,
         private authService: AuthService,
         private notificationService: NotifyMeService,
-        private realTimeService: RealTimeService
+        private realTimeService: RealTimeService,
+        private autoLogoutService: AutoLogoutService,
+        private router: Router,
     ) {}
 
     ngOnInit() {
@@ -175,8 +178,10 @@ export class AppTopbar {
 
     private handleLogoutSuccess(): void {
         this.storageService.clean();
+        this.autoLogoutService.logout();
+         this.router.navigate(['/login']);
         // this.reloadPageAndRedirect('http://localhost:8082/');
-        this.reloadPageAndRedirect('http://localhost:4200/');
+        // this.reloadPageAndRedirect('http://localhost:4200/');
     }
 
     private handleLogoutError(err: any): void {

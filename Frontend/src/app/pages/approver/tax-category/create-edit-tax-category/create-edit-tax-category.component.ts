@@ -28,7 +28,7 @@ export class CreateEditTaxCategoryComponent {
         private taxCategoriesService: TaxCategoriesService,
         private messageService: MessageService,
         private fb: FormBuilder
-    ) { }
+    ) {}
 
     ngOnInit(): void {
         this.user = this.storageService.getUser();
@@ -50,17 +50,13 @@ export class CreateEditTaxCategoryComponent {
         return this.form.controls;
     }
 
-
     editTaxCategory(passedData: any[]) {
         this.taxCategory = passedData[0];
-
-        // ✅ Update the form with existing values
         this.form.patchValue({
             type: this.taxCategory.type?.trim(),
             description: this.taxCategory.description?.trim()
         });
     }
-
 
     openNew() {
         this.taxCategory = new TaxCategory();
@@ -73,12 +69,26 @@ export class CreateEditTaxCategoryComponent {
     onSubmit() {
         this.submitted = true;
 
-        // ✅ Check if the form is invalid
+        // ✅ Focus the first invalid input field if the form is invalid
         if (this.form.invalid) {
-            return; // stop here if form is invalid
+            for (const key of Object.keys(this.form.controls)) {
+                if (this.form.controls[key].invalid) {
+                    const invalidControl = document.querySelector(
+                        `[formControlName="${key}"]`
+                    );
+                    if (invalidControl) {
+                        (invalidControl as HTMLElement).focus();
+                        // Optionally scroll to it smoothly
+                        (invalidControl as HTMLElement).scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    break; // focus only the first invalid field
+                }
+            }
+            this.submitted = false;
+            return; // stop submission
         }
 
-        // ✅ Get form values instead of directly using this.taxCategory
+        // ✅ Prepare data
         this.taxCategory = {
             ...this.taxCategory,
             ...this.form.value,
@@ -90,25 +100,20 @@ export class CreateEditTaxCategoryComponent {
             next: (data) => {
                 this.submitted = false;
 
-                if (this.taxCategory.id) {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: `${this.taxCategory.type} successfully updated`,
-                        detail: '',
-                        life: 3000
-                    });
-                } else {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: `${this.taxCategory.type} successfully created`,
-                        detail: '',
-                        life: 3000
-                    });
+                const message = this.taxCategory.id
+                    ? `${this.taxCategory.type} successfully updated`
+                    : `${this.taxCategory.type} successfully created`;
 
-                    // ✅ Reset form after success
-                    this.form.reset();
-                    this.taxCategory = new TaxCategory();
-                }
+                this.messageService.add({
+                    severity: 'success',
+                    summary: message,
+                    detail: '',
+                    life: 3000
+                });
+
+                // ✅ Reset form after success
+                this.form.reset();
+                this.taxCategory = new TaxCategory();
 
                 // ✅ Emit updated data
                 this.passedTaxCategory = [this.taxCategory, this.isEditData];
@@ -120,11 +125,8 @@ export class CreateEditTaxCategoryComponent {
         });
     }
 
-
     onReset(): void {
         this.submitted = false;
         this.form.reset();
     }
-
-
 }

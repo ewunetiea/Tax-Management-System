@@ -4,12 +4,10 @@ import { StorageService } from '../../../service/sharedService/storage.service';
 import { AdminDashboard } from '../../../models/admin/admin-dashboard';
 import { RecentActivity } from '../../../models/admin/recent-activity';
 import { User } from '../../../models/admin/user';
-import { MenuItem } from 'primeng/api';
 import { SharedUiModule } from '../../../../shared-ui';
 import { CardSkeleton } from "../../skeleton/card/four-card";
 import { BarAndLineChartSkeleton } from "../../skeleton/bar-and-lign-chart/bar-and-lign-chart";
 import { Subject, forkJoin, takeUntil } from 'rxjs';
-import { DoughnutController } from 'chart.js';
 
 @Component({
   standalone: true,

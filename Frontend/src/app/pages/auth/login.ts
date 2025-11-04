@@ -10,6 +10,7 @@ import { AuthService } from '../../service/sharedService/auth.service';
 import { StorageService } from '../../service/sharedService/storage.service';
 import { PasswordService } from '../../service/admin/password.service';
 import { WebSocketService } from '../../service/sharedService/WebSocketService';
+import { AutoLogoutService } from 'app/service/sharedService/auto-logout.service';
 
 @Component({
     selector: 'app-login',
@@ -35,6 +36,7 @@ export class Login {
 
     constructor(
         private authService: AuthService,
+        private autoLogoutService: AutoLogoutService,
         private storageService: StorageService,
         private passwordService: PasswordService,
         private webSocketService: WebSocketService,
@@ -98,16 +100,15 @@ export class Login {
 
         this.loading = true;
         const { username, password } = this.form;
-
         this.authService.login(username, password, this.userAgent).subscribe({
             next: (data) => {
                 this.loading = false;
                 this.isLoginFailed = false;
                 this.storageService.saveUser(data);
+                this.autoLogoutService.startAfterLogin();
                 const user = this.storageService.getUser();
                 this.router.navigate(['/applayout']);
                 // window.location.href = '/applayout/';
-                
             },
             error: (err) => {
                 this.loading = false;

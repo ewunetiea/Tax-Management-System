@@ -12,7 +12,6 @@ import { AuthGuard } from './app/service/admin/auth.guard';
 
 export const appRoutes: Routes = [
     { path: '', component: Login },
-    { path: 'login', component: Login },
     // { path: '', component: LoginComponent },
     { path: 'forget-password', component: ForgetPasswordComponent },
     { path: 'signup', component: SignupComponent },

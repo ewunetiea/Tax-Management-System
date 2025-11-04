@@ -179,7 +179,7 @@ export class AppTopbar {
     private handleLogoutSuccess(): void {
         this.storageService.clean();
         this.autoLogoutService.logout();
-         this.router.navigate(['/login']);
+         this.router.navigate(['']);
         // this.reloadPageAndRedirect('http://localhost:8082/');
         // this.reloadPageAndRedirect('http://localhost:4200/');
     }

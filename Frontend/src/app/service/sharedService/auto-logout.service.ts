@@ -2,7 +2,7 @@
 import { Injectable, NgZone, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, fromEvent, merge } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { takeUntil, throttleTime } from 'rxjs/operators';
 import { StorageService } from './storage.service';
 import { AuthService } from './auth.service';
 import { User } from 'app/models/admin/user';
@@ -34,16 +34,21 @@ export class AutoLogoutService implements OnDestroy {
     if (this.user && !this.isWatching) {
       this.id_login_tracker = this.user.id_login_tracker;
       this.startWatching();
-      console.log('AutoLogout initialized for:', this.user.email);
     }
   }
 
   private startWatching(): void {
-    this.isWatching = true;
-    const events = ['click','mousemove','keydown','scroll','touchstart'];
-    merge(...events.map(e => fromEvent(document, e))).pipe(debounceTime(300), takeUntil(this.destroy$)).subscribe(() => this.resetTimer());
-    this.resetTimer();
-  }
+  if (this.isWatching) return;
+  this.isWatching = true;
+  console.log('AutoLogout initialized for:', this.user?.email);
+
+  const events = ['click', 'keydown','scroll', 'mousemove']; 
+  merge(...events.map(e => fromEvent(document, e)))
+    .pipe(throttleTime(1000), takeUntil(this.destroy$))
+    .subscribe(() => this.resetTimer());
+
+  this.resetTimer();
+}
 
   private resetTimer(): void {
     clearTimeout(this.warningTimer);

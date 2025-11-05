@@ -9,24 +9,34 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { TimeagoClock, TimeagoDefaultClock, TimeagoDefaultFormatter, TimeagoFormatter, TimeagoIntl } from 'ngx-timeago';
 import { httpRequestInterceptor } from './helpers/http.interceptor';
 
+// ✅ Import Dialog dependencies
+import { DialogService, DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
+
 export const appConfig: ApplicationConfig = {
-    providers: [
-        provideRouter(
-            appRoutes,
-            withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }),
-            withEnabledBlockingInitialNavigation()
-        ),
-        provideHttpClient(
-            withFetch(),
-            withInterceptors([
-                httpRequestInterceptor // ✅ use your functional interceptor here
-            ])
-        ),
-        provideAnimationsAsync(),
-        providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } } }),
-        MessageService, ConfirmationService,
-        { provide: TimeagoFormatter, useClass: TimeagoDefaultFormatter },
-        { provide: TimeagoClock, useClass: TimeagoDefaultClock },
-        TimeagoIntl
-    ]
+  providers: [
+    provideRouter(
+      appRoutes,
+      withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }),
+      withEnabledBlockingInitialNavigation()
+    ),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([httpRequestInterceptor])
+    ),
+    provideAnimationsAsync(),
+    providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } } }),
+    
+    // ✅ PrimeNG core services
+    MessageService, ConfirmationService,
+
+    // ✅ PrimeNG Dialog services (required for DynamicDialog)
+    DialogService,
+    DynamicDialogRef,
+    DynamicDialogConfig,
+
+    // ✅ ngx-timeago providers
+    { provide: TimeagoFormatter, useClass: TimeagoDefaultFormatter },
+    { provide: TimeagoClock, useClass: TimeagoDefaultClock },
+    TimeagoIntl
+  ]
 };

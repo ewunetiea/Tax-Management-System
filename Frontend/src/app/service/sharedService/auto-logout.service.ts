@@ -1,112 +1,101 @@
-import { Injectable, NgZone } from "@angular/core";
-import { Router } from "@angular/router";
-import { AuthService } from "./auth.service";
-import { StorageService } from "./storage.service";
-import { User } from "app/models/admin/user";
+// auto-logout.service.ts
+import { Injectable, NgZone, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subject, fromEvent, merge } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+import { StorageService } from './storage.service';
+import { AuthService } from './auth.service';
+import { User } from 'app/models/admin/user';
+import { AutoLogoutDialogService } from '../common/auto-logout-dialog.service';
 
 @Injectable({ providedIn: 'root' })
-export class AutoLogoutService {
+export class AutoLogoutService implements OnDestroy {
+  private readonly timeoutInMs = 15 * 60 * 1000; // 15 mins
+  private readonly warningBeforeMs = 1 * 60 * 1000; // 1 min before logout
+  private destroy$ = new Subject<void>();
+
+  private warningTimer?: any;
+  private logoutTimer?: any;
+  private isWatching = false;
+  private dialogOpen = false;
   private user: User | null = null;
   private id_login_tracker?: number;
-  private timeoutInMs = 15 * 60 * 1000; // 15 minutes
-  private warningTimer: any;
-  private logoutTimer: any;
-  private isWatching = false;
 
   constructor(
     private router: Router,
     private ngZone: NgZone,
     private authService: AuthService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private dialogService: AutoLogoutDialogService
   ) {}
 
-  /** ✅ Call this immediately after successful login */
-  public startAfterLogin() {
+  public startAfterLogin(): void {
     this.user = this.storageService.getUser();
-    console.log("AutoLogout started for:", this.user);
-
-    if (this.user) {
+    if (this.user && !this.isWatching) {
       this.id_login_tracker = this.user.id_login_tracker;
       this.startWatching();
+      console.log('AutoLogout initialized for:', this.user.email);
     }
   }
 
-  /** ✅ Start user activity tracking */
-  private startWatching() {
-    if (this.isWatching) return;
+  private startWatching(): void {
     this.isWatching = true;
-
-    const events = ['click', 'mousemove', 'keydown', 'scroll', 'touchstart'];
-    events.forEach(event => document.addEventListener(event, () => this.resetTimer(), true));
-
+    const events = ['click','mousemove','keydown','scroll','touchstart'];
+    merge(...events.map(e => fromEvent(document, e))).pipe(debounceTime(300), takeUntil(this.destroy$)).subscribe(() => this.resetTimer());
     this.resetTimer();
   }
 
-  /** ✅ Stop all timers */
-  private stopWatching() {
+  private resetTimer(): void {
     clearTimeout(this.warningTimer);
     clearTimeout(this.logoutTimer);
-    this.isWatching = false;
-  }
-
-  /** ✅ Reset inactivity timers */
-  private resetTimer() {
-    if (!this.user) return;
-
-    clearTimeout(this.warningTimer);
-    clearTimeout(this.logoutTimer);
-
-    const warningTime = this.timeoutInMs - 1 * 60 * 1000;
-    const logoutTime = this.timeoutInMs;
 
     this.ngZone.runOutsideAngular(() => {
-      this.warningTimer = setTimeout(() => {
-        this.ngZone.run(() => {
-          if (!this.user) return; // skip if already logged out
-          const stay = confirm('You have been inactive. Stay logged in?');
-          if (stay) {
-            this.resetTimer();
-          } else {
-            this.logout(); // immediate logout on cancel
-          }
-        });
-      }, warningTime);
+      // Warning dialog timer
+      this.warningTimer = setTimeout(async () => {
+        this.ngZone.run(async () => {
+          if (this.dialogOpen) return;
+          this.dialogOpen = true;
 
-      // Auto logout
-      this.logoutTimer = setTimeout(() => {
-        this.ngZone.run(() => {
-          if (this.user) {
-            console.log("Auto logout triggered due to inactivity.");
+          try {
+            const stay = await this.dialogService.openCountdownDialog(this.warningBeforeMs);
+            this.dialogOpen = false;
+            if (stay) this.resetTimer();
+            else this.logout();
+          } catch {
+            this.dialogOpen = false;
             this.logout();
           }
         });
-      }, logoutTime);
+      }, this.timeoutInMs - this.warningBeforeMs);
+
+      // Final auto logout
+      this.logoutTimer = setTimeout(() => {
+        this.ngZone.run(() => this.logout());
+      }, this.timeoutInMs);
     });
   }
 
-  /** ✅ Logout the user and clear everything */
-  public logout() {
-    // stop timers first
-    this.stopWatching();
+  public logout(): void {
+    clearTimeout(this.warningTimer);
+    clearTimeout(this.logoutTimer);
+    this.isWatching = false;
+    this.destroy$.next();
+    this.destroy$.complete();
 
     const trackerId = this.id_login_tracker;
-
-    // clear data before navigating
-    this.storageService.clean();
     this.user = null;
     this.id_login_tracker = undefined;
 
-    // Call backend logout only if tracker exists
-    if (trackerId) {
-      this.authService.logout(trackerId).subscribe({
-        next: () => console.log('✅ Auto-logout API call completed'),
-        error: err => console.error('⚠️ Logout API error:', err)
-      });
-    }
+    this.storageService.clean();
+    if (trackerId) this.authService.logout(trackerId).subscribe({ next: ()=>{}, error:()=>{} });
 
-    // Navigate to login no matter what
-    this.router.navigate(['']).then(() => {
-      console.log("✅ Navigated to login after auto-logout");
-    });
+    this.router.navigate(['']);
+  }
+
+  ngOnDestroy(): void {
+    clearTimeout(this.warningTimer);
+    clearTimeout(this.logoutTimer);
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

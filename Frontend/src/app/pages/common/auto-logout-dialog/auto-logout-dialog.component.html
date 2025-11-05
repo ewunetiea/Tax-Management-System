@@ -1,0 +1,35 @@
+<div class="p-d-flex p-flex-column p-ai-center" style="min-width:320px; width:100%;">
+  
+  <!-- Centered Knob -->
+  <div class="p-d-flex p-jc-center p-ai-center" style="width:100%; margin-bottom:1.5rem;">
+    <p-knob 
+      [(ngModel)]="countdown" 
+      [min]="0" 
+      [max]="60"
+      [readonly]="true"
+      size="120"
+      valueColor="SlateGray"
+      rangeColor="MediumTurquoise"
+      textColor="SlateGray"
+    ></p-knob>
+  </div>
+
+  <!-- Buttons aligned to left -->
+  <div class="p-d-flex p-jc-start mt-4" style="width:100%; gap:1rem;">
+    <button 
+      pButton 
+      type="button" 
+      label="Stay Logged In" 
+      class="p-button-outlined mr-3" 
+      (click)="stay()">
+    </button>
+    <button 
+      pButton 
+      type="button" 
+      label="Logout" 
+      class="p-button-outlined p-button-danger" 
+      (click)="logout()">
+    </button>
+  </div>
+
+</div>

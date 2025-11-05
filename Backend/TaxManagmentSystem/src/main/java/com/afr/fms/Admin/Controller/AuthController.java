@@ -98,8 +98,7 @@ public class AuthController {
         private SessionManager sessionManager;
 
         @PostMapping("/signin")
-        public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
-                        HttpServletRequest request) throws Exception {
+        public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, HttpServletRequest request) throws Exception {
 
                 String username = loginRequest.getUsername();
 

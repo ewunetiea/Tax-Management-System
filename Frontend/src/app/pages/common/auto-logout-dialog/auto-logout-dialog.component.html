@@ -1,7 +1,7 @@
 <div class="p-d-flex p-flex-column p-ai-center" style="min-width:320px; width:100%;">
   
   <!-- Centered Knob -->
-  <div class="p-d-flex p-jc-center p-ai-center" style="width:100%; margin-bottom:1.5rem;">
+  <div class="p-d-flex p-jc-center p-ai-center ml-5" style="width:100%; margin-bottom:1.5rem;">
     <p-knob 
       [(ngModel)]="countdown" 
       [min]="0" 
@@ -15,11 +15,11 @@
   </div>
 
   <!-- Buttons aligned to left -->
-  <div class="p-d-flex p-jc-start mt-4" style="width:100%; gap:1rem;">
+  <div class="p-d-flex p-jc-start mt-4 ml-2" style="width:100%; gap:1rem;">
     <button 
       pButton 
       type="button" 
-      label="Stay Logged In" 
+      label="Stay In" 
       class="p-button-outlined mr-3" 
       (click)="stay()">
     </button>

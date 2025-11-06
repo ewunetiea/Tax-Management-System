@@ -2,7 +2,7 @@
 import { Injectable, NgZone, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, fromEvent, merge } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { takeUntil, throttleTime } from 'rxjs/operators';
 import { StorageService } from './storage.service';
 import { AuthService } from './auth.service';
 import { User } from 'app/models/admin/user';
@@ -13,7 +13,6 @@ export class AutoLogoutService implements OnDestroy {
   private readonly timeoutInMs = 15 * 60 * 1000; // 15 mins
   private readonly warningBeforeMs = 1 * 60 * 1000; // 1 min before logout
   private destroy$ = new Subject<void>();
-
   private warningTimer?: any;
   private logoutTimer?: any;
   private isWatching = false;
@@ -34,20 +33,26 @@ export class AutoLogoutService implements OnDestroy {
     if (this.user && !this.isWatching) {
       this.id_login_tracker = this.user.id_login_tracker;
       this.startWatching();
-      console.log('AutoLogout initialized for:', this.user.email);
     }
   }
 
   private startWatching(): void {
-    this.isWatching = true;
-    const events = ['click','mousemove','keydown','scroll','touchstart'];
-    merge(...events.map(e => fromEvent(document, e))).pipe(debounceTime(300), takeUntil(this.destroy$)).subscribe(() => this.resetTimer());
-    this.resetTimer();
-  }
+  if (this.isWatching) return;
+  this.isWatching = true;
+  console.log('AutoLogout started watching for:', this.user?.email);
+
+  const events = ['click', 'keydown','scroll', 'mousemove']; 
+  merge(...events.map(e => fromEvent(document, e)))
+    .pipe(throttleTime(1000), takeUntil(this.destroy$))
+    .subscribe(() => this.resetTimer());
+
+  this.resetTimer();
+}
 
   private resetTimer(): void {
     clearTimeout(this.warningTimer);
     clearTimeout(this.logoutTimer);
+    console.log("Reset Time is started for:", this.user?.email)
 
     this.ngZone.runOutsideAngular(() => {
       // Warning dialog timer
@@ -85,10 +90,8 @@ export class AutoLogoutService implements OnDestroy {
     const trackerId = this.id_login_tracker;
     this.user = null;
     this.id_login_tracker = undefined;
-
     this.storageService.clean();
     if (trackerId) this.authService.logout(trackerId).subscribe({ next: ()=>{}, error:()=>{} });
-
     this.router.navigate(['']);
   }
 

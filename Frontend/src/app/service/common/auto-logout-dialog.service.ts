@@ -12,7 +12,7 @@ export class AutoLogoutDialogService {
   public openCountdownDialog(countdownMs: number): Promise<boolean> {
     return new Promise<boolean>(resolve => {
       this.ref = this.dialogService.open(AutoLogoutDialogComponent, {
-        header: 'Session Timeout In',
+       header: 'Your Session Will Expire Soon',
         width: '400px',
         closable: false,
         data: { countdownMs },
@@ -28,4 +28,5 @@ export class AutoLogoutDialogService {
     this.ref?.close();
     this.ref = undefined;
   }
+
 }

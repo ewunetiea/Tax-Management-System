@@ -98,7 +98,8 @@ public class AuthController {
         private SessionManager sessionManager;
 
         @PostMapping("/signin")
-        public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, HttpServletRequest request) throws Exception {
+        public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
+                        HttpServletRequest request) throws Exception {
 
                 String username = loginRequest.getUsername();
 
@@ -151,10 +152,13 @@ public class AuthController {
                                 userSecurityService.checkCredentialTimeExpired(us);
                         }
                 } catch (Exception e) {
-                        logger.error("Error checking user credential expiration for username: {}", loginRequest.getUsername(), e);
+                        logger.error("Error checking user credential expiration for username: {}",
+                                        loginRequest.getUsername(), e);
                 }
 
-                Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+                Authentication authentication = authenticationManager
+                                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
+                                                loginRequest.getPassword()));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
@@ -177,7 +181,8 @@ public class AuthController {
                                 .collect(Collectors.toList());
 
                 String title = userMapper.findByFusionUsername(loginRequest.getUsername()).getJobPosition().getTitle();
-                RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId(), id_login_tracker);
+                RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId(),
+                                id_login_tracker);
                 ResponseCookie jwtRefreshCookie = jwtUtils.generateRefreshJwtCookie(refreshToken.getToken(), request);
 
                 return ResponseEntity.ok()
@@ -275,8 +280,7 @@ public class AuthController {
                         List<Role> roles = new ArrayList<>();
                         if (user != null) {
                                 if (user.getJobPosition() != null && user.getJobPosition().getId() != null) {
-                                  roles = jobPositionMapper.getRoleByJobPositionId(user.getJobPosition().getId());
-
+                                        roles = jobPositionMapper.getRoleByJobPositionId(user.getJobPosition().getId());
 
                                         user.setRoles(roles);
                                 }

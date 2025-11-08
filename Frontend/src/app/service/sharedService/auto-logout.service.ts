@@ -26,28 +26,29 @@ export class AutoLogoutService implements OnDestroy {
     private authService: AuthService,
     private storageService: StorageService,
     private dialogService: AutoLogoutDialogService
-  ) {}
+  ) { }
 
   public startAfterLogin(): void {
     this.user = this.storageService.getUser();
-    if (this.user && !this.isWatching) {
+    if (this.user && Object.keys(this.user).length > 0 && !this.isWatching) {
       this.id_login_tracker = this.user.id_login_tracker;
       this.startWatching();
     }
   }
 
+
   private startWatching(): void {
-  if (this.isWatching) return;
-  this.isWatching = true;
-  console.log('AutoLogout started watching for:', this.user?.email);
+    if (this.isWatching) return;
+    this.isWatching = true;
+    console.log('AutoLogout started watching for:', this.user?.email);
 
-  const events = ['click', 'keydown','scroll', 'mousemove']; 
-  merge(...events.map(e => fromEvent(document, e)))
-    .pipe(throttleTime(1000), takeUntil(this.destroy$))
-    .subscribe(() => this.resetTimer());
+    const events = ['click', 'keydown', 'scroll', 'mousemove'];
+    merge(...events.map(e => fromEvent(document, e)))
+      .pipe(throttleTime(1000), takeUntil(this.destroy$))
+      .subscribe(() => this.resetTimer());
 
-  this.resetTimer();
-}
+    this.resetTimer();
+  }
 
   private resetTimer(): void {
     clearTimeout(this.warningTimer);
@@ -91,7 +92,7 @@ export class AutoLogoutService implements OnDestroy {
     this.user = null;
     this.id_login_tracker = undefined;
     this.storageService.clean();
-    if (trackerId) this.authService.logout(trackerId).subscribe({ next: ()=>{}, error:()=>{} });
+    if (trackerId) this.authService.logout(trackerId).subscribe({ next: () => { }, error: () => { } });
     this.router.navigate(['']);
   }
 

@@ -30,5 +30,6 @@ export class User {
   page_size?: number; // for paginator purpose only, it will not be saved in db
   functionalities?: Functionalities[] = []; // This will hold the functionalities assigned to the user
   username?: string;
-  editing ?: Boolean
+  editing ?: Boolean;
+  id_login_tracker?: number;
   }

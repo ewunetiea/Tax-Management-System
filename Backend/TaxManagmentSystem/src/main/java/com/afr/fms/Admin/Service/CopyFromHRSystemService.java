@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-
 import javax.transaction.Transactional;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,10 +62,9 @@ public class CopyFromHRSystemService {
     private static final Logger logger = LoggerFactory.getLogger(CopyFromHRSystemService.class);
 
     // @Scheduled(cron = "0 0 19 * * ?")
-// @Scheduled(initialDelay = 50000, fixedDelay = Long.MAX_VALUE) // 50000 ms = 50 seconds
+    // @Scheduled(initialDelay = 50000, fixedDelay = Long.MAX_VALUE) // 50000 ms = 50 seconds
 
-
-@Transactional
+    @Transactional
     public void scheduledCopyUsersFromHrSystem() {
         // if (scheduleService.checkScheduleStatus("copy_users_info_hr_system")) {
         Date date = new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000);
@@ -76,7 +73,6 @@ public class CopyFromHRSystemService {
         final String uri = "https://hr.awashbank.com/hr/api/empInfo/" + formattedDate;
 
         // final String uri = "https://hr.awashbank.com/hr/api/empInfo/2020-01-01 00:00:00";
-
 
         RestTemplate restTemplate = new RestTemplate();
         UserCopyFromHR[] users_copy = restTemplate.getForObject(uri, UserCopyFromHR[].class);
@@ -102,6 +98,7 @@ public class CopyFromHRSystemService {
                     Branch branch = new Branch();
                     User user = new User();
                     User user_store = new User();
+
                     if (!regionNames.contains(userCopyFromHR.getDeptLocation()) && !newRegionNames.contains(userCopyFromHR.getDeptLocation()) && userCopyFromHR.getDeptLocation() != null) {
                         newRegionNames.add(userCopyFromHR.getDeptLocation());
                         region.setName(userCopyFromHR.getDeptLocation());
@@ -130,17 +127,16 @@ public class CopyFromHRSystemService {
                         job_position.setTitle(userCopyFromHR.getPosition());
                         jobPositionMapper.addJobPosition(job_position);
                     }
-                    user = userMapper.findByEmployeeIDScheduler(userCopyFromHR.getEmpId());
 
+                    user = userMapper.findByEmployeeIDScheduler(userCopyFromHR.getEmpId());
                     user_store = user;
+
                     if (user != null) {
                         if (!userCopyFromHR.getUnit().toLowerCase().contains("region")) {
                             if (user.getBranch() != null) {
-                                if (!user.getBranch().getName().trim()
-                                        .equalsIgnoreCase(userCopyFromHR.getUnit().trim())) {
+                                if (!user.getBranch().getName().trim().equalsIgnoreCase(userCopyFromHR.getUnit().trim())) {
                                     user_store.setBranch(branchMapper.getBranchByName(userCopyFromHR.getUnit()));
                                 }
-
                             } else {
                                 user_store.setBranch(branchMapper.getBranchByName(userCopyFromHR.getUnit()));
                             }
@@ -149,17 +145,13 @@ public class CopyFromHRSystemService {
                         else {
                             if (userCopyFromHR.getUnit().contains("Region")) {
                                 if (user.getRegion() != null) {
-                                    if (!user.getRegion().getName().trim()
-                                            .equalsIgnoreCase(userCopyFromHR.getDeptLocation().trim())) {
-                                        user_store
-                                                .setRegion(regionMapper.getRegionByName(userCopyFromHR.getDeptLocation()));
+                                    if (!user.getRegion().getName().trim().equalsIgnoreCase(userCopyFromHR.getDeptLocation().trim())) {
+                                        user_store.setRegion(regionMapper.getRegionByName(userCopyFromHR.getDeptLocation()));
                                     }
                                 }
                             } else {
-                                user_store
-                                        .setRegion(regionMapper.getRegionByName(userCopyFromHR.getDeptLocation()));
+                                user_store.setRegion(regionMapper.getRegionByName(userCopyFromHR.getDeptLocation()));
                             }
-
                         }
 
                         // check the following code carefully
@@ -177,19 +169,19 @@ public class CopyFromHRSystemService {
                                 }
 
                                 user_store.setJobPosition(jobPositionForUser);
-                                    if (roles != null) {
-                                        if (!roles.containsAll(user.getRoles())) {
-                                            user_store.setStatus(true);
-                                            userRoleMapper.removeAllUserRoles(user.getId());
-                                            for (Role role : roles) {
-                                                userRoleMapper.addUserRole(user.getId(), role);
-                                            }
-                                        }
-                                    } else {
+                                if (roles != null) {
+                                    if (!roles.containsAll(user.getRoles())) {
+                                        user_store.setStatus(true);
                                         userRoleMapper.removeAllUserRoles(user.getId());
-                                        user_store.setStatus(false);
+                                        for (Role role : roles) {
+                                            userRoleMapper.addUserRole(user.getId(), role);
+                                        }
                                     }
-                                
+                                } else {
+                                    userRoleMapper.removeAllUserRoles(user.getId());
+                                    user_store.setStatus(false);
+                                }
+
                             }
                         userMapper.updateUserScheduler(user_store);
                     }
@@ -282,7 +274,6 @@ public class CopyFromHRSystemService {
             // final String uri = "https://hr.awashbank.com/hr/api/empInfo/" +
             // formattedDate;
 
-
             final String uri = "https://hr.awashbank.com/hr/api/empInfo/1980-01-01 00:00:00";
 
             RestTemplate restTemplate = new RestTemplate();
@@ -294,7 +285,6 @@ public class CopyFromHRSystemService {
                     userCopyFromHRMapper.addUserCopyHR(userCopyFromHR);
                 }
             }
-
 
         } catch (Exception e) {
             logger.error("Error occurred while replacing HR Data", e);

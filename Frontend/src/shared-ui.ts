@@ -30,7 +30,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ListboxModule } from 'primeng/listbox';
 import { AccordionModule } from 'primeng/accordion';
 import { PasswordModule } from 'primeng/password';
-import { KnobModule } from 'primeng/knob';
+import { Knob, KnobModule } from 'primeng/knob';
 import { DividerModule } from 'primeng/divider';
 import { ChartModule } from 'primeng/chart';
 import { RadioButtonModule } from 'primeng/radiobutton';
@@ -49,6 +49,7 @@ import { DatePicker } from 'primeng/datepicker';
 import { FluidModule } from 'primeng/fluid';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { PopoverModule } from 'primeng/popover';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
 
 @NgModule({
     imports: [
@@ -108,6 +109,8 @@ import { PopoverModule } from 'primeng/popover';
         FluidModule,
         PopoverModule,
         OverlayPanelModule,
+        DynamicDialogModule,
+        Knob
     ],
     exports: [
         CommonModule,
@@ -167,7 +170,9 @@ import { PopoverModule } from 'primeng/popover';
         ChartModule,
         FluidModule,
         PopoverModule,
-        OverlayPanelModule
+        OverlayPanelModule,
+        DynamicDialogModule,
+        Knob
     ]
 })
 export class SharedUiModule {}

@@ -152,7 +152,6 @@ public class UserController {
                 ImageHandlerUtil imageHandlerUtil = this.imageService.uploadImage(multipartFile, "user");
                 user.setPhotoUrl(imageHandlerUtil.getName());
             } else {
-
                 if (user.getPhotoUrl() == null) {
                     user.setPhotoUrl(null);
                 }

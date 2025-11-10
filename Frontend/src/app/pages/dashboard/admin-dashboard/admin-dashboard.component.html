@@ -13,7 +13,7 @@
                 </div>
             </div>
             <span class="text-primary font-medium">{{ cardData[0] }} </span>
-            <span class="text-muted-color">Admin Users</span>
+            <span class="text-muted-color">Admin Accounts</span>
         </div>
     </div>
 
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <span class="text-primary font-medium">{{ cardData[1] }} </span>
-            <span class="text-muted-color">Maker Users</span>
+            <span class="text-muted-color">Maker Accounts</span>
         </div>
     </div>
 
@@ -45,7 +45,7 @@
                 </div>
             </div>
             <span class="text-primary font-medium">{{ cardData[2] }} </span>
-            <span class="text-muted-color">Reviewer Users</span>
+            <span class="text-muted-color">Reviewer Accounts</span>
         </div>
     </div>
 
@@ -61,7 +61,7 @@
                 </div>
             </div>
             <span class="text-primary font-medium">{{ cardData[3] }} </span>
-            <span class="text-muted-color">Approver Users</span>
+            <span class="text-muted-color">Approver Accounts</span>
         </div>
     </div>
 </p-fluid>
@@ -74,58 +74,65 @@
     </ng-container>
 </p-fluid>
 
-<!-- All Charts in ONE Grid -->
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-  <!-- # of Users per Roles -->
+<!-- # branches per region -->
   <div class="card col-span-2 chart-card">
-    <ng-container *ngIf="loading; else usersRoles">
+    <ng-container *ngIf="loading; else branchesperRegion">
       <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
     </ng-container>
-    <ng-template #usersRoles>
+    <ng-template #branchesperRegion>
       <h5 class="card-title font-semibold"><span class="text-gray-500">Branches Per Region</span></h5>
       <p-chart type="bar" [data]="barChartBranchperRegion" [options]="multiAxisOptions"></p-chart>
     </ng-template>
   </div>
 
-  <div class="card chart-card">
-  <ng-container *ngIf="loading; else statusOfUsers">
-    <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
-  </ng-container>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+  <!-- Status Of Users -->
+  <div class="card chart-card h-full flex flex-col">
+    <ng-container *ngIf="loading; else statusOfUsers">
+      <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
+    </ng-container>
 
-  <ng-template #statusOfUsers>
-    <div class="font-semibold text-xl mb-4">Status Of Users</div>
-   
-      <p-chart type="pie" [data]="data" [options]="options" class="w-full md:w-[30rem]" />
-
-  </ng-template>
-</div>
+    <ng-template #statusOfUsers>
+      <h5 class="font-semibold text-xl mb-4 text-gray-700">Status of Users</h5>
+      <div class="flex-grow flex items-center justify-center">
+        <p-chart
+          type="pie"
+          [data]="data"
+          [options]="options"
+        ></p-chart>
+      </div>
+    </ng-template>
+  </div>
 
   <!-- Recent Activity Card -->
-  <div class="card chart-card">
+  <div class="card chart-card h-full flex flex-col">
     <ng-container *ngIf="loading; else recentActivity">
       <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
     </ng-container>
+
     <ng-template #recentActivity>
-      <h5 class="card-title flex justify-between items-center">
-        Recent Activity
-        <button pButton pRipple icon="pi pi-external-link" class="p-button-text p-button-info"
-          [routerLink]="['/applayout/admin/user-recent-activity']"></button>
-      </h5>
-      <div class="space-y-3 mt-4">
+      <div class="flex justify-between items-center mb-4">
+        <h5 class="card-title font-semibold text-gray-700">Recent Activity</h5>
+        <button
+          pButton
+          pRipple
+          icon="pi pi-external-link"
+          class="p-button-text p-button-info"
+          [routerLink]="['/applayout/admin/user-recent-activity']"
+        ></button>
+      </div>
+
+      <!-- Scrollable Activity List -->
+      <div class="flex-grow overflow-y-auto max-h-[20rem] space-y-3 pr-2">
         <div *ngFor="let ra of recentActivityies" class="flex items-start gap-3">
-          <div class="w-1/4 text-sm text-gray-500">{{ ra.created_date | timeago: true }}</div>
+          <div class="w-1/4 text-sm text-gray-500">
+            {{ ra.created_date | timeago: true }}
+          </div>
           <i class="bi bi-circle-fill text-green-500 mt-1"></i>
           <div class="flex-1 text-sm">{{ ra.message }}</div>
         </div>
       </div>
     </ng-template>
   </div>
-
-
-
- 
-
- 
-
 </div>
+

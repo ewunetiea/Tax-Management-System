@@ -25,27 +25,13 @@ public interface JobPositionMapper {
         @Delete("DELETE FROM role_job_position where role_id = #{role.id}")
         public void deleteJobPositionsByRole(JobPositionRole jobPositionRole);
 
-        // @Select("Select * from role_job_position where role_id = #{id}")
-        // @Results(
-        // value =
-        // {
-        // // @Result(property = "role", column = "role_id", one = @One(select =
-        // "com.bfp.elfms.Admin.Mapper.UserRoleMapper.getRoleById")),
-        // @Result(property = "jobPositions", column = "job_position_id", one =
-        // @One(select =
-        // "com.bfp.elfms.Admin.Mapper.JobPositionMapper.getJobPositionById"))
-        // }
-        // )
-        // public JobPositionRole getJobPositionsByRoleId(Role role);
-
         @Select("Select * from job_position where id in (Select job_position_id from role_job_position where role_id = #{role_id})")
         @Results(value = {
                         @Result(property = "id", column = "id"),
         })
         public List<JobPosition> getJobPositionsByRoleIdList(Long role_id);
 
-        // @Select("Select * from role where id in (Select distinct(role_id) from role_job_position where job_position_id = #{job_position_id}) and role_position = #{role_position}")   this was previewes user by category specially  ins, bfa, is, mgt, admin
-                @Select("Select * from role where id in (Select distinct(role_id) from role_job_position where job_position_id = #{job_position_id}) ")
+        @Select("Select * from role where id in (Select distinct(role_id) from role_job_position where job_position_id = #{job_position_id}) ")
         @Results(value = {
                         @Result(property = "id", column = "id"),
         })
@@ -98,7 +84,6 @@ public interface JobPositionMapper {
 
         @Select("select count(id) from role_job_position where job_position_id = #{id}")
         public Long checkJobPositionRole(Long id);
-        // checkJobPositionRole
 
         @Select("Select * from job_position where id in (SELECT DISTINCT(job_position_id) from role_job_position) ORDER BY title")
         @Results(value = {

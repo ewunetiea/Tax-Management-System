@@ -150,15 +150,34 @@
                 </div>
 
 
-                <p-fileUpload name="demo[]" mode="advanced" [multiple]="true" [maxFileSize]="1000000"
-                    customUpload="true"
-                    accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                    (onSelect)="onFileSelect($event)" (onClear)="onFileClear()" (onRemove)="onFileRemove($event)">
-                    <ng-template #empty>
-                        <div>Drag and drop files here to upload (Image, PDF, Word).</div>
-                    </ng-template>
-                </p-fileUpload>
 
+               <!-- Toggle switch for edit mode -->
+<div *ngIf="isEdit">
+  <label for="isFileEdited" class="block font-bold mb-3">
+    Open switch button to update tax file
+  </label>
+
+  <p-toggleswitch [(ngModel)]="tax.isFileEdited" name="isFileEdited" id="isFileEdited" />
+</div>
+
+<!-- Single file upload section -->
+<div *ngIf="!isEdit || tax.isFileEdited">
+  <p-fileUpload
+    name="demo[]"
+    mode="advanced"
+    [multiple]="true"
+    [maxFileSize]="1000000"
+    customUpload="true"
+    accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    (onSelect)="onFileSelect($event)"
+    (onClear)="onFileClear()"
+    (onRemove)="onFileRemove($event)"
+  >
+    <ng-template #empty>
+      <div>Drag and drop files here to upload (Image, PDF, Word).</div>
+    </ng-template>
+  </p-fileUpload>
+</div>
 
 
             </div>

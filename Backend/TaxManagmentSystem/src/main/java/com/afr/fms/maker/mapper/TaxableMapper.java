@@ -63,7 +63,6 @@ public interface TaxableMapper {
                         "from_List = #{from_List}, " +
                         "sendTo_List = #{sendTo_List}, " +
                         "Category_List = #{category_List}, " +
-                        "FileDetail = #{fileDetail}, " +
                         "status = #{status} " +
                         "WHERE mainGuid = #{mainGuid}")
         public void updateTaxable(Tax tax);
@@ -120,9 +119,15 @@ public interface TaxableMapper {
                         "<if test= 'checked_date != null and checked_date.size() == 2 '> " +
                                         "  AND t.checked_Date BETWEEN #{checked_date[0]} AND #{checked_date[1]} " +
                                         "   </if> ",
-                        "<if test= 'rejected_date != null and rejected_date.size() == 2 '> " +
+
+                        "<if test= 'rejected_date != null and rejected_date.size() == 2 '> " ,
                                         "  AND t.checker_rejected_date BETWEEN #{rejected_date[0]} AND #{rejected_date[1]} "
-                                        +
+                                        ,
+                                        "   </if> ",
+
+                        "<if test= 'reference_number != null '> " ,
+                                        "   AND t.reference_number = #{reference_number} "
+                                        ,
                                         "   </if> ",
 
                         "</script>"

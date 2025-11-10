@@ -57,7 +57,15 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
     setting = settingMapper.getSetting();
     long lock_time = (long) (((setting.getLock_time() / 1000) / 60) / 60);
     User user = userDetailsService.getUser();
-    if (user != null) {
+
+    String friendlyMessage = authException.getMessage(); // default message
+
+
+      if (authException instanceof org.springframework.security.authentication.DisabledException) {
+        // Handle disabled/inactive user
+        friendlyMessage = "Your account is inactive. Please contact the system administrator.";
+    }
+   else if (user != null) {
       UserSecurity us = user.getUser_security();
       us.setUser_name(user.getEmail());
 
@@ -107,7 +115,7 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
     final Map<String, Object> body = new HashMap<>();
     body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
     body.put("error", "Unauthorized");
-    body.put("message", authException.getMessage());
+    body.put("message", friendlyMessage);
     body.put("path", request.getServletPath());
 
     final ObjectMapper mapper = new ObjectMapper();

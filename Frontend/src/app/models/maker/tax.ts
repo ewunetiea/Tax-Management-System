@@ -28,6 +28,8 @@ export class Tax {
   FileDetail?: number;
   status?: number;
   taxFile?: TaxFile[] = []
+  previouseTaxFile?: TaxFile[] = []
+
   remark?: string
   reference_number?: string
   initiator_branch?: string;   // The branch that initiated the tax
@@ -42,4 +44,8 @@ export class Tax {
   approver_rejected_date?: Date;
   approver_name?: string;
   approved_date?: Date;
+
+  isFileEdited?: boolean = false;
+
+
 }

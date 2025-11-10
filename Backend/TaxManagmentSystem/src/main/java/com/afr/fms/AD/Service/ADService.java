@@ -24,7 +24,10 @@ public class ADService {
     @Autowired
     private LdapTemplate ldapTemplate; // Pooled template using service account
 
-    private static final String LDAP_URL = "ldap://DR-ADS-001.awash.local:389";
+    // private static final String LDAP_URL = "ldap://DR-ADS-001.awash.local:389"; // commented
+     private static final String LDAP_URL = "ldap://awashtest.local"; 
+
+    
     private static final String LDAP_BASE = "DC=awash,DC=local";
 
     /**

@@ -41,7 +41,7 @@ public class TaxController {
 	private static final Logger logger = LoggerFactory.getLogger(TaxController.class);
 
 	@PostMapping("/fetchTaxBasedonStatus")
-	public ResponseEntity<List<Tax>> getTax(@RequestBody Payload payload, HttpServletRequest request) {
+	public ResponseEntity<List<Tax>> fetchTaxBasedonStatus(@RequestBody Payload payload, HttpServletRequest request) {
 		try {
 
 			List<Tax> tax = new ArrayList<>();
@@ -69,20 +69,32 @@ public class TaxController {
 			@RequestPart(value = "files", required = false) MultipartFile[] files) {
 		try {
 
-			String mainGuid = taxableService.createTaxWithFiles(tax, files);
+			String mainGuid = "";
+			if (tax.getId() != null) {
+
+				taxableService.updateTax(tax, files);
+
+				mainGuid = tax.getMainGuid();
+
+			}
+
+			else {
+
+				mainGuid = taxableService.createTaxWithFiles(tax, files);
+
+			}
 
 			if (mainGuid.contains("Exists")) {
 
-				  Map<String, String> response = new HashMap<>();
-            response.put("message", "File already exists");
-            // return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+				Map<String, String> response = new HashMap<>();
+				response.put("message", "File already exists");
+				// return new ResponseEntity<>(response, HttpStatus.CONFLICT);
 				return new ResponseEntity<>(null, HttpStatus.CONFLICT);
 
 			} else {
 
 				tax.setMainGuid(mainGuid);
 
-				
 				return new ResponseEntity<>(tax, HttpStatus.OK);
 
 			}

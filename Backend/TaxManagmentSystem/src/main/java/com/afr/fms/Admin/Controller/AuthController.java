@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import com.afr.fms.AD.Service.ADService;
+import com.afr.fms.AD.Service.LDAPProductionService;
 import com.afr.fms.Admin.Entity.Role;
 import com.afr.fms.Admin.Entity.User;
 import com.afr.fms.Admin.Entity.UserSession;
@@ -97,16 +98,26 @@ public class AuthController {
         @Autowired
         private SessionManager sessionManager;
 
+                @Autowired
+
+    private     LDAPProductionService lDAPProductionService;
+
         @PostMapping("/signin")
         public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
                         HttpServletRequest request) throws Exception {
 
-                String username = loginRequest.getUsername();
+                // String username = loginRequest.getUsername();
 
-                // Step 1: AD authentication
+                // // Step 1: AD authentication
                 // try {
-                // boolean userDetail = adService.authenticateUser(loginRequest.getUsername(),
-                // loginRequest.getPassword());
+                        
+
+
+                //  boolean userDetail = adService.authenticateUser(loginRequest.getUsername(),  loginRequest.getPassword());
+
+                // // boolean userDetail = lDAPProductionService.authenticateUser(loginRequest.getUsername(),  loginRequest.getPassword());
+
+                // System.out.println("__________________________" +  userDetail);
 
                 // if (!userDetail) {
                 // throw new UserNotFoundException(
@@ -148,8 +159,10 @@ public class AuthController {
                                         passwordService.changeMyPassword(passDto);
                                 }
 
-                                UserSecurity us = user.getUser_security();
-                                userSecurityService.checkCredentialTimeExpired(us);
+
+                                // the follwing code commented   due to LDAP
+                                // UserSecurity us = user.getUser_security();
+                                // userSecurityService.checkCredentialTimeExpired(us);
                         }
                 } catch (Exception e) {
                         logger.error("Error checking user credential expiration for username: {}", loginRequest.getUsername(), e);

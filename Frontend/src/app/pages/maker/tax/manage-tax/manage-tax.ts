@@ -94,7 +94,6 @@ export class ManageTax implements OnInit {
 
     onSearchResults(taxes: Tax[]) { //  search results are passed from child to parent
         this.taxes = taxes;
-
         this.loading = false;
 
     }
@@ -127,7 +126,8 @@ export class ManageTax implements OnInit {
     editTax(tax: Tax) {
         this.tax = { ...tax };
         this.taxDialog = true;
-
+        this.tax.previouseTaxFile = tax.taxFile
+        this.tax.taxFile = [];
         this.isEdit = true;
     }
 
@@ -242,7 +242,7 @@ export class ManageTax implements OnInit {
     }
 
 
-  
+
 
 
 
@@ -275,187 +275,6 @@ export class ManageTax implements OnInit {
     }
 
 
-    // onRowExpand(event: any) {
-    //     console.log(event)
-    //     const tax = event.data;
-    //     console.log(tax)
-    //     const file = tax.taxFile?.[0];
-
-
-    //     if (!file?.fileName) {
-    //         return;
-    //     }
-
-
-    //     this.fileDownloadService.fetchFileByFileName(file.fileName).subscribe((blob: Blob) => {
-    //         
-
-    //         const newFile = { ...file };
-    //         newFile.fileType = blob.type;
-
-    //         if (blob.type === 'application/pdf') {
-    //             
-    //             newFile.file = null; // clear image
-    //             const blobUrl = URL.createObjectURL(blob);
-    //             newFile.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl); // ✅ sanitize
-    //         } else if (blob.type.startsWith('image/')) {
-    //             const reader = new FileReader();
-    //             reader.onload = (e: any) => {
-    //                 newFile.file = e.target.result.split(',')[1]; // base64
-    //                 newFile.pdfUrl = null;
-
-
-    //                 tax.taxFile = [newFile];
-    //             };
-    //             reader.readAsDataURL(blob);
-    //             return; // exit early since assignment happens in onload
-    //         } else {
-    //             newFile.file = blob; // Word or other types
-    //             newFile.pdfUrl = null;
-    //         }
-
-
-    //         tax.taxFile = [newFile]; // replace array to trigger change detection
-    //     }, error => {
-    //         console.error('Error fetching file:', error);
-    //     });
-
-
-    // }
-
-
-    //  onRowExpand(event: any) {
-    //   const tax = event.data;
-    //   
-
-    //   if (!tax.taxFile || tax.taxFile.length === 0) {
-    //     return;
-    //   }
-
-    //   const fileFetchPromises = tax.taxFile.map((file: any) => {
-    //     if (!file?.fileName) return Promise.resolve(null);
-
-    //     return this.fileDownloadService.fetchFileByFileName(file.fileName).toPromise()
-    //       .then((blob: Blob | undefined) => {
-    //         if (!blob) {
-    //           console.warn(`No blob returned for file: ${file.fileName}`);
-    //           return null;
-    //         }
-
-    //         const newFile = { ...file };
-    //         newFile.fileType = blob.type;
-
-    //         if (blob.type === 'application/pdf') {
-    //           const blobUrl = URL.createObjectURL(blob);
-    //           newFile.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl);
-    //           newFile.file = null;
-    //           return newFile;
-    //         } 
-
-    //         if (blob.type.startsWith('image/')) {
-    //           return new Promise((resolve) => {
-    //             const reader = new FileReader();
-    //             reader.onload = (e: any) => {
-    //               newFile.file = e.target.result.split(',')[1];
-    //               newFile.pdfUrl = null;
-    //               resolve(newFile);
-    //             };
-    //             reader.readAsDataURL(blob);
-    //           });
-    //         }
-
-    //         // For Word or other file types
-    //         newFile.file = blob;
-    //         newFile.pdfUrl = null;
-    //         return newFile;
-    //       })
-    //       .catch((error) => {
-    //         console.error('Error fetching file:', error);
-    //         return null;
-    //       });
-    //   });
-
-    //   Promise.all(fileFetchPromises).then((results) => {
-    //     tax.taxFile = results.filter(file => file !== null);
-    //     
-    //   });
-    // }
-
-
-
-    // onRowExpand(event: any) {
-    //   const tax = event.data;
-    //   
-
-    //   if (!tax.taxFile || tax.taxFile.length === 0) {
-    //     return;
-    //   }
-
-    //   const fileFetchPromises = tax.taxFile.map((file: any) => {
-    //     if (!file?.fileName) return Promise.resolve(null);
-
-    //     return this.fileDownloadService.fetchFileByFileName(file.fileName).toPromise()
-    //       .then((blob: Blob | undefined) => {
-    //         if (!blob) {
-    //           console.warn(`No blob returned for file: ${file.fileName}`);
-    //           return null;
-    //         }
-
-    //         const newFile = { ...file };
-    //         newFile.fileType = blob.type;
-
-    //         // PDF
-    //         if (blob.type === 'application/pdf') {
-    //           // Revoke previous URL if exists
-    //           if (newFile.pdfUrl) {
-    //             URL.revokeObjectURL(
-    //               (newFile.pdfUrl as any).changingThisBreaksApplicationSecurity
-    //             );
-    //           }
-    //           const blobUrl = URL.createObjectURL(blob);
-    //           newFile.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl);
-    //           newFile.file = null;
-    //           return newFile;
-    //         }
-
-    //         // Image
-    //         if (blob.type.startsWith('image/')) {
-    //           return new Promise((resolve) => {
-    //             const reader = new FileReader();
-    //             reader.onload = (e: any) => {
-    //    // Log the base64 result
-    //   newFile.file = e.target.result.split(',')[1]; // base64
-    //    // Log the file type
-    //   newFile.pdfUrl = null;
-    //   resolve(newFile);
-    // };
-    //             reader.readAsDataURL(blob);
-    //           });
-    //         }
-
-    //         // Word or other files
-    //         newFile.file = blob;
-    //         newFile.pdfUrl = null;
-    //         return newFile;
-    //       })
-    //       .catch((error) => {
-    //         console.error('Error fetching file:', error);
-    //         return null;
-    //       });
-    //   });
-
-    //   Promise.all(fileFetchPromises).then((results) => {
-    //     tax.taxFile = results.filter(file => file !== null);
-
-    //     // Force change detection for PDFs
-    //     setTimeout(() => {
-    //       
-    //     }, 0);
-    //   });
-    // }
-
-
-
     onRowExpand(event: any) {
         const tax = event.data;
 
@@ -469,7 +288,7 @@ export class ManageTax implements OnInit {
 
             return this.fileDownloadService.fetchFileByFileName(file.fileName).toPromise()
                 .then((blob: Blob | undefined) => {
-                     // Log the fetched blob
+                    // Log the fetched blob
                     if (!blob) {
                         console.warn(`No blob returned for file: ${file.fileName}`);
                         return null;
@@ -506,9 +325,9 @@ export class ManageTax implements OnInit {
                         return new Promise((resolve) => {
                             const reader = new FileReader();
                             reader.onload = (e: any) => {
-                                 // Log the base64 result
+                                // Log the base64 result
                                 newFile.file = e.target.result.split(',')[1]; // base64
-                                 // Log the file type
+                                // Log the file type
                                 newFile.pdfUrl = null;
                                 resolve(newFile);
                             };
@@ -599,7 +418,7 @@ export class ManageTax implements OnInit {
             }
 
             const blob = new Blob([byteArray as any], { type: file.fileType });
-             // Debug: Log the blob size
+            // Debug: Log the blob size
 
             const link = document.createElement('a');
             link.href = window.URL.createObjectURL(blob);
@@ -622,7 +441,7 @@ export class ManageTax implements OnInit {
         delete this.expandedRows[tax.Id];
     }
 
-  
+
 
     private statusMap: { [key: number]: { label: string; severity: ButtonSeverity } } = {
         6: { label: "Not Submited", severity: "help" as ButtonSeverity },
@@ -657,12 +476,12 @@ export class ManageTax implements OnInit {
         this.isDialogVisible = true;
     }
 
-      hideDialogCrateEdit() {
+    hideDialogCrateEdit() {
         this.taxDialog = false;
         this.submitted = false;
     }
 
-      closeModalPDF() {
+    closeModalPDF() {
         this.showPdfModal = false;
         this.selectedPdf = null;
     }

@@ -49,6 +49,9 @@ public class TaxableService {
 
         if (files != null && files.length > 0 && tax.getTaxFile() != null) {
             String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();
+
+            // String uploadDir = "\\\\10.10.101.76\\fileUploadFolder";  // Use IP  upload from other server
+
             File dir = new File(uploadDir);
             if (!dir.exists()) {
                 dir.mkdirs();
@@ -94,8 +97,7 @@ public class TaxableService {
                     taxFileMapper.insertFile(tf);
 
                     User user = new User();
-                    recentActivity
-                            .setMessage("Tax  with Reference number  " + tax.getReference_number() + " is created");
+                    recentActivity.setMessage("Tax  with Reference number  " + tax.getReference_number() + " is created");
                     user.setId(tax.getUser_id());
                     recentActivity.setUser(user);
                     recentActivityMapper.addRecentActivity(recentActivity);
@@ -113,10 +115,65 @@ public class TaxableService {
     }
 
     @Transactional
-    public void updateTax(Tax taxable) {
+    public void updateTax(Tax tax, MultipartFile[] files) throws IOException {
 
-        taxableMapper.createTax(null);
+        System.out.println(tax.getTaxFile());
+        if (files != null && files.length > 0 && tax.getTaxFile() != null) {
+            String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();// folder inside the project
+            File dir = new File(uploadDir);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
 
+            // Update tax record itself
+            taxableMapper.updateTaxable(tax);
+
+            if (tax.getIsFileEdited()) {
+
+                for (TaxFile taxFileToDelete : tax.getPreviouseTaxFile()) {
+                    // Delete from DB
+                    taxFileMapper.deleteTaxFile(taxFileToDelete.getFileName());
+
+                    // Delete from folder
+                    File existingFile = new File(dir, taxFileToDelete.getFileName());
+                    if (existingFile.exists()) {
+                        if (existingFile.delete()) {
+                            System.out.println("✅ Deleted file from folder: " + existingFile.getAbsolutePath());
+                        } else {
+                            System.out.println("⚠️ Failed to delete file: " + existingFile.getAbsolutePath());
+                        }
+                    } else {
+                        System.out.println("⚠️ File not found for deletion: " + existingFile.getAbsolutePath());
+                    }
+                }
+
+                for (int i = 0; i < files.length; i++) {
+                    MultipartFile file = files[i];
+                    TaxFile tf = tax.getTaxFile().get(i);
+                    tf.setTax_id(tax.getId());
+
+                    if (!file.isEmpty()) {
+                        String fileName = file.getOriginalFilename();
+                        File destination = new File(dir, fileName);
+
+                        file.transferTo(destination);
+                        String fileId = generateGuid();
+                        tf.setSupportId(fileId);
+                        tf.setFileName(fileName);
+                        taxFileMapper.insertFile(tf);
+
+                    }
+                }
+            }
+            // ✅ Log recent activity
+
+        }
+
+        User user = new User();
+        user.setId(tax.getUser_id());
+        recentActivity.setUser(user);
+        recentActivity.setMessage("Tax with Reference number " + tax.getReference_number() + " updated");
+        recentActivityMapper.addRecentActivity(recentActivity);
     }
 
     public Tax fetchTaxById(int id) {
@@ -144,6 +201,8 @@ public class TaxableService {
                 break; // Exit the loop once a match is found
             }
         }
+
+        System.out.println(payload);
 
         return taxableMapper.fetchTaxBasedonStatus(payload);
     }

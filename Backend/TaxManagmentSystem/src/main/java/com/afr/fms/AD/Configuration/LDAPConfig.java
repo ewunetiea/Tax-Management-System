@@ -9,20 +9,19 @@ import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.LdapContextSource;
 import org.springframework.ldap.pool.factory.PoolingContextSource;
 import org.springframework.ldap.pool.validation.DefaultDirContextValidator;
-import com.afr.fms.Admin.Entity.SMS;
 import com.afr.fms.Admin.Mapper.SMSMapper;
 import com.afr.fms.Admin.Service.SMSService;
 
-// @Configuration
+@Configuration
 public class LDAPConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(LDAPConfig.class);
 
-    @Autowired
-    private SMSMapper smsMapper;
+    // @Autowired
+    // private SMSMapper smsMapper;
 
-    @Autowired
-    private SMSService smsService;
+    // @Autowired
+    // private SMSService smsService;
 
     /**
      * ContextSource bound with a service account.
@@ -32,23 +31,33 @@ public class LDAPConfig {
         LdapContextSource contextSource = new LdapContextSource();
 
         // Your domain controller
-        String ldapUrl = "ldap://DR-ADS-001.awash.local:389";
-        contextSource.setUrl(ldapUrl);
-        contextSource.setBase("DC=awash,DC=local");
+        // String ldapUrl = "ldap://DR-ADS-001.awash.local:389";
+        // contextSource.setUrl(ldapUrl);
+        // contextSource.setBase("DC=awash,DC=local");
 
-        SMS sms = smsMapper.getActiveSMS("ad").get(0);
-        String secretKey = "mNYAjiYg/Iw8OMZH"; // 16 characters key
-        // Service account credentials
-        String serviceAccount = "username@awash.local"; // 👈 use UPN format
-        String servicePassword = "password";
+        // SMS sms = smsMapper.getActiveSMS("ad").get(0);
+        // String secretKey = "mNYAjiYg/Iw8OMZH"; // 16 characters key
+        // // Service account credentials
+        // String serviceAccount = "username@awash.local"; // 👈 use UPN format
+        // String servicePassword = "password";
 
-        serviceAccount = smsService.getDecryptedText(sms.getUser_name(), secretKey);
-        servicePassword = smsService.getDecryptedText(sms.getPassword(), secretKey);
+        // serviceAccount = smsService.getDecryptedText(sms.getUser_name(), secretKey);
+        // servicePassword = smsService.getDecryptedText(sms.getPassword(), secretKey);
 
-        serviceAccount = serviceAccount.contains("@") ? serviceAccount : serviceAccount + "@awash.local";
+        // serviceAccount = serviceAccount.contains("@") ? serviceAccount : serviceAccount + "@awash.local";
 
-        contextSource.setUserDn(serviceAccount);
-        contextSource.setPassword(servicePassword);
+
+
+
+        //  for test server
+        contextSource.setUrl("ldap://awashtest.local");
+        contextSource.setBase("dc=awashtest,dc=local");
+        contextSource.setUserDn("abvision@awashtest.local");
+        contextSource.setPassword("Bfub@aib205");
+
+
+        // contextSource.setUserDn(serviceAccount);
+        // contextSource.setPassword(servicePassword);
 
         contextSource.setPooled(false);
         contextSource.setReferral("follow"); // follow referrals in AD

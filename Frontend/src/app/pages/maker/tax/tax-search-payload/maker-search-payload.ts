@@ -57,11 +57,8 @@ export class MakerSearchEnginePayLoadComponent {
       { name: 'Approved', id: '5' },
     ]
 
-
-
     this.payload.branch_name = this.storageService.getUser().branch.name
-
-        this.payload.branch_id = this.storageService.getUser().branch.id
+     this.payload.branch_id = this.storageService.getUser().branch.id
 
   }
 
@@ -102,8 +99,8 @@ export class MakerSearchEnginePayLoadComponent {
   }
 
   onSubmit() {
-    this.submitted = true;
 
+    this.submitted = true;
     this.payload.routeControl = this.routeControl ?? '';
     const user = this.storageService.getUser();
     this.payload.user_id = user ? user.id : 0;
@@ -143,7 +140,7 @@ export class MakerSearchEnginePayLoadComponent {
         }
 
         this.submitted = false;
-        this.payload = new MakerSearchPayload();
+        // this.payload = new MakerSearchPayload();
       },
       error: (error) => {
         console.error(error);
@@ -159,7 +156,14 @@ export class MakerSearchEnginePayLoadComponent {
   onReset(): void {
     this.submitted = false;
 
-    this.payload = new MakerSearchPayload()
+    this.payload.maker_date = []
+        this.payload.checked_date = []
+        this.payload.rejected_date = []
+        this.payload.reference_number = ''
+        this.payload.tax_category_id = 0
+
+
+
   }
 
 }

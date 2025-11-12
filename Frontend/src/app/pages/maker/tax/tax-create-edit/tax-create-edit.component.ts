@@ -12,11 +12,12 @@ import { TaxCategory } from '../../../../models/maker/tax-category';
 import { BranchService } from '../../../../service/admin/branchService';
 import { Branch } from '../../../../models/admin/branch';
 import { TaxFile } from '../../../../models/maker/tax-file';
+import { ToggleSwitch } from 'primeng/toggleswitch';
 
 @Component({
     standalone: true,
     selector: 'app-tax-create-edit',
-    imports: [SharedUiModule, FileUpload],
+    imports: [SharedUiModule, FileUpload, ToggleSwitch],
     templateUrl: './tax-create-edit.component.html',
     styleUrl: './tax-create-edit.component.scss'
 })
@@ -26,7 +27,10 @@ export class TaxCreateEditComponent implements OnInit {
 
     @Input() tax: Tax = new Tax();
     @Output() saved = new EventEmitter<Tax>(); // emit to parent
-    @Output() cancel = new EventEmitter<void>();
+
+    @Output() dialogCancel = new EventEmitter<void>(); // ✅ renamed output
+
+    @Input() isEdit: boolean = false;
 
     submitting = false;
     taxCategories: TaxCategory[] = [];
@@ -56,10 +60,6 @@ export class TaxCreateEditComponent implements OnInit {
 
 
     }
-
-
-
-
 
 
     getTaxCategories() {
@@ -104,6 +104,7 @@ export class TaxCreateEditComponent implements OnInit {
 
     }
 
+
     onSave() {
         this.tax.user_id = this.storageService.getUser().id
         this.tax.from_ = this.storageService.getUser().branch.id;
@@ -111,14 +112,33 @@ export class TaxCreateEditComponent implements OnInit {
         this.tax.maker_name = this.storageService.getUser().username;
 
         // Check if taxFile is available
-        if (!this.tax.taxFile || this.tax.taxFile.length === 0) {
-            this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'File is not available' });
-            return; // Exit the function early if no file is selected
+
+        if (!this.isEdit) {
+
+            if (!this.tax.taxFile || this.tax.taxFile.length === 0) {
+                this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'File is not selected' });
+                return; // Exit the function early if no file is selected
+            }
+
         }
+
+
+       
+        if (this.tax.isFileEdited) {
+            if (!this.tax.taxFile || this.tax.taxFile.length === 0) {
+                this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'File is not available to update' });
+                return; // Exit the function early if no file is selected
+            }
+
+        }
+
+
+        console.log("is file edit"+ this.tax.isFileEdited)
 
         const formData = new FormData();
 
         formData.append('tax', new Blob([JSON.stringify(this.tax)], { type: 'application/json' }));
+
 
         if (this.tax.taxFile && this.tax.taxFile.length > 0) {
             this.tax.taxFile.forEach((taxFile: TaxFile) => {
@@ -156,13 +176,14 @@ export class TaxCreateEditComponent implements OnInit {
     onCancel() {
         this.visible = false;
         this.visibleChange.emit(this.visible);
-        this.cancel.emit();
+        this.dialogCancel.emit();
     }
 
 
     onFileSelect(event: any) {
-        const files: File[] = Array.from(event.files); // convert FileList to array
 
+
+        const files: File[] = Array.from(event.files); // convert FileList to array
         if (!this.tax!.taxFile) {
             this.tax!.taxFile = [];
         }
@@ -186,24 +207,24 @@ export class TaxCreateEditComponent implements OnInit {
 
 
     onFileClear() {
-    this.tax!.taxFile = []; // revoke all selected files
-    this.messageService.add({
-        severity: 'info',
-        summary: 'Files Cleared',
-        detail: 'All selected files have been removed.'
-    });
-}
-
-
-onFileRemove(event: any) {
-    const removedFile = event.file; // this is the File object being removed
-    if (this.tax!.taxFile) {
-        this.tax!.taxFile = this.tax!.taxFile.filter(f => f.file !== removedFile);
+        this.tax!.taxFile = []; // revoke all selected files
+        this.messageService.add({
+            severity: 'info',
+            summary: 'Files Cleared',
+            detail: 'All selected files have been removed.'
+        });
     }
-    this.messageService.add({
-        severity: 'info',
-        summary: 'File Removed',
-        detail: `${removedFile.name} has been removed.`
-    });
-}
+
+
+    onFileRemove(event: any) {
+        const removedFile = event.file; // this is the File object being removed
+        if (this.tax!.taxFile) {
+            this.tax!.taxFile = this.tax!.taxFile.filter(f => f.file !== removedFile);
+        }
+        this.messageService.add({
+            severity: 'info',
+            summary: 'File Removed',
+            detail: `${removedFile.name} has been removed.`
+        });
+    }
 }

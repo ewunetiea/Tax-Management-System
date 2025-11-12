@@ -3,7 +3,7 @@ export class MakerSearchPayload {
 
    branch_id?: number;
    tax_category_id?: number;
-   reference_number?: number;
+   reference_number?: string;
    status_id?: number;
    approved_date?: Date;
    user_id?: number;

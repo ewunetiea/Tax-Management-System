@@ -51,14 +51,15 @@ public class SMSService {
 
     public String getDecryptedText(String encryptedText, String _secretKey) {
         String decryptedText = "";
+        String initVector = "AIB2C3D4E5F6G7H8"; // 16 characters IV
         try {
-            String initVector = "AIB2C3D4E5F6G7H8"; // 16 characters IV
-
             decryptedText = encryptionService.decrypt(encryptedText, _secretKey, initVector);
+            // logger.info("Enrypted Text: " + encryptionService.encrypt("Django$$1219$$", _secretKey, initVector));
 
         } catch (Exception e) {
             logger.error("Error while decrypting text: " + e);
         }
+
         return decryptedText;
     }
 
@@ -101,7 +102,7 @@ public class SMSService {
         String result = restTemplate.getForObject(sms_configuration, String.class);
 
         // } catch (Exception e) {
-
+        // System.out.println("Error for SMS Authenthication " + e);
         // }
 
     }
@@ -130,7 +131,7 @@ public class SMSService {
         String result = restTemplate.getForObject(sms_configuration, String.class);
 
         // } catch (Exception e) {
-
+        // System.out.println("Error for SMS Authenthication " + e);
         // }
 
     }

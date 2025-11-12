@@ -21,24 +21,68 @@ export const httpRequestInterceptor: HttpInterceptorFn = (req, next) => {
     // });
 
     req = req.clone({
-    withCredentials: true,
-    setHeaders: req.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }
-});
+        withCredentials: true,
+        setHeaders: req.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }
+    });
 
 
     return next(req).pipe(
         catchError((error: HttpErrorResponse) => {
             console.error('HTTP Error:', error);
 
-            // 🔹 Signin error
             if (error instanceof HttpErrorResponse && req.url.includes('auth/signin') && error.status === 500) {
+                let toastMessage = 'Invalid credentials. Please enter correct credentials!';
+
+                // Check backend error message
+                if (error.error && error.error.message) {
+                    const backendMsg: string = error.error.message;
+
+                    if (backendMsg.includes('User is disabled')) {
+                        toastMessage = 'Your account is inactive. Please contact the system administrator!';
+                    }
+                }
+
                 const customError = new HttpErrorResponse({
-                    error: new Error('Invalid credentials. Please enter correct credentials!'),
+                    error: new Error(toastMessage),
                     status: 0
                 });
+
                 showToast(messageService, customError.error.message, 'error');
                 return throwError(() => customError);
             }
+
+
+
+            if (req.url.includes('auth/signin') && error.status === 500) {
+                let toastMessage = 'An unexpected error occurred. Please try again!';
+
+                if (error.error && error.error.message) {
+                    const backendMsg: string = error.error.message;
+
+                    if (backendMsg.includes('authentication')) {
+                        toastMessage = 'Invalid credentials. Please enter correct credentials!';
+                    } else {
+                        // fallback to backend message
+                        toastMessage = backendMsg;
+                    }
+                }
+
+                showToast(messageService, toastMessage, 'error');
+                return throwError(() => error);
+            }
+
+
+            //   if (error instanceof HttpErrorResponse && req.url.includes('auth/signin') && error.status === 500) {
+            //     const customError = new HttpErrorResponse({
+            //         error: new Error('Invalid credentials. Please enter correct credentials!'),
+            //         status: 0
+            //     });
+            //     showToast(messageService, customError.error.message, 'error');
+            //     return throwError(() => customError);
+            // }
+
+            // An unexpected error occurred: User is disabled
+            // An error occurred during authentication. Please try again later.
 
             // 🔹 Unauthorized
             if (error instanceof HttpErrorResponse && !req.url.includes('auth/signin') && error.status === 401) {
@@ -106,25 +150,25 @@ export const httpRequestInterceptor: HttpInterceptorFn = (req, next) => {
                 return throwError(() => customError);
             }
 
-if (error.status === 409) {
-    // Custom frontend message
-    const customMsg = 'File name already exists. Please rename or upload another';
-    
-    // Show toast
-    showToast(messageService, customMsg, 'error');
-    
-    // Create a new HttpErrorResponse with your custom message
-    const modifiedError = new HttpErrorResponse({
-        error: { message: customMsg },
-        headers: '' as any,
-        status: error.status,
-        statusText: " File name  already exists Please rename your file name",
-        url: ''
-    });
+            if (error.status === 409) {
+                // Custom frontend message
+                const customMsg = 'File name already exists. Please rename or upload another';
 
-    // Re-throw the modified error
-    return throwError(() => modifiedError);
-}
+                // Show toast
+                showToast(messageService, customMsg, 'error');
+
+                // Create a new HttpErrorResponse with your custom message
+                const modifiedError = new HttpErrorResponse({
+                    error: { message: customMsg },
+                    headers: '' as any,
+                    status: error.status,
+                    statusText: " File name  already exists Please rename your file name",
+                    url: ''
+                });
+
+                // Re-throw the modified error
+                return throwError(() => modifiedError);
+            }
 
 
 
@@ -135,7 +179,7 @@ if (error.status === 409) {
                     error: new Error('Internal server error!'),
                     status: 500
                 });
-                
+
                 showToast(messageService, customError.error.message, 'error');
                 return throwError(() => customError);
             }

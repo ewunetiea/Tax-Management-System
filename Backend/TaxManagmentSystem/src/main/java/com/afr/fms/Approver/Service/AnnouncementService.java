@@ -22,13 +22,20 @@ public class AnnouncementService {
 
     RecentActivity recentActivity = new RecentActivity();
 
+        @Transactional
+
     public List<Announcement> getOnGoingAnnouncements() {
         return announcementMapper.getOngoingAnnouncements();
     }
 
+
+    @Transactional
       public Announcement getAnnouncementForDashBoard() {
         return announcementMapper.getAnnouncementForDashBoard();
     }
+
+
+        @Transactional
 
     public List<Announcement> getArchivedAnnouncements() {
         return announcementMapper.getArchivedAnnouncements();

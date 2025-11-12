@@ -1,6 +1,8 @@
 package com.afr.fms.Maker.mapper;
 
 import java.util.List;
+
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Result;
@@ -21,6 +23,10 @@ public interface TaxFileMapper {
             "(Id, FileName, Extension, SupportId, tax_id) " +
             "VALUES (#{Id}, #{fileName}, #{extension}, #{supportId}, #{tax_id})")
     public void insertFile(TaxFile file);
+
+    @Delete("delete from FileDetailOfClaim   where FileName = #{fileName} ")
+
+    public void deleteTaxFile(String fileName);
 
     @Select("SELECT  FileName as fileName, Extension as extension " +
             "FROM FileDetailOfClaim " +

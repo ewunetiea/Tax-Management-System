@@ -355,8 +355,14 @@
 
 
 
-<app-tax-create-edit [(visible)]="taxDialog" [tax]="tax" (saved)="onTaxesaved($event)"
-    (cancel)="hideDialogCrateEdit()"></app-tax-create-edit>
+<app-tax-create-edit
+  [(visible)]="taxDialog"
+  [tax]="tax"
+  (saved)="onTaxesaved($event)"
+  [isEdit]="isEdit"
+  (dialogCancel)="hideDialogCrateEdit()">
+</app-tax-create-edit>
+
 
 
 <p-dialog [(visible)]="showPdfModal" modal="true" [style]="{width: '70%', height: '80%'}" (onHide)="closeModalPDF()">

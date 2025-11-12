@@ -21,6 +21,9 @@ public class FileDownloadService {
     private TaxableMapper taxableMapper;
    
   private final String folderPath = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();
+    
+// String folderPath = "\\\\10.10.101.76\\fileUploadFolder";  // Use IP
+
 
     /**
      * Fetch file from folder by filename

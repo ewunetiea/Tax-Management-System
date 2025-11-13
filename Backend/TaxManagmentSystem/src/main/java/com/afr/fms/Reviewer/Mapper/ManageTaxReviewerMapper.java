@@ -10,19 +10,19 @@ import com.afr.fms.Maker.entity.Tax;
 @Mapper
 public interface ManageTaxReviewerMapper {
 
-    // and from_ = #{branch_id}
-    @Select("SELECT * FROM tblTaxable WHERE status = 1 ")
+    @Select("SELECT * FROM tblTaxable WHERE status = 0 and from_ = #{branch_id}")
     public List<Tax> getPendingTaxes(PaginatorPayLoad paginatorPayLoad);
-
-    // and from_ = #{branch_id}
-    @Select("SELECT * FROM tblTaxable WHERE status = 2 ")
+    
+    @Select("SELECT * FROM tblTaxable WHERE (status = 2 or status = 3) and from_ = #{branch_id} ")
     public List<Tax> getRejectedTaxes(PaginatorPayLoad paginatorPayLoad);
 
-    // and from_ = #{branch_id}
-    @Select("SELECT * FROM tblTaxable WHERE status = 5 ")
+    @Select("SELECT * FROM tblTaxable WHERE status = 5 and from_ = #{branch_id}")
     public List<Tax> getApprovedTaxes(PaginatorPayLoad paginatorPayLoad);
 
-    @Update("UPDATE tblTaxable SET status = 4, checker_name = #{checker_name}, checked_Date = CURRENT_TIMESTAMP WHERE id = #{id}")
+    @Select("SELECT * FROM tblTaxable WHERE status = 1 and from_ = #{branch_id}")
+    public List<Tax> getSentTaxes(PaginatorPayLoad paginatorPayLoad);
+
+    @Update("UPDATE tblTaxable SET status = 1, checker_name = #{checker_name}, checked_Date = CURRENT_TIMESTAMP WHERE id = #{id}")
     public void reviewTaxes(Tax tax);
 
     @Update("UPDATE tblTaxable SET status = 2, checker_rejected_reason = #{checker_rejected_reason}, rejector_checker_id = #{user_id}, checker_rejected_date = CURRENT_TIMESTAMP WHERE id = #{id}")

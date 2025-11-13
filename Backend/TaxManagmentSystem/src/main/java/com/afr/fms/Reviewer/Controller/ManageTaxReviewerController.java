@@ -24,8 +24,7 @@ public class ManageTaxReviewerController {
     private static final Logger logger = LoggerFactory.getLogger(ManageTaxReviewerController.class);
 
     @PostMapping("/pending")
-    public ResponseEntity<List<Tax>> getPendingTaxes(@RequestBody PaginatorPayLoad paginatorPayLoad,
-            HttpServletRequest request) {
+    public ResponseEntity<List<Tax>> getPendingTaxes(@RequestBody PaginatorPayLoad paginatorPayLoad, HttpServletRequest request) {
         try {
             return new ResponseEntity<>(manageTaxService.getPendingTaxes(paginatorPayLoad), HttpStatus.OK);
         } catch (Exception ex) {
@@ -35,8 +34,7 @@ public class ManageTaxReviewerController {
     }
 
     @PostMapping("/rejected")
-    public ResponseEntity<List<Tax>> getRejectedTaxes(@RequestBody PaginatorPayLoad paginatorPayLoad,
-            HttpServletRequest request) {
+    public ResponseEntity<List<Tax>> getRejectedTaxes(@RequestBody PaginatorPayLoad paginatorPayLoad, HttpServletRequest request) {
         try {
             return new ResponseEntity<>(manageTaxService.getRejectedTaxes(paginatorPayLoad), HttpStatus.OK);
         } catch (Exception ex) {
@@ -45,13 +43,22 @@ public class ManageTaxReviewerController {
         }
     }
 
-    @PostMapping("/approved")
-    public ResponseEntity<List<Tax>> getApprovedTaxes(@RequestBody PaginatorPayLoad paginatorPayLoad,
-            HttpServletRequest request) {
+    @PostMapping("/settled")
+    public ResponseEntity<List<Tax>> getApprovedTaxes(@RequestBody PaginatorPayLoad paginatorPayLoad, HttpServletRequest request) {
         try {
             return new ResponseEntity<>(manageTaxService.getApprovedTaxes(paginatorPayLoad), HttpStatus.OK);
         } catch (Exception ex) {
             logger.error("An error occurred while retrieving approved taxes : {}", ex.getMessage(), ex);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/sent")
+    public ResponseEntity<List<Tax>> getSentTaxes(@RequestBody PaginatorPayLoad paginatorPayLoad, HttpServletRequest request) {
+        try {
+            return new ResponseEntity<>(manageTaxService.getSentTaxes(paginatorPayLoad), HttpStatus.OK);
+        } catch (Exception ex) {
+            logger.error("An error occurred while retrieving sent taxes : {}", ex.getMessage(), ex);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

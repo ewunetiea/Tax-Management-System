@@ -23,8 +23,7 @@ public class ApproverDashboardController {
     private static final Logger logger = LoggerFactory.getLogger(ApproverDashboardController.class);
 
     @GetMapping("/tax-status-card/{id}")
-    public ResponseEntity<List<Integer>> getTaxStatusForApprover(@PathVariable("id") Long branch_id,
-            HttpServletRequest request) {
+    public ResponseEntity<List<Integer>> getTaxStatusForApprover(@PathVariable("id") Long branch_id, HttpServletRequest request) {
         try {
             List<Integer> tax_status = approverDashboardService.getTaxStatusForApprover(branch_id);
             return new ResponseEntity<>(tax_status, HttpStatus.OK);

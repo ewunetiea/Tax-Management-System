@@ -14,9 +14,9 @@ export class ApproverDashboardService {
     getTaxStatusForApprover(branch_id?: number): Observable<number[]> {
         return this.http.get<number[]>(`${apiUrl}/tax-status-card/${branch_id}`);
     }
-
-     getStackedBarTaxesStatusData(branch_id?: number): Observable<number[]> {
+    
+    getStackedBarTaxesStatusData(branch_id?: number): Observable<number[]> {
          return this.http.get<number[]>(`${apiUrl}/tax-status-stacked-bar/${branch_id}`);
-      }
+    }
 
 }

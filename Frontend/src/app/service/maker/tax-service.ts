@@ -26,17 +26,16 @@ export class TaxService {
   createTax(tax: any): Observable<any> {
     return this.http.post(baseUrl + '/create', tax);
   }
-fetchTaxesBasedOnStatus(payload: MakerSearchPayload): Observable<Tax[]> {
+  fetchTaxesBasedOnStatus(payload: MakerSearchPayload): Observable<Tax[]> {
+    console.log("_______G_____________________________________")
     return this.http.post<Tax[]>(baseUrl + '/fetchTaxBasedonStatus', payload);
-}
-
-  fetchGeneralStatusTaxes(payload: MakerSearchPayload) {
-    return this.http.post(baseUrl + '/fetchTaxStatus', payload);
-
-
   }
 
 
+  fetchTaxProgress(payload: MakerSearchPayload): Observable<Tax[]> {
+    console.log("Tax Progress____________________________")
+    return this.http.post<Tax[]>(baseUrl + '/fetchTaxProgress', payload);
+  }
 
 
   deleteSelectedTaxes(anoncment: Tax[]) {

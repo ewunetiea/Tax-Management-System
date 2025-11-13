@@ -21,7 +21,7 @@ import { MakerSearchPayload } from '../../../../models/payload/maker-search-payl
 
 
 export class MakerSearchEnginePayLoadComponent {
-      payload: MakerSearchPayload = new MakerSearchPayload()
+  payload: MakerSearchPayload = new MakerSearchPayload()
 
 
   user: User = new User();
@@ -50,15 +50,15 @@ export class MakerSearchEnginePayLoadComponent {
   ngOnInit(): void {
     this.status = [
       { name: 'Drafted', id: '6' },
-      { name: 'Waiting For Approval', id: '0' },
-      { name: 'Approve', id: '1' },
+      { name: 'Waiting ', id: '0' },
+      { name: 'Sent', id: '1' },
       { name: 'Rejected', id: '2' },
-      { name: 'Reviewed', id: '4' },
-      { name: 'Approved', id: '5' },
+      // { name: 'Reviewed', id: '4' },
+      { name: 'Setteled', id: '5' },
     ]
 
     this.payload.branch_name = this.storageService.getUser().branch.name
-     this.payload.branch_id = this.storageService.getUser().branch.id
+    this.payload.branch_id = this.storageService.getUser().branch.id
 
   }
 
@@ -101,6 +101,8 @@ export class MakerSearchEnginePayLoadComponent {
   onSubmit() {
 
     this.submitted = true;
+
+    this.payload.user_id = this.storageService.getUser().id
     this.payload.routeControl = this.routeControl ?? '';
     const user = this.storageService.getUser();
     this.payload.user_id = user ? user.id : 0;
@@ -117,10 +119,17 @@ export class MakerSearchEnginePayLoadComponent {
 
     this.payload.maker_date = makerFormattedDates;
 
-     this.payload.checked_date = approverFormattedDates;
+    this.payload.checked_date = approverFormattedDates;
 
+    console.log("______search pay load data_________________")
+    console.log(this.routeControl)
 
-    this.taxService.fetchTaxesBasedOnStatus(this.payload).subscribe({
+      const serviceCall =
+   this.routeControl == "generalstatus"
+      ? this.taxService.fetchTaxProgress(this.payload)
+      : this.taxService.fetchTaxesBasedOnStatus(this.payload);
+
+    serviceCall.subscribe({
       next: (data) => {
         this.taxes = data;
         this.searchResults.emit(this.taxes);
@@ -157,10 +166,10 @@ export class MakerSearchEnginePayLoadComponent {
     this.submitted = false;
 
     this.payload.maker_date = []
-        this.payload.checked_date = []
-        this.payload.rejected_date = []
-        this.payload.reference_number = ''
-        this.payload.tax_category_id = 0
+    this.payload.checked_date = []
+    this.payload.rejected_date = []
+    this.payload.reference_number = ''
+    this.payload.tax_category_id = 0
 
 
 

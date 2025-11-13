@@ -1,6 +1,6 @@
 package com.afr.fms.Maker.entity;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -53,5 +53,9 @@ public class Tax {
 
     private Boolean isFileEdited;
     private List<TaxFile> previouseTaxFile;
+
+    private Long maker_id;
+    private Date drafted_date;
+    private String fileExsistance;
 
 }

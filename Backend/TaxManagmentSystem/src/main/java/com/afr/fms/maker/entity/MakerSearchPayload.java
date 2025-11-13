@@ -1,4 +1,4 @@
-package com.afr.fms.Payload.payload;
+package com.afr.fms.Maker.entity;
 
 import java.sql.Date;
 import java.util.List;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 
-public class Payload {
+public class MakerSearchPayload {
 
     private Long id;
     private String routeControl;
@@ -23,9 +23,9 @@ public class Payload {
     private int status;
 
     private Long branch_id;
-    private int tax_category_id;
+    private Long tax_category_id;
     private String reference_number;
-    private int status_id;
+    private Long status_id;
     private Date maked_date;
     private String document_type;
     private Long user_id;
@@ -36,6 +36,9 @@ public class Payload {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 
      private List<Date> rejected_date;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+
+     private List<Date> approved_date;
 
 
 

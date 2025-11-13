@@ -8,7 +8,10 @@ import { TaxCreateEditComponent } from './tax/tax-create-edit/tax-create-edit.co
 export default [
     { path: 'charts', data: { breadcrumb: 'Charts' }, component: MakerDashboard },
     { path: 'manage-customer', data: { breadcrumb: 'Manage Customer' }, component: Crud },
-    {
+   
+   
+            
+            {
         path: 'drafted-tax', component: ManageTax,
         canActivate: [AuthGuard],
         data: {
@@ -26,14 +29,25 @@ export default [
         }
     },
 
+
     
      {
-        path: 'approved-tax', component: ManageTax,
+        path: 'sent-tax', component: ManageTax,
 
         canActivate: [AuthGuard],
         data: {
             roles: ['ROLE_MAKER'],
-            status:'approved'
+            status:'sent'
+        }
+    },
+    
+     {
+        path: 'setteled-tax', component: ManageTax,
+
+        canActivate: [AuthGuard],
+        data: {
+            roles: ['ROLE_MAKER'],
+            status:'setteled'
         }
     },
 

@@ -36,7 +36,6 @@ import com.afr.fms.Security.UserDetailsImpl;
 import com.afr.fms.Security.Password.ChangeMyPasswordDto;
 import com.afr.fms.Security.Password.PasswordService;
 import com.afr.fms.Security.UserSecurity.entity.RefreshToken;
-import com.afr.fms.Security.UserSecurity.entity.UserSecurity;
 import com.afr.fms.Security.UserSecurity.exception.TokenRefreshException;
 import com.afr.fms.Security.UserSecurity.service.RefreshTokenService;
 import com.afr.fms.Security.UserSecurity.service.UserSecurityService;

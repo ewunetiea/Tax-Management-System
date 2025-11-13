@@ -31,16 +31,14 @@ import { ChartModule } from 'primeng/chart';
   ]
 })
 export class CheckerDashboardComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   subscription: Subscription;
   loading = true;
   user: User = new User();
-  private destroy$ = new Subject<void>();
-
   announcement: Announcement = new Announcement();
   reviewerDashboard: ReviewerDashboard = new ReviewerDashboard();
   taxStatus: number[] = [];
   branch_id?: number;
-
   stackedBarTaxesStatusData: any;
   stackedBarOptions: any;
 
@@ -48,7 +46,6 @@ export class CheckerDashboardComponent implements OnInit, OnDestroy {
     private layoutService: LayoutService,
     private announcemetService: AnnouncementService,
     private reviewerDashboardService: ReviewerDashboardService,
-    private adminDashboardService: AdminDashboardService,
     private storageService: StorageService,
   ) {
     this.subscription = this.layoutService.configUpdate$.pipe(debounceTime(25)).subscribe(() => {});
@@ -129,8 +126,8 @@ export class CheckerDashboardComponent implements OnInit, OnDestroy {
       labels,
       datasets: [
         { type: 'bar', label: 'Pending', backgroundColor: documentStyle.getPropertyValue('--p-gray-500'), data: pendingData },
-        { type: 'bar', label: 'Reviewed',  backgroundColor: documentStyle.getPropertyValue('--p-purple-500'), data: reviewedData },
-        { type: 'bar', label: 'Approved', backgroundColor: documentStyle.getPropertyValue('--p-cyan-500'), data: approvedData },
+        { type: 'bar', label: 'Sent',  backgroundColor: documentStyle.getPropertyValue('--p-orange-400'), data: reviewedData },
+        { type: 'bar', label: 'Settled', backgroundColor: documentStyle.getPropertyValue('--p-cyan-500'), data: approvedData },
         { type: 'bar', label: 'Rejected',  backgroundColor: documentStyle.getPropertyValue('--p-pink-500'), data: rejectedData }
       ]
     };

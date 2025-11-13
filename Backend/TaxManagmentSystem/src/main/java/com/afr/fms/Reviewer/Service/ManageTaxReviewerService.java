@@ -34,11 +34,14 @@ public class ManageTaxReviewerService {
         return manageTaxMapper.getApprovedTaxes(paginatorPayLoad);
     }
 
+    public List<Tax> getSentTaxes(PaginatorPayLoad paginatorPayLoad) {
+        return manageTaxMapper.getSentTaxes(paginatorPayLoad);
+    }
+
     @Transactional
     public void reviewTaxes(List<Tax> taxes) {
         for (Tax tax : taxes) {
             manageTaxMapper.reviewTaxes(tax);
-
             User user = new User();
             RecentActivity recentActivity = new RecentActivity();
             recentActivity.setMessage("Tax with reference number " + tax.getReference_number().trim() + " has been reviewed ");

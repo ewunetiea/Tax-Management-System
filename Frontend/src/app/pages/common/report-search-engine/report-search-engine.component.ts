@@ -34,6 +34,8 @@ export class ReportSearchEngineComponent {
   paginatorPayLoad: PaginatorPayLoad = new PaginatorPayLoad();
   maxDate = new Date();
   isApprover = false;
+  isReviewer = false;
+  isMaker = false;
   roles: string[] = [];
   status: any[] | undefined;
 
@@ -47,7 +49,7 @@ export class ReportSearchEngineComponent {
     private messageService: MessageService,
     private branchService: BranchService,
     private reportService: ReportService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.user = this.storageService.getUser();
@@ -55,7 +57,11 @@ export class ReportSearchEngineComponent {
     this.paginatorPayLoad.branch_id = this.user.branch?.id;
     this.paginatorPayLoad.user_id = this.user.id;
     this.roles = users.roles;
+
+    // Normalize roles
     this.isApprover = this.roles.includes('ROLE_APPROVER');
+    this.isReviewer = this.roles.includes('ROLE_REVIEWER');
+    this.isMaker = this.roles.includes('ROLE_MAKER');
 
     this.form = this.fb.group({
       branch_id: [''],
@@ -72,15 +78,41 @@ export class ReportSearchEngineComponent {
       search_by: [this.user.email?.split('@')[0] || '']
     });
 
-    this.status = [
-      { name: 'Draft', id: 6 },
-      { name: 'Approve', id: 1 },
-      { name: 'Reject', id: 2 },
-      { name: 'Not Approved', id: 3 },
-      { name: 'Reviewed', id: 4 },
-      { name: 'Approved', id: 5 },
-    ];
+    // ✅ Centralized status definitions (single source of truth)
+    const STATUS_MAP: Record<string, { name: string; id: number }[]> = {
+      ROLE_APPROVER: [
+        { name: 'Pending', id: 1 },
+        { name: 'Rejected', id: 3 },
+        { name: 'Approved', id: 5 }
+      ],
+      ROLE_REVIEWER: [
+        { name: 'Pending', id: 0 },
+        { name: 'Sent', id: 1 },
+        { name: 'Rejected', id: 2 },
+        { name: 'Settled', id: 5 }
+      ],
+      ROLE_MAKER: [
+        { name: 'Drafted', id: 6 },
+         { name: 'Waiting', id: 0 },
+        { name: 'Sent', id: 1 },
+        { name: 'Rejected', id: 2 },
+        { name: 'Settled', id: 5 }
+      ]
+    };
+
+    // ✅ Assign based on role in a single lookup (efficient & readable)
+    if (this.isApprover) {
+      this.status = STATUS_MAP['ROLE_APPROVER'];
+    } else if (this.isReviewer) {
+      this.status = STATUS_MAP['ROLE_REVIEWER'];
+    } else if (this.isMaker) {
+      this.status = STATUS_MAP['ROLE_MAKER'];
+    } else {
+      this.status = [];
+    }
+
   }
+
 
   // ✅ Utility to emit unified response
   private emitData(data: Tax[], fetching: boolean) {

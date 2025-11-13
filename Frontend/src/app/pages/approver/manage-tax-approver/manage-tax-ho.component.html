@@ -208,20 +208,6 @@
               </div>
             </th>
 
-            <th style="min-width: 10rem">
-              <div class="flex items-center">
-                Updated By
-                  <p-columnFilter type="text" field="updated_user_name" display="menu" />
-              </div>
-            </th>
-
-            <th style="min-width: 10rem">
-              <div class="flex items-center">
-                Updated Date
-                  <p-columnFilter type="date" field="updated_event_date" display="menu" />
-              </div>
-            </th>
-
             <th *ngIf="statusRoute !== 'approved'" style="width: 12rem">Action</th>
               </tr>
             </ng-template>
@@ -276,43 +262,14 @@
                   </ng-template>
                 </td>
                 <td>
-                   <ng-container *ngIf="tax.updated_user_name; else unupdateusernameBtn">
-                    {{ tax.updated_user_name }}
-                  </ng-container>
-                  <ng-template #unupdateusernameBtn>
-                    <button 
-                    pButton 
-                    pRipple 
-                    type="text" 
-                      icon="pi pi-times" 
-                    label="Unupdated" 
-                    class="p-button-rounded p-button-danger p-button-outlined p-button-sm"></button>
-                  </ng-template>
-                </td>
-                <td>
-                   <ng-container *ngIf="tax.updated_event_date; else unupdatedteBtn">
-                    {{ tax.updated_event_date | date:'yyyy-MM-dd' }}
-                  </ng-container>
-                  <ng-template #unupdatedteBtn>
-                    <button 
-                    pButton 
-                    pRipple 
-                    type="text" 
-                    icon="pi pi-times" 
-                    label="Unupdated" 
-                    class="p-button-rounded p-button-danger p-button-outlined p-button-sm"
-                    ></button>
-                  </ng-template>
-                </td>
-                <td>
                   <button
-                  *ngIf="statusRoute === 'pending'"
+                  *ngIf="statusRoute !== 'approved'"
                     pButton
                     pRipple
-                    pTooltip="Edit"
+                    pTooltip="Preview"
                     tooltipPosition="bottom"
                     (click)="editTax(tax)"
-                    icon="pi pi-pencil"
+                    icon="pi pi-eye"
                     class="p-button-rounded p-button-outlined p-button-info mr-2"
                   ></button>
                   <button

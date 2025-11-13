@@ -100,9 +100,10 @@ public interface TaxableSearchEngineMapper {
             // Router status
             "<if test='router_status != null'>",
             "  <choose>",
-            "    <when test='router_status == \"pending\"'>AND tax.status = 1</when>",
-            "    <when test='router_status == \"rejected\"'>AND tax.status = 2</when>",
-            "    <when test='router_status == \"approved\"'>AND tax.status = 5</when>",
+            "    <when test='router_status == \"pending\"'>AND tax.status = 0</when>",
+            "    <when test='router_status == \"sent\"'>AND tax.status = 1</when>",
+            "    <when test='router_status == \"rejected\"'>AND (tax.status = 2 or tax.status = 3) </when>",
+            "    <when test='router_status == \"settled\"'>AND tax.status = 5</when>",
             "  </choose>",
             "</if>",
 
@@ -188,8 +189,8 @@ public interface TaxableSearchEngineMapper {
             // ✅ Router status
             "<if test='router_status != null'>",
             "   <choose>",
-            "       <when test='router_status == \"pending\"'>AND tax.status = 0</when>",
-            "       <when test='router_status == \"rejected\"'>AND tax.status = 2</when>",
+            "       <when test='router_status == \"pending\"'>AND tax.status = 1</when>",
+            "       <when test='router_status == \"rejected\"'>AND tax.status = 3</when>",
             "       <when test='router_status == \"approved\"'>AND tax.status = 5</when>",
             "   </choose>",
             "</if>",

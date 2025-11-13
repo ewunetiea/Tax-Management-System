@@ -79,7 +79,7 @@
              (onRowCollapse)="onRowCollapse($event)"
             [rowsPerPageOptions]="[5,10, 25, 50]"
             [size]="selectedSize"
-            [tableStyle]="{ 'min-width': '240rem' }"
+            [tableStyle]="{ 'min-width': '230rem' }"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [showCurrentPageReport]="true"
           >
@@ -209,21 +209,7 @@
               </div>
             </th>
 
-            <th style="min-width: 10rem">
-              <div class="flex items-center">
-                Updated By
-                  <p-columnFilter type="text" field="updated_user_name" display="menu" />
-              </div>
-            </th>
-
-            <th style="min-width: 10rem">
-              <div class="flex items-center">
-                Updated Date
-                  <p-columnFilter type="date" field="updated_event_date" display="menu" />
-              </div>
-            </th>
-
-            <th *ngIf="statusRoute !== 'approved'" style="width: 12rem">Action</th>
+            <th *ngIf="statusRoute !== 'settled'" style="width: 11rem">Action</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-tax let-expanded="expanded">
@@ -278,59 +264,30 @@
                     ></button>
                   </ng-template>
                 </td>
-                <td>
-                   <ng-container *ngIf="tax.updated_user_name; else unupdateusernameBtn">
-                    {{ tax.updated_user_name }}
-                  </ng-container>
-                  <ng-template #unupdateusernameBtn>
-                    <button 
-                    pButton 
-                    pRipple 
-                    type="text" 
-                    label="Unupdated" 
-                     icon="pi pi-times" 
-                    class="p-button-rounded p-button-danger p-button-outlined p-button-sm"
-                    ></button>
-                  </ng-template>
-                </td>
-                <td>
-                   <ng-container *ngIf="tax.updated_event_date; else unupdatedteBtn">
-                    {{ tax.updated_event_date | date:'yyyy-MM-dd' }}
-                  </ng-container>
-                  <ng-template #unupdatedteBtn>
-                    <button 
-                    pButton 
-                    pRipple 
-                    type="text" 
-                    label="Unupdated" 
-                     icon="pi pi-times" 
-                    class="p-button-rounded p-button-danger p-button-outlined p-button-sm"
-                    ></button>
-                  </ng-template>
-                </td>
+                
                 <td>
                   <button
-                  *ngIf="statusRoute === 'pending'"
+                  *ngIf="statusRoute !== 'settled'"
                     pButton
                     pRipple
-                    pTooltip="Edit"
+                    pTooltip="Preview"
                     tooltipPosition="bottom"
                     (click)="editTax(tax)"
-                    icon="pi pi-pencil"
+                    icon="pi pi-eye"
                     class="p-button-rounded p-button-outlined p-button-info mr-2"
                   ></button>
                   <button
-                  *ngIf="statusRoute !== 'approved'"
+                  *ngIf="statusRoute == 'pending' || statusRoute == 'rejected' "
                     pButton
                     pRipple
-                    pTooltip="Review"
+                    pTooltip="Send"
                     tooltipPosition="bottom"
                     (click)="reviewTax(tax)"
-                    icon="pi pi-verified"
+                    icon="pi pi-send"
                     class="p-button-rounded p-button-outlined p-button-success mr-2"
                   ></button>
                   <button
-                  *ngIf="statusRoute !== 'approved'"
+                  *ngIf="statusRoute !== 'settled'"
                     pButton
                     pRipple
                     pTooltip="Reject"

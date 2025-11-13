@@ -27,6 +27,7 @@ public class ManageTaxApproverController {
             manageTaxService.approveTaxes(taxes);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
+             logger.error("An error occurred while approving tax: {}", ex.getMessage(), ex);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

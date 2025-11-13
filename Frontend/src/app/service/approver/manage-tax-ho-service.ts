@@ -13,7 +13,7 @@ export class ManageTaxApproverService {
   constructor(private http: HttpClient) {}
 
   approveTaxes(taxes: Tax[]): Observable<any> {
-    return this.http.post(`${baseUrl}/review`, taxes);
+    return this.http.post(`${baseUrl}/approve`, taxes);
   }
 
   rejectApproverTax(tax: Tax): Observable<any> {

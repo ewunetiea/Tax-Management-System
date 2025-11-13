@@ -497,7 +497,197 @@ export class ReportComponent {
 }
 
 
-  async exportExcel() {
+//   async exportExcel() {
+//   if (!this.taxes || this.taxes.length === 0) {
+//     this.messageService.add({
+//       severity: "warn",
+//       summary: "No Data",
+//       detail: "There is no data to export!",
+//       life: 2000,
+//     });
+//     return;
+//   }
+
+//   try {
+//     const workbook = new ExcelJS.Workbook();
+//     const worksheet = workbook.addWorksheet("TMS Report");
+
+//     const d = new Date();
+//     const formattedDate = `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, "0")}-${d.getDate().toString().padStart(2, "0")}`;
+//     const totalCols = 17;
+
+//     worksheet.getRow(1).height = 50;
+//     const imageId = workbook.addImage({base64: imgBase64, extension: "png"});
+
+//     // Logo: columns 1-3
+//     worksheet.mergeCells(1, 1, 1, 3);
+//     worksheet.addImage(imageId, {
+//       tl: { col: 0.2, row: 0.2 },
+//       ext: { width: 120, height: 40 },
+//     });
+
+//     // Title: columns 4-(totalCols-3)
+//     worksheet.mergeCells(1, 4, 1, totalCols - 3);
+//     const titleCell = worksheet.getCell(1, 4);
+//     titleCell.value = this.selectedTitleForReport;
+//     titleCell.font = { bold: true, size: 18, color: { argb: "FF0085A3" } };
+//     titleCell.alignment = { vertical: "middle", horizontal: "center" };
+
+//     // Export date: last 3 columns
+//     worksheet.mergeCells(1, totalCols - 2, 1, totalCols);
+//     const dateCell = worksheet.getCell(1, totalCols - 2);
+//     dateCell.value = `Exported: ${formattedDate}`;
+//     dateCell.font = { size: 12, bold: true };
+//     dateCell.alignment = { vertical: "middle", horizontal: "right" };
+
+//     //Table data
+//     const columns = [
+//       { header: "Unit", key: "initiator_branch", width: 20 },
+//       { header: "Director", key: "destination_branch", width: 20 },
+//       { header: "Reference Number", key: "reference_number", width: 20 },
+//       { header: "Tax Category", key: "taxType", width: 18 },
+//       { header: "Number of Employee", key: "noOfEmployee", width: 20 },
+//       { header: "Taxable Amount", key: "taxableAmount", width: 18 },
+//       { header: "Tax With Hold", key: "taxWithHold", width: 18 },
+//       { header: "Graduate Tax Pool", key: "graduatetaxPool", width: 18 },
+//       { header: "Graduate Base Salary", key: "graduaTotBasSalary", width: 20 },
+//       { header: "Graduate Total Employee", key: "graduateTotaEmployee", width: 22 },
+//       { header: "Graduate Tax With Hold", key: "graduatetaxWithHold", width: 20 },
+//       { header: "Maker Name", key: "maker_name", width: 15 },
+//       { header: "Maker Date", key: "maker_date", width: 15 },
+//       { header: "Checked By", key: "checker_name", width: 15 },
+//       { header: "Checked Date", key: "checked_Date", width: 15 },
+//       { header: "Updated By", key: "updated_user_name", width: 15 },
+//       { header: "Updated Date", key: "updated_event_date", width: 15 },
+//     ];
+//     worksheet.columns = columns;
+
+//     // Table Header Row (Row 4)
+//     const headerRow = worksheet.addRow(columns.map(c => c.header));
+//     headerRow.font = { bold: true, color: { argb: "FFFFFFFF" } };
+//     headerRow.alignment = { vertical: "middle", horizontal: "center" };
+//     headerRow.fill = {
+//       type: "pattern",
+//       pattern: "solid",
+//       fgColor: { argb: "FF0085A3" },
+//     };
+//     headerRow.height = 25;
+
+//     // Data Rows
+//     this.taxes.forEach(tax => {
+//       const rowValues = columns.map(c => {
+//         let value = (tax as Record<string, any>)[c.key];
+
+//         if (c.key.toLowerCase().includes("date") && value) {
+//           const date = new Date(value);
+//           return isNaN(date.getTime()) ? "" : date;
+//         }
+
+//         if (
+//           [
+//             "taxableAmount",
+//             "taxWithHold",
+//             "graduatetaxPool",
+//             "graduaTotBasSalary",
+//             "graduateTotaEmployee",
+//             "graduatetaxWithHold",
+//             "noOfEmployee",
+//           ].includes(c.key)
+//         ) {
+//           const num = Number(value);
+//           return isNaN(num) ? "" : num;
+//         }
+
+//         return value ?? "";
+//       });
+
+//       const row = worksheet.addRow(rowValues);
+
+//       row.eachCell((cell, colNumber) => {
+//         const key = columns[colNumber - 1].key;
+
+//         if (
+//           [
+//             "taxableAmount",
+//             "taxWithHold",
+//             "graduatetaxPool",
+//             "graduaTotBasSalary",
+//             "graduateTotaEmployee",
+//             "graduatetaxWithHold",
+//             "noOfEmployee",
+//           ].includes(key)
+//         ) {
+//           cell.numFmt = "#,##0.00";
+//         }
+
+//         if (key.toLowerCase().includes("date") && cell.value instanceof Date) {
+//           cell.numFmt = "yyyy-mm-dd";
+//         }
+
+//         cell.alignment = { vertical: "middle", horizontal: "center", wrapText: true };
+//       });
+//     });
+
+//     // Borders & Auto-width
+//     worksheet.eachRow((row, rowNumber) => {
+//       row.eachCell(cell => {
+//         cell.border = {
+//           top: { style: "thin", color: { argb: "FFCCCCCC" } },
+//           left: { style: "thin", color: { argb: "FFCCCCCC" } },
+//           bottom: { style: "thin", color: { argb: "FFCCCCCC" } },
+//           right: { style: "thin", color: { argb: "FFCCCCCC" } },
+//         };
+//       });
+//       if (rowNumber > 3) row.height = 20;
+//     });
+
+//     worksheet.columns.forEach(col => {
+//       if (!col || !col.eachCell) return;
+//       let maxLength = 15;
+//       col.eachCell({ includeEmpty: true }, cell => {
+//         const value = cell.value ? cell.value.toString() : "";
+//         if (value.length > maxLength) maxLength = value.length;
+//       });
+//       col.width = maxLength + 2;
+//     });
+
+//     // Freeze top 4 rows
+//     worksheet.views = [{ state: "frozen", ySplit: 4 }];
+    
+//     // Footer Note
+//     worksheet.addRow([]);
+//     const footerRow = worksheet.addRow(["TMS - Report Generated from https://tms.awashbank.com/tms/"]);
+//     footerRow.getCell(1).font = { italic: true, size: 11, color: { argb: "FF666666" } };
+//     footerRow.getCell(1).alignment = { horizontal: "left", vertical: "middle" };
+//     worksheet.mergeCells(footerRow.number, 1, footerRow.number, worksheet.columnCount);
+
+//     // Export Excel
+//     const buffer = await workbook.xlsx.writeBuffer();
+//     saveAs(
+//       new Blob([buffer], {
+//         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+//       }),
+//       `${this.selectedTitleForReport || "Tax_Report"}_${formattedDate}.xlsx`
+//     );
+
+//     this.messageService.add({
+//       severity: "success",
+//       summary: "Success",
+//       detail: "Excel report exported successfully!",
+//       life: 2000,
+//     });
+//   } catch (error) {
+//     this.messageService.add({
+//       severity: "error",
+//       summary: "Error",
+//       detail: "Error generating Excel document: " + error,
+//       life: 2000,
+//     });
+//   }
+// }
+
+
+async exportExcel() {
   if (!this.taxes || this.taxes.length === 0) {
     this.messageService.add({
       severity: "warn",
@@ -510,51 +700,12 @@ export class ReportComponent {
 
   try {
     const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet("TMS Report");
+    const worksheet = workbook.addWorksheet("Tax Report");
 
-    const d = new Date();
-    const formattedDate = `${d.getFullYear()}-${(d.getMonth() + 1)
-      .toString()
-      .padStart(2, "0")}-${d.getDate().toString().padStart(2, "0")}`;
-    const totalCols = 17;
-
-    // ==============================
-    // 🏦 1️⃣ Row 1: Logo | Title | Export Date
-    // ==============================
-    worksheet.getRow(1).height = 50;
-
-    const imageId = workbook.addImage({
-      base64: imgBase64,
-      extension: "png",
-    });
-
-    // Logo: columns 1-3
-    worksheet.mergeCells(1, 1, 1, 3);
-    worksheet.addImage(imageId, {
-      tl: { col: 0.2, row: 0.2 },
-      ext: { width: 120, height: 40 },
-    });
-
-    // Title: columns 4-(totalCols-3)
-    worksheet.mergeCells(1, 4, 1, totalCols - 3);
-    const titleCell = worksheet.getCell(1, 4);
-    titleCell.value = this.selectedTitleForReport || "Tax Report";
-    titleCell.font = { bold: true, size: 18, color: { argb: "FF0085A3" } };
-    titleCell.alignment = { vertical: "middle", horizontal: "center" };
-
-    // Export date: last 3 columns
-    worksheet.mergeCells(1, totalCols - 2, 1, totalCols);
-    const dateCell = worksheet.getCell(1, totalCols - 2);
-    dateCell.value = `Exported: ${formattedDate}`;
-    dateCell.font = { size: 12, bold: true };
-    dateCell.alignment = { vertical: "middle", horizontal: "right" };
-
-    // ==============================
-    // 📋 2 Table Columns
-    // ==============================
-    const columns = [
-      { header: "Unit", key: "initiator_branch", width: 20 },
-      { header: "Director", key: "destination_branch", width: 20 },
+    // --- Header Row Configuration ---
+    worksheet.columns = [
+      { header: "Unit", key: "initiator_branch", width: 18 },
+      { header: "Director", key: "destination_branch", width: 18 },
       { header: "Reference Number", key: "reference_number", width: 20 },
       { header: "Tax Category", key: "taxType", width: 18 },
       { header: "Number of Employee", key: "noOfEmployee", width: 20 },
@@ -571,146 +722,102 @@ export class ReportComponent {
       { header: "Updated By", key: "updated_user_name", width: 15 },
       { header: "Updated Date", key: "updated_event_date", width: 15 },
     ];
-    worksheet.columns = columns;
 
-    // ==============================
-    // 4️⃣ Table Header Row (Row 4)
-    // ==============================
-    const headerRow = worksheet.addRow(columns.map(c => c.header));
-    headerRow.font = { bold: true, color: { argb: "FFFFFFFF" } };
-    headerRow.alignment = { vertical: "middle", horizontal: "center" };
-    headerRow.fill = {
-      type: "pattern",
-      pattern: "solid",
-      fgColor: { argb: "FF0085A3" },
-    };
-    headerRow.height = 25;
+    // --- Add Title Row ---
+    const title = "Tax Management System - Report";
+    worksheet.mergeCells("A1:Q1");
+    const titleCell = worksheet.getCell("A1");
+    titleCell.value = title;
+    titleCell.font = { name: "Calibri", size: 16, bold: true };
+    titleCell.alignment = { horizontal: "center", vertical: "middle" };
 
-    // ==============================
-    // 5️⃣ Data Rows
-    // ==============================
-    this.taxes.forEach(tax => {
-      const rowValues = columns.map(c => {
-        let value = (tax as Record<string, any>)[c.key];
+    // --- Add Date Row ---
+    const today = new Date().toISOString().split("T")[0];
+    worksheet.mergeCells("A2:Q2");
+    const dateCell = worksheet.getCell("A2");
+    dateCell.value = `Generated on: ${today}`;
+    dateCell.alignment = { horizontal: "center" };
+    dateCell.font = { italic: true, size: 12, color: { argb: "555555" } };
 
-        if (c.key.toLowerCase().includes("date") && value) {
-          const date = new Date(value);
-          return isNaN(date.getTime()) ? "" : date;
-        }
+    // --- Add Column Headers ---
+    const headerRow = worksheet.addRow(worksheet.columns.map(col => col.header));
+    headerRow.eachCell((cell) => {
+      cell.font = { bold: true, color: { argb: "FFFFFFFF" } };
+      cell.fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "4472C4" }, // blue header
+      };
+      cell.alignment = { horizontal: "center", vertical: "middle" };
+      cell.border = {
+        top: { style: "thin" },
+        left: { style: "thin" },
+        bottom: { style: "thin" },
+        right: { style: "thin" },
+      };
+    });
 
-        if (
-          [
-            "taxableAmount",
-            "taxWithHold",
-            "graduatetaxPool",
-            "graduaTotBasSalary",
-            "graduateTotaEmployee",
-            "graduatetaxWithHold",
-            "noOfEmployee",
-          ].includes(c.key)
-        ) {
-          const num = Number(value);
-          return isNaN(num) ? "" : num;
-        }
-
-        return value ?? "";
+    // --- Add Data Rows ---
+    this.taxes.forEach((item: any) => {
+      const row = worksheet.addRow({
+        initiator_branch: item.initiator_branch,
+        destination_branch: item.destination_branch,
+        reference_number: item.reference_number,
+        taxType: item.taxType,
+        noOfEmployee: item.noOfEmployee,
+        taxableAmount: item.taxableAmount,
+        taxWithHold: item.taxWithHold,
+        graduatetaxPool: item.graduatetaxPool,
+        graduaTotBasSalary: item.graduaTotBasSalary,
+        graduateTotaEmployee: item.graduateTotaEmployee,
+        graduatetaxWithHold: item.graduatetaxWithHold,
+        maker_name: item.maker_name,
+        maker_date: item.maker_date,
+        checker_name: item.checker_name,
+        checked_Date: item.checked_Date,
+        updated_user_name: item.updated_user_name,
+        updated_event_date: item.updated_event_date,
       });
 
-      const row = worksheet.addRow(rowValues);
-
+      // Optional: numeric right-aligned
       row.eachCell((cell, colNumber) => {
-        const key = columns[colNumber - 1].key;
-
-        if (
-          [
-            "taxableAmount",
-            "taxWithHold",
-            "graduatetaxPool",
-            "graduaTotBasSalary",
-            "graduateTotaEmployee",
-            "graduatetaxWithHold",
-            "noOfEmployee",
-          ].includes(key)
-        ) {
-          cell.numFmt = "#,##0.00";
-        }
-
-        if (key.toLowerCase().includes("date") && cell.value instanceof Date) {
-          cell.numFmt = "yyyy-mm-dd";
-        }
-
-        cell.alignment = { vertical: "middle", horizontal: "center", wrapText: true };
+        cell.alignment = { vertical: "middle", horizontal: colNumber >= 6 && colNumber <= 11 ? "right" : "left" };
       });
     });
 
-    // ==============================
-    // 6️⃣ Borders & Auto-width
-    // ==============================
-    worksheet.eachRow((row, rowNumber) => {
-      row.eachCell(cell => {
+    // --- Apply borders for data rows ---
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      row.eachCell((cell) => {
         cell.border = {
-          top: { style: "thin", color: { argb: "FFCCCCCC" } },
-          left: { style: "thin", color: { argb: "FFCCCCCC" } },
-          bottom: { style: "thin", color: { argb: "FFCCCCCC" } },
-          right: { style: "thin", color: { argb: "FFCCCCCC" } },
+          top: { style: "thin" },
+          left: { style: "thin" },
+          bottom: { style: "thin" },
+          right: { style: "thin" },
         };
       });
-      if (rowNumber > 3) row.height = 20;
     });
 
-    worksheet.columns.forEach(col => {
-      if (!col || !col.eachCell) return;
-      let maxLength = 15;
-      col.eachCell({ includeEmpty: true }, cell => {
-        const value = cell.value ? cell.value.toString() : "";
-        if (value.length > maxLength) maxLength = value.length;
-      });
-      col.width = maxLength + 2;
-    });
+    // --- Auto filter ---
+    worksheet.autoFilter = {
+      from: "A3",
+      to: "Q3",
+    };
 
-    // Freeze top 4 rows
-    worksheet.views = [{ state: "frozen", ySplit: 4 }];
-
-    // ==============================
-    // 7️⃣ Footer Note
-    // ==============================
-    worksheet.addRow([]);
-    const footerRow = worksheet.addRow([
-      "TMS - Report Generated from https://tms.awashbank.com/tms/",
-    ]);
-    footerRow.getCell(1).font = { italic: true, size: 11, color: { argb: "FF666666" } };
-    footerRow.getCell(1).alignment = { horizontal: "left", vertical: "middle" };
-    worksheet.mergeCells(footerRow.number, 1, footerRow.number, worksheet.columnCount);
-
-    // ==============================
-    // 8️⃣ Export Excel
-    // ==============================
+    // --- Export file ---
     const buffer = await workbook.xlsx.writeBuffer();
-    saveAs(
-      new Blob([buffer], {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      }),
-      `${this.selectedTitleForReport || "Tax_Report"}_${formattedDate}.xlsx`
-    );
+    const fileName = `Tax Management System - Report_${today}.xlsx`;
+    saveAs(new Blob([buffer]), fileName);
 
-    this.messageService.add({
-      severity: "success",
-      summary: "Success",
-      detail: "Excel report exported successfully!",
-      life: 2000,
-    });
   } catch (error) {
+    console.error("Error exporting Excel:", error);
     this.messageService.add({
       severity: "error",
-      summary: "Error",
-      detail: "Error generating Excel document: " + error,
-      life: 2000,
+      summary: "Export Failed",
+      detail: "An error occurred while exporting the file.",
+      life: 3000,
     });
   }
 }
-
-
-
 
 
 

@@ -44,9 +44,9 @@ export class AppMenuApprover {
             {
                 label: 'Manage Taxes',
                 items: [
-                    { label: 'Pending Taxes',  icon: 'pi pi-clock', routerLink: ['/applayout/approver/manage-tax-ho', 'pending'] },
-                    { label: 'Rejected Taxes', icon: 'pi pi-times-circle', routerLink: ['/applayout/approver/manage-tax-ho', 'rejected'] },
-                    { label: 'Approved Taxes', icon: 'pi pi-check-circle',  routerLink: ['/applayout/approver/manage-tax-ho', 'approved'] },
+                    { label: 'Pending',  icon: 'pi pi-clock', routerLink: ['/applayout/approver/manage-tax-ho', 'pending'] },
+                    { label: 'Rejected', icon: 'pi pi-times-circle', routerLink: ['/applayout/approver/manage-tax-ho', 'rejected'] },
+                    { label: 'Approved', icon: 'pi pi-check-circle',  routerLink: ['/applayout/approver/manage-tax-ho', 'approved'] },
                 ]
             },
             {

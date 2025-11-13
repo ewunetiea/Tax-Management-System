@@ -12,19 +12,20 @@
             <p-button label="New" icon="pi pi-plus" severity="info" class="mr-2" (onClick)="openNew()"
                 *ngIf="routeControl ==='drafted'" />
 
-            <p-button severity="success" label="Submit To Branch Manager" icon="pi pi-check" 
+            <p-button severity="success" label="Submit To Branch Manager" icon="pi pi-check"
                 (click)="submitToBranchManager(selectedTaxes)" [disabled]="!selectedTaxes || !selectedTaxes.length"
                 class="mr-2" *ngIf="routeControl ==='drafted'" />
 
-            <p-button severity="danger" label="Delete" icon="pi pi-trash"  (click)="deleteTaxes(selectedTaxes)"
+            <p-button severity="danger" label="Delete" icon="pi pi-trash" (click)="deleteTaxes(selectedTaxes)"
                 [disabled]="!selectedTaxes || !selectedTaxes.length" class="mr-2" *ngIf="routeControl ==='drafted'" />
 
-            <p-button severity="help" label="Back Selected To Drafted State" icon="pi pi-trash" 
+            <p-button severity="help" label="Back Selected To Drafted State" icon="pi pi-trash"
                 (click)="backToDraftedState(selectedTaxes)" [disabled]="!selectedTaxes || !selectedTaxes.length"
-                class="mr-2" *ngIf="routeControl !=='drafted' && routeControl !='generalstatus' && routeControl !='approved' " />
+                class="mr-2"
+                *ngIf="routeControl !=='drafted' && routeControl !='generalstatus' && routeControl !='setteled' && routeControl !='sent' " />
         </ng-template>
 
-        <ng-template pTemplate="center">
+        <ng-template pTemplate="center" *ngIf="routeControl != 'sent'">
             <div class="flex justify-center w-full">
                 <p-breadcrumb [model]="items"></p-breadcrumb>
             </div>
@@ -63,89 +64,147 @@
                     <th style="width: 3rem"><p-tableHeaderCheckbox /></th>
 
 
-                    <th pSortableColumn="from_" style="min-width: 12rem">
-                        Initietor Branch
-                        <p-sortIcon field="from_" />
+                    <th style="min-width: 12rem">
+
+                        <div class="flex items-center">
+                            Initietor Branch (Unit)
+
+                            <p-columnFilter type="numeric" field="from_" display="menu" />
+                        </div>
                     </th>
 
 
-                    <th pSortableColumn="from_" style="min-width: 18rem">
-                        Tax Reference Number
-                        <p-sortIcon field="reference_number" />
+                    <th style="min-width: 18rem">
+
+                        <div class="flex items-center">
+                            Tax Reference Number
+
+                            <p-columnFilter type="text" field="from_" display="menu" />
+                        </div>
                     </th>
 
-                    <th pSortableColumn="sendTo_" style="min-width: 18rem">
-                        Target Branch (Directorate)
-                        <p-sortIcon field="sendTo_" />
+                    <th style="min-width: 18rem">
+                        <div class="flex items-center">
+                            Target Branch (Directorate)
+                            <p-columnFilter type="numeric" field="sendTo_" display="menu" />
+                        </div>
                     </th>
 
-                    <th pSortableColumn="taxableAmount" style="min-width: 18rem">
-                        Taxable Amount
-                        <p-sortIcon field="taxableAmount" />
+                    <th style="min-width: 18rem">
+
+                        <div class="flex items-center">
+                            Taxable Amount
+
+                            <p-columnFilter type="numeric" field="taxableAmount" display="menu" />
+                        </div>
                     </th>
 
-                    <th pSortableColumn="taxWithHold" style="min-width: 18rem">
-                        Tax With Hold
-                        <p-sortIcon field="taxWithHold" />
+                    <th style="min-width: 18rem">
+
+                        <div class="flex items-center">
+                            Tax With Hold
+
+                            <p-columnFilter type="numeric" field="taxabltaxWithHoldeAmount" display="menu" />
+                        </div>
                     </th>
 
-                    <th pSortableColumn="incometaxPoolAmount" style="min-width: 18rem">
-                        Income Tax Pool Amount
-                        <p-sortIcon field="incometaxPoolAmount" />
+                    <th style="min-width: 18rem">
+
+                        <div class="flex items-center">
+                            Income Tax Pool Amount
+
+                            <p-columnFilter type="numeric" field="incometaxPoolAmount" display="menu" />
+                        </div>
                     </th>
 
-                    <th pSortableColumn="graduatetaxPool" style="min-width: 18rem">
-                        Graduate Taxpool
-                        <p-sortIcon field="graduatetaxPool" />
-                    </th>
+                    <th style="min-width: 18rem">
 
+                        <div class="flex items-center">
+                            Graduate Taxpool
 
-
-                    <th pSortableColumn="graduaTotBasSalary" style="min-width: 18rem">
-                        Graduate Total Base Salary
-                        <p-sortIcon field="graduaTotBasSalary" />
-                    </th>
-
-                    <th pSortableColumn="graduateTotaEmployee" style="min-width: 18rem">
-                        Graduate Total Employee
-                        <p-sortIcon field="graduateTotaEmployee" />
-                    </th>
-
-                    <th pSortableColumn="noOfEmployee" style="min-width: 18rem">
-                        Number of Employees
-                        <p-sortIcon field="noOfEmployee" />
-                    </th>
-
-                    <th pSortableColumn="graduatetaxWithHold" style="min-width: 18rem">
-                        Graduate Tax With Hold
-                        <p-sortIcon field="graduatetaxWithHold" />
-                    </th>
-
-                    <th pSortableColumn="taxCategory" style="min-width: 12rem">
-                        Tax Category
-                        <p-sortIcon field="taxCategory" />
-                    </th>
-
-                    <th pSortableColumn="remark" style="min-width: 20rem">
-                        Remark
-                        <p-sortIcon field="remark" />
+                            <p-columnFilter type="numeric" field="graduatetaxPool" display="menu" />
+                        </div>
                     </th>
 
 
-                    <th pSortableColumn="maker_date" style="min-width: 12rem">
-                        Created Date
-                        <p-sortIcon field="maker_date" />
+
+                    <th style="min-width: 18rem">
+
+                        <div class="flex items-center">
+                            Graduate Total Base Salary
+
+                            <p-columnFilter type="numeric" field="graduaTotBasSalary" display="menu" />
+                        </div>
                     </th>
 
-                    <th pSortableColumn="status" style="min-width: 15rem">
-                        Status of Tax
-                        <p-sortIcon field="status" />
+                    <th style="min-width: 18rem">
+
+                        <div class="flex items-center">
+                            Graduate Total Employee
+
+                            <p-columnFilter type="numeric" field="graduateTotaEmployee" display="menu" />
+                        </div>
                     </th>
 
-                    <th pSortableColumn="status" style="min-width: 16rem"
-                        *ngIf="routeControl !='approved' && routeControl !='generalstatus' ">
+                    <th style="min-width: 18rem">
+
+                        <div class="flex items-center">
+                            Number of Employees
+
+                            <p-columnFilter type="numeric" field="noOfEmployee" display="menu" />
+                        </div>
+                    </th>
+
+                    <th style="min-width: 18rem">
+
+                        <div class="flex items-center">
+                            Graduate Tax With Hold
+
+                            <p-columnFilter type="numeric" field="graduatetaxWithHold" display="menu" />
+                        </div>
+                    </th>
+
+                    <th style="min-width: 12rem">
+                        <div class="flex items-center">
+                            Tax Category
+
+                            <p-columnFilter type="numeric" field="taxCategory" display="menu" />
+                        </div>
+                    </th>
+
+                    <th style="min-width: 20rem">
+
+
+                        <div class="flex items-center">
+                            Remark
+                            <p-columnFilter type="texr" field="remark" display="menu" />
+                        </div>
+                    </th>
+
+
+                    <th style="min-width: 12rem" *ngIf="routeControl==='drafted'">
+
+                        <div class="flex items-center">
+                            Drafted Date
+                            <p-columnFilter type="date" field="drafted_date" display="menu" />
+                        </div>
+                    </th>
+                     <th style="min-width: 12rem" *ngIf="routeControl !='drafted'">
+
+                        <div class="flex items-center">
+                            Posted Date
+                            <p-columnFilter type="date" field="maker_date" display="menu" />
+                        </div>
+                    </th>
+
+                    <th style="min-width: 15rem">
+                        Status
+                        <!-- <p-sortIcon field="status" /> -->
+                    </th>
+
+                    <th style="min-width: 16rem"
+                        *ngIf="routeControl !='setteled' && routeControl !='generalstatus' && routeControl !='sent' ">
                         Action
-                        <p-sortIcon field="status" />
                     </th>
                     <th style="min-width: 12rem"></th>
 
@@ -178,8 +237,10 @@
                     <td>{{ taxCategoryMap[tax.taxCategory] || 'Unknown' }}</td>
                     <td>{{ tax.remark }}</td>
 
+                    <td *ngIf="routeControl ==='drafted'">{{ tax.drafted_date | date:'yyyy-MM-dd' }}</td>
 
-                    <td>{{ tax.maker_date | date:'yyyy-MM-dd' }}</td>
+
+                    <td *ngIf="routeControl !='drafted'">{{ tax.maker_date | date:'yyyy-MM-dd' }}</td>
                     <td>
 
 
@@ -355,12 +416,8 @@
 
 
 
-<app-tax-create-edit
-  [(visible)]="taxDialog"
-  [tax]="tax"
-  (saved)="onTaxesaved($event)"
-  [isEdit]="isEdit"
-  (dialogCancel)="hideDialogCrateEdit()">
+<app-tax-create-edit [(visible)]="taxDialog" [tax]="tax" (saved)="onTaxesaved($event)" [isEdit]="isEdit" [role]="roles"
+    (dialogCancel)="hideDialogCrateEdit()">
 </app-tax-create-edit>
 
 

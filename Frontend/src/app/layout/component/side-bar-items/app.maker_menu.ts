@@ -42,14 +42,15 @@ export class AppMenuMaker {
                 items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/applayout'] }]
             },
 
-          
 
             {
                 label: 'Tax Management',
                 items: [{ label: 'Drafted ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/drafted-tax'] },
-                { label: 'Submited ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/submited-tax'] },
-                 { label: 'Approved ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/approved-tax'] },
-                { label: 'Rejected', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/rejected-tax'] }
+                { label: 'Waiting  ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/submited-tax'] },
+                 { label: 'Sent ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/sent-tax'] },
+                 { label: 'Setteled', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/setteled-tax'] },
+                { label: 'Rejected', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/rejected-tax'] },
+                
                 ],
             },
             

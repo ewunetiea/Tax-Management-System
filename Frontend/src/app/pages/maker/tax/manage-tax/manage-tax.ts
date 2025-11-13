@@ -11,6 +11,7 @@ import { TaxService } from '../../../../service/maker/tax-service';
 import { FileDownloadService } from '../../../../service/maker/file-download-service';
 import { ButtonSeverity } from 'primeng/button';
 import { MakerSearchEnginePayLoadComponent } from '../tax-search-payload/maker-search-payload';
+import { StorageService } from 'app/service/sharedService/storage.service';
 
 
 interface Column {
@@ -63,6 +64,7 @@ export class ManageTax implements OnInit {
     loading: boolean = true;
     routeControl: string = ''
     isDialogVisible = false;
+    roles: String = ''
 
     constructor(
         private taxService: TaxService,
@@ -71,10 +73,12 @@ export class ManageTax implements OnInit {
         private sanitizer: DomSanitizer,
         private route: ActivatedRoute,
         private fileDownloadService: FileDownloadService,
+        private storageService?: StorageService
     ) { }
 
     ngOnInit(): void {
 
+        this.roles = this.storageService?.getUser().roles
         this.routeControl = this.route.snapshot.data['status'];
         this.items = [{ label: this.breadcrumbText }];
         this.sizes = [
@@ -94,6 +98,8 @@ export class ManageTax implements OnInit {
 
     onSearchResults(taxes: Tax[]) { //  search results are passed from child to parent
         this.taxes = taxes;
+
+        console.log(taxes)
         this.loading = false;
 
     }
@@ -125,6 +131,7 @@ export class ManageTax implements OnInit {
 
     editTax(tax: Tax) {
         this.tax = { ...tax };
+        this.tax.drafted_date = new Date(this.tax.drafted_date as any);
         this.taxDialog = true;
         this.tax.previouseTaxFile = tax.taxFile
         this.tax.taxFile = [];
@@ -171,7 +178,7 @@ export class ManageTax implements OnInit {
         const itemsToBack = Array.isArray(taxes) ? taxes : [taxes];
 
         this.confirmationService.confirm({
-            message: `Are you sure you want to delete ${itemsToBack.length} tax(es)?`,
+            message: `Are you sure you want to back to drafted  state  ${itemsToBack.length} tax(es)?`,
             header: 'Confirm',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
@@ -445,11 +452,12 @@ export class ManageTax implements OnInit {
 
     private statusMap: { [key: number]: { label: string; severity: ButtonSeverity } } = {
         6: { label: "Not Submited", severity: "help" as ButtonSeverity },
-        0: { label: "waiting for approval", severity: "primary" as ButtonSeverity },
-        1: { label: "Branch Manager Approved", severity: "help" as ButtonSeverity },
-        2: { label: "Reject", severity: "danger" as ButtonSeverity },
-        4: { label: "Reviewed", severity: "primary" as ButtonSeverity },
-        5: { label: "Approved", severity: "success" as ButtonSeverity }
+        0: { label: "waiting for Review", severity: "primary" as ButtonSeverity },
+        1: { label: "Checker Sent", severity: "help" as ButtonSeverity },
+        2: { label: "Checker Rejected", severity: "danger" as ButtonSeverity },
+        3: { label: "Approver Rejected", severity: "danger" as ButtonSeverity },
+        // 4: { label: "Reviewed", severity: "primary" as ButtonSeverity },
+        5: { label: "Setteled", severity: "success" as ButtonSeverity }
     };
 
     getStatusInfo(status: number): { label: string; severity: ButtonSeverity } {

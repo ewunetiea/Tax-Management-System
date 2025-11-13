@@ -136,23 +136,23 @@
                 </div>
 
                 <div class="p-field">
-                    <label for="maker_date" class="block font-bold mb-3">
-                        <strong class="text-danger">*</strong> Created Date
+                    <label for="drafted_date" class="block font-bold mb-3">
+                        <strong class="text-danger">*</strong> Drafted Date
                     </label>
-                    <p-datepicker id="maker_date" [(ngModel)]="tax.maker_date" name="maker_date" dateFormat="dd-mm-yy"
-                        [showIcon]="true" [readonlyInput]="true" inputId="maker_date" placeholder="Select created date"
-                        required class="w-full custom-datepicker"></p-datepicker>
+                    <p-datepicker id="drafted_date" [(ngModel)]="tax.drafted_date" name="drafted_date" dateFormat="dd-mm-yy"
+                        [showIcon]="true" [readonlyInput]="true" inputId="drafted_date" placeholder="Select Drafted date"
+                        required class="w-full custom-datepicker" [maxDate]="maxDate" ></p-datepicker>
 
-                    <div *ngIf="taxForm.controls['maker_date']?.invalid && taxForm.controls['maker_date']?.touched"
+                    <div *ngIf="taxForm.controls['drafted_date']?.invalid && taxForm.controls['drafted_date']?.touched"
                         class="text-danger">
-                        Created date is required.
+                        Drafted date is required.
                     </div>
                 </div>
 
 
 
                <!-- Toggle switch for edit mode -->
-<div *ngIf="isEdit">
+<div *ngIf="isEdit && isMaker">
   <label for="isFileEdited" class="block font-bold mb-3">
     Open switch button to update tax file
   </label>
@@ -161,7 +161,9 @@
 </div>
 
 <!-- Single file upload section -->
-<div *ngIf="!isEdit || tax.isFileEdited">
+
+<div *ngIf="isMaker">
+<div *ngIf="!isEdit || tax.isFileEdited  ">
   <p-fileUpload
     name="demo[]"
     mode="advanced"
@@ -178,11 +180,11 @@
     </ng-template>
   </p-fileUpload>
 </div>
-
+</div>
 
             </div>
 
-            <div class="flex justify-between mt-4 gap-4">
+            <div class="flex justify-between mt-4 gap-4" *ngIf="isMaker">
                 <p-button pButton pRipple label="Cancel" icon="pi pi-times" text (click)="onCancel()"
                     class="p-button-rounded"></p-button>
 

@@ -19,13 +19,15 @@ import { ToggleSwitch } from 'primeng/toggleswitch';
     selector: 'app-tax-create-edit',
     imports: [SharedUiModule, FileUpload, ToggleSwitch],
     templateUrl: './tax-create-edit.component.html',
-    styleUrl: './tax-create-edit.component.scss'
+    styleUrls: ['./tax-create-edit.component.scss']
 })
-export class TaxCreateEditComponent implements OnInit {
+export class TaxCreateEditComponent {
     @Input() visible!: boolean;
     @Output() visibleChange = new EventEmitter<boolean>(); // <-- required for two-way binding
 
     @Input() tax: Tax = new Tax();
+    @Input() role: String = "";
+
     @Output() saved = new EventEmitter<Tax>(); // emit to parent
 
     @Output() dialogCancel = new EventEmitter<void>(); // ✅ renamed output
@@ -37,6 +39,8 @@ export class TaxCreateEditComponent implements OnInit {
     branches: Branch[] = []
     user_branch: String = ''
     selectedBranchId: number | undefined; // Local variable for dropdown binding
+isMaker : boolean =false
+maxDate: Date = new Date();
 
 
     constructor(
@@ -52,6 +56,13 @@ export class TaxCreateEditComponent implements OnInit {
 
 
     ngOnInit(): void {
+          console.log("Role input received in component:", this.role); // <-- log role
+
+          if(this.role.includes("ROLE_MAKER")){
+
+           this.isMaker= true
+          }
+
         this.user_branch = this.storageService.getUser().branch.name
 
         this.getTaxCategories()
@@ -107,6 +118,8 @@ export class TaxCreateEditComponent implements OnInit {
 
     onSave() {
         this.tax.user_id = this.storageService.getUser().id
+        this.tax.maker_id = this.storageService.getUser().id
+
         this.tax.from_ = this.storageService.getUser().branch.id;
         this.tax.sendTo_ = this.selectedBranchId
         this.tax.maker_name = this.storageService.getUser().username;
@@ -123,7 +136,7 @@ export class TaxCreateEditComponent implements OnInit {
         }
 
 
-       
+
         if (this.tax.isFileEdited) {
             if (!this.tax.taxFile || this.tax.taxFile.length === 0) {
                 this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'File is not available to update' });
@@ -133,7 +146,7 @@ export class TaxCreateEditComponent implements OnInit {
         }
 
 
-        console.log("is file edit"+ this.tax.isFileEdited)
+        console.log("is file edit" + this.tax.isFileEdited)
 
         const formData = new FormData();
 

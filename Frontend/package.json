@@ -2,13 +2,14 @@
     "name": "tms",
     "version": "19.0.1",
     "scripts": {
-        "ng": "ng",
-        "start": "ng serve",
-        "build": "ng build --configuration production --base-href /tms/",
-        "watch": "ng build --watch --configuration development",
-        "format": "prettier --write \"**/*.{js,mjs,ts,mts,d.ts,html}\" --cache",
-        "test": "ng test"
-    },
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build --configuration production",
+    "postbuild": "node ./scripts/create-web-inf.js",
+    "watch": "ng build --watch --configuration development",
+    "format": "prettier --write \"**/*.{js,mjs,ts,mts,d.ts,html}\" --cache",
+    "test": "ng test"
+  },
     "private": true,
     "dependencies": {
         "@angular/animations": "^19.0.0",

@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.afr.fms.Maker.entity.MakerSearchPayload;
 import com.afr.fms.Maker.entity.Tax;
 import com.afr.fms.Maker.mapper.TaxFileMapper;
 import com.afr.fms.Maker.service.TaxableService;
-import com.afr.fms.Payload.payload.Payload;
 
 import org.springframework.http.MediaType;
 
@@ -41,12 +41,31 @@ public class TaxController {
 	private static final Logger logger = LoggerFactory.getLogger(TaxController.class);
 
 	@PostMapping("/fetchTaxBasedonStatus")
-	public ResponseEntity<List<Tax>> fetchTaxBasedonStatus(@RequestBody Payload payload, HttpServletRequest request) {
+	public ResponseEntity<List<Tax>> fetchTaxBasedonStatus(@RequestBody MakerSearchPayload payload,
+			HttpServletRequest request) {
 		try {
 
 			List<Tax> tax = new ArrayList<>();
 
 			tax = taxableService.fetchTaxBasedonStatus(payload);
+			System.out.println(tax);
+
+			return new ResponseEntity<>(tax, HttpStatus.OK);
+		} catch (Exception ex) {
+			logger.error("Error while fetching on going announcements", ex);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+
+	@PostMapping("/fetchTaxProgress")
+	public ResponseEntity<List<Tax>> fetchTaxProgress(@RequestBody MakerSearchPayload payload,
+			HttpServletRequest request) {
+		try {
+
+			List<Tax> tax = new ArrayList<>();
+
+			tax = taxableService.fetchTaxProgress(payload);
 
 			return new ResponseEntity<>(tax, HttpStatus.OK);
 		} catch (Exception ex) {
@@ -68,39 +87,42 @@ public class TaxController {
 			@RequestPart("tax") Tax tax,
 			@RequestPart(value = "files", required = false) MultipartFile[] files) {
 		try {
+			Tax savedTax = new Tax();
 
-			String mainGuid = "";
 			if (tax.getId() != null) {
 
+				System.out.println("__________inside_________________");
+
 				taxableService.updateTax(tax, files);
-
-				mainGuid = tax.getMainGuid();
-
-			}
-
-			else {
-
-				mainGuid = taxableService.createTaxWithFiles(tax, files);
-
-			}
-
-			if (mainGuid.contains("Exists")) {
-
-				Map<String, String> response = new HashMap<>();
-				response.put("message", "File already exists");
-				// return new ResponseEntity<>(response, HttpStatus.CONFLICT);
-				return new ResponseEntity<>(null, HttpStatus.CONFLICT);
-
-			} else {
-
-				tax.setMainGuid(mainGuid);
 
 				return new ResponseEntity<>(tax, HttpStatus.OK);
 
 			}
 
+			else {
+
+				tax = taxableService.createTaxWithFiles(tax, files);
+
+				if (tax.getFileExsistance().contains("Exists")) {
+
+					Map<String, String> response = new HashMap<>();
+					response.put("message", "File already exists");
+					// return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+					return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+
+				} else {
+
+					tax.setId(savedTax.getId());
+					tax.setMainGuid(savedTax.getMainGuid());
+
+					return new ResponseEntity<>(tax, HttpStatus.OK);
+
+				}
+
+			}
+
 		} catch (Exception ex) {
-			logger.error("Error while saving tax", ex);
+			logger.error("Error while saving tax or updating tax", ex);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 

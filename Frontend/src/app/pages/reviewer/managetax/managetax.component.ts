@@ -73,13 +73,14 @@ export class ManagetaxComponent implements OnInit {
 
     this.setStatusRoute();
     this.router.events.subscribe(() => {
-      this.setStatusRoute(); // detect route change
+      this.setStatusRoute();
     });
   }
 
   setStatusRoute() {
     const currentRoute = this.router.url.toLowerCase();
-    if (currentRoute.includes('approved')) this.statusRoute = 'approved';
+    if (currentRoute.includes('settled')) this.statusRoute = 'settled';
+    else if (currentRoute.includes('sent')) this.statusRoute = 'sent';
     else if (currentRoute.includes('rejected')) this.statusRoute = 'rejected';
     else this.statusRoute = 'pending';
 
@@ -107,8 +108,11 @@ export class ManagetaxComponent implements OnInit {
       case 'rejected':
         request$ = this.manageTaxService.getRejectedTaxes(this.paginatorPayLoad);
         break;
-      case 'approved':
+      case 'settled':
         request$ = this.manageTaxService.getApprovedTaxes(this.paginatorPayLoad);
+        break;
+      case 'sent':
+        request$ = this.manageTaxService.getSentTaxes(this.paginatorPayLoad);
         break;
       default:
         request$ = this.manageTaxService.getPendingTaxes(this.paginatorPayLoad);

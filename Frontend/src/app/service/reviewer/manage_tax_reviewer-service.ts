@@ -22,7 +22,11 @@ export class ManageTaxService {
   }
 
   getApprovedTaxes(paginatorPayLoad: PaginatorPayLoad): Observable<Tax[]> {
-    return this.http.post<Tax[]>(`${baseUrl}/approved`,paginatorPayLoad);
+    return this.http.post<Tax[]>(`${baseUrl}/settled`,paginatorPayLoad);
+  }
+
+  getSentTaxes(paginatorPayLoad: PaginatorPayLoad): Observable<Tax[]> {
+    return this.http.post<Tax[]>(`${baseUrl}/sent`,paginatorPayLoad);
   }
 
   reviewTaxes(taxes: Tax[]): Observable<any> {

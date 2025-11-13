@@ -223,7 +223,7 @@
               </div>
             </th>
 
-            <th *ngIf="statusRoute !== 'approved'" style="width: 11rem">Action</th>
+            <th *ngIf="statusRoute !== 'settled'" style="width: 11rem">Action</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-tax let-expanded="expanded">
@@ -310,27 +310,27 @@
                 </td>
                 <td>
                   <button
-                  *ngIf="statusRoute === 'pending'"
+                  *ngIf="statusRoute !== 'settled'"
                     pButton
                     pRipple
-                    pTooltip="Edit"
+                    pTooltip="Preview"
                     tooltipPosition="bottom"
                     (click)="editTax(tax)"
                     icon="pi pi-pencil"
                     class="p-button-rounded p-button-outlined p-button-info mr-2"
                   ></button>
                   <button
-                  *ngIf="statusRoute !== 'approved'"
+                  *ngIf="statusRoute == 'pending' || statusRoute == 'rejected' "
                     pButton
                     pRipple
-                    pTooltip="Review"
+                    pTooltip="Send"
                     tooltipPosition="bottom"
                     (click)="reviewTax(tax)"
-                    icon="pi pi-verified"
+                    icon="pi pi-send"
                     class="p-button-rounded p-button-outlined p-button-success mr-2"
                   ></button>
                   <button
-                  *ngIf="statusRoute !== 'approved'"
+                  *ngIf="statusRoute !== 'settled'"
                     pButton
                     pRipple
                     pTooltip="Reject"

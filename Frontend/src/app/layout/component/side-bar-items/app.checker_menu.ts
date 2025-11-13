@@ -44,9 +44,10 @@ export class AppMenuChecker {
             {
                 label: 'Tax Management',
                 items: [
-                    { label: 'Pending Taxes',  icon: 'pi pi-clock', routerLink: ['/applayout/reviewer/manage_tax', 'pending'] },
-                    { label: 'Rejected Taxes', icon: 'pi pi-times-circle', routerLink: ['/applayout/reviewer/manage_tax', 'rejected'] },
-                    { label: 'Approved Taxes', icon: 'pi pi-check-circle',  routerLink: ['/applayout/reviewer/manage_tax', 'approved'] },
+                    { label: 'Waiting For Reviewed',  icon: 'pi pi-clock', routerLink: ['/applayout/reviewer/manage_tax', 'pending'] },
+                    { label: 'Sent',  icon: 'pi pi-verified', routerLink: ['/applayout/reviewer/manage_tax', 'sent'] },
+                    { label: 'Rejected', icon: 'pi pi-times-circle', routerLink: ['/applayout/reviewer/manage_tax', 'rejected'] },
+                    { label: 'Settled', icon: 'pi pi-check-circle',  routerLink: ['/applayout/reviewer/manage_tax', 'settled'] },
                 ]
             },
 

@@ -31,7 +31,7 @@ public class AnnouncementController {
 			@PathVariable("announcemnetType") String announcemnetType) {
 		try {
 
-			System.out.print(announcemnetType);
+			
 			List<Announcement> announcements = new ArrayList<>();
 			if (announcemnetType.contains("ongoing")) {
 				announcements = announcementService.getOnGoingAnnouncements();

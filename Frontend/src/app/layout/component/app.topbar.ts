@@ -180,10 +180,10 @@ export class AppTopbar {
         this.storageService.clean();
         this.autoLogoutService.logout();
          this.router.navigate(['']);
-        this.reloadPageAndRedirect('http://localhost:8082/');
-                // this.reloadPageAndRedirect('https://10.10.106.194:8443/tms/');
+        // this.reloadPageAndRedirect('http://localhost:8082/');
+        // this.reloadPageAndRedirect('https://10.10.106.194:8443/tms/');
 
-        // this.reloadPageAndRedirect('http://localhost:4200/');
+        this.reloadPageAndRedirect('http://localhost:4200/');
     }
 
     private handleLogoutError(err: any): void {

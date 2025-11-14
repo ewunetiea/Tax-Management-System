@@ -66,7 +66,7 @@ public class LDAPConfigProduction {
         String serviceAccount = smsService.getDecryptedText(sms.getUser_name(), secretKey);
         String servicePassword = smsService.getDecryptedText(sms.getPassword(), secretKey);
 
-        System.out.println("service user name " + serviceAccount + "  \n  "  + " service password "+ servicePassword  );
+        
 
         //         String serviceAccount = "Fras@awash.local";
         // String servicePassword = "Audit##@@11";

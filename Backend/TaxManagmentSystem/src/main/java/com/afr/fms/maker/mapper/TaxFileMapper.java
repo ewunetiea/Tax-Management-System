@@ -24,8 +24,7 @@ public interface TaxFileMapper {
             "VALUES (#{Id}, #{fileName}, #{extension}, #{supportId}, #{tax_id})")
     public void insertFile(TaxFile file);
 
-    @Delete("delete from FileDetailOfClaim   where FileName = #{fileName} ")
-
+    @Delete("delete from FileDetailOfClaim  where FileName = #{fileName} ")
     public void deleteTaxFile(String fileName);
 
     @Select("SELECT  FileName as fileName, Extension as extension " +

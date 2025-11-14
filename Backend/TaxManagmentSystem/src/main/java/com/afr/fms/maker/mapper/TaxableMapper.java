@@ -194,11 +194,17 @@ public interface TaxableMapper {
 
         public void submitToBrancManager(Long id);
 
-        @Update("update  tblTaxable   set status = 6 , maker_date = CURRENT_TIMESTAMP  where status = 0 and  id  = #{id}")
+        @Update("update  tblTaxable   set status = 6 , maker_date = null  where  status in (0,2,3) and  id  = #{id}")
 
         public void backToDraftedState(Long id);
 
         @Select("SELECT TOP 1 reference_number FROM tblTaxable ORDER BY Id DESC")
         String getLastReferenceNumber();
+
+        
+        @Select("select status  from tblTaxable   where id  = #{id}")
+
+        public int fetchTaxByID(Long id);
+
 
 }

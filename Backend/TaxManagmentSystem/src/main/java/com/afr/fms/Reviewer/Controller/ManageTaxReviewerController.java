@@ -1,6 +1,9 @@
 package com.afr.fms.Reviewer.Controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +27,8 @@ public class ManageTaxReviewerController {
     private static final Logger logger = LoggerFactory.getLogger(ManageTaxReviewerController.class);
 
     @PostMapping("/pending")
-    public ResponseEntity<List<Tax>> getPendingTaxes(@RequestBody PaginatorPayLoad paginatorPayLoad, HttpServletRequest request) {
+    public ResponseEntity<List<Tax>> getPendingTaxes(@RequestBody PaginatorPayLoad paginatorPayLoad,
+            HttpServletRequest request) {
         try {
             return new ResponseEntity<>(manageTaxService.getPendingTaxes(paginatorPayLoad), HttpStatus.OK);
         } catch (Exception ex) {
@@ -34,7 +38,8 @@ public class ManageTaxReviewerController {
     }
 
     @PostMapping("/rejected")
-    public ResponseEntity<List<Tax>> getRejectedTaxes(@RequestBody PaginatorPayLoad paginatorPayLoad, HttpServletRequest request) {
+    public ResponseEntity<List<Tax>> getRejectedTaxes(@RequestBody PaginatorPayLoad paginatorPayLoad,
+            HttpServletRequest request) {
         try {
             return new ResponseEntity<>(manageTaxService.getRejectedTaxes(paginatorPayLoad), HttpStatus.OK);
         } catch (Exception ex) {
@@ -44,7 +49,8 @@ public class ManageTaxReviewerController {
     }
 
     @PostMapping("/settled")
-    public ResponseEntity<List<Tax>> getApprovedTaxes(@RequestBody PaginatorPayLoad paginatorPayLoad, HttpServletRequest request) {
+    public ResponseEntity<List<Tax>> getApprovedTaxes(@RequestBody PaginatorPayLoad paginatorPayLoad,
+            HttpServletRequest request) {
         try {
             return new ResponseEntity<>(manageTaxService.getApprovedTaxes(paginatorPayLoad), HttpStatus.OK);
         } catch (Exception ex) {
@@ -54,7 +60,8 @@ public class ManageTaxReviewerController {
     }
 
     @PostMapping("/sent")
-    public ResponseEntity<List<Tax>> getSentTaxes(@RequestBody PaginatorPayLoad paginatorPayLoad, HttpServletRequest request) {
+    public ResponseEntity<List<Tax>> getSentTaxes(@RequestBody PaginatorPayLoad paginatorPayLoad,
+            HttpServletRequest request) {
         try {
             return new ResponseEntity<>(manageTaxService.getSentTaxes(paginatorPayLoad), HttpStatus.OK);
         } catch (Exception ex) {
@@ -79,5 +86,19 @@ public class ManageTaxReviewerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+  @PostMapping("/backtoWaitingState")
+public ResponseEntity<Map<String, String>> backToWaitingState(@RequestBody Tax tax) {
+    try {
+        String result = manageTaxService.backToWaitingState(tax);
+        Map<String, String> response = new HashMap<>();
+        response.put("status", result);
+        return ResponseEntity.ok(response);
+    } catch (Exception ex) {
+        logger.error("An error occurred while rejecting tax: {}", ex.getMessage(), ex);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+}
+
 
 }

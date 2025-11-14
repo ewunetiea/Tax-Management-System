@@ -48,7 +48,7 @@ public class TaxController {
 			List<Tax> tax = new ArrayList<>();
 
 			tax = taxableService.fetchTaxBasedonStatus(payload);
-			System.out.println(tax);
+			
 
 			return new ResponseEntity<>(tax, HttpStatus.OK);
 		} catch (Exception ex) {
@@ -91,7 +91,7 @@ public class TaxController {
 
 			if (tax.getId() != null) {
 
-				System.out.println("__________inside_________________");
+				
 
 				taxableService.updateTax(tax, files);
 

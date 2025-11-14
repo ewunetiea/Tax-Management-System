@@ -12,16 +12,15 @@
             <p-button label="New" icon="pi pi-plus" severity="info" class="mr-2" (onClick)="openNew()"
                 *ngIf="routeControl ==='drafted'" />
 
-            <p-button severity="success" label="Submit To Branch Manager" icon="pi pi-check"
+            <p-button severity="success" label="Submit" icon="pi pi-check"
                 (click)="submitToBranchManager(selectedTaxes)" [disabled]="!selectedTaxes || !selectedTaxes.length"
                 class="mr-2" *ngIf="routeControl ==='drafted'" />
 
             <p-button severity="danger" label="Delete" icon="pi pi-trash" (click)="deleteTaxes(selectedTaxes)"
                 [disabled]="!selectedTaxes || !selectedTaxes.length" class="mr-2" *ngIf="routeControl ==='drafted'" />
 
-            <p-button severity="help" label="Back Selected To Drafted State" icon="pi pi-trash"
-                (click)="backToDraftedState(selectedTaxes)" [disabled]="!selectedTaxes || !selectedTaxes.length"
-                class="mr-2"
+            <p-button severity="help" label="Back" icon="pi pi-trash" (click)="backToDraftedState(selectedTaxes)"
+                [disabled]="!selectedTaxes || !selectedTaxes.length" class="mr-2"
                 *ngIf="routeControl !=='drafted' && routeControl !='generalstatus' && routeControl !='setteled' && routeControl !='sent' " />
         </ng-template>
 
@@ -37,7 +36,7 @@
             [paginator]="true"
             [globalFilterFields]="['taxCategory', 'sendTo_', 'noOfEmployee', 'taxableAmount','taxWithHold', 'incometaxPoolAmount', 'graduatetaxPool',
      'graduaTotBasSalary','graduateTotaEmployee','graduatetaxWithHold', 'taxCategoryList','remark', 'maker_name','status', 'maker_date', 'initiator_branch', 'destination_branch', 'reference_number','remark']"
-           [tableStyle]="{ 'min-width': '230rem' }" [(selection)]="selectedTaxes" [rowHover]="true" dataKey="id"
+            [tableStyle]="{ 'min-width': '230rem' }" [(selection)]="selectedTaxes" [rowHover]="true" dataKey="id"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} taxes" [showCurrentPageReport]="true"
             [rowsPerPageOptions]="[10, 20, 30]" [size]="selectedSize">
             <ng-template #caption>
@@ -64,11 +63,11 @@
                     <th style="width: 3rem"><p-tableHeaderCheckbox /></th>
 
                     <th style="min-width: 10rem">
-                  <div class="flex items-center">
-                     Initietor Branch (Unit)
-                      <p-columnFilter type="numeric" field="from_" display="menu" />
-                  </div>
-                </th>
+                        <div class="flex items-center">
+                            Initietor Branch (Unit)
+                            <p-columnFilter type="numeric" field="from_" display="menu" />
+                        </div>
+                    </th>
 
                     <th style="min-width: 10rem">
 
@@ -185,7 +184,7 @@
                             <p-columnFilter type="date" field="drafted_date" display="menu" />
                         </div>
                     </th>
-                     <th style="min-width: 10rem" *ngIf="routeControl !='drafted'">
+                    <th style="min-width: 10rem" *ngIf="routeControl !='drafted'">
 
                         <div class="flex items-center">
                             Posted Date
@@ -209,8 +208,8 @@
                 <tr>
                     <td>
                         <p-button type="button" pRipple [pRowToggler]="tax" [text]="true" [rounded]="true"
-                            severity="info" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-angle-double-right'"
-                            pTooltip="Click >> Icon to see file details" tooltipPosition="right" />
+                            severity="info" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+                            pTooltip="Click > Icon to see file details" tooltipPosition="right" />
                     </td>
                     <td><p-tableCheckbox [value]="tax" /></td>
 
@@ -255,7 +254,7 @@
                             severity="danger" [rounded]="true" [outlined]="true" (click)="deleteTaxes(tax)" class="mr-2"
                             *ngIf=" routeControl ==='drafted' " />
 
-                        <p-button pTooltip="Back to Draft State" tooltipPosition="top" icon="pi pi-backward"
+                        <p-button pTooltip="Back to Draft State" tooltipPosition="top" icon="pi pi-fast-backward"
                             severity="info" [rounded]="true" [outlined]="true" (click)="backToDraftedState(tax)"
                             class="mr-2" *ngIf=" routeControl ==='submited' || routeControl ==='rejected' " />
 

@@ -1,15 +1,11 @@
 import { Routes } from '@angular/router';
 import { MakerDashboard } from '../dashboard/maker-dashboard/maker-dashboard';
-import { Crud } from './crud/crud';
 import { ManageTax } from './tax/manage-tax/manage-tax';
 import { AuthGuard } from '../../service/admin/auth.guard';
 import { TaxCreateEditComponent } from './tax/tax-create-edit/tax-create-edit.component';
 
 export default [
     { path: 'charts', data: { breadcrumb: 'Charts' }, component: MakerDashboard },
-    { path: 'manage-customer', data: { breadcrumb: 'Manage Customer' }, component: Crud },
-   
-   
             
             {
         path: 'drafted-tax', component: ManageTax,

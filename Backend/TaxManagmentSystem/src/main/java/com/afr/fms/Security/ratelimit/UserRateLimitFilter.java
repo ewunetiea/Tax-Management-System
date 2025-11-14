@@ -29,7 +29,7 @@ public class UserRateLimitFilter extends OncePerRequestFilter {
     private final Map<String, Bucket> userBuckets = new ConcurrentHashMap<>();
 
     private Bucket createBucket() {
-        Bandwidth limit = Bandwidth.simple(10, Duration.ofMinutes(1)); //10 req per min
+        Bandwidth limit = Bandwidth.simple(20, Duration.ofMinutes(1)); //20 req per min
         return Bucket4j.builder().addLimit(limit).build();
     }
 
@@ -85,7 +85,7 @@ public class UserRateLimitFilter extends OncePerRequestFilter {
             chain.doFilter(req, res);
         } else {
             res.setStatus(429);
-            res.getWriter().write("Rate limit exceeded (10 requests/min) for user: " + username);
+            res.getWriter().write("Rate limit exceeded (20 requests/min) for user: " + username);
         }
     }
 }

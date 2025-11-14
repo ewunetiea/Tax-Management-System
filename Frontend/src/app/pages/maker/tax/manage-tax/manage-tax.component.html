@@ -37,7 +37,7 @@
             [paginator]="true"
             [globalFilterFields]="['taxCategory', 'sendTo_', 'noOfEmployee', 'taxableAmount','taxWithHold', 'incometaxPoolAmount', 'graduatetaxPool',
      'graduaTotBasSalary','graduateTotaEmployee','graduatetaxWithHold', 'taxCategoryList','remark', 'maker_name','status', 'maker_date', 'initiator_branch', 'destination_branch', 'reference_number','remark']"
-            [tableStyle]="{ 'width': '100%' }" [(selection)]="selectedTaxes" [rowHover]="true" dataKey="id"
+           [tableStyle]="{ 'min-width': '230rem' }" [(selection)]="selectedTaxes" [rowHover]="true" dataKey="id"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} taxes" [showCurrentPageReport]="true"
             [rowsPerPageOptions]="[10, 20, 30]" [size]="selectedSize">
             <ng-template #caption>
@@ -63,18 +63,14 @@
 
                     <th style="width: 3rem"><p-tableHeaderCheckbox /></th>
 
+                    <th style="min-width: 10rem">
+                  <div class="flex items-center">
+                     Initietor Branch (Unit)
+                      <p-columnFilter type="numeric" field="from_" display="menu" />
+                  </div>
+                </th>
 
-                    <th style="min-width: 12rem">
-
-                        <div class="flex items-center">
-                            Initietor Branch (Unit)
-
-                            <p-columnFilter type="numeric" field="from_" display="menu" />
-                        </div>
-                    </th>
-
-
-                    <th style="min-width: 18rem">
+                    <th style="min-width: 10rem">
 
                         <div class="flex items-center">
                             Tax Reference Number
@@ -83,14 +79,14 @@
                         </div>
                     </th>
 
-                    <th style="min-width: 18rem">
+                    <th style="min-width: 10rem">
                         <div class="flex items-center">
                             Target Branch (Directorate)
                             <p-columnFilter type="numeric" field="sendTo_" display="menu" />
                         </div>
                     </th>
 
-                    <th style="min-width: 18rem">
+                    <th style="min-width: 10rem">
 
                         <div class="flex items-center">
                             Taxable Amount
@@ -99,7 +95,7 @@
                         </div>
                     </th>
 
-                    <th style="min-width: 18rem">
+                    <th style="min-width: 10rem">
 
                         <div class="flex items-center">
                             Tax With Hold
@@ -108,7 +104,7 @@
                         </div>
                     </th>
 
-                    <th style="min-width: 18rem">
+                    <th style="min-width: 10rem">
 
                         <div class="flex items-center">
                             Income Tax Pool Amount
@@ -117,7 +113,7 @@
                         </div>
                     </th>
 
-                    <th style="min-width: 18rem">
+                    <th style="min-width: 10rem">
 
                         <div class="flex items-center">
                             Graduate Taxpool
@@ -128,7 +124,7 @@
 
 
 
-                    <th style="min-width: 18rem">
+                    <th style="min-width: 10rem">
 
                         <div class="flex items-center">
                             Graduate Total Base Salary
@@ -137,7 +133,7 @@
                         </div>
                     </th>
 
-                    <th style="min-width: 18rem">
+                    <th style="min-width: 10rem">
 
                         <div class="flex items-center">
                             Graduate Total Employee
@@ -146,7 +142,7 @@
                         </div>
                     </th>
 
-                    <th style="min-width: 18rem">
+                    <th style="min-width: 10rem">
 
                         <div class="flex items-center">
                             Number of Employees
@@ -155,7 +151,7 @@
                         </div>
                     </th>
 
-                    <th style="min-width: 18rem">
+                    <th style="min-width: 10rem">
 
                         <div class="flex items-center">
                             Graduate Tax With Hold
@@ -164,7 +160,7 @@
                         </div>
                     </th>
 
-                    <th style="min-width: 12rem">
+                    <th style="min-width: 10rem">
                         <div class="flex items-center">
                             Tax Category
 
@@ -172,7 +168,7 @@
                         </div>
                     </th>
 
-                    <th style="min-width: 20rem">
+                    <th style="min-width: 10rem">
 
 
                         <div class="flex items-center">
@@ -182,14 +178,14 @@
                     </th>
 
 
-                    <th style="min-width: 12rem" *ngIf="routeControl==='drafted'">
+                    <th style="min-width: 10rem" *ngIf="routeControl==='drafted'">
 
                         <div class="flex items-center">
                             Drafted Date
                             <p-columnFilter type="date" field="drafted_date" display="menu" />
                         </div>
                     </th>
-                     <th style="min-width: 12rem" *ngIf="routeControl !='drafted'">
+                     <th style="min-width: 10rem" *ngIf="routeControl !='drafted'">
 
                         <div class="flex items-center">
                             Posted Date
@@ -197,18 +193,15 @@
                         </div>
                     </th>
 
-                    <th style="min-width: 15rem">
+                    <th style="min-width: 10rem">
                         Status
                         <!-- <p-sortIcon field="status" /> -->
                     </th>
 
-                    <th style="min-width: 16rem"
+                    <th style="min-width: 12rem"
                         *ngIf="routeControl !='setteled' && routeControl !='generalstatus' && routeControl !='sent' ">
                         Action
                     </th>
-                    <th style="min-width: 12rem"></th>
-
-                    <th style="min-width: 12rem"></th>
                 </tr>
             </ng-template>
 

@@ -11,7 +11,7 @@ import { finalize } from 'rxjs/operators';
 import { PaginatorPayLoad } from '../../../models/admin/paginator-payload';
 import { RejectCheckerApproverComponent } from '../reject-checker-approver/reject-checker-approver.component';
 import { TaxCreateEditComponent } from '../../maker/tax/tax-create-edit/tax-create-edit.component';
-import { TaxableSearchEngineComponent } from '../../common/taxable-search-engine/taxable-search-engine.component';
+import { TaxableSearchEngineComponent } from '../../common/taxable-search-engine/reviewer/taxable-search-engine.component';
 import { FileDownloadService } from '../../../service/maker/file-download-service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
@@ -46,7 +46,7 @@ export class ManagetaxComponent implements OnInit {
   pdfSrc: any;
   selectedPdf: SafeResourceUrl | null = null;
   showPdfModal = false;
-
+  routeControl = ''
   constructor(
     private manageTaxService: ManageTaxService,
     private confirmationService: ConfirmationService,
@@ -75,18 +75,26 @@ export class ManagetaxComponent implements OnInit {
     this.router.events.subscribe(() => {
       this.setStatusRoute();
     });
+
+
   }
 
   setStatusRoute() {
     const currentRoute = this.router.url.toLowerCase();
     if (currentRoute.includes('settled')) this.statusRoute = 'settled';
-    else if (currentRoute.includes('sent')) this.statusRoute = 'sent';
+    else if (currentRoute.includes('sent')) {
+      this.statusRoute = 'sent';
+
+    }
     else if (currentRoute.includes('rejected')) this.statusRoute = 'rejected';
     else this.statusRoute = 'pending';
 
     // 🧹 reset when route changes
+    this.routeControl = this.statusRoute
+
     this.taxes = [];
     this.fetching = false;
+
   }
 
   onDataGenerated(event: { data: Tax[]; fetching: boolean }): void {

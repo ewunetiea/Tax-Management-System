@@ -97,9 +97,8 @@ public class AuthController {
         @Autowired
         private SessionManager sessionManager;
 
-                @Autowired
-
-    private     LDAPProductionService lDAPProductionService;
+        @Autowired
+        private LDAPProductionService lDAPProductionService;
 
         @PostMapping("/signin")
         public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
@@ -109,14 +108,15 @@ public class AuthController {
 
                 // // Step 1: AD authentication
                 // try {
-                        
 
+                // boolean userDetail = adService.authenticateUser(loginRequest.getUsername(),
+                // loginRequest.getPassword());
 
-                //  boolean userDetail = adService.authenticateUser(loginRequest.getUsername(),  loginRequest.getPassword());
+                // // boolean userDetail =
+                // lDAPProductionService.authenticateUser(loginRequest.getUsername(),
+                // loginRequest.getPassword());
 
-                // // boolean userDetail = lDAPProductionService.authenticateUser(loginRequest.getUsername(),  loginRequest.getPassword());
-
-                // System.out.println("__________________________" +  userDetail);
+                // System.out.println("__________________________" + userDetail);
 
                 // if (!userDetail) {
                 // throw new UserNotFoundException(
@@ -158,8 +158,7 @@ public class AuthController {
                                         passwordService.changeMyPassword(passDto);
                                 }
 
-
-                                // the follwing code commented   due to LDAP
+                                // the follwing code commented due to LDAP
                                 // UserSecurity us = user.getUser_security();
                                 // userSecurityService.checkCredentialTimeExpired(us);
                         }

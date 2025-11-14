@@ -10,7 +10,7 @@ import { Tax } from '../../../../models/maker/tax';
 import { TaxService } from '../../../../service/maker/tax-service';
 import { FileDownloadService } from '../../../../service/maker/file-download-service';
 import { ButtonSeverity } from 'primeng/button';
-import { MakerSearchEnginePayLoadComponent } from '../tax-search-payload/maker-search-payload';
+import { MakerSearchEnginePayLoadComponent } from '../search-engine/maker-search-payload';
 import { StorageService } from 'app/service/sharedService/storage.service';
 
 
@@ -484,14 +484,16 @@ export class ManageTax implements OnInit {
         this.isDialogVisible = true;
     }
 
+        closeModalPDF() {
+        this.showPdfModal = false;
+        this.selectedPdf = null;
+    }
+    
     hideDialogCrateEdit() {
         this.taxDialog = false;
         this.submitted = false;
     }
 
-    closeModalPDF() {
-        this.showPdfModal = false;
-        this.selectedPdf = null;
-    }
+
 
 }

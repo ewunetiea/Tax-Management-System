@@ -21,7 +21,6 @@ import com.afr.fms.Maker.entity.Tax;
 import com.afr.fms.Maker.entity.TaxFile;
 import com.afr.fms.Maker.mapper.TaxFileMapper;
 import com.afr.fms.Maker.mapper.TaxableMapper;
-
 import org.springframework.core.io.Resource;
 
 @Service
@@ -122,7 +121,16 @@ public class TaxableService {
 
         try {
 
-            // Update tax record itself
+            System.out.println(files);
+            System.out.println(tax.getTaxFile());
+            String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();// folder inside the
+                                                                                                // project
+            File dir = new File(uploadDir);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+           
             taxableMapper.updateTaxable(tax);
 
             if (tax.getIsFileEdited()) {
@@ -135,12 +143,12 @@ public class TaxableService {
                     File existingFile = new File(dir, taxFileToDelete.getFileName());
                     if (existingFile.exists()) {
                         if (existingFile.delete()) {
-                            System.out.println("File deleted: " + existingFile);
+                            System.out.println("✅ Deleted file from folder: " + existingFile.getAbsolutePath());
                         } else {
-                           System.out.println("File could not be deleted");
+                            System.out.println("⚠️ Failed to delete file: " + existingFile.getAbsolutePath());
                         }
                     } else {
-                        System.out.println("File does not exist");
+                        System.out.println("⚠️ File not found for deletion: " + existingFile.getAbsolutePath());
                     }
                 }
 
@@ -158,9 +166,11 @@ public class TaxableService {
                         tf.setSupportId(fileId);
                         tf.setFileName(fileName);
                         taxFileMapper.insertFile(tf);
+
                     }
                 }
             }
+            // ✅ Log recent activity
 
             User user = new User();
             user.setId(tax.getUser_id());
@@ -183,6 +193,7 @@ public class TaxableService {
     @Transactional
 
     public List<Tax> fetchTaxBasedonStatus(MakerSearchPayload payload) {
+
         Map<String, Integer> statusMap = new HashMap<>();
         statusMap.put("drafted", 6);
         statusMap.put("submited", 0);
@@ -205,6 +216,7 @@ public class TaxableService {
     @Transactional
 
     public List<Tax> fetchTaxProgress(MakerSearchPayload payload) {
+
         return taxableMapper.fetchTaxProgress(payload);
     }
 
@@ -237,8 +249,14 @@ public class TaxableService {
         taxableMapper.submitToBrancManager(id);
     }
 
-    public void backTaxToDraftedState(Long id) {
-        taxableMapper.backToDraftedState(id);
+    public void backTaxToDraftedState(Long id) { // set status to 6
+
+        int status = taxableMapper.fetchTaxByID(id);
+
+        if (status == 0 || status == 2 || status == 3) {
+            taxableMapper.backToDraftedState(id);
+
+        }
     }
 
     private final String folderPath = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();

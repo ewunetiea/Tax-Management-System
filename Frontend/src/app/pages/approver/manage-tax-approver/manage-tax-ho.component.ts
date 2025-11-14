@@ -13,7 +13,7 @@ import { ManageTaxApproverService } from '../../../service/approver/manage-tax-h
 import { TaxCreateEditComponent } from '../../maker/tax/tax-create-edit/tax-create-edit.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FileDownloadService } from '../../../service/maker/file-download-service';
-import { TaxableSearchengineApproverComponent } from 'app/pages/common/taxable-search-engine/approver/taxable-searchengine-approver/taxable-searchengine-approver.component';
+import { TaxableSearchengineApproverComponent } from 'app/pages/approver/search-engine/taxable-searchengine-approver.component';
 
 @Component({
   selector: 'app-manage-tax-ho',
@@ -43,6 +43,7 @@ export class ManageTaxHoComponent {
   pdfSrc: any;
   selectedPdf: SafeResourceUrl | null = null; // PDF to preview
   showPdfModal = false;
+    isDialogVisible = false;
 
   constructor(
     private manageTaxHoService: ManageTaxApproverService,
@@ -238,22 +239,6 @@ export class ManageTaxHoComponent {
 
 
 
-  downloadPdf(file: any) {
-    if (!file.pdfUrl && !file.fileType) return;
-
-    // If we have the blob stored (recommended)
-    this.fileDownloadService.fetchFileByFileName(file.fileName).subscribe((blob: Blob) => {
-      const link = document.createElement('a');
-      const blobUrl = URL.createObjectURL(blob); // create object URL from blob
-      link.href = blobUrl;
-      link.download = file.fileName || 'document.pdf';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(blobUrl);
-    });
-  }
-
   closeModal() {
     this.showPdfModal = false;
     this.selectedPdf = null;
@@ -333,5 +318,83 @@ export class ManageTaxHoComponent {
     const tax = event.data;
     delete this.expandedRows[tax.Id];
   }
+
+  
+    openDialogImage() {
+        this.isDialogVisible = true;
+    }
+
+        closeModalPDF() {
+        this.showPdfModal = false;
+        this.selectedPdf = null;
+    }
+
+
+        downloadPdf(file: any) {
+        if (!file.pdfUrl && !file.fileType) return;
+
+        // If we have the blob stored (recommended)
+        this.fileDownloadService.fetchFileByFileName(file.fileName).subscribe((blob: Blob) => {
+            const link = document.createElement('a');
+            const blobUrl = URL.createObjectURL(blob); // create object URL from blob
+            link.href = blobUrl;
+            link.download = file.fileName || 'document.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(blobUrl); // cleanup
+        });
+    }
+
+    downloadWord(file: any) {
+        try {
+            let byteArray: Uint8Array;
+
+            if (typeof file.file === 'string') {
+                // Remove data URL prefix if it exists
+                const base64 = file.file.includes(',') ? file.file.split(',')[1] : file.file;
+
+                // Decode base64 safely
+                const binary = atob(base64.replace(/\s/g, ''));
+                byteArray = new Uint8Array(binary.length);
+
+                for (let i = 0; i < binary.length; i++) {
+                    byteArray[i] = binary.charCodeAt(i);
+                }
+
+                // Debug: Log the decoded binary and byte array
+
+
+            } else {
+                // If it's already a Blob, use it directly
+                const blob = new Blob([file.file], { type: file.fileType });
+
+
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = file.fileName;
+                link.click();
+                window.URL.revokeObjectURL(link.href);
+                return; // Exit the function
+            }
+
+            const blob = new Blob([byteArray as any], { type: file.fileType });
+            // Debug: Log the blob size
+
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = file.fileName;
+            link.click();
+            window.URL.revokeObjectURL(link.href);
+        } catch (e) {
+            console.error('Failed to download Word file', e);
+            alert('Cannot download file. The data may be corrupted.');
+        }
+    }
+
+
+    onImageError(event: any) {
+        console.error('Image failed to load', event);
+    }
 
 }

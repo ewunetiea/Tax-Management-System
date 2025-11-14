@@ -60,7 +60,7 @@ public class TaxableService {
 
             // Check for existing files in the database
             for (MultipartFile file : files) {
-                System.out.println("Checking file: " + file.getOriginalFilename());
+                
                 if (!file.isEmpty()) {
                     // Check if the file already exists in the database
                     if (taxFileMapper.checkFilnameExistance(file.getOriginalFilename())) {
@@ -125,8 +125,8 @@ public class TaxableService {
 
         try {
 
-            System.out.println(files);
-            System.out.println(tax.getTaxFile());
+            
+            
                 String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();// folder inside the
                                                                                                     // project
                 File dir = new File(uploadDir);
@@ -134,7 +134,7 @@ public class TaxableService {
                     dir.mkdirs();
                 }
 
-                System.out.println("______________________________________________HH_________________");
+                
                 // Update tax record itself
                 taxableMapper.updateTaxable(tax);
 
@@ -148,12 +148,12 @@ public class TaxableService {
                         File existingFile = new File(dir, taxFileToDelete.getFileName());
                         if (existingFile.exists()) {
                             if (existingFile.delete()) {
-                                System.out.println("✅ Deleted file from folder: " + existingFile.getAbsolutePath());
+                                
                             } else {
-                                System.out.println("⚠️ Failed to delete file: " + existingFile.getAbsolutePath());
+                                
                             }
                         } else {
-                            System.out.println("⚠️ File not found for deletion: " + existingFile.getAbsolutePath());
+                            
                         }
                     }
 
@@ -186,7 +186,7 @@ public class TaxableService {
             recentActivityMapper.addRecentActivity(recentActivity);
 
         } catch (Exception e) {
-            System.out.println(e);
+            
             // TODO: handle exception
         }
     }
@@ -201,8 +201,8 @@ public class TaxableService {
 
     public List<Tax> fetchTaxBasedonStatus(MakerSearchPayload payload) {
 
-        System.out.println("_______________FF_______________________");
-        System.out.println(payload);
+        
+        
 
         Map<String, Integer> statusMap = new HashMap<>();
         statusMap.put("drafted", 6);
@@ -227,9 +227,9 @@ public class TaxableService {
 
     public List<Tax> fetchTaxProgress(MakerSearchPayload payload) {
 
-        System.out.println("____________G________________");
+        
 
-        System.out.println(payload);
+        
 
         return taxableMapper.fetchTaxProgress(payload);
     }

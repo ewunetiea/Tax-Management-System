@@ -52,7 +52,7 @@ public class UserRateLimitFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String path = req.getRequestURI();
-// System.out.println("Pathhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh:" + path);
+        
         // Only filter /api/*
         if (!path.startsWith("/api/")) {
             chain.doFilter(req, res);

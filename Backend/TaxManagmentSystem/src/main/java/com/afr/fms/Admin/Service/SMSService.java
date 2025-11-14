@@ -102,7 +102,7 @@ public class SMSService {
         String result = restTemplate.getForObject(sms_configuration, String.class);
 
         // } catch (Exception e) {
-        // System.out.println("Error for SMS Authenthication " + e);
+        // 
         // }
 
     }
@@ -131,7 +131,7 @@ public class SMSService {
         String result = restTemplate.getForObject(sms_configuration, String.class);
 
         // } catch (Exception e) {
-        // System.out.println("Error for SMS Authenthication " + e);
+        // 
         // }
 
     }

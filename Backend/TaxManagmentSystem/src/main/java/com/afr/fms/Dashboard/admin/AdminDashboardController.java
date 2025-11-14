@@ -32,9 +32,9 @@ public class AdminDashboardController {
     public ResponseEntity<Map<String, Integer>> getPolarData(@RequestParam Long userId, HttpServletRequest reques) {
         try {
            // Updated to not require userId
-           System.out.println("_______________________user status_____________");
+           
 
-           System.out.println(dashboardService.getDougnutData());
+           
             return new ResponseEntity<>(dashboardService.getDougnutData(), HttpStatus.OK);
         } catch (Exception ex) {
             

@@ -116,7 +116,7 @@ public class AuthController {
                 // lDAPProductionService.authenticateUser(loginRequest.getUsername(),
                 // loginRequest.getPassword());
 
-                // System.out.println("__________________________" + userDetail);
+                // 
 
                 // if (!userDetail) {
                 // throw new UserNotFoundException(

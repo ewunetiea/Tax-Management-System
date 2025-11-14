@@ -115,16 +115,16 @@ public List<List<Integer>> computeBarChartDataPerMonth() {
 
  public Map<String, Object> getPolarChartData() {
 
-    System.out.println("_____________EEE________________________________");
-    System.out.println(makerDashboardMapper.fetchPolarDataSingleRow());
+    
+    
     return makerDashboardMapper.fetchPolarDataSingleRow();
 }
 
 
  public List<RadarPayload> getRadarChart() {
 
-    System.out.println("_____________Radar________________________________");
-    System.out.println(makerDashboardMapper.getStatusCountsForCurrentAndPreviousYear());
+    
+    
     return makerDashboardMapper.getStatusCountsForCurrentAndPreviousYear();
 }
 

@@ -33,11 +33,6 @@ public class TaxController {
 
 	@Autowired
 	private TaxableService taxableService;
-
-	@Autowired
-
-	private TaxFileMapper taxFileMapper;
-
 	private static final Logger logger = LoggerFactory.getLogger(TaxController.class);
 
 	@PostMapping("/fetchTaxBasedonStatus")
@@ -48,7 +43,7 @@ public class TaxController {
 			List<Tax> tax = new ArrayList<>();
 
 			tax = taxableService.fetchTaxBasedonStatus(payload);
-			System.out.println(tax);
+			
 
 			return new ResponseEntity<>(tax, HttpStatus.OK);
 		} catch (Exception ex) {
@@ -91,7 +86,7 @@ public class TaxController {
 
 			if (tax.getId() != null) {
 
-				System.out.println("__________inside_________________");
+				
 
 				taxableService.updateTax(tax, files);
 
@@ -159,7 +154,7 @@ public class TaxController {
 	}
 
 	@PostMapping("/back")
-	public ResponseEntity<Tax> backTaxToBranchManger(@RequestBody List<Tax> taxs,
+	public ResponseEntity<Tax> backTaxfromBranchManger(@RequestBody List<Tax> taxs,
 			HttpServletRequest request) {
 		try {
 

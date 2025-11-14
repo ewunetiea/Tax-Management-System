@@ -42,7 +42,7 @@ public class MakerDashboardController {
             return new ResponseEntity<>(barChartData, HttpStatus.OK);
         } catch (Exception ex) {
 
-            System.out.println(ex);
+            
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -57,7 +57,7 @@ Map<String, Object> polarChartData = makerDashboardService.getPolarChartData();
             return new ResponseEntity<>(polarChartData, HttpStatus.OK);
         } catch (Exception ex) {
 
-            System.out.println(ex);
+            
             
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

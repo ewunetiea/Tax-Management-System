@@ -9,6 +9,7 @@ import com.afr.fms.Common.Entity.PaginatorPayLoad;
 import com.afr.fms.Common.RecentActivity.RecentActivity;
 import com.afr.fms.Common.RecentActivity.RecentActivityMapper;
 import com.afr.fms.Maker.entity.Tax;
+import com.afr.fms.Maker.mapper.TaxableMapper;
 import com.afr.fms.Reviewer.Mapper.ManageTaxReviewerMapper;
 
 @Service
@@ -21,6 +22,10 @@ public class ManageTaxReviewerService {
     private RecentActivityMapper recentActivityMapper;
 
     RecentActivity recentActivity = new RecentActivity();
+
+    @Autowired
+
+    private TaxableMapper taxableMapper;
 
     public List<Tax> getPendingTaxes(PaginatorPayLoad paginatorPayLoad) {
         return manageTaxMapper.getPendingTaxes(paginatorPayLoad);
@@ -44,7 +49,8 @@ public class ManageTaxReviewerService {
             manageTaxMapper.reviewTaxes(tax);
             User user = new User();
             RecentActivity recentActivity = new RecentActivity();
-            recentActivity.setMessage("Tax with reference number " + tax.getReference_number().trim() + " has been reviewed ");
+            recentActivity.setMessage(
+                    "Tax with reference number " + tax.getReference_number().trim() + " has been reviewed ");
             user.setId(tax.getUser_id());
             recentActivity.setUser(user);
             recentActivityMapper.addRecentActivity(recentActivity);
@@ -54,13 +60,43 @@ public class ManageTaxReviewerService {
     @Transactional
     public void rejectTax(Tax tax) {
         manageTaxMapper.rejectTax(tax);
-        
+
         User user = new User();
         RecentActivity recentActivity = new RecentActivity();
-        recentActivity.setMessage("Tax with reference number " + tax.getReference_number().trim() + " has been rejected ");
+        recentActivity
+                .setMessage("Tax with reference number " + tax.getReference_number().trim() + " has been rejected ");
         user.setId(tax.getUser_id());
         recentActivity.setUser(user);
         recentActivityMapper.addRecentActivity(recentActivity);
+    }
+
+    @Transactional
+    public String backToWaitingState(Tax tax) {
+        String statusMessage = "";
+
+        int status = taxableMapper.fetchTaxByID(tax.getId());
+
+        System.out.println(status);
+
+        if (status != 5) {
+            manageTaxMapper.backToWaitingState(tax);
+            User user = new User();
+            RecentActivity recentActivity = new RecentActivity();
+            recentActivity.setMessage("Tax with reference number " + tax.getReference_number().trim()
+                    + " has been back to waiting state ");
+            user.setId(tax.getUser_id());
+            recentActivity.setUser(user);
+            recentActivityMapper.addRecentActivity(recentActivity);
+            statusMessage = "backtowait";
+            return statusMessage;
+
+        } else {
+
+            statusMessage = "alreadyapproved";
+            return statusMessage;
+
+        }
+
     }
 
 }

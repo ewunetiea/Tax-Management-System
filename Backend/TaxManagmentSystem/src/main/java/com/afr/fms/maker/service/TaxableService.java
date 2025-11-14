@@ -8,14 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.afr.fms.Admin.Entity.User;
 import com.afr.fms.Common.RecentActivity.RecentActivity;
 import com.afr.fms.Common.RecentActivity.RecentActivityMapper;
@@ -24,7 +21,6 @@ import com.afr.fms.Maker.entity.Tax;
 import com.afr.fms.Maker.entity.TaxFile;
 import com.afr.fms.Maker.mapper.TaxFileMapper;
 import com.afr.fms.Maker.mapper.TaxableMapper;
-
 import org.springframework.core.io.Resource;
 
 @Service
@@ -60,11 +56,9 @@ public class TaxableService {
 
             // Check for existing files in the database
             for (MultipartFile file : files) {
-                System.out.println("Checking file: " + file.getOriginalFilename());
                 if (!file.isEmpty()) {
                     // Check if the file already exists in the database
                     if (taxFileMapper.checkFilnameExistance(file.getOriginalFilename())) {
-
                         tax.setFileExsistance("Exists");
                         // Notify user that the file already exists
                         return tax;
@@ -102,8 +96,7 @@ public class TaxableService {
                     taxFileMapper.insertFile(tf);
 
                     User user = new User();
-                    recentActivity
-                            .setMessage("Tax  with Reference number  " + tax.getReference_number() + " is created");
+                    recentActivity.setMessage("Tax  with Reference number  " + tax.getReference_number() + " is created");
                     user.setId(tax.getUser_id());
                     recentActivity.setUser(user);
                     recentActivityMapper.addRecentActivity(recentActivity);
@@ -124,99 +117,93 @@ public class TaxableService {
     public void updateTax(Tax tax, MultipartFile[] files) throws IOException {
 
         try {
+            String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();// folder inside the
+                                                                                                // project
+            File dir = new File(uploadDir);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
 
             System.out.println(files);
             System.out.println(tax.getTaxFile());
-                String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();// folder inside the
-                                                                                                    // project
-                File dir = new File(uploadDir);
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
+            String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();// folder inside the
+                                                                                                // project
+            File dir = new File(uploadDir);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
 
-                System.out.println("______________________________________________HH_________________");
-                // Update tax record itself
-                taxableMapper.updateTaxable(tax);
+           
+            taxableMapper.updateTaxable(tax);
 
-                if (tax.getIsFileEdited()) {
+            if (tax.getIsFileEdited()) {
 
-                    for (TaxFile taxFileToDelete : tax.getPreviouseTaxFile()) {
-                        // Delete from DB
-                        taxFileMapper.deleteTaxFile(taxFileToDelete.getFileName());
+                for (TaxFile taxFileToDelete : tax.getPreviouseTaxFile()) {
+                    // Delete from DB
+                    taxFileMapper.deleteTaxFile(taxFileToDelete.getFileName());
 
-                        // Delete from folder
-                        File existingFile = new File(dir, taxFileToDelete.getFileName());
-                        if (existingFile.exists()) {
-                            if (existingFile.delete()) {
-                                System.out.println("✅ Deleted file from folder: " + existingFile.getAbsolutePath());
-                            } else {
-                                System.out.println("⚠️ Failed to delete file: " + existingFile.getAbsolutePath());
-                            }
+                    // Delete from folder
+                    File existingFile = new File(dir, taxFileToDelete.getFileName());
+                    if (existingFile.exists()) {
+                        if (existingFile.delete()) {
+                            System.out.println("✅ Deleted file from folder: " + existingFile.getAbsolutePath());
                         } else {
-                            System.out.println("⚠️ File not found for deletion: " + existingFile.getAbsolutePath());
+                            System.out.println("⚠️ Failed to delete file: " + existingFile.getAbsolutePath());
                         }
-                    }
-
-                    for (int i = 0; i < files.length; i++) {
-                        MultipartFile file = files[i];
-                        TaxFile tf = tax.getTaxFile().get(i);
-                        tf.setTax_id(tax.getId());
-
-                        if (!file.isEmpty()) {
-                            String fileName = file.getOriginalFilename();
-                            File destination = new File(dir, fileName);
-
-                            file.transferTo(destination);
-                            String fileId = generateGuid();
-                            tf.setSupportId(fileId);
-                            tf.setFileName(fileName);
-                            taxFileMapper.insertFile(tf);
-
-                        }
+                    } else {
+                        System.out.println("⚠️ File not found for deletion: " + existingFile.getAbsolutePath());
                     }
                 }
-                // ✅ Log recent activity
 
-            
+                for (int i = 0; i < files.length; i++) {
+                    MultipartFile file = files[i];
+                    TaxFile tf = tax.getTaxFile().get(i);
+                    tf.setTax_id(tax.getId());
 
+                    if (!file.isEmpty()) {
+                        String fileName = file.getOriginalFilename();
+                        File destination = new File(dir, fileName);
+
+                        file.transferTo(destination);
+                        String fileId = generateGuid();
+                        tf.setSupportId(fileId);
+                        tf.setFileName(fileName);
+                        taxFileMapper.insertFile(tf);
+
+                    }
+                }
+            }
+            // ✅ Log recent activity
+
+            // ✅ Log recent activity
             User user = new User();
             user.setId(tax.getUser_id());
             recentActivity.setUser(user);
             recentActivity.setMessage("Tax with Reference number " + tax.getReference_number() + " updated");
             recentActivityMapper.addRecentActivity(recentActivity);
-
         } catch (Exception e) {
-            System.out.println(e);
             // TODO: handle exception
         }
     }
 
     public Tax fetchTaxById(int id) {
-
         return taxableMapper.fetchTaxBiID(id);
-
     }
 
     @Transactional
-
     public List<Tax> fetchTaxBasedonStatus(MakerSearchPayload payload) {
-
-        System.out.println("_______________FF_______________________");
-        System.out.println(payload);
 
         Map<String, Integer> statusMap = new HashMap<>();
         statusMap.put("drafted", 6);
         statusMap.put("submited", 0);
         statusMap.put("sent", 1);
-
         statusMap.put("setteled", 5);
         statusMap.put("rejected", 2);
 
         for (String control : statusMap.keySet()) {
             if (payload.getRouteControl().contains(control)) {
-
                 payload.setStatus(statusMap.get(control));
-                break; // Exit the loop once a match is found
+                break;
             }
         }
 
@@ -224,12 +211,7 @@ public class TaxableService {
     }
 
     @Transactional
-
     public List<Tax> fetchTaxProgress(MakerSearchPayload payload) {
-
-        System.out.println("____________G________________");
-
-        System.out.println(payload);
 
         return taxableMapper.fetchTaxProgress(payload);
     }
@@ -254,18 +236,21 @@ public class TaxableService {
     }
 
     public void deleteTax(Long id) {
-
         taxableMapper.deleteTaxById(id);
     }
 
-    public void submitTaxToBranchManger(Long id) { // set status to 0 or waiting state
-
+    public void submitTaxToBranchManger(Long id) {
         taxableMapper.submitToBrancManager(id);
     }
 
     public void backTaxToDraftedState(Long id) { // set status to 6
 
-        taxableMapper.backToDraftedState(id);
+        int status = taxableMapper.fetchTaxByID(id);
+
+        if (status == 0 || status == 2 || status == 3) {
+            taxableMapper.backToDraftedState(id);
+
+        }
     }
 
     private final String folderPath = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();

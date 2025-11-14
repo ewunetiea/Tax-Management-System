@@ -50,7 +50,7 @@ export class TaxService {
     return this.http.post(baseUrl + '/submit', anoncment);
   }
 
-  backtoDraftState(anoncment: Tax[]) { // update status to 0
+  backtoDraftState(anoncment: Tax[]) { // update status to 6
     return this.http.post(baseUrl + '/back', anoncment);
   }
 

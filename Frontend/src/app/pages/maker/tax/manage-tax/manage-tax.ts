@@ -457,7 +457,7 @@ export class ManageTax implements OnInit {
         2: { label: "Checker Rejected", severity: "danger" as ButtonSeverity },
         3: { label: "Approver Rejected", severity: "danger" as ButtonSeverity },
         // 4: { label: "Reviewed", severity: "primary" as ButtonSeverity },
-        5: { label: "Setteled", severity: "success" as ButtonSeverity }
+        5: { label: "Settled", severity: "success" as ButtonSeverity }
     };
 
     getStatusInfo(status: number): { label: string; severity: ButtonSeverity } {

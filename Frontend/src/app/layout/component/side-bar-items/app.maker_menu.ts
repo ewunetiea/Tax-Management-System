@@ -47,31 +47,31 @@ export class AppMenuMaker {
                 label: 'Tax Management',
                 items: [{ label: 'Drafted ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/drafted-tax'] },
                 { label: 'Waiting  ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/submited-tax'] },
-                 { label: 'Sent ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/sent-tax'] },
-                 { label: 'Setteled', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/setteled-tax'] },
+                { label: 'Sent ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/sent-tax'] },
+                { label: 'Settled', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/setteled-tax'] },
                 { label: 'Rejected', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/rejected-tax'] },
-                
+
                 ],
             },
-            
+
             {
                 label: 'Tax General Status',
                 items: [{ label: 'General Status ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/general-tax-status'] }
-               
+
                 ],
 
             },
-            
-             {
+
+            {
                 label: 'Report',
-                items: [{ label: 'Report', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/approver/report'] }  
-            ]
+                items: [{ label: 'Report', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/approver/report'] }
+                ]
             },
 
-             {
+            {
                 label: 'Activity Logs',
                 items: [{ label: 'User Activities ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/admin/user-recent-activity'] }
-               
+
                 ],
 
             },

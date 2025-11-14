@@ -6,53 +6,35 @@
             <!-- REFERENCE NUMBER FIELD -->
             <div class="flex flex-col gap-2">
                 <label for="reference_number">Reference Number</label>
-                <input 
-                pInputText 
-                id="reference_number" 
-                type="text" 
-                formControlName="reference_number"
-                class="form-control"
-                 readonly />
+                <input pInputText id="reference_number" type="text" formControlName="reference_number"
+                    class="form-control" readonly />
             </div>
 
             <!-- REJECTION REASON FIELD -->
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-col gap-2" *ngIf="routeControl != 'sent'">
                 <label for="checker_rejected_reason"><strong class="text-red-600">*</strong>Rejection Reason </label>
-                <textarea 
-                pInputTextarea 
-                id="checker_rejected_reason" 
-                formControlName="checker_rejected_reason"
-                class="form-control" 
-                rows="3" 
-                required autocomplete="off"
-                [ngClass]="{ 'is-invalid': submitted && f['checker_rejected_reason'].errors }"></textarea>
+                <textarea pInputTextarea id="checker_rejected_reason" formControlName="checker_rejected_reason"
+                    class="form-control" rows="3" required autocomplete="off"
+                    [ngClass]="{ 'is-invalid': submitted && f['checker_rejected_reason'].errors }"></textarea>
 
                 <!-- ERROR MESSAGES -->
                 <div *ngIf="(submitted || f['checker_rejected_reason'].touched) && f['checker_rejected_reason'].errors">
-                    <small class="text-red-600" *ngIf="f['checker_rejected_reason'].errors['required']">Rejection reason is required</small>
-                    <small class="text-red-600" *ngIf="f['checker_rejected_reason'].errors['minlength']">Rejection reason must be at least {{ f['checker_rejected_reason'].errors['minlength'].requiredLength }} characters</small>
+                    <small class="text-red-600" *ngIf="f['checker_rejected_reason'].errors['required']">Rejection reason
+                        is required</small>
+                    <small class="text-red-600" *ngIf="f['checker_rejected_reason'].errors['minlength']">Rejection
+                        reason must be at least {{ f['checker_rejected_reason'].errors['minlength'].requiredLength }}
+                        characters</small>
                 </div>
             </div>
 
             <!-- ACTION BUTTONS -->
             <div class="flex gap-4 mt-4">
-                <button 
-                pButton 
-                pRipple 
-                type="submit" 
-                icon="pi pi-times" 
-                label="Save" 
-                [loading]="submitted"
-                [disabled]="form.invalid" 
-                class="p-button-rounded p-button-info p-button-outlined "></button>
-                <button 
-                pButton 
-                pRipple 
-                type="reset" 
-                icon="pi p-fluid" 
-                label="Reset" 
-                (click)="onReset()"
-                class="p-button-rounded p-button-danger p-button-outlined "></button>
+                <button pButton pRipple type="submit" 
+                    [label]="routeControl === 'sent' ? 'Back' : 'Save'" [loading]="submitted"
+                    [disabled]="routeControl !== 'sent' && form.invalid"
+                    class="p-button-rounded p-button-info p-button-outlined "></button>
+                <button pButton pRipple type="reset" icon="pi p-fluid" label="Reset" (click)="onReset()"
+                    class="p-button-rounded p-button-danger p-button-outlined "></button>
             </div>
         </div>
     </div>

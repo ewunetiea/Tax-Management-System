@@ -1,7 +1,11 @@
 package com.afr.fms.Maker.mapper;
 
 import java.util.List;
+
+import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import com.afr.fms.Maker.entity.Tax;
 import com.afr.fms.Maker.entity.TaxableSearchEngine;
@@ -82,6 +86,10 @@ public interface TaxableSearchEngineMapper {
             "ORDER BY tax.id DESC",
             "</script>"
     })
+    @Results(value = {
+        @Result(property = "id", column = "id"),
+        @Result(property = "taxFile", column = "id", many = @Many(select = "com.afr.fms.Maker.mapper.TaxFileMapper.getFileByFileById")),
+        })
     public List<Tax> getTaxableSearchEngineForMaker(TaxableSearchEngine tax);
 
     @Select({
@@ -171,6 +179,10 @@ public interface TaxableSearchEngineMapper {
             "ORDER BY tax.id DESC",
             "</script>"
     })
+     @Results(value = {
+        @Result(property = "id", column = "id"),
+        @Result(property = "taxFile", column = "id", many = @Many(select = "com.afr.fms.Maker.mapper.TaxFileMapper.getFileByFileById")),
+        })
     public List<Tax> getTaxableSearchEngineForReviewer(TaxableSearchEngine tax);
 
     @Select({
@@ -254,6 +266,10 @@ public interface TaxableSearchEngineMapper {
             "ORDER BY tax.id DESC",
             "</script>"
     })
+    @Results(value = {
+        @Result(property = "id", column = "id"),
+        @Result(property = "taxFile", column = "id", many = @Many(select = "com.afr.fms.Maker.mapper.TaxFileMapper.getFileByFileById")),
+        })
     public List<Tax> getTaxableSearchEngineForApprover(TaxableSearchEngine tax);
 
 }

@@ -46,7 +46,9 @@ export class ManagetaxComponent implements OnInit {
   pdfSrc: any;
   selectedPdf: SafeResourceUrl | null = null;
   showPdfModal = false;
+  isDialogVisible  = false;
   routeControl = ''
+
   constructor(
     private manageTaxService: ManageTaxService,
     private confirmationService: ConfirmationService,
@@ -287,25 +289,27 @@ export class ManagetaxComponent implements OnInit {
 
 
   previewPdf(file: any) {
-    if (file.pdfUrl) {
-      this.selectedPdf = file.pdfUrl;
-      this.showPdfModal = true;
+        if (file.pdfUrl) {
+            this.selectedPdf = file.pdfUrl;
+            this.showPdfModal = true;
+        }
     }
-  }
 
   downloadPdf(file: any) {
-    if (!file.pdfUrl && !file.fileType) return;
-    this.fileDownloadService.fetchFileByFileName(file.fileName).subscribe((blob: Blob) => {
-      const link = document.createElement('a');
-      const blobUrl = URL.createObjectURL(blob); // create object URL from blob
-      link.href = blobUrl;
-      link.download = file.fileName || 'document.pdf';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(blobUrl);
-    });
-  }
+        if (!file.pdfUrl && !file.fileType) return;
+
+        // If we have the blob stored (recommended)
+        this.fileDownloadService.fetchFileByFileName(file.fileName).subscribe((blob: Blob) => {
+            const link = document.createElement('a');
+            const blobUrl = URL.createObjectURL(blob); // create object URL from blob
+            link.href = blobUrl;
+            link.download = file.fileName || 'document.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(blobUrl); // cleanup
+        });
+    }
 
   closeModal() {
     this.showPdfModal = false;
@@ -386,5 +390,64 @@ export class ManagetaxComponent implements OnInit {
     const tax = event.data;
     delete this.expandedRows[tax.Id];
   }
+
+  onImageError(event: any) {
+        console.error('Image failed to load', event);
+    }
+
+    openDialogImage() {
+        this.isDialogVisible = true;
+    }
+
+    closeModalPDF() {
+        this.showPdfModal = false;
+        this.selectedPdf = null;
+    }
+
+    downloadWord(file: any) {
+        try {
+            let byteArray: Uint8Array;
+
+            if (typeof file.file === 'string') {
+                // Remove data URL prefix if it exists
+                const base64 = file.file.includes(',') ? file.file.split(',')[1] : file.file;
+
+                // Decode base64 safely
+                const binary = atob(base64.replace(/\s/g, ''));
+                byteArray = new Uint8Array(binary.length);
+
+                for (let i = 0; i < binary.length; i++) {
+                    byteArray[i] = binary.charCodeAt(i);
+                }
+
+                // Debug: Log the decoded binary and byte array
+
+
+            } else {
+                // If it's already a Blob, use it directly
+                const blob = new Blob([file.file], { type: file.fileType });
+
+
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = file.fileName;
+                link.click();
+                window.URL.revokeObjectURL(link.href);
+                return; // Exit the function
+            }
+
+            const blob = new Blob([byteArray as any], { type: file.fileType });
+            // Debug: Log the blob size
+
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = file.fileName;
+            link.click();
+            window.URL.revokeObjectURL(link.href);
+        } catch (e) {
+            console.error('Failed to download Word file', e);
+            alert('Cannot download file. The data may be corrupted.');
+        }
+    }
 
 }

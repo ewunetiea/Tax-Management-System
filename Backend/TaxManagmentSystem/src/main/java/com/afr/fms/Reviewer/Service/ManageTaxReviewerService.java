@@ -28,6 +28,7 @@ public class ManageTaxReviewerService {
     private TaxableMapper taxableMapper;
 
     public List<Tax> getPendingTaxes(PaginatorPayLoad paginatorPayLoad) {
+        System.out.println("Ffffffffffffffffffffffffffffffffffffffffffffffff:" + manageTaxMapper.getPendingTaxes(paginatorPayLoad) );
         return manageTaxMapper.getPendingTaxes(paginatorPayLoad);
     }
 

@@ -1,28 +1,31 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import { StorageService } from '../../../service/sharedService/storage.service';
-import { MessageService } from 'primeng/api';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { TaxCategoriesService } from '../../../service/maker/tax-categories-service';
-import { TaxableSearchEngine } from '../../../models/common/taxable-search-engine';
-import { User } from '../../../models/admin/user';
-import { SharedUiModule } from '../../../../shared-ui';
-import { BranchService } from '../../../service/admin/branchService';
-import { Branch } from '../../../models/admin/branch';
-import { TaxCategory } from '../../../models/maker/tax-category';
-import { Tax } from '../../../models/maker/tax';
-import { ActivatedRoute } from '@angular/router';
-import { PaginatorPayLoad } from '../../../models/admin/paginator-payload';
-import { TaxableSearchEngineService } from '../../../service/common/taxable-search-engine-service';
-import { Role } from '../../../models/admin/role';
-import { finalize, of, catchError } from 'rxjs';
 
+import { Component, Output, EventEmitter, SimpleChanges, Input } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Branch } from 'app/models/admin/branch';
+import { PaginatorPayLoad } from 'app/models/admin/paginator-payload';
+import { Role } from 'app/models/admin/role';
+import { User } from 'app/models/admin/user';
+import { TaxableSearchEngine } from 'app/models/common/taxable-search-engine';
+import { Tax } from 'app/models/maker/tax';
+import { TaxCategory } from 'app/models/maker/tax-category';
+import { BranchService } from 'app/service/admin/branchService';
+import { TaxableSearchEngineService } from 'app/service/common/taxable-search-engine-service';
+import { TaxCategoriesService } from 'app/service/maker/tax-categories-service';
+import { StorageService } from 'app/service/sharedService/storage.service';
+import { MessageService } from 'primeng/api';
+import { finalize, of, catchError } from 'rxjs';
+import { SharedUiModule } from 'shared-ui';
 @Component({
-  selector: 'app-taxable-search-engine',
+  selector: 'app-taxable-searchengine-approver',
   imports: [SharedUiModule],
-  templateUrl: './taxable-search-engine.component.html',
-  styleUrl: './taxable-search-engine.component.scss'
+
+  templateUrl: './taxable-searchengine-approver.component.html',
+  styleUrl: './taxable-searchengine-approver.component.scss'
 })
-export class TaxableSearchEngineComponent {
+
+
+export class TaxableSearchengineApproverComponent {
   taxableSearchEngine: TaxableSearchEngine = new TaxableSearchEngine();
   user: User = new User();
   form!: FormGroup;
@@ -78,6 +81,8 @@ export class TaxableSearchEngineComponent {
     // ✅ Automatically detect router status from route param
     this.route.paramMap.subscribe(params => {
       const status = params.get('status')?.toLowerCase() || 'pending';
+
+      console.log("_________FF________________jjj_____________" + status)
       this.onReset();
       this.form.get('router_status')?.setValue(status);
     });

@@ -26,7 +26,7 @@
         <div *ngIf="routeControl === 'setteled'"
             class="flex items-center justify-center text-xl font-semibold text-green-600 mb-3 space-x-2">
             <i class="pi pi-send text-green-500"></i>
-            <span>Search setteled taxes</span>
+            <span>Search settled taxes</span>
         </div>
         <div *ngIf="routeControl === 'generalstatus'"
             class="flex items-center justify-center text-xl font-semibold text-green-600 mb-3 space-x-2">
@@ -116,7 +116,7 @@
 
             <div class="p-field" *ngIf="routeControl ==='setteled' || routeControl ==='generalstatus' ">
                 <label for="maker_date" class="block font-bold mb-3">
-                    <strong class="text-danger"></strong> Setteled Date
+                    <strong class="text-danger"></strong> Settled Date
                 </label>
                 <p-datepicker id="checked_date" [(ngModel)]="payload.checked_date" name="checked_date"
                     dateFormat="dd-mm-yy" [showIcon]="true" [readonlyInput]="true" inputId="checked_date"

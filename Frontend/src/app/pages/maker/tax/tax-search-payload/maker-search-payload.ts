@@ -54,7 +54,7 @@ export class MakerSearchEnginePayLoadComponent {
       { name: 'Sent', id: '1' },
       { name: 'Rejected', id: '2' },
       // { name: 'Reviewed', id: '4' },
-      { name: 'Setteled', id: '5' },
+      { name: 'Settled', id: '5' },
     ]
 
     this.payload.branch_name = this.storageService.getUser().branch.name

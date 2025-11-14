@@ -11,14 +11,14 @@ import { SharedUiModule } from '../../../../shared-ui';
 import { RejectCheckerApproverComponent } from '../../reviewer/reject-checker-approver/reject-checker-approver.component';
 import { ManageTaxApproverService } from '../../../service/approver/manage-tax-ho-service';
 import { TaxCreateEditComponent } from '../../maker/tax/tax-create-edit/tax-create-edit.component';
-import { TaxableSearchEngineComponent } from '../../common/taxable-search-engine/taxable-search-engine.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FileDownloadService } from '../../../service/maker/file-download-service';
+import { TaxableSearchengineApproverComponent } from 'app/pages/common/taxable-search-engine/approver/taxable-searchengine-approver/taxable-searchengine-approver.component';
 
 @Component({
   selector: 'app-manage-tax-ho',
   providers: [MessageService, ConfirmationService],
-  imports: [SharedUiModule, RejectCheckerApproverComponent, TaxableSearchEngineComponent, TaxCreateEditComponent],
+  imports: [SharedUiModule, RejectCheckerApproverComponent, TaxableSearchengineApproverComponent, TaxCreateEditComponent],
   templateUrl: './manage-tax-ho.component.html',
   styleUrl: './manage-tax-ho.component.scss'
 })
@@ -27,9 +27,6 @@ export class ManageTaxHoComponent {
   expandedRows: { [key: number]: boolean } = {};
   sizes!: any[];
   selectedSize: any = 'normal';
-  items: MenuItem[] | undefined;
-  home: MenuItem | undefined;
-  breadcrumbText: string = 'Manage Taxes';
   user: User = new User();
   taxes: Tax[] = [];
   selectedTaxes: Tax[] = [];
@@ -62,8 +59,6 @@ export class ManageTaxHoComponent {
     this.paginatorPayLoad.branch_id = this.user.branch?.id;
     this.paginatorPayLoad.user_id = this.user.id;
 
-    this.home = { icon: 'pi pi-home', routerLink: '/' };
-    this.items = [{ label: this.breadcrumbText }];
     this.sizes = [
       { name: 'Small', value: 'small' },
       { name: 'Normal', value: 'normal' },

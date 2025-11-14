@@ -11,22 +11,22 @@ const baseUrl = `${environment.backendUrl}/reviewer/manage-tax`;
   providedIn: 'root'
 })
 export class ManageTaxService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getPendingTaxes(paginatorPayLoad: PaginatorPayLoad): Observable<Tax[]> {
     return this.http.post<Tax[]>(`${baseUrl}/pending`, paginatorPayLoad);
   }
 
   getRejectedTaxes(paginatorPayLoad: PaginatorPayLoad): Observable<Tax[]> {
-    return this.http.post<Tax[]>(`${baseUrl}/rejected`,paginatorPayLoad);
+    return this.http.post<Tax[]>(`${baseUrl}/rejected`, paginatorPayLoad);
   }
 
   getApprovedTaxes(paginatorPayLoad: PaginatorPayLoad): Observable<Tax[]> {
-    return this.http.post<Tax[]>(`${baseUrl}/settled`,paginatorPayLoad);
+    return this.http.post<Tax[]>(`${baseUrl}/settled`, paginatorPayLoad);
   }
 
   getSentTaxes(paginatorPayLoad: PaginatorPayLoad): Observable<Tax[]> {
-    return this.http.post<Tax[]>(`${baseUrl}/sent`,paginatorPayLoad);
+    return this.http.post<Tax[]>(`${baseUrl}/sent`, paginatorPayLoad);
   }
 
   reviewTaxes(taxes: Tax[]): Observable<any> {
@@ -36,5 +36,10 @@ export class ManageTaxService {
   rejectReviewerTax(tax: Tax): Observable<any> {
     return this.http.post(`${baseUrl}/reject`, tax);
   }
+
+  backToWaitingState(tax: Tax): Observable<any> {
+    return this.http.post(`${baseUrl}/backtoWaitingState`, tax);
+  }
+
 
 }

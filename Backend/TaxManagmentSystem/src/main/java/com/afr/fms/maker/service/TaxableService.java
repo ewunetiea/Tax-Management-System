@@ -56,9 +56,11 @@ public class TaxableService {
 
             // Check for existing files in the database
             for (MultipartFile file : files) {
+                System.out.println("Checking file: " + file.getOriginalFilename());
                 if (!file.isEmpty()) {
                     // Check if the file already exists in the database
                     if (taxFileMapper.checkFilnameExistance(file.getOriginalFilename())) {
+
                         tax.setFileExsistance("Exists");
                         // Notify user that the file already exists
                         return tax;
@@ -96,7 +98,8 @@ public class TaxableService {
                     taxFileMapper.insertFile(tf);
 
                     User user = new User();
-                    recentActivity.setMessage("Tax  with Reference number  " + tax.getReference_number() + " is created");
+                    recentActivity
+                            .setMessage("Tax  with Reference number  " + tax.getReference_number() + " is created");
                     user.setId(tax.getUser_id());
                     recentActivity.setUser(user);
                     recentActivityMapper.addRecentActivity(recentActivity);
@@ -117,12 +120,6 @@ public class TaxableService {
     public void updateTax(Tax tax, MultipartFile[] files) throws IOException {
 
         try {
-            String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();// folder inside the
-                                                                                                // project
-            File dir = new File(uploadDir);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
 
             System.out.println(files);
             System.out.println(tax.getTaxFile());
@@ -175,35 +172,41 @@ public class TaxableService {
             }
             // ✅ Log recent activity
 
-            // ✅ Log recent activity
             User user = new User();
             user.setId(tax.getUser_id());
             recentActivity.setUser(user);
             recentActivity.setMessage("Tax with Reference number " + tax.getReference_number() + " updated");
             recentActivityMapper.addRecentActivity(recentActivity);
+
         } catch (Exception e) {
+            System.out.println(e);
             // TODO: handle exception
         }
     }
 
     public Tax fetchTaxById(int id) {
+
         return taxableMapper.fetchTaxBiID(id);
+
     }
 
     @Transactional
+
     public List<Tax> fetchTaxBasedonStatus(MakerSearchPayload payload) {
 
         Map<String, Integer> statusMap = new HashMap<>();
         statusMap.put("drafted", 6);
         statusMap.put("submited", 0);
         statusMap.put("sent", 1);
+
         statusMap.put("setteled", 5);
         statusMap.put("rejected", 2);
 
         for (String control : statusMap.keySet()) {
             if (payload.getRouteControl().contains(control)) {
+
                 payload.setStatus(statusMap.get(control));
-                break;
+                break; // Exit the loop once a match is found
             }
         }
 
@@ -211,6 +214,7 @@ public class TaxableService {
     }
 
     @Transactional
+
     public List<Tax> fetchTaxProgress(MakerSearchPayload payload) {
 
         return taxableMapper.fetchTaxProgress(payload);
@@ -236,10 +240,12 @@ public class TaxableService {
     }
 
     public void deleteTax(Long id) {
+
         taxableMapper.deleteTaxById(id);
     }
 
-    public void submitTaxToBranchManger(Long id) {
+    public void submitTaxToBranchManger(Long id) { // set status to 0 or waiting state
+
         taxableMapper.submitToBrancManager(id);
     }
 

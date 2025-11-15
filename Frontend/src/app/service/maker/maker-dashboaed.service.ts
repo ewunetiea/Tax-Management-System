@@ -30,31 +30,31 @@ export class MakerDashboardService {
   constructor(private http: HttpClient) { }
 
   // Get Card Data
-  getCardData(): Observable<number[]> {
-    return this.http.get<number[]>(`${apiUrl}/card-data`);
+  getCardData(user_id: number): Observable<number[]> {
+    return this.http.get<number[]>(`${apiUrl}/card-data/` +`${user_id}`);
   }
 
 
 
   // Get Bar Chart Data
-  getBarChartData(): Observable<number[][]> {
-    return this.http.get<number[][]>(`${apiUrl}/bar-chart`);
+  getBarChartData(user_id :number): Observable<number[][]> {
+    return this.http.get<number[][]>(`${apiUrl}/bar-chart/`+ `${user_id}` );
   }
 
   // Get Horizontal Bar Chart Data
 
-polarChartData(): Observable<PolarChartData> {
-  return this.http.get<PolarChartData>(`${apiUrl}/polar-chart`);
+polarChartData(user_id: number): Observable<PolarChartData> {
+  return this.http.get<PolarChartData>(`${apiUrl}/polar-chart/`+`${user_id}`);
 }
 
   // Get Radar Age Data
-  getRadarAgeData(): Observable<any> {
-    return this.http.get<any>(`${apiUrl}/radar`);
+  getRadarAgeData(user_id: number): Observable<any> {
+    return this.http.get<any>(`${apiUrl}/radar/`+`${user_id}`);
   }
 
   // Get Line Chart Data per Region
- getPieChartData(): Observable<PieChartData> {
-  return this.http.get<PieChartData>(`${apiUrl}/pie-chart`);
+ getPieChartData(user_id: number): Observable<PieChartData> {
+  return this.http.get<PieChartData>(`${apiUrl}/pie-chart/`+`${user_id}`);
 }
 
   // Get Recent Activity

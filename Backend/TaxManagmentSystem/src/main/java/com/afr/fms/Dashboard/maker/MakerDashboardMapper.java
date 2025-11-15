@@ -19,21 +19,21 @@ public interface MakerDashboardMapper {
     "COUNT(CASE WHEN status = 0 THEN 1 END) AS waiting, " +
     "COUNT(CASE WHEN status = 2 THEN 1 END) AS reviewed, " +
     "COUNT(CASE WHEN status = 5 THEN 1 END) AS approved " +
-    "FROM tblTaxable"
+    "FROM tblTaxable  where maker_id = #{user_id}"
 )
-public Map<String, Object> fetchPolarDataSingleRow();
+public Map<String, Object> fetchPolarDataSingleRow(Long user_id);
 
 
     // System users by category
-    @Select("SELECT COUNT(id) FROM tblTaxable WHERE status = #{taxtStatus}")
-    Integer getCardDataTaxStatus(int taxtStatus);
+    @Select("SELECT COUNT(id) FROM tblTaxable WHERE status = #{taxtStatus} and maker_id=#{user_id}")
+    Integer getCardDataTaxStatus(int taxtStatus, Long user_id);
     
 
 
       @Select(
         "SELECT COUNT(*) " +
         "FROM tblTaxable " +
-        "WHERE status = #{status} " +
+        "WHERE maker_id =#{user_id} and  status = #{status} " +
         "AND MONTH( " +
         "    CASE " +
         // "        WHEN #{status} = '6' THEN drafted_date " +
@@ -55,7 +55,7 @@ public Map<String, Object> fetchPolarDataSingleRow();
     "   status, ",
     "   COUNT(*) AS count ",
     "FROM tblTaxable ",
-    "WHERE status IN (0, 1, 5) ",
+    "WHERE status IN (0, 1, 5)   and maker_id =#{user_id}",
     "AND YEAR(CASE ",
     "       WHEN status = 0 THEN maker_date ",
     "       WHEN status = 1 THEN checked_Date ",
@@ -69,7 +69,7 @@ public Map<String, Object> fetchPolarDataSingleRow();
     "   END), ",
     "   status"
 })
-List<BarChartRow> countAllByStatusAndMonthGrouped();
+List<BarChartRow> countAllByStatusAndMonthGrouped(Long user_id);
 
 
   
@@ -84,9 +84,9 @@ List<BarChartRow> countAllByStatusAndMonthGrouped();
     "   SUM(CASE WHEN status = 3 THEN 1 ELSE 0 END) AS reviewerRejected, " +
     "   SUM(CASE WHEN status = 5 THEN 1 ELSE 0 END) AS approved, " +
     "   SUM(CASE WHEN status = 6 THEN 1 ELSE 0 END) AS approverRejected " +
-    "FROM tblTaxable"
+    "FROM tblTaxable  where maker_id =#{user_id}"
 )
-public RadarPayload getStatusCounts();
+public RadarPayload getStatusCounts(Long user_id);
 
 
 
@@ -107,7 +107,7 @@ public RadarPayload getStatusCounts();
     "   SUM(CASE WHEN status = 5 THEN 1 ELSE 0 END) AS approved, " +
     "   SUM(CASE WHEN status = 4 THEN 1 ELSE 0 END) AS approverRejected " +
     "FROM tblTaxable " +
-    "WHERE YEAR(CASE " +
+    "WHERE maker_id =#{user_id} and YEAR(CASE " +
     "       WHEN status = 6 THEN drafted_date " +
     "       WHEN status = 0 THEN maker_date " +
     "       WHEN status = 1 THEN checked_Date " +
@@ -125,7 +125,7 @@ public RadarPayload getStatusCounts();
     "   END) " +
     "ORDER BY year DESC"
 )
-List<RadarPayload> getStatusCountsForCurrentAndPreviousYear();
+List<RadarPayload> getStatusCountsForCurrentAndPreviousYear(Long user_id);
 
 }
 

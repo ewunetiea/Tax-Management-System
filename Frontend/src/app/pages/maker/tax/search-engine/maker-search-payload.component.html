@@ -9,12 +9,12 @@
 
         <div *ngIf="routeControl === 'submited'"
             class="flex items-center justify-center text-xl font-semibold text-blue-600 mb-3 space-x-2">
-            <i class="pi pi-send text-green-500"></i>
+            <i class="pi pi-spin pi-spinner text-green-500"></i>
             <span>Search waiting for review taxes</span>
         </div>
         <div *ngIf="routeControl === 'sent'"
             class="flex items-center justify-center text-xl font-semibold text-blue-600 mb-3 space-x-2">
-            <i class="pi pi-send text-green-500"></i>
+            <i class="pi pi-spin pi-spinner text-green-500"></i>
             <span>Search sent to approval taxes</span>
         </div>
 
@@ -25,7 +25,7 @@
         </div>
         <div *ngIf="routeControl === 'setteled'"
             class="flex items-center justify-center text-xl font-semibold text-green-600 mb-3 space-x-2">
-            <i class="pi pi-send text-green-500"></i>
+            <i class="pi pi-check-circle text-green-500"></i>
             <span>Search settled taxes</span>
         </div>
         <div *ngIf="routeControl === 'generalstatus'"

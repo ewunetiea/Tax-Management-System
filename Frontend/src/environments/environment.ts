@@ -14,18 +14,18 @@
 // };
 
 
-export const environment = {
-  production: false,
-  auditorFileApi: 'http://localhost:8442/api',//to hnadle auditor uploading files
-  auditeeFileApi: 'http://localhost:8442/api', // to handle auditee response files
-  imagesUserApi: 'http://localhost:8442/api/user/image/',
-  blankPic: 'assets/img/Blank-Profile-Picture.jpg',
-  backendUrl: 'http://localhost:8442/api',
-  webSocketUrl: 'http://localhost:8442/api',
-  idleTimeout: 20 * 60 * 1000, // 6 minutes
-  idleCountdownSeconds: 60, // 1 minute
-  warningTimeout: 19 * 60 * 1000, // 5 minutes
-};
+// export const environment = {
+//   production: false,
+//   auditorFileApi: 'http://localhost:8442/api',//to hnadle auditor uploading files
+//   auditeeFileApi: 'http://localhost:8442/api', // to handle auditee response files
+//   imagesUserApi: 'http://localhost:8442/api/user/image/',
+//   blankPic: 'assets/img/Blank-Profile-Picture.jpg',
+//   backendUrl: 'http://localhost:8442/api',
+//   webSocketUrl: 'http://localhost:8442/api',
+//   idleTimeout: 20 * 60 * 1000, // 6 minutes
+//   idleCountdownSeconds: 60, // 1 minute
+//   warningTimeout: 19 * 60 * 1000, // 5 minutes
+// };
 
 
 // export const environment = {
@@ -45,17 +45,17 @@ export const environment = {
 
 
 
-// export const environment = {
-//   production: false,
-//   auditorFileApi: 'https://afrfmsbackend.awashbank.com/financialbackend/api', //to hnadle auditor uploading files
-//   auditeeFileApi: 'https://afrfmsbackendsecondary.awashbank.com/financialbackend/api', // to handle auditee response files
-//   imagesUserApi: 'https://afrfmsbackendsecondary.awashbank.com/financialbackend/api/user/image/', // to handle user images
-//   blankPic: 'assets/img/Blank-Profile-Picture.jpg',
-//   backendUrl: 'https://afrfmsbackendlb.awashbank.com/financialbackend/api',
-//   webSocketUrl: 'https://afrfmsbackendlb.awashbank.com/afrfmsbackend/api',
-//   idleTimeout: 6 * 60 * 1000, // 6 minutes
-//   idleCountdownSeconds: 60, // 1 minute
-//   warningTimeout: 5 * 60 * 1000, // 5 minutes
-// };
+export const environment = {
+  production: false,
+  auditorFileApi: 'https://afrfmsbackend.awashbank.com/financialbackend/api', //to hnadle auditor uploading files
+  auditeeFileApi: 'https://afrfmsbackendsecondary.awashbank.com/financialbackend/api', // to handle auditee response files
+  imagesUserApi: 'https://afrfmsbackendsecondary.awashbank.com/financialbackend/api/user/image/', // to handle user images
+  blankPic: 'assets/img/Blank-Profile-Picture.jpg',
+  backendUrl: 'https://afrfmsbackendlb.awashbank.com/financialbackend/api',
+  webSocketUrl: 'https://afrfmsbackendlb.awashbank.com/afrfmsbackend/api',
+  idleTimeout: 6 * 60 * 1000, // 6 minutes
+  idleCountdownSeconds: 60, // 1 minute
+  warningTimeout: 5 * 60 * 1000, // 5 minutes
+};
 
 

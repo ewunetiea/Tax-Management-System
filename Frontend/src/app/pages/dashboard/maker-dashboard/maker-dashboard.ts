@@ -18,6 +18,7 @@ import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { StorageService } from 'app/service/sharedService/storage.service';
 import { TimelineModule } from 'primeng/timeline';
+import { MakerSearchPayload } from 'app/models/payload/maker-search-payload';
 
 @Component({
     selector: 'app-maker-dashboard',
@@ -75,16 +76,16 @@ export class MakerDashboard implements OnInit {
 
 
         forkJoin({
-            cardData: this.makerDashboardService.getCardData().pipe(
+            cardData: this.makerDashboardService.getCardData(this.storageService.getUser().id).pipe(
                 catchError(err => { console.error(err); return of([]); })
             ),
-            barData: this.makerDashboardService.getBarChartData().pipe(
+            barData: this.makerDashboardService.getBarChartData(this.storageService.getUser().id).pipe(
                 catchError(err => { console.error(err); return of([]); })
             ),
-            polarChartData: this.makerDashboardService.polarChartData().pipe(
+            polarChartData: this.makerDashboardService.polarChartData(this.storageService.getUser().id).pipe(
                 catchError(err => { console.error(err); return of({ drafted: 0, waiting: 0, reviewed: 0, approved: 0 }); })
             ),
-            radarData: this.makerDashboardService.getRadarAgeData().pipe(
+            radarData: this.makerDashboardService.getRadarAgeData(this.storageService.getUser().id).pipe(
                 catchError(err => { console.error(err); return of([]); })
             )
            

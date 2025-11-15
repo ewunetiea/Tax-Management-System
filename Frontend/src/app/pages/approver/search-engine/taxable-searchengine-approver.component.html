@@ -3,7 +3,7 @@
 
     <div *ngIf="statusRoute === 'sent' || statusRoute === 'pending' "
         class="flex items-center justify-center text-xl font-semibold text-blue-600 mb-3 space-x-2">
-        <i class="pi pi-send text-green-500"></i>
+        <i class="pi pi-spinner text-green-500"></i>
         <span>Search sent to approval taxes</span>
     </div>
 
@@ -14,7 +14,7 @@
     </div>
     <div *ngIf="statusRoute === 'approved'"
         class="flex items-center justify-center text-xl font-semibold text-green-600 mb-3 space-x-2">
-        <i class="pi pi-send text-green-500"></i>
+        <i class="pi pi-check-circle text-green-500"></i>
         <span>Search settled (approved) taxes</span>
     </div>
     <div *ngIf="statusRoute === 'generalstatus'"

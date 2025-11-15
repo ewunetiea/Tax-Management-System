@@ -1,9 +1,5 @@
 package com.afr.fms.Dashboard.maker;
 
-
-
-
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,7 +23,6 @@ import com.afr.fms.Common.RecentActivity.RecentActivityMapper;
 @Service
 public class MakerDashboardService {
 
-
     @Autowired
     private MakerDashboardMapper makerDashboardMapper;
 
@@ -46,88 +41,61 @@ public class MakerDashboardService {
     @Autowired
     private FunctionalitiesMapper functionalitiesMapper;
 
-
-  
     @Transactional
 
     // Card data
-    public List<Integer> computeCardData() {
+    public List<Integer> computeCardData(Long user_id) {
         // description
         // 6 : drafted
         // 0 : waiting for approval
         // 1 : branch manager approved
         // 2 : branch manager rejeced
+
+        int status2 = makerDashboardMapper.getCardDataTaxStatus(2, user_id);
+        int status3 = makerDashboardMapper.getCardDataTaxStatus(3,user_id);
         return List.of(
-            makerDashboardMapper.getCardDataTaxStatus(6),
-            makerDashboardMapper.getCardDataTaxStatus(0),
-            makerDashboardMapper.getCardDataTaxStatus(1),
-            makerDashboardMapper.getCardDataTaxStatus(2)
-          
+                makerDashboardMapper.getCardDataTaxStatus(6, user_id),
+                makerDashboardMapper.getCardDataTaxStatus(0, user_id),
+                makerDashboardMapper.getCardDataTaxStatus(1, user_id),
+                // makerDashboardMapper.getCardDataTaxStatus(2)
+                status2 + status3
+
         );
     }
 
-
-
-
     @Transactional
-public List<List<Integer>> computeBarChartDataPerMonth() {
-    // SINGLE QUERY - 36x faster!
-    List<BarChartRow> allData = makerDashboardMapper.countAllByStatusAndMonthGrouped();
-    
-    // Build result map
-    Map<Integer, Map<Integer, Integer>> countsByMonth = new HashMap<>();
-    for (BarChartRow row : allData) {
-        countsByMonth.computeIfAbsent(row.getMonth(), k -> new HashMap<>())
+    public List<List<Integer>> computeBarChartDataPerMonth(Long user_id) {
+        // SINGLE QUERY - 36x faster!
+        List<BarChartRow> allData = makerDashboardMapper.countAllByStatusAndMonthGrouped(user_id);
+
+        // Build result map
+        Map<Integer, Map<Integer, Integer>> countsByMonth = new HashMap<>();
+        for (BarChartRow row : allData) {
+            countsByMonth.computeIfAbsent(row.getMonth(), k -> new HashMap<>())
                     .put(row.getStatus(), row.getCount());
+        }
+
+        List<List<Integer>> barChartData = new ArrayList<>();
+        for (int month = 1; month <= 12; month++) {
+            Map<Integer, Integer> monthCounts = countsByMonth.getOrDefault(month, new HashMap<>());
+            int waiting = monthCounts.getOrDefault(0, 0);
+            int reviewed = monthCounts.getOrDefault(1, 0);
+            int approved = monthCounts.getOrDefault(5, 0);
+            barChartData.add(Arrays.asList(waiting, reviewed, approved));
+        }
+        return barChartData;
     }
-    
-    List<List<Integer>> barChartData = new ArrayList<>();
-    for (int month = 1; month <= 12; month++) {
-        Map<Integer, Integer> monthCounts = countsByMonth.getOrDefault(month, new HashMap<>());
-        int waiting = monthCounts.getOrDefault(0, 0);
-        int reviewed = monthCounts.getOrDefault(1, 0);
-        int approved = monthCounts.getOrDefault(5, 0);
-        barChartData.add(Arrays.asList(waiting, reviewed, approved));
-    }
-    return barChartData;
-}
 
-    //   @Transactional
-
-    //  public List<List<Integer>> computeBarChartDataPerMonth() {
-    //     List<List<Integer>> barChartData = new ArrayList<>();
-
-    //     for (int month = 1; month <= 12; month++) {
-    //         // int drafted = makerDashboardMapper.countByStatusAndMonth(6, month);
-
-    //         int waiting = makerDashboardMapper.countByStatusAndMonth(0, month);
-    //         int reviewed = makerDashboardMapper.countByStatusAndMonth(1, month);
-    //         int approved = makerDashboardMapper.countByStatusAndMonth(5, month);
-
-    //         barChartData.add(Arrays.asList( waiting, reviewed, approved));
-    //     }
-
-
-    //     return barChartData;
-    // }
-    
     @Transactional
 
- public Map<String, Object> getPolarChartData() {
+    public Map<String, Object> getPolarChartData(Long user_id) {
 
-    
-    
-    return makerDashboardMapper.fetchPolarDataSingleRow();
-}
+        return makerDashboardMapper.fetchPolarDataSingleRow(user_id);
+    }
 
+    public List<RadarPayload> getRadarChart(Long user_id) {
 
- public List<RadarPayload> getRadarChart() {
+        return makerDashboardMapper.getStatusCountsForCurrentAndPreviousYear(user_id);
+    }
 
-    
-    
-    return makerDashboardMapper.getStatusCountsForCurrentAndPreviousYear();
-}
-
-
-
-}
+ }

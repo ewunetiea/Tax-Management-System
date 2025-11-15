@@ -212,8 +212,8 @@ export class ReportComponent {
           { field: "maker_date", header: "Maker Date" },
           { field: "checker_name", header: "Checked By" },
           { field: "checked_Date", header: "Checked Date" },
-          { field: "updated_user_name", header: "Updated By" },
-          { field: "updated_event_date", header: "Updated Date" },
+          { field: "approver_name", header: "Approved By" },
+          { field: "approved_date", header: "Approved Date" },
         ];
 
         const d = new Date();
@@ -420,7 +420,7 @@ export class ReportComponent {
       "Unit", "Director", "Reference Number", "Tax Category",
       "Number of Employee", "Taxable Amount", "Tax With Hold", "Graduate Tax Pool",
       "Graduate Base Salary", "Graduate Total Employee", "Graduate Tax With Hold",
-      "Maker Name", "Maker Date", "Checked By", "Checked Date", "Updated By", "Updated Date",
+      "Maker Name", "Maker Date", "Checked By", "Checked Date", "Approved By", "Approved Date",
     ];
 
     // 6️⃣ Prepare rows
@@ -440,8 +440,8 @@ export class ReportComponent {
       tax.maker_date ? new Date(tax.maker_date).toLocaleDateString('en-CA') : '',
       tax.checker_name ?? '',
       tax.checked_Date ? new Date(tax.checked_Date).toLocaleDateString('en-CA') : '',
-      tax.updated_user_name ?? '',
-      tax.updated_event_date ? new Date(tax.updated_event_date).toLocaleDateString('en-CA') : '',
+      tax.approver_name ?? '',
+      tax.approved_date ? new Date(tax.approved_date).toLocaleDateString('en-CA') : '',
     ]);
 
     // 7️⃣ Generate table using autoTable
@@ -531,8 +531,8 @@ async exportExcel() {
       { header: "Maker Date",         key: "maker_date",            width: 15 },
       { header: "Checked By",         key: "checker_name",          width: 15 },
       { header: "Checked Date",       key: "checked_Date",          width: 15 },
-      { header: "Updated By",         key: "updated_user_name",     width: 15 },
-      { header: "Updated Date",       key: "updated_event_date",    width: 15 },
+      { header: "Approved By",         key: "approver_name",     width: 15 },
+      { header: "Approved Date",       key: "approved_date",    width: 15 },
     ];
 
     // ==========================
@@ -568,7 +568,7 @@ async exportExcel() {
     dateCell.font = { italic: true, size: 12, bold: true };
     dateCell.alignment = { horizontal: "right", vertical: "middle" };
 
-    worksheet.addRow([]);   // row 2 stays empty
+    worksheet.addRow([]);  // row 2 stays empty
 
     // ==========================
     // TABLE HEADERS – row 3 (A3:Q3)
@@ -606,16 +606,21 @@ async exportExcel() {
     // ==========================
     // BORDERS FOR ALL ROWS (including headers & data)
     // ==========================
-    worksheet.eachRow({ includeEmpty: false }, row => {
-      row.eachCell(cell => {
-        cell.border = {
-          top: { style: "thin" },
-          left: { style: "thin" },
-          bottom: { style: "thin" },
-          right: { style: "thin" },
-        };
-      });
-    });
+    worksheet.eachRow({ includeEmpty: true }, row => {
+  // Loop through all columns
+  for (let col = 1; col <= worksheet.columnCount; col++) {
+    const cell = row.getCell(col);
+    cell.border = {
+      top: { style: "thin" },
+      left: { style: "thin" },
+      bottom: { style: "thin" },
+      right: { style: "thin" },
+    };
+    // Optional: keep empty cells centered
+    cell.alignment = { horizontal: "center", vertical: "middle" };
+  }
+});
+
 
     // Freeze top 4 rows
     worksheet.views = [{ state: "frozen", ySplit: 4 }];

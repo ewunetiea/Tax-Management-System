@@ -229,25 +229,21 @@
 
             <th style="min-width: 10rem">
               <div class="flex items-center">
-                Updated By
-                  <p-columnFilter type="text" field="updated_user_name" display="menu" />
+                Approved By
+                  <p-columnFilter type="text" field="approver_name" display="menu" />
               </div>
             </th>
 
             <th style="min-width: 10rem">
               <div class="flex items-center">
-                Updated Date
-                  <p-columnFilter type="date" field="updated_event_date" display="menu" />
+                Approved Date
+                  <p-columnFilter type="date" field="approved_date" display="menu" />
               </div>
             </th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-tax let-expanded="expanded">
               <tr>
-                <!-- <td>
-                  <p-button type="button" pRipple [pRowToggler]="tax" [text]="true" [rounded]="true"
-                  [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
-                </td> -->
                 <td>
                   <p-tableCheckbox [value]="tax"></p-tableCheckbox>
                 </td>
@@ -293,8 +289,8 @@
                   </ng-template>
                 </td>
                 <td>
-                   <ng-container *ngIf="tax.updated_user_name; else unupdateusernameBtn">
-                    {{ tax.updated_user_name }}
+                   <ng-container *ngIf="tax.approver_name; else unupdateusernameBtn">
+                    {{ tax.approver_name }}
                   </ng-container>
                   <ng-template #unupdateusernameBtn>
                     <button 
@@ -307,8 +303,8 @@
                   </ng-template>
                 </td>
                 <td>
-                   <ng-container *ngIf="tax.updated_event_date; else unupdatedteBtn">
-                    {{ tax.updated_event_date | date:'yyyy-MM-dd' }}
+                   <ng-container *ngIf="tax.approved_date; else unupdatedteBtn">
+                    {{ tax.approved_date | date:'yyyy-MM-dd' }}
                   </ng-container>
                   <ng-template #unupdatedteBtn>
                     <button 

@@ -426,14 +426,12 @@ export class ManagetaxComponent implements OnInit {
             } else {
                 // If it's already a Blob, use it directly
                 const blob = new Blob([file.file], { type: file.fileType });
-
-
                 const link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
                 link.download = file.fileName;
                 link.click();
                 window.URL.revokeObjectURL(link.href);
-                return; // Exit the function
+                return; 
             }
 
             const blob = new Blob([byteArray as any], { type: file.fileType });

@@ -323,7 +323,7 @@ export class ReportComponent {
                   if (value == null || value === "") return "<td></td>";
                   // ✅ Formatting based on field type
                   if (typeof value === "number")
-                    value = value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    value = value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 5 });
                   if (col.field.includes("date") || col.field.includes("Date"))
                     value = new Date(value).toLocaleDateString("en-CA");
                   return `<td>${value}</td>`;

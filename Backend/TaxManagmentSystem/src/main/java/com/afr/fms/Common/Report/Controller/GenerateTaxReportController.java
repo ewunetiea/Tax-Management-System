@@ -26,6 +26,8 @@ public class GenerateTaxReportController {
 
     @PostMapping("/maker")
     public ResponseEntity<List<Tax>> generateReportForMaker(@RequestBody TaxableSearchEngine tax, HttpServletRequest request) {
+System.out.println("___________taxxxxxxx_______________________");
+        System.out.println(tax);
         try {
             return new ResponseEntity<>(generateTaxReportService.generateReportForMaker(tax), HttpStatus.OK);
         } catch (Exception ex) {

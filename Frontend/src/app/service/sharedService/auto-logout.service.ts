@@ -81,7 +81,11 @@ export class AutoLogoutService implements OnDestroy {
     });
   }
 
-  public logout(): void {
+  /**
+   * Logout and cleanup timers.
+   * @param skipServerCall if true, do not call AuthService.logout (useful when logout already performed)
+   */
+  public logout(skipServerCall = false): void {
     clearTimeout(this.warningTimer);
     clearTimeout(this.logoutTimer);
     this.isWatching = false;
@@ -92,7 +96,7 @@ export class AutoLogoutService implements OnDestroy {
     this.user = null;
     this.id_login_tracker = undefined;
     this.storageService.clean();
-    if (trackerId) this.authService.logout(trackerId).subscribe({ next: () => { }, error: () => { } });
+  if (!skipServerCall && trackerId) this.authService.logout(trackerId).subscribe({ next: () => { }, error: () => { } });
     this.router.navigate(['']);
   }
 

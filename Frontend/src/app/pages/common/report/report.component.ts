@@ -535,6 +535,8 @@ async exportExcel() {
       { header: "Approved Date",       key: "approved_date",    width: 15 },
     ];
 
+    
+
     // ==========================
     // LOGO – A1:B1 
     // ==========================
@@ -595,11 +597,25 @@ async exportExcel() {
     // ==========================
     this.taxes.forEach(item => {
       const row = worksheet.addRow(item);
+
       row.eachCell((cell, colNumber) => {
-        cell.alignment = {
-           horizontal: "center", 
-           vertical: "middle",
-        };
+        const columnKey = worksheet.columns[colNumber - 1].key;
+
+        // Alignment
+        cell.alignment = { horizontal: "center", vertical: "middle" };
+
+        // Number formatting for numeric fields
+        if (typeof columnKey === 'string' && [
+          "noOfEmployee",
+          "taxableAmount",
+          "taxWithHold",
+          "graduatetaxPool",
+          "graduaTotBasSalary",
+          "graduateTotaEmployee",
+          "graduatetaxWithHold"
+        ].includes(columnKey)) {
+          cell.numFmt = "#,##0.000"; // three decimals with thousand separator
+        }
       });
     });
 
@@ -638,6 +654,12 @@ async exportExcel() {
     // ==========================
     const buffer = await workbook.xlsx.writeBuffer();
     saveAs(new Blob([buffer]), `tms_report_${today}.xlsx`);
+     this.messageService.add({
+      severity: "success",
+      summary: "Success",
+      detail: "Excel report exported successfully!",
+      life: 2000,
+    });
 
   } catch (error) {
     console.error("Error exporting Excel:", error);

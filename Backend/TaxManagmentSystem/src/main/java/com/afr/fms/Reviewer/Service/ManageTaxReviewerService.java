@@ -50,8 +50,7 @@ public class ManageTaxReviewerService {
             manageTaxMapper.reviewTaxes(tax);
             User user = new User();
             RecentActivity recentActivity = new RecentActivity();
-            recentActivity.setMessage(
-                    "Tax with reference number " + tax.getReference_number().trim() + " has been reviewed ");
+            recentActivity.setMessage("Tax with reference number " + tax.getReference_number().trim() + " has been reviewed ");
             user.setId(tax.getUser_id());
             recentActivity.setUser(user);
             recentActivityMapper.addRecentActivity(recentActivity);
@@ -64,8 +63,7 @@ public class ManageTaxReviewerService {
 
         User user = new User();
         RecentActivity recentActivity = new RecentActivity();
-        recentActivity
-                .setMessage("Tax with reference number " + tax.getReference_number().trim() + " has been rejected ");
+        recentActivity.setMessage("Tax with reference number " + tax.getReference_number().trim() + " has been rejected ");
         user.setId(tax.getUser_id());
         recentActivity.setUser(user);
         recentActivityMapper.addRecentActivity(recentActivity);

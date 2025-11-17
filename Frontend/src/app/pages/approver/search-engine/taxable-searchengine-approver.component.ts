@@ -1,4 +1,3 @@
-
 import { Component, Output, EventEmitter, SimpleChanges, Input } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -16,14 +15,13 @@ import { StorageService } from 'app/service/sharedService/storage.service';
 import { MessageService } from 'primeng/api';
 import { finalize, of, catchError } from 'rxjs';
 import { SharedUiModule } from 'shared-ui';
+
 @Component({
   selector: 'app-taxable-searchengine-approver',
   imports: [SharedUiModule],
-
   templateUrl: './taxable-searchengine-approver.component.html',
   styleUrl: './taxable-searchengine-approver.component.scss'
 })
-
 
 export class TaxableSearchengineApproverComponent {
   taxableSearchEngine: TaxableSearchEngine = new TaxableSearchEngine();
@@ -41,7 +39,7 @@ export class TaxableSearchengineApproverComponent {
   roles: string[] = [];
 
  @Output() generatedTaxes = new EventEmitter<{ data: Tax[]; fetching: boolean }>();
-  @Input() statusRoute: string = '';
+ @Input() statusRoute: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -81,8 +79,6 @@ export class TaxableSearchengineApproverComponent {
     // ✅ Automatically detect router status from route param
     this.route.paramMap.subscribe(params => {
       const status = params.get('status')?.toLowerCase() || 'pending';
-
-      console.log("_________FF________________jjj_____________" + status)
       this.onReset();
       this.form.get('router_status')?.setValue(status);
     });

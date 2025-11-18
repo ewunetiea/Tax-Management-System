@@ -5,34 +5,26 @@
       <!-- TYPE FIELD -->
       <div class="flex flex-col gap-2">
         <label for="type"><strong class="text-red-600">*</strong> Type</label>
-        <input
-          pInputText
-          id="type"
-          type="text"
-          formControlName="type"
-          autocomplete="off"
-          required
-           [ngClass]="{ 'p-invalid': submitted && f['type'].errors }"/>
+        <input 
+        pInputText 
+        id="type" 
+        type="text" 
+        formControlName="type" 
+        autocomplete="off" 
+        required
+        [ngClass]="{ 'p-invalid': submitted && f['type'].errors }" />
         <div *ngIf="(submitted || f['type'].touched) && f['type'].errors">
           <small class="text-red-600" *ngIf="f['type'].errors['required']">Type is required</small>
-          <small class="text-red-600" *ngIf="f['type'].errors['minlength']">Type must be at least
-            {{ f['type'].errors['minlength'].requiredLength }} characters.</small>
-          <small class="text-red-600" *ngIf="f['type'].errors['maxlength']">Type cannot exceed
-            {{ f['type'].errors['maxlength'].requiredLength }} characters.</small>
+          <small class="text-red-600" *ngIf="f['type'].errors['minlength']">Type must be at least {{ f['type'].errors['minlength'].requiredLength }} characters.</small>
+          <small class="text-red-600" *ngIf="f['type'].errors['maxlength']">Type cannot exceed  {{ f['type'].errors['maxlength'].requiredLength }} characters.</small>
         </div>
       </div>
 
       <!-- DESCRIPTION FIELD -->
       <div class="flex flex-col gap-2">
         <label for="description"><strong class="text-red-600">*</strong> Description</label>
-        <input
-          pInputText
-          id="description"
-          type="text"
-          formControlName="description"
-          autocomplete="off"
-          [ngClass]="{ 'is-invalid': submitted && f['description'].errors }"
-        />
+        <input pInputText id="description" type="text" formControlName="description" autocomplete="off"
+          [ngClass]="{ 'is-invalid': submitted && f['description'].errors }" />
 
         <div *ngIf="(submitted || f['description'].touched) && f['description'].errors">
           <small class="text-red-600" *ngIf="f['description'].errors['required']">Description is required</small>
@@ -45,25 +37,11 @@
 
       <!-- Buttons -->
       <div class="flex gap-4 mt-4">
-        <button
-          pButton
-          pRipple
-          label="Save"
-          type="submit"
-          [loading]="submitted"
-          icon="pi pi-check-circle"
-          class="p-button-rounded p-button-outlined p-button-success mr-2"
-        ></button>
+        <button pButton pRipple label="Save" type="submit" [loading]="loading" icon="pi pi-check-circle"
+          class="p-button-rounded p-button-outlined p-button-success mr-2"></button>
 
-        <button
-          pButton
-          pRipple
-          label="Reset"
-          type="reset"
-          icon="pi pi-times-circle"
-          (click)="onReset()"
-          class="p-button-rounded p-button-outlined p-button-danger"
-        ></button>
+        <button pButton pRipple label="Reset" type="reset" icon="pi pi-times-circle" (click)="onReset()"
+          class="p-button-rounded p-button-outlined p-button-danger"></button>
       </div>
     </div>
   </div>

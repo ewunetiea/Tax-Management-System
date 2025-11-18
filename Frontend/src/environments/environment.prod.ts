@@ -11,21 +11,18 @@ export const environment = {
   warningTimeout: 19 * 60 * 1000, // 5 minutes
 };
 
-
-// export const environment = {
-//   production: true,
-//   auditorFileApi: 'http://localhost:8442/api',
-//   auditeeFileApi: 'http://localhost:8442/api', 
-//   imagesUserApi: 'http://localhost:8442/api/user/image/',
-//   blankPic: 'assets/img/Blank-Profile-Picture.jpg',
-//   backendUrl: 'http://localhost:8442/api',
-//   webSocketUrl: 'http://localhost:8442/api',
-//   idleTimeout: 20 * 60 * 1000, 
-//   idleCountdownSeconds: 60, 
-//   warningTimeout: 19 * 60 * 1000, 
-// };
-
-
+export const environment = {
+  production: true,
+  auditorFileApi: 'http://localhost:8442/api',
+  auditeeFileApi: 'http://localhost:8442/api', 
+  imagesUserApi: 'http://localhost:8442/api/user/image/',
+  blankPic: 'assets/img/Blank-Profile-Picture.jpg',
+  backendUrl: 'http://localhost:8442/api',
+  webSocketUrl: 'http://localhost:8442/api',
+  idleTimeout: 20 * 60 * 1000, 
+  idleCountdownSeconds: 60, 
+  warningTimeout: 19 * 60 * 1000, 
+};
 
 // export const environment = {
 //   production: true,

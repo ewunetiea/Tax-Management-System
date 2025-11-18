@@ -2,10 +2,6 @@ import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { LayoutService } from '../../../layout/service/layout.service';
 import { SharedUiModule } from '../../../../shared-ui';
 import { debounceTime, forkJoin, Subject, Subscription, takeUntil } from 'rxjs';
-import { CardSkeleton } from '../../skeleton/card/four-card';
-import { BarAndLineChartSkeleton } from '../../skeleton/bar-and-lign-chart/bar-and-lign-chart';
-import { PieDougnutPolarSkeleton } from '../../skeleton/dougnut-polar-chart/pie-dougnut-polar';
-import { PieDougnutPolarSkeletonDescription } from '../../skeleton/dougnut-polar-chart/polar-pie-dougnut-title';
 import { Announcement } from '../../../models/approver/announcement';
 import { AnnouncementService } from '../../../service/approver/announcement.service';
 import { EditorModule } from 'primeng/editor';
@@ -15,6 +11,10 @@ import { StorageService } from 'app/service/sharedService/storage.service';
 import { User } from 'app/models/admin/user';
 import { ReviewerDashboard } from 'app/models/reviewer/reviewerDashboard';
 import { ChartModule } from 'primeng/chart';
+import { BarAndLineChartSkeleton } from 'app/pages/skeleton/bar-and-lign-chart/bar-and-lign-chart';
+import { CardSkeleton } from 'app/pages/skeleton/card/four-card';
+import { PieDougnutPolarSkeleton } from 'app/pages/skeleton/dougnut-polar-chart/pie-dougnut-polar';
+import { PieDougnutPolarSkeletonDescription } from 'app/pages/skeleton/dougnut-polar-chart/polar-pie-dougnut-title';
 
 @Component({
   selector: 'app-checker-dashboard',

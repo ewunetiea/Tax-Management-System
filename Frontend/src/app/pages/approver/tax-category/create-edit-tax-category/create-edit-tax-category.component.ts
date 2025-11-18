@@ -18,6 +18,7 @@ export class CreateEditTaxCategoryComponent {
     isEditData: boolean = false;
     taxCategory: TaxCategory = new TaxCategory();
     submitted = false;
+    loading = false;
     form!: FormGroup;
 
     @Input() passedTaxCategory: any[] = [];
@@ -28,7 +29,7 @@ export class CreateEditTaxCategoryComponent {
         private taxCategoriesService: TaxCategoriesService,
         private messageService: MessageService,
         private fb: FormBuilder
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.user = this.storageService.getUser();
@@ -66,27 +67,27 @@ export class CreateEditTaxCategoryComponent {
         this.editedTaxCategory.emit(data);
     }
 
+    focusFirstInvalidControl() {
+        const firstInvalidControl: HTMLElement = document.querySelector('.ng-invalid[formControlName]') as HTMLElement;
+
+        if (firstInvalidControl) {
+            firstInvalidControl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Small delay ensures the element is ready to receive focus
+            setTimeout(() => firstInvalidControl.focus(), 100);
+        }
+    }
+
     onSubmit() {
         this.submitted = true;
 
         // ✅ Focus the first invalid input field if the form is invalid
+        // ❌ If form is invalid → auto-focus the first missing field
         if (this.form.invalid) {
-            for (const key of Object.keys(this.form.controls)) {
-                if (this.form.controls[key].invalid) {
-                    const invalidControl = document.querySelector(
-                        `[formControlName="${key}"]`
-                    );
-                    if (invalidControl) {
-                        (invalidControl as HTMLElement).focus();
-                        // Optionally scroll to it smoothly
-                        (invalidControl as HTMLElement).scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
-                    break; // focus only the first invalid field
-                }
-            }
-            this.submitted = false;
-            return; // stop submission
+            this.focusFirstInvalidControl();
+            return;
         }
+
+        this.loading = true;
 
         // ✅ Prepare data
         this.taxCategory = {
@@ -99,11 +100,10 @@ export class CreateEditTaxCategoryComponent {
         this.taxCategoriesService.createTaxCategory(this.taxCategory).subscribe({
             next: (data) => {
                 this.submitted = false;
+                this.loading = false;
 
-                const message = this.taxCategory.id
-                    ? `${this.taxCategory.type} successfully updated`
-                    : `${this.taxCategory.type} successfully created`;
-
+                // ✅ Show success message
+                const message = this.taxCategory.id ? `${this.taxCategory.type} successfully updated` : `${this.taxCategory.type} successfully created`;
                 this.messageService.add({
                     severity: 'success',
                     summary: message,
@@ -121,6 +121,15 @@ export class CreateEditTaxCategoryComponent {
             },
             error: () => {
                 this.submitted = false;
+                this.loading = false;
+
+                // ✅ Show error message
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error occurred while saving tax category',
+                    detail: '',
+                    life: 3000
+                });
             }
         });
     }

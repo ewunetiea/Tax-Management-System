@@ -9,20 +9,29 @@ export class AutoLogoutDialogService {
 
   constructor(private dialogService: DialogService) {}
 
-  public openCountdownDialog(countdownMs: number): Promise<boolean> {
-    return new Promise<boolean>(resolve => {
-      this.ref = this.dialogService.open(AutoLogoutDialogComponent, {
-       header: 'Your Session Will Expire Soon',
-        width: '400px',
-        closable: false,
-        data: { countdownMs },
-      });
+  private currentRef?: DynamicDialogRef;
 
-      this.ref.onClose.subscribe((result: boolean) => {
-        resolve(Boolean(result));
-      });
+openCountdownDialog(ms: number): Promise<boolean> {
+  return new Promise<boolean>((resolve) => {
+    this.currentRef = this.dialogService.open(AutoLogoutDialogComponent, {
+      data: { countdownMs: ms },
+      width: '350px'
     });
+
+    this.currentRef.onClose.subscribe((value) => {
+      this.currentRef = undefined;
+      resolve(value);
+    });
+  });
+}
+
+forceClose(): void {
+  if (this.currentRef) {
+    this.currentRef.close(false); 
+    this.currentRef = undefined;
   }
+}
+
 
   public closeDialog() {
     this.ref?.close();

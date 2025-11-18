@@ -36,7 +36,6 @@ public interface ReviewerDashboardMapper {
         "    UNION ALL SELECT 9 UNION ALL SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12 " +
         ") m " +
         " LEFT JOIN tblTaxable t " +
-        // Filter by branch and current year for *any* of the date columns
         "   ON t.from_ = #{branch_id} " +
         "GROUP BY m.month ")
 public List<Map<String, Object>> getStackedBarTaxesStatusData(@Param("branch_id") Long branch_id);

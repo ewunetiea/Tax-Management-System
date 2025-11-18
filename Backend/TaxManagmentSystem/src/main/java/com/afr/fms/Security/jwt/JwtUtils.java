@@ -41,7 +41,6 @@ public class JwtUtils {
   private String jwtRefreshCookie;
 
   public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal, HttpServletRequest request) {
-
     resetFailedAttempts(userPrincipal.getUserSecurity());
     String jwt = generateTokenFromUsername(userPrincipal.getUsername());
     String contextPath = getContextPath(request);
@@ -67,7 +66,6 @@ public class JwtUtils {
   }
 
   public String getJwtFromCookies(HttpServletRequest request) {
-
     return getCookieValueByName(request, jwtCookie);
   }
 
@@ -91,7 +89,12 @@ public class JwtUtils {
   }
 
   private ResponseCookie generateCleanCookie(String name, String path) {
-    return ResponseCookie.from(name, null).path("/").maxAge(3600).httpOnly(true).secure(true).build();
+    return ResponseCookie.from(name, null)
+    .path("/")
+    .maxAge(3600)
+    .httpOnly(true)
+    .secure(true)
+    .build();
   }
 
   public String getUserNameFromJwtToken(String token) {
@@ -129,8 +132,12 @@ public class JwtUtils {
   }
 
   private ResponseCookie generateCookie(String name, String value, String path) {
-    return ResponseCookie.from(name, value).path("/").maxAge(24 * 60 *
-        60).httpOnly(true).secure(true).build();
+    return ResponseCookie.from(name, value)
+    .path("/")
+    .maxAge(24 * 60 * 60)
+    .httpOnly(true)
+    .secure(true)
+    .build();
   }
 
   // private ResponseCookie generateCookie(String name, String value, String path)

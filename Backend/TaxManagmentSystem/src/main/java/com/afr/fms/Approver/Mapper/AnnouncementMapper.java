@@ -10,25 +10,44 @@ public interface AnnouncementMapper {
         @Select("insert into announcements(title, message, posted_by, audience, created_date,expiry_date , image) output inserted.id values (#{title}, #{message}, #{posted_by}, #{audience}, CURRENT_TIMESTAMP , #{expiry_date}, #{image})")
         public Long createCreateAnnouncement(Announcement announcement);
 
-        @Select("SELECT * " +
-                        "FROM announcements " +
-                        "WHERE expiry_date >= GETDATE() " +
-                        "ORDER BY id  DESC")
-     public    List<Announcement> getOngoingAnnouncements();
+        // @Select(" SELECT a.*, ur.email AS postedBy FROM announcements a " +
+        //                 "INNER JOIN [user] ur ON ur.id = a.posted_by  WHERE a.expiry_date >= GETDATE() " +
+        //                 " AND (a.audience = #{role_type} OR a.audience = 'ALL') ORDER BY a.id DESC")
+        // public List<Announcement> getOngoingAnnouncements(String role_type);
 
-@Select("SELECT TOP 1 * " +
-        "FROM announcements " +
-        "WHERE expiry_date >= GETDATE() " +
-        "ORDER BY created_date DESC")
-public Announcement getAnnouncementForDashBoard();
+        // @Select(" SELECT TOP 1 a.*, ur.email AS postedBy  FROM announcements a " +
+        //                 " INNER JOIN [user] ur ON ur.id = a.posted_by WHERE a.expiry_date >= GETDATE() " +
+        //                 "AND (a.audience = #{role_type} OR a.audience = 'ALL') ORDER BY a.created_date DESC ")
+        // public Announcement getAnnouncementForDashBoard(String role_type);
+
+        // // Fetch archived (expired) announcements
+        // @Select(" SELECT a.*, ur.email AS postedBy  FROM announcements a " +
+        //                 " INNER JOIN [user] ur ON ur.id = a.posted_by  WHERE a.expiry_date < GETDATE() " +
+        //                 " AND (a.audience = #{role_type} OR a.audience = 'ALL') ORDER BY a.expiry_date DESC ")
+        // public List<Announcement> getArchivedAnnouncements(String role_type);
 
 
-        // Fetch archived (expired) announcements
-        @Select("SELECT * " +
-                        "FROM announcements " +
-                        "WHERE expiry_date < GETDATE() " + // already expired
-                        "ORDER BY expiry_date DESC")
-        List<Announcement> getArchivedAnnouncements();
+        // 1. Ongoing announcements (including future ones) - Approver sees everything
+
+
+@Select( " SELECT a.*, ur.email AS postedBy   FROM announcements a "+
+         "   INNER JOIN [user] ur ON ur.id = a.posted_by    WHERE a.expiry_date >= GETDATE() "+
+          "    AND (    #{role_type} = 'ROLE_APPROVER'   OR a.audience = #{role_type}   OR a.audience = 'ALL'   )  ORDER BY a.id DESC ")
+    List<Announcement> getOngoingAnnouncements(String role_type);
+
+    // Latest one for dashboard
+    @Select("   SELECT TOP 1 a.*, ur.email AS postedBy  FROM announcements a  "+
+          "  INNER JOIN [user] ur ON ur.id = a.posted_by   WHERE a.expiry_date >= GETDATE() "+
+           "   AND (  #{role_type} = 'ROLE_APPROVER' OR a.audience = #{role_type}  OR a.audience = 'ALL'  )  ORDER BY a.created_date DESC ")
+    Announcement getAnnouncementForDashBoard(String role_type);
+
+    // Archived announcements
+    @Select("  SELECT a.*, ur.email AS postedBy   FROM announcements a    INNER JOIN [user] ur ON ur.id = a.posted_by " +
+          "  WHERE a.expiry_date < GETDATE()   AND ( #{role_type} = 'ROLE_APPROVER'   OR a.audience = #{role_type} " + 
+                  " OR a.audience = 'ALL' )  ORDER BY a.expiry_date DESC ")
+    List<Announcement> getArchivedAnnouncements(String role_type);
+
+
 
         @Update("update announcements set  title = #{title}, message = #{message}, posted_by = #{posted_by}, audience = #{audience}, created_date = #{created_date}, expiry_date = #{expiry_date} where id = #{id}")
         public void updateAnnouncements(Announcement announcement);

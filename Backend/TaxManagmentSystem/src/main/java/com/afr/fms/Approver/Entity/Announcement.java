@@ -17,5 +17,6 @@ public class Announcement {
     private Date created_date;
     private Date expiry_date;
     private byte[] image;
+    private String postedBy;
 
 }

@@ -43,7 +43,8 @@ public class TaxController {
 			List<Tax> tax = new ArrayList<>();
 
 			tax = taxableService.fetchTaxBasedonStatus(payload);
-			
+			System.out.println("_____________________TTT_____________________");
+			System.out.println(tax);
 
 			return new ResponseEntity<>(tax, HttpStatus.OK);
 		} catch (Exception ex) {

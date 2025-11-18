@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment.prod';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Announcement } from '../../models/approver/announcement';
+import { AnnouncementPayload } from 'app/models/approver/announcementPayload';
 const baseUrl = environment.backendUrl + '/announcement';
 
 const headers = new HttpHeaders({
@@ -21,11 +22,11 @@ export class AnnouncementService {
         return this.http.post(baseUrl + '/create', announcement);
     }
 
-    fetchAnnouncemets(Announcement_type: String) {
-        return this.http.get(baseUrl + '/fetch/' + `${Announcement_type}`);
+    fetchAnnouncemets(announcementPayload: AnnouncementPayload) {
+        return this.http.post(baseUrl + '/fetch' , announcementPayload );
     }
-      fetchAnnouncemetForDashBoard() {
-        return this.http.get(baseUrl + '/fetch/dashboard' );
+      fetchAnnouncemetForDashBoard(role_type : String) {
+        return this.http.get(baseUrl + '/fetch/dashboard/' + `${role_type}`);
     }
 
     deleteAnnouncemets(id: any) {

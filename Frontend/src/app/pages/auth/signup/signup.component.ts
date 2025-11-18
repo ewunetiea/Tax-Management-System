@@ -225,15 +225,12 @@ export class SignupComponent {
         this.loading = true;
         this.authService.signup(this.user).subscribe({
             next: (res) => {
+
                 this.loading = false;
                 this.confrimationDialog = false;
                 this.submitted = true;
                 this.errorMessage = '';
-                // this.messageService.add({
-                //   severity: 'success',
-                //   summary: `User ${this.user.first_name} ${this.user.middle_name}  ${this.user.last_name}is created successfully!`,
-                //   detail: `Your password is sent to your email at ${this.user.email}. Please check on your email to proceed.`,
-                // });
+              
                 if (this.user.authenthication_media) {
                     this.messageService.add({
                         severity: 'success',
@@ -249,7 +246,11 @@ export class SignupComponent {
                         life: 6000
                     });
                     setTimeout(() => {
+
+
                         this.account_created = true;
+                             this.router.navigateByUrl('/');
+
                     }, 4000);
                 }
             },

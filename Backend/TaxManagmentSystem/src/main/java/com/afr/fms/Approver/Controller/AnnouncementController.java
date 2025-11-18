@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.afr.fms.Approver.Entity.Announcement;
+import com.afr.fms.Approver.Entity.AnnouncementPayload;
 import com.afr.fms.Approver.Service.AnnouncementService;
+import com.afr.fms.Common.Entity.PaginatorPayLoad;
 
 @RestController
 @RequestMapping("/api/announcement")
@@ -26,18 +28,16 @@ public class AnnouncementController {
 
 	private static final Logger logger = LoggerFactory.getLogger(AnnouncementController.class);
 
-	@GetMapping("/fetch/{announcemnetType}")
-	public ResponseEntity<List<Announcement>> getAnnouncements(HttpServletRequest request,
-			@PathVariable("announcemnetType") String announcemnetType) {
+	@PostMapping("/fetch")
+	public ResponseEntity<List<Announcement>> getAnnouncements( @RequestBody AnnouncementPayload announcementPayload ,  HttpServletRequest request) {
 		try {
 
-			
 			List<Announcement> announcements = new ArrayList<>();
-			if (announcemnetType.contains("ongoing")) {
-				announcements = announcementService.getOnGoingAnnouncements();
+			if (announcementPayload.getAnnouncement_type().contains("ongoing")) {
+				announcements = announcementService.getOnGoingAnnouncements(announcementPayload.getRole());
 
-			} else if (announcemnetType.contains("archived")) {
-				announcements = announcementService.getArchivedAnnouncements();
+			} else if (announcementPayload.getAnnouncement_type().contains("archived")) {
+				announcements = announcementService.getArchivedAnnouncements(announcementPayload.getRole());
 
 			}
 			return new ResponseEntity<>(announcements, HttpStatus.OK);
@@ -96,12 +96,16 @@ public class AnnouncementController {
 		}
 	}
 
-	@GetMapping("/fetch/dashboard")
-	public ResponseEntity<Announcement> getAnnouncementForDashbpard(HttpServletRequest request) {
+	@GetMapping("/fetch/dashboard/{role_type}")
+	public ResponseEntity<Announcement> getAnnouncementForDashbpard(@PathVariable("role_type") String role_type, HttpServletRequest request) {
 		try {
 
 			Announcement announcement = new Announcement();
-			announcement = announcementService.getAnnouncementForDashBoard();
+			announcement = announcementService.getAnnouncementForDashBoard(role_type);
+
+
+
+			
 
 			return new ResponseEntity<>(announcement, HttpStatus.OK);
 		} catch (Exception ex) {

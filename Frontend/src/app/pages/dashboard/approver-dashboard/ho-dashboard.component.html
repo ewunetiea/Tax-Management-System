@@ -77,7 +77,7 @@
 </p-fluid>
 
 <p-fluid class="grid grid-cols-12 gap-8">
-    <div class="card col-span-12 xl:col-span-6">
+    <div class="card col-span-12 xl:col-span-12" *ngIf="announcement">
         <div class="card">
             <ng-container *ngIf="!loading; else chartBarSkeleton">
                 <div class="font-semibold text-xl mb-4">Lattest Announcement</div>
@@ -86,12 +86,14 @@
                     <ng-template pTemplate="header">
                         <div class="flex justify-between items-center w-full space-x-4">
                             <div class="font-semibold"> Subject : {{ announcement.title }}</div>
-                            <div class="font-semibold">Posted Date :{{ announcement.created_date | date:'yyyy-MM-dd' }}</div>
-                            <div class="font-semibold"> Expiry Date: {{ announcement.expiry_date | date:'yyyy-MM-dd' }}</div>
+                            <div class="font-semibold">Posted By :{{ announcement.postedBy }}
+                            </div>
+                            <div class="font-semibold">Posted Date :{{ announcement.created_date | date:'yyyy-MM-dd' }}
+                            </div>
+                            <div class="font-semibold"> Expiry Date: {{ announcement.expiry_date | date:'yyyy-MM-dd' }}
+                            </div>
                         </div>
                     </ng-template>
-
-
                 </p-editor>
                 <div class="mt-2">
                     <a class="p-button p-component p-button-raised p-button-rounded flex items-center justify-center"
@@ -107,54 +109,17 @@
         </div>
     </div>
 
-    <div class="card col-span-12 xl:col-span-6">
-        <!-- Always show card, but switch content -->
-        <div *ngIf="loading; else activityContent">
-            <app-bar-and-line-chart-skeleton></app-bar-and-line-chart-skeleton>
-        </div>
 
-        <ng-template #activityContent>
-            <!-- if activities exist -->
-            <h5 class="card-title flex justify-between items-center">
-                Recent Activity
-                <button pButton pRipple icon="pi pi-external-link" class="p-button-text p-button-info"
-                    [routerLink]="['/applayout/admin/user-recent-activity']">
-                </button>
-            </h5>
-            <div *ngIf="recentActivityies && recentActivityies.length > 0; else noActivity">
-                <div class="space-y-3 mt-4">
-                    <div *ngFor="let ra of recentActivityies" class="flex items-start gap-3">
-                        <div class="w-1/4 text-sm text-gray-500">{{ ra.created_date | timeago: true }}</div>
-                        <i class="bi bi-circle-fill text-green-500 mt-1"></i>
-                        <div class="flex-1 text-sm">{{ ra.message }}</div>
-                    </div>
-                </div>
+    <div class="card col-span-12 xl:col-span-12">
+        <p-chart type="bar" [data]="stackedBarTaxesStatusData" [options]="stackedBarOptions" *ngIf="!loading"
+            class="h-[30rem]"></p-chart>
+
+        <ng-container *ngIf="loading">
+            <div class="flex justify-center gap-4 mb-3">
+                <app-pie-dougnut-polar-description-skeleton></app-pie-dougnut-polar-description-skeleton>
             </div>
-
-            <!-- show this when there are no activities -->
-            <ng-template #noActivity>
-                <div class="text-center text-gray-500 italic mt-4">
-                    No recent activities found.
-                </div>
-            </ng-template>
-        </ng-template>
+            <app-pie-dougnut-polar-skeleton class="mb-3"></app-pie-dougnut-polar-skeleton>
+            <p-skeleton shape="rectangle" size="21rem"></p-skeleton>
+        </ng-container>
     </div>
-
-  <div class="card col-span-12 xl:col-span-12">
-    <p-chart
-      type="bar"
-      [data]="stackedBarTaxesStatusData"
-      [options]="stackedBarOptions"
-      *ngIf="!loading"
-      class="h-[30rem]"
-    ></p-chart>
-
-    <ng-container *ngIf="loading">
-      <div class="flex justify-center gap-4 mb-3">
-        <app-pie-dougnut-polar-description-skeleton></app-pie-dougnut-polar-description-skeleton>
-      </div>
-      <app-pie-dougnut-polar-skeleton class="mb-3"></app-pie-dougnut-polar-skeleton>
-      <p-skeleton shape="rectangle" size="21rem"></p-skeleton>
-    </ng-container>
-  </div>
 </p-fluid>

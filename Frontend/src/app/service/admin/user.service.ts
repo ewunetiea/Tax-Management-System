@@ -66,6 +66,10 @@ export class UserService {
         return this.http.post<User>(API_URL + '/user/account', user);
     }
 
+      controleUserStatus(user: User): Observable<any> {
+        return this.http.post<User>(API_URL + '/user/controleUserStatus', user);
+    }
+
     manageRoles(user: User): Observable<any> {
         return this.http.post<User>(API_URL + '/user/roles', user);
     }

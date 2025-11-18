@@ -21,7 +21,7 @@ public interface TaxableMapper {
                         "noOfEmployee, " + "taxableAmount, " + "taxWithHold, " + "incometaxPoolAmount, " +
                         "graduatetaxPool, " + "graduaTotBasSalary, " + "graduateTotaEmployee, " +
                         "graduatetaxWithHold, " + "taxCategoryList, " + "Remark, " + "maker_name, " +
-                        "drafted_date, " + "checker_name, " 
+                        "drafted_date, " + "checker_name, "
                         + "updated_event_date, " +
                         "from_List, " + "sendTo_List, " + "Category_List, " + "status, "
                         + "reference_number, maker_id" +
@@ -31,8 +31,8 @@ public interface TaxableMapper {
 
                         + "#{graduaTotBasSalary}, " + "#{graduateTotaEmployee}, " +
                         "#{graduatetaxWithHold}, " + "#{taxCategoryList}, " + "#{remark}, " +
-                        "#{maker_name}, " + "#{drafted_date}, " + "#{checker_name}, "+
-                       
+                        "#{maker_name}, " + "#{drafted_date}, " + "#{checker_name}, " +
+
                         "#{updated_event_date}, " + "#{from_List}, " + "#{sendTo_List}, " + "#{category_List}, "
                         + " 6 , " +
                         "#{reference_number} , #{maker_id}" +
@@ -71,15 +71,15 @@ public interface TaxableMapper {
 
         @Select({
                         "<script>",
-                        "SELECT t.id as id, t.mainGuid, b.UnitCode as initiator_branch, b2.UnitCode as destination_branch,",
+                        "SELECT t.id as id, t.mainGuid, b.name as initiator_branch, b2.name as destination_branch,",
                         "t.taxCategory, t.noOfEmployee, t.taxableAmount, t.taxWithHold, t.incometaxPoolAmount,",
                         "t.graduatetaxPool, t.graduaTotBasSalary, t.graduateTotaEmployee, t.graduatetaxWithHold,",
                         "t.taxCategoryList, t.Remark, t.maker_name, t.maker_date, t.checker_name, t.checked_Date,",
                         "t.updated_user_name, t.updated_event_date, t.from_List, t.sendTo_List, t.Category_List,",
                         " t.status, t.reference_number, t.remark, t.drafted_date , t.maker_date, t.approved_date ",
                         "FROM tblTaxable t",
-                        "LEFT JOIN unit b ON t.from_ = b.id",
-                        "LEFT JOIN unit b2 ON t.sendTo_ = b2.id",
+                        "LEFT JOIN branch b ON t.from_ = b.id",
+                        "LEFT JOIN branch b2 ON t.sendTo_ = b2.id",
 
                         "WHERE maker_id = #{user_id}",
 
@@ -128,15 +128,15 @@ public interface TaxableMapper {
 
         @Select({
                         "<script>",
-                        "SELECT t.id as id, t.mainGuid, b.UnitCode as initiator_branch, b2.UnitCode as destination_branch,",
+                        "SELECT t.id as id, t.mainGuid, b.name as initiator_branch , b2.name as destination_branch,",
                         "t.taxCategory, t.noOfEmployee, t.taxableAmount, t.taxWithHold, t.incometaxPoolAmount,",
                         "t.graduatetaxPool, t.graduaTotBasSalary, t.graduateTotaEmployee, t.graduatetaxWithHold,",
                         "t.taxCategoryList, t.Remark, t.maker_name, t.maker_date, t.checker_name, t.checked_Date,",
                         "t.updated_user_name, t.updated_event_date, t.from_List, t.sendTo_List, t.Category_List,",
                         " t.status, t.reference_number, t.remark,  t.drafted_date , t.maker_date, t.approved_date",
                         "FROM tblTaxable t",
-                        "LEFT JOIN unit b ON t.from_ = b.id",
-                        "LEFT JOIN unit b2 ON t.sendTo_ = b2.id",
+                        "LEFT JOIN branch b ON t.from_ = b.id",
+                        "LEFT JOIN branch b2 ON t.sendTo_ = b2.id",
 
                         "WHERE maker_id = #{user_id}",
                         "<if test='status_id != null '>",
@@ -180,6 +180,8 @@ public interface TaxableMapper {
         @Results(value = {
                         @Result(property = "id", column = "id"),
 
+                      
+
                         @Result(property = "taxFile", column = "id", many = @Many(select = "com.afr.fms.Maker.mapper.TaxFileMapper.getFileByFileById")),
 
         })
@@ -201,10 +203,8 @@ public interface TaxableMapper {
         @Select("SELECT TOP 1 reference_number FROM tblTaxable ORDER BY Id DESC")
         String getLastReferenceNumber();
 
-        
         @Select("select status  from tblTaxable   where id  = #{id}")
 
         public int fetchTaxByID(Long id);
-
 
 }

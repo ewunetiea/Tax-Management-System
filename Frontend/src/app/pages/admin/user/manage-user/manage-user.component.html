@@ -109,7 +109,7 @@
                 </th>
 
               
-                <th style="width: 12rem">Action</th>
+                <th style="width: 14rem">Action</th>
             </tr>
         </ng-template>
         <ng-template #body let-user let-expanded="expanded">
@@ -138,6 +138,16 @@
 
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" pTooltip="Edit User" class="p-button-outlined p-button-rounded p-button-primary mr-2" (click)="editUser(user)"></button>
+
+<p-inputSwitch 
+    [(ngModel)]="user.status"
+    (onChange)="toggleStatus(user)"
+    [style]="{ 'transform': 'scale(1.2)' }"
+    [ngClass]="user.status == 1 ? 'p-inputswitch-checked-success' : 'p-inputswitch-unchecked-danger'">
+</p-inputSwitch>
+
+
+
                 </td>
             </tr>
         </ng-template>
@@ -440,3 +450,6 @@
         </div>
     </form>
 </p-dialog>
+
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

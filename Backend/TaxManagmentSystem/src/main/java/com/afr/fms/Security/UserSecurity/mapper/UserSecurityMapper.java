@@ -79,4 +79,14 @@ public interface UserSecurityMapper {
 
 	@Update("update user_security set accountNonLocked = 1, number_of_attempts = 0 where id=#{user_security.id} ")
 	public void updateUnLockAccount(User user);
+
+
+
+		@Update("update [user] set status = #{status} where id = #{id} ")
+
+	
+
+	public void controleUserStatus(User user);
+
+	
 }

@@ -99,6 +99,8 @@ public interface UserMapper {
         })
         public List<User> getUsersStatus();
 
+
+
         @Select("SELECT * FROM [user] WHERE id= #{id}")
         @Results(value = {
                         @Result(property = "id", column = "id"),
@@ -150,7 +152,7 @@ public interface UserMapper {
                         + " username = #{username}, "
                         + " email = #{email}, "
                         + " phone_number = #{phone_number}, "
-                        + " status = #{status}, "
+                        + " status = 1, "
                         + " branch_id = #{branch.id}, "
                         + " region_id = #{region.id}, "
                         + " emp_id = #{employee_id} ,"

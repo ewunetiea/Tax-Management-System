@@ -290,6 +290,26 @@ public class UserService {
             
         }
     }
+
+    public void controleUserStatus(User user) {
+
+        System.out.println(user.isStatus());
+        System.out.println("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSsssss");
+        try {
+                userSecurityMapper.controleUserStatus(user);
+            
+
+                RecentActivity recentActivity1 = new RecentActivity();
+                recentActivity1.setMessage("User : " + user.getEmail() + " status is modified.");
+                recentActivity1.setUser(user);
+                recentActivityMapper.addRecentActivity(recentActivity1);
+            
+        } catch (Exception e) {
+            
+        }
+    }
+
+
  public void manageMultipleUsersRole(List<User> users, User admin) {
         try {
             List<Role> roles = (List<Role>) users.get(0).getRoles();

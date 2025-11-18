@@ -14,6 +14,7 @@ export class ReportService {
   constructor(private http: HttpClient) { }
 
   getTaxesFormaker(tax: TaxableSearchEngine): Observable<Tax[]> {
+    console.log(tax)
     return this.http.post<Tax[]>(`${baseUrl}/maker`, tax);
   }
 

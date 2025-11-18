@@ -312,4 +312,21 @@ public class UserController {
 
     }
 
+
+     @PostMapping("/user/controleUserStatus")
+    public ResponseEntity<HttpStatus> controleUserStatus(HttpServletRequest request, @RequestBody User user) {
+        try {
+          
+            userService.controleUserStatus(user);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception ex) {
+            logger.error("Error occurred during managing user security for : {}",
+                    user != null ? user.getEmployee_id() : null, ex);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    
+
 }

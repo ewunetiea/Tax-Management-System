@@ -99,6 +99,8 @@ export class ManageTax implements OnInit {
     onSearchResults(taxes: Tax[]) { //  search results are passed from child to parent
         this.taxes = taxes;
 
+        console.log(this.taxes)
+
         console.log(taxes)
         this.loading = false;
 

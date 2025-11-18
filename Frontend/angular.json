@@ -26,13 +26,22 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+        
+
+
             "assets": [
-              "src/assets",
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
+  "src/assets",
+  {
+    "glob": "**/*",
+    "input": "public"
+  },
+  {
+    "glob": "**/*",
+    "input": "src/WEB-INF",
+    "output": "WEB-INF"
+  }
+],
+
             "styles": ["src/styles.scss"],
             "scripts": [],
             "baseHref": "/tms/"

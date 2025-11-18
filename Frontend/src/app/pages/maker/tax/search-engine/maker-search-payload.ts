@@ -121,7 +121,6 @@ export class MakerSearchEnginePayLoadComponent {
 
     this.payload.checked_date = approverFormattedDates;
 
-    console.log("______search pay load data_________________")
     console.log(this.routeControl)
 
       const serviceCall =

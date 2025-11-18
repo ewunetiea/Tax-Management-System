@@ -12,6 +12,8 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { EditorModule } from 'primeng/editor';
+import { StorageService } from 'app/service/sharedService/storage.service';
+import { AnnouncementPayload } from 'app/models/approver/announcementPayload';
 
 interface Column {
   field: string;
@@ -34,7 +36,7 @@ interface ExportColumn {
 })
 export class AnnouncementComponent implements OnInit {
   expandedRows = {};
-  selectedPdf: SafeResourceUrl | null = null; 
+  selectedPdf: SafeResourceUrl | null = null;
   showPdfModal = false;
   announcemetDialog: boolean = false;
   announcements: Announcement[] = [];
@@ -53,18 +55,21 @@ export class AnnouncementComponent implements OnInit {
   pdfSrc: any;
   sizes!: any[];
   selectedSize: any = 'normal';
-  breadcrumbText: string = 'Manage Anouncement';
+  breadcrumbText: string = ' Anouncement';
   items: MenuItem[] | undefined;
   rowToggles: { [id: number]: { message: boolean; file: boolean } } = {};
 
   status!: string;
+
+  announcmentPayload = new AnnouncementPayload()
 
   constructor(
     private announcemetService: AnnouncementService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private sanitizer: DomSanitizer,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private storageService: StorageService
   ) { }
 
   ngOnInit(): void {
@@ -76,12 +81,18 @@ export class AnnouncementComponent implements OnInit {
       { name: 'Large', value: 'large' }
     ];
 
-    this.loadAnnouncements(this.announcement_type);
+
+    this.announcmentPayload.announcement_type = this.announcement_type
+    this.announcmentPayload.role = this.storageService.getUser().roles[0]
+
+    console.log(this.announcmentPayload)
+
+    this.loadAnnouncements(this.announcmentPayload);
   }
 
 
-  loadAnnouncements(announcement_type: String) {
-    this.announcemetService.fetchAnnouncemets(announcement_type).subscribe(
+  loadAnnouncements(announcmentPayload: AnnouncementPayload) {
+    this.announcemetService.fetchAnnouncemets(announcmentPayload).subscribe(
       (response) => {
         this.announcements = (response as any).map((announcement: any) => {
           // Detect file type from base64

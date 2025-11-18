@@ -56,7 +56,7 @@ export class HODashboard {
     forkJoin({
       taxStatus: this.approverDashboardService.getTaxStatusForApprover(this.branch_id),
       recentActivities: this.adminDashboardService.getRecentActivity(this.user.id as any),
-      announcement: this.announcemetService.fetchAnnouncemetForDashBoard(),
+      announcement: this.announcemetService.fetchAnnouncemetForDashBoard("ROLE_APPROVER"),
       stackedBarTaxesStatusData: this.approverDashboardService.getStackedBarTaxesStatusData(this.branch_id)
     })
       .pipe(takeUntil(this.destroy$))

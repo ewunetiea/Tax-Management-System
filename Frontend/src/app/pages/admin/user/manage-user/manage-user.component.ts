@@ -32,6 +32,7 @@ export class ManageUserComponent {
         hiddenColumns: false
     };
     expandedRows = {};
+    errorMessage: String = '';
 
     //used for exporting, Header titles given
     data2 = new Array();
@@ -48,7 +49,7 @@ export class ManageUserComponent {
     passUsers: User[] = [];
     activeIndex1: number = 0;
     activeState: boolean[] = [true, false, false];
-    
+
     events1: any[] = [];
     risk_levels: any[] = [];
     auditor = new User();
@@ -96,7 +97,7 @@ export class ManageUserComponent {
         private branchService: BranchService,
         private confirmationService: ConfirmationService,
         private regionService: RegionService
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.home = { icon: 'pi pi-home', routerLink: '/' };
@@ -165,7 +166,7 @@ export class ManageUserComponent {
     openModal(user: User) {
         try {
             this.getAllRoles();
-        } catch (error) {}
+        } catch (error) { }
         this.roles = this.categoryRoles;
         this.selectedUser = user;
         if (this.selectedUser.roles) {
@@ -295,7 +296,7 @@ export class ManageUserComponent {
         });
     }
 
- 
+
     openMultipleUserRoleDialog() {
         this.getAllRoles();
         this.multipleUserRoleDialog = true;
@@ -307,14 +308,14 @@ export class ManageUserComponent {
                 this.allRoles = data;
 
 
- this.roles = this.allRoles;
-            if (this.selectedUser.roles) {
-                for (const role of this.selectedUser.roles) {
-                    this.roles.push(role);
+                this.roles = this.allRoles;
+                if (this.selectedUser.roles) {
+                    for (const role of this.selectedUser.roles) {
+                        this.roles.push(role);
+                    }
                 }
-            }        
-        
-        },
+
+            },
             error: (error: HttpErrorResponse) => {
                 this.messageService.add({
                     severity: 'error',
@@ -534,5 +535,62 @@ export class ManageUserComponent {
             });
             this.multipleRoleUserLoading = false;
         }
+    }
+
+
+
+
+    toggleStatus(user: User) {
+
+        const newStatus = user.status ? 1 : 0; // 1 = active, 0 = inactive
+
+        const severityType = newStatus === 1 ? 'success' : 'warn';
+        const actionText = newStatus === 1 ? 'activated' : 'deactivated';
+
+        this.confirmationService.confirm({
+            message:
+                'Are you sure you want to change user ' +
+                user.first_name +
+                ' ' +
+                user.middle_name +
+                ' status?',
+            header: 'Confirm',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.userService.controleUserStatus(user).subscribe({
+                    next: (res) => {
+                        this.loading = false;
+                        this.messageService.add({
+                            severity: severityType,
+                            summary: `${user.first_name} ${user.middle_name} has been ${actionText} successfully`,
+
+                            detail: '',
+                        });
+                    },
+                    error: (error: HttpErrorResponse) => {
+                        this.loading = false;
+                        this.errorMessage = error.message;
+                        this.messageService.add({
+                            severity: 'error',
+                            summary:
+                                error.status == 401
+                                    ? 'You are not permitted to perform this action!'
+                                    : 'Something went wrong while update user status !',
+                            detail: '',
+                        });
+                    },
+                });
+            },
+        });
+    }
+
+
+    deActivateUserAccount(user: User) {
+        this.outputUser = [];
+        this.user = { ...user };
+        this.isEditData = false;
+        this.outputUser.push(this.user);
+        this.outputUser.push(this.isEditData);
+        this.userEditDialog = true;
     }
 }

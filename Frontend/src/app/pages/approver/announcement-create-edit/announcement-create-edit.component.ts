@@ -24,6 +24,9 @@ export class AnnouncementCreateEditComponent {
   @Output() saved = new EventEmitter<Announcement>(); // emit to parent
   @Output() cancel = new EventEmitter<void>();
 
+  minExpiryDate: Date = new Date();
+
+
   submitting = false;
 
   constructor(

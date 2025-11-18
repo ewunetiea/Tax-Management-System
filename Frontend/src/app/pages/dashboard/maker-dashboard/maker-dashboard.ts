@@ -18,7 +18,6 @@ import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { StorageService } from 'app/service/sharedService/storage.service';
 import { TimelineModule } from 'primeng/timeline';
-import { MakerSearchPayload } from 'app/models/payload/maker-search-payload';
 
 @Component({
     selector: 'app-maker-dashboard',
@@ -39,7 +38,7 @@ export class MakerDashboard implements OnInit {
     // Chart data
     cardData: number[] = [];
     radarData: any;
-  
+
 
     polarData: any;
     polarOptions: any;
@@ -56,6 +55,8 @@ export class MakerDashboard implements OnInit {
     reviewedData: any
     approvedData: any
 
+    roles: String = ''
+    announcmentavailable: boolean = false
 
     constructor(
         private announcemetService: AnnouncementService,
@@ -67,7 +68,6 @@ export class MakerDashboard implements OnInit {
     ) { }
 
     ngOnInit() {
-
 
         setTimeout(() => {
             this.loading = false;
@@ -88,7 +88,7 @@ export class MakerDashboard implements OnInit {
             radarData: this.makerDashboardService.getRadarAgeData(this.storageService.getUser().id).pipe(
                 catchError(err => { console.error(err); return of([]); })
             )
-           
+
         })
             .pipe(takeUntil(this.destroy$))
             .subscribe({
@@ -107,7 +107,7 @@ export class MakerDashboard implements OnInit {
 
                     this.radarData = radarData;
 
-                     this.fetchRadarData(this.radarData);
+                    this.fetchRadarData(this.radarData);
 
                 },
                 error: err => console.error('forkJoin error', err)
@@ -120,9 +120,16 @@ export class MakerDashboard implements OnInit {
     }
 
     loadAnnouncements() {
-        this.announcemetService.fetchAnnouncemetForDashBoard().subscribe(
+                    console.log("_____________________hghhghhh")
+
+        this.announcemetService.fetchAnnouncemetForDashBoard("ROLE_MAKER").subscribe(
+
             (announcement: any) => {   // directly the single object
                 if (announcement) {
+
+
+                    console.log("_______FFFR_____________________________")
+                    this.announcmentavailable = true
                     // Detect file type from base64
                     const fileType = this.getFileType(announcement.image);
                     announcement.fileType = fileType;
@@ -309,7 +316,7 @@ export class MakerDashboard implements OnInit {
         this.cd.markForCheck();
     }
 
- 
+
 
     public initBarChart(
         draftedData: number[],

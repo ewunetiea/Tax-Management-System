@@ -16,6 +16,7 @@ export class Announcement {
   fileType?: string;         // type of file (image/pdf/word)
   pdfUrl?: string;           // blob URL for PDF download
   safePdfUrl?: SafeResourceUrl; 
+  postedBy?: String
 
 
 }

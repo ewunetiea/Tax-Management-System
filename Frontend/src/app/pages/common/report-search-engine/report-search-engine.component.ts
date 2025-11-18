@@ -195,12 +195,14 @@ export class ReportSearchEngineComponent {
       if (payload[k] === '') payload[k] = null;
     });
 
+
     let request$;
     if (roleNames.includes('ROLE_APPROVER')) {
       request$ = this.reportService.getTaxesforApprover(payload);
     } else if (roleNames.includes('ROLE_REVIEWER')) {
       request$ = this.reportService.getTaxesForReviewer(payload);
     } else {
+
       request$ = this.reportService.getTaxesFormaker(payload);
     }
 

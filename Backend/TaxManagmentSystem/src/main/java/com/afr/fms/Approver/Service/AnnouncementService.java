@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.afr.fms.Admin.Entity.User;
 import com.afr.fms.Approver.Entity.Announcement;
+import com.afr.fms.Approver.Entity.AnnouncementPayload;
 import com.afr.fms.Approver.Mapper.AnnouncementMapper;
 import com.afr.fms.Common.RecentActivity.RecentActivity;
 import com.afr.fms.Common.RecentActivity.RecentActivityMapper;
@@ -22,23 +23,24 @@ public class AnnouncementService {
 
     RecentActivity recentActivity = new RecentActivity();
 
-        @Transactional
+    @Transactional
 
-    public List<Announcement> getOnGoingAnnouncements() {
-        return announcementMapper.getOngoingAnnouncements();
+    public List<Announcement> getOnGoingAnnouncements(String role_type) {
+        return announcementMapper.getOngoingAnnouncements(role_type);
     }
-
 
     @Transactional
-      public Announcement getAnnouncementForDashBoard() {
-        return announcementMapper.getAnnouncementForDashBoard();
+    public Announcement getAnnouncementForDashBoard(String role_type) {
+        return announcementMapper.getAnnouncementForDashBoard(role_type);
+
     }
 
+    @Transactional
 
-        @Transactional
+    public List<Announcement> getArchivedAnnouncements(String role_type) {
 
-    public List<Announcement> getArchivedAnnouncements() {
-        return announcementMapper.getArchivedAnnouncements();
+        return announcementMapper.getArchivedAnnouncements( role_type);
+
     }
 
     @Transactional

@@ -65,6 +65,12 @@ export class AppMenuApprover {
                 label: 'Tax Category',
                 items: [{ label: 'Tax Type', icon: 'pi pi-fw pi-image', routerLink: ['/applayout/approver/manage-tax-category'] }]
             },
+
+              {
+                label: 'Activity',
+                items: [{ label: 'Recent Activity', icon: 'pi pi-fw pi-comment', routerLink: ['/applayout/admin/user-recent-activity'] }  
+            ]
+            },
         ];
         
         this.model = this.general_items;

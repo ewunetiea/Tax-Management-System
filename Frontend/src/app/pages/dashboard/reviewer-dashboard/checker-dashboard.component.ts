@@ -41,6 +41,7 @@ export class CheckerDashboardComponent implements OnInit, OnDestroy {
   branch_id?: number;
   stackedBarTaxesStatusData: any;
   stackedBarOptions: any;
+announcmentavailable : boolean = false
 
   constructor(
     private layoutService: LayoutService,
@@ -60,7 +61,7 @@ export class CheckerDashboardComponent implements OnInit, OnDestroy {
   loadReviewerDashboards() {
     forkJoin({
       taxStatus: this.reviewerDashboardService.getTaxStatusForReviewer(this.branch_id),
-      announcement: this.announcemetService.fetchAnnouncemetForDashBoard(),
+      announcement: this.announcemetService.fetchAnnouncemetForDashBoard("ROLE_REVIEWER"),
       stackedBarTaxesStatusData: this.reviewerDashboardService.getStackedBarTaxesStatusData(this.branch_id)
     })
     .pipe(takeUntil(this.destroy$))
@@ -68,6 +69,12 @@ export class CheckerDashboardComponent implements OnInit, OnDestroy {
       next: ({ taxStatus, announcement, stackedBarTaxesStatusData }) => {
         this.taxStatus = taxStatus;
         this.announcement = announcement;
+
+        if( this.announcement )
+        {
+          this.announcmentavailable = true
+
+        }
 
         // Build chart config
         const chartConfig = this.buildStackedBarChart(stackedBarTaxesStatusData);

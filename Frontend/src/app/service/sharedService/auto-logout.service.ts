@@ -86,19 +86,30 @@ export class AutoLogoutService implements OnDestroy {
    * @param skipServerCall if true, do not call AuthService.logout (useful when logout already performed)
    */
   public logout(skipServerCall = false): void {
-    clearTimeout(this.warningTimer);
-    clearTimeout(this.logoutTimer);
-    this.isWatching = false;
-    this.destroy$.next();
-    this.destroy$.complete();
+  clearTimeout(this.warningTimer);
+  clearTimeout(this.logoutTimer);
 
-    const trackerId = this.id_login_tracker;
-    this.user = null;
-    this.id_login_tracker = undefined;
-    this.storageService.clean();
-  if (!skipServerCall && trackerId) this.authService.logout(trackerId).subscribe({ next: () => { }, error: () => { } });
-    this.router.navigate(['']);
+  // STOP WATCH
+  this.isWatching = false;
+  this.destroy$.next();
+  this.destroy$.complete();
+
+  // 🔥 IMPORTANT: Force close dialog so knob never appears
+  this.dialogService.forceClose();
+
+  // CLEANUP USER
+  const trackerId = this.id_login_tracker;
+  this.user = null;
+  this.id_login_tracker = undefined;
+  this.storageService.clean();
+
+  if (!skipServerCall && trackerId) {
+    this.authService.logout(trackerId).subscribe();
   }
+
+  this.router.navigate(['']);
+}
+
 
   ngOnDestroy(): void {
     clearTimeout(this.warningTimer);

@@ -245,18 +245,18 @@
                     <td>
                         <p-button pTooltip="Edit Tax " tooltipPosition="top" icon="pi pi-pencil" class="mr-2"
                             [rounded]="true" [outlined]="true" (click)="editTax(tax)"
-                            *ngIf=" routeControl ==='drafted' " />
+                            *ngIf=" routeControl ==='drafted' || routeControl ==='rejected' " />
 
                         <p-button pTooltip="submit to Branch Manager" tooltipPosition="top" icon="pi pi-send"
                             severity="info" [rounded]="true" [outlined]="true" (click)="submitToBranchManager(tax)"
-                            class="mr-2" *ngIf=" routeControl ==='drafted' " />
+                            class="mr-2" *ngIf=" routeControl ==='drafted'  || routeControl ==='rejected'" />
                         <p-button pTooltip="Delete Tax Information" tooltipPosition="top" icon="pi pi-trash"
                             severity="danger" [rounded]="true" [outlined]="true" (click)="deleteTaxes(tax)" class="mr-2"
                             *ngIf=" routeControl ==='drafted' " />
 
                         <p-button pTooltip="Back to Draft State" tooltipPosition="top" icon="pi pi-fast-backward"
                             severity="info" [rounded]="true" [outlined]="true" (click)="backToDraftedState(tax)"
-                            class="mr-2" *ngIf=" routeControl ==='submited' || routeControl ==='rejected' " />
+                            class="mr-2" *ngIf=" routeControl ==='submited' " />
 
                     </td>
 

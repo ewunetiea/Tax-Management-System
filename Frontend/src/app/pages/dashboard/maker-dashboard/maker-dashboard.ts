@@ -93,7 +93,7 @@ export class MakerDashboard implements OnInit {
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: ({ cardData, barData, polarChartData, radarData }) => {
-                    console.log('forkJoin emitted');
+
 
                     // Card and bar chart
                     this.cardData = cardData;
@@ -261,7 +261,7 @@ export class MakerDashboard implements OnInit {
 
 
     public initPolarChart(polarDataObj?: { drafted: number, waiting: number, reviewed: number, approved: number }) {
-        console.log(polarDataObj);
+
 
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');
@@ -323,7 +323,7 @@ export class MakerDashboard implements OnInit {
         waitingData: number[],
         approvedData: number[]
     ) {
-        console.log("_____________________G_______________________________________________");
+
 
 
         const documentStyle = getComputedStyle(document.documentElement);

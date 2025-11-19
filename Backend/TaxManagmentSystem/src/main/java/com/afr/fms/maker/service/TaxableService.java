@@ -56,7 +56,6 @@ public class TaxableService {
 
             // Check for existing files in the database
             for (MultipartFile file : files) {
-                System.out.println("Checking file: " + file.getOriginalFilename());
                 if (!file.isEmpty()) {
                     // Check if the file already exists in the database
                     if (taxFileMapper.checkFilnameExistance(file.getOriginalFilename())) {
@@ -120,9 +119,6 @@ public class TaxableService {
     public void updateTax(Tax tax, MultipartFile[] files) throws IOException {
 
         try {
-
-            System.out.println(files);
-            System.out.println(tax.getTaxFile());
             String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();// folder inside the
                                                                                                 // project
             File dir = new File(uploadDir);
@@ -143,12 +139,9 @@ public class TaxableService {
                     File existingFile = new File(dir, taxFileToDelete.getFileName());
                     if (existingFile.exists()) {
                         if (existingFile.delete()) {
-                            System.out.println("✅ Deleted file from folder: " + existingFile.getAbsolutePath());
                         } else {
-                            System.out.println("⚠️ Failed to delete file: " + existingFile.getAbsolutePath());
                         }
                     } else {
-                        System.out.println("⚠️ File not found for deletion: " + existingFile.getAbsolutePath());
                     }
                 }
 
@@ -179,7 +172,6 @@ public class TaxableService {
             recentActivityMapper.addRecentActivity(recentActivity);
 
         } catch (Exception e) {
-            System.out.println(e);
             // TODO: handle exception
         }
     }

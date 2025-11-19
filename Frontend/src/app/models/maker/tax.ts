@@ -44,10 +44,8 @@ export class Tax {
   approver_rejected_date?: Date;
   approver_name?: string;
   approved_date?: Date;
-
   isFileEdited?: boolean = false;
   drafted_date?: Date;
-
   maker_id ?: number
 
 }

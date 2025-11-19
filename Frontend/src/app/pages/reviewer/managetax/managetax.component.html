@@ -182,8 +182,7 @@
                     <p-columnFilter type="date" field="checked_Date" display="menu" />
                   </div>
                 </th>
-
-                <th *ngIf="statusRoute !== 'settled'" style="width: 11rem">Action</th>
+                <th *ngIf="statusRoute !== 'settled' && statusRoute !== 'rejected'" style="width: 11rem"> Action </th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-tax let-expanded="expanded">
@@ -199,7 +198,7 @@
                    [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
                    pTooltip="Click > icon to see file details" 
                    tooltipPosition="bottom"
-                    />
+                  />
                 </td>
                 <td>
                   <p-tableCheckbox [value]="tax"></p-tableCheckbox>
@@ -237,19 +236,41 @@
                 </td>
 
                 <td>
-                  <button *ngIf="statusRoute !== 'settled'" pButton pRipple pTooltip="Preview" tooltipPosition="bottom"
-                    (click)="editTax(tax)" icon="pi pi-eye"
-                    class="p-button-rounded p-button-outlined p-button-info mr-2"></button>
-                  <button *ngIf="statusRoute == 'pending' || statusRoute == 'rejected' " pButton pRipple pTooltip="Send"
-                    tooltipPosition="bottom" (click)="reviewTax(tax)" icon="pi pi-send"
-                    class="p-button-rounded p-button-outlined p-button-success mr-2"></button>
-                  <button *ngIf="statusRoute !== 'settled' && statusRoute !=='sent' " pButton pRipple pTooltip="Reject"
-                    tooltipPosition="bottom" (click)="rejectTax(tax)" icon="pi pi-times-circle"
-                    class="p-button-rounded p-button-outlined p-button-danger"></button>
-
-                  <button *ngIf="statusRoute === 'sent'" pButton pRipple pTooltip="Back to Waiting State"
-                    tooltipPosition="right" (click)="rejectTax(tax)" icon="pi pi-times-circle"
-                    class="p-button-rounded p-button-outlined p-button-help"></button>
+                  <button 
+                  *ngIf="statusRoute !== 'settled' && statusRoute !== 'rejected'" 
+                  pButton 
+                  pRipple 
+                  pTooltip="Preview" 
+                  tooltipPosition="bottom"
+                  (click)="editTax(tax)" 
+                  icon="pi pi-eye"
+                  class="p-button-rounded p-button-outlined p-button-info mr-2"></button>
+                  <button 
+                  *ngIf="statusRoute == 'pending' " 
+                  pButton 
+                  pRipple 
+                  pTooltip="Send"
+                  tooltipPosition="bottom" 
+                  (click)="reviewTax(tax)" icon="pi pi-send"
+                  class="p-button-rounded p-button-outlined p-button-success mr-2"></button>
+                  <button 
+                  *ngIf="statusRoute == 'pending' " 
+                  pButton 
+                  pRipple 
+                  pTooltip="Reject"
+                  tooltipPosition="bottom" 
+                  (click)="rejectTax(tax)" 
+                  icon="pi pi-times-circle"
+                  class="p-button-rounded p-button-outlined p-button-danger"></button>
+                  <button 
+                  *ngIf="statusRoute === 'sent'" 
+                  pButton 
+                  pRipple 
+                  pTooltip="Back"
+                  tooltipPosition="bottom"
+                   (click)="rejectTax(tax)" 
+                   icon="pi pi-times-circle"
+                  class="p-button-rounded p-button-outlined p-button-help"></button>
                 </td>
               </tr>
             </ng-template>
@@ -258,26 +279,39 @@
               <tr>
                 <td colspan="18">
                   <div class="p-3">
-                    <div class="flex space-x-2 py-2">
-                      <button
-                      class="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full px-4 py-2"
-                      (click)="activeIndex1 = 0">
-                      <i class="pi pi-plus mr-1"></i>Attached File Details</button>
-                    </div>
+                    <div class="flex p-fluid space-x-2 py-2">
+                      <p-button
+                         *ngIf="tax.remark"
+                          (click)="activeIndex1 = 0"
+                          icon="pi pi-plus"
+                          styleClass="p-button-raised p-button-rounded p-ml-2"
+                          label="Attached File Details"
+                          ></p-button>
+                          <p-button
+                          (click)="activeIndex1 = 1"
+                          icon="pi pi-plus"
+                          styleClass="p-button-raised p-button-rounded p-ml-2"
+                          label="Remark"
+                        ></p-button>
+                        </div>
+
                     <p-tabView [(activeIndex)]="activeIndex1">
-                      <p-tabPanel>
+                      <p-tabPanel header="Attached File Details">
                         <div class="py-3 flex space-x-2">
-                          <p-button *ngIf="tax.message"
+                          <p-button 
+                          *ngIf="tax.message"
                           [icon]="activeState[0] ? 'pi pi-minus' : 'pi pi-plus'" 
                           (click)="toggle(0)"
                           styleClass="p-button-text" 
-                          label="Message Detail"></p-button>
+                          label="Message Detail">
+                        </p-button>
                           <p-button 
                           *ngIf="tax.image"
                           [icon]="activeState[1] ? 'pi pi-minus' : 'pi pi-plus'" 
                           (click)="toggle(1)"
                           styleClass="p-button-text" 
-                          label="Attached File"></p-button>
+                          label="Attached File">
+                        </p-button>
                         </div>
 
                         <div class="flex gap-4 items-start mt-3">
@@ -331,6 +365,46 @@
                           <p-dialog [(visible)]="showPdfModal" modal="true" [style]="{width: '70%', height: '80%'}" (onHide)="closeModalPDF()">
                             <iframe *ngIf="selectedPdf" [src]="selectedPdf" class="w-full h-full"></iframe>
                           </p-dialog>
+                        </div>
+                      </p-tabPanel>
+                      <p-tabPanel header="Remark">
+                        <div class="py-3 flex space-x-2">
+                          <p-button 
+                          *ngIf="tax.remark"
+                          [icon]="activeState[2] ? 'pi pi-minus' : 'pi pi-plus'" 
+                          (click)="toggle(2)"
+                          styleClass="p-button-text" 
+                          label="Maker Remark">
+                        </p-button>
+                        <p-button 
+                          *ngIf="tax.checker_rejected_reason"
+                          [icon]="activeState[3] ? 'pi pi-minus' : 'pi pi-plus'" 
+                          (click)="toggle(3)"
+                          styleClass="p-button-text" 
+                          label="Reviewer Remark">
+                        </p-button>
+                        <p-button 
+                          *ngIf="tax.approver_rejected_reason"
+                          [icon]="activeState[4] ? 'pi pi-minus' : 'pi pi-plus'" 
+                          (click)="toggle(4)"
+                          styleClass="p-button-text" 
+                          label="Approver Remark">
+                        </p-button>
+                        </div>
+ 
+                        <!-- Maker Remark Section -->
+                         <div *ngIf="tax.remark && activeState[2]" class="card p-3">
+                          <textarea rows="5" cols="30" pTextarea [(ngModel)]="tax.remark" fluid></textarea>
+                        </div>
+
+                         <!-- Reviewer Remark Section -->
+                         <div *ngIf="tax.checker_rejected_reason && activeState[3]" class="card p-3">
+                          <textarea rows="5" cols="30" pTextarea [(ngModel)]="tax.checker_rejected_reason" fluid></textarea>
+                        </div>
+
+                         <!-- Approver Remark Section -->
+                         <div *ngIf="tax.approver_rejected_reason && activeState[4]" class="card p-3">
+                          <textarea rows="5" cols="30" pTextarea [(ngModel)]="tax.approver_rejected_reason" fluid></textarea>
                         </div>
                       </p-tabPanel>
                     </p-tabView>

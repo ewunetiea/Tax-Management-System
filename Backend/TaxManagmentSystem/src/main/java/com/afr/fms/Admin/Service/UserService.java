@@ -292,9 +292,6 @@ public class UserService {
     }
 
     public void controleUserStatus(User user) {
-
-        System.out.println(user.isStatus());
-        System.out.println("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSsssss");
         try {
                 userSecurityMapper.controleUserStatus(user);
             

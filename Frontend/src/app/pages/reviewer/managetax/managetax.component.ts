@@ -42,7 +42,7 @@ export class ManagetaxComponent implements OnInit {
   taxDialog = false
   isEdit = false;
   activeIndex1: number = 0;
-  activeState: boolean[] = [true, false, false];
+  activeState: boolean[] = [true, false, false, false, false];
   pdfSrc: any;
   selectedPdf: SafeResourceUrl | null = null;
   showPdfModal = false;
@@ -409,20 +409,13 @@ export class ManagetaxComponent implements OnInit {
             let byteArray: Uint8Array;
 
             if (typeof file.file === 'string') {
-                // Remove data URL prefix if it exists
                 const base64 = file.file.includes(',') ? file.file.split(',')[1] : file.file;
-
-                // Decode base64 safely
                 const binary = atob(base64.replace(/\s/g, ''));
                 byteArray = new Uint8Array(binary.length);
 
                 for (let i = 0; i < binary.length; i++) {
                     byteArray[i] = binary.charCodeAt(i);
                 }
-
-                // Debug: Log the decoded binary and byte array
-
-
             } else {
                 // If it's already a Blob, use it directly
                 const blob = new Blob([file.file], { type: file.fileType });
@@ -447,5 +440,4 @@ export class ManagetaxComponent implements OnInit {
             alert('Cannot download file. The data may be corrupted.');
         }
     }
-
 }

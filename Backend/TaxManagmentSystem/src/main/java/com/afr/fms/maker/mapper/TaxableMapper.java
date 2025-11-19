@@ -119,11 +119,9 @@ public interface TaxableMapper {
 
         @Results(value = {
                         @Result(property = "id", column = "id"),
-
                         @Result(property = "taxFile", column = "id", many = @Many(select = "com.afr.fms.Maker.mapper.TaxFileMapper.getFileByFileById")),
 
         })
-
         public List<Tax> fetchTaxBasedonStatus(MakerSearchPayload payload);
 
         @Select({
@@ -192,7 +190,7 @@ public interface TaxableMapper {
 
         public void deleteTaxById(Long id);
 
-        @Update("update  tblTaxable   set status = 0 , maker_date = CURRENT_TIMESTAMP  where  status = 6 and id  = #{id}")
+        @Update("update  tblTaxable set status = 0 , maker_date = CURRENT_TIMESTAMP where id  = #{id}")
         public void submitToBrancManager(Long id);
 
         @Update("update  tblTaxable   set status = 6 , maker_date = null  where  status in (0,2,3) and  id  = #{id}")

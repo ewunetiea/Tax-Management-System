@@ -39,13 +39,8 @@ public class TaxController {
 	public ResponseEntity<List<Tax>> fetchTaxBasedonStatus(@RequestBody MakerSearchPayload payload,
 			HttpServletRequest request) {
 		try {
-
 			List<Tax> tax = new ArrayList<>();
-
 			tax = taxableService.fetchTaxBasedonStatus(payload);
-			System.out.println("_____________________TTT_____________________");
-			System.out.println(tax);
-
 			return new ResponseEntity<>(tax, HttpStatus.OK);
 		} catch (Exception ex) {
 			logger.error("Error while fetching on going announcements", ex);
@@ -58,11 +53,8 @@ public class TaxController {
 	public ResponseEntity<List<Tax>> fetchTaxProgress(@RequestBody MakerSearchPayload payload,
 			HttpServletRequest request) {
 		try {
-
 			List<Tax> tax = new ArrayList<>();
-
 			tax = taxableService.fetchTaxProgress(payload);
-
 			return new ResponseEntity<>(tax, HttpStatus.OK);
 		} catch (Exception ex) {
 			logger.error("Error while fetching on going announcements", ex);

@@ -163,8 +163,7 @@ public class AuthController {
                                 // userSecurityService.checkCredentialTimeExpired(us);
                         }
                 } catch (Exception e) {
-                        logger.error("Error checking user credential expiration for username: {}",
-                                        loginRequest.getUsername(), e);
+                        logger.error("Error checking user credential expiration for username: {}", loginRequest.getUsername(), e);
                 }
 
                 Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));

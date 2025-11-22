@@ -2,7 +2,7 @@ import { TaxFile } from "./tax-file";
 
 export class Tax {
   id?: number;
-  mainGuid?: String
+  mainGuid?: String;
   from_?: number;
   sendTo_?: number;
   taxCategory?: number;
@@ -30,7 +30,7 @@ export class Tax {
   taxFile?: TaxFile[] = []
   previouseTaxFile?: TaxFile[] = []
 
-  remark?: string
+  remark?: string;
   reference_number?: string
   initiator_branch?: string;   // The branch that initiated the tax
   destination_branch?: string; // The branch that receives/sends to
@@ -46,6 +46,5 @@ export class Tax {
   approved_date?: Date;
   isFileEdited?: boolean = false;
   drafted_date?: Date;
-  maker_id ?: number
-
+  maker_id?: number;
 }

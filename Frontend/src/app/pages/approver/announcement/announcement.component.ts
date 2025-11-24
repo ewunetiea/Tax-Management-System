@@ -58,9 +58,7 @@ export class AnnouncementComponent implements OnInit {
   breadcrumbText: string = ' Anouncement';
   items: MenuItem[] | undefined;
   rowToggles: { [id: number]: { message: boolean; file: boolean } } = {};
-
   status!: string;
-
   announcmentPayload = new AnnouncementPayload()
 
   constructor(
@@ -81,12 +79,8 @@ export class AnnouncementComponent implements OnInit {
       { name: 'Large', value: 'large' }
     ];
 
-
     this.announcmentPayload.announcement_type = this.announcement_type
-    this.announcmentPayload.role = this.storageService.getUser().roles[0]
-
-    console.log(this.announcmentPayload)
-
+    this.announcmentPayload.role = this.storageService.getUser().roles[0];
     this.loadAnnouncements(this.announcmentPayload);
   }
 

@@ -22,12 +22,12 @@ export class TaxService {
   }
 
   fetchTaxesBasedOnStatus(payload: MakerSearchPayload): Observable<Tax[]> {
-    console.log("_______G_____________________________________")
+    
     return this.http.post<Tax[]>(baseUrl + '/fetchTaxBasedonStatus', payload);
   }
 
   fetchTaxProgress(payload: MakerSearchPayload): Observable<Tax[]> {
-    console.log("Tax Progress____________________________")
+    
     return this.http.post<Tax[]>(baseUrl + '/fetchTaxProgress', payload);
   }
 

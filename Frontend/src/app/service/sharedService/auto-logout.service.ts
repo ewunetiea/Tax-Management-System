@@ -53,7 +53,7 @@ export class AutoLogoutService implements OnDestroy {
   private resetTimer(): void {
     clearTimeout(this.warningTimer);
     clearTimeout(this.logoutTimer);
-    console.log("Reset Time is started for:", this.user?.email)
+    
 
     this.ngZone.runOutsideAngular(() => {
       // Warning dialog timer

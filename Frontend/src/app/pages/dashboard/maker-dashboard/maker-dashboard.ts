@@ -120,7 +120,7 @@ export class MakerDashboard implements OnInit {
     }
 
     loadAnnouncements() {
-                    console.log("_____________________hghhghhh")
+                    
 
         this.announcemetService.fetchAnnouncemetForDashBoard("ROLE_MAKER").subscribe(
 
@@ -128,7 +128,7 @@ export class MakerDashboard implements OnInit {
                 if (announcement) {
 
 
-                    console.log("_______FFFR_____________________________")
+                    
                     this.announcmentavailable = true
                     // Detect file type from base64
                     const fileType = this.getFileType(announcement.image);
@@ -165,7 +165,7 @@ export class MakerDashboard implements OnInit {
                 }
             },
             (error: HttpErrorResponse) => {
-                console.log(error.error)
+                
             }
         );
     }

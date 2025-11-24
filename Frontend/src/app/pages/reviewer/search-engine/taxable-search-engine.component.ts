@@ -79,7 +79,7 @@ export class TaxableSearchEngineComponent {
     this.route.paramMap.subscribe(params => {
       const status = params.get('status')?.toLowerCase() || 'pending';
 
-      console.log("_________FF________________jjj_____________" + status)
+      
       this.onReset();
       this.form.get('router_status')?.setValue(status);
     });

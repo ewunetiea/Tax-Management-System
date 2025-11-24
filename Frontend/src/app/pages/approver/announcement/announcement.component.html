@@ -1,6 +1,6 @@
 <p-toolbar>
     <ng-template pTemplate="start" *ngIf="announcmentPayload.role ==='ROLE_APPROVER' && announcement_type !='archived' ">
-        <p-button label="Post New Announcememt " icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="openNew()" />
+        <p-button label="New" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="openNew()" />
         <p-button severity="secondary" label="Delete" icon="pi pi-trash" outlined
             (click)="deleteAnnouncements(selecteAnnouncements)"
             [disabled]="!selecteAnnouncements || !selecteAnnouncements.length" />
@@ -25,13 +25,9 @@
     [rowsPerPageOptions]="[10, 20, 30]" [size]="selectedSize">
     <ng-template #caption>
         <div class="flex items-center justify-between">
-            <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
-                (click)="clear(dt)"></button>
-
-
+            <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
             <div class="flex justify-center mb-4">
-                <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name"
-                    optionValue="value" />
+                <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name"  optionValue="value" />
             </div>
 
 
@@ -46,9 +42,7 @@
     <ng-template #header>
         <tr>
             <th style="width: 3rem"></th>
-
             <th style="width: 3rem"><p-tableHeaderCheckbox /></th>
-
             <th pSortableColumn="title" style="min-width: 16rem">
                 Title
                 <p-sortIcon field="title" />
@@ -60,9 +54,6 @@
                 <p-sortIcon field="audience" />
             </th>
 
-
-
-
             <th pSortableColumn="created_date" style="min-width: 12rem">
                 Posted  Date
                 <p-sortIcon field="created_date" />
@@ -70,7 +61,6 @@
 
             <th pSortableColumn="expary_date" style="min-width: 12rem">
                 Expary Date
-
                 <p-sortIcon field="expary_date" />
             </th>
 
@@ -95,10 +85,22 @@
             <td>{{ announcement.expiry_date | date:'yyyy-MM-dd' }}</td>
             <td>{{ announcement.postedBy }}</td>
             <td *ngIf="this.announcmentPayload.role ==='ROLE_APPROVER'">
-                <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
-                    (click)="editAnnouncement(announcement)" />
-                <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
-                    (click)="deleteAnnouncements(announcement)" />
+                <p-button 
+                icon="pi pi-pencil" 
+                class="mr-2" 
+                [rounded]="true" 
+                [outlined]="true"
+                 pTooltip="Edit"
+                tooltipPosition="bottom" 
+                 (click)="editAnnouncement(announcement)" />
+                <p-button 
+                icon="pi pi-trash" 
+                severity="danger"
+                 [rounded]="true" 
+                 [outlined]="true"
+                 pTooltip="Delete"
+                 tooltipPosition="bottom" 
+                (click)="deleteAnnouncements(announcement)" />
             </td>
         </tr>
     </ng-template>

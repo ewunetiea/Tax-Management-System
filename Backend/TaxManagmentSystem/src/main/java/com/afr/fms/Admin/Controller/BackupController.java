@@ -39,47 +39,66 @@ public class BackupController {
 
 	}
 
-	@PostMapping(value = "/getBackup")
-	private ResponseEntity<Object> getBackup(@RequestBody Backup backup, HttpServletRequest request)
-			throws JsonMappingException, JsonProcessingException {
+	// @PostMapping(value = "/getBackup")
+	// private ResponseEntity<Object> getBackup(@RequestBody Backup backup, HttpServletRequest request)
+	// 		throws JsonMappingException, JsonProcessingException {
 
-		Backup successfulbackup = backupService.createBackup(backup);
-		File file = new File(successfulbackup.getFilepath());
-		HttpHeaders headers = new HttpHeaders();
-		try {
-			headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
-			headers.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
-			headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-			headers.add("Pragma", "no-cache");
-			headers.add("Expires", "0");
-			String contentType = "application/octet-stream";
-			InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+	// 	Backup successfulbackup = backupService.createBackup(backup);
+	// 	File file = new File(successfulbackup.getFilepath());
+	// 	HttpHeaders headers = new HttpHeaders();
+	// 	try {
+	// 		headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
+	// 		headers.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
+	// 		headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+	// 		headers.add("Pragma", "no-cache");
+	// 		headers.add("Expires", "0");
+	// 		String contentType = "application/octet-stream";
+	// 		InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
-			return ResponseEntity.ok()
-					.headers(headers)
-					.contentLength(file.length())
-					.contentType(
-							MediaType.parseMediaType(contentType))
-					.body(resource);
-		}
+	// 		return ResponseEntity.ok()
+	// 				.headers(headers)
+	// 				.contentLength(file.length())
+	// 				.contentType(
+	// 						MediaType.parseMediaType(contentType))
+	// 				.body(resource);
+	// 	}
 
-		catch (IOException e) {
-			return ResponseEntity.badRequest()
-					.body("Couldn't find " + file.getName() +
-							" => " + e.getMessage());
-		} catch (Exception ex) {
+	// 	catch (IOException e) {
+	// 		return ResponseEntity.badRequest()
+	// 				.body("Couldn't find " + file.getName() +
+	// 						" => " + e.getMessage());
+	// 	} catch (Exception ex) {
 			
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		} finally {
-			if (file.delete()) {
+	// 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	// 	} finally {
+	// 		if (file.delete()) {
 				
-			} else {
+	// 		} else {
 				
-			}
-			;
-		}
+	// 		}
+	// 		;
+	// 	}
 
-	}
+	// }
+
+	@PostMapping(value = "/getBackup")
+public ResponseEntity<Backup> getBackup(@RequestBody Backup backup) {
+
+    try {
+        Backup successfulBackup = backupService.createBackup(backup);
+
+        if (successfulBackup == null || successfulBackup.getFilepath() == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+
+        // Return the backup info as JSON instead of streaming the file
+        return ResponseEntity.ok(successfulBackup);
+
+    } catch (Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    }
+}
+
 
 	@GetMapping("/getBackupByUserId/{id}")
 	public ResponseEntity<Backup> getBackupByUserId(@PathVariable("id") Long id, HttpServletRequest request) {

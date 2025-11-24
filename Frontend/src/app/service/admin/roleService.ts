@@ -13,20 +13,15 @@ export class RoleService {
     constructor(private http: HttpClient) {}
 
     createRole(data: any): Observable<any> {
-        return this.http.post(`${rootURL}/role`, data);
+        return this.http.post(`${rootURL}/role/admin`, data);
     }
 
     manageJobPositions(data: any): Observable<any> {
         return this.http.post(`${rootURL}/jobPosition/manageJobPositions`, data);
     }
 
-    createRight(data: Object): Observable<any> {
-        return this.http.post(`${rootURL}/saveRight`, data);
-    }
+ 
 
-    getAllRights(): Observable<any> {
-        return this.http.get<any>(`${rootURL}/getAllRights`);
-    }
 
     getMappedJobPositions(): Observable<any> {
         return this.http.get<any>(`${rootURL}/jobPositions`);
@@ -49,11 +44,11 @@ export class RoleService {
     }
 
     deleteRole(role: Role[]): Observable<any> {
-        return this.http.post(`${rootURL}/role/delete`, role);
+        return this.http.post(`${rootURL}/role/delete/admin`, role);
     }
 
     activate_role(role: Role[]): Observable<any> {
-        return this.http.post(`${rootURL}/role/activate`, role);
+        return this.http.post(`${rootURL}/role/activate/admin`, role);
     }
 
     deactivateRole(selected_role_id: any): Observable<Boolean> {
@@ -61,10 +56,10 @@ export class RoleService {
     }
 
     activateUser(user_id: any): Observable<Boolean> {
-        return this.http.get<Boolean>(rootURL + '/activate_user/' + user_id);
+        return this.http.get<Boolean>(rootURL + '/activate_user/admin/' + user_id);
     }
 
     activateRole(selected_role_id: any): Observable<Boolean> {
-        return this.http.get<Boolean>(rootURL + '/role/activate/' + selected_role_id);
+        return this.http.get<Boolean>(rootURL + '/role/activate/admin/' + selected_role_id);
     }
 }

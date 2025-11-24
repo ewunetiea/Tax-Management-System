@@ -16,7 +16,7 @@ import com.afr.fms.Maker.entity.Tax;
 import com.afr.fms.Maker.entity.TaxableSearchEngine;
 
 @RestController
-@RequestMapping("/api/common/report")
+@RequestMapping("/api/report")
 public class GenerateTaxReportController {
 
     @Autowired
@@ -24,15 +24,9 @@ public class GenerateTaxReportController {
 
     private static final Logger logger = LoggerFactory.getLogger(GenerateTaxReportController.class);
 
-    @PostMapping("/maker")
-    public ResponseEntity<List<Tax>> generateReportForMaker(@RequestBody TaxableSearchEngine tax, HttpServletRequest request) {
-        try {
-            return new ResponseEntity<>(generateTaxReportService.generateReportForMaker(tax), HttpStatus.OK);
-        } catch (Exception ex) {
-            logger.error("An error occurred while searching taxes : {}", ex.getMessage(), ex);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+
+
+
 
     @PostMapping("/reviewer")
     public ResponseEntity<List<Tax>> generateReportForReviewer(@RequestBody TaxableSearchEngine tax, HttpServletRequest request) {
@@ -50,6 +44,18 @@ public class GenerateTaxReportController {
             return new ResponseEntity<>(generateTaxReportService.generateReportForApprover(tax), HttpStatus.OK);
         } catch (Exception ex) {
             logger.error("An error occurred while retrieving searching taxes : {}", ex.getMessage(), ex);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    
+    @PostMapping("/maker")
+    public ResponseEntity<List<Tax>> generateReportForMaker(@RequestBody TaxableSearchEngine tax, HttpServletRequest request) {
+
+        try {
+            return new ResponseEntity<>(generateTaxReportService.generateReportForMaker(tax), HttpStatus.OK);
+        } catch (Exception ex) {
+            logger.error("An error occurred while searching taxes : {}", ex.getMessage(), ex);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

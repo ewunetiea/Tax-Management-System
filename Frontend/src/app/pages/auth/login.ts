@@ -228,4 +228,19 @@ export class Login {
             this.message = '';
         }
     }
+
+
+  registerApis() {
+  this.authService.apiRegister().subscribe({
+    next: (res) => {
+      console.log('APIs registered successfully', res);
+      alert(`APIs registered successfully: ${JSON.stringify(res)}`);
+    },
+    error: (err) => {
+      console.error('Failed to register APIs', err);
+      alert('Failed to register APIs');
+    }
+  });
+}
+
 }

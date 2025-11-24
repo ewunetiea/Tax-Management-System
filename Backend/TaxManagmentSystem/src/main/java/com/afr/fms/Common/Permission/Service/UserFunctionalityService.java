@@ -22,6 +22,7 @@ public class UserFunctionalityService {
     }
 
     public List<User> generatedUsers(User user) {
+
         return userFunctionalityMapper.generatedUsers(user.getFirst_name(), user.getMiddle_name(), user.getLast_name(),
                 user.getEmail(), user.getPhone_number(),
                 user.getBranch() != null ? user.getBranch().getId() : null,
@@ -31,9 +32,20 @@ public class UserFunctionalityService {
     }
 
     public void deleteUserFunctionality(List<Functionalities> functionalities) {
+
+        try {
+              System.out.println(functionalities);
         for (Functionalities functionality : functionalities) {
             userFunctionalityMapper.deleteUserFunctionalityBYId(functionality.getId());
         }
+            
+        } catch (Exception e) {
+            
+            System.out.println(e);
+            // TODO: handle exception
+        }
+
+      
     }
 
 }

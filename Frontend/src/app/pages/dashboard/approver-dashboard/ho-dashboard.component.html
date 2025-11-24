@@ -1,5 +1,5 @@
 <p-fluid class="grid grid-cols-12 gap-4 mb-6" *ngIf="!loading">
-    <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+    <div class="col-span-12 lg:col-span-6 xl:col-span-4">
         <div class="card mb-0">
             <div class="flex justify-between mb-4">
                 <div>
@@ -11,12 +11,12 @@
                     <i class="pi pi-clock text-blue-500 !text-xl"></i>
                 </div>
             </div>
-            <span class="text-primary font-medium">{{ taxStatus[0] }} </span>
+            <span class="text-primary font-medium"> </span>
             <span class="text-muted-color">pending</span>
         </div>
     </div>
 
-    <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+    <div class="col-span-12 lg:col-span-6 xl:col-span-4">
         <div class="card mb-0">
             <div class="flex justify-between mb-4">
                 <div>
@@ -28,12 +28,12 @@
                     <i class="pi pi-verified text-orange-500 !text-xl"></i>
                 </div>
             </div>
-            <span class="text-primary font-medium">{{ taxStatus[1] }} </span>
+            <span class="text-primary font-medium"> </span>
             <span class="text-muted-color">Approved</span>
         </div>
     </div>
 
-    <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+    <div class="col-span-12 lg:col-span-6 xl:col-span-4">
         <div class="card mb-0">
             <div class="flex justify-between mb-4">
                 <div>
@@ -45,27 +45,12 @@
                     <i class="pi pi-times-circle text-pink-500 !text-xl"></i>
                 </div>
             </div>
-            <span class="text-primary font-medium">{{ taxStatus[2] }} </span>
+            <span class="text-primary font-medium"> </span>
             <span class="text-muted-color">rejected</span>
         </div>
     </div>
 
-    <div class="col-span-12 lg:col-span-6 xl:col-span-3">
-        <div class="card mb-0">
-            <div class="flex justify-between mb-4">
-                <div>
-                    <span class="block text-muted-color font-medium mb-4">Comments</span>
-                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{0}}</div>
-                </div>
-                <div class="flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-border"
-                    style="width: 2.5rem; height: 2.5rem">
-                    <i class="pi pi-comment text-purple-500 !text-xl"></i>
-                </div>
-            </div>
-            <span class="text-primary font-medium">{{0}} </span>
-            <span class="text-muted-color">comment</span>
-        </div>
-    </div>
+   
 </p-fluid>
 
 <p-fluid class="grid grid-cols-12 gap-4 mb-6" *ngIf="loading">

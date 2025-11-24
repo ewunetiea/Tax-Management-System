@@ -5,7 +5,7 @@ import { environment } from '../../../environments/environment.prod';
 import { Tax } from '../../models/maker/tax';
 import { TaxableSearchEngine } from '../../models/common/taxable-search-engine';
 
-const baseUrl = `${environment.backendUrl}/common/report`;
+const baseUrl = `${environment.backendUrl}/report`;
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +13,6 @@ const baseUrl = `${environment.backendUrl}/common/report`;
 export class ReportService {
   constructor(private http: HttpClient) { }
 
-  getTaxesFormaker(tax: TaxableSearchEngine): Observable<Tax[]> {
-    
-    return this.http.post<Tax[]>(`${baseUrl}/maker`, tax);
-  }
 
   getTaxesForReviewer(tax: TaxableSearchEngine): Observable<Tax[]> {
     return this.http.post<Tax[]>(`${baseUrl}/reviewer`, tax);
@@ -24,6 +20,11 @@ export class ReportService {
 
   getTaxesforApprover(tax: TaxableSearchEngine): Observable<Tax[]> {
     return this.http.post<Tax[]>(`${baseUrl}/approver`, tax);
+  }
+
+
+    getTaxesFormaker(tax: TaxableSearchEngine): Observable<Tax[]> {
+    return this.http.post<Tax[]>(`${baseUrl}/maker`, tax);
   }
 
 

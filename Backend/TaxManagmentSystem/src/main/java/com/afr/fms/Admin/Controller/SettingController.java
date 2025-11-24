@@ -37,7 +37,7 @@ public class SettingController {
 
     private static final Logger logger = LoggerFactory.getLogger(SettingController.class);
 
-    @PostMapping("/setting/account")
+    @PostMapping("/setting/account/admin")
     public ResponseEntity<?> manage_account_setting(HttpServletRequest request, @RequestBody Setting setting)
             throws ParseException {
         try {
@@ -54,7 +54,7 @@ public class SettingController {
 
     }
 
-    @PostMapping("/setting/jwt")
+    @PostMapping("/setting/jwt/admin")
     public ResponseEntity<?> manage_JWT_setting(HttpServletRequest request, @RequestBody Setting setting)
             throws ParseException {
         try {

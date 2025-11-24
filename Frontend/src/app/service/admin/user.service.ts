@@ -19,7 +19,7 @@ export class UserService {
     }
 
     replaceHRData(): Observable<User[]> {
-        return this.http.get<any>(API_URL + '/user/replaceHRData');
+        return this.http.get<any>(API_URL + '/user/replaceHRData/admin');
     }
 
     getUsersStatus(): Observable<User[]> {
@@ -63,15 +63,15 @@ export class UserService {
     }
 
     unlockUserAccount(user: User): Observable<any> {
-        return this.http.post<User>(API_URL + '/user/account', user);
+        return this.http.post<User>(API_URL + '/user/account/admin', user);
     }
 
       controleUserStatus(user: User): Observable<any> {
-        return this.http.post<User>(API_URL + '/user/controleUserStatus', user);
+        return this.http.post<User>(API_URL + '/user/controleUserStatus/admin', user);
     }
 
     manageRoles(user: User): Observable<any> {
-        return this.http.post<User>(API_URL + '/user/roles', user);
+        return this.http.post<User>(API_URL + '/user/roles/admin', user);
     }
 
     generateUsers(user: User): Observable<any> {
@@ -79,15 +79,12 @@ export class UserService {
     }
 
     transferBranch(user: User): Observable<any> {
-        return this.http.post<User>(API_URL + '/user/branch', user);
+        return this.http.post<User>(API_URL + '/user/branch/admin', user);
     }
 
-    makeUserSpecial(users: User[]): Observable<any> {
-        return this.http.post<User>(API_URL + '/user/special', users);
-    }
 
     manageMultipleUserRole(users: User[]): Observable<any> {
-        return this.http.post<User>(API_URL + '/user/multiple_user_role', users);
+        return this.http.post<User>(API_URL + '/user/multiple_user_role/admin', users);
     }
 
     drawBarChartUsersPerRegion(user: User): Observable<any> {

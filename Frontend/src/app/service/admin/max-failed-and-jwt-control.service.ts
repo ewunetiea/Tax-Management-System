@@ -17,16 +17,16 @@ export class MaxFailedAndJwtControlService {
     }
 
     saveAccountSetting(faildControl: any): Observable<any> {
-        return this.httpClient.post(baseUrl + '/setting/account', faildControl);
+        return this.httpClient.post(baseUrl + '/setting/account/admin', faildControl);
     }
     saveJWTSetting(faildControl: MaxFailedAndJwtControl): Observable<any> {
-        return this.httpClient.post(baseUrl + '/setting/jwt', faildControl);
+        return this.httpClient.post(baseUrl + '/setting/jwt/admin', faildControl);
     }
 
     getAllLogRecord(): Observable<any> {
         return this.httpClient.get<any>(baseUrl + '/log');
     }
     deleteLog(logs: any[]): Observable<any> {
-        return this.httpClient.post(baseUrl + '/log', logs);
+        return this.httpClient.post(baseUrl + '/log/admin', logs);
     }
 }

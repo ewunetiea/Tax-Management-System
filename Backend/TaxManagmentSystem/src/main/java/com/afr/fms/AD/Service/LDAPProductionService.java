@@ -31,6 +31,8 @@ public class LDAPProductionService {
             throw new Exception("Username or password cannot be empty.");
         }
 
+
+        System.out.println("_____inside____service______________");
         String safeUsername = sanitizeUsername(username);
         String userDn = findUserDn(safeUsername);
 
@@ -57,8 +59,14 @@ public class LDAPProductionService {
      * Search for user's DN in LDAP.
      */
     private String findUserDn(String username) {
+
+        System.out.println("_inside userDn_____________________");
         try {
             EqualsFilter filter = new EqualsFilter("sAMAccountName", username);
+
+
+            System.out.println("__________Equals filter_______________");
+            System.out.println(filter );
 
             List<String> dns = ldapTemplate.search(
                     LdapQueryBuilder.query()
@@ -67,6 +75,11 @@ public class LDAPProductionService {
                             .filter(filter),
                     (AttributesMapper<String>) attrs -> (String) attrs.get("distinguishedName").get()
             );
+
+              
+
+            System.out.println("__________dns_______");
+            System.out.println(dns);
 
             return dns.isEmpty() ? null : dns.get(0);
 

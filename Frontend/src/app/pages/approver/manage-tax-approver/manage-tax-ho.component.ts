@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuItem, ConfirmationService, MessageService } from 'primeng/api';
+import {  ConfirmationService, MessageService } from 'primeng/api';
 import { finalize } from 'rxjs';
 import { PaginatorPayLoad } from '../../../models/admin/paginator-payload';
 import { User } from '../../../models/admin/user';

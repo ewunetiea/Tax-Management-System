@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Tax } from '../../models/maker/tax';
 import { MakerSearchPayload } from '../../models/payload/maker-search-payload';
-const baseUrl = environment.backendUrl + '/tax';
+const baseUrl = environment.backendUrl + '/maker/tax';
 
 
 

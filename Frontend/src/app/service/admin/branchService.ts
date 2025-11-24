@@ -28,7 +28,7 @@ export class BranchService {
     }
 
     createBranch(branches: Branch): Observable<object> {
-        return this.http.post(`${baseUrl}/branch`, branches);
+        return this.http.post(`${baseUrl}/branch/admin`, branches);
     }
 
     getBranchById(id: number): Observable<Branch> {
@@ -36,10 +36,10 @@ export class BranchService {
     }
 
     deleteBranches(branches: Branch[]): Observable<object> {
-        return this.http.post(`${baseUrl}/branch/delete`, branches);
+        return this.http.post(`${baseUrl}/branch/delete/admin`, branches);
     }
 
     activateBranches(branches: Branch[]): Observable<object> {
-        return this.http.post(`${baseUrl}/branch/activate`, branches);
+        return this.http.post(`${baseUrl}/branch/activate/admin`, branches);
     }
 }

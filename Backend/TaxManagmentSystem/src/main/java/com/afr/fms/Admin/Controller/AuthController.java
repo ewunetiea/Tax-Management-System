@@ -106,17 +106,20 @@ public class AuthController {
 
                 // String username = loginRequest.getUsername();
 
-                // // Step 1: AD authentication
+                // Step 1: AD authentication
                 // try {
 
-                // boolean userDetail = adService.authenticateUser(loginRequest.getUsername(),
-                // loginRequest.getPassword());
 
-                // // boolean userDetail =
+                //         System.out.println("___________ad  user ______________");
+                // // boolean userDetail = adService.authenticateUser(loginRequest.getUsername(),
+                // // loginRequest.getPassword());
+
+
+                // boolean userDetail =
                 // lDAPProductionService.authenticateUser(loginRequest.getUsername(),
                 // loginRequest.getPassword());
 
-                // 
+                
 
                 // if (!userDetail) {
                 // throw new UserNotFoundException(
@@ -237,6 +240,7 @@ public class AuthController {
                                 }
                         }
 
+                        
                         ResponseCookie jwtCookie = jwtUtils.getCleanJwtCookie(request);
                         ResponseCookie jwtRefreshCookie = jwtUtils.getCleanJwtRefreshCookie(request);
 

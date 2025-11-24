@@ -13,51 +13,45 @@
 <p-card *ngIf="fetching">
     <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
-            <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full px-4 py-2 mr-2 flex items-center" (click)="openNew()"><i class="pi pi-plus mr-1"></i> New</button>
-          
+            <button
+                class="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full px-4 py-2 mr-2 flex items-center"
+                (click)="openNew()"><i class="pi pi-plus mr-1"></i> New</button>
+
             <button
                 class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-full px-4 py-2 mr-2 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
                 pTooltip="This feature provides options to filter users by a given role and assign multiple intended roles to them. Furthermore, this feature removes any previously assigned roles and adds the intended ones."
-                (click)="openMultipleUserRoleDialog()"
-                [disabled]="!selectedUsers || !selectedUsers.length"
-            >
+                (click)="openMultipleUserRoleDialog()" [disabled]="!selectedUsers || !selectedUsers.length">
                 <i class="pi pi-users mr-1"></i> Role Modifier
             </button>
         </ng-template>
 
         <ng-template pTemplate="right">
             <div class="flex">
-                <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
-                <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="excelExport()" class="p-button-success p-button-outlined p-button-rounded mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
-                <button type="button" pButton pRipple icon="pi pi-filter" (click)="dt.exportCSV({ selectionOnly: true })" class="p-button-info ml-auto" pTooltip="Selection Only" tooltipPosition="bottom"></button>
+                <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2"
+                    pTooltip="CSV" tooltipPosition="bottom"></button>
+                <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="excelExport()"
+                    class="p-button-success p-button-outlined p-button-rounded mr-2" pTooltip="XLS"
+                    tooltipPosition="bottom"></button>
+                <button type="button" pButton pRipple icon="pi pi-filter"
+                    (click)="dt.exportCSV({ selectionOnly: true })" class="p-button-info ml-auto"
+                    pTooltip="Selection Only" tooltipPosition="bottom"></button>
             </div>
         </ng-template>
     </p-toolbar>
 
-    <p-table
-        [expandedRowKeys]="expandedRows"
-        (onRowExpand)="onRowExpand($event)"
-        (onRowCollapse)="onRowCollapse($event)"
-        #dt
-        [value]="users"
-        [rows]="5"
-        [paginator]="true"
-        [loading]="loading"
-        [globalFilterFields]="['first_name', 'middle_name', 'last_name', 'phone_number', 'email', 'employee_id', 'gender', 'status', 'banking', 'category', 'branch.name', 'region.name']"
-        [(selection)]="selectedUsers"
-        [rowHover]="true"
-        dataKey="id"
-        [size]="selectedSize"
-        [rowsPerPageOptions]="[5, 10, 25, 50]"
-        [tableStyle]="{ 'min-width': '108rem' }"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [showCurrentPageReport]="true"
-    >
+    <p-table [expandedRowKeys]="expandedRows" (onRowExpand)="onRowExpand($event)"
+        (onRowCollapse)="onRowCollapse($event)" #dt [value]="users" [rows]="5" [paginator]="true" [loading]="loading"
+        [globalFilterFields]="['username','first_name', 'middle_name', 'last_name', 'phone_number', 'email', 'employee_id', 'gender', 'status', 'banking', 'category', 'branch.name', 'region.name']"
+        [(selection)]="selectedUsers" [rowHover]="true" dataKey="id" [size]="selectedSize"
+        [rowsPerPageOptions]="[5, 10, 25, 50]" [tableStyle]="{ 'min-width': '108rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
         <ng-template #caption>
             <div class="flex items-center justify-between">
-                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                    (click)="clear(dt)"></button>
                 <div class="flex justify-center mb-4">
-                    <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value" />
+                    <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name"
+                        optionValue="value" />
                 </div>
                 <p-iconfield>
                     <p-inputicon styleClass="pi pi-search" />
@@ -77,6 +71,15 @@
                         <p-columnFilter type="text" field="first_name" display="menu"></p-columnFilter>
                     </div>
                 </th>
+
+
+
+                <th style="min-width: 12rem">
+                    <div class="flex items-center">
+                        Fussion Username
+                        <p-columnFilter type="text" field="username" display="menu"></p-columnFilter>
+                    </div>
+                </th>
                 <th style="min-width: 12rem">
                     <div class="flex items-center">
                         Middle Name
@@ -90,9 +93,9 @@
                     </div>
                 </th>
 
-               
 
-              
+
+
 
                 <th style="min-width: 8rem">
                     <div class="flex items-center">
@@ -108,43 +111,48 @@
                     </div>
                 </th>
 
-              
+
                 <th style="width: 14rem">Action</th>
             </tr>
         </ng-template>
         <ng-template #body let-user let-expanded="expanded">
             <tr>
                 <td>
-                    <p-button type="button" pRipple [pRowToggler]="user" [text]="true" [rounded]="true" [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
+                    <p-button type="button" pRipple [pRowToggler]="user" [text]="true" [rounded]="true" [plain]="true"
+                        [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
                 </td>
                 <td>
                     <p-tableCheckbox [value]="user"></p-tableCheckbox>
                 </td>
+                <td>{{ user.username }}</td>
                 <td>{{ user.first_name }}</td>
+
                 <td>{{ user.middle_name }}</td>
                 <td>{{ user.last_name }}</td>
-                
+
 
                 <td>
                     <span *ngIf="user.branch">{{ user.branch?.name }} </span>
                     <span *ngIf="user.region">{{ user.region?.name }}</span>
                 </td>
                 <td>
-                    <button *ngIf="user.status == 1" pButton pRipple type="text" icon="pi pi-verified" label="Active" class="p-button-rounded p-button-success p-button-outlined "></button>
-                    <button *ngIf="user.status == 0" pButton pRipple type="text" icon="pi pi-times" label="Inactive" class="p-button-rounded p-button-danger p-button-outlined "></button>
+                    <button *ngIf="user.status == 1" pButton pRipple type="text" icon="pi pi-verified" label="Active"
+                        class="p-button-rounded p-button-success p-button-outlined "></button>
+                    <button *ngIf="user.status == 0" pButton pRipple type="text" icon="pi pi-times" label="Inactive"
+                        class="p-button-rounded p-button-danger p-button-outlined "></button>
                 </td>
 
-               
+
 
                 <td>
-                    <button pButton pRipple icon="pi pi-pencil" pTooltip="Edit User" class="p-button-outlined p-button-rounded p-button-primary mr-2" (click)="editUser(user)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" pTooltip="Edit User"
+                        class="p-button-outlined p-button-rounded p-button-primary mr-2"
+                        (click)="editUser(user)"></button>
 
-<p-inputSwitch 
-    [(ngModel)]="user.status"
-    (onChange)="toggleStatus(user)"
-    [style]="{ 'transform': 'scale(1.2)' }"
-    [ngClass]="user.status == 1 ? 'p-inputswitch-checked-success' : 'p-inputswitch-unchecked-danger'">
-</p-inputSwitch>
+                    <p-inputSwitch [(ngModel)]="user.status" (onChange)="toggleStatus(user)"
+                        [style]="{ 'transform': 'scale(1.2)' }"
+                        [ngClass]="user.status == 1 ? 'p-inputswitch-checked-success' : 'p-inputswitch-unchecked-danger'">
+                    </p-inputSwitch>
 
 
 
@@ -156,24 +164,34 @@
                 <td colspan="7">
                     <div class="p-3">
                         <div class="flex space-x-2 py-2">
-                            <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full px-4 py-2" (click)="activeIndex1 = 0"><i class="pi pi-plus mr-1"></i> Detail</button>
+                            <button
+                                class="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full px-4 py-2"
+                                (click)="activeIndex1 = 0"><i class="pi pi-plus mr-1"></i> Detail</button>
 
-                            <button class="bg-green-500 hover:bg-green-600 text-white font-semibold rounded-full px-4 py-2" (click)="openModal(user)"><i class="pi pi-cog mr-1"></i> Manage Roles</button>
+                            <button
+                                class="bg-green-500 hover:bg-green-600 text-white font-semibold rounded-full px-4 py-2"
+                                (click)="openModal(user)"><i class="pi pi-cog mr-1"></i> Manage Roles</button>
 
-                            <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-full px-4 py-2" (click)="openBranchModal(user)"><i class="pi pi-cog mr-1"></i> Branch Transfer</button>
+                            <button
+                                class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-full px-4 py-2"
+                                (click)="openBranchModal(user)"><i class="pi pi-cog mr-1"></i> Branch Transfer</button>
                         </div>
 
                         <p-tabView [(activeIndex)]="activeIndex1">
                             <p-tabPanel header="Detail">
                                 <div class="py-3 flex space-x-2">
-                                    <p-button [icon]="activeState[0] ? 'pi pi-minus' : 'pi pi-plus'" (click)="toggle(0)" styleClass="p-button-text" label="Detail"> </p-button>
+                                    <p-button [icon]="activeState[0] ? 'pi pi-minus' : 'pi pi-plus'" (click)="toggle(0)"
+                                        styleClass="p-button-text" label="Detail"> </p-button>
 
-                                    <p-button [icon]="activeState[1] ? 'pi pi-minus' : 'pi pi-plus'" (click)="toggle(1)" styleClass="p-button-text" label="Role"> </p-button>
+                                    <p-button [icon]="activeState[1] ? 'pi pi-minus' : 'pi pi-plus'" (click)="toggle(1)"
+                                        styleClass="p-button-text" label="Role"> </p-button>
                                 </div>
 
                                 <p-accordion *ngIf="activeState[0]">
                                     <p-accordionTab [transitionOptions]="'400ms'" header="Detail" [selected]="true">
-                                        <p-fieldset [legend]="user.first_name + ' ' + user.middle_name + ' ' + user.last_name" toggleable="false">
+                                        <p-fieldset
+                                            [legend]="user.first_name + ' ' + user.middle_name + ' ' + user.last_name"
+                                            toggleable="false">
                                             <div class="card p-4 w-3/4">
                                                 <div class="grid grid-cols-2 gap-4">
                                                     <p-chip [label]="user.email" icon="pi pi-envelope"></p-chip>
@@ -184,7 +202,8 @@
                                                 </div>
 
                                                 <div class="mt-4">
-                                                    <p-chip *ngIf="!user.photoUrl" image="{{ environment.blankPic }}" styleClass="mr-2"> </p-chip>
+                                                    <p-chip *ngIf="!user.photoUrl" image="{{ environment.blankPic }}"
+                                                        styleClass="mr-2"> </p-chip>
                                                 </div>
                                             </div>
                                         </p-fieldset>
@@ -193,20 +212,26 @@
 
                                 <p-accordion *ngIf="activeState[1]">
                                     <p-accordionTab header="Assigned Role" [selected]="true">
-                                        <p-fieldset *ngFor="let role of user.roles" [legend]="role.code" [toggleable]="true">
+                                        <p-fieldset *ngFor="let role of user.roles" [legend]="role.code"
+                                            [toggleable]="true">
                                             <div class="card p-4 w-3/4">
                                                 <div class="grid grid-cols-2 gap-4 items-start">
                                                     <p-chip [label]="role.name">
-                                                        <button pButton pRipple type="button" label="Name" class="p-button-info p-button-text"></button>
+                                                        <button pButton pRipple type="button" label="Name"
+                                                            class="p-button-info p-button-text"></button>
                                                     </p-chip>
 
                                                     <p-chip [label]="role.code">
-                                                        <button pButton pRipple type="button" label="Code" class="p-button-info p-button-text"></button>
+                                                        <button pButton pRipple type="button" label="Code"
+                                                            class="p-button-info p-button-text"></button>
                                                     </p-chip>
 
                                                     <div class="col-span-2">
-                                                        <p-fieldset legend="Description" [toggleable]="true" class="mt-2">
-                                                            <textarea id="float-input" rows="4" [readOnly]="true" [value]="role.description" pInputTextarea class="w-full border rounded-md p-2"> </textarea>
+                                                        <p-fieldset legend="Description" [toggleable]="true"
+                                                            class="mt-2">
+                                                            <textarea id="float-input" rows="4" [readOnly]="true"
+                                                                [value]="role.description" pInputTextarea
+                                                                class="w-full border rounded-md p-2"> </textarea>
                                                         </p-fieldset>
                                                     </div>
                                                 </div>
@@ -222,18 +247,21 @@
         </ng-template>
 
         <ng-template pTemplate="summary">
-            <div class="p-d-flex p-ai-center p-jc-between">In total there are {{ users ? users.length : 0 }} users.</div>
+            <div class="p-d-flex p-ai-center p-jc-between">In total there are {{ users ? users.length : 0 }} users.
+            </div>
         </ng-template>
     </p-table>
 </p-card>
 
-<p-dialog [(visible)]="userEditDialog" [style]="{ width: '1000px' }" header="User Details" [modal]="true" styleClass="p-fluid" [maximizable]="true">
+<p-dialog [(visible)]="userEditDialog" [style]="{ width: '1000px' }" header="User Details" [modal]="true"
+    styleClass="p-fluid" [maximizable]="true">
     <ng-template pTemplate="content">
         <app-create-edit-user [passedUser]="outputUser" (editedUser)="onDataChange($event)"></app-create-edit-user>
     </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="roleDialog" [header]="'' + this.selectedUser.email" [modal]="true" [style]="{ width: '600px' }" [maximizable]="true" styleClass="tw-role-dialog">
+<p-dialog [(visible)]="roleDialog" [header]="'' + this.selectedUser.email" [modal]="true" [style]="{ width: '600px' }"
+    [maximizable]="true" styleClass="tw-role-dialog">
     <ng-template pTemplate="content">
         <div class="space-y-6 p-4">
             <div>
@@ -243,19 +271,9 @@
                 </label>
 
                 <div class="w-full">
-                    <p-multiSelect
-                        id="roles"
-                        [options]="roles"
-                        appendTo="body"
-                        name="roles"
-                        [(ngModel)]="selectedUser.roles"
-                        defaultLabel="Select role"
-                        optionLabel="name"
-                        display="chip"
-                        selectedItemsLabel="{0} columns selected"
-                        [style]="{ 'min-width': '200px' }"
-                        class="w-full"
-                    >
+                    <p-multiSelect id="roles" [options]="roles" appendTo="body" name="roles"
+                        [(ngModel)]="selectedUser.roles" defaultLabel="Select role" optionLabel="name" display="chip"
+                        selectedItemsLabel="{0} columns selected" [style]="{ 'min-width': '200px' }" class="w-full">
                     </p-multiSelect>
                 </div>
             </div>
@@ -264,58 +282,46 @@
 
     <ng-template pTemplate="footer">
         <div class="flex justify-end space-x-3 w-full px-4 pb-3">
-            <button pButton pRipple severity="danger" label="Cancel" icon="pi pi-times" class="p-button-text" (click)="roleDialog = false"></button>
+            <button pButton pRipple severity="danger" label="Cancel" icon="pi pi-times" class="p-button-text"
+                (click)="roleDialog = false"></button>
 
-            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="manageRoles()"></button>
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+                (click)="manageRoles()"></button>
         </div>
     </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="multipleUserRoleDialog" header="Add multiple roles for multiple users" [modal]="true" [style]="{ width: '600px' }" styleClass="p-fluid" [maximizable]="true">
+<p-dialog [(visible)]="multipleUserRoleDialog" header="Add multiple roles for multiple users" [modal]="true"
+    [style]="{ width: '600px' }" styleClass="p-fluid" [maximizable]="true">
     <form ngNativeValidate #multipleRoleUserForm="ngForm" class="p-fluid">
         <div class="p-field p-col">
             <label for="intial_role"><strong class="text-red-600">*</strong>Intial Role</label>
-            <p-dropdown
-                [options]="allRoles"
-                appendTo="body"
-                name="intial_role"
-                [(ngModel)]="multipleUserRole.intial_role"
-                optionLabel="name"
-                filterBy="name"
-                [filter]="true"
-                placeholder="Select Intial Role"
-                [showClear]="true"
-                [style]="{ 'min-width': '200px' }"
-                #intial_role="ngModel"
-                [required]="true"
-                [class.is-invalid]="intial_role.invalid && intial_role.touched"
-            >
+            <p-dropdown [options]="allRoles" appendTo="body" name="intial_role"
+                [(ngModel)]="multipleUserRole.intial_role" optionLabel="name" filterBy="name" [filter]="true"
+                placeholder="Select Intial Role" [showClear]="true" [style]="{ 'min-width': '200px' }"
+                #intial_role="ngModel" [required]="true"
+                [class.is-invalid]="intial_role.invalid && intial_role.touched">
             </p-dropdown>
-            <small class="text-red-600" [class.d-none]="intial_role.valid || intial_role.untouched">Intial Role is required<br /></small>
+            <small class="text-red-600" [class.d-none]="intial_role.valid || intial_role.untouched">Intial Role is
+                required<br /></small>
         </div>
         <div class="p-field p-col">
             <label for="selected_roles"><strong class="text-red-600">*</strong>Intended Roles</label>
-            <p-multiSelect
-                [options]="allRoles"
-                appendTo="body"
-                name="selected_roles"
-                [(ngModel)]="multipleUserRole.selected_roles"
-                defaultLabel="Select Intended Roles"
-                optionLabel="name"
-                display="chip"
-                selectedItemsLabel="{0} columns selected"
-                [style]="{ 'min-width': '200px' }"
-                #selected_roles="ngModel"
-                [required]="true"
-                [class.is-invalid]="selected_roles.invalid && selected_roles.touched"
-            >
+            <p-multiSelect [options]="allRoles" appendTo="body" name="selected_roles"
+                [(ngModel)]="multipleUserRole.selected_roles" defaultLabel="Select Intended Roles" optionLabel="name"
+                display="chip" selectedItemsLabel="{0} columns selected" [style]="{ 'min-width': '200px' }"
+                #selected_roles="ngModel" [required]="true"
+                [class.is-invalid]="selected_roles.invalid && selected_roles.touched">
             </p-multiSelect>
-            <small class="text-red-600" [class.d-none]="selected_roles.valid || selected_roles.untouched">Intended Roles are required<br /></small>
+            <small class="text-red-600" [class.d-none]="selected_roles.valid || selected_roles.untouched">Intended Roles
+                are required<br /></small>
         </div>
 
         <div class="p-formgrid p-grid mt-6">
             <div class="p-field p-col-3">
-                <button *ngIf="!multipleRoleUserLoading" pButton pRipple label="Save" [disabled]="multipleRoleUserForm.form.invalid" icon="pi pi-check" class="p-button-rounded" (click)="manageMultipleUserRole()"></button>
+                <button *ngIf="!multipleRoleUserLoading" pButton pRipple label="Save"
+                    [disabled]="multipleRoleUserForm.form.invalid" icon="pi pi-check" class="p-button-rounded"
+                    (click)="manageMultipleUserRole()"></button>
                 <button *ngIf="multipleRoleUserLoading" type="button" disabled class="btn btn-primary">
                     Loading...
 
@@ -323,7 +329,8 @@
                 </button>
             </div>
             <div class="p-field p-col-3">
-                <button pButton pRipple type="reset" label="Reset" icon="pi pi-times" severity="danger" class="border rounded-md p-2 bg-red-500 text-white hover:bg-red-600"></button>
+                <button pButton pRipple type="reset" label="Reset" icon="pi pi-times" severity="danger"
+                    class="border rounded-md p-2 bg-red-500 text-white hover:bg-red-600"></button>
 
                 <!-- <button class="col-md-5" pButton pRipple type="reset"  label="Reset" severity= "danger" icon="pi pi-times" class="p-button-danger p-button-rounded"></button> -->
             </div>
@@ -331,7 +338,8 @@
     </form>
 </p-dialog>
 
-<p-dialog [(visible)]="branchDialog" [header]="'' + this.selectedUser.email" [modal]="true" [style]="{ width: '600px' }" [maximizable]="true" class="tw-branch-dialog">
+<p-dialog [(visible)]="branchDialog" [header]="'' + this.selectedUser.email" [modal]="true" [style]="{ width: '600px' }"
+    [maximizable]="true" class="tw-branch-dialog">
     <form ngNativeValidate #unitForm="ngForm" class="space-y-6 p-6">
         <div class="space-y-2">
             <label class="text-sm font-medium">
@@ -341,112 +349,81 @@
 
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <div class="flex items-center space-x-2">
-                    <p-radioButton id="hoRB" name="unit" [required]="true" value="HO" [(ngModel)]="radio_value" (onClick)="openDropDown($event)"></p-radioButton>
+                    <p-radioButton id="hoRB" name="unit" [required]="true" value="HO" [(ngModel)]="radio_value"
+                        (onClick)="openDropDown($event)"></p-radioButton>
                     <label for="hoRB" class="text-sm">HO</label>
                 </div>
 
                 <div class="flex items-center space-x-2">
-                    <p-radioButton id="regionRB" name="unit" [required]="true" value="Region" [(ngModel)]="radio_value" (onClick)="openDropDown($event)"></p-radioButton>
+                    <p-radioButton id="regionRB" name="unit" [required]="true" value="Region" [(ngModel)]="radio_value"
+                        (onClick)="openDropDown($event)"></p-radioButton>
                     <label for="regionRB" class="text-sm">Region</label>
                 </div>
 
                 <div class="flex items-center space-x-2">
-                    <p-radioButton id="branchRB" name="unit" [required]="true" value="Branch" [(ngModel)]="radio_value" (onClick)="openDropDown($event)"></p-radioButton>
+                    <p-radioButton id="branchRB" name="unit" [required]="true" value="Branch" [(ngModel)]="radio_value"
+                        (onClick)="openDropDown($event)"></p-radioButton>
                     <label for="branchRB" class="text-sm">Branch</label>
                 </div>
 
                 <div class="flex items-center space-x-2">
-                    <p-radioButton id="ALLRB" name="unit" [required]="true" value="ALL" [(ngModel)]="radio_value" (onClick)="openDropDown($event)"></p-radioButton>
+                    <p-radioButton id="ALLRB" name="unit" [required]="true" value="ALL" [(ngModel)]="radio_value"
+                        (onClick)="openDropDown($event)"></p-radioButton>
                     <label for="ALLRB" class="text-sm">ALL</label>
                 </div>
             </div>
         </div>
 
         <div *ngIf="radio_value.includes('Region') || radio_value.includes('ALL')">
-            <label for="region" class="block text-sm font-medium mb-2"> <span class="text-red-600">*</span> Region </label>
-            <p-dropdown
-                [options]="regionFilter"
-                optionLabel="name"
-                inputId="region"
-                name="region"
-                #regions="ngModel"
-                [class.is-invalid]="regions.invalid && regions.touched"
-                [(ngModel)]="selectedUser.region"
-                (onClick)="filterBranches(selectedUser)"
-                [spellcheck]="true"
-                placeholder="Select Region"
-                [filter]="true"
-                filterValue="name"
-                filterPlaceholder="Filter by name"
-                [virtualScroll]="true"
-                [virtualScrollItemSize]="20"
-                [lazy]="true"
-                [showClear]="true"
-                [required]="true"
+            <label for="region" class="block text-sm font-medium mb-2"> <span class="text-red-600">*</span> Region
+            </label>
+            <p-dropdown [options]="regionFilter" optionLabel="name" inputId="region" name="region" #regions="ngModel"
+                [class.is-invalid]="regions.invalid && regions.touched" [(ngModel)]="selectedUser.region"
+                (onClick)="filterBranches(selectedUser)" [spellcheck]="true" placeholder="Select Region" [filter]="true"
+                filterValue="name" filterPlaceholder="Filter by name" [virtualScroll]="true"
+                [virtualScrollItemSize]="20" [lazy]="true" [showClear]="true" [required]="true"
                 (onLazyLoad)="onDropdownLoad($event, 'Region')"
                 [virtualScrollOptions]="{ showLoader: true, loading: loading_dropdown, delay: 30 }"
-                class="w-full"
-            ></p-dropdown>
+                class="w-full"></p-dropdown>
             <small class="text-red-600" [class.hidden]="regions.valid || regions.untouched">Region is required</small>
         </div>
 
         <div *ngIf="radio_value.includes('Branch') || radio_value.includes('ALL')">
-            <label for="branch" class="block text-sm font-medium mb-2"> <span class="text-red-600">*</span> Branch </label>
-            <p-dropdown
-                [options]="branches"
-                optionLabel="name"
-                inputId="branch"
-                name="branch"
-                #branch="ngModel"
-                [class.is-invalid]="branch.invalid && branch.touched"
-                [(ngModel)]="selectedUser.branch"
-                placeholder="Select Branch"
-                [filter]="true"
-                [virtualScroll]="true"
-                [virtualScrollItemSize]="38"
-                [showClear]="true"
-                [lazy]="true"
-                [required]="true"
-                (onLazyLoad)="onDropdownLoad($event, 'Branch')"
+            <label for="branch" class="block text-sm font-medium mb-2"> <span class="text-red-600">*</span> Branch
+            </label>
+            <p-dropdown [options]="branches" optionLabel="name" inputId="branch" name="branch" #branch="ngModel"
+                [class.is-invalid]="branch.invalid && branch.touched" [(ngModel)]="selectedUser.branch"
+                placeholder="Select Branch" [filter]="true" [virtualScroll]="true" [virtualScrollItemSize]="38"
+                [showClear]="true" [lazy]="true" [required]="true" (onLazyLoad)="onDropdownLoad($event, 'Branch')"
                 [virtualScrollOptions]="{ showLoader: true, loading: loading_dropdown, delay: 250 }"
-                class="w-full"
-            ></p-dropdown>
+                class="w-full"></p-dropdown>
             <small class="text-red-600" [class.hidden]="branch.valid || branch.untouched">Branch is required</small>
         </div>
 
         <div *ngIf="radio_value.includes('HO') || radio_value.includes('ALL')">
             <label for="ho" class="block text-sm font-medium mb-2"> <span class="text-red-600">*</span> Unit </label>
-            <p-dropdown
-                [options]="hoWorkPlaces"
-                optionLabel="name"
-                inputId="ho"
-                name="ho"
-                #ho="ngModel"
-                [class.is-invalid]="ho.invalid && ho.touched"
-                [(ngModel)]="selectedUser.branch"
-                placeholder="Select Head Office"
-                [filter]="true"
-                [virtualScroll]="true"
-                [virtualScrollItemSize]="38"
-                [showClear]="true"
-                [lazy]="true"
-                [required]="true"
-                (onLazyLoad)="onDropdownLoad($event, 'HO')"
+            <p-dropdown [options]="hoWorkPlaces" optionLabel="name" inputId="ho" name="ho" #ho="ngModel"
+                [class.is-invalid]="ho.invalid && ho.touched" [(ngModel)]="selectedUser.branch"
+                placeholder="Select Head Office" [filter]="true" [virtualScroll]="true" [virtualScrollItemSize]="38"
+                [showClear]="true" [lazy]="true" [required]="true" (onLazyLoad)="onDropdownLoad($event, 'HO')"
                 [virtualScrollOptions]="{ showLoader: true, loading: loading_dropdown, delay: 250 }"
-                class="w-full"
-            ></p-dropdown>
+                class="w-full"></p-dropdown>
             <small class="text-red-600" [class.hidden]="ho.valid || ho.untouched">HO is required</small>
         </div>
 
         <div class="flex justify-end gap-4 mt-6">
-            <button *ngIf="!unitLoading" pButton pRipple label="Save" [disabled]="unitForm.form.invalid" icon="pi pi-check" class="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-4 py-2" (click)="transferBranch()"></button>
+            <button *ngIf="!unitLoading" pButton pRipple label="Save" [disabled]="unitForm.form.invalid"
+                icon="pi pi-check" class="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-4 py-2"
+                (click)="transferBranch()"></button>
 
-            <button *ngIf="unitLoading" type="button" disabled class="bg-blue-400 text-white rounded-full px-4 py-2 flex items-center gap-2">
+            <button *ngIf="unitLoading" type="button" disabled
+                class="bg-blue-400 text-white rounded-full px-4 py-2 flex items-center gap-2">
                 Loading...
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             </button>
 
-            <button pButton pRipple type="reset" label="Reset" icon="pi pi-times" severity="danger" class="border rounded-md p-2 bg-red-500 text-white hover:bg-red-600"></button>
+            <button pButton pRipple type="reset" label="Reset" icon="pi pi-times" severity="danger"
+                class="border rounded-md p-2 bg-red-500 text-white hover:bg-red-600"></button>
         </div>
     </form>
 </p-dialog>

@@ -22,13 +22,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.afr.fms.Maker.entity.MakerSearchPayload;
 import com.afr.fms.Maker.entity.Tax;
-import com.afr.fms.Maker.mapper.TaxFileMapper;
 import com.afr.fms.Maker.service.TaxableService;
 
 import org.springframework.http.MediaType;
 
 @RestController
-@RequestMapping("/api/tax")
+@RequestMapping("/api/maker/tax")
 public class TaxController {
 
 	@Autowired

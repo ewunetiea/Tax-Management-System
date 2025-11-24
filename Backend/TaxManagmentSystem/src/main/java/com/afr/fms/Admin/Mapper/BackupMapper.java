@@ -12,10 +12,10 @@ public interface BackupMapper {
 	@Update("update backupDB set filepath = #{filepath} where user_id = #{user_id}")
 	public void updateFilepath(Backup backup);
 
-    @Insert("BACKUP DATABASE afrfms TO DISK = #{filepath}")
+    @Insert("BACKUP DATABASE tms TO DISK = #{filepath}")
     public void createFullBackup(Backup backup);
 
-	@Insert("BACKUP DATABASE afrfms TO DISK = #{filepath} WITH DIFFERENTIAL")
+	@Insert("BACKUP DATABASE tms TO DISK = #{filepath} WITH DIFFERENTIAL")
     public void createDIFFERENTIALBackup(Backup backup);
 	}
 

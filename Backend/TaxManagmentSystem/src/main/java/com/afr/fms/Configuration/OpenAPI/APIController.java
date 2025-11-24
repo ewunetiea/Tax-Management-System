@@ -1,5 +1,7 @@
 package com.afr.fms.Configuration.OpenAPI;
 
+import java.net.http.HttpRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +17,9 @@ public class APIController {
 
     @PostMapping("/register-apis")
     public ResponseEntity<String> registerSwaggerApis() {
+
+
+        System.out.println("____________________________ssssssss");
         swaggerApiRegistrar.registerSwaggerApis();
         return ResponseEntity.ok("Swagger APIs registered successfully.");
     }

@@ -182,14 +182,9 @@ export class TaxableSearchengineApproverComponent {
   });
 
   // ✅ Select appropriate API endpoint
-  let request$;
-  if (roleNames.includes('ROLE_APPROVER')) {
-    request$ = this.taxableSearchEngineService.getTaxesforApprover(payload);
-  } else if (roleNames.includes('ROLE_REVIEWER')) {
-    request$ = this.taxableSearchEngineService.getTaxesForReviewer(payload);
-  } else {
-    request$ = this.taxableSearchEngineService.getTaxesFormaker(payload);
-  }
+  let  request$ = this.taxableSearchEngineService.getTaxesforApprover(payload);
+ 
+ 
 
   // ✅ Handle API result
   request$

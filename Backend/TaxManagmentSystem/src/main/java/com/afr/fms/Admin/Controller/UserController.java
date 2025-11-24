@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -83,7 +82,7 @@ public class UserController {
 
     }
 
-    @GetMapping("/user/replaceHRData")
+    @GetMapping("/user/replaceHRData/admin")
     public ResponseEntity<HttpStatus> replaceHRData(HttpServletRequest request) throws NoUsersAvailableException {
         try {
             String jwt = jwtUtils.getJwtFromCookies(request);
@@ -177,7 +176,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/user/roles")
+    @PostMapping("/user/roles/admin")
     public ResponseEntity<HttpStatus> manageRoles(HttpServletRequest request, @RequestBody User user) {
         try {
             userService.manageRoles(user);
@@ -189,7 +188,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/user/multiple_user_role")
+    @PostMapping("/user/multiple_user_role/admin")
     public ResponseEntity<HttpStatus> manageMultipleUsersRole(HttpServletRequest request,
             @RequestBody List<User> users) {
         try {
@@ -204,7 +203,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/user/branch")
+    @PostMapping("/user/branch/admin")
     public ResponseEntity<HttpStatus> transferBranch(HttpServletRequest request, @RequestBody User user) {
         try {
             userService.transferUser(user);
@@ -295,7 +294,7 @@ public class UserController {
         // .location(URI.create("https://10.10.101.76:8000/afrfms")).build();
     }
 
-    @PostMapping("/user/account")
+    @PostMapping("/user/account/admin")
     public ResponseEntity<HttpStatus> unlockUser(HttpServletRequest request, @RequestBody User user) {
         try {
             String jwt = jwtUtils.getJwtFromCookies(request);
@@ -313,7 +312,7 @@ public class UserController {
     }
 
 
-     @PostMapping("/user/controleUserStatus")
+     @PostMapping("/user/controleUserStatus/admin")
     public ResponseEntity<HttpStatus> controleUserStatus(HttpServletRequest request, @RequestBody User user) {
         try {
           

@@ -197,26 +197,6 @@
 
                     
 
-
-                        <div class="flex flex-col gap-2" *ngIf="proceed">
-                            <label class="ml-3"> <strong class="text-red-600">*</strong> Authentication Media </label>
-                            <div class="col-span-6 mb-1">
-                                <p-selectButton [options]="authenthicationOptions" [(ngModel)]="user.authenthication_media" optionValue="value" name="authenthication_media" [required]="true">
-                                    <ng-template let-item pTemplate="item">
-                                        <i
-                                            [class]="item.icon"
-                                            [ngStyle]="{
-                                                color: user.authenthication_media === item.value ? 'white' : '#2563eb',
-                                                backgroundColor: user.authenthication_media === item.value ? '#2563eb' : 'white',
-                                                padding: '6px',
-                                                borderRadius: '8px'
-                                            }"
-                                        ></i>
-                                    </ng-template>
-                                </p-selectButton>
-                            </div>
-                        </div>
-
                         <div class="grid grid-cols-12 gap-4 mt-4">
                             <div class="col-span-3 mb-2 mr-2">
                                 <button

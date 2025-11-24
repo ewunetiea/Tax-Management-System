@@ -26,12 +26,12 @@ export const environment = {
 
 // export const environment = {
 //   production: true,
-//   auditorFileApi: 'https://10.10.106.195:8443/tmsbackend/api',//to hnadle auditor uploading files
-//   auditeeFileApi: 'https://10.10.106.195:8443/tmsbackend/api', // to handle auditee response files
-//   imagesUserApi: 'https://10.10.106.195:8443/tmsbackend/api/user/image/',
+//   auditorFileApi: 'http://10.10.106.195:8443/tmsbackend/api',//to hnadle auditor uploading files
+//   auditeeFileApi: 'http://10.10.106.195:8443/tmsbackend/api', // to handle auditee response files
+//   imagesUserApi: 'http://10.10.106.195:8443/tmsbackend/api/user/image/',
 //   blankPic: 'assets/img/Blank-Profile-Picture.jpg',
-//   backendUrl: 'https://10.10.106.195:8443/tmsbackend/api',
-//   webSocketUrl: 'https://10.10.106.195:8443/tmsbackend/api',
+//   backendUrl: 'http://10.10.106.195:8443/tmsbackend/api',
+//   webSocketUrl: 'http://10.10.106.195:8443/tmsbackend/api',
 //   idleTimeout: 20 * 60 * 1000, // 6 minutes
 //   idleCountdownSeconds: 60, // 1 minute
 //   warningTimeout: 19 * 60 * 1000, // 5 minutes

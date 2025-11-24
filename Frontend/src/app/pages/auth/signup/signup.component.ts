@@ -146,7 +146,11 @@ export class SignupComponent {
     }
 
     checkAwashBankIdStatus(event: any) {
+
         this.employee_id = event.target.value;
+
+        console.log(this.employee_id)
+
 
         if (!this.employee_id || this.employee_id.length < 11) {
             return;
@@ -204,6 +208,9 @@ export class SignupComponent {
     }
 
     processUserData() {
+
+
+        console.log(this.userFromHr)
         this.user.first_name = this.userFromHr.empName.split(' ')[0];
         this.user.middle_name = this.userFromHr.empName.split(' ')[1] || '';
         this.user.last_name = this.userFromHr.empName.split(' ').slice(2).join(' ') || this.user.middle_name;
@@ -249,7 +256,7 @@ export class SignupComponent {
 
 
                         this.account_created = true;
-                             this.router.navigateByUrl('/');
+                            this.router.navigateByUrl('/');
 
                     }, 4000);
                 }

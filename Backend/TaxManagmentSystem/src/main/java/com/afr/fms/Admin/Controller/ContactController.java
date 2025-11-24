@@ -25,7 +25,7 @@ public class ContactController {
 
     private static final Logger logger = LoggerFactory.getLogger(ContactController.class);
 
-    @PostMapping("/contact")
+    @PostMapping("/contact/admin")
     public ResponseEntity<?> createContact(@RequestBody Contact contact, HttpServletRequest request) {
         try {
             contactService.createContact(contact);
@@ -37,7 +37,7 @@ public class ContactController {
 
     }
 
-    @PostMapping("/contact/delete")
+    @PostMapping("/contact/delete/admin")
     public ResponseEntity<?> deleteContact(@RequestBody List<Contact> contacts, HttpServletRequest request) {
         try {
             for (Contact contact : contacts) {

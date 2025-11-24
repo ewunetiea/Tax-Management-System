@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.afr.fms.Approver.Entity.Announcement;
 import com.afr.fms.Approver.Entity.AnnouncementPayload;
 import com.afr.fms.Approver.Service.AnnouncementService;
-import com.afr.fms.Common.Entity.PaginatorPayLoad;
 
 @RestController
 @RequestMapping("/api/announcement")
@@ -55,7 +54,7 @@ public class AnnouncementController {
 
 	}
 
-	@PostMapping("/create")
+	@PostMapping("/create/approver")
 	public ResponseEntity<Announcement> saveAnnouncement(@RequestBody Announcement announcement,
 			HttpServletRequest request) {
 		try {
@@ -81,7 +80,7 @@ public class AnnouncementController {
 
 	}
 
-	@PostMapping("/delete")
+	@PostMapping("/delete/approver")
 	public ResponseEntity<Announcement> deleteAnnouncements(@RequestBody List<Announcement> announcements,
 			HttpServletRequest request) {
 		try {
@@ -96,12 +95,12 @@ public class AnnouncementController {
 		}
 	}
 
-	@GetMapping("/fetch/dashboard/{role_type}")
-	public ResponseEntity<Announcement> getAnnouncementForDashbpard(@PathVariable("role_type") String role_type, HttpServletRequest request) {
+	@GetMapping("/fetch/dashboard/{type}")
+	public ResponseEntity<Announcement> getAnnouncementForDashbpard(@PathVariable("type") String type, HttpServletRequest request) {
 		try {
 
 			Announcement announcement = new Announcement();
-			announcement = announcementService.getAnnouncementForDashBoard(role_type);
+			announcement = announcementService.getAnnouncementForDashBoard(type);
 
 
 

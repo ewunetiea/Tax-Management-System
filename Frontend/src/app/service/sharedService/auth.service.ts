@@ -61,4 +61,10 @@ export class AuthService {
     signup(user: User): Observable<any> {
         return this.http.post(AUTH_API + '/signup', user, httpOptions);
     }
+
+
+    apiRegister(): Observable<any> {
+    return this.http.post("http://localhost:8443/api/api-manager/register-apis", {});
+}
+
 }

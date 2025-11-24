@@ -46,9 +46,7 @@ public interface UserFunctionalityMapper {
                         "    AND  gender LIKE '%' + #{gender} + '%' " +
                         "  </if>  " +
 
-                        "  <if test=\"category != null\">  " +
-                        "    AND  category = #{category}  " +
-                        "  </if>  " +
+                      
 
                         "  <if test=\"employee_id != null\">  " +
                         "    AND  emp_id LIKE '%' + #{employee_id} + '%' " +

@@ -22,29 +22,6 @@ public class FileDownloderController {
 
     private static final Logger logger = LoggerFactory.getLogger(TaxController.class);
 
-    // @GetMapping("/{fileName}")
-
-    // public ResponseEntity<Resource> downloadFile(@PathVariable("fileName") String
-    // fileName)
-    // throws FileNotFoundException {
-
-    // try {
-
-    // 
-
-    // Resource resource = fileDownloadService.getFileResource(fileName);
-
-    // 
-    // 
-
-    // return new ResponseEntity<>(resource, HttpStatus.OK);
-    // } catch (Exception ex) {
-    // logger.error("Error while fetching on going announcements", ex);
-    // return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    // }
-
-    // }
-
     @GetMapping("/{fileName}")
     public ResponseEntity<Resource> downloadFile(@PathVariable("fileName") String fileName) {
         try {

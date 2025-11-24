@@ -1,5 +1,5 @@
 
-import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SharedUiModule } from '../../../../../shared-ui';
@@ -13,6 +13,7 @@ import { BranchService } from '../../../../service/admin/branchService';
 import { Branch } from '../../../../models/admin/branch';
 import { TaxFile } from '../../../../models/maker/tax-file';
 import { ToggleSwitch } from 'primeng/toggleswitch';
+import { NgForm } from '@angular/forms';
 
 @Component({
     standalone: true,
@@ -24,6 +25,8 @@ import { ToggleSwitch } from 'primeng/toggleswitch';
 export class TaxCreateEditComponent {
     @Input() visible!: boolean;
     @Output() visibleChange = new EventEmitter<boolean>(); // <-- required for two-way binding
+      @ViewChild('taxForm') taxForm!: NgForm; // capture the template reference variable
+
 
     @Input() tax: Tax = new Tax();
     @Input() role: String = "";
@@ -41,6 +44,8 @@ export class TaxCreateEditComponent {
     selectedBranchId: number | undefined; // Local variable for dropdown binding
 isMaker : boolean =false
 maxDate: Date = new Date();
+
+submitted = false;
 
 
     constructor(
@@ -117,6 +122,14 @@ maxDate: Date = new Date();
 
 
     onSave() {
+
+
+  this.submitted = true;
+
+  if (this.taxForm.invalid) {
+    return; // stop if form is invalid
+  }
+
         this.tax.user_id = this.storageService.getUser().id
         this.tax.maker_id = this.storageService.getUser().id
 

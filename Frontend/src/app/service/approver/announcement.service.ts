@@ -19,7 +19,7 @@ export class AnnouncementService {
     constructor(private http: HttpClient) {}
     
     createAnnouncemet(announcement: any): Observable<any> {
-        return this.http.post(baseUrl + '/create', announcement);
+        return this.http.post(baseUrl + '/create/approver', announcement);
     }
 
     fetchAnnouncemets(announcementPayload: AnnouncementPayload) {
@@ -29,12 +29,10 @@ export class AnnouncementService {
         return this.http.get(baseUrl + '/fetch/dashboard/' + `${role_type}`);
     }
 
-    deleteAnnouncemets(id: any) {
-        return this.http.delete(baseUrl + '/delete/' + `${id}`);
-    }
+   
 
       deleteSelectedAnnouncemets(anoncment: Announcement[]) {
-        return this.http.post(baseUrl + '/delete', anoncment );
+        return this.http.post(baseUrl + '/delete/approver', anoncment );
     }
 
      fetchAnnouncemetById(id: any) {

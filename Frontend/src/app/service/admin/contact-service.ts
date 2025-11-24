@@ -12,11 +12,11 @@ const baseUrl = environment.backendUrl;
 export class ContactService {
     constructor(private httpClient: HttpClient) {}
     saveContact(contact: Contact): Observable<any> {
-        return this.httpClient.post(baseUrl + '/contact', contact);
+        return this.httpClient.post(baseUrl + '/contact/admin', contact);
     }
 
     deleteContacts(contacts: Contact[]): Observable<any> {
-        return this.httpClient.post(baseUrl + '/contact/delete', contacts);
+        return this.httpClient.post(baseUrl + '/contact/delete/admin', contacts);
     }
 
     getContacts(): Observable<Contact[]> {

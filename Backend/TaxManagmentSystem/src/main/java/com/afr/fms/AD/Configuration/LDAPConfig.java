@@ -12,7 +12,7 @@ import org.springframework.ldap.pool.validation.DefaultDirContextValidator;
 import com.afr.fms.Admin.Mapper.SMSMapper;
 import com.afr.fms.Admin.Service.SMSService;
 
-@Configuration
+// @Configuration
 public class LDAPConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(LDAPConfig.class);

@@ -12,9 +12,6 @@ const baseUrl = environment.backendUrl;
 export class RegionService {
     constructor(private httpClient: HttpClient) {}
 
-    // getRegions(paginatorPayLoad : PaginatorPayLoad):Observable<Region[]>{
-    //   return this.httpClient.post<Region[]>(baseUrl + '/regions', paginatorPayLoad);
-    // }
 
     getRegions(): Observable<Region[]> {
         return this.httpClient.get<Region[]>(baseUrl + '/region');
@@ -33,23 +30,23 @@ export class RegionService {
     }
 
     saveRegion(region: Region): Observable<any> {
-        return this.httpClient.post(baseUrl + '/region', region);
+        return this.httpClient.post(baseUrl + '/region/admin', region);
     }
 
     deleteRegion(region: Region[]): Observable<any> {
-        return this.httpClient.post(baseUrl + '/region/delete', region);
+        return this.httpClient.post(baseUrl + '/region/delete/admin', region);
     }
 
     activateRegion(region: Region[]): Observable<any> {
-        return this.httpClient.post(baseUrl + '/region/activate', region);
+        return this.httpClient.post(baseUrl + '/region/activate/admin', region);
     }
 
     checkRegionNameExist(region: Region): Observable<any> {
-        return this.httpClient.post(baseUrl + '/region/name', region);
+        return this.httpClient.post(baseUrl + '/region/name/admin', region);
     }
 
     checkRegionCodeExist(region: Region): Observable<any> {
-        return this.httpClient.post(baseUrl + '/region/code', region);
+        return this.httpClient.post(baseUrl + '/region/code/admin', region);
     }
 
     drawRegionLineChart(): Observable<any> {

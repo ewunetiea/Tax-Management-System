@@ -31,7 +31,7 @@ public class RegionController {
 
     RecentActivity recentActivity = new RecentActivity();
 
-    @PostMapping("/region")
+    @PostMapping("/region/admin")
     public ResponseEntity<?> saveRegion(HttpServletRequest request, @RequestBody Region region) throws ParseException {
         try {
             User user = new User();
@@ -57,24 +57,9 @@ public class RegionController {
         }
     }
 
-    // @PostMapping("/region")
-    // public ResponseEntity<?> createRegion(HttpServletRequest request,
-    // @RequestBody Region region) throws ParseException {
-    // try {
-    // User user = new User();
-    // regionService.createRegion(region);
-    // recentActivity.setMessage(region.getName() + " region is created ");
-    // user.setId(region.getUser_id());
-    // recentActivity.setUser(user);
-    // recentActivityMapper.addRecentActivity(recentActivity);
-    // return AGPResponse.success("region sucessfully saved");
-    // } catch (Exception ex) {
+    
 
-    // return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    // }
-    // }
-
-    @PutMapping("/region")
+    @PutMapping("/region/admin")
     public ResponseEntity<?> updateRegion(HttpServletRequest request, @RequestBody Region region)
             throws ParseException {
         try {
@@ -124,7 +109,7 @@ public class RegionController {
 
     }
 
-    @PostMapping("/region/delete")
+    @PostMapping("/region/delete/admin")
     public ResponseEntity<Void> deleteRegion(HttpServletRequest request, @RequestBody List<Region> regions) {
         for (Region region : regions) {
             regionService.deleteRegion(region.getId());
@@ -133,7 +118,7 @@ public class RegionController {
 
     }
 
-    @PostMapping("/region/activate")
+    @PostMapping("/region/activate/admin")
     public ResponseEntity<Void> activateRegion(HttpServletRequest request, @RequestBody List<Region> regions) {
         for (Region region : regions) {
             regionService.activateRegion(region.getId());
@@ -142,7 +127,7 @@ public class RegionController {
 
     }
 
-    @PostMapping("/region/name")
+    @PostMapping("/region/name/admin")
     public ResponseEntity<Boolean> checkRegionNameExist(@RequestBody Region region) {
         try {
             return new ResponseEntity<>(regionService.checkRegionNameExist(region), HttpStatus.OK);
@@ -151,7 +136,7 @@ public class RegionController {
         }
     }
 
-    @PostMapping("/region/code")
+    @PostMapping("/region/code/admin")
     public ResponseEntity<Boolean> checkRegionCodeExist(@RequestBody Region region) {
         try {
             return new ResponseEntity<>(regionService.checkRegionCodeExist(region), HttpStatus.OK);

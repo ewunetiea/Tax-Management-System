@@ -48,7 +48,22 @@ public class FunctionalitiesService {
 				|| functionality_name.contains("/api/replaceHRData")
 				|| functionality_name.contains("/api/user/image")
 				|| functionality_name.contains("/api/user/verify")
-				|| functionality_name.contains("/api/password/verifyOTP")) {
+				|| functionality_name.contains("/api/password/verifyOTP")
+
+				|| functionality_name.contains("/api/branch")
+				|| functionality_name.contains("/api/region")
+				|| functionality_name.contains("/api/job_position")
+
+				|| functionality_name.contains("/api/selected_job_position")
+				|| functionality_name.contains("/api/checkUserEmployeeIdSystem")
+				|| functionality_name.contains("/api/checkUserEmployeeId")
+				|| functionality_name.contains("/api/checkUserEmail")
+				|| functionality_name.contains("/api/checkUsername")
+				|| functionality_name.contains("/api/checkUserPhoneNumber")
+				|| functionality_name.contains("/api/auth/refreshtoken")
+				|| functionality_name.contains("/api/auth/signout")
+
+		) {
 			return true;
 		}
 
@@ -162,7 +177,8 @@ public class FunctionalitiesService {
 
 	public void changeRolePermisssion(Role role) {
 		for (Functionalities functionality : role.getFunctionalities()) {
-			functionalitiesMapper.updateRoleFunctionalitiesById(role.getId(), functionality.getId(), functionality.isStatus());
+			functionalitiesMapper.updateRoleFunctionalitiesById(role.getId(), functionality.getId(),
+					functionality.isStatus());
 		}
 	}
 

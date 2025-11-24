@@ -22,14 +22,21 @@ public class UserRateLimitFilter extends OncePerRequestFilter {
             "/api/auth/signin",
             "/api/auth/force-login",
             "/api/auth/refreshtoken",
-            "/api/auth/signup"
+            "/api/auth/signup",
+            "/api/checkUserEmployeeIdSystem",
+            "/api/checkUserEmployeeId",
+            "/api/region/active",
+            "/api/branch/active",
+            "/api/selected_job_position",
+            "/swagger-ui"
+
     );
 
     // User buckets
     private final Map<String, Bucket> userBuckets = new ConcurrentHashMap<>();
 
     private Bucket createBucket() {
-        Bandwidth limit = Bandwidth.simple(20, Duration.ofMinutes(1)); //20 req per min
+        Bandwidth limit = Bandwidth.simple(20, Duration.ofMinutes(1)); // 20 req per min
         return Bucket4j.builder().addLimit(limit).build();
     }
 
@@ -39,7 +46,8 @@ public class UserRateLimitFilter extends OncePerRequestFilter {
 
     private String extractUsername(HttpServletRequest req) {
         String token = jwtUtils.getJwtFromCookies(req);
-        if (token == null) return null;
+        if (token == null)
+            return null;
         try {
             return jwtUtils.getUserNameFromJwtToken(token);
         } catch (Exception e) {
@@ -52,7 +60,7 @@ public class UserRateLimitFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String path = req.getRequestURI();
-        
+
         // Only filter /api/*
         if (!path.startsWith("/api/")) {
             chain.doFilter(req, res);
@@ -60,7 +68,17 @@ public class UserRateLimitFilter extends OncePerRequestFilter {
         }
 
         // ---- EXCLUDE STATIC PATHS ----
-        if (EXCLUDED_PATHS.contains(path)) {
+        // Skip excluded paths
+        if (EXCLUDED_PATHS.contains(path)
+                || path.equals("/api/checkUserEmail")
+                || path.startsWith("/api/checkUserEmail/")
+                || path.startsWith("/api/checkUsername")
+                || path.startsWith("/api/checkUsername/")
+                || path.startsWith("/api/checkUserPhoneNumber")
+                || path.startsWith("/api/checkUserPhoneNumber/")
+
+        ) {
+
             chain.doFilter(req, res);
             return;
         }

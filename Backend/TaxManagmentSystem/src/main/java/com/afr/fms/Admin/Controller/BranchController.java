@@ -76,7 +76,7 @@ public class BranchController {
 
 	}
 
-	@PostMapping("/branch")
+	@PostMapping("/branch/admin")
 	public ResponseEntity<HttpStatus> saveBranch(@RequestBody Branch branch, HttpServletRequest request) {
 		try {
 			User user = new User();
@@ -108,7 +108,7 @@ public class BranchController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@PostMapping("/branch/delete")
+	@PostMapping("/branch/delete/admin")
 	public ResponseEntity<Branch> deleteBranch(@RequestBody List<Branch> branches, HttpServletRequest request) {
 		try {
 
@@ -122,7 +122,7 @@ public class BranchController {
 		}
 	}
 
-	@PostMapping("/branch/activate")
+	@PostMapping("/branch/activate/admin")
 	public ResponseEntity<Branch> activateBranch(@RequestBody List<Branch> branches, HttpServletRequest request) {
 		try {
 			for (Branch branch2 : branches) {

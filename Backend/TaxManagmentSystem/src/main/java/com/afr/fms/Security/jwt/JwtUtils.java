@@ -75,12 +75,12 @@ public class JwtUtils {
 
   public ResponseCookie getCleanJwtCookie(HttpServletRequest request) {
     String contextPath = getContextPath(request);
-    return generateCleanCookie(jwtCookie, contextPath + "/api");
+    return cleanCookie(jwtCookie, contextPath + "/api");
   }
 
   public ResponseCookie getCleanJwtRefreshCookie(HttpServletRequest request) {
     String contextPath = getContextPath(request);
-    return generateCleanCookie(jwtRefreshCookie, contextPath + "/api/auth/refreshtoken");
+    return cleanCookie(jwtRefreshCookie, contextPath + "/api/auth/refreshtoken");
   }
 
   private String getContextPath(HttpServletRequest request) {
@@ -88,14 +88,16 @@ public class JwtUtils {
     return request.getContextPath();
   }
 
-  private ResponseCookie generateCleanCookie(String name, String path) {
-    return ResponseCookie.from(name, null)
-    .path("/")
-    .maxAge(3600)
-    .httpOnly(true)
-    .secure(true)
-    .build();
-  }
+  
+  private ResponseCookie cleanCookie(String name, String path) {
+    return ResponseCookie.from(name, "")
+        .path("/")          // make sure path matches original cookie
+        .maxAge(0)          // THIS IS KEY — immediately expires
+        .httpOnly(true)
+        .secure(true)
+        .build();
+}
+
 
   public String getUserNameFromJwtToken(String token) {
     setting = settingService.getSetting();

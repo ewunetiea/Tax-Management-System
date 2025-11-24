@@ -18,7 +18,7 @@ import com.afr.fms.Maker.service.TaxCategoryService;
 
 
 @RestController
-@RequestMapping("/api/maker/tax-category")
+@RequestMapping("/api/tax-category")
 public class TaxCategoryController {
 
     @Autowired
@@ -29,7 +29,7 @@ public class TaxCategoryController {
 
     RecentActivity recentActivity = new RecentActivity();
 
-    @PostMapping("/create-edit")
+    @PostMapping("/create-edit/approver")
     public ResponseEntity<HttpStatus> createEditTaxCategory(@RequestBody TaxCategory tax) {
         User user = new User();
         if (tax.getId() == null) {
@@ -51,7 +51,7 @@ public class TaxCategoryController {
         return new ResponseEntity<>(taxes, HttpStatus.OK);
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/delete/approver")
     public ResponseEntity<Void> deleteTaxCategory(@RequestBody List<TaxCategory> taxes) {
         taxCategoryService.deleteTaxCategories(taxes);
         return ResponseEntity.ok().build();

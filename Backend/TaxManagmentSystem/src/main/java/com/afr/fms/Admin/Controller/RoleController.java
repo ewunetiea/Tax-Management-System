@@ -38,7 +38,7 @@ public class RoleController {
 
 	private static final Logger logger = LoggerFactory.getLogger(RoleController.class);
 
-	@PostMapping("/role")
+	@PostMapping("/role/admin")
 	public ResponseEntity<?> createRole(@RequestBody @Validated Role role, HttpServletRequest request) {
 		try {
 			roleService.createRole(role);
@@ -102,7 +102,7 @@ public class RoleController {
 
 	}
 
-	@PostMapping("role/delete")
+	@PostMapping("role/delete/admin")
 	public ResponseEntity<HttpStatus> deleteRole(@RequestBody List<Role> roles, HttpServletRequest request) {
 		try {
 			for (Role role : roles) {
@@ -116,7 +116,7 @@ public class RoleController {
 
 	}
 
-	@PostMapping("role/activate")
+	@PostMapping("role/activate/admin")
 	public ResponseEntity<HttpStatus> activateRole(@RequestBody List<Role> roles, HttpServletRequest request) {
 		try {
 			for (Role role : roles) {
@@ -130,7 +130,7 @@ public class RoleController {
 
 	}
 
-	@GetMapping("/role/activate/{id}")
+	@GetMapping("/role/activate/admin/{id}")
 	public ResponseEntity<Boolean> activate_role(@PathVariable Long id, HttpServletRequest request) {
 		try {
 			roleService.activate_role(id);
@@ -142,7 +142,7 @@ public class RoleController {
 
 	}
 
-	@GetMapping("role/deactivate/{id}")
+	@GetMapping("role/deactivate/admin/{id}")
 	public ResponseEntity<Boolean> deactivate_role(@PathVariable Long id, HttpServletRequest request) {
 
 		try {

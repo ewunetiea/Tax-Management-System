@@ -15,18 +15,10 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.ldap.core.LdapTemplate;
-import org.springframework.ldap.core.support.LdapContextSource;
-import org.springframework.ldap.pool.factory.PoolingContextSource;
 import org.springframework.ldap.pool.validation.DefaultDirContextValidator;
 
-import com.afr.fms.Admin.Entity.SMS;
-import com.afr.fms.Admin.Mapper.SMSMapper;
-import com.afr.fms.Admin.Service.SMSService;
-
-// @Configuration
+@Configuration
 
 public class LDAPConfigProduction {
 
@@ -66,18 +58,14 @@ public class LDAPConfigProduction {
         String serviceAccount = smsService.getDecryptedText(sms.getUser_name(), secretKey);
         String servicePassword = smsService.getDecryptedText(sms.getPassword(), secretKey);
 
-        
-
-        //         String serviceAccount = "Fras@awash.local";
-        // String servicePassword = "Audit##@@11";
-
+       
 
         serviceAccount = serviceAccount.contains("@") ? serviceAccount : serviceAccount + "@awash.local";
 
         contextSource.setUserDn(serviceAccount);
         contextSource.setPassword(servicePassword);
 
-        contextSource.setPooled(false);
+        contextSource.setPooled(true);
         contextSource.setReferral("follow");
         contextSource.setAnonymousReadOnly(false);
         contextSource.setBaseEnvironmentProperties(Map.of(

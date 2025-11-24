@@ -53,6 +53,9 @@ export class ManageUserPermissionsComponent {
     this.user = user;
     this.functionalityStatusDialog = true;
     this.assignedFunctionalities = this.user.functionalities || [];
+
+
+    console.log(this.assignedFunctionalities)
   }
 
   closeDialog(): void {
@@ -124,4 +127,6 @@ export class ManageUserPermissionsComponent {
       },
     });
   }
+
+
 }

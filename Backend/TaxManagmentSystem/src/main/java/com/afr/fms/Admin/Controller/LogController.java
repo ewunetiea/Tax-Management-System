@@ -34,7 +34,7 @@ public class LogController {
 
     }
 
-    @PostMapping("/log")
+    @PostMapping("/log/admin")
     public ResponseEntity<?> deleteLogs(@RequestBody List<Log> logs, HttpServletRequest request) {
         try {
             for (Log log : logs) {

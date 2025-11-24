@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.prod';
 import { TaxCategory } from '../../models/maker/tax-category';
-const baseUrl = `${environment.backendUrl}/maker/tax-category`;
+const baseUrl = `${environment.backendUrl}/tax-category`;
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +12,7 @@ export class TaxCategoriesService {
     constructor(private http: HttpClient) {}
 
     createTaxCategory(taxCategories: TaxCategory): Observable<object> {
-        return this.http.post(`${baseUrl}/create-edit`, taxCategories);
+        return this.http.post(`${baseUrl}/create-edit/approver`, taxCategories);
     }
 
     getTaxCategories(): Observable<TaxCategory[]> {
@@ -29,7 +29,7 @@ export class TaxCategoriesService {
     }
 
     deleteTaxCategories(taxCategories: TaxCategory[]): Observable<object> {
-        return this.http.post(`${baseUrl}/delete`, taxCategories);
+        return this.http.post(`${baseUrl}/delete/approver`, taxCategories);
     }
 
     activateTaxCategories(taxCategories: TaxCategory[]): Observable<object> {

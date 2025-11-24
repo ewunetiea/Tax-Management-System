@@ -25,12 +25,14 @@ public class BackupService {
             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy - HHmmss");
             Date date = new Date();
             String now = formatter.format(date);
-            backup.setFilepath(backupPath + "afrfms -" + now + ".BAK");
+            backup.setFilepath(backupPath + "tms -" + now + ".BAK");
             backupMapper.insertIntoBackup(backup);
             backupMapper.createFullBackup(backup);
             return backup;
 
         }catch(Exception ex){
+
+            System.out.println(ex);
             
             return null;
         }

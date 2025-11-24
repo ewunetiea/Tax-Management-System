@@ -28,7 +28,6 @@ public class ManageTaxReviewerService {
     private TaxableMapper taxableMapper;
 
     public List<Tax> getPendingTaxes(PaginatorPayLoad paginatorPayLoad) {
-        System.out.println("Ffffffffffffffffffffffffffffffffffffffffffffffff:" + manageTaxMapper.getPendingTaxes(paginatorPayLoad) );
         return manageTaxMapper.getPendingTaxes(paginatorPayLoad);
     }
 
@@ -74,9 +73,6 @@ public class ManageTaxReviewerService {
         String statusMessage = "";
 
         int status = taxableMapper.fetchTaxByID(tax.getId());
-
-        System.out.println(status);
-
         if (status != 5) {
             manageTaxMapper.backToWaitingState(tax);
             User user = new User();

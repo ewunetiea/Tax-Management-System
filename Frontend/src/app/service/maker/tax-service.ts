@@ -16,23 +16,18 @@ const baseUrl = environment.backendUrl + '/maker/tax';
 
 export class TaxService {
 
-
-
   constructor(private http: HttpClient) { }
-
-
-
   createTax(tax: any): Observable<any> {
     return this.http.post(baseUrl + '/create', tax);
   }
+
   fetchTaxesBasedOnStatus(payload: MakerSearchPayload): Observable<Tax[]> {
-    console.log("_______G_____________________________________")
+    
     return this.http.post<Tax[]>(baseUrl + '/fetchTaxBasedonStatus', payload);
   }
 
-
   fetchTaxProgress(payload: MakerSearchPayload): Observable<Tax[]> {
-    console.log("Tax Progress____________________________")
+    
     return this.http.post<Tax[]>(baseUrl + '/fetchTaxProgress', payload);
   }
 
@@ -45,7 +40,7 @@ export class TaxService {
     return this.http.delete(baseUrl + '/' + `${id}`);
   }
 
-  submitToBranchManager(anoncment: Tax[]) { // update status to 0
+  submitToBranchManager(anoncment: Tax[]) { 
     return this.http.post(baseUrl + '/submit', anoncment);
   }
 

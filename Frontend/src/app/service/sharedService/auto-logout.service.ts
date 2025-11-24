@@ -40,7 +40,7 @@ export class AutoLogoutService implements OnDestroy {
   private startWatching(): void {
     if (this.isWatching) return;
     this.isWatching = true;
-    console.log('AutoLogout started watching for:', this.user?.email);
+
 
     const events = ['click', 'keydown', 'scroll', 'mousemove'];
     merge(...events.map(e => fromEvent(document, e)))
@@ -53,7 +53,7 @@ export class AutoLogoutService implements OnDestroy {
   private resetTimer(): void {
     clearTimeout(this.warningTimer);
     clearTimeout(this.logoutTimer);
-    console.log("Reset Time is started for:", this.user?.email)
+    
 
     this.ngZone.runOutsideAngular(() => {
       // Warning dialog timer

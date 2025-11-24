@@ -17,6 +17,7 @@ export class ManageTaxApproverService {
   }
 
   rejectApproverTax(tax: Tax): Observable<any> {
+    
     return this.http.post(`${baseUrl}/reject`, tax);
   }
 

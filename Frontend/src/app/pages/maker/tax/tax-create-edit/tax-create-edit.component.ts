@@ -61,7 +61,7 @@ submitted = false;
 
 
     ngOnInit(): void {
-          console.log("Role input received in component:", this.role); // <-- log role
+           // <-- log role
 
           if(this.role.includes("ROLE_MAKER")){
 
@@ -159,7 +159,7 @@ submitted = false;
         }
 
 
-        console.log("is file edit" + this.tax.isFileEdited)
+        
 
         const formData = new FormData();
 

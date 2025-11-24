@@ -29,18 +29,14 @@ interface ExportColumn {
 @Component({
     selector: 'app-manage-tax',
     standalone: true,
-    imports: [
-        SharedUiModule, TaxCreateEditComponent, MakerSearchEnginePayLoadComponent
-    ],
+    imports: [SharedUiModule, TaxCreateEditComponent, MakerSearchEnginePayLoadComponent],
     templateUrl: './manage-tax.component.html',
     styleUrls: ['./manage-tax.component.css'],
-
     providers: [ConfirmationService, MessageService, ProductService]
 })
 export class ManageTax implements OnInit {
-
     expandedRows: { [key: number]: boolean } = {};
-    selectedPdf: SafeResourceUrl | null = null; // PDF to preview
+    selectedPdf: SafeResourceUrl | null = null; 
     showPdfModal = false;
     taxDialog: boolean = false;
     taxes: Tax[] = [];
@@ -77,7 +73,6 @@ export class ManageTax implements OnInit {
     ) { }
 
     ngOnInit(): void {
-
         this.roles = this.storageService?.getUser().roles
         this.routeControl = this.route.snapshot.data['status'];
         this.items = [{ label: this.breadcrumbText }];
@@ -98,10 +93,9 @@ export class ManageTax implements OnInit {
 
     onSearchResults(taxes: Tax[]) { //  search results are passed from child to parent
         this.taxes = taxes;
+        
 
-        console.log(this.taxes)
-
-        console.log(taxes)
+        
         this.loading = false;
 
     }
@@ -149,9 +143,7 @@ export class ManageTax implements OnInit {
             accept: () => {
                 this.taxService.submitToBranchManager(itemsToSubmit as any).subscribe({
                     next: () => {
-                        this.taxes = this.taxes.filter(
-                            val => !itemsToSubmit.includes(val)
-                        );
+                        this.taxes = this.taxes.filter(val => !itemsToSubmit.includes(val));
                         if (Array.isArray(taxes)) {
                             this.selectedTaxes = null;
                         }

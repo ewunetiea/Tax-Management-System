@@ -225,22 +225,14 @@
                     <td>{{ tax.graduateTotaEmployee }}</td>
                     <td>{{ tax.noOfEmployee }}</td>
                     <td>{{ tax.graduatetaxWithHold }}</td>
-
                     <td>{{ taxCategoryMap[tax.taxCategory] || 'Unknown' }}</td>
                     <td>{{ tax.remark }}</td>
-
                     <td *ngIf="routeControl ==='drafted'">{{ tax.drafted_date | date:'yyyy-MM-dd' }}</td>
-
-
                     <td *ngIf="routeControl !='drafted'">{{ tax.maker_date | date:'yyyy-MM-dd' }}</td>
                     <td>
-
-
                         <p-tag [value]="getStatusInfo(tax.status).label"
                             [severity]="getStatusInfo(tax.status).severity">
                         </p-tag>
-
-
                     </td>
                     <td>
                         <p-button pTooltip="Edit Tax " tooltipPosition="top" icon="pi pi-pencil" class="mr-2"

@@ -103,7 +103,7 @@ public class UserRateLimitFilter extends OncePerRequestFilter {
             chain.doFilter(req, res);
         } else {
             res.setStatus(429);
-            res.getWriter().write("Rate limit exceeded (20 requests/min) for user: " + username);
+            res.getWriter().write("Rate limit exceeded (10 requests/min) for user: " + username);
         }
     }
 }

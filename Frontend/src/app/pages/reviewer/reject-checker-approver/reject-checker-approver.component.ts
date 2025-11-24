@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {  MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { SharedUiModule } from '../../../../shared-ui';
 import { ManageTaxService } from '../../../service/reviewer/manage_tax_reviewer-service';
 import { StorageService } from '../../../service/sharedService/storage.service';
@@ -22,8 +22,10 @@ export class RejectCheckerApproverComponent implements OnInit {
   tax: Tax = new Tax();
   form!: FormGroup;
   submitted = false;
-  @Input() routeControl = "";
+  isApprover = false;
 
+
+  @Input() routeControl = "";
   @Input() passedRejectedTax: any[] = [];
   @Output() rejectedTax: EventEmitter<any> = new EventEmitter();
 
@@ -33,23 +35,50 @@ export class RejectCheckerApproverComponent implements OnInit {
     private manageTaxHoService: ManageTaxApproverService,
     private storageService: StorageService,
     private messageService: MessageService,
-
   ) { }
 
   ngOnInit(): void {
     this.user = this.storageService.getUser();
+    const roleNames: string[] = (this.user?.roles as unknown as string[]) ?? [];
+    this.isApprover = roleNames.includes('ROLE_APPROVER');
 
     // ✅ Initialize form
     this.form = this.fb.group({
       reference_number: [{ value: '', disabled: true }],
-      checker_rejected_reason: ['', [Validators.required, Validators.minLength(3)]]
+      checker_rejected_reason: [''],
+      approver_rejected_reason: [''],
     });
 
     // ✅ Load data if passed
     if (this.passedRejectedTax?.length) {
       this.rejectTax(this.passedRejectedTax);
     }
+    this.setRoleValidators();
   }
+
+
+  setRoleValidators() {
+  if (this.isApprover) {
+    // Approver required
+    this.form.get('approver_rejected_reason')?.setValidators([Validators.required, Validators.minLength(3)]);
+
+    // Checker not required
+    this.form.get('checker_rejected_reason')?.clearValidators();
+    this.form.get('checker_rejected_reason')?.setValue('');
+  } else {
+    // Checker required
+    this.form.get('checker_rejected_reason')?.setValidators([Validators.required, Validators.minLength(3)]);
+
+    // Approver not required
+    this.form.get('approver_rejected_reason')?.clearValidators();
+    this.form.get('approver_rejected_reason')?.setValue('');
+  }
+
+  // Update form after changes
+  this.form.get('approver_rejected_reason')?.updateValueAndValidity();
+  this.form.get('checker_rejected_reason')?.updateValueAndValidity();
+}
+
 
   // ✅ Populate form with passed data
   rejectTax(passedData: any[]): void {
@@ -74,7 +103,6 @@ export class RejectCheckerApproverComponent implements OnInit {
         this.submitted = false;
         return;
       }
-
     }
     const roleNames: string[] = (this.user?.roles as unknown as string[]) ?? [];
     this.tax = {
@@ -112,7 +140,7 @@ export class RejectCheckerApproverComponent implements OnInit {
             }
 
             else if (res?.status === 'alreadyapproved') {
-              message = `${this.tax.reference_number} has already been approved, you ca not back`;
+              message = `${this.tax.reference_number} has already been approved, you can not back`;
 
             } else {
               // For rejectReviewerTax or rejectApproverTax responses
@@ -123,7 +151,6 @@ export class RejectCheckerApproverComponent implements OnInit {
               severity: 'success',
               detail: 'Message Details',
               summary: message,
-
               life: 3000
             });
 
@@ -131,7 +158,6 @@ export class RejectCheckerApproverComponent implements OnInit {
 
             // Emit updated data before reset
             this.emitData([this.tax]);
-
             // Reset form and tax object
             this.form.reset();
             this.tax = new Tax();
@@ -170,4 +196,6 @@ export class RejectCheckerApproverComponent implements OnInit {
   get f(): { [key: string]: AbstractControl } {
     return this.form.controls;
   }
+
+
 }

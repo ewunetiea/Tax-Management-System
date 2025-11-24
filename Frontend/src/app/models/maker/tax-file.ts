@@ -2,7 +2,6 @@ import { SafeResourceUrl } from "@angular/platform-browser";
 import { Transaction } from "./transaction";
 
 export class TaxFile {
-
     Id?: String;
     fileName?: String;
     extension?: String;
@@ -12,5 +11,4 @@ export class TaxFile {
     pdfUrl?: string;           // blob URL for PDF download
     safePdfUrl?: SafeResourceUrl;
     tax_id?: number;
-
 }

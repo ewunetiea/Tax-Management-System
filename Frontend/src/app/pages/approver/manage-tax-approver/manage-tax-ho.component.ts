@@ -39,7 +39,7 @@ export class ManageTaxHoComponent {
   taxDialog = false
   isEdit = false;
   activeIndex1: number = 0;
-  activeState: boolean[] = [true, false, false];
+  activeState: boolean[] = [true, false, false, false, false];
   pdfSrc: any;
   selectedPdf: SafeResourceUrl | null = null; // PDF to preview
   showPdfModal = false;

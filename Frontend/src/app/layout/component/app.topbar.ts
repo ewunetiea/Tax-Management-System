@@ -181,8 +181,8 @@ export class AppTopbar {
     // We've already called authService.logout() above; tell AutoLogoutService to skip the server call
     this.autoLogoutService.logout(true);
         //  this.router.navigate(['']);
-        this.reloadPageAndRedirect('http://localhost:8082/');
-        // this.reloadPageAndRedirect('https://10.10.106.194:8443/tms/');
+        // this.reloadPageAndRedirect('http://localhost:8082/');
+        // this.reloadPageAndRedirect('http://10.10.106.194:8443/tms/');
 
         // this.reloadPageAndRedirect('http://localhost:4200');
     }

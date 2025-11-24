@@ -1,201 +1,3 @@
-<!-- <p-dialog [(visible)]="visible" [style]="{ width: '1000px' }" header="Tax Input fields" [modal]="true"
-    (onHide)="onCancel()" [dismissableMask]="false">
-    <ng-template #content>
-        <form ngNativeValidate #taxForm="ngForm" class="p-fluid" (ngSubmit)="onSave()">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                <div class="p-field">
-
-                    <label for="from_" class="block font-bold mb-3">
-                        <strong class="text-danger"> </strong> Request Generated From
-                    </label>
-                    <input type="text" name="from_" id="remark" pInputText [(ngModel)]="user_branch" fluid readonly
-                        class="w-full h-14 " />
-
-                </div>
-                <div class="p-field">
-
-                    <label for="sendTo_" class="block font-bold mb-3">
-                        <strong class="text-danger">*</strong> Send To
-                    </label>
-                    <p-select [options]="branches" [(ngModel)]="selectedBranchId"
-                        (ngModelChange)="onBranchChange($event)" optionLabel="name" optionValue="id" name="sendTo_"
-                        id="sendTo_" placeholder="Select Branch" [filter]="true" [showClear]="true" scrollHeight="300px"
-                        class="w-full h-14" [virtualScroll]="true" [virtualScrollItemSize]="40">
-                    </p-select>
-                </div>
-
-                <div class="p-field">
-
-                    <label for="taxCategory" class="block font-bold mb-3">
-                        <strong class="text-danger">*</strong> Tax Category
-                    </label>
-                    <p-select [options]="taxCategories" [(ngModel)]="tax.taxCategory" optionLabel="type"
-                        optionValue="id" name="taxCategory" id="taxCategory" placeholder="Select Tax Category"
-                        [filter]="true" [showClear]="true" scrollHeight="200px" class="w-full h-14"></p-select>
-                </div>
-
-                <div class="p-field">
-                    <label for="taxableAmount" class="block font-bold mb-3">
-                        <strong class="text-danger">*</strong> Taxable Amount
-                    </label>
-                    <p-inputnumber [(ngModel)]="tax.taxableAmount" name="taxableAmount" inputId="taxableAmount"
-                        mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" required autocomplete="off" fluid
-                        class="w-full h-14 " />
-                    <div *ngIf="taxForm.controls['taxableAmount']?.invalid && taxForm.controls['taxableAmount']?.touched"
-                        class="text-danger">
-                        Taxable amount is required.
-                    </div>
-                </div>
-
-                <div class="p-field">
-                    <label for="taxWithHold" class="block font-bold mb-3">
-                        <strong class="text-danger">*</strong>Tax With Hold</label>
-                    <p-inputnumber [(ngModel)]="tax.taxWithHold" name="taxWithHold" inputId="taxWithHold" mode="decimal"
-                        [minFractionDigits]="2" [maxFractionDigits]="5" required autocomplete="off" fluid
-                        class="w-full h-14 " />
-                    <div *ngIf="taxForm.controls['taxWithHold']?.invalid && taxForm.controls['taxWithHold']?.touched"
-                        class="text-danger">
-                        Tax With Hold is required.
-                    </div>
-                </div>
-
-                <div class="p-field">
-                    <label for="incometaxPoolAmount" class="block font-bold mb-3">
-                        <strong class="text-danger">*</strong> Income Tax Pool
-                    </label>
-                    <p-inputnumber [(ngModel)]="tax.incometaxPoolAmount" name="incometaxPoolAmount"
-                        inputId="incometaxPoolAmount" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"
-                        required autocomplete="off" fluid class="w-full h-14 " />
-                    <div *ngIf="taxForm.controls['incometaxPoolAmount']?.invalid && taxForm.controls['incometaxPoolAmount']?.invalid"
-                        class="text-danger">
-                        Income Tax Pool is required.
-                    </div>
-                </div>
-
-
-                <div class="p-field">
-                    <label for="graduatetaxPool" class="block font-bold mb-3">
-                        <strong class="text-danger">*</strong> Graduate Taxpool
-                    </label>
-                    <p-inputnumber [(ngModel)]="tax.graduatetaxPool" name="graduatetaxPool" inputId="graduatetaxPool"
-                        mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" required autocomplete="off" fluid
-                        class="w-full h-14 " />
-                    <div *ngIf="taxForm.controls['graduatetaxPool']?.invalid && taxForm.controls['graduatetaxPool']?.invalid"
-                        class="text-danger">
-                        Graduate Taxpool is required.
-                    </div>
-                </div>
-
-                <div class="p-field">
-                    <label for="graduaTotBasSalary" class="block font-bold mb-3">
-                        <strong class="text-danger">*</strong> Graduate Total Base Salary
-                    </label>
-                    <p-inputnumber [(ngModel)]="tax.graduaTotBasSalary" name="graduaTotBasSalary"
-                        inputId="graduaTotBasSalary" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"
-                        required autocomplete="off" fluid class="w-full h-14 " />
-                    <div *ngIf="taxForm.controls['graduaTotBasSalary']?.invalid && taxForm.controls['graduaTotBasSalary']?.touched"
-                        class="text-danger">
-                        Graduate total base salary is required.
-                    </div>
-                </div>
-
-                <div class="p-field">
-                    <label for="graduateTotaEmployee" class="block font-bold mb-3">
-                        <strong class="text-danger">*</strong> Graduate Total Employee
-                    </label>
-                    <p-inputnumber [(ngModel)]="tax.graduateTotaEmployee" name="graduateTotaEmployee"
-                        inputId="graduateTotaEmployee" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"
-                        required autocomplete="off" fluid class="w-full h-14 " />
-                    <div *ngIf="taxForm.controls['graduateTotaEmployee']?.invalid && taxForm.controls['graduateTotaEmployee']?.touched"
-                        class="text-danger">
-                        Graduate total employee is required.
-                    </div>
-                </div>
-
-                <div class="p-field">
-                    <label for="graduatetaxWithHold" class="block font-bold mb-3">
-                        <strong class="text-danger">*</strong> Graduate Tax With Hold
-                    </label>
-                    <p-inputnumber [(ngModel)]="tax.graduatetaxWithHold" name="graduatetaxWithHold"
-                        inputId="graduatetaxWithHold" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"
-                        required autocomplete="off" fluid class="w-full h-14 " />
-                    <div *ngIf="taxForm.controls['graduatetaxWithHold']?.invalid && taxForm.controls['graduatetaxWithHold']?.touched"
-                        class="text-danger">
-                        Graduate tax with hold is required.
-                    </div>
-                </div>
-
-
-
-                <div class="p-field">
-                    <label for="remark" class="block font-bold mb-3">Remark</label>
-
-                    <input type="text" name="remark" id="remark" pInputText [(ngModel)]="tax.remark" fluid
-                        class="w-full h-14 " />
-                </div>
-
-                <div class="p-field">
-                    <label for="drafted_date" class="block font-bold mb-3">
-                        <strong class="text-danger">*</strong> Drafted Date
-                    </label>
-                    <p-datepicker id="drafted_date" [(ngModel)]="tax.drafted_date" name="drafted_date" dateFormat="dd-mm-yy"
-                        [showIcon]="true" [readonlyInput]="true" inputId="drafted_date" placeholder="Select Drafted date"
-                        required class="w-full custom-datepicker" [maxDate]="maxDate" ></p-datepicker>
-
-                    <div *ngIf="taxForm.controls['drafted_date']?.invalid && taxForm.controls['drafted_date']?.touched"
-                        class="text-danger">
-                        Drafted date is required.
-                    </div>
-                </div>
-
-
-
-<div *ngIf="isEdit && isMaker">
-  <label for="isFileEdited" class="block font-bold mb-3">
-    Open switch button to update tax file
-  </label>
-
-  <p-toggleswitch [(ngModel)]="tax.isFileEdited" name="isFileEdited" id="isFileEdited" />
-</div>
-
-
-<div *ngIf="isMaker">
-<div *ngIf="!isEdit || tax.isFileEdited  ">
-  <p-fileUpload
-    name="demo[]"
-    mode="advanced"
-    [multiple]="true"
-    [maxFileSize]="1000000"
-    customUpload="true"
-    accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    (onSelect)="onFileSelect($event)"
-    (onClear)="onFileClear()"
-    (onRemove)="onFileRemove($event)"
-  >
-    <ng-template #empty>
-      <div>Drag and drop files here to upload (Image, PDF, Word).</div>
-    </ng-template>
-  </p-fileUpload>
-</div>
-</div>
-
-            </div>
-
-            <div class="flex justify-between mt-4 gap-4" *ngIf="isMaker">
-                <p-button pButton pRipple label="Cancel" icon="pi pi-times" text (click)="onCancel()"
-                    class="p-button-rounded"></p-button>
-
-                <p-button pButton pRipple type="submit" label="Save" icon="pi pi-check" [disabled]="taxForm.invalid"
-                    class="p-button-rounded"></p-button>
-            </div>
-        </form>
-    </ng-template>
-</p-dialog> -->
-
-
-
-
 <p-dialog [(visible)]="visible" [style]="{ width: '1000px' }" header="Tax Input fields" [modal]="true"
     (onHide)="onCancel()" [dismissableMask]="false">
     <ng-template #content>
@@ -204,128 +6,174 @@
 
                 <!-- Request Generated From -->
                 <div class="p-field">
-                    <label for="from_" class="block font-bold mb-3">Request Generated From</label>
-                    <input type="text" name="from_" id="from_" pInputText [(ngModel)]="user_branch" fluid readonly
-                        class="w-full h-14 " />
+                    <label for="from_" class="block font-bold mb-3">Request Generated From<strong class="text-danger">*</strong></label>
+                    <input 
+                    type="text" 
+                    name="from_" 
+                    id="from_" 
+                    pInputText 
+                    [(ngModel)]="user_branch" 
+                    fluid readonly
+                    class="w-full h-14 " />
                 </div>
 
                 <!-- Send To -->
                 <div class="p-field">
-                    <label for="sendTo_" class="block font-bold mb-3">Send To</label>
-                    <p-select [options]="branches" [(ngModel)]="selectedBranchId"
-                        (ngModelChange)="onBranchChange($event)" optionLabel="name" optionValue="id" name="sendTo_"
-                        id="sendTo_" placeholder="Select Branch" [filter]="true" [showClear]="true" scrollHeight="300px"
-                        class="w-full h-14" [virtualScroll]="true" [virtualScrollItemSize]="40">
+                    <label for="sendTo_" class="block font-bold mb-3">Send To<strong class="text-danger">*</strong></label>
+                    <p-select 
+                    [options]="branches" 
+                    [(ngModel)]="selectedBranchId"
+                        (ngModelChange)="onBranchChange($event)" 
+                        optionLabel="name" 
+                        optionValue="id" 
+                        name="sendTo_"
+                        id="sendTo_" 
+                        placeholder="Select Branch" 
+                        [filter]="true" 
+                        [showClear]="true" 
+                        scrollHeight="300px"
+                        class="w-full h-14" 
+                        [virtualScroll]="true" 
+                        [virtualScrollItemSize]="40">
                     </p-select>
-                    <span *ngIf="taxForm.controls['sendTo_']?.invalid && (taxForm.controls['sendTo_']?.touched || submitted)"
-                        class="text-danger">Send To is required.</span>
+                    <span *ngIf="taxForm.controls['sendTo_']?.invalid && (taxForm.controls['sendTo_']?.touched || submitted)" class="text-danger">Send To is required.</span>
                 </div>
 
-                <!-- Tax Category -->
-                <!-- <div class="p-field">
-                    <label for="taxCategory" class="block font-bold mb-3">Tax Category</label>
-                    <p-select [options]="taxCategories" [(ngModel)]="tax.taxCategory" optionLabel="type"
-                        optionValue="id" name="taxCategory" id="taxCategory" placeholder="Select Tax Category"
-                        [filter]="true" [showClear]="true" scrollHeight="200px" class="w-full h-14"></p-select>
-                    <span *ngIf="taxForm.controls['taxCategory']?.invalid && (taxForm.controls['taxCategory']?.touched || submitted)"
-                        class="text-danger">Tax Category is required.</span>
-                </div> -->
-
                 <div class="p-field">
-    <label for="taxCategory" class="block font-bold mb-3">
-        <strong class="text-danger">*</strong> Tax Category
-    </label>
-
-    <p-select
-        [options]="taxCategories"
-        [(ngModel)]="tax.taxCategory"
-        name="taxCategory"
-        id="taxCategory"
-        optionLabel="type"
-        optionValue="id"
-        placeholder="Select Tax Category"
-        [filter]="true"
-        [showClear]="true"
-        scrollHeight="200px"
-        class="w-full h-14"
-        required
-        #taxCategoryCtrl="ngModel" 
-    ></p-select>
-
-    <span *ngIf="(taxCategoryCtrl.invalid && (taxCategoryCtrl.touched || submitted))" class="text-danger">
-        Tax Category is required.
-    </span>
-</div>
-
+                    <label for="taxCategory" class="block font-bold mb-3">Tax Category<strong class="text-danger">*</strong></label>
+                    <p-select
+                    [options]="taxCategories"
+                    [(ngModel)]="tax.taxCategory"
+                    name="taxCategory"
+                    id="taxCategory"
+                    optionLabel="type"
+                    optionValue="id"
+                    placeholder="Select Tax Category"
+                    [filter]="true"
+                    [showClear]="true"
+                    scrollHeight="200px"
+                    class="w-full h-14"
+                    required
+                    #taxCategoryCtrl="ngModel" 
+                    ></p-select>
+                    <span *ngIf="(taxCategoryCtrl.invalid && (taxCategoryCtrl.touched || submitted))" class="text-danger">
+                        Tax Category is required.
+                    </span>
+                </div>
 
                 <!-- Taxable Amount -->
                 <div class="p-field">
-                    <label for="taxableAmount" class="block font-bold mb-3">Taxable Amount</label>
-                    <p-inputnumber [(ngModel)]="tax.taxableAmount" name="taxableAmount" inputId="taxableAmount"
-                        mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" required autocomplete="off" fluid
-                        class="w-full h-14 " />
-                    <span *ngIf="taxForm.controls['taxableAmount']?.invalid && (taxForm.controls['taxableAmount']?.touched || submitted)"
-                        class="text-danger">Taxable amount is required.</span>
+                    <label for="taxableAmount" class="block font-bold mb-3">Taxable Amount<strong class="text-danger">*</strong></label>
+                    <p-inputnumber 
+                    [(ngModel)]="tax.taxableAmount"
+                     name="taxableAmount" 
+                     inputId="taxableAmount"
+                    mode="decimal"
+                     [minFractionDigits]="0"
+                      [maxFractionDigits]="5" 
+                      required
+                      required autocomplete="off" 
+                      fluid
+                      class="w-full h-14 " />
+                    <span *ngIf="taxForm.controls['taxableAmount']?.invalid && (taxForm.controls['taxableAmount']?.touched || submitted)" class="text-danger">Taxable amount is required.</span>
                 </div>
 
                 <!-- Tax With Hold -->
                 <div class="p-field">
-                    <label for="taxWithHold" class="block font-bold mb-3">Tax With Hold</label>
-                    <p-inputnumber [(ngModel)]="tax.taxWithHold" name="taxWithHold" inputId="taxWithHold" mode="decimal"
-                        [minFractionDigits]="2" [maxFractionDigits]="5" required autocomplete="off" fluid
-                        class="w-full h-14 " />
-                    <span *ngIf="taxForm.controls['taxWithHold']?.invalid && (taxForm.controls['taxWithHold']?.touched || submitted)"
-                        class="text-danger">Tax With Hold is required.</span>
+                    <label for="taxWithHold" class="block font-bold mb-3">Tax With Hold<strong class="text-danger">*</strong></label>
+                    <p-inputnumber 
+                    [(ngModel)]="tax.taxWithHold" 
+                    name="taxWithHold" 
+                    inputId="taxWithHold" 
+                    mode="decimal"
+                    [minFractionDigits]="0" 
+                    [maxFractionDigits]="5" 
+                    required 
+                    autocomplete="off"
+                     fluid
+                    class="w-full h-14 " />
+                    <span *ngIf="taxForm.controls['taxWithHold']?.invalid && (taxForm.controls['taxWithHold']?.touched || submitted)" class="text-danger">Tax With Hold is required.</span>
                 </div>
 
                 <!-- Income Tax Pool -->
                 <div class="p-field">
-                    <label for="incometaxPoolAmount" class="block font-bold mb-3">Income Tax Pool</label>
-                    <p-inputnumber [(ngModel)]="tax.incometaxPoolAmount" name="incometaxPoolAmount"
-                        inputId="incometaxPoolAmount" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"
-                        required autocomplete="off" fluid class="w-full h-14 " />
-                    <span *ngIf="taxForm.controls['incometaxPoolAmount']?.invalid && (taxForm.controls['incometaxPoolAmount']?.touched || submitted)"
-                        class="text-danger">Income Tax Pool is required.</span>
+                    <label for="incometaxPoolAmount" class="block font-bold mb-3">Income Tax Pool<strong class="text-danger">*</strong></label>
+                    <p-inputnumber 
+                    [(ngModel)]="tax.incometaxPoolAmount" 
+                    name="incometaxPoolAmount"
+                    inputId="incometaxPoolAmount" 
+                    mode="decimal"
+                     [minFractionDigits]="0" 
+                     [maxFractionDigits]="5"
+                    required 
+                    autocomplete="off" 
+                    fluid class="w-full h-14 " />
+                    <span *ngIf="taxForm.controls['incometaxPoolAmount']?.invalid && (taxForm.controls['incometaxPoolAmount']?.touched || submitted)" class="text-danger">Income Tax Pool is required.</span>
                 </div>
 
                 <!-- Graduate Tax Pool -->
                 <div class="p-field">
-                    <label for="graduatetaxPool" class="block font-bold mb-3">Graduate Taxpool</label>
-                    <p-inputnumber [(ngModel)]="tax.graduatetaxPool" name="graduatetaxPool" inputId="graduatetaxPool"
-                        mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" required autocomplete="off" fluid
-                        class="w-full h-14 " />
-                    <span *ngIf="taxForm.controls['graduatetaxPool']?.invalid && (taxForm.controls['graduatetaxPool']?.touched || submitted)"
-                        class="text-danger">Graduate Taxpool is required.</span>
+                    <label for="graduatetaxPool" class="block font-bold mb-3">Graduate Taxpool<strong class="text-danger">*</strong></label>
+                    <p-inputnumber 
+                    [(ngModel)]="tax.graduatetaxPool" 
+                    name="graduatetaxPool" 
+                    inputId="graduatetaxPool"
+                    mode="decimal" 
+                    [minFractionDigits]="0" 
+                    [maxFractionDigits]="5" 
+                    required 
+                    autocomplete="off" 
+                    fluid
+                    class="w-full h-14 " />
+                    <span *ngIf="taxForm.controls['graduatetaxPool']?.invalid && (taxForm.controls['graduatetaxPool']?.touched || submitted)" class="text-danger">Graduate Taxpool is required.</span>
                 </div>
 
                 <!-- Graduate Total Base Salary -->
                 <div class="p-field">
-                    <label for="graduaTotBasSalary" class="block font-bold mb-3">Graduate Total Base Salary</label>
-                    <p-inputnumber [(ngModel)]="tax.graduaTotBasSalary" name="graduaTotBasSalary"
-                        inputId="graduaTotBasSalary" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"
-                        required autocomplete="off" fluid class="w-full h-14 " />
-                    <span *ngIf="taxForm.controls['graduaTotBasSalary']?.invalid && (taxForm.controls['graduaTotBasSalary']?.touched || submitted)"
-                        class="text-danger">Graduate total base salary is required.</span>
+                    <label for="graduaTotBasSalary" class="block font-bold mb-3">Graduate Total Base Salary<strong class="text-danger">*</strong></label>
+                    <p-inputnumber 
+                    [(ngModel)]="tax.graduaTotBasSalary" 
+                    name="graduaTotBasSalary"
+                    inputId="graduaTotBasSalary" 
+                    mode="decimal" 
+                    [minFractionDigits]="0"
+                     [maxFractionDigits]="5"  
+                     required 
+                     autocomplete="off" 
+                     fluid class="w-full h-14 " />
+                    <span *ngIf="taxForm.controls['graduaTotBasSalary']?.invalid && (taxForm.controls['graduaTotBasSalary']?.touched || submitted)" class="text-danger">Graduate total base salary is required.</span>
                 </div>
 
                 <!-- Graduate Total Employee -->
                 <div class="p-field">
-                    <label for="graduateTotaEmployee" class="block font-bold mb-3">Graduate Total Employee</label>
-                    <p-inputnumber [(ngModel)]="tax.graduateTotaEmployee" name="graduateTotaEmployee"
-                        inputId="graduateTotaEmployee" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"
-                        required autocomplete="off" fluid class="w-full h-14 " />
-                    <span *ngIf="taxForm.controls['graduateTotaEmployee']?.invalid && (taxForm.controls['graduateTotaEmployee']?.touched || submitted)"
-                        class="text-danger">Graduate total employee is required.</span>
+                    <label for="graduateTotaEmployee" class="block font-bold mb-3">Graduate Total Employee<strong class="text-danger">*</strong></label>
+                    <p-inputnumber 
+                    [(ngModel)]="tax.graduateTotaEmployee"
+                     name="graduateTotaEmployee"
+                    inputId="graduateTotaEmployee" 
+                    mode="decimal" 
+                    [minFractionDigits]="0" 
+                    [maxFractionDigits]="5"
+                    required 
+                    autocomplete="off"
+                     fluid class="w-full h-14 " />
+                    <span *ngIf="taxForm.controls['graduateTotaEmployee']?.invalid && (taxForm.controls['graduateTotaEmployee']?.touched || submitted)" class="text-danger">Graduate total employee is required.</span>
                 </div>
 
                 <!-- Graduate Tax With Hold -->
                 <div class="p-field">
-                    <label for="graduatetaxWithHold" class="block font-bold mb-3">Graduate Tax With Hold</label>
-                    <p-inputnumber [(ngModel)]="tax.graduatetaxWithHold" name="graduatetaxWithHold"
-                        inputId="graduatetaxWithHold" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"
-                        required autocomplete="off" fluid class="w-full h-14 " />
-                    <span *ngIf="taxForm.controls['graduatetaxWithHold']?.invalid && (taxForm.controls['graduatetaxWithHold']?.touched || submitted)"
-                        class="text-danger">Graduate Tax With Hold is required.</span>
+                    <label for="graduatetaxWithHold" class="block font-bold mb-3">Graduate Tax With Hold<strong class="text-danger">*</strong></label>
+                    <p-inputnumber
+                     [(ngModel)]="tax.graduatetaxWithHold" 
+                     name="graduatetaxWithHold"
+                    inputId="graduatetaxWithHold" 
+                    mode="decimal" 
+                    [minFractionDigits]="0" 
+                    [maxFractionDigits]="5"
+                    required 
+                    autocomplete="off" 
+                    fluid class="w-full h-14 " />
+                    <span *ngIf="taxForm.controls['graduatetaxWithHold']?.invalid && (taxForm.controls['graduatetaxWithHold']?.touched || submitted)" class="text-danger">Graduate Tax With Hold is required.</span>
                 </div>
 
                 <!-- Remark -->
@@ -337,12 +185,19 @@
 
                 <!-- Drafted Date -->
                 <div class="p-field">
-                    <label for="drafted_date" class="block font-bold mb-3">Drafted Date</label>
-                    <p-datepicker id="drafted_date" [(ngModel)]="tax.drafted_date" name="drafted_date"
-                        dateFormat="dd-mm-yy" [showIcon]="true" [readonlyInput]="true" inputId="drafted_date"
-                        placeholder="Select Drafted date" required class="w-full custom-datepicker" [maxDate]="maxDate" ></p-datepicker>
-                    <span *ngIf="taxForm.controls['drafted_date']?.invalid && (taxForm.controls['drafted_date']?.touched || submitted)"
-                        class="text-danger">Drafted date is required.</span>
+                    <label for="drafted_date" class="block font-bold mb-3">Drafted Date<strong class="text-danger">*</strong></label>
+                    <p-datepicker id="drafted_date" 
+                    [(ngModel)]="tax.drafted_date" 
+                    name="drafted_date"
+                    dateFormat="dd-mm-yy" 
+                    [showIcon]="true"
+                     [readonlyInput]="true" 
+                     inputId="drafted_date"
+                    placeholder="Select Drafted date" 
+                    required 
+                    class="w-full custom-datepicker" 
+                    [maxDate]="maxDate" ></p-datepicker>
+                    <span *ngIf="taxForm.controls['drafted_date']?.invalid && (taxForm.controls['drafted_date']?.touched || submitted)" class="text-danger">Drafted date is required.</span>
                 </div>
 
                 <!-- Toggle switch for edit mode -->

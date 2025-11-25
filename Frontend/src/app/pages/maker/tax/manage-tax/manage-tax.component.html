@@ -238,8 +238,6 @@
                          pTooltip="Click > Icon to see file details" tooltipPosition="bottom" />
                     </td>
                     <td><p-tableCheckbox [value]="tax" /></td>
-
-
                     <td>{{ tax.initiator_branch }}</td>
                     <td>{{ tax.reference_number }}</td>
                     <td>{{ tax.destination_branch }}</td>
@@ -274,7 +272,7 @@
                         pTooltip="Submit" 
                         tooltipPosition="bottom" 
                         icon="pi pi-send"
-                        severity="info" 
+                        severity="success" 
                         [rounded]="true" 
                         [outlined]="true" 
                         (click)="submitToBranchManager(tax)"

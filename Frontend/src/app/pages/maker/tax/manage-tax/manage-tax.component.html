@@ -9,19 +9,40 @@
 
     <p-toolbar class="mb-3 border-round-xl shadow-sm" *ngIf="!loading">
         <ng-template pTemplate="start">
-            <p-button label="New" icon="pi pi-plus" severity="info" class="mr-2" (onClick)="openNew()"
-                *ngIf="routeControl ==='drafted'" />
+            <p-button 
+            label="New" 
+            icon="pi pi-plus" 
+            severity="info"
+             class="mr-2" 
+             (onClick)="openNew()"
+            *ngIf="routeControl ==='drafted'" />
 
-            <p-button severity="success" label="Submit" icon="pi pi-check"
-                (click)="submitToBranchManager(selectedTaxes)" [disabled]="!selectedTaxes || !selectedTaxes.length"
-                class="mr-2" *ngIf="routeControl ==='drafted'" />
+            <p-button 
+            severity="success" 
+            label="Submit" 
+            icon="pi pi-check"
+            (click)="submitToBranchManager(selectedTaxes)" 
+            [disabled]="!selectedTaxes || !selectedTaxes.length"
+            class="mr-2" 
+            *ngIf="routeControl ==='drafted'" />
 
-            <p-button severity="danger" label="Delete" icon="pi pi-trash" (click)="deleteTaxes(selectedTaxes)"
-                [disabled]="!selectedTaxes || !selectedTaxes.length" class="mr-2" *ngIf="routeControl ==='drafted'" />
+            <p-button 
+            severity="danger" 
+            label="Delete" 
+            icon="pi pi-trash"
+            (click)="deleteTaxes(selectedTaxes)"
+            [disabled]="!selectedTaxes || !selectedTaxes.length"
+             class="mr-2" 
+             *ngIf="routeControl ==='drafted'" />
 
-            <p-button severity="help" label="Back" icon="pi pi-trash" (click)="backToDraftedState(selectedTaxes)"
-                [disabled]="!selectedTaxes || !selectedTaxes.length" class="mr-2"
-                *ngIf="routeControl !=='drafted' && routeControl !='generalstatus' && routeControl !='setteled' && routeControl !='sent' " />
+            <p-button
+             severity="help" 
+             label="Back" 
+             icon="pi pi-trash" 
+             (click)="backToDraftedState(selectedTaxes)"
+             [disabled]="!selectedTaxes || !selectedTaxes.length"
+              class="mr-2"
+              *ngIf="routeControl !=='drafted' && routeControl !='generalstatus' && routeControl !='setteled' && routeControl !='sent' " />
         </ng-template>
 
         <ng-template pTemplate="center" *ngIf="routeControl != 'sent'">
@@ -207,9 +228,14 @@
             <ng-template #body let-tax let-expanded="expanded">
                 <tr>
                     <td>
-                        <p-button type="button" pRipple [pRowToggler]="tax" [text]="true" [rounded]="true"
-                            severity="info" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
-                            pTooltip="Click > Icon to see file details" tooltipPosition="right" />
+                        <p-button 
+                        type="button"
+                         pRipple [pRowToggler]="tax" 
+                         [text]="true" 
+                         [rounded]="true"
+                        severity="info" 
+                        [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+                         pTooltip="Click > Icon to see file details" tooltipPosition="bottom" />
                     </td>
                     <td><p-tableCheckbox [value]="tax" /></td>
 
@@ -235,23 +261,46 @@
                         </p-tag>
                     </td>
                     <td>
-                        <p-button pTooltip="Edit Tax " tooltipPosition="top" icon="pi pi-pencil" class="mr-2"
-                            [rounded]="true" [outlined]="true" (click)="editTax(tax)"
-                            *ngIf=" routeControl ==='drafted' || routeControl ==='rejected' " />
-
-                        <p-button pTooltip="submit to Branch Manager" tooltipPosition="top" icon="pi pi-send"
-                            severity="info" [rounded]="true" [outlined]="true" (click)="submitToBranchManager(tax)"
-                            class="mr-2" *ngIf=" routeControl ==='drafted'  || routeControl ==='rejected'" />
-                        <p-button pTooltip="Delete Tax Information" tooltipPosition="top" icon="pi pi-trash"
-                            severity="danger" [rounded]="true" [outlined]="true" (click)="deleteTaxes(tax)" class="mr-2"
-                            *ngIf=" routeControl ==='drafted' " />
-
-                        <p-button pTooltip="Back to Draft State" tooltipPosition="top" icon="pi pi-fast-backward"
-                            severity="info" [rounded]="true" [outlined]="true" (click)="backToDraftedState(tax)"
-                            class="mr-2" *ngIf=" routeControl ==='submited' " />
-
+                        <p-button 
+                        pTooltip="Edit"
+                         tooltipPosition="bottom" 
+                         icon="pi pi-pencil" 
+                         class="mr-2"
+                        [rounded]="true" 
+                        [outlined]="true" 
+                        (click)="editTax(tax)"
+                        *ngIf=" routeControl ==='drafted' || routeControl ==='rejected' " />
+                        <p-button 
+                        pTooltip="Submit" 
+                        tooltipPosition="bottom" 
+                        icon="pi pi-send"
+                        severity="info" 
+                        [rounded]="true" 
+                        [outlined]="true" 
+                        (click)="submitToBranchManager(tax)"
+                        class="mr-2" 
+                        *ngIf=" routeControl ==='drafted'  || routeControl ==='rejected'" />
+                        <p-button 
+                        pTooltip="Delete" 
+                        tooltipPosition="bottom" 
+                        icon="pi pi-trash"
+                        severity="danger" 
+                        [rounded]="true" 
+                        [outlined]="true" 
+                        (click)="deleteTaxes(tax)" 
+                        class="mr-2"
+                        *ngIf=" routeControl ==='drafted' " />
+                        <p-button 
+                        pTooltip="Back" 
+                        tooltipPosition="bottom" 
+                        icon="pi pi-fast-backward"
+                        severity="info" 
+                        [rounded]="true" 
+                        [outlined]="true" 
+                        (click)="backToDraftedState(tax)"
+                        class="mr-2" 
+                        *ngIf=" routeControl ==='submited' " />
                     </td>
-
                 </tr>
             </ng-template>
 

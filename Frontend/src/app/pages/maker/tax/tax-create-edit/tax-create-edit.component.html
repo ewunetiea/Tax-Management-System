@@ -208,6 +208,7 @@
 
                 <!-- File Upload -->
                 <div *ngIf="isMaker">
+                    <label for="drafted_date" class="block font-bold mb-3">File<strong class="text-danger">*</strong></label>
                     <div *ngIf="!isEdit || tax.isFileEdited">
                         <p-fileUpload
                             name="demo[]"

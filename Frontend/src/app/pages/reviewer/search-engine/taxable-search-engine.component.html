@@ -53,19 +53,18 @@
     <!-- Status & Reference Number -->
     <div class="flex flex-col md:flex-row gap-6">
 
-
-      <div class="p-field w-full md:w-1/2">
-        <label for="document_type">Document Type</label>
-        <input pInputText id="document_type" placeholder="Enter document type" formControlName="document_type"
-          type="text" autocomplete="off" class="w-full h-12 " />
-      </div>
-
       <div class="p-field w-full md:w-1/2" *ngIf="statusRoute !='rejected'">
         <label for="maked_date">Posted Date</label>
         <p-datepicker id="maked_date" formControlName="maked_date" dateFormat="yy-mm-dd" [maxDate]="maxDate"
           [showIcon]="true" inputId="maked_date" selectionMode="range" placeholder="Select posted date"
           class="w-full custom-datepicker">
         </p-datepicker>
+      </div>
+
+      <div class="p-field w-full md:w-1/2">
+        <label for="document_type">Document Type</label>
+        <input pInputText id="document_type" placeholder="Enter document type" formControlName="document_type"
+          type="text" autocomplete="off" class="w-full h-12 " />
       </div>
 
 

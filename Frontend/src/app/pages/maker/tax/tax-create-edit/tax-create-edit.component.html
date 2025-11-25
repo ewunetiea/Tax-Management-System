@@ -179,8 +179,15 @@
                 <!-- Remark -->
                 <div class="p-field">
                     <label for="remark" class="block font-bold mb-3">Remark</label>
-                    <input type="text" name="remark" id="remark" pInputText [(ngModel)]="tax.remark" fluid
-                        class="w-full h-14 " />
+                    <input 
+                    type="text"
+                     name="remark" 
+                     id="remark" 
+                     autocomplete="off" 
+                     pInputText 
+                     [(ngModel)]="tax.remark" 
+                     fluid
+                     class="w-full h-14 " />
                 </div>
 
                 <!-- Drafted Date -->
@@ -208,8 +215,8 @@
 
                 <!-- File Upload -->
                 <div *ngIf="isMaker">
-                    <label for="drafted_date" class="block font-bold mb-3">File<strong class="text-danger">*</strong></label>
                     <div *ngIf="!isEdit || tax.isFileEdited">
+                        <label for="drafted_date" class="block font-bold mb-3">File<strong class="text-danger">*</strong></label>
                         <p-fileUpload
                             name="demo[]"
                             mode="advanced"
@@ -221,7 +228,7 @@
                             (onClear)="onFileClear()"
                             (onRemove)="onFileRemove($event)">
                             <ng-template #empty>
-                                <div>Drag and drop files here to upload (Image, PDF, Word).</div>
+                                <div>Choose a file to upload (Image, PDF, Word)!</div>
                             </ng-template>
                         </p-fileUpload>
                     </div>

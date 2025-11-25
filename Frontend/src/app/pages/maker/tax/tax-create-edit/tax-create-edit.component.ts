@@ -207,8 +207,6 @@ submitted = false;
 
 
     onFileSelect(event: any) {
-
-
         const files: File[] = Array.from(event.files); // convert FileList to array
         if (!this.tax!.taxFile) {
             this.tax!.taxFile = [];

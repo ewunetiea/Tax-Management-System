@@ -50,10 +50,8 @@ public class Tax {
     private String approver_name;
     private Date approved_date;
     private String reference_number;
-
     private Boolean isFileEdited;
     private List<TaxFile> previouseTaxFile;
-
     private Long maker_id;
     private Date drafted_date;
     private String fileExsistance;

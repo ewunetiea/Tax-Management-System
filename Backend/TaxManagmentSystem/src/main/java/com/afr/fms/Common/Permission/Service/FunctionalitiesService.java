@@ -68,6 +68,7 @@ public class FunctionalitiesService {
 		if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
 			String username = jwtUtils.getUserNameFromJwtToken(jwt);
 			String normalizedPath = ApiPathNormalizer.normalizeSpringBootPath(request);
+			System.out.println("normalizedPath:" + normalizedPath);
 			return processVerfyingPermission(username, normalizedPath, method);
 		}
 		return false;

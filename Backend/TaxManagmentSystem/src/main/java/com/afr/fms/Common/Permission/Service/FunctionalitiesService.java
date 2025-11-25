@@ -60,8 +60,7 @@ public class FunctionalitiesService {
 				|| functionality_name.contains("/api/checkUserPhoneNumber")
 				|| functionality_name.contains("/api/auth/refreshtoken")
 				|| functionality_name.contains("/api/auth/signout")
-
-		) {
+			) {
 			return true;
 		}
 

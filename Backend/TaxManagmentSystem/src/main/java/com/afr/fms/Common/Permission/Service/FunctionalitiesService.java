@@ -68,7 +68,7 @@ public class FunctionalitiesService {
 		if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
 			String username = jwtUtils.getUserNameFromJwtToken(jwt);
 			String normalizedPath = ApiPathNormalizer.normalizeSpringBootPath(request);
-			System.out.println("normalizedPath:" + normalizedPath);
+			System.out.println("Normalized Path: " + normalizedPath);
 			return processVerfyingPermission(username, normalizedPath, method);
 		}
 		return false;
@@ -105,8 +105,7 @@ public class FunctionalitiesService {
 		}
 		boolean functionalityExists = false;
 		for (Role role : roles) {
-			functionalityExists = functionalitiesMapper.checkFunctionalityExists(role.getId(), username, normalizedName,
-					method);
+			functionalityExists = functionalitiesMapper.checkFunctionalityExists(role.getId(), username, normalizedName, method);
 			if (functionalityExists) {
 				return functionalityExists;
 			}

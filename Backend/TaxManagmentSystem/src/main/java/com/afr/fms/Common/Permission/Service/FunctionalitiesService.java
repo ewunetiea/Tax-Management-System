@@ -86,6 +86,7 @@ public class FunctionalitiesService {
 	}
 
 	public boolean processVerfyingPermission(String username, String functionality_name, String method) {
+		
 		List<Role> roles = userRoleMapper.getRolesByUsername(username);
 		if (roles == null || roles.isEmpty())
 			return false;

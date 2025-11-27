@@ -407,7 +407,6 @@ public interface UserMapper {
                         @Result(property = "user_security", column = "id", one = @One(select = "com.afr.fms.Security.UserSecurity.mapper.UserSecurityMapper.getUserSecurityInfoByUserId")),
                         @Result(property = "roles", javaType = List.class, column = "id", many = @Many(select = "com.afr.fms.Admin.Mapper.RoleMapper.getRolesByUserId")),
                         @Result(property = "jobPosition", column = "job_position_id", one = @One(select = "com.afr.fms.Admin.Mapper.JobPositionMapper.getJobPositionById")),
-
         })
         public User findByFusionUsername(String username);
 

@@ -175,6 +175,7 @@ public class AuthController {
 
                 // Generate tokens
                 ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails, request);
+                System.out.println("========== JWT COOKIE IS GENERATED ==========" + jwtCookie.toString());
                 String ipAddress = HttpUtils.clientIp(request);
 
                 // Register login tracker
@@ -191,6 +192,7 @@ public class AuthController {
                 String title = userMapper.findByFusionUsername(loginRequest.getUsername()).getJobPosition().getTitle();
                 RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId(), id_login_tracker);
                 ResponseCookie jwtRefreshCookie = jwtUtils.generateRefreshJwtCookie(refreshToken.getToken(), request);
+                
 
                 return ResponseEntity.ok()
                                 .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())

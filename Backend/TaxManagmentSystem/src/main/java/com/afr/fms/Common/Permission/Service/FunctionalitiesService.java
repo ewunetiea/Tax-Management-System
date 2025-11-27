@@ -59,16 +59,22 @@ public class FunctionalitiesService {
 				|| functionality_name.contains("/api/checkUsername")
 				|| functionality_name.contains("/api/checkUserPhoneNumber")
 				|| functionality_name.contains("/api/auth/refreshtoken")
-				|| functionality_name.contains("/api/auth/signout")
-			) {
+				|| functionality_name.contains("/api/auth/signout")) {
 			return true;
 		}
 
 		String jwt = jwtUtils.getJwtFromCookies(request);
+		logger.info("========== JWT COOKIE CHECK ==========");
+		logger.info("URI: " + request.getRequestURI());
+		logger.info("JWT from cookie: " + jwt);
+		logger.info("======================================");
+
+		// String jwt = jwtUtils.getJwtFromCookies(request);
 		if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
 			String username = jwtUtils.getUserNameFromJwtToken(jwt);
+			logger.info("usernameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee: " + username);
 			String normalizedPath = ApiPathNormalizer.normalizeSpringBootPath(request);
-			System.out.println("Normalized Path: " + normalizedPath);
+			logger.info("Normalized Pathhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh: " + normalizedPath);
 			return processVerfyingPermission(username, normalizedPath, method);
 		}
 		return false;
@@ -86,7 +92,7 @@ public class FunctionalitiesService {
 	}
 
 	public boolean processVerfyingPermission(String username, String functionality_name, String method) {
-		
+
 		List<Role> roles = userRoleMapper.getRolesByUsername(username);
 		if (roles == null || roles.isEmpty())
 			return false;
@@ -106,7 +112,8 @@ public class FunctionalitiesService {
 		}
 		boolean functionalityExists = false;
 		for (Role role : roles) {
-			functionalityExists = functionalitiesMapper.checkFunctionalityExists(role.getId(), username, normalizedName, method);
+			functionalityExists = functionalitiesMapper.checkFunctionalityExists(role.getId(), username, normalizedName,
+					method);
 			if (functionalityExists) {
 				return functionalityExists;
 			}

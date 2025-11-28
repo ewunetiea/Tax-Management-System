@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.afr.fms.Maker.entity.MakerSearchPayload;
 import com.afr.fms.Maker.entity.Tax;
 import com.afr.fms.Maker.service.TaxableService;
-
 import org.springframework.http.MediaType;
 
 @RestController
@@ -49,8 +46,7 @@ public class TaxController {
 	}
 
 	@PostMapping("/fetchTaxProgress")
-	public ResponseEntity<List<Tax>> fetchTaxProgress(@RequestBody MakerSearchPayload payload,
-			HttpServletRequest request) {
+	public ResponseEntity<List<Tax>> fetchTaxProgress(@RequestBody MakerSearchPayload payload, HttpServletRequest request) {
 		try {
 			List<Tax> tax = new ArrayList<>();
 			tax = taxableService.fetchTaxProgress(payload);
@@ -75,35 +71,24 @@ public class TaxController {
 			@RequestPart(value = "files", required = false) MultipartFile[] files) {
 		try {
 			Tax savedTax = new Tax();
-
 			if (tax.getId() != null) {
-
-				
-
 				taxableService.updateTax(tax, files);
-
 				return new ResponseEntity<>(tax, HttpStatus.OK);
 
 			}
 
 			else {
-
 				tax = taxableService.createTaxWithFiles(tax, files);
-
 				if (tax.getFileExsistance().contains("Exists")) {
-
 					Map<String, String> response = new HashMap<>();
 					response.put("message", "File already exists");
 					// return new ResponseEntity<>(response, HttpStatus.CONFLICT);
 					return new ResponseEntity<>(null, HttpStatus.CONFLICT);
 
 				} else {
-
 					tax.setId(savedTax.getId());
 					tax.setMainGuid(savedTax.getMainGuid());
-
 					return new ResponseEntity<>(tax, HttpStatus.OK);
-
 				}
 
 			}

@@ -55,8 +55,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     String originHeader = request.getHeader("Origin");
     String remoteAddr = request.getRemoteAddr();
 
-    logger.info("TMS API URI: {} Method: {} Remote: {} Host: {} Origin: {}",
-        request.getRequestURI(), request.getMethod(), remoteAddr, hostHeader, originHeader);
+    logger.info("TMS API URI: {} Method: {} Remote: {} Host: {} Origin: {}",  request.getRequestURI(), request.getMethod(), remoteAddr, hostHeader, originHeader);
 
     // 🔒 Block if not from allowed hosts/origins/IPs
     // if (!isAllowed(hostHeader, originHeader, remoteAddr)) {
@@ -66,10 +65,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     // }
 
     // ✅ Permission + JWT check
-    if (functionalitiesService.verifyPermission(request, request.getRequestURI(), request.getMethod())) {
+    // if (functionalitiesService.verifyPermission(request, request.getRequestURI(), request.getMethod())) {
       try {
         String jwt = parseJwt(request);
-
         if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
           String username = jwtUtils.getUserNameFromJwtToken(jwt);
           User user = userMapper.findByEmail(username);
@@ -89,9 +87,10 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         return;
       }
       filterChain.doFilter(request, response);
-    } else {
-      throw new AccessDeniedException("Permission denied for this resource.");
-    }
+    // } else {
+    //   System.out.println("Permission denied for this resource: " + request.getRequestURI());
+    //   throw new AccessDeniedException("Permission denied for this resource: " + request.getRequestURI());
+    // }
   }
 
   private String parseJwt(HttpServletRequest request) {

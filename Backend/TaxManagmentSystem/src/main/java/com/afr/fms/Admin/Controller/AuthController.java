@@ -175,15 +175,13 @@ public class AuthController {
 
                 // Generate tokens
                 ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails, request);
+                System.out.println("========== JWT COOKIE IS GENERATED ==========" + jwtCookie.toString());
                 String ipAddress = HttpUtils.clientIp(request);
 
                 // Register login tracker
-                Long id_login_tracker = userTrakerMapper.registerOnlineUser(
-                                loginRequest.getUsername(),
-                                loginRequest.getUserAgent(),
-                                ipAddress);
-                // Register session in DB
+                Long id_login_tracker = userTrakerMapper.registerOnlineUser(loginRequest.getUsername(),loginRequest.getUserAgent(), ipAddress);
 
+                // Register session in DB
                 // sessionManager.registerSession(loginRequest.getUsername(), id_login_tracker);
 
                 // Prepare response
@@ -192,9 +190,9 @@ public class AuthController {
                                 .collect(Collectors.toList());
 
                 String title = userMapper.findByFusionUsername(loginRequest.getUsername()).getJobPosition().getTitle();
-                RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId(),
-                                id_login_tracker);
+                RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId(), id_login_tracker);
                 ResponseCookie jwtRefreshCookie = jwtUtils.generateRefreshJwtCookie(refreshToken.getToken(), request);
+                
 
                 return ResponseEntity.ok()
                                 .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
@@ -219,14 +217,12 @@ public class AuthController {
                         return doLogin(loginRequest, request);
                 } catch (Exception e) {
                         logger.error("Force login failed for username: {}", loginRequest.getUsername(), e);
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                        .body(new MessageResponse("Force login failed. Please try again."));
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Force login failed. Please try again."));
                 }
         }
 
         @GetMapping("/signout/{id_login_tracker}")
-        public ResponseEntity<?> logoutUser(@PathVariable("id_login_tracker") Long id_login_tracker,
-                        HttpServletRequest request) {
+        public ResponseEntity<?> logoutUser(@PathVariable("id_login_tracker") Long id_login_tracker, HttpServletRequest request) {
                 try {
                         Object principle = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 

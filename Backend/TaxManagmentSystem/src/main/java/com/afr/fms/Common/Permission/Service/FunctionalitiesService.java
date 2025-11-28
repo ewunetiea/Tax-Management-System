@@ -49,11 +49,9 @@ public class FunctionalitiesService {
 				|| functionality_name.contains("/api/user/image")
 				|| functionality_name.contains("/api/user/verify")
 				|| functionality_name.contains("/api/password/verifyOTP")
-
 				|| functionality_name.contains("/api/branch")
 				|| functionality_name.contains("/api/region")
 				|| functionality_name.contains("/api/job_position")
-
 				|| functionality_name.contains("/api/selected_job_position")
 				|| functionality_name.contains("/api/checkUserEmployeeIdSystem")
 				|| functionality_name.contains("/api/checkUserEmployeeId")
@@ -61,16 +59,22 @@ public class FunctionalitiesService {
 				|| functionality_name.contains("/api/checkUsername")
 				|| functionality_name.contains("/api/checkUserPhoneNumber")
 				|| functionality_name.contains("/api/auth/refreshtoken")
-				|| functionality_name.contains("/api/auth/signout")
-
-		) {
+				|| functionality_name.contains("/api/auth/signout")) {
 			return true;
 		}
 
 		String jwt = jwtUtils.getJwtFromCookies(request);
+		logger.info("========== JWT COOKIE CHECK ==========");
+		logger.info("URI: " + request.getRequestURI());
+		logger.info("JWT from cookie: " + jwt);
+		logger.info("======================================");
+
+		// String jwt = jwtUtils.getJwtFromCookies(request);
 		if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
 			String username = jwtUtils.getUserNameFromJwtToken(jwt);
+			logger.info("usernameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee: " + username);
 			String normalizedPath = ApiPathNormalizer.normalizeSpringBootPath(request);
+			logger.info("Normalized Pathhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh: " + normalizedPath);
 			return processVerfyingPermission(username, normalizedPath, method);
 		}
 		return false;
@@ -88,6 +92,7 @@ public class FunctionalitiesService {
 	}
 
 	public boolean processVerfyingPermission(String username, String functionality_name, String method) {
+
 		List<Role> roles = userRoleMapper.getRolesByUsername(username);
 		if (roles == null || roles.isEmpty())
 			return false;

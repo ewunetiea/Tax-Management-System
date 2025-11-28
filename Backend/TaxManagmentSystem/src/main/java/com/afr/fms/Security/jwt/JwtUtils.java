@@ -41,6 +41,7 @@ public class JwtUtils {
   private String jwtRefreshCookie;
 
   public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal, HttpServletRequest request) {
+
     resetFailedAttempts(userPrincipal.getUserSecurity());
     String jwt = generateTokenFromUsername(userPrincipal.getUsername());
     String contextPath = getContextPath(request);
@@ -75,12 +76,12 @@ public class JwtUtils {
 
   public ResponseCookie getCleanJwtCookie(HttpServletRequest request) {
     String contextPath = getContextPath(request);
-    return cleanCookie(jwtCookie, contextPath + "/api");
+    return generateCleanCookie(jwtCookie, contextPath + "/api");
   }
 
   public ResponseCookie getCleanJwtRefreshCookie(HttpServletRequest request) {
     String contextPath = getContextPath(request);
-    return cleanCookie(jwtRefreshCookie, contextPath + "/api/auth/refreshtoken");
+    return generateCleanCookie(jwtRefreshCookie, contextPath + "/api/auth/refreshtoken");
   }
 
   private String getContextPath(HttpServletRequest request) {
@@ -88,16 +89,9 @@ public class JwtUtils {
     return request.getContextPath();
   }
 
-  
-  private ResponseCookie cleanCookie(String name, String path) {
-    return ResponseCookie.from(name, "")
-        .path("/")          // make sure path matches original cookie
-        .maxAge(0)          // THIS IS KEY — immediately expires
-        .httpOnly(true)
-        .secure(true)
-        .build();
-}
-
+  private ResponseCookie generateCleanCookie(String name, String path) {
+    return ResponseCookie.from(name, null).path("/").maxAge(3600).httpOnly(true).secure(true).build();
+  }
 
   public String getUserNameFromJwtToken(String token) {
     setting = settingService.getSetting();
@@ -134,12 +128,8 @@ public class JwtUtils {
   }
 
   private ResponseCookie generateCookie(String name, String value, String path) {
-    return ResponseCookie.from(name, value)
-    .path("/")
-    .maxAge(24 * 60 * 60)
-    .httpOnly(true)
-    .secure(true)
-    .build();
+    return ResponseCookie.from(name, value).path("/").maxAge(24 * 60 *
+        60).httpOnly(true).secure(true).build();
   }
 
   // private ResponseCookie generateCookie(String name, String value, String path)

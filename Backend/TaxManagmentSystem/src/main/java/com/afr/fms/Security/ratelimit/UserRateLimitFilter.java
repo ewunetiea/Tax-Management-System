@@ -29,7 +29,6 @@ public class UserRateLimitFilter extends OncePerRequestFilter {
             "/api/branch/active",
             "/api/selected_job_position",
             "/swagger-ui"
-
     );
 
     // User buckets

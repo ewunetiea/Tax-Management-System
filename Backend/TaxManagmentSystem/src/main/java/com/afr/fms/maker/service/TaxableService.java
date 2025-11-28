@@ -59,7 +59,6 @@ public class TaxableService {
                 if (!file.isEmpty()) {
                     // Check if the file already exists in the database
                     if (taxFileMapper.checkFilnameExistance(file.getOriginalFilename())) {
-
                         tax.setFileExsistance("Exists");
                         // Notify user that the file already exists
                         return tax;

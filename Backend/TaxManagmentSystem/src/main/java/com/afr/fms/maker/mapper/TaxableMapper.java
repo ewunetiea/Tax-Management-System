@@ -76,7 +76,7 @@ public interface TaxableMapper {
                         "t.graduatetaxPool, t.graduaTotBasSalary, t.graduateTotaEmployee, t.graduatetaxWithHold,",
                         "t.taxCategoryList, t.Remark, t.maker_name, t.maker_date, t.checker_name, t.checked_Date,",
                         "t.updated_user_name, t.updated_event_date, t.from_List, t.sendTo_List, t.Category_List,",
-                        " t.status, t.reference_number, t.remark, t.drafted_date , t.maker_date, t.approved_date ",
+                        " t.status, t.reference_number, t.remark, t.drafted_date , t.maker_date, t.approved_date, t.checker_rejected_reason, t.approver_rejected_reason ",
                         "FROM tblTaxable t",
                         "LEFT JOIN branch b ON t.from_ = b.id",
                         "LEFT JOIN branch b2 ON t.sendTo_ = b2.id",

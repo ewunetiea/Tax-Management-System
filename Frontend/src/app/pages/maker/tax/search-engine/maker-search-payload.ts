@@ -161,6 +161,8 @@ export class MakerSearchEnginePayLoadComponent {
       },
     });
   }
+
+  
   onReset(): void {
     this.submitted = false;
 

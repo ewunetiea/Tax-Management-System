@@ -6,6 +6,7 @@ public class ApiPathNormalizer {
 
     public static String normalizeSpringBootPath(HttpServletRequest request) {
         String uri = request.getRequestURI();
+        
 
         // Skip root or empty paths
         if (uri == null || uri.isEmpty() || uri.equals("/"))

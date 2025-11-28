@@ -14,6 +14,7 @@ import { Branch } from '../../../../models/admin/branch';
 import { TaxFile } from '../../../../models/maker/tax-file';
 import { ToggleSwitch } from 'primeng/toggleswitch';
 import { NgForm } from '@angular/forms';
+import { InputSanitizer } from 'app/SQLi-XSS-Prevention/InputSanitizer';
 
 @Component({
     standalone: true,
@@ -25,7 +26,7 @@ import { NgForm } from '@angular/forms';
 export class TaxCreateEditComponent {
     @Input() visible!: boolean;
     @Output() visibleChange = new EventEmitter<boolean>(); // <-- required for two-way binding
-      @ViewChild('taxForm') taxForm!: NgForm; // capture the template reference variable
+    @ViewChild('taxForm') taxForm!: NgForm; // capture the template reference variable
 
 
     @Input() tax: Tax = new Tax();
@@ -42,11 +43,11 @@ export class TaxCreateEditComponent {
     branches: Branch[] = []
     user_branch: String = ''
     selectedBranchId: number | undefined; // Local variable for dropdown binding
-isMaker : boolean =false
-maxDate: Date = new Date();
+    isMaker: boolean = false
+    maxDate: Date = new Date();
 
-submitted = false;
-
+    submitted = false;
+    invalidXss = false;
 
     constructor(
         private taxService: TaxService,
@@ -61,12 +62,12 @@ submitted = false;
 
 
     ngOnInit(): void {
-           // <-- log role
+        // <-- log role
 
-          if(this.role.includes("ROLE_MAKER")){
+        if (this.role.includes("ROLE_MAKER")) {
 
-           this.isMaker= true
-          }
+            this.isMaker = true
+        }
 
         this.user_branch = this.storageService.getUser().branch.name
 
@@ -124,11 +125,15 @@ submitted = false;
     onSave() {
 
 
-  this.submitted = true;
+        this.submitted = true;
 
-  if (this.taxForm.invalid) {
-    return; // stop if form is invalid
-  }
+        if (this.taxForm.invalid) {
+            return; // stop if form is invalid
+        }
+
+           if (this.invalidXss) {
+            return; // stop if form is invalid
+        }
 
         this.tax.user_id = this.storageService.getUser().id
         this.tax.maker_id = this.storageService.getUser().id
@@ -159,7 +164,7 @@ submitted = false;
         }
 
 
-        
+
 
         const formData = new FormData();
 
@@ -253,4 +258,21 @@ submitted = false;
             detail: `${removedFile.name} has been removed.`
         });
     }
+
+
+
+
+
+onRemarkChange(event: any) {
+  const value = event.target.value;
+
+  // Check if value contains XSS
+  this.invalidXss = InputSanitizer.isInvalid(value);
+
+  // Only update model if valid
+  if (!this.invalidXss) {
+    this.tax.remark = value;
+  }
+
+}
 }

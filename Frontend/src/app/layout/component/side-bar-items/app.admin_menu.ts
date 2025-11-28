@@ -115,29 +115,29 @@ export class AppMenuAdmin {
                 ]
             },
 
-            {
-                label: 'Menu Management',
-                icon: 'pi pi-fw pi-briefcase',
-                routerLink: ['/pages'],
-                items: [
-                    {
-                        label: 'Menu',
-                        icon: 'pi pi-warehouse',
-                        items: [
-                            {
-                                label: 'Menu Headers',
-                                icon: 'pi pi-warehouse',
-                                routerLink: ['/applayout/admin/menu-headers']
-                            },
-                            {
-                                label: 'Menu Items',
-                                icon: 'pi pi-fw pi-briefcase',
-                                routerLink: ['/applayout/admin/menu-items']
-                            }
-                        ]
-                    }
-                ]
-            },
+            // {
+            //     label: 'Menu Management',
+            //     icon: 'pi pi-fw pi-briefcase',
+            //     routerLink: ['/pages'],
+            //     items: [
+            //         {
+            //             label: 'Menu',
+            //             icon: 'pi pi-warehouse',
+            //             items: [
+            //                 {
+            //                     label: 'Menu Headers',
+            //                     icon: 'pi pi-warehouse',
+            //                     routerLink: ['/applayout/admin/menu-headers']
+            //                 },
+            //                 {
+            //                     label: 'Menu Items',
+            //                     icon: 'pi pi-fw pi-briefcase',
+            //                     routerLink: ['/applayout/admin/menu-items']
+            //                 }
+            //             ]
+            //         }
+            //     ]
+            // },
             {
                 label: 'Reports Management',
                 icon: 'pi pi-file-excel',

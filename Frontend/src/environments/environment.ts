@@ -1,29 +1,43 @@
 // export const environment = {
 //   production: false,
-//   auditorFileApi: 'http://localhost:8443/api',//to hnadle auditor uploading files
-//   auditeeFileApi: 'http://localhost:8443/api', // to handle auditee response files
-//   imagesUserApi: 'http://localhost:8443/api/user/image/',
+//   auditorFileApi: 'http://localhost:8444/api',//to hnadle auditor uploading files
+//   auditeeFileApi: 'http://localhost:8444/api', // to handle auditee response files
+//   imagesUserApi: 'http://localhost:8444/api/user/image/',
 //   blankPic: 'assets/img/Blank-Profile-Picture.jpg',
-//   backendUrl: 'http://localhost:8443/api',
-//   webSocketUrl: 'http://localhost:8443/api',
+//   backendUrl: 'http://localhost:8444/api',
+//   webSocketUrl: 'http://localhost:8444/api',
 //   idleTimeout: 20 * 60 * 1000, // 6 minutes
 //   idleCountdownSeconds: 60, // 1 minute
 //   warningTimeout: 19 * 60 * 1000, // 5 minutes
 // };
 
+// export const environment = {
+//   production: false,
+//   auditorFileApi: 'http://localhost:8442/api',//to hnadle auditor uploading files
+//   auditeeFileApi: 'http://localhost:8442/api', // to handle auditee response files
+//   imagesUserApi: 'http://localhost:8442/api/user/image/',
+//   blankPic: 'assets/img/Blank-Profile-Picture.jpg',
+//   backendUrl: 'http://localhost:8442/api',
+//   webSocketUrl: 'http://localhost:8442/api',
+//   idleTimeout: 20 * 60 * 1000, // 6 minutes
+//   idleCountdownSeconds: 60, // 1 minute
+//   warningTimeout: 19 * 60 * 1000, // 5 minutes
+// };
+
+
+
 export const environment = {
   production: false,
-  auditorFileApi: 'http://localhost:8442/api',//to hnadle auditor uploading files
-  auditeeFileApi: 'http://localhost:8442/api', // to handle auditee response files
-  imagesUserApi: 'http://localhost:8442/api/user/image/',
+  auditorFileApi: 'https://10.10.106.195:8444/tmsbackend/api',//to hnadle auditor uploading files
+  auditeeFileApi: 'https://10.10.106.195:8444/tmsbackend/api', // to handle auditee response files
+  imagesUserApi: 'https://10.10.106.195:8444/tmsbackend/api/user/image/',
   blankPic: 'assets/img/Blank-Profile-Picture.jpg',
-  backendUrl: 'http://localhost:8442/api',
-  webSocketUrl: 'http://localhost:8442/api',
+  backendUrl: 'https://10.10.106.195:8444/tmsbackend/api',
+  webSocketUrl: 'https://10.10.106.195:8444/tmsbackend/api',
   idleTimeout: 20 * 60 * 1000, // 6 minutes
   idleCountdownSeconds: 60, // 1 minute
   warningTimeout: 19 * 60 * 1000, // 5 minutes
 };
-
 
 // export const environment = {
 //   production: false,

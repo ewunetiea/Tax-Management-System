@@ -15,3 +15,9 @@
 :host ::ng-deep .custom-datepicker .p-datepicker-trigger {
   @apply h-14;
 }
+
+
+.text-danger {
+    color: #dc3545; /* Bootstrap-like danger red */
+    font-weight: bold; /* optional */
+}

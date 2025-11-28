@@ -34,7 +34,10 @@
                         scrollHeight="300px"
                         class="w-full h-14" 
                         [virtualScroll]="true" 
-                        [virtualScrollItemSize]="40">
+                        [virtualScrollItemSize]="40"
+                        required
+                        
+                        >
                     </p-select>
                     <span *ngIf="taxForm.controls['sendTo_']?.invalid && (taxForm.controls['sendTo_']?.touched || submitted)" class="text-danger">Send To is required.</span>
                 </div>
@@ -177,18 +180,30 @@
                 </div>
 
                 <!-- Remark -->
-                <div class="p-field">
+                <!-- <div class="p-field">
                     <label for="remark" class="block font-bold mb-3">Remark</label>
-                    <input 
-                    type="text"
-                     name="remark" 
-                     id="remark" 
-                     autocomplete="off" 
-                     pInputText 
-                     [(ngModel)]="tax.remark" 
-                     fluid
-                     class="w-full h-14 " />
-                </div>
+                    <input type="text" name="remark" id="remark" pInputText [(ngModel)]="tax.remark" fluid
+                        class="w-full h-14 " />
+                </div> -->
+<div class="p-field">
+    <label for="remark" class="block font-bold mb-3">Remark</label>
+
+    <input
+        type="text"
+        id="remark"
+        name="remark"
+        pInputText
+        class="w-full h-14"
+        [(ngModel)]="tax.remark"
+        (input)="onRemarkChange($event)"
+    />
+
+   <small *ngIf="invalidXss" class="text-danger">
+    ❌ Invalid input detected! Special characters or scripts are not allowed.
+</small>
+</div>
+
+
 
                 <!-- Drafted Date -->
                 <div class="p-field">

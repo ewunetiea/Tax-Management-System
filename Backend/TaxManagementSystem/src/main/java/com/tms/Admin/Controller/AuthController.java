@@ -185,8 +185,7 @@ public class AuthController {
                                 .collect(Collectors.toList());
 
                 String title = userMapper.findByFusionUsername(loginRequest.getUsername()).getJobPosition().getTitle();
-                RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId(),
-                                id_login_tracker);
+                RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId(), id_login_tracker);
                 ResponseCookie jwtRefreshCookie = jwtUtils.generateRefreshJwtCookie(refreshToken.getToken(), request);
 
                 return ResponseEntity.ok()

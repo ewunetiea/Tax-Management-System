@@ -93,7 +93,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
       }
       filterChain.doFilter(request, response);
     // } else {
-    //   throw new AccessDeniedException("Permission denied for this resource.");
+    //   throw new AccchaessDeniedException("Permission denied for this resource.");
     // }
   }
 

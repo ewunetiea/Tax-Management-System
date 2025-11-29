@@ -28,7 +28,7 @@ public class SwaggerApiRegistrar {
 
             if (openApi == null || !openApi.containsKey("paths")) {
                 logger.warn("OpenAPI spec not found or empty.");
-                System.out.println("⚠ OpenAPI spec not found or empty.");
+                
                 return;
             }
 
@@ -62,9 +62,9 @@ public class SwaggerApiRegistrar {
                         functionalitiesService.createFunctionality(f);
 
                         // Display on console
-                        System.out.println("✅ Registered API: [" + httpMethod + "] " + path);
-                        System.out.println("   Description: " + fullDescription);
-                        System.out.println("   Category: " + category + "\n");
+                        
+                        
+                        
 
                         // Log as well
                         logger.info("Registered API: [{}] {} - {}", httpMethod, path, fullDescription);
@@ -73,11 +73,11 @@ public class SwaggerApiRegistrar {
             }
 
             logger.info("✅ Swagger API endpoints successfully registered.");
-            System.out.println("✅ Swagger API endpoints successfully registered.");
+            
 
         } catch (Exception e) {
             logger.error("❌ Error registering Swagger API: {}", e.getMessage(), e);
-            System.out.println("❌ Error registering Swagger API: " + e.getMessage());
+            
             e.printStackTrace();
         }
     }

@@ -46,10 +46,6 @@ public class JwtUtils {
     private JwtParser getJwtParser() {
         if (jwtParser == null) {
             setting = settingService.getSetting();
-
-            System.out.println("___________________________F_____________________________");
-            System.out.println(setting.getJwt_secret());
-
             byte[] keyBytes = setting.getJwt_secret().getBytes();
             jwtParser = Jwts.parser()
                     .verifyWith(Keys.hmacShaKeyFor(keyBytes))

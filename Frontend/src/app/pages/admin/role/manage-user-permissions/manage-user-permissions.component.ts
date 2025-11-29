@@ -2,18 +2,20 @@ import { Component } from '@angular/core';
 import { User } from '../../../../models/admin/user';
 import { Functionalities } from '../../../../models/admin/functionalities';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { HttpErrorResponse } from '@angular/common/http';
+
 import { Table } from 'primeng/table';
 import { UserSearchEngineComponent } from '../../user/user-search-engine/user-search-engine.component';
 import { SharedUiModule } from '../../../../../shared-ui';
 import { UserFunctionalityService } from '../../../../service/admin/user-functionality-service';
 
 @Component({
-    selector: 'app-manage-user-permissions',
-    imports: [SharedUiModule, UserSearchEngineComponent],
-    
-    templateUrl: './manage-user-permissions.component.html',
-    styleUrl: './manage-user-permissions.component.scss'
+  standalone: true,
+  selector: 'app-manage-user-permissions',
+  imports: [SharedUiModule, UserSearchEngineComponent],
+  templateUrl: './manage-user-permissions.component.html',
+  styleUrl: './manage-user-permissions.component.scss',
+  providers: [ConfirmationService, MessageService]
+
 })
 export class ManageUserPermissionsComponent {
   user: User = new User();
@@ -28,10 +30,10 @@ export class ManageUserPermissionsComponent {
   functionalityStatusDialog: boolean = false;
   fetching: boolean = false;
   sizes!: any[];
-   selectedSize: any = 'normal';
-    breadcrumbText: string = 'Manage User Permissions';
-    items: MenuItem[] | undefined;
-    home: MenuItem | undefined;
+  selectedSize: any = 'normal';
+  breadcrumbText: string = 'Manage User Permissions';
+  items: MenuItem[] | undefined;
+  home: MenuItem | undefined;
 
   constructor(
     private messageService: MessageService,
@@ -74,11 +76,11 @@ export class ManageUserPermissionsComponent {
   onGlobalFilter(table: Table, event: Event) {
     const input = event.target as HTMLInputElement;
     table.filterGlobal(input.value, 'contains');
-}
+  }
 
-    clear(table: Table) {
-        table.clear();
-    }
+  clear(table: Table) {
+    table.clear();
+  }
 
   revokeFunctionalities(): void {
     this.user.functionalities = this.selectedFunctionalities || [];
@@ -96,9 +98,9 @@ export class ManageUserPermissionsComponent {
             });
 
           },
-           error: () => {
+          error: () => {
             this.loading = false;
-        }
+          }
         });
       },
     });
@@ -121,8 +123,8 @@ export class ManageUserPermissionsComponent {
               });
             },
             error: () => {
-            this.loading = false;
-        }
+              this.loading = false;
+            }
           });
       },
     });

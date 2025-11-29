@@ -47,9 +47,6 @@ public class JwtUtils {
         if (jwtParser == null) {
             setting = settingService.getSetting();
 
-            System.out.println("___________________________F_____________________________");
-            System.out.println(setting.getJwt_secret());
-
             byte[] keyBytes = setting.getJwt_secret().getBytes();
             jwtParser = Jwts.parser()
                     .verifyWith(Keys.hmacShaKeyFor(keyBytes))
@@ -70,7 +67,7 @@ public class JwtUtils {
     }
 
     public ResponseCookie generateRefreshJwtCookie(String refreshToken, HttpServletRequest request) {
-        return generateCookie(jwtRefreshCookie, refreshToken, "/api/auth/refreshtoken");
+        return generateCookie(jwtRefreshCookie, refreshToken, "/");
     }
 
     public String getJwtFromCookies(HttpServletRequest request) {
@@ -161,7 +158,7 @@ public class JwtUtils {
     }
 
     // In JwtUtils.java
-    public ResponseCookie getCleanJwtCookie(HttpServletRequest request) {
+    public ResponseCookie clearJwtCookie(HttpServletRequest request) {
         return ResponseCookie.from(jwtCookie, "")
                 .path("/")
                 .maxAge(0)
@@ -171,7 +168,7 @@ public class JwtUtils {
                 .build();
     }
 
-    public ResponseCookie getCleanJwtRefreshCookie(HttpServletRequest request) {
+    public ResponseCookie clearJwtRefreshCookie(HttpServletRequest request) {
         return ResponseCookie.from(jwtRefreshCookie, "")
                 .path("/")
                 .maxAge(0)

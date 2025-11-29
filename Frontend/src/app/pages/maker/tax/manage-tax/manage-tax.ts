@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { ProductService } from '../../../../service/product.service';
 import { SharedUiModule } from '../../../../../shared-ui';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -32,7 +31,7 @@ interface ExportColumn {
     imports: [SharedUiModule, TaxCreateEditComponent, MakerSearchEnginePayLoadComponent],
     templateUrl: './manage-tax.component.html',
     styleUrls: ['./manage-tax.component.css'],
-    providers: [ConfirmationService, MessageService, ProductService]
+    providers: [ConfirmationService, MessageService]
 })
 export class ManageTax implements OnInit {
     expandedRows: { [key: number]: boolean } = {};

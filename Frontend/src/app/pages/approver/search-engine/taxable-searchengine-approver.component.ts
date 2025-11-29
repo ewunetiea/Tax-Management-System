@@ -181,14 +181,8 @@ export class TaxableSearchengineApproverComponent {
     if (payload[k] === '') payload[k] = null;
   });
 
-  // ✅ Select appropriate API endpoint
-  let  request$ = this.taxableSearchEngineService.getTaxesforApprover(payload);
- 
- 
 
-  // ✅ Handle API result
-  request$
-    .pipe(
+   this.taxableSearchEngineService.getTaxesforApprover(payload).pipe(
       finalize(() => (this.submitted = false)),
       catchError((error) => {
         this.messageService.add({

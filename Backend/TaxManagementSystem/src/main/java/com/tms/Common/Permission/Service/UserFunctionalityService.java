@@ -34,14 +34,14 @@ public class UserFunctionalityService {
     public void deleteUserFunctionality(List<Functionalities> functionalities) {
 
         try {
-              System.out.println(functionalities);
+              
         for (Functionalities functionality : functionalities) {
             userFunctionalityMapper.deleteUserFunctionalityBYId(functionality.getId());
         }
             
         } catch (Exception e) {
             
-            System.out.println(e);
+            
             // TODO: handle exception
         }
 

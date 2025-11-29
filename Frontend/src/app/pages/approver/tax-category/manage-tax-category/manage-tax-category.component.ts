@@ -146,7 +146,7 @@ deleteTaxCategory(tax: TaxCategory) {
     this.passCategory = tax;
     this.passCategories.push(this.passCategory)
     this.confirmationService.confirm({
-        message: 'Are you sure you want to deactivate selected branch?',
+        message: 'Are you sure you want to delete the selected tax category ?',
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {

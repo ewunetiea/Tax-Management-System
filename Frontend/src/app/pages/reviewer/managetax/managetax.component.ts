@@ -6,7 +6,7 @@ import { ManageTaxService } from '../../../service/reviewer/manage_tax_reviewer-
 import { User } from '../../../models/admin/user';
 import { Table } from 'primeng/table';
 import { Tax } from '../../../models/maker/tax';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { PaginatorPayLoad } from '../../../models/admin/paginator-payload';
 import { RejectCheckerApproverComponent } from '../reject-checker-approver/reject-checker-approver.component';
@@ -54,7 +54,6 @@ export class ManagetaxComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private storageService: StorageService,
-    private route: ActivatedRoute,
     private router: Router,
     private fileDownloadService: FileDownloadService,
     private sanitizer: DomSanitizer,
@@ -64,7 +63,6 @@ export class ManagetaxComponent implements OnInit {
     this.user = this.storageService.getUser();
     this.paginatorPayLoad.branch_id = this.user.branch?.id;
     this.paginatorPayLoad.user_id = this.user.id;
-
     this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [{ label: this.breadcrumbText }];
     this.sizes = [

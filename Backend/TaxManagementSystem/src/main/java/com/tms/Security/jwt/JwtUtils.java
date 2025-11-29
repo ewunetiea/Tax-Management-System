@@ -55,6 +55,7 @@ public class JwtUtils {
         return jwtParser;
     }
 
+
     public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal, HttpServletRequest request) {
         resetFailedAttempts(userPrincipal.getUserSecurity());
         String jwt = generateTokenFromUsername(userPrincipal.getUsername());

@@ -19,7 +19,7 @@ public class APIController {
     public ResponseEntity<String> registerSwaggerApis() {
 
 
-        System.out.println("____________________________ssssssss");
+        
         swaggerApiRegistrar.registerSwaggerApis();
         return ResponseEntity.ok("Swagger APIs registered successfully.");
     }

@@ -212,8 +212,6 @@ export class TaxCreateEditComponent {
 
 
     onFileSelect(event: any) {
-
-
         const files: File[] = Array.from(event.files); // convert FileList to array
         if (!this.tax!.taxFile) {
             this.tax!.taxFile = [];

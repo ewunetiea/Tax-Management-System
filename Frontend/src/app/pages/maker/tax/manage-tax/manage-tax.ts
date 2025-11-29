@@ -12,7 +12,6 @@ import { ButtonSeverity } from 'primeng/button';
 import { MakerSearchEnginePayLoadComponent } from '../search-engine/maker-search-payload';
 import { StorageService } from 'app/service/sharedService/storage.service';
 
-
 interface Column {
     field: string;
     header: string;
@@ -48,7 +47,7 @@ export class ManageTax implements OnInit {
     uploadedFiles: any[] = [];
     isEdit = false;
     activeIndex1: number = 0;
-    activeState: boolean[] = [true, false, false];
+    activeState: boolean[] = [true, false, false, false, false];
     pdfSrc: any;
     sizes!: any[];
     selectedSize: any = 'normal';
@@ -80,7 +79,6 @@ export class ManageTax implements OnInit {
             { name: 'Normal', value: 'normal' },
             { name: 'Large', value: 'large' }
         ];
-
     }
 
 
@@ -268,6 +266,7 @@ export class ManageTax implements OnInit {
     toggle(index: number) {
         this.activeState = this.activeState.map((_, i) => i === index ? !this.activeState[i] : false);
     }
+    
 
 
     clear(table: Table) {

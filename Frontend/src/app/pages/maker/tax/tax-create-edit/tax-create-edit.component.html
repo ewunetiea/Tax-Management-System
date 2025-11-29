@@ -231,6 +231,7 @@
                 <!-- File Upload -->
                 <div *ngIf="isMaker">
                     <div *ngIf="!isEdit || tax.isFileEdited">
+                        <label for="drafted_date" class="block font-bold mb-3">File<strong class="text-danger">*</strong></label>
                         <p-fileUpload
                             name="demo[]"
                             mode="advanced"
@@ -242,7 +243,7 @@
                             (onClear)="onFileClear()"
                             (onRemove)="onFileRemove($event)">
                             <ng-template #empty>
-                                <div>Drag and drop files here to upload (Image, PDF, Word).</div>
+                                <div>Choose a file to upload (Image, PDF, Word)!</div>
                             </ng-template>
                         </p-fileUpload>
                     </div>

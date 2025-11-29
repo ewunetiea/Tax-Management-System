@@ -11,9 +11,15 @@
         <p-card>
           <p-toolbar styleClass="p-mb-4" *ngIf="statusRoute !='sent'">
             <ng-template pTemplate="left">
-              <button *ngIf="statusRoute !== 'approved' && statusRoute !='sent'  " pButton pRipple label="Review"
-                icon="pi pi-verified" class="p-button-rounded p-button-outlined p-button-success mr-2 "
-                (click)="reviewSelectedTaxes()" [disabled]="!selectedTaxes || !selectedTaxes.length"></button>
+              <button 
+              *ngIf="statusRoute != 'settled' && statusRoute !='sent'  " 
+              pButton 
+              pRipple 
+              label="Review"
+              icon="pi pi-verified" 
+              class="p-button-rounded p-button-success mr-2 "
+              (click)="reviewSelectedTaxes()" 
+              [disabled]="!selectedTaxes || !selectedTaxes.length"></button>
 
             </ng-template>
             <ng-template pTemplate="right">

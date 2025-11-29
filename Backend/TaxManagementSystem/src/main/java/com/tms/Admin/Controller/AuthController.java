@@ -21,7 +21,6 @@ import com.tms.AD.Service.ADService;
 import com.tms.AD.Service.LDAPProductionService;
 import com.tms.Admin.Entity.Role;
 import com.tms.Admin.Entity.User;
-import com.tms.Admin.Entity.UserSession;
 import com.tms.Admin.Mapper.JobPositionMapper;
 import com.tms.Admin.Mapper.RoleMapper;
 import com.tms.Admin.Mapper.UserMapper;
@@ -171,22 +170,18 @@ public class AuthController {
                 String ipAddress = HttpUtils.clientIp(request);
 
                 // Register login tracker
-                Long id_login_tracker = userTrakerMapper.registerOnlineUser(
-                                loginRequest.getUsername(),
-                                loginRequest.getUserAgent(),
-                                ipAddress);
-                // Register session in DB
+                Long id_login_tracker = userTrakerMapper.registerOnlineUser( loginRequest.getUsername(), loginRequest.getUserAgent(), ipAddress);
+               
 
-                // sessionManager.registerSession(loginRequest.getUsername(), id_login_tracker);
-
-                // Prepare response
-                List<String> roles = userDetails.getAuthorities().stream()
-                                .map(item -> item.getAuthority())
-                                .collect(Collectors.toList());
+                List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority()).collect(Collectors.toList());
 
                 String title = userMapper.findByFusionUsername(loginRequest.getUsername()).getJobPosition().getTitle();
                 RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId(), id_login_tracker);
                 ResponseCookie jwtRefreshCookie = jwtUtils.generateRefreshJwtCookie(refreshToken.getToken(), request);
+
+                System.out.println("__________Refresh token_________________");
+
+                System.out.println(jwtRefreshCookie);
 
                 return ResponseEntity.ok()
                                 .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
@@ -233,8 +228,8 @@ public class AuthController {
                         }
 
                         
-                        ResponseCookie jwtCookie = jwtUtils.getCleanJwtCookie(request);
-                        ResponseCookie jwtRefreshCookie = jwtUtils.getCleanJwtRefreshCookie(request);
+                        ResponseCookie jwtCookie = jwtUtils.clearJwtCookie(request);
+                        ResponseCookie jwtRefreshCookie = jwtUtils.clearJwtRefreshCookie(request);
 
                         return ResponseEntity.ok()
                                         .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())

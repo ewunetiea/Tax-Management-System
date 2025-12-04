@@ -1,5 +1,4 @@
-<p-dialog [(visible)]="visible" [style]="{ width: '600px' }" header="Announcement Details" [modal]="true"
-    (onHide)="onCancel()">
+<p-dialog [(visible)]="visible" [style]="{ width: '600px' }" header="Announcement Details" [modal]="true" (onHide)="onCancel()">
     <ng-template #content>
         <form ngNativeValidate #announcementForm="ngForm" class="p-fluid" (ngSubmit)="onSave()">
             <div class="flex flex-col gap-6">
@@ -7,23 +6,13 @@
                     <label for="title" class="block font-bold mb-3"><strong class="text-danger">*</strong> Title</label>
                     <input id="title" type="text" pInputText [(ngModel)]="announcement.title" name="title" required
                         autocomplete="off" fluid />
-                    <div *ngIf="announcementForm.controls['title']?.invalid && announcementForm.controls['title']?.touched"
-                        class="text-danger">
-                        Title is required.
-                    </div>
+                    <div *ngIf="announcementForm.controls['title']?.invalid && announcementForm.controls['title']?.touched" class="text-danger"> Title is required.</div>
                 </div>
-
 
                 <div class="p-field">
-                    <label for="message" class="block font-bold mb-3"><strong class="text-danger">*</strong> Message
-                        Body</label>
-
-
-                    <p-editor name="message" id="message" [(ngModel)]="announcement.message"
-                        [style]="{ height: '320px' }" />
+                    <label for="message" class="block font-bold mb-3"><strong class="text-danger">*</strong> Message Body</label>
+                    <p-editor name="message" id="message" [(ngModel)]="announcement.message" [style]="{ height: '320px' }" />
                 </div>
-
-
 
                 <div class="p-field">
                     <span class="block font-bold mb-4">Audience</span>

@@ -37,20 +37,14 @@ export class AnnouncementCreateEditComponent {
 
 
   onSave() {
-
      this.announcement.posted_by = this.storageService.getUser().id
-
     this.submitting = true;
-
     this.announcementService.createAnnouncemet(this.announcement).subscribe({
       next: (response) => {
-
         this.saved.emit(response); // emit created announcement
-
         // close dialog and notify parent
         this.visible = false;
         this.visibleChange.emit(this.visible);
-
         this.submitting = false;
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Announcement saved' });
       },

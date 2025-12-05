@@ -7,39 +7,65 @@ import { SharedUiModule } from '../../../../shared-ui';
 import { StorageService } from '../../../service/sharedService/storage.service';
 import { FileUpload } from 'primeng/fileupload';
 import { EditorModule } from 'primeng/editor';
+import { AnnouncementFile } from 'app/models/approver/announcementFile';
 
 
 @Component({
   standalone: true,
   selector: 'app-announcement-create-edit',
-  imports:[SharedUiModule,  FileUpload, EditorModule],
+  imports: [SharedUiModule, FileUpload, EditorModule],
   templateUrl: './announcement-create-edit.component.html',
   styleUrl: './announcement-create-edit.component.scss'
 })
 export class AnnouncementCreateEditComponent {
   @Input() visible!: boolean;
-  @Output() visibleChange = new EventEmitter<boolean>(); // <-- required for two-way binding
-
+  @Output() visibleChange = new EventEmitter<boolean>();
   @Input() announcement!: Announcement;
-  @Output() saved = new EventEmitter<Announcement>(); // emit to parent
+  @Output() saved = new EventEmitter<Announcement>();
   @Output() cancel = new EventEmitter<void>();
+  @Input() isEdit: boolean = false;
 
   minExpiryDate: Date = new Date();
-
-
   submitting = false;
 
   constructor(
     private announcementService: AnnouncementService,
-    private messageService: MessageService, 
+    private messageService: MessageService,
     private storageService: StorageService
-  ) {}
+  ) { }
 
 
   onSave() {
-     this.announcement.posted_by = this.storageService.getUser().id
+    this.announcement.posted_by = this.storageService.getUser().id
+
+    if (!this.isEdit) {
+      if (!this.announcement.announcementFile || this.announcement.announcementFile.length === 0) {
+        this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'File is not selected' });
+        return; // Exit the function early if no file is selected
+      }
+    }
+
+    if (this.announcement.isFileEdited) {
+      if (!this.announcement.announcementFile || this.announcement.announcementFile.length === 0) {
+        this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'File is not available to update' });
+        return; // Exit the function early if no file is selected
+      }
+    }
+
+    const formData = new FormData();
+    formData.append('announcement', new Blob([JSON.stringify(this.announcement)], { type: 'application/json' }));
+
+    if (this.announcement.announcementFile && this.announcement.announcementFile.length > 0) {
+      this.announcement.announcementFile.forEach((anoncmentFile: AnnouncementFile) => {
+        if (anoncmentFile.file && anoncmentFile.fileName) {
+          formData.append('files', anoncmentFile.file, anoncmentFile.fileName.toString());
+        }
+      });
+    }
+
     this.submitting = true;
-    this.announcementService.createAnnouncemet(this.announcement).subscribe({
+
+    this.announcementService.createAnnouncemet(formData).subscribe({
       next: (response) => {
         this.saved.emit(response); // emit created announcement
         // close dialog and notify parent
@@ -62,24 +88,48 @@ export class AnnouncementCreateEditComponent {
   }
 
 
-    onFileSelect(event: any): void {
-        const file: File = event.files[0];
-
-        const reader = new FileReader();
-        reader.onload = () => {
-            const arrayBuffer = reader.result as ArrayBuffer;
-            const byteArray = new Uint8Array(arrayBuffer);
-            this.announcement.image = Array.from(byteArray) as any; // 👈 Convert to number[]
-
-            this.messageService.add({
-                severity: 'success',
-                summary: 'Upload Successful',
-                detail: 'Image uploaded as byte array!'
-            });
-
-
-        };
-        reader.readAsArrayBuffer(file);
+  onFileSelect(event: any) {
+    const files: File[] = Array.from(event.files); // convert FileList to array
+    if (!this.announcement!.announcementFile) {
+      this.announcement!.announcementFile = [];
     }
+
+    files.forEach(file => {
+      const announcementFile: AnnouncementFile = {
+        file: file,
+        fileName: file.name,
+        extension: '.' + file.name.split('.').pop(),
+        fileType: file.type
+      };
+      this.announcement!.announcementFile!.push(announcementFile);
+    });
+
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Upload Successful',
+      detail: `${files.length} file(s) added successfully!`
+    });
+  }
+
+  onFileClear() {
+    this.announcement.announcementFile = [];
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Files Cleared',
+      detail: 'All selected files have been removed.'
+    });
+  }
+
+  onFileRemove(event: any) {
+    const removedFile = event.file;
+    if (this.announcement!.announcementFile) {
+      this.announcement.announcementFile = this.announcement.announcementFile.filter(f => f.file !== removedFile);
+    }
+    this.messageService.add({
+      severity: 'info',
+      summary: 'File Removed',
+      detail: `${removedFile.name} has been removed.`
+    });
+  }
 
 }

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnnouncementFile {
-    private String Id;
+    private String id;
     private String fileName;
     private String extension;
     private String supportId;

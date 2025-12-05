@@ -18,7 +18,6 @@ import com.tms.Approver.Entity.AnnouncementFile;
 import com.tms.Approver.Mapper.AnnouncementMapper;
 import com.tms.Common.RecentActivity.RecentActivity;
 import com.tms.Common.RecentActivity.RecentActivityMapper;
-import com.tms.Maker.controller.TaxController;
 
 @Service
 public class AnnouncementService {
@@ -28,7 +27,7 @@ public class AnnouncementService {
     @Autowired
     private RecentActivityMapper recentActivityMapper;
 
-    private static final Logger logger = LoggerFactory.getLogger(TaxController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AnnouncementService.class);
 
     @Transactional
 
@@ -65,7 +64,6 @@ public class AnnouncementService {
     public Announcement createAnnouncement(Announcement announcement, MultipartFile[] files) throws IOException {
         String mainGuid = generateGuid();
         announcement.setMainGuid(mainGuid);
-        // announcement.setReference_number(generateReferenceNumber());
 
         // Create upload directory once
         String uploadDir = Paths.get(System.getProperty("user.dir"), "announcementFiles").toString();

@@ -1,0 +1,22 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Announcement</title>
+  <style>
+    body { font-family: Calibri,Arial,sans-serif; font-size:11pt; line-height:1.6; margin:60px; color:#000; }
+    h1 { text-align:center; color:#003087; font-size:18pt; margin:20px 0; }
+    hr { border:none; height:4px; background:linear-gradient(to right,#003087,#00aeef); margin:40px 0; }
+  </style>
+</head>
+<body>
+  <img src="http://localhost:8082/ecma/assets/img/Awash_International_Bank.png" style="display:block; margin:0 auto 30px auto; height:80px; width:auto;" alt="Awash Bank Logo" />
+  <h1>OFFICIAL ANNOUNCEMENT</h1>
+  <div style="text-align:center; color:#666; margin-bottom:30px; font-size:11pt;">
+    Date: 3 December 2025
+  </div>
+  <hr>
+  <p><strong>[Bank Letterhead]</strong></p><p> <strong>Date:</strong> December 3, 2025</p><p><strong>To:</strong></p><p> [Customer Name]</p><p> [Customer Address]</p><p><strong>Subject:</strong> Response to Your Correspondence</p><p>Dear [Customer Name],</p><p>We refer to your letter dated [Date of Customer Letter] regarding [brief description of the issue, e.g., “your request for account statement” / “your inquiry about a transaction”].</p><p>After reviewing your request, we would like to inform you that [state the bank’s response clearly, e.g., “your account statement for the requested period is enclosed” / “the transaction has been successfully processed” / “further verification is required”].</p><p>Should you require any additional information or assistance, please do not hesitate to contact our Customer Service Department at [phone number] or via email at [email address].</p><p>We thank you for your continued trust in [Bank Name].</p><p>Yours sincerely,</p><p><strong>[Authorized Signatory Name]</strong></p><p> [Designation]</p><p> [Bank Name]</p><p> [Contact Information]</p>
+</body>
+</html>

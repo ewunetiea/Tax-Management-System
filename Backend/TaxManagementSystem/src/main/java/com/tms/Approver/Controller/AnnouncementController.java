@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,23 +58,6 @@ public class AnnouncementController {
 
 	}
 
-	// @PostMapping("/create")
-	// public ResponseEntity<Announcement> createAnnouncement(@RequestBody Announcement announcement, HttpServletRequest request) {
-	// 	try {
-	// 		Long Id = 0L;
-	// 		if (announcement.getId() == null) {
-	// 			Id = announcementService.createCreateAnnouncement(announcement);
-	// 			announcement.setId(Id);
-	// 		} else {
-	// 			announcementService.updateAnnouncement(announcement);
-	// 			Id = announcement.getId();
-	// 		}
-	// 		return new ResponseEntity<>(announcement, HttpStatus.OK);
-	// 	} catch (Exception ex) {
-	// 		logger.error("Error while saving account", ex);
-	// 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	// 	}
-	// }
 
 	@PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<Announcement> createAnnouncement(@RequestPart("announcement") Announcement announcement, @RequestPart(value = "files", required = false) MultipartFile[] files) {

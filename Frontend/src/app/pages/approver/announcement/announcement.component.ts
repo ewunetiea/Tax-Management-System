@@ -14,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 import { EditorModule } from 'primeng/editor';
 import { StorageService } from 'app/service/sharedService/storage.service';
 import { AnnouncementPayload } from 'app/models/approver/announcementPayload';
+import { FileDownloadService } from 'app/service/maker/file-download-service';
 
 interface Column {
   field: string;
@@ -59,7 +60,8 @@ export class AnnouncementComponent implements OnInit {
   items: MenuItem[] | undefined;
   rowToggles: { [id: number]: { message: boolean; file: boolean } } = {};
   status!: string;
-  announcmentPayload = new AnnouncementPayload()
+  announcmentPayload = new AnnouncementPayload();
+  isDialogVisible = false;
 
   constructor(
     private announcemetService: AnnouncementService,
@@ -67,7 +69,8 @@ export class AnnouncementComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private sanitizer: DomSanitizer,
     private route: ActivatedRoute,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private fileDownloadService: FileDownloadService,
   ) { }
 
   ngOnInit(): void {
@@ -88,6 +91,7 @@ export class AnnouncementComponent implements OnInit {
   loadAnnouncements(announcmentPayload: AnnouncementPayload) {
     this.announcemetService.fetchAnnouncemets(announcmentPayload).subscribe(
       (response) => {
+        console.log(response);
         this.announcements = (response as any).map((announcement: any) => {
           // Detect file type from base64
           const fileType = this.getFileType(announcement.image);
@@ -102,7 +106,6 @@ export class AnnouncementComponent implements OnInit {
             }
             const byteArray = new Uint8Array(byteNumbers);
             const blob = new Blob([byteArray], { type: 'application/pdf' });
-
             const url = URL.createObjectURL(blob);
             announcement.pdfUrl = url;
             announcement.safePdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url) as SafeResourceUrl;
@@ -124,36 +127,10 @@ export class AnnouncementComponent implements OnInit {
     );
   }
 
-  previewPdf(announcement: any) {
-    this.selectedPdf = announcement.safePdfUrl;
-    this.showPdfModal = true;
-  }
-
-  downloadPdf(announcement: any) {
-    const a = document.createElement('a');
-    a.href = announcement.pdfUrl;
-    a.download = 'document.pdf';
-    a.click();
-  }
-
   closeModal() {
     this.showPdfModal = false;
     this.selectedPdf = null;
   }
-
-
-
-
-
-  onRowExpand(event: TableRowExpandEvent) {
-    this.messageService.add({ severity: 'info', summary: 'User Information Expanded', detail: event.data.name, life: 3000 });
-  }
-
-  onRowCollapse(event: TableRowCollapseEvent) {
-    this.messageService.add({ severity: 'success', summary: 'User information Collapsed', detail: event.data.name, life: 3000 });
-  }
-
-
 
 
   onGlobalFilter(table: Table, event: Event) {
@@ -161,8 +138,7 @@ export class AnnouncementComponent implements OnInit {
   }
 
   openNew() {
-    this.announcement = { created_date: new Date() } as Announcement; // default date avoids null crash
-
+    this.announcement = { created_date: new Date() } as Announcement;
     this.submitted = false;
     this.announcemetDialog = true;
     this.isEdit = false
@@ -170,15 +146,14 @@ export class AnnouncementComponent implements OnInit {
 
   editAnnouncement(announcement: Announcement) {
     this.announcement = { ...announcement };
+    this.announcement.previouseAnnouncementFile = announcement.announcementFile
     this.announcemetDialog = true;
-
     this.isEdit = true;
   }
 
+  
   deleteAnnouncements(announcements: Announcement | Announcement[] | null) {
-    // Normalize to array
     const itemsToDelete = Array.isArray(announcements) ? announcements : [announcements];
-
     this.confirmationService.confirm({
       message: `Are you sure you want to delete ${itemsToDelete.length} announcement(s)?`,
       header: 'Confirm',
@@ -223,12 +198,9 @@ export class AnnouncementComponent implements OnInit {
   }
 
 
-
   findIndexById(id: any): number {
     return this.announcements.findIndex((p) => p.id === id);
   }
-
-
 
 
   getSeverity(status: string) {
@@ -242,7 +214,6 @@ export class AnnouncementComponent implements OnInit {
 
 
   onAnnouncementSaved(savedAnnouncement: Announcement) {
-
     if (this.isEdit) {
       const index = this.announcements.findIndex(a => a.id === savedAnnouncement.id);
       if (index !== -1) {
@@ -279,21 +250,18 @@ export class AnnouncementComponent implements OnInit {
 
   getFileType(base64: string): string {
     if (!base64) return '';
-
     // Common base64 prefixes
     if (base64.startsWith('/9j/')) return 'image/jpeg'; // JPEG
     if (base64.startsWith('iVBOR')) return 'image/png'; // PNG
     if (base64.startsWith('JVBER')) return 'application/pdf'; // PDF
     if (base64.startsWith('UEsDB')) return 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'; // DOCX
     if (base64.startsWith('0M8R4')) return 'application/msword'; // DOC
-
     return 'unknown';
   }
 
 
 
   toggleRow(announcement: Announcement, type: 'message' | 'file') {
-    // Initialize row state if it doesn't exist
     if (!this.rowToggles[announcement.id!]) {
       this.rowToggles[announcement.id!] = { message: false, file: false };
     }
@@ -318,5 +286,86 @@ export class AnnouncementComponent implements OnInit {
     table.clear();
   }
 
+  onImageError(event: any) {
+        console.error('Image failed to load', event);
+    }
+
+    openDialogImage() {
+        this.isDialogVisible = true;
+    }
+
+    previewPdf(file: any) {
+        if (file.pdfUrl) {
+            this.selectedPdf = file.pdfUrl;
+            this.showPdfModal = true;
+        }
+    }
+
+    downloadPdf(file: any) {
+        if (!file.pdfUrl && !file.fileType) return;
+
+        // If we have the blob stored (recommended)
+        this.fileDownloadService.fetchFileByFileName(file.fileName).subscribe((blob: Blob) => {
+            const link = document.createElement('a');
+            const blobUrl = URL.createObjectURL(blob); // create object URL from blob
+            link.href = blobUrl;
+            link.download = file.fileName || 'document.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(blobUrl); 
+        });
+    }
+
+     closeModalPDF() {
+        this.showPdfModal = false;
+        this.selectedPdf = null;
+    }
+
+    downloadWord(file: any) {
+        try {
+            let byteArray: Uint8Array;
+
+            if (typeof file.file === 'string') {
+                // Remove data URL prefix if it exists
+                const base64 = file.file.includes(',') ? file.file.split(',')[1] : file.file;
+
+                // Decode base64 safely
+                const binary = atob(base64.replace(/\s/g, ''));
+                byteArray = new Uint8Array(binary.length);
+
+                for (let i = 0; i < binary.length; i++) {
+                    byteArray[i] = binary.charCodeAt(i);
+                }
+
+                // Debug: Log the decoded binary and byte array
+
+
+            } else {
+                // If it's already a Blob, use it directly
+                const blob = new Blob([file.file], { type: file.fileType });
+
+
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = file.fileName;
+                link.click();
+                window.URL.revokeObjectURL(link.href);
+                return; // Exit the function
+            }
+
+            const blob = new Blob([byteArray as any], { type: file.fileType });
+            // Debug: Log the blob size
+
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = file.fileName;
+            link.click();
+            window.URL.revokeObjectURL(link.href);
+        } catch (e) {
+            console.error('Failed to download Word file', e);
+            alert('Cannot download file. The data may be corrupted.');
+        }
+    }
 
 }

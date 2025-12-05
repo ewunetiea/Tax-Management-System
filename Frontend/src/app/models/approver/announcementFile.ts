@@ -4,4 +4,6 @@ export class AnnouncementFile {
   extension?: string;
   supportId?: number;
   announcement_id?: number;
+  file?: Blob;
+  fileType?: string;  
 }

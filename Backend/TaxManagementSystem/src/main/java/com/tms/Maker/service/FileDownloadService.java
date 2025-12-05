@@ -3,22 +3,12 @@ package com.tms.Maker.service;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
-
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
-
-import com.tms.Maker.mapper.TaxableMapper;
 import org.springframework.core.io.Resource;
 
-
 @Service
-
 public class FileDownloadService {
-
-    @Autowired
-    private TaxableMapper taxableMapper;
    
   private final String folderPath = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();
     

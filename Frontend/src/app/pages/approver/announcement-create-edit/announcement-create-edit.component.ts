@@ -23,10 +23,13 @@ export class AnnouncementCreateEditComponent {
   @Input() announcement!: Announcement;
   @Output() saved = new EventEmitter<Announcement>();
   @Output() cancel = new EventEmitter<void>();
-  @Input() isEdit: boolean = false;
+  isEdit: boolean = false;
 
   minExpiryDate: Date = new Date();
   submitting = false;
+
+   @Input() passedAnnouncement: any[] = [];
+   @Output() editedAnnouncement: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private announcementService: AnnouncementService,
@@ -35,9 +38,26 @@ export class AnnouncementCreateEditComponent {
   ) { }
 
 
+  ngOnInit(): void {
+    this.isEdit = this.passedAnnouncement[1];
+    console.log("isEdit:", this.isEdit);
+    if (this.isEdit) {
+      this.editAnnouncement(this.passedAnnouncement);
+    } else {
+      this.openNew();
+    }
+  }
+
+  openNew() {
+    this.announcement = new Announcement();
+  }
+  
+  editAnnouncement(passedData: any[]) {
+      this.announcement = passedData[0];
+    }
+
   onSave() {
     this.announcement.posted_by = this.storageService.getUser().id
-
     if (!this.isEdit) {
       if (!this.announcement.announcementFile || this.announcement.announcementFile.length === 0) {
         this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'File is not selected' });

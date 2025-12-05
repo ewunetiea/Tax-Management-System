@@ -133,8 +133,7 @@
             </td>
         </tr>
     </ng-template>
-
-     <ng-template #expandedrow let-announcement>
+    <ng-template #expandedrow let-tax>
               <tr>
                 <td colspan="18">
                   <div class="p-3">
@@ -146,10 +145,11 @@
                           label="Attached File Details"
                           ></p-button>
                           <p-button
+                          *ngIf="tax.remark"
                           (click)="activeIndex1 = 1"
                           icon="pi pi-plus"
                           styleClass="p-button-raised p-button-rounded p-ml-2"
-                          label="Message Detail"
+                          label="Remark"
                         ></p-button>
                         </div>
 
@@ -157,28 +157,29 @@
                       <p-tabPanel header="Attached File Details">
                         <div class="py-3 flex space-x-2">
                           <p-button 
-                          *ngIf="announcement.message"
+                          *ngIf="tax.message"
                           [icon]="activeState[0] ? 'pi pi-minus' : 'pi pi-plus'" 
                           (click)="toggle(0)"
                           styleClass="p-button-text" 
-                          label="Message">
+                          label="Message Detail">
                         </p-button>
                           <p-button 
-                          *ngIf="announcement.image"
+                          *ngIf="tax.image"
                           [icon]="activeState[1] ? 'pi pi-minus' : 'pi pi-plus'" 
                           (click)="toggle(1)"
                           styleClass="p-button-text" 
                           label="Attached File">
                         </p-button>
                         </div>
+
                         <div class="flex gap-4 items-start mt-3">
-                          <div class="flex-1" *ngIf="announcement.message && activeState[0]">
+                          <div class="flex-1" *ngIf="tax.message && activeState[0]">
                             <h6 class="font-bold mb-2 text-gray-700">Message</h6>
-                            <div class="w-full border rounded-md p-4 bg-surface-50 text-gray-700 whitespace-pre-wrap max-h-70 overflow-auto"> {{ announcement.message }}</div>
-                          </div> 
-                          <div *ngIf="announcement.announcementFile.length" class="border p-3 rounded mb-3">
+                            <div class="w-full border rounded-md p-4 bg-surface-50 text-gray-700 whitespace-pre-wrap max-h-70 overflow-auto"> {{ tax.message }}</div>
+                          </div>
+                          <div *ngIf="tax.taxFile?.length" class="border p-3 rounded mb-3">
                             <div class="flex flex-wrap gap-4">
-                              <div *ngFor="let file of announcement.announcementFile"  class="border p-3 rounded w-64 flex-shrink-0 flex flex-col items-center">
+                              <div *ngFor="let file of tax.taxFile"  class="border p-3 rounded w-64 flex-shrink-0 flex flex-col items-center">
                                 <ng-container *ngIf="file.fileType">
                                   <div *ngIf="file.fileType.startsWith('image/') && file.file">
                                     <div class="flex items-center">
@@ -224,29 +225,58 @@
                           </p-dialog>
                         </div>
                       </p-tabPanel>
-
-                      <p-tabPanel header="Message Detail">
+                      <p-tabPanel header="Remark">
                         <div class="py-3 flex space-x-2">
                           <p-button 
+                          *ngIf="tax.remark"
                           [icon]="activeState[2] ? 'pi pi-minus' : 'pi pi-plus'" 
                           (click)="toggle(2)"
                           styleClass="p-button-text" 
-                          label="Message">
+                          label="Maker Remark">
+                        </p-button>
+                        <p-button 
+                          *ngIf="tax.checker_rejected_reason"
+                          [icon]="activeState[3] ? 'pi pi-minus' : 'pi pi-plus'" 
+                          (click)="toggle(3)"
+                          styleClass="p-button-text" 
+                          label="Reviewer Remark">
+                        </p-button>
+                        <p-button 
+                          *ngIf="tax.approver_rejected_reason"
+                          [icon]="activeState[4] ? 'pi pi-minus' : 'pi pi-plus'" 
+                          (click)="toggle(4)"
+                          styleClass="p-button-text" 
+                          label="Approver Remark">
                         </p-button>
                         </div>
  
-                        <!-- Message Section -->
-                         <div *ngIf="activeState[2]" class="card p-3">
-                          <textarea rows="5" cols="30" pTextarea [(ngModel)]="announcement.message" fluid></textarea>
+                        <!-- Maker Remark Section -->
+                         <div *ngIf="tax.remark && activeState[2]" class="card p-3">
+                          <textarea rows="5" cols="30" pTextarea [(ngModel)]="tax.remark" fluid></textarea>
                         </div>
 
+                         <!-- Reviewer Remark Section -->
+                         <div *ngIf="tax.checker_rejected_reason && activeState[3]" class="card p-3">
+                          <textarea rows="5" cols="30" pTextarea [(ngModel)]="tax.checker_rejected_reason" fluid></textarea>
+                        </div>
+
+                         <!-- Approver Remark Section -->
+                         <div *ngIf="tax.approver_rejected_reason && activeState[4]" class="card p-3">
+                          <textarea rows="5" cols="30" pTextarea [(ngModel)]="tax.approver_rejected_reason" fluid></textarea>
+                        </div>
                       </p-tabPanel>
                     </p-tabView>
                   </div>
                 </td>
               </tr>
             </ng-template>
-        </p-table>
+            
+            <ng-template pTemplate="summary">
+              <div class="p-d-flex p-ai-center p-jc-between">
+                In total there are {{ announcements ? announcements.length : 0 }} announcements.
+              </div>
+            </ng-template>
+          </p-table>
 
         <app-announcement-create-edit 
         [(visible)]="announcemetDialog" 
@@ -254,6 +284,23 @@
         (saved)="onAnnouncementSaved($event)"
         (cancel)="hideDialog()">
     </app-announcement-create-edit>
+
+    
+<p-dialog
+    [(visible)]="announcemetDialog"
+    [style]="{ width: '600px' }"
+    header="Announcement Details"
+    [modal]="true"
+    styleClass="p-fluid"
+    [maximizable]="true"
+  >
+    <ng-template pTemplate="content">
+      <app-announcement-create-edit
+        [passedAnnouncement]="outputAnnouncement" 
+        (editedAnnouncement)="onDataChange($event)"
+      ></app-announcement-create-edit>
+    </ng-template>
+  </p-dialog>
 
     <p-dialog 
     [(visible)]="showPdfModal" 

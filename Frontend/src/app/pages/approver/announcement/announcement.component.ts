@@ -62,6 +62,7 @@ export class AnnouncementComponent implements OnInit {
   status!: string;
   announcmentPayload = new AnnouncementPayload();
   isDialogVisible = false;
+  outputAnnouncement: any[] = [];
 
   constructor(
     private announcemetService: AnnouncementService,
@@ -91,7 +92,6 @@ export class AnnouncementComponent implements OnInit {
   loadAnnouncements(announcmentPayload: AnnouncementPayload) {
     this.announcemetService.fetchAnnouncemets(announcmentPayload).subscribe(
       (response) => {
-        console.log(response);
         this.announcements = (response as any).map((announcement: any) => {
           // Detect file type from base64
           const fileType = this.getFileType(announcement.image);
@@ -132,24 +132,43 @@ export class AnnouncementComponent implements OnInit {
     this.selectedPdf = null;
   }
 
-
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
 
   openNew() {
+    this.outputAnnouncement = [];
     this.announcement = { created_date: new Date() } as Announcement;
     this.submitted = false;
+    this.isEdit = false;
+    this.outputAnnouncement.push(this.announcement);
+    this.outputAnnouncement.push(this.isEdit);
     this.announcemetDialog = true;
-    this.isEdit = false
   }
+  
 
   editAnnouncement(announcement: Announcement) {
+    this.outputAnnouncement = [];
     this.announcement = { ...announcement };
     this.announcement.previouseAnnouncementFile = announcement.announcementFile
-    this.announcemetDialog = true;
     this.isEdit = true;
+    this.outputAnnouncement.push(this.announcement);
+    this.outputAnnouncement.push(this.isEdit);
+    this.announcemetDialog = true;
   }
+
+  
+  onDataChange(data: any) {
+    if (data[1]) {
+        this.announcements[this.findIndexById(data[0].id)] = data[0];
+    } else {
+      this.loadAnnouncements(this.announcmentPayload);
+        this.announcements = [...this.announcements ];
+        this.announcement = new Announcement();
+    }
+    this.announcemetDialog = false;
+  }
+
 
   
   deleteAnnouncements(announcements: Announcement | Announcement[] | null) {
@@ -189,7 +208,6 @@ export class AnnouncementComponent implements OnInit {
       }
     });
   }
-
 
 
   hideDialog() {

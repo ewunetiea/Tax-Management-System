@@ -1,5 +1,6 @@
 <p-dialog [(visible)]="visible" [style]="{ width: '800px' }" header="Announcement Details" [modal]="true" (onHide)="onCancel()">
-    <ng-template #content>
+    <ng-template pTemplate="content">
+
         <form ngNativeValidate #announcementForm="ngForm" class="p-fluid" (ngSubmit)="onSave()">
             <div class="flex flex-col gap-6">
                 <div class="p-field">
@@ -65,12 +66,12 @@
                 </div>
                 <!-- Toggle switch for edit mode -->
                 <div *ngIf="isEdit">
-                    <label for="isFileEdited" class="block font-bold mb-3">Open switch button to update tax file</label>
+                    <label for="isFileEdited" class="block font-bold mb-3">Open switch button to update files</label>
                     <p-toggleswitch [(ngModel)]="announcement.isFileEdited" name="isFileEdited" id="isFileEdited" />
                 </div>
 
                 <!-- File Upload -->
-                    <div *ngIf="!isEdit || announcement.isFileEdited">
+                    <div *ngIf="!isEdit">
                         <label for="announcement_file" class="block font-bold mb-3">File<strong class="text-danger">*</strong></label>
                         <p-fileUpload
                             name="demo[]"

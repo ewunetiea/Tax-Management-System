@@ -4,12 +4,11 @@ import java.util.List;
 import org.apache.ibatis.annotations.*;
 import com.tms.Approver.Entity.Announcement;
 import com.tms.Approver.Entity.AnnouncementFile;
-import com.tms.Maker.entity.TaxFile;
 
 @Mapper
 public interface AnnouncementMapper {
 
-        @Select("insert into announcements(title, message, posted_by, audience, created_date,expiry_date , image) output inserted.id values (#{title}, #{message}, #{posted_by}, #{audience}, CURRENT_TIMESTAMP , #{expiry_date}, #{image})")
+        @Select("insert into announcements(title, message, posted_by, audience, created_date,expiry_date , image, mainGuid) output inserted.id values (#{title}, #{message}, #{posted_by}, #{audience}, CURRENT_TIMESTAMP , #{expiry_date}, #{image}, #{mainGuid})")
         public Long createCreateAnnouncement(Announcement announcement);
 
         // @Select(" SELECT a.*, ur.email AS postedBy FROM announcements a " +
@@ -47,7 +46,7 @@ public interface AnnouncementMapper {
         Announcement getAnnouncementForDashBoard(String role_type);
 
         // Archived announcements
-        @Select("  SELECT a.*, ur.email AS postedBy   FROM announcements a    INNER JOIN [user] ur ON ur.id = a.posted_by "
+        @Select("  SELECT a.*, ur.email AS postedBy FROM announcements a INNER JOIN [user] ur ON ur.id = a.posted_by "
                         +
                         "  WHERE a.expiry_date < GETDATE()   AND ( #{role_type} = 'ROLE_APPROVER'   OR a.audience = #{role_type} "
                         +
@@ -63,18 +62,17 @@ public interface AnnouncementMapper {
         @Delete("delete from announcements   where id = #{id} ")
         public void deleteAnnouncement(Long id);
 
-        @Delete("delete from FileDetailOfClaim  where FileName = #{fileName} ")
-        public void deleteAnnouncementFile(String fileName);
+        @Delete("delete from announcement_file  where announcement_id = #{announcement_id} ")
+        public void deleteAnnouncementFile(Long announcement_id);
 
         // Insert new file detail
-        @Insert("INSERT INTO FileDetailOfClaim (Id, FileName, Extension, SupportId, tax_id) " +
-                        "VALUES (#{id}, #{fileName}, #{extension}, #{supportId}, #{taxId})")
+        @Insert("INSERT INTO announcement_file (id, FileName, Extension, SupportId, tax_id) VALUES (#{id}, #{fileName}, #{extension}, #{supportId}, #{taxId})")
         public void insertFile(AnnouncementFile file);
 
-        @Select("SELECT CASE WHEN EXISTS (SELECT 1 FROM FileDetailOfClaim WHERE FileName LIKE CONCAT(#{fileName}, '%')) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END")
-        public boolean checkFilnameExistance(String fileName);
+        @Select("SELECT CASE WHEN EXISTS (SELECT 1 FROM announcement_file WHERE FileName LIKE CONCAT(#{fileName}, '%')) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END")
+        public boolean checkFileNameExistance(String fileName);
 
-         @Select("SELECT TOP 1 reference_number FROM announcements ORDER BY Id DESC")
-       public String getLastReferenceNumber();
+      //  @Select("SELECT TOP 1 id FROM announcements ORDER BY DESC")
+      //  public Long getLastReferenceNumber();
 
 }

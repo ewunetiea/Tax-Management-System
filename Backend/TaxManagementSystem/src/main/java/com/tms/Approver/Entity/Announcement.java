@@ -26,5 +26,4 @@ public class Announcement {
     private List<AnnouncementFile> announcementFile;
     private String fileExsistance;
     private String mainGuid;
-    private String reference_number;
 }

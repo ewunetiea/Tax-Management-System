@@ -32,6 +32,7 @@ public class TaxController {
 
 	@Autowired
 	private TaxableService taxableService;
+	
 	private static final Logger logger = LoggerFactory.getLogger(TaxController.class);
 
 	@PostMapping("/fetchTaxBasedonStatus")

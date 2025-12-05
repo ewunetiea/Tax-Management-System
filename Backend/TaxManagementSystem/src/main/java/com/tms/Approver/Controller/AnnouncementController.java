@@ -85,9 +85,8 @@ public class AnnouncementController {
 				announcementService.updateAnnouncement(announcement, files);
 				return new ResponseEntity<>(announcement, HttpStatus.OK);
 			}
-
 			else {
-				announcement = announcementService.createCreateAnnouncement(announcement, files);
+				announcement = announcementService.createAnnouncement(announcement, files);
 				if (announcement.getFileExsistance().contains("Exists")) {
 					Map<String, String> response = new HashMap<>();
 					response.put("message", "File already exists");

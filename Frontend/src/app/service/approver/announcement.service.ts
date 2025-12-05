@@ -36,5 +36,6 @@ export class AnnouncementService {
   fetchAnnouncemetById(id: any) {
     return this.http.delete(baseUrl + '/' + `${id}`);
   }
+  
 }
 

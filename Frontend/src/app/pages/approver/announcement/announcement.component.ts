@@ -52,7 +52,7 @@ export class AnnouncementComponent implements OnInit {
   announcement_type: String = ''
   isEdit = false;
   activeIndex1: number = 0;
-  activeState: boolean[] = [true, false, false];
+  activeState: boolean[] = [true, false, false, false, false];
   pdfSrc: any;
   sizes!: any[];
   selectedSize: any = 'normal';

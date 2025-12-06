@@ -92,7 +92,6 @@ export class AnnouncementComponent implements OnInit {
   loadAnnouncements(announcmentPayload: AnnouncementPayload) {
     this.announcemetService.fetchAnnouncemets(announcmentPayload).subscribe(
       (response) => {
-        console.log("Announcementttttttttttttttttttttttttttttttttttttt:",response);
         this.announcements = (response as any).map((announcement: any) => {
           // Detect file type from base64
           const fileType = this.getFileType(announcement.image);
@@ -324,7 +323,7 @@ export class AnnouncementComponent implements OnInit {
         if (!file.pdfUrl && !file.fileType) return;
 
         // If we have the blob stored (recommended)
-        this.fileDownloadService.fetchFileByFileName(file.fileName).subscribe((blob: Blob) => {
+        this.fileDownloadService.fetcAnnouncementhFileByFileName(file.fileName).subscribe((blob: Blob) => {
             const link = document.createElement('a');
             const blobUrl = URL.createObjectURL(blob); // create object URL from blob
             link.href = blobUrl;
@@ -459,5 +458,5 @@ export class AnnouncementComponent implements OnInit {
     delete this.expandedRows[announcement.Id];
   }
 
-  
+
 }

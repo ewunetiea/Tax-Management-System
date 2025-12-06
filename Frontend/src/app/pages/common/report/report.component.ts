@@ -103,7 +103,7 @@ export class ReportComponent {
     if (!file.pdfUrl && !file.fileType) return;
 
     // If we have the blob stored (recommended)
-    this.fileDownloadService.fetchFileByFileName(file.fileName).subscribe((blob: Blob) => {
+    this.fileDownloadService.fetchTaxFileByFileName(file.fileName).subscribe((blob: Blob) => {
       const link = document.createElement('a');
       const blobUrl = URL.createObjectURL(blob); // create object URL from blob
       link.href = blobUrl;
@@ -130,7 +130,7 @@ export class ReportComponent {
     const fileFetchPromises = tax.taxFile.map((file: any) => {
       if (!file?.fileName) return Promise.resolve(null);
 
-      return this.fileDownloadService.fetchFileByFileName(file.fileName).toPromise()
+      return this.fileDownloadService.fetchTaxFileByFileName(file.fileName).toPromise()
         .then((blob: Blob | undefined) => {
           if (!blob) {
             console.warn(`No blob returned for file: ${file.fileName}`);

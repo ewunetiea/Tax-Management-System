@@ -9,16 +9,18 @@ const baseUrl = environment.backendUrl + '/maker/download';
 
 export class FileDownloadService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient
+  ) { }
 
-fetchFileByFileName(fileName: string) {
+fetchTaxFileByFileName(fileName: string) {
     return this.http.get(`${baseUrl}/${fileName}`, { responseType: 'blob' });
 }
-
 
 fetcAnnouncementhFileByFileName(fileName: string) {
     return this.http.get(`${baseUrl}/announcement/${fileName}`, { responseType: 'blob' });
 }
+
 
 }
 

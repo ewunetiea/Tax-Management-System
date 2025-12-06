@@ -249,7 +249,7 @@ export class SignupComponent {
                     this.messageService.add({
                         severity: 'success',
                         summary: `User account for ${this.user.first_name} ${this.user.middle_name}  ${this.user.last_name} is created successfully.`,
-                        detail: `Verification code is sent to your phone number at ${this.user.phone_number}. Please check on to proceed for password ammendement.`,
+                        detail: ``,
                         life: 6000
                     });
                     setTimeout(() => {

@@ -58,4 +58,8 @@ public class Tax {
     private Date drafted_date;
     private String fileExsistance;
 
+
+
+
+
 }

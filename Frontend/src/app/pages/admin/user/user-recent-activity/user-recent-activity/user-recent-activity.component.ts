@@ -65,57 +65,28 @@ export class UserRecentActivityComponent {
         this.getUsers();
     }
 
-    // generateActivities(): void {
-    //     this.generateButtonClicked = true;
-    //     this.recentactivityService.getRecentActivityAdmin(this.report).subscribe({
-    //         next: (response) => {
-    //             this.userActivities = response;
-    //             this.loading = false;
-    //         },
-    //         error: (error: HttpErrorResponse) => {
-    //             this.errorMessage = error.message;
-    //             this.messageService.add({
-    //                 severity: 'error',
-    //                 summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while fetching user activities!',
-    //                 detail: ''
-    //             });
-    //             this.loading = false;
-    //         }
-    //     });
-    // }
 
-  generateActivities(): void {
-    this.generateButtonClicked = true;
-    this.loading = true;
 
-    if (this.isAdmin) {
-        // Admin activity fetch
-        this.recentactivityService.getRecentActivityAdmin(this.report).subscribe({
-            next: (response) => {
-                this.userActivities = response;
-                this.loading = false;
-            },
-            error: (error: HttpErrorResponse) => this.handleError(error)
-        });
-    } else {
-        // Non-admin activity fetch
-        const userId: number | undefined = this.user?.id;
+    generateActivities(): void {
+        this.generateButtonClicked = true;
+        this.loading = true;
 
-        if (!this.report.action_date && !this.report.content) {
-            if (userId !== undefined) {
-                this.recentactivityService.getRecentActivity(userId).subscribe({
-                    next: (response) => {
-                        this.userActivities = response;
-                        this.loading = false;
-                    },
-                    error: (error: HttpErrorResponse) => this.handleError(error)
-                });
-            } else {
-                console.error('User ID is undefined. Cannot fetch activities.');
-                this.loading = false;
-            }
-        } else {
-            this.recentactivityService.getActivityByDateAndContent(this.report).subscribe({
+
+        if (this.isAdmin) {
+
+            if (this.report.action_date && this.report.action_date.length) {
+    this.report.action_date = this.report.action_date.map(d => {
+        if (d) {
+            // Convert to start-of-day UTC Date object
+            return new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+        }
+        return null;
+    }) as Date[]; // tell TS this is Date[]
+}
+
+
+            // Admin activity fetch
+            this.recentactivityService.getRecentActivityAdmin(this.report).subscribe({
                 next: (response) => {
                     this.userActivities = response;
                     this.loading = false;
@@ -123,21 +94,46 @@ export class UserRecentActivityComponent {
                 error: (error: HttpErrorResponse) => this.handleError(error)
             });
         }
-    }
+
+        else {
+
+
+if (this.report.action_date && this.report.action_date.length) {
+    this.report.action_date = this.report.action_date.map(d => {
+        if (d) {
+            // Convert to start-of-day UTC Date object
+            return new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+        }
+        return null;
+    }) as Date[]; // tell TS this is Date[]
 }
 
-// Centralized error handling
-private handleError(error: HttpErrorResponse): void {
-    this.errorMessage = error.message;
-    this.messageService.add({
-        severity: 'error',
-        summary: error.status === 401
-            ? 'You are not permitted to perform this action!'
-            : 'Something went wrong while fetching user activities!',
-        detail: ''
-    });
-    this.loading = false;
-}
+            this.report .user_id = this.user?.id;
+
+            this.recentactivityService.getActivityByDateAndContent(this.report).subscribe({
+                next: (response) => {
+
+                    this.userActivities = response;
+                    this.loading = false;
+                },
+                error: (error: HttpErrorResponse) => this.handleError(error)
+            });
+
+        }
+    }
+
+    // Centralized error handling
+    private handleError(error: HttpErrorResponse): void {
+        this.errorMessage = error.message;
+        this.messageService.add({
+            severity: 'error',
+            summary: error.status === 401
+                ? 'You are not permitted to perform this action!'
+                : 'Something went wrong while fetching user activities!',
+            detail: ''
+        });
+        this.loading = false;
+    }
 
     resetActivities() {
         this.report = new Report();

@@ -14,9 +14,7 @@ export class RecentActivityService {
         return this.http.post(`${rootURL}/addRecentActivity`, data);
     }
 
-    getRecentActivity(id: number): Observable<any> {
-        return this.http.get(`${rootURL}/getRecentActivity/${id}`);
-    }
+
 
     getRecentActivityAdmin(report: any): Observable<any> {
         return this.http.post(`${rootURL}/getRecentActivityAdmin`, report);

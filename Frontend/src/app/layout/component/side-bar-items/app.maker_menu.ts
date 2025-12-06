@@ -39,24 +39,25 @@ export class AppMenuMaker {
         this.general_items = [
             {
                 label: 'Home',
-                items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/applayout'] }]
+                items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home text-orange-500', routerLink: ['/applayout'] }]
             },
 
 
             {
                 label: 'Tax Management',
-                items: [{ label: 'Drafted ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/drafted-tax'] },
-                { label: 'Waiting  ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/submited-tax'] },
-                { label: 'Sent ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/sent-tax'] },
-                { label: 'Settled', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/setteled-tax'] },
-                { label: 'Rejected', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/rejected-tax'] },
-
-                ],
-            },
+                items: [
+                    { label: 'Drafted', icon: 'pi pi-fw pi-pencil text-blue-500', routerLink: ['/applayout/maker/drafted-tax'] },
+                    { label: 'Submitted to Checker', icon: 'pi pi-fw pi-send text-green-500', routerLink: ['/applayout/maker/submited-tax'] },
+                    { label: 'Sent to Approval', icon: 'pi pi-fw pi-share-alt text-orange-500', routerLink: ['/applayout/maker/sent-tax'] },
+                    { label: 'Settled', icon: 'pi pi-fw pi-check-circle text-teal-500', routerLink: ['/applayout/maker/setteled-tax'] },
+                    { label: 'Rejected', icon: 'pi pi-fw pi-times-circle text-red-600', routerLink: ['/applayout/maker/rejected-tax'] },
+                ]
+            }
+            ,
 
             {
-                label: 'Tax General Status',
-                items: [{ label: 'General Status ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/maker/general-tax-status'] }
+                label: 'Tax Progress',
+                items: [{ label: 'General Status ', icon: 'pi pi-spinner text-blue-500', routerLink: ['/applayout/maker/general-tax-status'] }
 
                 ],
 
@@ -64,13 +65,13 @@ export class AppMenuMaker {
 
             {
                 label: 'Report',
-                items: [{ label: 'Report', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/approver/report'] }
+                items: [{ label: 'Report', icon: 'pi pi-file-excel text-green-500', routerLink: ['/applayout/approver/report'] }
                 ]
             },
 
             {
                 label: 'Activity Logs',
-                items: [{ label: 'User Activities ', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/admin/user-recent-activity'] }
+                items: [{ label: 'User Activities ', icon: 'pi pi-history text-teal-500', routerLink: ['/applayout/admin/user-recent-activity'] }
 
                 ],
 

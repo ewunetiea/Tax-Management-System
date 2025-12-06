@@ -1,243 +1,187 @@
 <form ngNativeValidate #userForm="ngForm" class="space-y-4">
-                        <div class="flex flex-col gap-2">
-                            <label for="employee_id"><strong class="text-red-600">*</strong>Awash Bank ID</label>
-                            <input
-                                pInputText
-                                type="text"
-                                #employee_id="ngModel"
-                                [ngClass]="{ 'border-red-500': employee_id.invalid && employee_id.touched }"
-                                id="employee_id"
-                                placeholder="Staff ID"
-                                [(ngModel)]="user.employee_id"
-                                name="employee_id"
-                                (blur)="checkAwashBankIdStatus($event)"
-                                required="true"
-                                pattern="^(AB|AIB)\/(\d{1,7})\/(19|20|21)\d{2}$"
-                            />
-                            <div *ngIf="employee_id.errors && employee_id.touched">
-                                <small class="text-red-600" *ngIf="employee_id.errors['required']">Awash Bank ID is required</small>
-                                <small class="text-red-600" *ngIf="employee_id.errors['pattern']">Awash ID Incorrect</small>
-                            </div>
-                            <div *ngIf="employee_id_status">
-                                <small class="text-red-600">This ID Does not exist!</small>
-                            </div>
-                            <div *ngIf="employee_id_status_system">
-                                <small class="text-red-600">User Already registered!</small>
-                            </div>
-                        </div>
-
-
-                        <div *ngIf="!employee_id_status && !employee_id_status_system && proceed && !(employee_id.errors && employee_id.touched)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="flex flex-col gap-2">
-                                <label for="email"><strong class="text-red-600">*</strong>Outlook Address</label>
-                                <input
-                                    type="text"
-                                    #email="ngModel"
-                                    [ngClass]="{ 'border-red-500': email.invalid && email.touched }"
-                                    pInputText
-                                    id="email"
-                                    [(ngModel)]="user.email"
-                                    name="email"
-                                    (blur)="checkEmailStatus($event)"
-                                    required="true"
-                                    pattern="\w+@awashbank\.com$"
-                                    class="w-full"
-                                />
-
-                                <div *ngIf="email_status">
-                                    <small class="text-red-600">Outlook Address Already Exists</small>
-                                </div>
-                                <div *ngIf="email.errors && email.touched">
-                                    <small class="text-red-600" *ngIf="email.errors['required']">Outlook Address is required</small>
-                                    <small class="text-red-600" *ngIf="email.errors['pattern']">Outlook Address should end with &#64;awashbank.com</small>
-                                </div>
-                            </div>
-
-                            <div class="flex flex-col gap-2">
-                                <label for="username"><strong class="text-red-600">*</strong>Fusion Essence Username</label>
-                                <input
-                                    type="text"
-                                    #username="ngModel"
-                                    [ngClass]="{ 'border-red-500': username.invalid && username.touched }"
-                                    (blur)="checkUsernameStatus($event)"
-                                    pInputText
-                                    id="username"
-                                    [(ngModel)]="user.username"
-                                    name="username"
-                                    [required]="true"
-                                    class="w-full"
-                                />
-                                <small class="text-red-600" [class.hidden]="username.valid || username.untouched">Username is required<br /></small>
-
-                                <div *ngIf="user_name_status">
-                                    <small class="text-red-600">Username Already Exists</small>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="flex flex-col gap-2">
-                                <label for="first_name">First Name</label>
-                                <input type="text" #first_name="ngModel" [ngClass]="{ 'border-red-500': first_name.invalid && first_name.touched }" pInputText id="first_name" [(ngModel)]="user.first_name" name="first_name" class="w-full" />
-                            </div>
-
-                            <div class="flex flex-col gap-2">
-                                <label for="middle_name">Middle Name</label>
-                                <input type="text" #middle_name="ngModel" [ngClass]="{ 'border-red-500': middle_name.invalid && middle_name.touched }" pInputText id="middle_name" [(ngModel)]="user.middle_name" name="middle_name" class="w-full" />
-                            </div>
-                        </div>
-
-
-                        <div class="flex flex-row gap-4">
-                            <div class="flex flex-col gap-2 w-1/2">
-                                <label for="last_name">Last Name</label>
-                                <input type="text" #last_name="ngModel" [ngClass]="{ 'border-red-500': last_name.invalid && last_name.touched }" pInputText id="last_name" [(ngModel)]="user.last_name" name="last_name" />
-                            </div>
-
-                            <div class="flex flex-col gap-2 w-1/2">
-                                <label for="phone_number"> <strong class="text-red-600">*</strong> Phone Number </label>
-                                <input
-                                    type="tel"
-                                    #phone_number="ngModel"
-                                    [ngClass]="{ 'border-red-500': phone_number.invalid && phone_number.touched }"
-                                    pInputText
-                                    pattern="(\+251|0)(9|7)\d{8}"
-                                    id="phone_number"
-                                    (blur)="checkPhoneNumberStatus($event)"
-                                    [(ngModel)]="user.phone_number"
-                                    name="phone_number"
-                                    required="true"
-                                />
-                                <div *ngIf="phone_number_status">
-                                    <small class="text-red-600">Phone Number Already Exists</small>
-                                </div>
-                                <div *ngIf="phone_number.errors && phone_number.touched">
-                                    <small class="text-red-600" *ngIf="phone_number.errors['required']"> Phone number is required </small>
-                                    <small class="text-red-600" *ngIf="phone_number.errors['pattern']"> Phone number not valid or should start with +251, 09 or 07 </small>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col gap-2">
-                            <label class="p-mb-3"><strong class="text-red-600">*</strong>Gender</label>
-                            <div class="flex flex-col md:flex-row gap-4">
-                                <div class="flex items-center">
-                                    <p-radioButton id="male" name="gender" value="Male" #gender="ngModel" required="true" [ngClass]="{ 'border-red-500': gender.invalid && gender.touched }" [(ngModel)]="user.gender"></p-radioButton>
-                                    <label for="male">Male</label>
-                                </div>
-                                <div class="flex items-center">
-                                    <p-radioButton id="female" name="gender" value="Female" #gender="ngModel" required="true" [ngClass]="{ 'border-red-500': gender.invalid && gender.touched }" [(ngModel)]="user.gender"></p-radioButton>
-                                    <label for="female">Female</label>
-                                </div>
-                                <small class="text-red-600" [class.hidden]="gender.valid || gender.untouched">Gender is required<br /></small>
-                            </div>
-                        </div>
-
-                        <div *ngIf="proceed && !(employee_id.errors && employee_id.touched)">
-                            <div class="flex flex-col gap-2 mb-4">
-                                <label for="jobPosition">Job Title</label>
-                                <p-dropdown
-                                    class="w-full"
-                                    [options]="job_positions"
-                                    optionLabel="title"
-                                    inputId="jobPosition"
-                                    [disabled]="true"
-                                    name="jobPosition"
-                                    #job_position="ngModel"
-                                    [ngClass]="{ 'border-red-500': job_position.invalid && job_position.touched }"
-                                    [(ngModel)]="user.jobPosition"
-                                    placeholder="Select Job Title"
-                                    [filter]="true"
-                                    [virtualScroll]="true"
-                                    [virtualScrollItemSize]="38"
-                                ></p-dropdown>
-                            </div>
-
-                            <div class="flex flex-col gap-2 mb-4">
-                                <label for="region">Region</label>
-                                <p-dropdown
-                                    class="w-full"
-                                    [options]="regions"
-                                    optionLabel="name"
-                                    inputId="region"
-                                    [disabled]="true"
-                                    name="region"
-                                    #region="ngModel"
-                                    [ngClass]="{ 'border-red-500': region.invalid && region.touched }"
-                                    [(ngModel)]="user.region"
-                                    placeholder="Select Region"
-                                    [filter]="true"
-                                    filterValue="name"
-                                    filterPlaceholder="Filter by name"
-                                    [virtualScroll]="true"
-                                    [virtualScrollItemSize]="20"
-                                ></p-dropdown>
-                            </div>
-
-                            <div class="flex flex-col gap-2 mb-4">
-                                <label for="branch">Unit</label>
-                                <p-dropdown
-                                    class="w-full"
-                                    [options]="allBranches"
-                                    optionLabel="name"
-                                    inputId="branch"
-                                    [disabled]="true"
-                                    name="branch"
-                                    #branch="ngModel"
-                                    [ngClass]="{ 'border-red-500': branch.invalid && branch.touched }"
-                                    [(ngModel)]="user.branch"
-                                    placeholder="Select Branch"
-                                    [filter]="true"
-                                    [virtualScroll]="true"
-                                    [virtualScrollItemSize]="38"
-                                ></p-dropdown>
-                            </div>
-                        </div>
-
-                    
-
-                        <div class="grid grid-cols-12 gap-4 mt-4">
-                            <div class="col-span-3 mb-2 mr-2">
-                                <button
-                                    pButton
-                                    pRipple
-                                    label="Save"
-                                    [disabled]="userForm.form.invalid || !proceed || phone_number_status || email_status || user_name_status"
-                                    icon="pi pi-check"
-                                    class="p-button-rounded p-button-outlined"
-                                    (click)="openModal()"
-                                ></button>
-                            </div>
-                            <div class="col-span-3">
-                                <button class="col-md-3" pButton pRipple type="reset" label="Reset" icon="pi pi-times" class="p-button-outlined p-button-danger p-button-rounded"></button>
-                            </div>
-                        </div>
-                    </form>
-
-<!-- Confirmation Dialog -->
-<p-dialog [(visible)]="confrimationDialog" header="Confirm User's information" [modal]="true" styleClass="p-fluid" [maximizable]="true">
-  <ng-template pTemplate="content">
-    <div class="space-y-2">
-      <p><strong>First Name:</strong> {{ user.first_name }}</p>
-      <p><strong>Middle Name:</strong> {{ user.middle_name }}</p>
-      <p><strong>Last Name:</strong> {{ user.last_name }}</p>
-      <p><strong>Gender:</strong> {{ user.gender }}</p>
-      <p><strong>Phone Number:</strong> {{ user.phone_number }}</p>
-      <p><strong>Employee ID:</strong> {{ user.employee_id }}</p>
-      <p><strong>Email:</strong> {{ user.email }}</p>
-      <p><strong>Job Title:</strong> {{ user.jobPosition?.title }}</p>
-      <p *ngIf="user.region?.name"><strong>Place of Work:</strong> {{ user.region?.name }}</p>
-      <p *ngIf="user.branch?.name"><strong>Place of Work:</strong> {{ user.branch?.name }}</p>
-      <p><strong>Authentication Media:</strong> {{ user.authenthication_media || user.phone_number }}</p>
+    <div class="flex flex-col gap-2">
+        <label for="employee_id"><strong class="text-red-600">*</strong>Awash Bank ID</label>
+        <input pInputText type="text" #employee_id="ngModel"
+            [ngClass]="{ 'border-red-500': employee_id.invalid && employee_id.touched }" id="employee_id"
+            placeholder="Staff ID" [(ngModel)]="user.employee_id" name="employee_id"
+            (blur)="checkAwashBankIdStatus($event)" required="true" pattern="^(AB|AIB)\/(\d{1,7})\/(19|20|21)\d{2}$" />
+        <div *ngIf="employee_id.errors && employee_id.touched">
+            <small class="text-red-600" *ngIf="employee_id.errors['required']">Awash Bank ID is required</small>
+            <small class="text-red-600" *ngIf="employee_id.errors['pattern']">Awash ID Incorrect</small>
+        </div>
+        <div *ngIf="employee_id_status">
+            <small class="text-red-600">This ID Does not exist!</small>
+        </div>
+        <div *ngIf="employee_id_status_system">
+            <small class="text-red-600">User Already registered!</small>
+        </div>
     </div>
-  </ng-template>
-  <ng-template pTemplate="footer">
-    <button *ngIf="!loading" pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="addUser()"></button>
-    <button *ngIf="loading" disabled class="bg-blue-500 text-white px-4 py-2 rounded flex items-center gap-2">
-      Loading...
-      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-    </button>
-    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-  </ng-template>
+
+
+    <div *ngIf="!employee_id_status && !employee_id_status_system && proceed && !(employee_id.errors && employee_id.touched)"
+        class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+            <label for="email"><strong class="text-red-600">*</strong>Outlook Address</label>
+            <input type="text" #email="ngModel" [ngClass]="{ 'border-red-500': email.invalid && email.touched }"
+                pInputText id="email" [(ngModel)]="user.email" name="email" (blur)="checkEmailStatus($event)"
+                required="true" pattern="\w+@awashbank\.com$" class="w-full" />
+
+            <div *ngIf="email_status">
+                <small class="text-red-600">Outlook Address Already Exists</small>
+            </div>
+            <div *ngIf="email.errors && email.touched">
+                <small class="text-red-600" *ngIf="email.errors['required']">Outlook Address is required</small>
+                <small class="text-red-600" *ngIf="email.errors['pattern']">Outlook Address should end with
+                    &#64;awashbank.com</small>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <label for="username"><strong class="text-red-600">*</strong>Fusion Essence Username</label>
+            <input type="text" #username="ngModel"
+                [ngClass]="{ 'border-red-500': username.invalid && username.touched }"
+                (blur)="checkUsernameStatus($event)" pInputText id="username" [(ngModel)]="user.username"
+                name="username" [required]="true" class="w-full" />
+            <small class="text-red-600" [class.hidden]="username.valid || username.untouched">Username is
+                required<br /></small>
+
+            <div *ngIf="user_name_status">
+                <small class="text-red-600">Username Already Exists</small>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="grid grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+            <label for="first_name">First Name</label>
+            <input type="text" #first_name="ngModel"
+                [ngClass]="{ 'border-red-500': first_name.invalid && first_name.touched }" pInputText id="first_name"
+                [(ngModel)]="user.first_name" name="first_name" class="w-full" />
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <label for="middle_name">Middle Name</label>
+            <input type="text" #middle_name="ngModel"
+                [ngClass]="{ 'border-red-500': middle_name.invalid && middle_name.touched }" pInputText id="middle_name"
+                [(ngModel)]="user.middle_name" name="middle_name" class="w-full" />
+        </div>
+    </div>
+
+
+    <div class="flex flex-row gap-4">
+        <div class="flex flex-col gap-2 w-1/2">
+            <label for="last_name">Last Name</label>
+            <input type="text" #last_name="ngModel"
+                [ngClass]="{ 'border-red-500': last_name.invalid && last_name.touched }" pInputText id="last_name"
+                [(ngModel)]="user.last_name" name="last_name" />
+        </div>
+
+        <div class="flex flex-col gap-2 w-1/2">
+            <label for="phone_number"> <strong class="text-red-600">*</strong> Phone Number </label>
+            <input type="tel" #phone_number="ngModel"
+                [ngClass]="{ 'border-red-500': phone_number.invalid && phone_number.touched }" pInputText
+                pattern="(\+251|0)(9|7)\d{8}" id="phone_number" (blur)="checkPhoneNumberStatus($event)"
+                [(ngModel)]="user.phone_number" name="phone_number" required="true" />
+            <div *ngIf="phone_number_status">
+                <small class="text-red-600">Phone Number Already Exists</small>
+            </div>
+            <div *ngIf="phone_number.errors && phone_number.touched">
+                <small class="text-red-600" *ngIf="phone_number.errors['required']"> Phone number is required </small>
+                <small class="text-red-600" *ngIf="phone_number.errors['pattern']"> Phone number not valid or should
+                    start with +251, 09 or 07 </small>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex flex-col gap-2">
+        <label class="p-mb-3"><strong class="text-red-600">*</strong>Gender</label>
+        <div class="flex flex-col md:flex-row gap-4">
+            <div class="flex items-center">
+                <p-radioButton id="male" name="gender" value="Male" #gender="ngModel" required="true"
+                    [ngClass]="{ 'border-red-500': gender.invalid && gender.touched }"
+                    [(ngModel)]="user.gender"></p-radioButton>
+                <label for="male">Male</label>
+            </div>
+            <div class="flex items-center">
+                <p-radioButton id="female" name="gender" value="Female" #gender="ngModel" required="true"
+                    [ngClass]="{ 'border-red-500': gender.invalid && gender.touched }"
+                    [(ngModel)]="user.gender"></p-radioButton>
+                <label for="female">Female</label>
+            </div>
+            <small class="text-red-600" [class.hidden]="gender.valid || gender.untouched">Gender is
+                required<br /></small>
+        </div>
+    </div>
+
+    <div *ngIf="proceed && !(employee_id.errors && employee_id.touched)">
+        <div class="flex flex-col gap-2 mb-4">
+            <label for="jobPosition">Job Title</label>
+            <p-dropdown class="w-full" [options]="job_positions" optionLabel="title" inputId="jobPosition"
+                [disabled]="!!user.jobPosition"
+                
+                name="jobPosition" #job_position="ngModel"
+                [ngClass]="{ 'border-red-500': job_position.invalid && job_position.touched }"
+                [(ngModel)]="user.jobPosition" placeholder="Select Job Title" [filter]="true" [virtualScroll]="true"
+                [virtualScrollItemSize]="38"></p-dropdown>
+        </div>
+
+        <div class="flex flex-col gap-2 mb-4">
+            <label for="region">Region</label>
+            <p-dropdown class="w-full" [options]="regions" optionLabel="name" inputId="region" [disabled]="true"
+                name="region" #region="ngModel" [ngClass]="{ 'border-red-500': region.invalid && region.touched }"
+                [(ngModel)]="user.region" placeholder="Select Region" [filter]="true" filterValue="name"
+                filterPlaceholder="Filter by name" [virtualScroll]="true" [virtualScrollItemSize]="20"></p-dropdown>
+        </div>
+
+        <div class="flex flex-col gap-2 mb-4">
+            <label for="branch">Unit</label>
+            <p-dropdown class="w-full" [options]="allBranches" optionLabel="name" inputId="branch" [disabled]="true"
+                name="branch" #branch="ngModel" [ngClass]="{ 'border-red-500': branch.invalid && branch.touched }"
+                [(ngModel)]="user.branch" placeholder="Select Branch" [filter]="true" [virtualScroll]="true"
+                [virtualScrollItemSize]="38"></p-dropdown>
+        </div>
+    </div>
+
+
+
+    <div class="grid grid-cols-12 gap-4 mt-4">
+        <div class="col-span-3 mb-2 mr-2">
+            <button pButton pRipple label="Save"
+                [disabled]="userForm.form.invalid || !proceed || phone_number_status || email_status || user_name_status"
+                icon="pi pi-check" class="p-button-rounded p-button-outlined" (click)="openModal()"></button>
+        </div>
+        <div class="col-span-3">
+            <button class="col-md-3" pButton pRipple type="reset" label="Reset" icon="pi pi-times"
+                class="p-button-outlined p-button-danger p-button-rounded"></button>
+        </div>
+    </div>
+</form>
+
+<p-dialog [(visible)]="confrimationDialog" header="Confirm User's information" [modal]="true" styleClass="p-fluid"
+    [maximizable]="true">
+    <ng-template pTemplate="content">
+        <div class="space-y-2">
+            <p><strong>First Name:</strong> {{ user.first_name }}</p>
+            <p><strong>Middle Name:</strong> {{ user.middle_name }}</p>
+            <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+            <p><strong>Gender:</strong> {{ user.gender }}</p>
+            <p><strong>Phone Number:</strong> {{ user.phone_number }}</p>
+            <p><strong>Employee ID:</strong> {{ user.employee_id }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Job Title:</strong> {{ user.jobPosition?.title }}</p>
+            <p *ngIf="user.region?.name"><strong>Place of Work:</strong> {{ user.region?.name }}</p>
+            <p *ngIf="user.branch?.name"><strong>Place of Work:</strong> {{ user.branch?.name }}</p>
+            <p><strong>Authentication Media:</strong> {{ user.authenthication_media || user.phone_number }}</p>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button *ngIf="!loading" pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+            (click)="addUser()"></button>
+        <button *ngIf="loading" disabled class="bg-blue-500 text-white px-4 py-2 rounded flex items-center gap-2">
+            Loading...
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    </ng-template>
 </p-dialog>

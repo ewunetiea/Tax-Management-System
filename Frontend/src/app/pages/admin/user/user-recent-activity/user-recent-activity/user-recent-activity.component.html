@@ -10,141 +10,147 @@
     <!-- Report Form -->
     <p-card>
         <div class="flex flex-col gap-8">
-         
-            <!-- Content and Users Row -->
+
+            <!-- Users + Content + Action Date in two rows -->
             <div class="flex flex-wrap gap-6">
-              <div class="flex-1 min-w-[250px] flex flex-col" *ngIf="isAdmin">
-                    <label for="finding_date" class="mb-1 font-medium"><strong class="text-red-500">*</strong> Users</label>
-                    <p-multiSelect
-                        [options]="users"
-                        name="users"
-                        appendTo="body"
-                        [(ngModel)]="report.user_ids"
-                        defaultLabel="Select users"
-                        optionLabel="email"
-                        optionValue="id"
-                        display="chip"
-                        selectedItemsLabel="{0} columns selected"
-                        class="w-full"
-                    ></p-multiSelect>
+
+                <!-- Users -->
+                <div class="flex-1 min-w-[250px] flex flex-col" *ngIf="isAdmin">
+                    <label class="mb-1 font-medium">
+                        <strong class="text-red-500">*</strong> Users
+                    </label>
+                    <p-multiSelect [options]="users" name="users" appendTo="body" [(ngModel)]="report.user_ids"
+                        defaultLabel="Select users" optionLabel="email" optionValue="id" display="chip"
+                        selectedItemsLabel="{0} columns selected" class="p-inputtext w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></p-multiSelect>
                 </div>
 
+                <!-- Content -->
                 <div class="flex-1 min-w-[300px] flex flex-col">
                     <label for="content" class="mb-1 font-medium">Content</label>
-                    <textarea id="content" aria-describedby="content-help" [(ngModel)]="report.content" pInputText class="p-inputtext w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+                    <textarea id="content" [(ngModel)]="report.content"
+                        class="p-inputtext w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
                 </div>
-            </div>
 
-            <!-- Datepicker Row -->
-            <div class="flex flex-wrap gap-6">
+                <!-- Action Date (moved here to group with Content) -->
                 <div class="flex-1 min-w-[300px] flex flex-col">
                     <label for="action_date" class="mb-1 font-medium">Action Date</label>
-                    <p-datepicker [(ngModel)]="report.action_date" selectionMode="range" inputId="action_date" [readonlyInput]="false" dateFormat="mm-dd-yy" name="action_date" class="w-full custom-datepicker"></p-datepicker>
+                    <p-datepicker [(ngModel)]="report.action_date" selectionMode="range" inputId="action_date"
+                        dateFormat="mm-dd-yy" class="w-full custom-datepicker">
+                    </p-datepicker>
                 </div>
+
             </div>
 
             <!-- Action Buttons -->
             <div class="flex gap-6">
-                <p-button type="button" label="Generate" styleClass="p-button-outlined p-button-rounded p-button-primary" (click)="generateActivities()"></p-button>
-                <p-button type="reset" label="Reset"  (click)="resetActivities()" styleClass="p-button-outlined p-button-rounded p-button-danger"></p-button>
+                <p-button type="button" label="Search"
+                    styleClass="p-button-outlined p-button-rounded p-button-primary"
+                    (click)="generateActivities()"></p-button>
+
+                <p-button type="reset" label="Reset" styleClass="p-button-outlined p-button-rounded p-button-danger"
+                    (click)="resetActivities()"></p-button>
             </div>
+
+        </div>
+
+
+
+        <div *ngIf="generateButtonClicked" class="mt-6">
+            <p-toolbar>
+                <ng-template pTemplate="left"> </ng-template>
+                <ng-template pTemplate="right">
+                    <div class="flex gap-2">
+                        <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" pTooltip="CSV"
+                            tooltipPosition="bottom"></button>
+                        <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="excelExport()"
+                            class="p-button-success" pTooltip="XLS" tooltipPosition="bottom"></button>
+                        <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()"
+                            class="p-button-warning" pTooltip="PDF" tooltipPosition="bottom"></button>
+                        <button type="button" pButton pRipple icon="pi pi-filter"
+                            (click)="dt.exportCSV({ selectionOnly: true })" class="p-button-info ml-auto"
+                            pTooltip="Selection Only" tooltipPosition="bottom"></button>
+                    </div>
+                </ng-template>
+            </p-toolbar>
+
+            <!-- Table -->
+            <p-table #dt [value]="userActivities" [rows]="5" [paginator]="true" [loading]="loading"
+                [globalFilterFields]="['message', 'created_date', 'email']" [(selection)]="selectedActivities"
+                [rowHover]="true" dataKey="id" [size]="selectedSize" [rowsPerPageOptions]="[5, 10, 25, 50]"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [showCurrentPageReport]="true">
+                <ng-template pTemplate="caption">
+                    <div class="flex items-center justify-between">
+                        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                            (click)="clear(dt)"></button>
+                        <div class="flex justify-center mb-4">
+                            <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false"
+                                optionLabel="name" optionValue="value" />
+                        </div>
+                        <p-iconfield>
+                            <p-inputicon styleClass="pi pi-search" />
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)"
+                                placeholder="Search..." />
+                        </p-iconfield>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th>
+                            <div class="flex items-center">
+                                Full Name
+                                <p-columnFilter type="text" field="first_name" display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="flex items-center">
+                                Email
+                                <p-columnFilter type="text" field="email" display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="flex items-center">
+                                Content
+                                <p-columnFilter type="text" field="message" display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="flex items-center">
+                                Action Date
+                                <p-columnFilter type="date" field="created_date" display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-recentActivity>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="recentActivity"></p-tableCheckbox>
+                        </td>
+                        <td>
+                            {{ recentActivity.user.first_name }}
+                            {{ recentActivity.user.middle_name }}
+                            {{ recentActivity.user.last_name }}
+                        </td>
+                        <td>{{ recentActivity.user.email }}</td>
+                        <td>{{ recentActivity.message }}</td>
+                        <td>{{ recentActivity.created_date  }}</td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="summary">
+                    <div class="flex items-center justify-between">In total there are {{ userActivities ?
+                        userActivities.length : 0 }} actions.</div>
+                </ng-template>
+            </p-table>
         </div>
     </p-card>
 
     <!-- Generated Table -->
-    <p-card *ngIf="generateButtonClicked" class="mt-6">
-        <p-toolbar>
-            <ng-template pTemplate="left"> </ng-template>
-            <ng-template pTemplate="right">
-                <div class="flex gap-2">
-                    <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" pTooltip="CSV" tooltipPosition="bottom"></button>
-                    <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="excelExport()" class="p-button-success" pTooltip="XLS" tooltipPosition="bottom"></button>
-                    <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning" pTooltip="PDF" tooltipPosition="bottom"></button>
-                    <button type="button" pButton pRipple icon="pi pi-filter" (click)="dt.exportCSV({ selectionOnly: true })" class="p-button-info ml-auto" pTooltip="Selection Only" tooltipPosition="bottom"></button>
-                </div>
-            </ng-template>
-        </p-toolbar>
 
-        <!-- Table -->
-        <p-table
-            #dt
-            [value]="userActivities"
-            [rows]="5"
-            [paginator]="true"
-            [loading]="loading"
-            [globalFilterFields]="['message', 'created_date', 'email']"
-            [(selection)]="selectedActivities"
-            [rowHover]="true"
-            dataKey="id"
-            [size]="selectedSize"
-            [rowsPerPageOptions]="[5, 10, 25, 50]"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            [showCurrentPageReport]="true"
-        >
-            <ng-template pTemplate="caption">
-                <div class="flex items-center justify-between">
-                    <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
-                    <div class="flex justify-center mb-4">
-                        <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value" />
-                    </div>
-                    <p-iconfield>
-                        <p-inputicon styleClass="pi pi-search" />
-                        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." />
-                    </p-iconfield>
-                </div>
-            </ng-template>
-
-            <ng-template pTemplate="header">
-                <tr>
-                    <th style="width: 3rem">
-                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                    </th>
-                    <th>
-                        <div class="flex items-center">
-                            Full Name
-                            <p-columnFilter type="text" field="first_name" display="menu"></p-columnFilter>
-                        </div>
-                    </th>
-                    <th>
-                        <div class="flex items-center">
-                            Email
-                            <p-columnFilter type="text" field="email" display="menu"></p-columnFilter>
-                        </div>
-                    </th>
-                    <th>
-                        <div class="flex items-center">
-                            Content
-                            <p-columnFilter type="text" field="message" display="menu"></p-columnFilter>
-                        </div>
-                    </th>
-                    <th>
-                        <div class="flex items-center">
-                            Action Date
-                            <p-columnFilter type="date" field="created_date" display="menu"></p-columnFilter>
-                        </div>
-                    </th>
-                </tr>
-            </ng-template>
-
-            <ng-template pTemplate="body" let-recentActivity>
-                <tr>
-                    <td>
-                        <p-tableCheckbox [value]="recentActivity"></p-tableCheckbox>
-                    </td>
-                    <td>
-                        {{ recentActivity.user.first_name }}
-                        {{ recentActivity.user.middle_name }}
-                        {{ recentActivity.user.last_name }}
-                    </td>
-                    <td>{{ recentActivity.user.email }}</td>
-                    <td>{{ recentActivity.message }}</td>
-                    <td>{{ recentActivity.created_date | timeago: true }}</td>
-                </tr>
-            </ng-template>
-
-            <ng-template pTemplate="summary">
-                <div class="flex items-center justify-between">In total there are {{ userActivities ? userActivities.length : 0 }} actions.</div>
-            </ng-template>
-        </p-table>
-    </p-card>
 </main>

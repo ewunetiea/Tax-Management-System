@@ -74,10 +74,13 @@
                 <label for="drafted_date" class="block font-bold mb-3">
                     <strong class="text-danger"></strong> Drafted Date
                 </label>
+
+
                 <p-datepicker id="drafted_date" [(ngModel)]="payload.drafted_date" name="drafted_date"
-                    dateFormat="dd-mm-yy" [showIcon]="true" [readonlyInput]="true" inputId="drafted_date"
-                    [selectionMode]="'range'" placeholder="Select Drafted date" required
-                    class="w-full custom-datepicker"></p-datepicker>
+                    dateFormat="dd-mm-yy" [showIcon]="true" [readonlyInput]="false" [selectionMode]="'range'"
+                    [showButtonBar]="true" placeholder="Select Drafted date" class="w-full custom-datepicker">
+                </p-datepicker>
+
 
             </div>
 
@@ -88,7 +91,7 @@
                 </label>
                 <p-datepicker id="maker_date" [(ngModel)]="payload.maker_date" name="maker_date" dateFormat="dd-mm-yy"
                     [showIcon]="true" [readonlyInput]="true" inputId="maker_date" [selectionMode]="'range'"
-                    placeholder="Select created date" required class="w-full custom-datepicker"></p-datepicker>
+                    placeholder="Select submitted date"  class="w-full custom-datepicker"></p-datepicker>
 
 
             </div>
@@ -99,7 +102,7 @@
                 </label>
                 <p-datepicker id="checked_date" [(ngModel)]="payload.checked_date" name="checked_date"
                     dateFormat="dd-mm-yy" [showIcon]="true" [readonlyInput]="true" inputId="checked_date"
-                    [selectionMode]="'range'" placeholder="Select created date" required
+                    [selectionMode]="'range'" placeholder="Select Checked date" 
                     class="w-full custom-datepicker"></p-datepicker>
 
 
@@ -111,7 +114,7 @@
                 </label>
                 <p-datepicker id="rejected_date" [(ngModel)]="payload.rejected_date" name="rejected_date"
                     dateFormat="dd-mm-yy" [showIcon]="true" [readonlyInput]="true" inputId="rejected_date"
-                    [selectionMode]="'range'" placeholder="Select created date" required
+                    [selectionMode]="'range'" placeholder="Select rejected date" 
                     class="w-full custom-datepicker"></p-datepicker>
 
             </div>
@@ -122,23 +125,25 @@
                 </label>
                 <p-datepicker id="checked_date" [(ngModel)]="payload.checked_date" name="checked_date"
                     dateFormat="dd-mm-yy" [showIcon]="true" [readonlyInput]="true" inputId="checked_date"
-                    placeholder="Select created date" required class="w-full custom-datepicker"
+                    placeholder="Select approved date" required class="w-full custom-datepicker"
                     [selectionMode]="'range'"></p-datepicker>
 
             </div>
             <div class="flex gap-4 mt-4 justify-center">
 
-                    <button pButton pRipple  label="Search" icon="pi pi-search" [loading]="submitted" type="submit"  class="p-button-rounded p-button-info p-button-outlined" >
-                    </button>
+                <button pButton pRipple label="Search" icon="pi pi-search" [loading]="submitted" type="submit"
+                    class="p-button-rounded p-button-info p-button-outlined">
+                </button>
 
-                   
 
-                    <button pButton pRipple  label="Reset" icon="pi pi-refresh" type="button" (click)="onReset()" class="p-button-rounded p-button-danger p-button-outlined">
-                    </button>
+
+                <button pButton pRipple label="Reset" icon="pi pi-refresh" type="button" (click)="onReset()"
+                    class="p-button-rounded p-button-danger p-button-outlined">
+                </button>
             </div>
 
 
-            
+
 
 
         </div>

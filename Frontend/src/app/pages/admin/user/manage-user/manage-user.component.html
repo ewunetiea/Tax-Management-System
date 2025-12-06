@@ -65,6 +65,13 @@
                 <th style="width: 3rem">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
+
+                <th style="min-width: 12rem">
+                    <div class="flex items-center">
+                        Fussion Username
+                        <p-columnFilter type="text" field="username" display="menu"></p-columnFilter>
+                    </div>
+                </th>
                 <th style="min-width: 12rem">
                     <div class="flex items-center">
                         First Name
@@ -74,12 +81,6 @@
 
 
 
-                <th style="min-width: 12rem">
-                    <div class="flex items-center">
-                        Fussion Username
-                        <p-columnFilter type="text" field="username" display="menu"></p-columnFilter>
-                    </div>
-                </th>
                 <th style="min-width: 12rem">
                     <div class="flex items-center">
                         Middle Name
@@ -92,6 +93,7 @@
                         <p-columnFilter type="text" field="last_name" display="menu"></p-columnFilter>
                     </div>
                 </th>
+
 
 
 
@@ -124,11 +126,14 @@
                 <td>
                     <p-tableCheckbox [value]="user"></p-tableCheckbox>
                 </td>
+
                 <td>{{ user.username }}</td>
+
                 <td>{{ user.first_name }}</td>
 
                 <td>{{ user.middle_name }}</td>
                 <td>{{ user.last_name }}</td>
+
 
 
                 <td>

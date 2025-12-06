@@ -36,7 +36,7 @@ interface ExportColumn {
   imports: [SharedUiModule, AnnouncementCreateEditComponent, DataViewModule, SplitButtonModule, EditorModule]
 })
 export class AnnouncementComponent implements OnInit {
-  expandedRows = {};
+  expandedRows: { [key: number]: boolean } = {};
   selectedPdf: SafeResourceUrl | null = null;
   showPdfModal = false;
   announcemetDialog: boolean = false;
@@ -92,6 +92,7 @@ export class AnnouncementComponent implements OnInit {
   loadAnnouncements(announcmentPayload: AnnouncementPayload) {
     this.announcemetService.fetchAnnouncemets(announcmentPayload).subscribe(
       (response) => {
+        console.log("Announcementttttttttttttttttttttttttttttttttttttt:",response);
         this.announcements = (response as any).map((announcement: any) => {
           // Detect file type from base64
           const fileType = this.getFileType(announcement.image);
@@ -386,4 +387,77 @@ export class AnnouncementComponent implements OnInit {
         }
     }
 
+    onRowExpand(event: any) {
+    const announcement = event.data;
+    if (!announcement.announcementFile || announcement.announcementFile.length === 0) {
+      return;
+    }
+
+    const fileFetchPromises = announcement.announcementFile.map((file: any) => {
+      if (!file?.fileName) return Promise.resolve(null);
+
+      return this.fileDownloadService.fetcAnnouncementhFileByFileName(file.fileName).toPromise()
+        .then((blob: Blob | undefined) => {
+          if (!blob) {
+            console.warn(`No blob returned for file: ${file.fileName}`);
+            return null;
+          }
+
+          const newFile = { ...file };
+          newFile.fileType = blob.type;
+
+          // PDF
+          if (blob.type === 'application/pdf') {
+            // Revoke previous URL if exists
+            if (newFile.pdfUrl) {
+              URL.revokeObjectURL(
+                (newFile.pdfUrl as any).changingThisBreaksApplicationSecurity
+              );
+            }
+            const blobUrl = URL.createObjectURL(blob);
+            newFile.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl);
+            newFile.file = null;
+            return newFile;
+          }
+
+          // Image
+          if (blob.type.startsWith('image/')) {
+            return new Promise((resolve) => {
+              const reader = new FileReader();
+              reader.onload = (e: any) => {
+                newFile.file = e.target.result.split(',')[1]; // base64
+                newFile.pdfUrl = null;
+                resolve(newFile);
+              };
+              reader.readAsDataURL(blob);
+            });
+          }
+
+          // Word or other files
+          newFile.file = blob;
+          newFile.pdfUrl = null;
+          return newFile;
+        })
+        .catch((error) => {
+          console.error('Error fetching file:', error);
+          return null;
+        });
+    });
+
+    Promise.all(fileFetchPromises).then((results) => {
+    announcement.announcementFile = results.filter(file => file !== null);
+
+      // Force change detection for PDFs
+      setTimeout(() => {
+
+      }, 0);
+    });
+  }
+
+   onRowCollapse(event: any) {
+    const announcement = event.data;
+    delete this.expandedRows[announcement.Id];
+  }
+
+  
 }

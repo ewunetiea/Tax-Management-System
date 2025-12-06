@@ -12,8 +12,6 @@ const baseUrl = `${environment.backendUrl}/search`;
 export class TaxableSearchEngineService {
   constructor(private http: HttpClient) { }
 
-  
-
   getTaxesForReviewer(tax: TaxableSearchEngine): Observable<Tax[]> {
     return this.http.post<Tax[]>(`${baseUrl}/reviewer`, tax);
   }

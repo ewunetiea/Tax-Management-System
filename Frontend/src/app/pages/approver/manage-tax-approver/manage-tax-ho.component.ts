@@ -41,9 +41,9 @@ export class ManageTaxHoComponent {
   activeIndex1: number = 0;
   activeState: boolean[] = [true, false, false, false, false];
   pdfSrc: any;
-  selectedPdf: SafeResourceUrl | null = null; // PDF to preview
+  selectedPdf: SafeResourceUrl | null = null; 
   showPdfModal = false;
-    isDialogVisible = false;
+  isDialogVisible = false;
 
   constructor(
     private manageTaxHoService: ManageTaxApproverService,
@@ -237,8 +237,6 @@ export class ManageTaxHoComponent {
     }
   }
 
-
-
   closeModal() {
     this.showPdfModal = false;
     this.selectedPdf = null;
@@ -247,8 +245,6 @@ export class ManageTaxHoComponent {
 
   onRowExpand(event: any) {
     const tax = event.data;
-
-
     if (!tax.taxFile || tax.taxFile.length === 0) {
       return;
     }

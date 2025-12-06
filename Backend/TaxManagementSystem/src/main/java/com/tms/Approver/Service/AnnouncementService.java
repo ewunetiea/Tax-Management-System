@@ -74,33 +74,42 @@ public class AnnouncementService {
         // Create announcement DB record
         Long announcementId = announcementMapper.createCreateAnnouncement(announcement);
         announcement.setId(announcementId);
-
+        
         // Handle files
         if (files != null && files.length > 0) {
             for (MultipartFile file : files) {
                 if (file.isEmpty())
-                    continue;
+            continue;
 
-                // Check file existence
-                if (announcementMapper.checkFileNameExistance(file.getOriginalFilename())) {
-                    announcement.setFileExsistance("Exists");
-                    return announcement;
-                }
-
-                // Build file metadata (safe, no list indexing)
-                AnnouncementFile af = new AnnouncementFile();
-                af.setSupportId(mainGuid);
-                af.setAnnouncement_id(announcementId);
-                af.setFileName(file.getOriginalFilename());
-
-                // Save metadata to DB FIRST
-                announcementMapper.insertFile(af);
-
-                // Save physical file
-                File destination = new File(dir, file.getOriginalFilename());
-                file.transferTo(destination);
-            }
+        // Check if file name already exists
+        if (announcementMapper.checkFileNameExistance(file.getOriginalFilename())) {
+            announcement.setFileExsistance("Exists");
+            return announcement;
         }
+
+        // Extract file name & extension
+        String originalName = file.getOriginalFilename();
+        String extension = "";
+
+        if (originalName != null && originalName.contains(".")) {
+            extension = originalName.substring(originalName.lastIndexOf("."));
+        }
+
+        // Create file metadata
+        AnnouncementFile af = new AnnouncementFile();
+        af.setSupportId(mainGuid);
+        af.setAnnouncement_id(announcementId);
+        af.setFileName(originalName);
+        af.setExtension(extension);   
+
+        // Save metadata to DB
+        announcementMapper.insertFile(af);
+
+        // Save the physical file
+        File destination = new File(dir, originalName);
+        file.transferTo(destination);
+    }
+}
 
         // Log recent activity ONCE
         RecentActivity ra = new RecentActivity();
@@ -113,14 +122,7 @@ public class AnnouncementService {
         return announcement;
     }
 
-    // @Transactional
-    // public void updateAnnouncement(Announcement announcement) {
-    // announcementMapper.updateAnnouncements(announcement);
-    // recentActivity.setMessage(announcement.getTitle() + " is updated ");
-    // user.setId(announcement.getPosted_by());
-    // recentActivity.setUser(user);
-    // recentActivityMapper.addRecentActivity(recentActivity);
-    // }
+    
 
     @Transactional
     public void updateAnnouncement(Announcement announcement, MultipartFile[] files) throws IOException {

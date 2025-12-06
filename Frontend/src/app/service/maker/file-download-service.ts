@@ -15,6 +15,11 @@ fetchFileByFileName(fileName: string) {
     return this.http.get(`${baseUrl}/${fileName}`, { responseType: 'blob' });
 }
 
+
+fetcAnnouncementhFileByFileName(fileName: string) {
+    return this.http.get(`${baseUrl}/announcement/${fileName}`, { responseType: 'blob' });
+}
+
 }
 
 

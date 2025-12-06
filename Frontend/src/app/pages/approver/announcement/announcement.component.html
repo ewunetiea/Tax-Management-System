@@ -27,7 +27,6 @@
 
 <p-toast />
 <p-table 
-[expandedRowKeys]="expandedRows" 
 #dt
 [value]="announcements"
  [rows]="5" 
@@ -39,6 +38,9 @@
 [rowHover]="true"
  dataKey="id"
  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} announcements"
+ [expandedRowKeys]="expandedRows" 
+  (onRowExpand)="onRowExpand($event)"
+  (onRowCollapse)="onRowCollapse($event)" [tableStyle]="{ 'min-width': '230rem' }"
   [showCurrentPageReport]="true"
   [rowsPerPageOptions]="[10, 20, 30]" 
   [size]="selectedSize">

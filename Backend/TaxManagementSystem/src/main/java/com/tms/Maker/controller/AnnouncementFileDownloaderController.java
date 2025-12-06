@@ -10,20 +10,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.tms.Maker.service.FileDownloadService;
+import com.tms.Maker.service.AnnouncementFileDownloadService;
 
 @RestController
-@RequestMapping("/api/maker/download")
-public class FileDownloderController {
-
+@RequestMapping("/api/maker/download/announcement")
+public class AnnouncementFileDownloaderController {
     @Autowired
-    private FileDownloadService fileDownloadService;
+    private AnnouncementFileDownloadService fileDownloadService;
 
-    private static final Logger logger = LoggerFactory.getLogger(FileDownloadService.class);
+    private static final Logger logger = LoggerFactory.getLogger(AnnouncementFileDownloaderController.class);
 
-    @GetMapping("/{fileName}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable("fileName") String fileName) {
+     @GetMapping("/{fileName}")
+    public ResponseEntity<Resource> getAnnouncementFile(@PathVariable("fileName") String fileName) {
         try {
 
             Resource resource = fileDownloadService.getFileResource(fileName);
@@ -54,5 +52,4 @@ public class FileDownloderController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
 }

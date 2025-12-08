@@ -32,9 +32,9 @@ interface ExportColumn {
     styleUrls: ['./manage-tax.component.css'],
     providers: [ConfirmationService, MessageService]
 })
-export class ManageTax implements OnInit {
+export class ManageTaxComponent implements OnInit {
     expandedRows: { [key: number]: boolean } = {};
-    selectedPdf: SafeResourceUrl | null = null; 
+    selectedPdf: SafeResourceUrl | null = null;
     showPdfModal = false;
     taxDialog: boolean = false;
     taxes: Tax[] = [];
@@ -90,14 +90,11 @@ export class ManageTax implements OnInit {
 
     onSearchResults(taxes: Tax[]) { //  search results are passed from child to parent
         this.taxes = taxes;
-        
-
-        
         this.loading = false;
 
     }
 
-    onTaxesaved(saveTax: Tax) { // newly created tax are passed from parent to child
+    onTaxesaved(saveTax: Tax) { 
 
         if (this.isEdit) {
             const index = this.taxes.findIndex(a => a.mainGuid === saveTax.mainGuid);
@@ -106,8 +103,10 @@ export class ManageTax implements OnInit {
             }
         } else {
 
-            this.taxes = [saveTax, ...this.taxes];
+        this.taxes = [saveTax, ...this.taxes];
         }
+
+    
 
         this.taxDialog = false;
         this.tax = {} as Tax;
@@ -203,7 +202,16 @@ export class ManageTax implements OnInit {
     }
 
     deleteTaxes(taxes: Tax | Tax[] | null) {
+
+
+        if (!taxes) return;
+
         const itemsToDelete = Array.isArray(taxes) ? taxes : [taxes];
+
+    // Assign user_id to the first item
+    if (itemsToDelete.length > 0) {
+        itemsToDelete[0].user_id = this.storageService?.getUser().id; 
+    }
 
         this.confirmationService.confirm({
             message: `Are you sure you want to delete ${itemsToDelete.length} tax(es)?`,
@@ -266,7 +274,7 @@ export class ManageTax implements OnInit {
     toggle(index: number) {
         this.activeState = this.activeState.map((_, i) => i === index ? !this.activeState[i] : false);
     }
-    
+
 
 
     clear(table: Table) {
@@ -276,6 +284,9 @@ export class ManageTax implements OnInit {
 
     onRowExpand(event: any) {
         const tax = event.data;
+
+
+        console.log(event.data)
 
 
         if (!tax.taxFile || tax.taxFile.length === 0) {
@@ -441,16 +452,28 @@ export class ManageTax implements OnInit {
     }
 
 
+    private statusMap: {
+    [key: number]: { label: string; severity: ButtonSeverity; outlined: boolean }
+} = {
+    6: { label: "Not Submited", severity: "help" as ButtonSeverity, outlined: true },
+    0: { label: "Waiting for Review", severity: "primary" as ButtonSeverity, outlined: true },
+    1: { label: "Checker Sent", severity: "help" as ButtonSeverity, outlined: true },
+    2: { label: "Checker Rejected", severity: "danger" as ButtonSeverity, outlined: true },
+    3: { label: "Approver Rejected", severity: "danger" as ButtonSeverity, outlined: true },
+    // 4: { label: "Reviewed", severity: "primary" as ButtonSeverity, outlined: true },
+    5: { label: "Settled", severity: "success" as ButtonSeverity, outlined: true }
+};
 
-    private statusMap: { [key: number]: { label: string; severity: ButtonSeverity } } = {
-        6: { label: "Not Submited", severity: "help" as ButtonSeverity },
-        0: { label: "waiting for Review", severity: "primary" as ButtonSeverity },
-        1: { label: "Checker Sent", severity: "help" as ButtonSeverity },
-        2: { label: "Checker Rejected", severity: "danger" as ButtonSeverity },
-        3: { label: "Approver Rejected", severity: "danger" as ButtonSeverity },
-        // 4: { label: "Reviewed", severity: "primary" as ButtonSeverity },
-        5: { label: "Settled", severity: "success" as ButtonSeverity }
-    };
+
+    // private statusMap: { [key: number]: { label: string; severity: ButtonSeverity } } = {
+    //     6: { label: "Not Submited", severity: "help" as ButtonSeverity },
+    //     0: { label: "Waiting for Review", severity: "primary" as ButtonSeverity },
+    //     1: { label: "Checker Sent", severity: "help" as ButtonSeverity },
+    //     2: { label: "Checker Rejected", severity: "danger" as ButtonSeverity },
+    //     3: { label: "Approver Rejected", severity: "danger" as ButtonSeverity },
+    //     // 4: { label: "Reviewed", severity: "primary" as ButtonSeverity },
+    //     5: { label: "Settled", severity: "success" as ButtonSeverity }
+    // };
 
     getStatusInfo(status: number): { label: string; severity: ButtonSeverity } {
         return this.statusMap[status] || { label: "Unknown status", severity: "info" as ButtonSeverity };
@@ -476,11 +499,11 @@ export class ManageTax implements OnInit {
         this.isDialogVisible = true;
     }
 
-        closeModalPDF() {
+    closeModalPDF() {
         this.showPdfModal = false;
         this.selectedPdf = null;
     }
-    
+
     hideDialogCrateEdit() {
         this.taxDialog = false;
         this.submitted = false;

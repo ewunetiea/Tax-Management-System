@@ -188,7 +188,11 @@
                     <p-columnFilter type="date" field="checked_Date" display="menu" />
                   </div>
                 </th>
+<<<<<<< HEAD
                 <th *ngIf="statusRoute !== 'settled' && statusRoute !== 'rejected'" style="width: 12rem"> Action </th>
+=======
+                <th *ngIf="statusRoute !== 'settled' && statusRoute !== 'rejected'" style="width: 15rem"> Action </th>
+>>>>>>> origin/InputFiedCorrectionBranch
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-tax let-expanded="expanded">
@@ -268,7 +272,7 @@
                   tooltipPosition="bottom" 
                   (click)="rejectTax(tax)" 
                   icon="pi pi-times-circle"
-                  class="p-button-rounded p-button-outlined p-button-danger"></button>
+                  class="p-button-rounded p-button-outlined p-button-danger mr-2"></button>
                   <button 
                   *ngIf="statusRoute === 'sent'" 
                   pButton 
@@ -277,7 +281,7 @@
                   tooltipPosition="bottom"
                    (click)="rejectTax(tax)" 
                    icon="pi pi-times-circle"
-                  class="p-button-rounded p-button-outlined p-button-help"></button>
+                  class="p-button-rounded p-button-outlined p-button-help mr-2 "></button>
                 </td>
               </tr>
             </ng-template>

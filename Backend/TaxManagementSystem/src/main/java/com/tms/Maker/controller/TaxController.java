@@ -41,9 +41,10 @@ public class TaxController {
 		try {
 			List<Tax> tax = new ArrayList<>();
 			tax = taxableService.fetchTaxBasedonStatus(payload);
+
 			return new ResponseEntity<>(tax, HttpStatus.OK);
 		} catch (Exception ex) {
-			logger.error("Error while fetching on going announcements", ex);
+			logger.error("Error while fetching taxes", ex);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -54,9 +55,10 @@ public class TaxController {
 		try {
 			List<Tax> tax = new ArrayList<>();
 			tax = taxableService.fetchTaxProgress(payload);
+
 			return new ResponseEntity<>(tax, HttpStatus.OK);
 		} catch (Exception ex) {
-			logger.error("Error while fetching on going announcements", ex);
+			logger.error("Error while fetching taxes progress", ex);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -77,19 +79,17 @@ public class TaxController {
 
 			if (tax.getId() != null) {
 
-				
+				savedTax = taxableService.updateTax(tax, files);
 
-				taxableService.updateTax(tax, files);
-
-				return new ResponseEntity<>(tax, HttpStatus.OK);
+				return new ResponseEntity<>(savedTax, HttpStatus.OK);
 
 			}
 
 			else {
 
-				tax = taxableService.createTaxWithFiles(tax, files);
+				savedTax = taxableService.createTaxWithFiles(tax, files);
 
-				if (tax.getFileExsistance().contains("Exists")) {
+				if (savedTax.getFileExsistance().contains("Exists")) {
 
 					Map<String, String> response = new HashMap<>();
 					response.put("message", "File already exists");
@@ -98,10 +98,7 @@ public class TaxController {
 
 				} else {
 
-					tax.setId(savedTax.getId());
-					tax.setMainGuid(savedTax.getMainGuid());
-
-					return new ResponseEntity<>(tax, HttpStatus.OK);
+					return new ResponseEntity<>(savedTax, HttpStatus.OK);
 
 				}
 
@@ -117,13 +114,16 @@ public class TaxController {
 	@PostMapping("/delete")
 	public ResponseEntity<Tax> deleteTax(@RequestBody List<Tax> taxs,
 			HttpServletRequest request) {
+		System.out.println(taxs);
 		try {
 
 			for (Tax acc : taxs) {
-				taxableService.deleteTax(acc.getId());
+				taxableService.deleteTax(acc, taxs.get(0).getUser_id());
 			}
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {
+
+			System.out.println(ex);
 			logger.error("Error while deleting account", ex);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}

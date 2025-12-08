@@ -29,6 +29,8 @@ public class MakerSearchPayload {
     private Date maked_date;
     private String document_type;
     private Long user_id;
+     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private List<Date> drafted_date; 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private List<Date> maker_date; 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

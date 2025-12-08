@@ -76,7 +76,7 @@ public interface TaxableMapper {
                         "t.graduatetaxPool, t.graduaTotBasSalary, t.graduateTotaEmployee, t.graduatetaxWithHold,",
                         "t.taxCategoryList, t.Remark, t.maker_name, t.maker_date, t.checker_name, t.checked_Date,",
                         "t.updated_user_name, t.updated_event_date, t.from_List, t.sendTo_List, t.Category_List,",
-                        " t.status, t.reference_number, t.remark, t.drafted_date , t.maker_date, t.approved_date ",
+                        " t.status, t.reference_number, t.remark, t.drafted_date , t.maker_date, t.approved_date , t.checker_rejected_reason, t.approver_rejected_reason, t.checker_rejected_date, t.approver_rejected_date  ",
                         "FROM tblTaxable t",
                         "LEFT JOIN branch b ON t.from_ = b.id",
                         "LEFT JOIN branch b2 ON t.sendTo_ = b2.id",
@@ -94,6 +94,10 @@ public interface TaxableMapper {
                         "<if test='tax_category_id != null and tax_category_id != 0'>",
                         "   AND t.taxCategory = #{tax_category_id}",
                         "</if>",
+
+                        "<if test= 'drafted_date != null and drafted_date.size() == 2 '> " +
+                                        "  AND t.drafted_date BETWEEN #{drafted_date[0]} AND #{drafted_date[1]} " +
+                                        "   </if> ",
 
                         "<if test= 'maker_date != null and maker_date.size() == 2 '> " +
                                         "  AND t.maker_date BETWEEN #{maker_date[0]} AND #{maker_date[1]} " +
@@ -178,8 +182,6 @@ public interface TaxableMapper {
         @Results(value = {
                         @Result(property = "id", column = "id"),
 
-                      
-
                         @Result(property = "taxFile", column = "id", many = @Many(select = "com.tms.Maker.mapper.TaxFileMapper.getFileByFileById")),
 
         })
@@ -202,5 +204,30 @@ public interface TaxableMapper {
 
         @Select("select status  from tblTaxable   where id  = #{id}")
         public int fetchTaxByID(Long id);
+
+        @Select({
+                        "<script>",
+                        "SELECT t.id as id, t.mainGuid, b.name as initiator_branch, b2.name as destination_branch,",
+                        "t.taxCategory, t.noOfEmployee, t.taxableAmount, t.taxWithHold, t.incometaxPoolAmount,",
+                        "t.graduatetaxPool, t.graduaTotBasSalary, t.graduateTotaEmployee, t.graduatetaxWithHold,",
+                        "t.taxCategoryList, t.Remark, t.maker_name, t.maker_date, t.checker_name, t.checked_Date,",
+                        "t.updated_user_name, t.updated_event_date, t.from_List, t.sendTo_List, t.Category_List,",
+                        " t.status, t.reference_number, t.remark, t.drafted_date , t.maker_date, t.approved_date , t.checker_rejected_reason, t.approver_rejected_reason, t.checker_rejected_date, t.approver_rejected_date  ",
+                        "FROM tblTaxable t",
+                        "LEFT JOIN branch b ON t.from_ = b.id",
+                        "LEFT JOIN branch b2 ON t.sendTo_ = b2.id",
+
+                        "WHERE t.id = #{id}",
+
+                        "</script>"
+
+        })
+
+        @Results(value = {
+                        @Result(property = "id", column = "id"),
+                        @Result(property = "taxFile", column = "id", many = @Many(select = "com.tms.Maker.mapper.TaxFileMapper.getFileByFileById")),
+
+        })
+        public Tax fetchTaxById(Long id);
 
 }

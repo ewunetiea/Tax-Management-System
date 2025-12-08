@@ -41,6 +41,22 @@ public class UserRateLimitFilter extends OncePerRequestFilter {
             "/v3/api-docs/"
     );
 
+    //  private static final Set<String> EXCLUDED_PATHS = Set.of(
+    //         "/tmsbackend/api/auth/signin",
+    //         "/tmsbackend/api/auth/force-login",
+    //         "/tmsbackend/api/auth/refreshtoken",
+    //         "/tmsbackend/api/auth/signup",
+    //         "/tmsbackend/api/checkUserEmployeeIdSystem",
+    //         "/tmsbackend/api/checkUserEmployeeId",
+    //         "/api/region/active",
+    //         "/tmsbackend/api/branch/active",
+    //         "/tmsbackend/api/selected_job_position",
+    //         "/swagger-ui",
+    //         "/swagger-ui/",
+    //         "/v3/api-docs",
+    //         "/v3/api-docs/"
+    // );
+
     // One bucket per user
     private final Map<String, Bucket> buckets = new ConcurrentHashMap<>();
 

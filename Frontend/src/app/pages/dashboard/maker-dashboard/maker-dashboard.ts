@@ -4,8 +4,6 @@ import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { CardSkeleton } from "../../skeleton/card/four-card";
 import { SharedUiModule } from '../../../../shared-ui';
 import { BarAndLineChartSkeleton } from "../../skeleton/bar-and-lign-chart/bar-and-lign-chart";
-import { PieDougnutPolarSkeleton } from "../../skeleton/dougnut-polar-chart/pie-dougnut-polar";
-import { PieDougnutPolarSkeletonDescription } from "../../skeleton/dougnut-polar-chart/polar-pie-dougnut-title";
 import { AnnouncementService } from '../../../service/approver/announcement.service';
 import { Announcement } from '../../../models/approver/announcement';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -22,7 +20,7 @@ import { TimelineModule } from 'primeng/timeline';
 @Component({
     selector: 'app-maker-dashboard',
     standalone: true,
-    imports: [SharedUiModule, CardSkeleton, BarAndLineChartSkeleton, PieDougnutPolarSkeleton, PieDougnutPolarSkeletonDescription, EditorModule, TimelineModule],
+    imports: [SharedUiModule, CardSkeleton, BarAndLineChartSkeleton, EditorModule, TimelineModule],
     templateUrl: './maker-dashboard.component.html',
 })
 export class MakerDashboard implements OnInit {
@@ -82,17 +80,17 @@ export class MakerDashboard implements OnInit {
             barData: this.makerDashboardService.getBarChartData(this.storageService.getUser().id).pipe(
                 catchError(err => { console.error(err); return of([]); })
             ),
-            polarChartData: this.makerDashboardService.polarChartData(this.storageService.getUser().id).pipe(
-                catchError(err => { console.error(err); return of({ drafted: 0, waiting: 0, reviewed: 0, approved: 0 }); })
-            ),
-            radarData: this.makerDashboardService.getRadarAgeData(this.storageService.getUser().id).pipe(
-                catchError(err => { console.error(err); return of([]); })
-            )
+            // polarChartData: this.makerDashboardService.polarChartData(this.storageService.getUser().id).pipe(
+            //     catchError(err => { console.error(err); return of({ drafted: 0, waiting: 0, reviewed: 0, approved: 0 }); })
+            // ),
+            // radarData: this.makerDashboardService.getRadarAgeData(this.storageService.getUser().id).pipe(
+            //     catchError(err => { console.error(err); return of([]); })
+            // )
 
         })
             .pipe(takeUntil(this.destroy$))
             .subscribe({
-                next: ({ cardData, barData, polarChartData, radarData }) => {
+                next: ({ cardData, barData,  }) => {
 
 
                     // Card and bar chart
@@ -103,9 +101,9 @@ export class MakerDashboard implements OnInit {
                     this.initBarChart(this.draftedData, this.reviewedData, this.approvedData);
 
                     // Polar chart
-                    this.initPolarChart(polarChartData);
+                    // this.initPolarChart(polarChartData);
 
-                    this.radarData = radarData;
+                    // this.radarData = radarData;
 
                     this.fetchRadarData(this.radarData);
 

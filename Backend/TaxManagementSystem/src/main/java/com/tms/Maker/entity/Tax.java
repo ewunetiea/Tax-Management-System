@@ -16,13 +16,13 @@ public class Tax {
     private int sendTo_;
     private int taxCategory;
     private int noOfEmployee;
-    private float taxableAmount;
-    private float taxWithHold;
-    private float incometaxPoolAmount;
-    private float graduatetaxPool;
-    private float graduaTotBasSalary;
+    private double taxableAmount;
+    private double taxWithHold;
+    private double incometaxPoolAmount;
+    private double graduatetaxPool;
+    private double graduaTotBasSalary;
     private int graduateTotaEmployee;
-    private float graduatetaxWithHold;
+    private double graduatetaxWithHold;
     private String taxCategoryList;
     private String Remark;
     private String maker_name;
@@ -55,5 +55,6 @@ public class Tax {
     private Long maker_id;
     private Date drafted_date;
     private String fileExsistance;
+
 
 }

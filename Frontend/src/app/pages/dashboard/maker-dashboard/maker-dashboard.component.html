@@ -163,37 +163,7 @@
     </div>
 
 
+  
 
-
-    <div class="col-span-12 xl:col-span-6">
-        <div class="card flex flex-col items-center">
-            <div class="font-semibold text-xl mb-4" *ngIf="!loading">Polar Area</div>
-            <p-chart type="polarArea" [data]="polarData" [options]="polarOptions" *ngIf="!loading"></p-chart>
-
-
-            <div class="flex justify-center gap-4 mb-3" *ngIf="loading">
-                <app-pie-dougnut-polar-description-skeleton></app-pie-dougnut-polar-description-skeleton>
-            </div>
-            <div *ngIf="loading">
-                <app-pie-dougnut-polar-skeleton></app-pie-dougnut-polar-skeleton>
-            </div>
-            <p-skeleton shape="circle" size="21rem" *ngIf="loading"></p-skeleton>
-        </div>
-
-    </div>
-
-    <div class="col-span-12 xl:col-span-6">
-        <div class="card flex flex-col items-center">
-            <div class="font-semibold text-xl mb-4" *ngIf="!loading">Radar</div>
-            <p-chart type="radar" [data]="radarData" [options]="radarOptions" *ngIf="!loading"></p-chart>
-
-            <div class="flex justify-center gap-4 mb-3" *ngIf="loading">
-                <app-pie-dougnut-polar-description-skeleton></app-pie-dougnut-polar-description-skeleton>
-            </div>
-            <div *ngIf="loading">
-                <app-pie-dougnut-polar-skeleton></app-pie-dougnut-polar-skeleton>
-            </div>
-            <p-skeleton shape="circle" size="21rem" *ngIf="loading"></p-skeleton>
-        </div>
-    </div>
+  
 </p-fluid>

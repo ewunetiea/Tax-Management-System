@@ -45,6 +45,8 @@ export class TaxCreateEditComponent {
     selectedBranchId: number | undefined; // Local variable for dropdown binding
     isMaker: boolean = false
     maxDate: Date = new Date();
+    current_date: Date = new Date();
+
 
     submitted = false;
     invalidXss = false;
@@ -69,12 +71,14 @@ export class TaxCreateEditComponent {
             this.isMaker = true
         }
 
+
         this.user_branch = this.storageService.getUser().branch.name
 
         this.getTaxCategories()
         this.getBranches()
 
 
+        this.cdr.detectChanges();
 
     }
 
@@ -124,14 +128,13 @@ export class TaxCreateEditComponent {
 
     onSave() {
 
-
         this.submitted = true;
 
         if (this.taxForm.invalid) {
             return; // stop if form is invalid
         }
 
-           if (this.invalidXss) {
+        if (this.invalidXss) {
             return; // stop if form is invalid
         }
 
@@ -152,8 +155,6 @@ export class TaxCreateEditComponent {
             }
         }
 
-
-
         if (this.tax.isFileEdited) {
             if (!this.tax.taxFile || this.tax.taxFile.length === 0) {
                 this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'File is not available to update' });
@@ -163,9 +164,12 @@ export class TaxCreateEditComponent {
         }
 
 
-
-
+        if(!this.isEdit){
+             this.tax.drafted_date =  this.current_date
+ 
+        }
         const formData = new FormData();
+        
 
         formData.append('tax', new Blob([JSON.stringify(this.tax)], { type: 'application/json' }));
 
@@ -181,10 +185,11 @@ export class TaxCreateEditComponent {
 
         this.submitting = true;
 
+    
+
         // Send FormData instead of JSON
         this.taxService.createTax(formData).subscribe({
             next: (response) => {
-
 
                 this.saved.emit(response); // emit created tax
 
@@ -259,16 +264,16 @@ export class TaxCreateEditComponent {
 
 
 
-onRemarkChange(event: any) {
-  const value = event.target.value;
+    onRemarkChange(event: any) {
+        const value = event.target.value;
 
-  // Check if value contains XSS
-  this.invalidXss = InputSanitizer.isInvalid(value);
+        // Check if value contains XSS
+        this.invalidXss = InputSanitizer.isInvalid(value);
 
-  // Only update model if valid
-  if (!this.invalidXss) {
-    this.tax.remark = value;
-  }
+        // Only update model if valid
+        if (!this.invalidXss) {
+            this.tax.remark = value;
+        }
 
-}
+    }
 }

@@ -79,26 +79,9 @@ public class JwtUtils {
         return getCookieValueByName(request, jwtRefreshCookie);
     }
 
-    public ResponseCookie getCleanJwtCookie() {
-        return ResponseCookie.from(jwtCookie, "")
-                .path("/")
-                .maxAge(0)
-                .httpOnly(true)
-                .secure(true)
-                .sameSite("None") // ← Keep "None" for cross-site (194 → 195)
-                .build();
-    }
+  
 
-    public ResponseCookie getCleanJwtRefreshCookie() {
-        return ResponseCookie.from(jwtRefreshCookie, "")
-                .path("/")
-                .maxAge(0)
-                .httpOnly(true)
-                .secure(true)
-                .sameSite("None") // ← Keep "None" for cross-site (194 → 195)
-                .build();
-    }
-
+ 
     public String getUserNameFromJwtToken(String token) {
         return getJwtParser()
                 .parseSignedClaims(token)

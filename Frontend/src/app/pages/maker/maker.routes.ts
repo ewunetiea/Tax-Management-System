@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { MakerDashboard } from '../dashboard/maker-dashboard/maker-dashboard';
-import { ManageTax } from './tax/manage-tax/manage-tax';
+import { ManageTaxComponent } from './tax/manage-tax/manage-tax.component';
 import { AuthGuard } from '../../service/admin/auth.guard';
 import { TaxCreateEditComponent } from './tax/tax-create-edit/tax-create-edit.component';
 
@@ -8,7 +8,7 @@ export default [
     { path: 'charts', data: { breadcrumb: 'Charts' }, component: MakerDashboard },
             
             {
-        path: 'drafted-tax', component: ManageTax,
+        path: 'drafted-tax', component: ManageTaxComponent,
         canActivate: [AuthGuard],
         data: {
             roles: ['ROLE_MAKER'],
@@ -17,7 +17,7 @@ export default [
     },
 
      {
-        path: 'submited-tax', component: ManageTax,
+        path: 'submited-tax', component: ManageTaxComponent,
         canActivate: [AuthGuard],
         data: {
             roles: ['ROLE_MAKER'],
@@ -28,7 +28,7 @@ export default [
 
     
      {
-        path: 'sent-tax', component: ManageTax,
+        path: 'sent-tax', component: ManageTaxComponent,
 
         canActivate: [AuthGuard],
         data: {
@@ -38,7 +38,7 @@ export default [
     },
     
      {
-        path: 'setteled-tax', component: ManageTax,
+        path: 'setteled-tax', component: ManageTaxComponent,
 
         canActivate: [AuthGuard],
         data: {
@@ -49,7 +49,7 @@ export default [
 
 
      {
-        path: 'rejected-tax', component: ManageTax,
+        path: 'rejected-tax', component: ManageTaxComponent,
 
         canActivate: [AuthGuard],
         data: {
@@ -58,7 +58,7 @@ export default [
         }
     },
      {
-        path: 'general-tax-status', component: ManageTax,
+        path: 'general-tax-status', component: ManageTaxComponent,
 
         canActivate: [AuthGuard],
         data: {

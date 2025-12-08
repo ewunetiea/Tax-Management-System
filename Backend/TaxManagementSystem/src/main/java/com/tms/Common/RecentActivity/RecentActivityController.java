@@ -83,4 +83,19 @@ public class RecentActivityController {
 		}
 	}
 
+
+
+		@PostMapping("/getActivity")
+	public ResponseEntity<List<RecentActivity>> getRecentActivityByContentAndDate(@RequestBody Report report,
+			HttpServletRequest request) {
+
+		try {
+			return new ResponseEntity<>(recentActivityService.getRecentActivityByContentAndDate(report), HttpStatus.OK);
+		} catch (Exception ex) {
+			logger.error("Error while fetching recent activity by admin: ", ex);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+
 }

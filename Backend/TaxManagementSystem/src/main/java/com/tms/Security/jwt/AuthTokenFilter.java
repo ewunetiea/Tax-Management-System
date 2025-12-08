@@ -22,6 +22,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+
 public class AuthTokenFilter extends OncePerRequestFilter {
 
   @Autowired
@@ -92,7 +93,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
       }
       filterChain.doFilter(request, response);
     // } else {
-    //   throw new AccchaessDeniedException("Permission denied for this resource.");
+    //   throw new AccessDeniedException("Permission denied for this resource.");
     // }
   }
 

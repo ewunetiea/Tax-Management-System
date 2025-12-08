@@ -195,14 +195,11 @@
                 <!-- File Upload -->
                 <div *ngIf="isMaker">
                     <div *ngIf="!isEdit || tax.isFileEdited">
-                        <label for="file" class="block font-bold mb-3">File<strong
-                                class="text-danger">*</strong></label>
-                        <p-fileUpload name="demo[]" mode="advanced" [multiple]="true" [maxFileSize]="10000000"
-                            customUpload="true"
-                            [showUploadButton]="false"
-
+                        <label for="file" class="block font-bold mb-3">File<strong class="text-danger">*</strong></label>
+                        <p-fileUpload name="demo[]" mode="advanced" [multiple]="true" [maxFileSize]="10000000" customUpload="true" [showUploadButton]="false"
                             accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                            (onSelect)="onFileSelect($event)" (onClear)="onFileClear()"
+                            (onSelect)="onFileSelect($event)" 
+                            (onClear)="onFileClear()"
                             (onRemove)="onFileRemove($event)">
                             <ng-template #empty>
                                 <div>Choose a file to upload (Image, PDF, Word)!</div>

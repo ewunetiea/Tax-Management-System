@@ -1,113 +1,139 @@
-<p-dialog [(visible)]="visible" [style]="{ width: '800px' }" header="Announcement Details" [modal]="true" (onHide)="onCancel()">
-    <ng-template pTemplate="content">
+<form ngNativeValidate #announcementForm="ngForm" class="p-fluid w-full" (ngSubmit)="onSave()">
+    <div class="flex flex-col gap-6 w-full">
 
-        <form ngNativeValidate #announcementForm="ngForm" class="p-fluid" (ngSubmit)="onSave()">
-            <div class="flex flex-col gap-6">
-                <div class="p-field">
-                    <label for="title" class="block font-bold mb-3"><strong class="text-danger">*</strong> Title</label>
-                    <input id="title" type="text" pInputText [(ngModel)]="announcement.title" name="title" required
-                        autocomplete="off" fluid />
-                    <div *ngIf="announcementForm.controls['title']?.invalid && announcementForm.controls['title']?.touched" class="text-danger"> Title is required.</div>
-                </div>
+        <!-- Title -->
+        <div class="p-field w-full">
+            <label for="title" class="block font-bold mb-3">Title<strong class="text-danger">*</strong></label>
+            <input id="title" type="text" pInputText class="w-full" [(ngModel)]="announcement.title" name="title"
+                required autocomplete="off" />
+            <div *ngIf="announcementForm.controls['title']?.invalid && announcementForm.controls['title']?.touched"
+                class="text-danger">
+                Title is required.
+            </div>
+        </div>
 
-                <div class="p-field">
-                    <label for="message" class="block font-bold mb-3"><strong class="text-danger">*</strong> Message Body</label>
-                    <p-editor name="message" id="message" [(ngModel)]="announcement.message" [style]="{ height: '320px' }" />
-                </div>
+        <!-- Message -->
+        <div class="p-field w-full">
+            <label for="message" class="block font-bold mb-3">Message Body<strong class="text-danger">*</strong></label>
+            <p-editor 
+            name="message" 
+            id="message" 
+            class="w-full" 
+            [style]="{ width: '100%', height: '320px' }"
+            [(ngModel)]="announcement.message" required></p-editor>
+        </div>
 
-                <div class="p-field">
-                    <span class="block font-bold mb-4">Audience</span>
-                    <div class="grid grid-cols-12 gap-4">
-                        <div class="flex items-center gap-2 col-span-6">
-                            <p-radiobutton id="category1" name="audience" value="ROLE_MAKER"
-                                [(ngModel)]="announcement.audience" required />
-                            <label for="category1">Branch Users</label>
-                        </div>
-                        <div class="flex items-center gap-2 col-span-6">
-                            <p-radiobutton id="category2" name="audience" value="ROLE_REVIEWER"
-                                [(ngModel)]="announcement.audience" required />
-                            <label for="category2"> Branch Managers</label>
-                        </div>
-                        <div class="flex items-center gap-2 col-span-6">
-                            <p-radiobutton id="category3" name="audience" value="ROLE_APPROVER"
-                                [(ngModel)]="announcement.audience" required />
-                            <label for="category3">Ho Users</label>
-                        </div>
-                        <div class="flex items-center gap-2 col-span-6">
-                            <p-radiobutton id="category4" name="audience" value="ALL"
-                                [(ngModel)]="announcement.audience" required />
-                            <label for="category4">All</label>
-                        </div>
-                    </div>
-                    <div *ngIf="announcementForm.controls['audience']?.invalid && (announcementForm.controls['audience']?.touched || announcementForm.submitted)" class="text-danger">
-                        Audience selection is required.
-                    </div>
-                </div>
-                <div class="grid grid-cols-12 gap-4">
-                    <div class="col-span-6">
-                        <label for="created_date" class="block font-bold mb-3"><strong class="text-danger">*</strong> Posting Date</label>
-                        <p-datepicker id="created_date" [(ngModel)]="announcement.created_date" name="created_date"
-                            dateFormat="dd-mm-yy" [showIcon]="true" [readonlyInput]="true" inputId="created_date"
-                            placeholder="Select posting date" required></p-datepicker>
-                        <div *ngIf="announcementForm.controls['created_date']?.invalid && announcementForm.controls['created_date']?.touched" class="text-danger">
-                            posting date is required.
-                        </div>
-                    </div>
-                    <div class="col-span-6">
-                        <label for="expiry_date" class="block font-bold mb-3"><strong class="text-danger">*</strong>
-                            Expiry Date</label>
-                        <p-datepicker id="expiry_date" [(ngModel)]="announcement.expiry_date" name="expiry_date"
-                            dateFormat="dd-mm-yy" [showIcon]="true" [readonlyInput]="true" inputId="expiry_date"
-                            placeholder="Select expiry date" required [minDate]="minExpiryDate"></p-datepicker>
-                        <div *ngIf="announcementForm.controls['expiry_date']?.invalid && announcementForm.controls['expiry_date']?.touched" class="text-danger">
-                            Expiry date is required.
-                        </div>
-                    </div>
-                </div>
-                <!-- Toggle switch for edit mode -->
-                <div *ngIf="isEdit">
-                    <label for="isFileEdited" class="block font-bold mb-3">Open switch button to update files</label>
-                    <p-toggleswitch [(ngModel)]="announcement.isFileEdited" name="isFileEdited" id="isFileEdited" />
+        <!-- Audience -->
+        <div class="p-field w-full">
+            <label class="block font-bold mb-3">Audience <strong class="text-danger">*</strong></label>
+            <!-- Flex Row -->
+            <div class="flex items-center gap-6 flex-wrap">
+                <div class="flex items-center gap-2">
+                    <p-radiobutton id="category1" name="audience" value="ROLE_MAKER" [(ngModel)]="announcement.audience" required />
+                    <label for="category1">Branch Users</label>
                 </div>
 
-                <!-- File Upload -->
-                    <div *ngIf="!isEdit">
-                        <label for="announcement_file" class="block font-bold mb-3">File<strong class="text-danger">*</strong></label>
-                        <p-fileUpload
-                            name="demo[]"
-                            mode="advanced"
-                            [multiple]="true"
-                            [maxFileSize]="1000000"
-                            customUpload="true"
-                            accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                            (onSelect)="onFileSelect($event)"
-                            (onClear)="onFileClear()"
-                            (onRemove)="onFileRemove($event)">
-                             <ng-template #empty>
-                             <div>Drag and drop files to here to upload.</div>
-                            </ng-template>
-                        </p-fileUpload>
+                <div class="flex items-center gap-2">
+                    <p-radiobutton id="category2" name="audience" value="ROLE_REVIEWER" [(ngModel)]="announcement.audience" required />
+                    <label for="category2">Branch Managers</label>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <p-radiobutton id="category3" name="audience" value="ROLE_APPROVER" [(ngModel)]="announcement.audience" required />
+                    <label for="category3">Ho Users</label>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <p-radiobutton id="category4" name="audience" value="ALL" [(ngModel)]="announcement.audience"  required />
+                    <label for="category4">All</label>
                 </div>
             </div>
-            <div class="p-formgrid p-grid mt-4 ml-4" >
-                <button 
-                pButton 
-                pRipple 
-                type="submit" 
-                label="Save" 
-                icon="pi pi-check"
-                [disabled]="announcementForm.invalid" 
-                class="p-button-rounded p-button-outlined p-button-success mr-2">
-            </button>
-             <button 
-                pButton 
-                pRipple 
-                label="Cancel" 
-                icon="pi pi-times" 
-                text (click)="onCancel()"
-                class="p-button-rounded p-button-outlined p-button-danger">
-            </button>
+
+            <div *ngIf="announcementForm.controls['audience']?.invalid && announcementForm.submitted" class="text-danger">
+                Audience selection is required.
             </div>
-        </form>
+        </div>
+
+        <!-- Dates -->
+        <div class="grid grid-cols-12 gap-4 w-full">
+            <div class="col-span-6">
+                <label for="created_date" class="block font-bold mb-3">Posting Date <strong class="text-danger">*</strong></label>
+                <p-datepicker 
+                id="created_date"
+                inputId="created_date"
+                class="w-full"
+                [(ngModel)]="announcement.created_date"
+                name="created_date"
+                dateFormat="dd-mm-yy"
+                [showIcon]="true"
+                [readonlyInput]="true"
+                placeholder="Select posting date"
+                required
+        ></p-datepicker>
+    </div>
+
+    <div class="col-span-6">
+        <label for="expiry_date" class="block font-bold mb-3">Expiry Date </label>
+        <p-datepicker 
+            id="expiry_date"
+            inputId="expiry_date"
+            class="w-full"
+            [(ngModel)]="announcement.expiry_date"
+            name="expiry_date"
+            dateFormat="dd-mm-yy"
+            [showIcon]="true"
+            [readonlyInput]="true"
+            placeholder="Select expiry date"
+            [minDate]="minExpiryDate"
+            required
+        ></p-datepicker>
+    </div>
+</div>
+
+<!-- File Edit Switch -->
+ <div *ngIf="isEdit" class="w-full mt-4">
+    <label class="block font-bold mb-3">Open switch button to update files</label>
+    <p-toggleswitch [(ngModel)]="announcement.isFileEdited" name="isFileEdited" class="w-full" />
+</div>
+ 
+<!-- File Upload -->
+ <div *ngIf="!isEdit" class="w-full">
+    <label class="block font-bold mb-3">File<strong class="text-danger">*</strong></label>
+    <p-fileUpload
+    class="w-full" 
+    name="demo[]" 
+    mode="advanced" 
+    [multiple]="true" 
+    customUpload="true"
+    [maxFileSize]="1000000"
+    accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    (onSelect)="onFileSelect($event)" 
+    (onClear)="onFileClear()" 
+    (onRemove)="onFileRemove($event)"
+    [style]="{ width: '100%' }">
+    <ng-template #empty>
+        <div>Drag and drop files here to upload.</div>
     </ng-template>
-</p-dialog>
+</p-fileUpload>
+</div>
+</div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="flex justify-left gap-4 mt-6">
+        <button 
+        pButton 
+        pRipple 
+        type="submit" 
+        label="Save" 
+        icon="pi pi-check"
+        class="p-button-rounded p-button-outlined p-button-success w-32"
+         [disabled]="announcementForm.invalid"></button>
+        <button 
+        pButton 
+        pRipple 
+        label="Cancel" 
+        icon="pi pi-times" 
+        class="p-button-rounded p-button-outlined p-button-danger w-32"
+        (click)="onCancel()"></button>
+    </div>
+</form>

@@ -9,7 +9,6 @@ import { FileUpload } from 'primeng/fileupload';
 import { EditorModule } from 'primeng/editor';
 import { AnnouncementFile } from 'app/models/approver/announcementFile';
 
-
 @Component({
   standalone: true,
   selector: 'app-announcement-create-edit',
@@ -18,13 +17,12 @@ import { AnnouncementFile } from 'app/models/approver/announcementFile';
   styleUrl: './announcement-create-edit.component.scss'
 })
 export class AnnouncementCreateEditComponent {
-  @Input() visible!: boolean;
   @Output() visibleChange = new EventEmitter<boolean>();
-  @Input() announcement!: Announcement;
   @Output() saved = new EventEmitter<Announcement>();
   @Output() cancel = new EventEmitter<void>();
   isEdit: boolean = false;
-
+  announcement: Announcement = new Announcement();
+  visible:boolean = false;
   minExpiryDate: Date = new Date();
   submitting = false;
 
@@ -36,7 +34,6 @@ export class AnnouncementCreateEditComponent {
     private messageService: MessageService,
     private storageService: StorageService
   ) { }
-
 
   ngOnInit(): void {
     this.isEdit = this.passedAnnouncement[1];
@@ -53,7 +50,9 @@ export class AnnouncementCreateEditComponent {
   }
   
   editAnnouncement(passedData: any[]) {
+    console.log("Passed Data:", passedData);  
       this.announcement = passedData[0];
+      console.log("Editing Announcement:", this.announcement);
     }
 
   onSave() {

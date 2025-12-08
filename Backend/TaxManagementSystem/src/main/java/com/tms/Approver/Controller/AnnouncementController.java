@@ -1,6 +1,8 @@
 package com.tms.Approver.Controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.tms.Approver.Entity.Announcement;
 import com.tms.Approver.Entity.AnnouncementPayload;
 import com.tms.Approver.Service.AnnouncementService;
+import com.tms.Common.Exception.DuplicateFileException;
 
 @RestController
 @RequestMapping("/api/approver/announcement")
@@ -57,13 +60,15 @@ public class AnnouncementController {
 
 			// CREATE
 			Announcement result = announcementService.createAnnouncement(announcement, files);
-
-			if ("Exists".equals(result.getFileExsistance())) {
-				return ResponseEntity.status(HttpStatus.CONFLICT).body("File already exists");
-			}
-
 			return ResponseEntity.ok(result);
 
+		} catch (DuplicateFileException ex) {
+			logger.warn("Duplicate file detected: " + ex.getMessage());
+			Map<String, String> response = new HashMap<>();
+			response.put("error", "duplicate_file");
+			response.put("message", ex.getMessage());
+
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(response); // 409
 		} catch (Exception ex) {
 			logger.error("Error creating/updating announcement", ex);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -74,8 +79,8 @@ public class AnnouncementController {
 	@PostMapping("/delete")
 	public ResponseEntity<?> deleteAnnouncements(@RequestBody List<Announcement> announcements) {
 		try {
-			for (Announcement a : announcements) {
-				announcementService.deleteAnnouncement(a.getId());
+			for (Announcement an : announcements) {
+				announcementService.deleteAnnouncement(an);
 			}
 			return ResponseEntity.ok().build();
 		} catch (Exception e) {

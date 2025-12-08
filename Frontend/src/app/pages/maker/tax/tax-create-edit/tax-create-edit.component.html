@@ -175,13 +175,17 @@
                  <div class="p-field" *ngIf="isEdit">
                     <label for="drafted_date" class="block font-bold mb-3">Drafted Date<strong
                             class="text-danger"></strong></label>
-                    <p-datepicker id="drafted_date"
+                    <p-datepicker 
+                    id="drafted_date"
                      [(ngModel)]="tax.drafted_date"
-                     
-                     name="drafted_date" dateFormat="dd-mm-yy"
-                        [showIcon]="true" [readonlyInput]="true" inputId="drafted_date"
-                        placeholder="Select Drafted date"  [readonlyInput]="true"     [disabled]="true"
-
+                     name="drafted_date" 
+                     dateFormat="dd-mm-yy"
+                    [showIcon]="true" 
+                    [readonlyInput]="true" 
+                    inputId="drafted_date"
+                    placeholder="Select Drafted date"  
+                    [readonlyInput]="true"     
+                     [disabled]="true"
                         class="w-full custom-datepicker" [maxDate]="maxDate"></p-datepicker>
                   
                 </div>
@@ -195,14 +199,11 @@
                 <!-- File Upload -->
                 <div *ngIf="isMaker">
                     <div *ngIf="!isEdit || tax.isFileEdited">
-                        <label for="file" class="block font-bold mb-3">File<strong
-                                class="text-danger">*</strong></label>
-                        <p-fileUpload name="demo[]" mode="advanced" [multiple]="true" [maxFileSize]="10000000"
-                            customUpload="true"
-                            [showUploadButton]="false"
-
+                        <label for="file" class="block font-bold mb-3">File<strong class="text-danger">*</strong></label>
+                        <p-fileUpload name="demo[]" mode="advanced" [multiple]="true" [maxFileSize]="10000000" customUpload="true" [showUploadButton]="false"
                             accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                            (onSelect)="onFileSelect($event)" (onClear)="onFileClear()"
+                            (onSelect)="onFileSelect($event)" 
+                            (onClear)="onFileClear()"
                             (onRemove)="onFileRemove($event)">
                             <ng-template #empty>
                                 <div>Choose a file to upload (Image, PDF, Word)!</div>

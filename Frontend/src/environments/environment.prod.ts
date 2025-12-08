@@ -11,10 +11,6 @@ export const environment = {
   warningTimeout: 19 * 60 * 1000, // 5 minutes
 };
 
-
-
-
-
 // export const environment = {
 //   production: true,
 //   auditorFileApi: 'https://10.10.106.195:8443/tmsbackend/api',//to hnadle auditor uploading files
@@ -27,7 +23,6 @@ export const environment = {
 //   idleCountdownSeconds: 60, // 1 minute
 //   warningTimeout: 19 * 60 * 1000, // 5 minutes
 // };
-
 
 
 // export const environment = {

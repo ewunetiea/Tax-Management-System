@@ -92,6 +92,7 @@ export class AnnouncementComponent implements OnInit {
   loadAnnouncements(announcmentPayload: AnnouncementPayload) {
     this.announcemetService.fetchAnnouncemets(announcmentPayload).subscribe(
       (response) => {
+        console.log('Announcements fetched:', response);
         this.announcements = (response as any).map((announcement: any) => {
           // Detect file type from base64
           const fileType = this.getFileType(announcement.image);

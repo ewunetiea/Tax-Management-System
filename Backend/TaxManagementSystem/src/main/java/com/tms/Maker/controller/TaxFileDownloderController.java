@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.tms.Common.FileManagement.FileStorageServiceImpl;
 import com.tms.Maker.service.FileDownloadService;
 
 @RestController
 @RequestMapping("/api/maker/download")
-public class FileDownloderController {
+public class TaxFileDownloderController {
 
     @Autowired
-    private FileDownloadService fileDownloadService;
+    private FileStorageServiceImpl fileDownloadService;
 
     private static final Logger logger = LoggerFactory.getLogger(FileDownloadService.class);
 
@@ -26,7 +26,8 @@ public class FileDownloderController {
     public ResponseEntity<Resource> downloadFile(@PathVariable("fileName") String fileName) {
         try {
 
-            Resource resource = fileDownloadService.getFileResource(fileName);
+            // Resource resource = fileDownloadService.getFileResource(fileName);
+             Resource resource = fileDownloadService.loadFile(fileName, "taxFiles");
 
             // Determine content type
             String contentType = "application/octet-stream";

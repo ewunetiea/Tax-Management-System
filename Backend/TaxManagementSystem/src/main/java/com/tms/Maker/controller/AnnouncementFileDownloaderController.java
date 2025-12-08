@@ -23,7 +23,7 @@ public class AnnouncementFileDownloaderController {
     @GetMapping("/{fileName}")
     public ResponseEntity<Resource> getAnnouncementFile(@PathVariable("fileName") String fileName) {
         try {
-            Resource resource = fileDownloadService.loadFile(fileName, "AnnouncementFile");
+            Resource resource = fileDownloadService.loadFile(fileName, "+++");
 
             // Determine content type
             String contentType = "application/octet-stream";

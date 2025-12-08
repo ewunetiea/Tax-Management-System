@@ -50,9 +50,7 @@ export class AnnouncementCreateEditComponent {
   }
   
   editAnnouncement(passedData: any[]) {
-    console.log("Passed Data:", passedData);  
       this.announcement = passedData[0];
-      console.log("Editing Announcement:", this.announcement);
     }
 
   onSave() {
@@ -83,15 +81,19 @@ export class AnnouncementCreateEditComponent {
     }
 
     this.submitting = true;
-
     this.announcementService.createAnnouncemet(formData).subscribe({
       next: (response) => {
-        this.saved.emit(response); // emit created announcement
+        const isNew = !this.announcement.id;
+        this.saved.emit(response); 
         // close dialog and notify parent
         this.visible = false;
         this.visibleChange.emit(this.visible);
         this.submitting = false;
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Announcement saved' });
+        this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: isNew ? 'Announcement saved' : 'Announcement updated'
+      });
       },
       error: (err: HttpErrorResponse) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message });
@@ -108,7 +110,7 @@ export class AnnouncementCreateEditComponent {
 
 
   onFileSelect(event: any) {
-    const files: File[] = Array.from(event.files); // convert FileList to array
+    const files: File[] = Array.from(event.files); 
     if (!this.announcement!.announcementFile) {
       this.announcement!.announcementFile = [];
     }
@@ -150,5 +152,10 @@ export class AnnouncementCreateEditComponent {
       detail: `${removedFile.name} has been removed.`
     });
   }
+
+  enableFileEdit() {
+  this.announcement.isFileEdited = true;
+}
+
 
 }

@@ -97,7 +97,7 @@
 </div>
  
 <!-- File Upload -->
- <div *ngIf="!isEdit" class="w-full">
+ <div *ngIf="!isEdit || announcement.isFileEdited" class="w-full">
     <label class="block font-bold mb-3">File<strong class="text-danger">*</strong></label>
     <p-fileUpload
     class="w-full" 
@@ -127,13 +127,16 @@
         label="Save" 
         icon="pi pi-check"
         class="p-button-rounded p-button-outlined p-button-success w-32"
-         [disabled]="announcementForm.invalid"></button>
+        [disabled]="announcementForm.invalid">
+    </button>
+
         <button 
         pButton 
         pRipple 
         label="Cancel" 
         icon="pi pi-times" 
         class="p-button-rounded p-button-outlined p-button-danger w-32"
-        (click)="onCancel()"></button>
+        (click)="onCancel()">
+    </button>
     </div>
 </form>

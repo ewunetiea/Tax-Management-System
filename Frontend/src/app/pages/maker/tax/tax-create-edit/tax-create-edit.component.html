@@ -175,13 +175,17 @@
                  <div class="p-field" *ngIf="isEdit">
                     <label for="drafted_date" class="block font-bold mb-3">Drafted Date<strong
                             class="text-danger"></strong></label>
-                    <p-datepicker id="drafted_date"
+                    <p-datepicker 
+                    id="drafted_date"
                      [(ngModel)]="tax.drafted_date"
-                     
-                     name="drafted_date" dateFormat="dd-mm-yy"
-                        [showIcon]="true" [readonlyInput]="true" inputId="drafted_date"
-                        placeholder="Select Drafted date"  [readonlyInput]="true"     [disabled]="true"
-
+                     name="drafted_date" 
+                     dateFormat="dd-mm-yy"
+                    [showIcon]="true" 
+                    [readonlyInput]="true" 
+                    inputId="drafted_date"
+                    placeholder="Select Drafted date"  
+                    [readonlyInput]="true"     
+                     [disabled]="true"
                         class="w-full custom-datepicker" [maxDate]="maxDate"></p-datepicker>
                   
                 </div>

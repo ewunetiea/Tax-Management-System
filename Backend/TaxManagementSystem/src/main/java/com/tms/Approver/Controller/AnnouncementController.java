@@ -79,8 +79,8 @@ public class AnnouncementController {
 	@PostMapping("/delete")
 	public ResponseEntity<?> deleteAnnouncements(@RequestBody List<Announcement> announcements) {
 		try {
-			for (Announcement a : announcements) {
-				announcementService.deleteAnnouncement(a.getId());
+			for (Announcement an : announcements) {
+				announcementService.deleteAnnouncement(an);
 			}
 			return ResponseEntity.ok().build();
 		} catch (Exception e) {

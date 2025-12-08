@@ -106,10 +106,22 @@ currentPageReportTemplate="Showing {first} to {last} of {totalRecords} announcem
       <td>{{ announcement.expiry_date | date:'yyyy-MM-dd' }}</td>
       <td>{{ announcement.postedBy }}</td>
       <td *ngIf="this.announcmentPayload.role ==='ROLE_APPROVER'">
-        <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" pTooltip="Edit"
-          tooltipPosition="bottom" (click)="editAnnouncement(announcement)" />
-        <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" pTooltip="Delete"
-          tooltipPosition="bottom" (click)="deleteAnnouncements(announcement)" />
+        <p-button 
+        icon="pi pi-pencil" 
+        class="mr-2" 
+        [rounded]="true" 
+        [outlined]="true" 
+        pTooltip="Edit"
+        tooltipPosition="bottom" 
+        (click)="editAnnouncement(announcement)" />
+        <p-button 
+        icon="pi pi-trash" 
+        severity="danger" 
+        [rounded]="true" 
+        [outlined]="true" 
+        pTooltip="Delete"
+        tooltipPosition="bottom" 
+        (click)="deleteAnnouncements(announcement)" />
       </td>
     </tr>
   </ng-template>

@@ -70,13 +70,13 @@ public class AnnouncementService {
     }
 
     // ------------------ UPDATE --------------------
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void updateAnnouncement(Announcement announcement, MultipartFile[] files) throws IOException {
 
         // ---- UPDATE MAIN RECORD ----
         announcementMapper.updateAnnouncements(announcement);
 
-        if (announcement.getIsFileEdited()) {
+        if (announcement.getIsFileEdited() != null && announcement.getIsFileEdited()) {
             // ---------------- DELETE OLD FILES (DB + FOLDER) ----------------
             List<AnnouncementFile> oldFiles = announcement.getPreviouseAnnouncementFile();
 
@@ -122,16 +122,38 @@ public class AnnouncementService {
     }
 
     // ------------------ DELETE --------------------
-    public void deleteAnnouncement(Long id) {
-        // List<AnnouncementFile> files =
-        // announcementMapper.getFilesByAnnouncementId(id);
+   @Transactional
+public void deleteAnnouncement(Announcement announcement) {
 
-        // for (AnnouncementFile f : files) {
-        // fileStorageService.deleteFile("AnnouncementFile", f.getFileName());
-        // }
+    // 1. Get files before deleting DB record
+    List<AnnouncementFile> files = announcement.getAnnouncementFile();
 
-        // announcementMapper.deleteAnnouncement(id);
+    // 2. Delete Announcement row (DB CASCADE will delete file rows)
+    announcementMapper.deleteAnnouncement(announcement.getId());
+
+    // 3. Delete files from folder
+    if (files != null && !files.isEmpty()) {
+        for (AnnouncementFile oldFile : files) {
+            try {
+                boolean removed = fileStorageService.deleteFile("announcementFile", oldFile.getFileName());
+
+                if (!removed) {
+                    System.err.println("WARNING: Failed to delete file from folder: " + oldFile.getFileName());
+                }
+
+            } catch (Exception ex) {
+                System.err.println("ERROR deleting file: " + oldFile.getFileName());
+                ex.printStackTrace();
+            }
+        }
     }
+
+    // 4. Save activity AFTER all operations
+    saveRecentActivity(announcement.getPosted_by(), announcement.getTitle() + " is deleted"
+    );
+}
+
+
 
     // ------------------ OTHER FUNCTIONS --------------------
     public String getExtension(String name) {

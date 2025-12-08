@@ -114,7 +114,6 @@ public class TaxController {
 	@PostMapping("/delete")
 	public ResponseEntity<Tax> deleteTax(@RequestBody List<Tax> taxs,
 			HttpServletRequest request) {
-		System.out.println(taxs);
 		try {
 
 			for (Tax acc : taxs) {

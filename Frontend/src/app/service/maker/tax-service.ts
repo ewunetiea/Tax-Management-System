@@ -18,7 +18,7 @@ export class TaxService {
 
   constructor(private http: HttpClient) { }
   createTax(tax: any): Observable<any> {
-    return this.http.post(baseUrl + '/create', tax);
+    return this.http.post(baseUrl + '/create-edit', tax);
   }
 
   fetchTaxesBasedOnStatus(payload: MakerSearchPayload): Observable<Tax[]> {

@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,6 +45,19 @@ public class TaxableService {
     @Value("${file.storage.root}")
     private String rootPath;
 
+    // String uploadDir = "\\\\10.10.101.76\\fileUploadFolder"; // Use IP upload
+
+    private String uploadDir; // Initialize in @PostConstruct
+
+    @PostConstruct
+    public void init() {
+        uploadDir = Paths.get(rootPath, "taxFile").toString();
+        File dir = new File(uploadDir);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+    }
+
     @Transactional
     public Tax createTaxWithFiles(Tax tax, MultipartFile[] files) throws IOException {
 
@@ -51,12 +66,6 @@ public class TaxableService {
         String mainGuid = generateGuid();
 
         if (files != null && files.length > 0 && tax.getTaxFile() != null) {
-            // String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();
-            String uploadDir = Paths.get(rootPath, "taxFile").toString();
-
-
-            // String uploadDir = "\\\\10.10.101.76\\fileUploadFolder"; // Use IP upload
-            // from other server
 
             File dir = new File(uploadDir);
             if (!dir.exists()) {
@@ -101,7 +110,8 @@ public class TaxableService {
                     taxFileMapper.insertFile(tf);
 
                     User user = new User();
-                    recentActivity.setMessage("Tax  with Reference number  " + tax.getReference_number() + " is created");
+                    recentActivity
+                            .setMessage("Tax  with Reference number  " + tax.getReference_number() + " is created");
                     user.setId(tax.getUser_id());
                     recentActivity.setUser(user);
                     recentActivityMapper.addRecentActivity(recentActivity);
@@ -127,11 +137,6 @@ public class TaxableService {
 
         try {
 
-                // String uploadDir = "\\\\10.10.101.76\\fileUploadFolder"; // Use IP upload
-            // from other server
-            // String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();
-            String uploadDir = Paths.get(rootPath, "taxFile").toString();
-            
             File dir = new File(uploadDir);
             if (!dir.exists()) {
                 dir.mkdirs();
@@ -149,7 +154,7 @@ public class TaxableService {
                     File existingFile = new File(dir, taxFileToDelete.getFileName());
                     if (existingFile.exists()) {
                         existingFile.delete();
-                       
+
                     }
                 }
 
@@ -178,15 +183,14 @@ public class TaxableService {
             recentActivity.setUser(user);
             recentActivity.setMessage("Tax with Reference number " + tax.getReference_number() + " updated");
             recentActivityMapper.addRecentActivity(recentActivity);
-            
-            return taxableMapper.fetchTaxById(tax.getId());
 
+            return taxableMapper.fetchTaxById(tax.getId());
 
         } catch (Exception e) {
             return null;
             // TODO: handle exception
-        } 
-        
+        }
+
     }
 
     public Tax fetchTaxById(int id) {
@@ -214,10 +218,6 @@ public class TaxableService {
                 break; // Exit the loop once a match is found
             }
         }
-
-        System.out.println("_____________________Payload information_________________________");
-
-        System.out.println(payload);
 
         return taxableMapper.fetchTaxBasedonStatus(payload);
     }
@@ -247,42 +247,41 @@ public class TaxableService {
 
         return "TAX" + nextNumber;
     }
-   public void deleteTax(Tax tax, Long user_id) {
 
-    List<TaxFile> files = tax.getTaxFile();
+    public void deleteTax(Tax tax, Long user_id) {
 
-    // 2. Delete Tax record from DB  it deletes FileDetailClaim table because of CASCADE
-    taxableMapper.deleteTaxById(tax.getId());
+        List<TaxFile> files = tax.getTaxFile();
 
-    if (files != null && !files.isEmpty()) {
-             // from other server
-            // String uploadDir = "\\\\10.10.101.76\\fileUploadFolder"; // Use IP upload
+        // 2. Delete Tax record from DB it deletes FileDetailClaim table because of
+        // CASCADE
+        taxableMapper.deleteTaxById(tax.getId());
 
-        String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();
+        if (files != null && !files.isEmpty()) {
+            // from other server
 
-        for (TaxFile taxFile : files) {
+            for (TaxFile taxFile : files) {
 
-            File fileToDelete = new File(uploadDir, taxFile.getFileName());
+                File fileToDelete = new File(uploadDir, taxFile.getFileName());
 
-            if (fileToDelete.exists()) {
-               fileToDelete.delete();
-               
-            } else {
-                System.out.println("⚠ File not found: " + fileToDelete.getAbsolutePath());
+                if (fileToDelete.exists()) {
+                    fileToDelete.delete();
+
+                } else {
+                    System.out.println("⚠ File not found: " + fileToDelete.getAbsolutePath());
+                }
             }
+        } else {
+            System.out.println("⚠ No files found in list to delete.");
         }
-    } else {
-        System.out.println("⚠ No files found in list to delete.");
-    }
 
         User user = new User();
         user.setId(user_id);
         recentActivity.setUser(user);
         recentActivity.setMessage("Tax with Reference number " +
-        tax.getReference_number() + " deleted");
+                tax.getReference_number() + " deleted");
         recentActivityMapper.addRecentActivity(recentActivity);
 
-}
+    }
 
     public void submitTaxToBranchManger(Long id) { // set status to 0 or waiting state
 

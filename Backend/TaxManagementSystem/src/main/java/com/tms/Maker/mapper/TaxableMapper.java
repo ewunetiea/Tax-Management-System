@@ -117,6 +117,8 @@ public interface TaxableMapper {
                         "<if test= 'reference_number != null '> ",
                         "   AND t.reference_number = #{reference_number} ",
                         "   </if> ",
+                   "order by t.id desc ",
+
                         "</script>"
 
         })
@@ -174,7 +176,7 @@ public interface TaxableMapper {
                         "<if test= 'reference_number != null '> ",
                         "   AND t.reference_number = #{reference_number} ",
                         "   </if> ",
-
+                              "order by t.id desc ",
                         "</script>"
 
         })

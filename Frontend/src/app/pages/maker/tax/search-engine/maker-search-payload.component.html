@@ -41,14 +41,14 @@
                 <label for="branch_name" class="block font-bold mb-3">Initiator Branch</label>
 
                 <input pInputText id="branch_name" name="branch_name" [(ngModel)]="payload.branch_name" type="text"
-                    autocomplete="off" class="w-full h-14 " readonly />
+                    autocomplete="off" class="w-full h-12 " readonly />
             </div>
 
             <div class="p-field" *ngIf="routeControl ==='generalstatus'">
                 <label for="status_id" class="block font-bold mb-3"> Status of Tax</label>
                 <p-select id="status_id" name="status_id" [options]="status" [(ngModel)]="payload.status_id"
                     optionLabel="name" optionValue="id" [filter]="true" placeholder="Select Tax Status"
-                    class="w-full h-14 "></p-select>
+                    class="w-full h-12 "></p-select>
             </div>
 
 
@@ -57,7 +57,7 @@
                 <p-select id="tax_category_id" name="tax_category_id" [options]="taxCategories"
                     [(ngModel)]="payload.tax_category_id" optionLabel="type" optionValue="id" [filter]="true"
                     [loading]="taxCategoryLoading" [placeholder]="taxCategoryLoading ? 'Loading...' : 'Select Tax Type'"
-                    (onClick)="getTaxCategories()" class="w-full h-14 "></p-select>
+                    (onClick)="getTaxCategories()" class="w-full h-12 "></p-select>
             </div>
 
 
@@ -66,7 +66,7 @@
                 <label for="reference_number" class="block font-bold mb-3">Reference Number</label>
 
                 <input pInputText id="reference_number" name="reference_number" [(ngModel)]="payload.reference_number"
-                    type="text" autocomplete="off" class="w-full h-14 " />
+                    type="text" autocomplete="off" class="w-full h-12 " />
             </div>
 
 

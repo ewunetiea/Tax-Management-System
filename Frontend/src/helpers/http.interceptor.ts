@@ -150,23 +150,50 @@ export const httpRequestInterceptor: HttpInterceptorFn = (req, next) => {
                 return throwError(() => customError);
             }
 
+            // if (error.status === 409) {
+            //     // Custom frontend message
+            //     const customMsg = 'File name already exists. Please rename or upload another';
+
+            //     // Show toast
+            //     showToast(messageService, customMsg, 'error');
+
+            //     // Create a new HttpErrorResponse with your custom message
+            //     const modifiedError = new HttpErrorResponse({
+            //         error: { message: customMsg },
+            //         headers: '' as any,
+            //         status: error.status,
+            //         statusText: " File name  already exists Please rename your file name",
+            //         url: ''
+            //     });
+
+            //     // Re-throw the modified error
+            //     return throwError(() => modifiedError);
+            // }
+
             if (error.status === 409) {
-                // Custom frontend message
-                const customMsg = 'File name already exists. Please rename or upload another';
 
-                // Show toast
-                showToast(messageService, customMsg, 'error');
+                const customMessage = 'File name already exists. Please rename or upload another file.';
 
-                // Create a new HttpErrorResponse with your custom message
-                const modifiedError = new HttpErrorResponse({
-                    error: { message: customMsg },
-                    headers: '' as any,
-                    status: error.status,
-                    statusText: " File name  already exists Please rename your file name",
-                    url: ''
+                // Show toast as WARNING
+                messageService.add({
+                    severity: 'warn',        // 🔹 changed
+                    summary: 'Duplicate File',
+                    detail: customMessage,
+                    life: 4000
                 });
 
-                // Re-throw the modified error
+                // Create custom clean error
+                const modifiedError = new HttpErrorResponse({
+                    error: { message: customMessage },
+                    status: 409,
+                    statusText: customMessage,
+                    url: 'duplicate-file',
+                });
+
+                // Override Angular internal message
+                (modifiedError as any).message = customMessage;
+                (modifiedError as any)._message = customMessage;
+
                 return throwError(() => modifiedError);
             }
 
@@ -236,6 +263,20 @@ function showToast(
     messageService.add({
         severity,
         summary: severity === 'error' ? 'Error' : severity === 'warn' ? 'Warning' : 'Info',
+        detail,
+        life: 4000
+    });
+}
+
+
+function showToast2(
+    messageService: MessageService,
+    detail: string,
+    severity: 'error' | 'warn' | 'info' | 'success'
+) {
+    messageService.add({
+        severity,
+        summary: severity === 'error' ? 'Error' : 'Warning',
         detail,
         life: 4000
     });

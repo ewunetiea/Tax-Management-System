@@ -70,7 +70,7 @@ public class TaxController {
 
 	}
 
-	@PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PostMapping(value = "/create-edit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<Tax> saveTax(
 			@RequestPart("tax") Tax tax,
 			@RequestPart(value = "files", required = false) MultipartFile[] files) {

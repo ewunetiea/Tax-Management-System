@@ -46,7 +46,7 @@ export class AppMenuMaker {
             {
                 label: 'Tax Management',
                 items: [
-                    { label: 'Drafted', icon: 'pi pi-bolt text-blue-500', routerLink: ['/applayout/maker/drafted-tax'] },
+                    { label: 'Initiate New Tax', icon: 'pi pi-bolt text-blue-500', routerLink: ['/applayout/maker/drafted-tax'] },
                     { label: 'Submitted to Checker', icon: 'pi pi-check text-green-500', routerLink: ['/applayout/maker/submited-tax'] },
                     { label: 'Sent to Approval', icon: 'pi pi-fw pi-share-alt text-orange-500', routerLink: ['/applayout/maker/sent-tax'] },
                     { label: 'Settled', icon: 'pi pi-fw pi-check-circle text-teal-500', routerLink: ['/applayout/maker/setteled-tax'] },

@@ -39,15 +39,15 @@ export class AppMenuMaker {
         this.general_items = [
             {
                 label: 'Home',
-                items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home text-orange-500', routerLink: ['/applayout'] }]
+                items: [{ label: 'Dashboard', icon: 'pi pi-chart-line text-orange-500', routerLink: ['/applayout'] }]
             },
 
 
             {
                 label: 'Tax Management',
                 items: [
-                    { label: 'Drafted', icon: 'pi pi-fw pi-pencil text-blue-500', routerLink: ['/applayout/maker/drafted-tax'] },
-                    { label: 'Submitted to Checker', icon: 'pi pi-fw pi-send text-green-500', routerLink: ['/applayout/maker/submited-tax'] },
+                    { label: 'Drafted', icon: 'pi pi-bolt text-blue-500', routerLink: ['/applayout/maker/drafted-tax'] },
+                    { label: 'Submitted to Checker', icon: 'pi pi-check text-green-500', routerLink: ['/applayout/maker/submited-tax'] },
                     { label: 'Sent to Approval', icon: 'pi pi-fw pi-share-alt text-orange-500', routerLink: ['/applayout/maker/sent-tax'] },
                     { label: 'Settled', icon: 'pi pi-fw pi-check-circle text-teal-500', routerLink: ['/applayout/maker/setteled-tax'] },
                     { label: 'Rejected', icon: 'pi pi-fw pi-times-circle text-red-600', routerLink: ['/applayout/maker/rejected-tax'] },

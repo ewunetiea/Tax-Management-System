@@ -32,7 +32,7 @@ interface ExportColumn {
     styleUrls: ['./manage-tax.component.css'],
     providers: [ConfirmationService, MessageService]
 })
-export class ManageTax implements OnInit {
+export class ManageTaxComponent implements OnInit {
     expandedRows: { [key: number]: boolean } = {};
     selectedPdf: SafeResourceUrl | null = null;
     showPdfModal = false;
@@ -90,7 +90,6 @@ export class ManageTax implements OnInit {
 
     onSearchResults(taxes: Tax[]) { //  search results are passed from child to parent
         this.taxes = taxes;
-
         this.loading = false;
 
     }
@@ -106,6 +105,8 @@ export class ManageTax implements OnInit {
 
         this.taxes = [saveTax, ...this.taxes];
         }
+
+    
 
         this.taxDialog = false;
         this.tax = {} as Tax;
@@ -451,16 +452,28 @@ export class ManageTax implements OnInit {
     }
 
 
+    private statusMap: {
+    [key: number]: { label: string; severity: ButtonSeverity; outlined: boolean }
+} = {
+    6: { label: "Not Submited", severity: "help" as ButtonSeverity, outlined: true },
+    0: { label: "Waiting for Review", severity: "primary" as ButtonSeverity, outlined: true },
+    1: { label: "Checker Sent", severity: "help" as ButtonSeverity, outlined: true },
+    2: { label: "Checker Rejected", severity: "danger" as ButtonSeverity, outlined: true },
+    3: { label: "Approver Rejected", severity: "danger" as ButtonSeverity, outlined: true },
+    // 4: { label: "Reviewed", severity: "primary" as ButtonSeverity, outlined: true },
+    5: { label: "Settled", severity: "success" as ButtonSeverity, outlined: true }
+};
 
-    private statusMap: { [key: number]: { label: string; severity: ButtonSeverity } } = {
-        6: { label: "Not Submited", severity: "help" as ButtonSeverity },
-        0: { label: "Waiting for Review", severity: "primary" as ButtonSeverity },
-        1: { label: "Checker Sent", severity: "help" as ButtonSeverity },
-        2: { label: "Checker Rejected", severity: "danger" as ButtonSeverity },
-        3: { label: "Approver Rejected", severity: "danger" as ButtonSeverity },
-        // 4: { label: "Reviewed", severity: "primary" as ButtonSeverity },
-        5: { label: "Settled", severity: "success" as ButtonSeverity }
-    };
+
+    // private statusMap: { [key: number]: { label: string; severity: ButtonSeverity } } = {
+    //     6: { label: "Not Submited", severity: "help" as ButtonSeverity },
+    //     0: { label: "Waiting for Review", severity: "primary" as ButtonSeverity },
+    //     1: { label: "Checker Sent", severity: "help" as ButtonSeverity },
+    //     2: { label: "Checker Rejected", severity: "danger" as ButtonSeverity },
+    //     3: { label: "Approver Rejected", severity: "danger" as ButtonSeverity },
+    //     // 4: { label: "Reviewed", severity: "primary" as ButtonSeverity },
+    //     5: { label: "Settled", severity: "success" as ButtonSeverity }
+    // };
 
     getStatusInfo(status: number): { label: string; severity: ButtonSeverity } {
         return this.statusMap[status] || { label: "Unknown status", severity: "info" as ButtonSeverity };

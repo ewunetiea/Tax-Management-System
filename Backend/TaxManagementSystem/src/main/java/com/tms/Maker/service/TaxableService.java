@@ -83,18 +83,16 @@ public class TaxableService {
                 tf.setTax_id(tax_id);
 
                 if (!file.isEmpty()) {
+
                     File destination = new File(dir, file.getOriginalFilename());
 
-                    // Transfer the file to the destination
                     file.transferTo(destination);
 
-                    // Generate ID and update the taxFile object
                     String fileId = generateGuid();
                     tf.setId(mainGuid);
                     tf.setSupportId(fileId);
                     tf.setFileName(file.getOriginalFilename());
 
-                    // Insert the file record in the database
                     taxFileMapper.insertFile(tf);
 
                     User user = new User();
@@ -145,10 +143,8 @@ public class TaxableService {
                     // Delete from folder
                     File existingFile = new File(dir, taxFileToDelete.getFileName());
                     if (existingFile.exists()) {
-                        if (existingFile.delete()) {
-                        } else {
-                        }
-                    } else {
+                        existingFile.delete();
+                       
                     }
                 }
 

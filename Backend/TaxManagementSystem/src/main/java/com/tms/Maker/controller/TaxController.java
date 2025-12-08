@@ -40,9 +40,10 @@ public class TaxController {
 		try {
 			List<Tax> tax = new ArrayList<>();
 			tax = taxableService.fetchTaxBasedonStatus(payload);
+
 			return new ResponseEntity<>(tax, HttpStatus.OK);
 		} catch (Exception ex) {
-			logger.error("Error while fetching on going announcements", ex);
+			logger.error("Error while fetching taxes", ex);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -54,9 +55,10 @@ public class TaxController {
 		try {
 			List<Tax> tax = new ArrayList<>();
 			tax = taxableService.fetchTaxProgress(payload);
+
 			return new ResponseEntity<>(tax, HttpStatus.OK);
 		} catch (Exception ex) {
-			logger.error("Error while fetching on going announcements", ex);
+			logger.error("Error while fetching taxes progress", ex);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -78,9 +80,7 @@ public class TaxController {
 
 			if (tax.getId() != null) {
 
-				
-
-			savedTax =	taxableService.updateTax(tax, files);
+				savedTax = taxableService.updateTax(tax, files);
 
 				return new ResponseEntity<>(savedTax, HttpStatus.OK);
 
@@ -99,7 +99,6 @@ public class TaxController {
 
 				} else {
 
-
 					return new ResponseEntity<>(savedTax, HttpStatus.OK);
 
 				}
@@ -116,7 +115,7 @@ public class TaxController {
 	@PostMapping("/delete")
 	public ResponseEntity<Tax> deleteTax(@RequestBody List<Tax> taxs,
 			HttpServletRequest request) {
-				System.out.println(taxs);
+		System.out.println(taxs);
 		try {
 
 			for (Tax acc : taxs) {

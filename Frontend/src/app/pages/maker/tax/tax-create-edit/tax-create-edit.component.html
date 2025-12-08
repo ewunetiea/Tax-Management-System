@@ -9,9 +9,20 @@
                     <label for="from_" class="block font-bold mb-3">Request Generated From<strong
                             class="text-danger">*</strong></label>
                     <input type="text" name="from_" id="from_" pInputText [(ngModel)]="user_branch" fluid readonly
-                        class="w-full h-14 " />
+                        class="w-full h-12 " />
                 </div>
 
+                 <!-- Income Tax Pool -->
+                <div class="p-field">
+                    <label for="incometaxPoolAmount" class="block font-bold mb-3">Income Tax Pool (Tax pool Amount)<strong
+                            class="text-danger">*</strong></label>
+                    <p-inputnumber [(ngModel)]="tax.incometaxPoolAmount" name="incometaxPoolAmount"
+                        inputId="incometaxPoolAmount" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="6"
+                        required autocomplete="off" fluid class="w-full h-12 " />
+                    <span
+                        *ngIf="taxForm.controls['incometaxPoolAmount']?.invalid && (taxForm.controls['incometaxPoolAmount']?.touched || submitted)"
+                        class="text-danger">Income Tax Pool is required.</span>
+                </div>
                 <!-- Send To -->
                 <div class="p-field">
                     <label for="sendTo_" class="block font-bold mb-3">Send To<strong
@@ -19,25 +30,15 @@
                     <p-select [options]="branches" [(ngModel)]="selectedBranchId"
                         (ngModelChange)="onBranchChange($event)" optionLabel="name" optionValue="id" name="sendTo_"
                         id="sendTo_" placeholder="Select Branch" [filter]="true" [showClear]="true" scrollHeight="300px"
-                        class="w-full h-14" [virtualScroll]="true" [virtualScrollItemSize]="40" required>
+                        class="w-full h-12" [virtualScroll]="true" [virtualScrollItemSize]="40" required>
                     </p-select>
                     <span
                         *ngIf="taxForm.controls['sendTo_']?.invalid && (taxForm.controls['sendTo_']?.touched || submitted)"
                         class="text-danger">Send To is required.</span>
                 </div>
 
-                <div class="p-field">
-                    <label for="taxCategory" class="block font-bold mb-3">Tax Category<strong
-                            class="text-danger">*</strong></label>
-                    <p-select [options]="taxCategories" [(ngModel)]="tax.taxCategory" name="taxCategory"
-                        id="taxCategory" optionLabel="type" optionValue="id" placeholder="Select Tax Category"
-                        [filter]="true" [showClear]="true" scrollHeight="200px" class="w-full h-14" required
-                        #taxCategoryCtrl="ngModel"></p-select>
-                    <span *ngIf="(taxCategoryCtrl.invalid && (taxCategoryCtrl.touched || submitted))"
-                        class="text-danger">
-                        Tax Category is required.
-                    </span>
-                </div>
+            
+
 
                 <!-- Taxable Amount -->
                 <div class="p-field">
@@ -45,11 +46,25 @@
                             class="text-danger">*</strong></label>
                     <p-inputnumber [(ngModel)]="tax.taxableAmount" name="taxableAmount" inputId="taxableAmount"
                         mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="6" required required
-                        autocomplete="off" fluid class="w-full h-14 " />
+                        autocomplete="off" fluid class="w-full h-12 " />
                     <span
                         *ngIf="taxForm.controls['taxableAmount']?.invalid && (taxForm.controls['taxableAmount']?.touched || submitted)"
                         class="text-danger">Taxable amount is required.</span>
                 </div>
+
+                    <div class="p-field">
+                    <label for="taxCategory" class="block font-bold mb-3">Tax Category<strong
+                            class="text-danger">*</strong></label>
+                    <p-select [options]="taxCategories" [(ngModel)]="tax.taxCategory" name="taxCategory"
+                        id="taxCategory" optionLabel="type" optionValue="id" placeholder="Select Tax Category"
+                        [filter]="true" [showClear]="true" scrollHeight="200px" class="w-full h-12" required
+                        #taxCategoryCtrl="ngModel"></p-select>
+                    <span *ngIf="(taxCategoryCtrl.invalid && (taxCategoryCtrl.touched || submitted))"
+                        class="text-danger">
+                        Tax Category is required.
+                    </span>
+                </div>
+
 
                 <!-- Tax With Hold -->
                 <div class="p-field">
@@ -57,43 +72,59 @@
                             class="text-danger">*</strong></label>
                     <p-inputnumber [(ngModel)]="tax.taxWithHold" name="taxWithHold" inputId="taxWithHold" mode="decimal"
                         [minFractionDigits]="0" [maxFractionDigits]="6" required autocomplete="off" fluid
-                        class="w-full h-14 " />
+                        class="w-full h-12 " />
                     <span
                         *ngIf="taxForm.controls['taxWithHold']?.invalid && (taxForm.controls['taxWithHold']?.touched || submitted)"
                         class="text-danger">Tax With Hold is required.</span>
                 </div>
 
-                <!-- Income Tax Pool -->
-                <div class="p-field">
-                    <label for="incometaxPoolAmount" class="block font-bold mb-3">Income Tax Pool<strong
-                            class="text-danger">*</strong></label>
-                    <p-inputnumber [(ngModel)]="tax.incometaxPoolAmount" name="incometaxPoolAmount"
-                        inputId="incometaxPoolAmount" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="6"
-                        required autocomplete="off" fluid class="w-full h-14 " />
-                    <span
-                        *ngIf="taxForm.controls['incometaxPoolAmount']?.invalid && (taxForm.controls['incometaxPoolAmount']?.touched || submitted)"
-                        class="text-danger">Income Tax Pool is required.</span>
-                </div>
+               
 
                 <!-- Graduate Tax Pool -->
                 <div class="p-field">
-                    <label for="graduatetaxPool" class="block font-bold mb-3">Graduate Taxpool<strong
+                    <label for="graduatetaxPool" class="block font-bold mb-3">Graduate Tax Pool<strong
                             class="text-danger">*</strong></label>
                     <p-inputnumber [(ngModel)]="tax.graduatetaxPool" name="graduatetaxPool" inputId="graduatetaxPool"
                         mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="6" required autocomplete="off" fluid
-                        class="w-full h-14 " />
+                        class="w-full h-12 " />
                     <span
                         *ngIf="taxForm.controls['graduatetaxPool']?.invalid && (taxForm.controls['graduatetaxPool']?.touched || submitted)"
-                        class="text-danger">Graduate Taxpool is required.</span>
+                        class="text-danger">Graduate Tax Pool is required.</span>
                 </div>
 
-                <!-- Graduate Total Base Salary -->
+                <!-- Graduate Tax With Hold -->
+                <div class="p-field">
+                    <label for="graduatetaxWithHold" class="block font-bold mb-3">Graduate Tax With Hold<strong
+                            class="text-danger">*</strong></label>
+                    <p-inputnumber [(ngModel)]="tax.graduatetaxWithHold" name="graduatetaxWithHold"
+                        inputId="graduatetaxWithHold" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="5"
+                        required autocomplete="off" fluid class="w-full h-12 " />
+                    <span
+                        *ngIf="taxForm.controls['graduatetaxWithHold']?.invalid && (taxForm.controls['graduatetaxWithHold']?.touched || submitted)"
+                        class="text-danger">Graduate Tax With Hold is required.</span>
+                </div>
+              
+               
+
+
+                  <div class="p-field">
+                    <label for="noOfEmployee" class="block font-bold mb-3">Number of Employee<strong
+                            class="text-danger">*</strong></label>
+                    <p-inputnumber [(ngModel)]="tax.noOfEmployee" name="noOfEmployee"
+                        inputId="noOfEmployee" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="5"
+                        required autocomplete="off" fluid class="w-full h-12 " />
+                    <span
+                        *ngIf="taxForm.controls['noOfEmployee']?.invalid && (taxForm.controls['noOfEmployee']?.touched || submitted)"
+                        class="text-danger"> Number of employee is required.</span>
+                </div>
+
+                 <!-- Graduate Total Base Salary -->
                 <div class="p-field">
                     <label for="graduaTotBasSalary" class="block font-bold mb-3">Graduate Total Base Salary<strong
                             class="text-danger">*</strong></label>
                     <p-inputnumber [(ngModel)]="tax.graduaTotBasSalary" name="graduaTotBasSalary"
                         inputId="graduaTotBasSalary" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="6"
-                        required autocomplete="off" fluid class="w-full h-14 " />
+                        required autocomplete="off" fluid class="w-full h-12 " />
                     <span
                         *ngIf="taxForm.controls['graduaTotBasSalary']?.invalid && (taxForm.controls['graduaTotBasSalary']?.touched || submitted)"
                         class="text-danger">Graduate total base salary is required.</span>
@@ -105,44 +136,14 @@
                             class="text-danger">*</strong></label>
                     <p-inputnumber [(ngModel)]="tax.graduateTotaEmployee" name="graduateTotaEmployee"
                         inputId="graduateTotaEmployee" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="5"
-                        required autocomplete="off" fluid class="w-full h-14 " />
+                        required autocomplete="off" fluid class="w-full h-12 " />
                     <span
                         *ngIf="taxForm.controls['graduateTotaEmployee']?.invalid && (taxForm.controls['graduateTotaEmployee']?.touched || submitted)"
                         class="text-danger">Graduate total employee is required.</span>
                 </div>
 
-                <!-- Graduate Tax With Hold -->
-                <div class="p-field">
-                    <label for="graduatetaxWithHold" class="block font-bold mb-3">Graduate Tax With Hold<strong
-                            class="text-danger">*</strong></label>
-                    <p-inputnumber [(ngModel)]="tax.graduatetaxWithHold" name="graduatetaxWithHold"
-                        inputId="graduatetaxWithHold" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="5"
-                        required autocomplete="off" fluid class="w-full h-14 " />
-                    <span
-                        *ngIf="taxForm.controls['graduatetaxWithHold']?.invalid && (taxForm.controls['graduatetaxWithHold']?.touched || submitted)"
-                        class="text-danger">Graduate Tax With Hold is required.</span>
-                </div>
 
-                <!-- Remark -->
-                <!-- <div class="p-field">
-                    <label for="remark" class="block font-bold mb-3">Remark</label>
-                    <input type="text" name="remark" id="remark" pInputText [(ngModel)]="tax.remark" fluid
-                        class="w-full h-14 " />
-                </div> -->
-                <div class="p-field">
-                    <label for="remark" class="block font-bold mb-3">Remark</label>
-
-                    <input type="text" id="remark" name="remark" pInputText class="w-full h-14" [(ngModel)]="tax.remark"
-                        (input)="onRemarkChange($event)" />
-
-                    <small *ngIf="invalidXss" class="text-danger">
-                        ❌ Invalid input detected! Special characters or scripts are not allowed.
-                    </small>
-                </div>
-
-
-
-                <!-- Drafted Date -->
+              
                 <div class="p-field" *ngIf="!isEdit">
                     <label for="drafted_date" class="block font-bold mb-3">Drafted Date<strong
                             class="text-danger"></strong></label>
@@ -156,6 +157,20 @@
                         class="w-full custom-datepicker" [maxDate]="maxDate"></p-datepicker>
                     
                 </div>
+
+
+                <div class="p-field">
+                    <label for="remark" class="block font-bold mb-3">Remark</label>
+
+                    <input type="text" id="remark" name="remark" pInputText class="w-full h-12" [(ngModel)]="tax.remark"
+                        (input)="onRemarkChange($event)" />
+
+                    <small *ngIf="invalidXss" class="text-danger">
+                        ❌ Invalid input detected! Special characters or scripts are not allowed.
+                    </small>
+                </div>
+
+
 
 
                  <div class="p-field" *ngIf="isEdit">
@@ -181,10 +196,12 @@
                 <!-- File Upload -->
                 <div *ngIf="isMaker">
                     <div *ngIf="!isEdit || tax.isFileEdited">
-                        <label for="drafted_date" class="block font-bold mb-3">File<strong
+                        <label for="file" class="block font-bold mb-3">File<strong
                                 class="text-danger">*</strong></label>
-                        <p-fileUpload name="demo[]" mode="advanced" [multiple]="true" [maxFileSize]="1000000"
+                        <p-fileUpload name="demo[]" mode="advanced" [multiple]="true" [maxFileSize]="10000000"
                             customUpload="true"
+                            [showUploadButton]="false"
+
                             accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                             (onSelect)="onFileSelect($event)" (onClear)="onFileClear()"
                             (onRemove)="onFileRemove($event)">

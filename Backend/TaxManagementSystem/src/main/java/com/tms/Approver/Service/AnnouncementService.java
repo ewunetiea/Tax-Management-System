@@ -11,6 +11,7 @@ import com.tms.Admin.Entity.User;
 import com.tms.Approver.Entity.Announcement;
 import com.tms.Approver.Entity.AnnouncementFile;
 import com.tms.Approver.Mapper.AnnouncementMapper;
+import com.tms.Common.Exception.DuplicateFileException;
 import com.tms.Common.FileManagement.FileStorageServiceImpl;
 import com.tms.Common.RecentActivity.RecentActivity;
 import com.tms.Common.RecentActivity.RecentActivityMapper;
@@ -47,11 +48,11 @@ public class AnnouncementService {
 
                 // duplicate check → THROW exception to rollback!
                 if (announcementMapper.checkFileNameExistance(fileName)) {
-                    throw new RuntimeException("File already exists: " + fileName);
+                    throw new DuplicateFileException("A file named '" + fileName + "' already exists");
                 }
 
                 // save file
-                fileStorageService.saveFile(file, "AnnouncementFile");
+                fileStorageService.saveFile(file, "announcementFile");
 
                 AnnouncementFile af = new AnnouncementFile();
                 af.setAnnouncement_id(id);
@@ -86,7 +87,7 @@ public class AnnouncementService {
                     announcementMapper.deleteAnnouncementFile(old.getAnnouncement_id());
 
                     // delete from folder
-                    boolean removed = fileStorageService.deleteFile("AnnouncementFile", old.getFileName());
+                    boolean removed = fileStorageService.deleteFile("announcementFile", old.getFileName());
                     if (!removed) {
                         throw new IOException("Failed to delete old file: " + old.getFileName());
                     }
@@ -100,7 +101,7 @@ public class AnnouncementService {
                         continue;
 
                     // save file first (folder)
-                    String savedName = fileStorageService.saveFile(file, "AnnouncementFile");
+                    String savedName = fileStorageService.saveFile(file, "announcementFile");
                     if (savedName == null) {
                         throw new IOException("Failed to save file: " + file.getOriginalFilename());
                     }

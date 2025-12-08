@@ -95,9 +95,7 @@ public class FileStorageServiceImpl {
 
     // @Override
    public Resource loadFile(String fileName, String folderName) throws MalformedURLException {
-    System.out.println("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF:" + fileName + " Folder Name  " + folderName);
     Path filePath = Paths.get(rootPath, folderName).resolve(fileName);
-
     System.out.println("File Pathhhhhhhhhhhhhhhhhhhhhhhhh: " + filePath);
 
     if (!Files.exists(filePath)) {

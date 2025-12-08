@@ -9,7 +9,6 @@ import { FileUpload } from 'primeng/fileupload';
 import { EditorModule } from 'primeng/editor';
 import { AnnouncementFile } from 'app/models/approver/announcementFile';
 
-
 @Component({
   standalone: true,
   selector: 'app-announcement-create-edit',
@@ -18,13 +17,12 @@ import { AnnouncementFile } from 'app/models/approver/announcementFile';
   styleUrl: './announcement-create-edit.component.scss'
 })
 export class AnnouncementCreateEditComponent {
-  @Input() visible!: boolean;
   @Output() visibleChange = new EventEmitter<boolean>();
-  @Input() announcement!: Announcement;
   @Output() saved = new EventEmitter<Announcement>();
   @Output() cancel = new EventEmitter<void>();
   isEdit: boolean = false;
-
+  announcement: Announcement = new Announcement();
+  visible:boolean = false;
   minExpiryDate: Date = new Date();
   submitting = false;
 
@@ -36,7 +34,6 @@ export class AnnouncementCreateEditComponent {
     private messageService: MessageService,
     private storageService: StorageService
   ) { }
-
 
   ngOnInit(): void {
     this.isEdit = this.passedAnnouncement[1];
@@ -84,15 +81,19 @@ export class AnnouncementCreateEditComponent {
     }
 
     this.submitting = true;
-
     this.announcementService.createAnnouncemet(formData).subscribe({
       next: (response) => {
-        this.saved.emit(response); // emit created announcement
+        const isNew = !this.announcement.id;
+        this.saved.emit(response); 
         // close dialog and notify parent
         this.visible = false;
         this.visibleChange.emit(this.visible);
         this.submitting = false;
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Announcement saved' });
+        this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: isNew ? 'Announcement saved' : 'Announcement updated'
+      });
       },
       error: (err: HttpErrorResponse) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message });
@@ -109,7 +110,7 @@ export class AnnouncementCreateEditComponent {
 
 
   onFileSelect(event: any) {
-    const files: File[] = Array.from(event.files); // convert FileList to array
+    const files: File[] = Array.from(event.files); 
     if (!this.announcement!.announcementFile) {
       this.announcement!.announcementFile = [];
     }
@@ -151,5 +152,10 @@ export class AnnouncementCreateEditComponent {
       detail: `${removedFile.name} has been removed.`
     });
   }
+
+  enableFileEdit() {
+  this.announcement.isFileEdited = true;
+}
+
 
 }

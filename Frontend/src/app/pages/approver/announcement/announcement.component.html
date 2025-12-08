@@ -106,10 +106,22 @@ currentPageReportTemplate="Showing {first} to {last} of {totalRecords} announcem
       <td>{{ announcement.expiry_date | date:'yyyy-MM-dd' }}</td>
       <td>{{ announcement.postedBy }}</td>
       <td *ngIf="this.announcmentPayload.role ==='ROLE_APPROVER'">
-        <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" pTooltip="Edit"
-          tooltipPosition="bottom" (click)="editAnnouncement(announcement)" />
-        <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" pTooltip="Delete"
-          tooltipPosition="bottom" (click)="deleteAnnouncements(announcement)" />
+        <p-button 
+        icon="pi pi-pencil" 
+        class="mr-2" 
+        [rounded]="true" 
+        [outlined]="true" 
+        pTooltip="Edit"
+        tooltipPosition="bottom" 
+        (click)="editAnnouncement(announcement)" />
+        <p-button 
+        icon="pi pi-trash" 
+        severity="danger" 
+        [rounded]="true" 
+        [outlined]="true" 
+        pTooltip="Delete"
+        tooltipPosition="bottom" 
+        (click)="deleteAnnouncements(announcement)" />
       </td>
     </tr>
   </ng-template>
@@ -202,16 +214,18 @@ currentPageReportTemplate="Showing {first} to {last} of {totalRecords} announcem
   </ng-template>
 </p-table>
 
-<app-announcement-create-edit [(visible)]="announcemetDialog" [announcement]="announcement"
-  (saved)="onAnnouncementSaved($event)" (cancel)="hideDialog()">
-</app-announcement-create-edit>
-
-
-<p-dialog [(visible)]="announcemetDialog" [style]="{ width: '600px' }" header="Announcement Details" [modal]="true"
-  styleClass="p-fluid" [maximizable]="true">
+<p-dialog 
+[(visible)]="announcemetDialog" 
+[style]="{ width: '600px' }"
+ header="Announcement Details" 
+ [modal]="true"
+  styleClass="p-fluid" 
+  [maximizable]="true">
   <ng-template pTemplate="content">
-    <app-announcement-create-edit [passedAnnouncement]="outputAnnouncement"
-      (editedAnnouncement)="onDataChange($event)"></app-announcement-create-edit>
+    <app-announcement-create-edit
+     [passedAnnouncement]="outputAnnouncement"
+      (editedAnnouncement)="onDataChange($event)">
+    </app-announcement-create-edit>
   </ng-template>
 </p-dialog>
 

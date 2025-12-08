@@ -27,7 +27,7 @@ public class TaxFileDownloderController {
         try {
 
             // Resource resource = fileDownloadService.getFileResource(fileName);
-             Resource resource = fileDownloadService.loadFile(fileName, "taxFiles");
+             Resource resource = fileDownloadService.loadFile(fileName, "taxFile");
 
             // Determine content type
             String contentType = "application/octet-stream";

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,6 +40,9 @@ public class TaxableService {
 
     RecentActivity recentActivity = new RecentActivity();
 
+    @Value("${file.storage.root}")
+    private String rootPath;
+
     @Transactional
     public Tax createTaxWithFiles(Tax tax, MultipartFile[] files) throws IOException {
 
@@ -47,9 +51,9 @@ public class TaxableService {
         String mainGuid = generateGuid();
 
         if (files != null && files.length > 0 && tax.getTaxFile() != null) {
-            String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();
+            // String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();
+            String uploadDir = Paths.get(rootPath, "taxFile").toString();
 
-            
 
             // String uploadDir = "\\\\10.10.101.76\\fileUploadFolder"; // Use IP upload
             // from other server
@@ -125,8 +129,9 @@ public class TaxableService {
 
                 // String uploadDir = "\\\\10.10.101.76\\fileUploadFolder"; // Use IP upload
             // from other server
-            String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();// folder inside the
-                                                                                                // project
+            // String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();
+            String uploadDir = Paths.get(rootPath, "taxFile").toString();
+            
             File dir = new File(uploadDir);
             if (!dir.exists()) {
                 dir.mkdirs();

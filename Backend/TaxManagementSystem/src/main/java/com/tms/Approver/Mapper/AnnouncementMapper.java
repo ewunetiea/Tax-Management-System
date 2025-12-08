@@ -64,8 +64,4 @@ public interface AnnouncementMapper {
         
         @Select("SELECT fileName, extension FROM announcement_file WHERE announcement_id = #{Id}")
         public List<AnnouncementFile> getAnnouncementFileByAnnouncementId(Long announcement_id);
-
-      //  @Select("SELECT TOP 1 id FROM announcements ORDER BY DESC")
-      //  public Long getLastReferenceNumber();
-
 }

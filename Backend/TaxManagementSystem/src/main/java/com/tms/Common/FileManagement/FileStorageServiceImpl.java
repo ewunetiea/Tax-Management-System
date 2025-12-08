@@ -67,39 +67,55 @@ public class FileStorageServiceImpl {
 
 //  @Override
     public String saveFile(MultipartFile file, String folderName) throws IOException {
-        Path folderPath = Paths.get(rootPath, folderName);
+
+    // Build folder path
+    Path folderPath = Paths.get(rootPath, folderName);
+
+    // Create folder ONLY if missing
+    if (!Files.exists(folderPath)) {
         Files.createDirectories(folderPath);
-
-        String fileName = file.getOriginalFilename();
-        Path targetPath = folderPath.resolve(fileName);
-
-        Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
-
-        return fileName; 
+    } else {
+        System.out.println("📁 Folder already exist: " + folderPath.toAbsolutePath());
     }
+
+    // Resolve file name and target path
+    String fileName = file.getOriginalFilename();
+    Path targetPath = folderPath.resolve(fileName);
+
+    // Log file targets
+    System.out.println("Saving into folder: " + folderPath.toAbsolutePath());
+    System.out.println("Target file path: " + targetPath.toAbsolutePath());
+
+    // Copy file
+    Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+
+    return fileName;
+}
+
 
     // @Override
-    public Resource loadFile(String fileName, String folderName) throws MalformedURLException {
-        Path filePath = Paths.get(rootPath, folderName).resolve(fileName);
-        Resource resource = new UrlResource(filePath.toUri());
+   public Resource loadFile(String fileName, String folderName) throws MalformedURLException {
+    Path filePath = Paths.get(rootPath, folderName).resolve(fileName);
 
-        if (resource.exists() || resource.isReadable()) {
-            return resource;
-        } else {
-            throw new RuntimeException("Could not read file: " + fileName);
-        }
+    if (!Files.exists(filePath)) {
+        throw new RuntimeException("File not found: " + fileName);
     }
+
+    UrlResource resource = new UrlResource(filePath.toUri());
+
+    if (!resource.exists() || !resource.isReadable()) {
+        throw new RuntimeException("File is not readable: " + fileName);
+    }
+
+    return resource;
+}
+
 
     // @Override
-    public void deleteFile(String fileName, String folderName) throws IOException {
-        Path filePath = Paths.get(rootPath, folderName).resolve(fileName);
-        Files.deleteIfExists(filePath);
-    }
-
-
-
-
-
+   public boolean deleteFile(String folderName, String fileName) throws IOException {
+    Path filePath = Paths.get(rootPath, folderName).resolve(fileName);
+    return Files.deleteIfExists(filePath);
+}
 
 
 

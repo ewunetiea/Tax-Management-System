@@ -1,14 +1,9 @@
 package com.tms.Approver.Service;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
-import jakarta.transaction.Transactional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,7 +16,9 @@ import com.tms.Common.RecentActivity.RecentActivity;
 import com.tms.Common.RecentActivity.RecentActivityMapper;
 
 @Service
+@Transactional
 public class AnnouncementService {
+
     @Autowired
     private AnnouncementMapper announcementMapper;
 
@@ -29,167 +26,143 @@ public class AnnouncementService {
     private RecentActivityMapper recentActivityMapper;
 
     @Autowired
-    FileStorageServiceImpl fileStorageService;
+    private FileStorageServiceImpl fileStorageService;
 
-    private static final Logger logger = LoggerFactory.getLogger(AnnouncementService.class);
-
+    // ------------------ CREATE --------------------
     @Transactional
-    public List<Announcement> getOnGoingAnnouncements(String role_type) {
-        return announcementMapper.getOngoingAnnouncements(role_type);
-    }
+    public Announcement createAnnouncement(Announcement announcement, MultipartFile[] files) throws IOException {
 
-    @Transactional
-    public Announcement getAnnouncementForDashBoard(String role_type) {
-        return announcementMapper.getAnnouncementForDashBoard(role_type);
+        String mainGuid = generateGuid();
+        announcement.setMainGuid(mainGuid);
 
-    }
+        Long id = announcementMapper.createCreateAnnouncement(announcement);
+        announcement.setId(id);
 
-    @Transactional
+        if (files != null) {
+            for (MultipartFile file : files) {
+                if (file.isEmpty())
+                    continue;
 
-    public List<Announcement> getArchivedAnnouncements(String role_type) {
+                String fileName = file.getOriginalFilename();
 
-        return announcementMapper.getArchivedAnnouncements(role_type);
+                // duplicate check → THROW exception to rollback!
+                if (announcementMapper.checkFileNameExistance(fileName)) {
+                    throw new RuntimeException("File already exists: " + fileName);
+                }
 
-    }
+                // save file
+                fileStorageService.saveFile(file, "AnnouncementFile");
 
-    @Transactional
-public Announcement createAnnouncement(Announcement announcement, MultipartFile[] files) throws IOException {
-
-    String mainGuid = generateGuid();
-    announcement.setMainGuid(mainGuid);
-
-    // Create announcement DB record
-    Long announcementId = announcementMapper.createCreateAnnouncement(announcement);
-    announcement.setId(announcementId);
-
-    // Handle files
-    if (files != null && files.length > 0) {
-        for (MultipartFile file : files) {
-
-            if (file.isEmpty()) continue;
-
-            // Check if file name already exists
-            if (announcementMapper.checkFileNameExistance(file.getOriginalFilename())) {
-                announcement.setFileExsistance("Exists");
-                return announcement;
+                AnnouncementFile af = new AnnouncementFile();
+                af.setAnnouncement_id(id);
+                af.setSupportId(mainGuid);
+                af.setFileName(fileName);
+                af.setExtension(getExtension(fileName));
+                announcementMapper.insertFile(af);
             }
-
-            // Extract file name & extension
-            String originalName = file.getOriginalFilename();
-            String extension = "";
-
-            if (originalName != null && originalName.contains(".")) {
-                extension = originalName.substring(originalName.lastIndexOf("."));
-            }
-
-            // Save the physical file using centralized service
-            System.out.println("Saving file: " + originalName);
-            fileStorageService.saveFile(file, "AnnouncementFile");
-
-            // Save metadata to DB
-            AnnouncementFile af = new AnnouncementFile();
-            af.setSupportId(mainGuid);
-            af.setAnnouncement_id(announcementId);
-            af.setFileName(originalName);
-            af.setExtension(extension);
-
-            announcementMapper.insertFile(af);
         }
+
+        saveRecentActivity(announcement.getPosted_by(), announcement.getTitle() + " is created");
+        announcement.setFileExsistance("notExist");
+
+        return announcement;
     }
 
-    // Log activity
-    RecentActivity ra = new RecentActivity();
-    User u = new User();
-    u.setId(announcement.getPosted_by());
-    ra.setUser(u);
-    ra.setMessage(announcement.getTitle() + " is created");
-    recentActivityMapper.addRecentActivity(ra);
-
-    announcement.setFileExsistance("notExist");
-    return announcement;
-}
-
-    @Transactional
+    // ------------------ UPDATE --------------------
+    @Transactional(rollbackFor = Exception.class)
     public void updateAnnouncement(Announcement announcement, MultipartFile[] files) throws IOException {
-        try {
-            String uploadDir = Paths.get(System.getProperty("user.dir"), "announcementFiles").toString();
-            File dir = new File(uploadDir);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
 
-            announcementMapper.updateAnnouncements(announcement);
+        // ---- UPDATE MAIN RECORD ----
+        announcementMapper.updateAnnouncements(announcement);
 
-            if (announcement.getIsFileEdited()) {
-                for (AnnouncementFile announcementFileToDelete : announcement.getPreviouseAnnouncementFile()) {
+        if (announcement.getIsFileEdited()) {
+            // ---------------- DELETE OLD FILES (DB + FOLDER) ----------------
+            List<AnnouncementFile> oldFiles = announcement.getPreviouseAnnouncementFile();
 
-                    // Delete from DB
-                    announcementMapper.deleteAnnouncementFile(announcementFileToDelete.getAnnouncement_id());
+            if (oldFiles != null) {
+                for (AnnouncementFile old : oldFiles) {
 
-                    // Delete from folder
-                    File existingFile = new File(dir, announcementFileToDelete.getFileName());
-                    if (existingFile.exists()) {
-                        if (existingFile.delete()) {
-                        } else {
+                    // delete from DB
+                    announcementMapper.deleteAnnouncementFile(old.getAnnouncement_id());
 
-                        }
-                    } else {
-
+                    // delete from folder
+                    boolean removed = fileStorageService.deleteFile("AnnouncementFile", old.getFileName());
+                    if (!removed) {
+                        throw new IOException("Failed to delete old file: " + old.getFileName());
                     }
                 }
+            }
 
-                for (int i = 0; i < files.length; i++) {
-                    MultipartFile file = files[i];
-                    AnnouncementFile af = announcement.getAnnouncementFile().get(i);
+            // ---------------- SAVE NEW FILES (DB + FOLDER) ----------------
+            if (files != null) {
+                for (MultipartFile file : files) {
+                    if (file.isEmpty())
+                        continue;
+
+                    // save file first (folder)
+                    String savedName = fileStorageService.saveFile(file, "AnnouncementFile");
+                    if (savedName == null) {
+                        throw new IOException("Failed to save file: " + file.getOriginalFilename());
+                    }
+
+                    // then store file record in DB
+                    AnnouncementFile af = new AnnouncementFile();
                     af.setAnnouncement_id(announcement.getId());
+                    af.setSupportId(generateGuid());
+                    af.setFileName(savedName);
+                    af.setExtension(getExtension(savedName));
 
-                    if (!file.isEmpty()) {
-                        String fileName = file.getOriginalFilename();
-                        File destination = new File(dir, fileName);
-
-                        file.transferTo(destination);
-                        String fileId = generateGuid();
-                        af.setSupportId(fileId);
-                        af.setFileName(fileName);
-                        announcementMapper.insertFile(af);
-                    }
+                    announcementMapper.insertFile(af);
                 }
             }
-            // ✅ Log recent activity
-            RecentActivity ra = new RecentActivity();
-            User user = new User();
-            user.setId(announcement.getPosted_by());
-            ra.setUser(user);
-            ra.setMessage(announcement.getTitle() + "  is updated ");
-            recentActivityMapper.addRecentActivity(ra);
-        } catch (Exception e) {
-            logger.error("Error while updating announcement", e);
         }
+
+        saveRecentActivity(announcement.getPosted_by(), announcement.getTitle() + " is updated");
     }
 
+    // ------------------ DELETE --------------------
     public void deleteAnnouncement(Long id) {
-        announcementMapper.deleteAnnouncement(id);
+        // List<AnnouncementFile> files =
+        // announcementMapper.getFilesByAnnouncementId(id);
+
+        // for (AnnouncementFile f : files) {
+        // fileStorageService.deleteFile("AnnouncementFile", f.getFileName());
+        // }
+
+        // announcementMapper.deleteAnnouncement(id);
+    }
+
+    // ------------------ OTHER FUNCTIONS --------------------
+    public String getExtension(String name) {
+        return name.contains(".") ? name.substring(name.lastIndexOf(".")) : "";
+    }
+
+    public void saveRecentActivity(Long userId, String msg) {
+        RecentActivity ra = new RecentActivity();
+        User u = new User();
+        u.setId(userId);
+        ra.setUser(u);
+        ra.setMessage(msg);
+        recentActivityMapper.addRecentActivity(ra);
     }
 
     public Announcement getAnnouncementById(Long id) {
         return announcementMapper.getAnnouncementById(id);
     }
 
-    public String generateGuid() {
-        UUID uuid = UUID.randomUUID();
-        return uuid.toString().toUpperCase();
+    public List<Announcement> getOnGoingAnnouncements(String role) {
+        return announcementMapper.getOngoingAnnouncements(role);
     }
 
-    // private String generateReferenceNumber() {
-    // Long lastRef = announcementMapper.getLastReferenceNumber();
+    public List<Announcement> getArchivedAnnouncements(String role) {
+        return announcementMapper.getArchivedAnnouncements(role);
+    }
 
-    // If DB returns null → start from REF1
-    // if (lastRef == null) {
-    // return "REF1";
-    // }
+    public Announcement getAnnouncementForDashBoard(String role) {
+        return announcementMapper.getAnnouncementForDashBoard(role);
+    }
 
-    // long nextNumber = lastRef + 1;
-    // return "REF" + nextNumber;
-    // }
-
+    public String generateGuid() {
+        return UUID.randomUUID().toString().toUpperCase();
+    }
 }

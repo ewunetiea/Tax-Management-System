@@ -16,6 +16,7 @@ import com.tms.Admin.Entity.User;
 import com.tms.Approver.Entity.Announcement;
 import com.tms.Approver.Entity.AnnouncementFile;
 import com.tms.Approver.Mapper.AnnouncementMapper;
+import com.tms.Common.FileManagement.FileStorageServiceImpl;
 import com.tms.Common.RecentActivity.RecentActivity;
 import com.tms.Common.RecentActivity.RecentActivityMapper;
 
@@ -27,10 +28,12 @@ public class AnnouncementService {
     @Autowired
     private RecentActivityMapper recentActivityMapper;
 
+    @Autowired
+    FileStorageServiceImpl fileStorageService;
+
     private static final Logger logger = LoggerFactory.getLogger(AnnouncementService.class);
 
     @Transactional
-
     public List<Announcement> getOnGoingAnnouncements(String role_type) {
         return announcementMapper.getOngoingAnnouncements(role_type);
     }
@@ -49,80 +52,62 @@ public class AnnouncementService {
 
     }
 
-    // @Transactional
-    // public Long createCreateAnnouncement(Announcement announcement) {
-    // Long announcement_id =
-    // announcementMapper.createCreateAnnouncement(announcement);
-    // recentActivity.setMessage(announcement.getTitle() + " is created ");
-    // user.setId(announcement.getPosted_by());
-    // recentActivity.setUser(user);
-    // recentActivityMapper.addRecentActivity(recentActivity);
-    // return announcement_id;
-    // }
-
     @Transactional
-    public Announcement createAnnouncement(Announcement announcement, MultipartFile[] files) throws IOException {
-        String mainGuid = generateGuid();
-        announcement.setMainGuid(mainGuid);
+public Announcement createAnnouncement(Announcement announcement, MultipartFile[] files) throws IOException {
 
-        // Create upload directory once
-        String uploadDir = Paths.get(System.getProperty("user.dir"), "announcementFiles").toString();
-        File dir = new File(uploadDir);
-        if (!dir.exists())
-            dir.mkdirs();
+    String mainGuid = generateGuid();
+    announcement.setMainGuid(mainGuid);
 
-        // Create announcement DB record
-        Long announcementId = announcementMapper.createCreateAnnouncement(announcement);
-        announcement.setId(announcementId);
-        
-        // Handle files
-        if (files != null && files.length > 0) {
-            for (MultipartFile file : files) {
-                if (file.isEmpty())
-            continue;
+    // Create announcement DB record
+    Long announcementId = announcementMapper.createCreateAnnouncement(announcement);
+    announcement.setId(announcementId);
 
-        // Check if file name already exists
-        if (announcementMapper.checkFileNameExistance(file.getOriginalFilename())) {
-            announcement.setFileExsistance("Exists");
-            return announcement;
+    // Handle files
+    if (files != null && files.length > 0) {
+        for (MultipartFile file : files) {
+
+            if (file.isEmpty()) continue;
+
+            // Check if file name already exists
+            if (announcementMapper.checkFileNameExistance(file.getOriginalFilename())) {
+                announcement.setFileExsistance("Exists");
+                return announcement;
+            }
+
+            // Extract file name & extension
+            String originalName = file.getOriginalFilename();
+            String extension = "";
+
+            if (originalName != null && originalName.contains(".")) {
+                extension = originalName.substring(originalName.lastIndexOf("."));
+            }
+
+            // Save the physical file using centralized service
+            System.out.println("Saving file: " + originalName);
+            fileStorageService.saveFile(file, "AnnouncementFile");
+
+            // Save metadata to DB
+            AnnouncementFile af = new AnnouncementFile();
+            af.setSupportId(mainGuid);
+            af.setAnnouncement_id(announcementId);
+            af.setFileName(originalName);
+            af.setExtension(extension);
+
+            announcementMapper.insertFile(af);
         }
-
-        // Extract file name & extension
-        String originalName = file.getOriginalFilename();
-        String extension = "";
-
-        if (originalName != null && originalName.contains(".")) {
-            extension = originalName.substring(originalName.lastIndexOf("."));
-        }
-
-        // Create file metadata
-        AnnouncementFile af = new AnnouncementFile();
-        af.setSupportId(mainGuid);
-        af.setAnnouncement_id(announcementId);
-        af.setFileName(originalName);
-        af.setExtension(extension);   
-
-        // Save metadata to DB
-        announcementMapper.insertFile(af);
-
-        // Save the physical file
-        File destination = new File(dir, originalName);
-        file.transferTo(destination);
     }
+
+    // Log activity
+    RecentActivity ra = new RecentActivity();
+    User u = new User();
+    u.setId(announcement.getPosted_by());
+    ra.setUser(u);
+    ra.setMessage(announcement.getTitle() + " is created");
+    recentActivityMapper.addRecentActivity(ra);
+
+    announcement.setFileExsistance("notExist");
+    return announcement;
 }
-
-        // Log recent activity ONCE
-        RecentActivity ra = new RecentActivity();
-        User u = new User();
-        u.setId(announcement.getPosted_by());
-        ra.setUser(u);
-        ra.setMessage(announcement.getTitle() + " is created");
-        recentActivityMapper.addRecentActivity(ra);
-        announcement.setFileExsistance("notExist");
-        return announcement;
-    }
-
-    
 
     @Transactional
     public void updateAnnouncement(Announcement announcement, MultipartFile[] files) throws IOException {
@@ -171,7 +156,7 @@ public class AnnouncementService {
                 }
             }
             // ✅ Log recent activity
-             RecentActivity ra = new RecentActivity();
+            RecentActivity ra = new RecentActivity();
             User user = new User();
             user.setId(announcement.getPosted_by());
             ra.setUser(user);
@@ -196,15 +181,15 @@ public class AnnouncementService {
     }
 
     // private String generateReferenceNumber() {
-    //     Long lastRef = announcementMapper.getLastReferenceNumber();
+    // Long lastRef = announcementMapper.getLastReferenceNumber();
 
-    //     If DB returns null → start from REF1
-    //     if (lastRef == null) {
-    //         return "REF1";
-    //     }
+    // If DB returns null → start from REF1
+    // if (lastRef == null) {
+    // return "REF1";
+    // }
 
-    //     long nextNumber = lastRef + 1;
-    //     return "REF" + nextNumber;
+    // long nextNumber = lastRef + 1;
+    // return "REF" + nextNumber;
     // }
 
 }

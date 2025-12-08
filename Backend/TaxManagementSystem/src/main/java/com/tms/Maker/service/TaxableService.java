@@ -46,6 +46,8 @@ public class TaxableService {
         if (files != null && files.length > 0 && tax.getTaxFile() != null) {
             String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();
 
+            
+
             // String uploadDir = "\\\\10.10.101.76\\fileUploadFolder"; // Use IP upload
             // from other server
 

@@ -44,9 +44,7 @@ import com.tms.Security.exception.UserNotFoundException;
 import com.tms.Security.jwt.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import jakarta.servlet.http.HttpServletRequest;
-
 
 @RestController
 @RequestMapping("/api/auth")
@@ -116,7 +114,6 @@ public class AuthController {
 
                 // boolean userDetail =   lDAPProductionService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword());
 
-                
 
                 // if (!userDetail) {
                 // throw new UserNotFoundException(
@@ -134,8 +131,6 @@ public class AuthController {
                 // .body(new MessageResponse(
                 // "An error occurred during authentication. Please try again later."));
                 // }
-
-
 
                 return doLogin(loginRequest, request);
         }

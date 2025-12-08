@@ -10,7 +10,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class TMSApplication extends SpringBootServletInitializer  {
 	
-
 	public static void main(String[] args) {
 		SpringApplication.run(TMSApplication.class, args);
 	}

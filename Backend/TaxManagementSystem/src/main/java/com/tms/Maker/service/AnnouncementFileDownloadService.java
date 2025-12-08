@@ -4,13 +4,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.stereotype.Service;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
 
 @Service
-public class FileDownloadService {
+public class AnnouncementFileDownloadService {
    
-  private final String folderPath = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();
+  private final String folderPath = Paths.get(System.getProperty("user.dir"), "announcementFiles").toString();
     
 // String folderPath = "\\\\10.10.101.76\\fileUploadFolder";  // Use IP
 
@@ -33,4 +33,5 @@ public class FileDownloadService {
         File file = getFileByFileName(fileName);
         return new FileSystemResource(file);
     }
+
 }

@@ -1,5 +1,4 @@
 package com.tms.Maker.controller;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,37 +9,31 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.tms.Maker.service.FileDownloadService;
+import com.tms.Common.FileManagement.FileStorageServiceImpl;
 
 @RestController
-@RequestMapping("/api/maker/download")
-public class FileDownloderController {
+@RequestMapping("/api/maker/download/announcement")
+public class AnnouncementFileDownloaderController {
 
     @Autowired
-    private FileDownloadService fileDownloadService;
+    private FileStorageServiceImpl fileDownloadService;
 
-    private static final Logger logger = LoggerFactory.getLogger(FileDownloadService.class);
+    private static final Logger logger = LoggerFactory.getLogger(AnnouncementFileDownloaderController.class);
 
     @GetMapping("/{fileName}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable("fileName") String fileName) {
+    public ResponseEntity<Resource> getAnnouncementFile(@PathVariable("fileName") String fileName) {
         try {
-
-            Resource resource = fileDownloadService.getFileResource(fileName);
+            Resource resource = fileDownloadService.loadFile(fileName, "AnnouncementFile");
 
             // Determine content type
             String contentType = "application/octet-stream";
             if (fileName.endsWith(".pdf")) {
-
                 contentType = "application/pdf";
             } else if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
-
                 contentType = "image/jpeg";
             } else if (fileName.endsWith(".png")) {
-
                 contentType = "image/png";
             } else if (fileName.endsWith(".doc") || fileName.endsWith(".docx")) {
-
                 contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
             }
 
@@ -54,5 +47,5 @@ public class FileDownloderController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
 }
+

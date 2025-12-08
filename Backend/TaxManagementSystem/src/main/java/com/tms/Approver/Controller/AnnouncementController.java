@@ -1,25 +1,20 @@
 package com.tms.Approver.Controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import com.tms.Approver.Entity.Announcement;
 import com.tms.Approver.Entity.AnnouncementPayload;
 import com.tms.Approver.Service.AnnouncementService;
 
 @RestController
-@RequestMapping("/api/announcement")
+@RequestMapping("/api/approver/announcement")
 public class AnnouncementController {
 
 	@Autowired
@@ -27,91 +22,76 @@ public class AnnouncementController {
 
 	private static final Logger logger = LoggerFactory.getLogger(AnnouncementController.class);
 
+	// GET ongoing/archived
 	@PostMapping("/fetch")
-	public ResponseEntity<List<Announcement>> getAnnouncements( @RequestBody AnnouncementPayload announcementPayload ,  HttpServletRequest request) {
+	public ResponseEntity<List<Announcement>> getAnnouncements(@RequestBody AnnouncementPayload payload) {
 		try {
+			if (payload.getAnnouncement_type().equals("ongoing"))
+				return ResponseEntity.ok(announcementService.getOnGoingAnnouncements(payload.getRole()));
 
-			List<Announcement> announcements = new ArrayList<>();
-			if (announcementPayload.getAnnouncement_type().contains("ongoing")) {
-				announcements = announcementService.getOnGoingAnnouncements(announcementPayload.getRole());
+			if (payload.getAnnouncement_type().equals("archived"))
+				return ResponseEntity.ok(announcementService.getArchivedAnnouncements(payload.getRole()));
 
-			} else if (announcementPayload.getAnnouncement_type().contains("archived")) {
-				announcements = announcementService.getArchivedAnnouncements(announcementPayload.getRole());
-
-			}
-			return new ResponseEntity<>(announcements, HttpStatus.OK);
-		} catch (Exception ex) {
-			logger.error("Error while fetching on going announcements", ex);
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return ResponseEntity.badRequest().build();
+		} catch (Exception e) {
+			logger.error("Error fetching announcements", e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
-
 	}
 
+	// GET one
 	@GetMapping("/{id}")
-	public ResponseEntity<Announcement> getAnnouncementById(@PathVariable("id") Long id, HttpServletRequest request) {
-		Announcement accounts = announcementService.getAnnouncementById(id);
-		return new ResponseEntity<>(accounts, HttpStatus.OK);
-
+	public ResponseEntity<Announcement> getAnnouncementById(@PathVariable Long id) {
+		return ResponseEntity.ok(announcementService.getAnnouncementById(id));
 	}
 
-	@PostMapping("/create/approver")
-	public ResponseEntity<Announcement> saveAnnouncement(@RequestBody Announcement announcement,
-			HttpServletRequest request) {
+	// CREATE or UPDATE
+	@PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> createOrUpdateAnnouncement(@RequestPart("announcement") Announcement announcement, @RequestPart(value = "files", required = false) MultipartFile[] files) {
 		try {
-
-			Long Id = 0L;
-			if (announcement.getId() == null) {
-				Id = announcementService.createCreateAnnouncement(announcement);
-				announcement.setId(Id);
-
-			} else {
-
-				announcementService.updateAnnouncement(announcement);
-
-				Id = announcement.getId();
-
+			// UPDATE
+			if (announcement.getId() != null) {
+				announcementService.updateAnnouncement(announcement, files);
+				return ResponseEntity.ok(announcement);
 			}
 
-			return new ResponseEntity<>(announcement, HttpStatus.OK);
-		} catch (Exception ex) {
-			logger.error("Error while saving account", ex);
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+			// CREATE
+			Announcement result = announcementService.createAnnouncement(announcement, files);
 
-	}
-
-	@PostMapping("/delete/approver")
-	public ResponseEntity<Announcement> deleteAnnouncements(@RequestBody List<Announcement> announcements,
-			HttpServletRequest request) {
-		try {
-
-			for (Announcement acc : announcements) {
-				announcementService.deleteAnnouncement(acc.getId());
+			if ("Exists".equals(result.getFileExsistance())) {
+				return ResponseEntity.status(HttpStatus.CONFLICT).body("File already exists");
 			}
-			return new ResponseEntity<>(HttpStatus.OK);
+
+			return ResponseEntity.ok(result);
+
 		} catch (Exception ex) {
-			logger.error("Error while deleting account", ex);
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("Error creating/updating announcement", ex);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
+	// DELETE
+	@PostMapping("/delete")
+	public ResponseEntity<?> deleteAnnouncements(@RequestBody List<Announcement> announcements) {
+		try {
+			for (Announcement a : announcements) {
+				announcementService.deleteAnnouncement(a.getId());
+			}
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			logger.error("Error deleting announcements", e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	// Dashboard
 	@GetMapping("/fetch/dashboard/{type}")
-	public ResponseEntity<Announcement> getAnnouncementForDashbpard(@PathVariable("type") String type, HttpServletRequest request) {
+	public ResponseEntity<Announcement> fetchDashboard(@PathVariable String type) {
 		try {
-
-			Announcement announcement = new Announcement();
-			announcement = announcementService.getAnnouncementForDashBoard(type);
-
-
-
-			
-
-			return new ResponseEntity<>(announcement, HttpStatus.OK);
-		} catch (Exception ex) {
-			logger.error("Error while fetching on going announcements", ex);
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return ResponseEntity.ok(announcementService.getAnnouncementForDashBoard(type));
+		} catch (Exception e) {
+			logger.error("Error fetching dashboard", e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
-
 	}
-
 }

@@ -53,7 +53,6 @@ export class MakerSearchEnginePayLoadComponent {
       { name: 'Waiting ', id: '0' },
       { name: 'Sent', id: '1' },
       { name: 'Rejected', id: '2' },
-      // { name: 'Reviewed', id: '4' },
       { name: 'Settled', id: '5' },
     ]
 

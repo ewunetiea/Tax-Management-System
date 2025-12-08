@@ -6,8 +6,6 @@
     <p-card>
       <app-taxable-searchengine-approver [statusRoute]="statusRoute"
         (generatedTaxes)="onDataGenerated($any($event))"></app-taxable-searchengine-approver>
-
-
       <div *ngIf="fetching">
         <div class="row">
           <div class="col-lg-12">
@@ -59,8 +57,13 @@
               'FileDetail',
               'status',
               'reference_number',
-            ]" [(selection)]="selectedTaxes" [rowHover]="true" dataKey="id" [rowsPerPageOptions]="[5,10, 25, 50]"
-                [size]="selectedSize" [expandedRowKeys]="expandedRows" (onRowExpand)="onRowExpand($event)"
+            ]" [(selection)]="selectedTaxes" 
+            [rowHover]="true" 
+            dataKey="id" 
+            [rowsPerPageOptions]="[5,10, 25, 50]"
+            [size]="selectedSize" 
+            [expandedRowKeys]="expandedRows" 
+              (onRowExpand)="onRowExpand($event)"
                 (onRowCollapse)="onRowCollapse($event)" [tableStyle]="{ 'min-width': '230rem' }"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [showCurrentPageReport]="true">
@@ -266,19 +269,19 @@
                   </tr>
                 </ng-template>
 
-                 <ng-template #expandedrow let-tax>
+              <ng-template #expandedrow let-tax>
               <tr>
                 <td colspan="18">
                   <div class="p-3">
                     <div class="flex p-fluid space-x-2 py-2">
                       <p-button
-                         *ngIf="tax.remark"
                           (click)="activeIndex1 = 0"
                           icon="pi pi-plus"
                           styleClass="p-button-raised p-button-rounded p-ml-2"
                           label="Attached File Details"
                           ></p-button>
                           <p-button
+                          *ngIf="tax.remark"
                           (click)="activeIndex1 = 1"
                           icon="pi pi-plus"
                           styleClass="p-button-raised p-button-rounded p-ml-2"

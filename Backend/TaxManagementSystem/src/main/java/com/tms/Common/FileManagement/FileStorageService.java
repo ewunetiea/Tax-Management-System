@@ -1,4 +1,4 @@
-package com.tms.Common.File_Management;
+package com.tms.Common.FileManagement;
 
 import java.nio.file.Path;
 import java.util.stream.Stream;
@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
-public interface FilesStorageFindingService {
+public interface FileStorageService {
   
   public void init();
 

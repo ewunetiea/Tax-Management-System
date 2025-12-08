@@ -32,6 +32,7 @@ public class TaxController {
 
 	@Autowired
 	private TaxableService taxableService;
+	
 	private static final Logger logger = LoggerFactory.getLogger(TaxController.class);
 
 	@PostMapping("/fetchTaxBasedonStatus")
@@ -49,8 +50,7 @@ public class TaxController {
 	}
 
 	@PostMapping("/fetchTaxProgress")
-	public ResponseEntity<List<Tax>> fetchTaxProgress(@RequestBody MakerSearchPayload payload,
-			HttpServletRequest request) {
+	public ResponseEntity<List<Tax>> fetchTaxProgress(@RequestBody MakerSearchPayload payload, HttpServletRequest request) {
 		try {
 			List<Tax> tax = new ArrayList<>();
 			tax = taxableService.fetchTaxProgress(payload);
@@ -59,7 +59,6 @@ public class TaxController {
 			logger.error("Error while fetching on going announcements", ex);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
 	}
 
 	@GetMapping("/{id}")

@@ -1,15 +1,4 @@
-export const environment = {
-  production: false,
-  auditorFileApi: 'http://localhost:8444/api',//to hnadle auditor uploading files
-  auditeeFileApi: 'http://localhost:8444/api', // to handle auditee response files
-  imagesUserApi: 'http://localhost:8444/api/user/image/',
-  blankPic: 'assets/img/Blank-Profile-Picture.jpg',
-  backendUrl: 'http://localhost:8444/api',
-  webSocketUrl: 'http://localhost:8444/api',
-  idleTimeout: 20 * 60 * 1000, // 6 minutes
-  idleCountdownSeconds: 60, // 1 minute
-  warningTimeout: 19 * 60 * 1000, // 5 minutes
-};
+
 
 export const environment = {
   production: false,

@@ -14,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 import { EditorModule } from 'primeng/editor';
 import { StorageService } from 'app/service/sharedService/storage.service';
 import { AnnouncementPayload } from 'app/models/approver/announcementPayload';
+import { FileDownloadService } from 'app/service/maker/file-download-service';
 
 interface Column {
   field: string;
@@ -35,7 +36,7 @@ interface ExportColumn {
   imports: [SharedUiModule, AnnouncementCreateEditComponent, DataViewModule, SplitButtonModule, EditorModule]
 })
 export class AnnouncementComponent implements OnInit {
-  expandedRows = {};
+  expandedRows: { [key: number]: boolean } = {};
   selectedPdf: SafeResourceUrl | null = null;
   showPdfModal = false;
   announcemetDialog: boolean = false;
@@ -51,7 +52,7 @@ export class AnnouncementComponent implements OnInit {
   announcement_type: String = ''
   isEdit = false;
   activeIndex1: number = 0;
-  activeState: boolean[] = [true, false, false];
+  activeState: boolean[] = [true, false, false, false, false];
   pdfSrc: any;
   sizes!: any[];
   selectedSize: any = 'normal';
@@ -59,7 +60,9 @@ export class AnnouncementComponent implements OnInit {
   items: MenuItem[] | undefined;
   rowToggles: { [id: number]: { message: boolean; file: boolean } } = {};
   status!: string;
-  announcmentPayload = new AnnouncementPayload()
+  announcmentPayload = new AnnouncementPayload();
+  isDialogVisible = false;
+  outputAnnouncement: any[] = [];
 
   constructor(
     private announcemetService: AnnouncementService,
@@ -67,7 +70,8 @@ export class AnnouncementComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private sanitizer: DomSanitizer,
     private route: ActivatedRoute,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private fileDownloadService: FileDownloadService,
   ) { }
 
   ngOnInit(): void {
@@ -102,7 +106,6 @@ export class AnnouncementComponent implements OnInit {
             }
             const byteArray = new Uint8Array(byteNumbers);
             const blob = new Blob([byteArray], { type: 'application/pdf' });
-
             const url = URL.createObjectURL(blob);
             announcement.pdfUrl = url;
             announcement.safePdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url) as SafeResourceUrl;
@@ -124,61 +127,52 @@ export class AnnouncementComponent implements OnInit {
     );
   }
 
-  previewPdf(announcement: any) {
-    this.selectedPdf = announcement.safePdfUrl;
-    this.showPdfModal = true;
-  }
-
-  downloadPdf(announcement: any) {
-    const a = document.createElement('a');
-    a.href = announcement.pdfUrl;
-    a.download = 'document.pdf';
-    a.click();
-  }
-
   closeModal() {
     this.showPdfModal = false;
     this.selectedPdf = null;
   }
-
-
-
-
-
-  onRowExpand(event: TableRowExpandEvent) {
-    this.messageService.add({ severity: 'info', summary: 'User Information Expanded', detail: event.data.name, life: 3000 });
-  }
-
-  onRowCollapse(event: TableRowCollapseEvent) {
-    this.messageService.add({ severity: 'success', summary: 'User information Collapsed', detail: event.data.name, life: 3000 });
-  }
-
-
-
 
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
 
   openNew() {
-    this.announcement = { created_date: new Date() } as Announcement; // default date avoids null crash
-
+    this.outputAnnouncement = [];
+    this.announcement = { created_date: new Date() } as Announcement;
     this.submitted = false;
+    this.isEdit = false;
+    this.outputAnnouncement.push(this.announcement);
+    this.outputAnnouncement.push(this.isEdit);
     this.announcemetDialog = true;
-    this.isEdit = false
   }
+  
 
   editAnnouncement(announcement: Announcement) {
+    this.outputAnnouncement = [];
     this.announcement = { ...announcement };
-    this.announcemetDialog = true;
-
+    this.announcement.previouseAnnouncementFile = announcement.announcementFile
     this.isEdit = true;
+    this.outputAnnouncement.push(this.announcement);
+    this.outputAnnouncement.push(this.isEdit);
+    this.announcemetDialog = true;
   }
 
-  deleteAnnouncements(announcements: Announcement | Announcement[] | null) {
-    // Normalize to array
-    const itemsToDelete = Array.isArray(announcements) ? announcements : [announcements];
+  
+  onDataChange(data: any) {
+    if (data[1]) {
+        this.announcements[this.findIndexById(data[0].id)] = data[0];
+    } else {
+      this.loadAnnouncements(this.announcmentPayload);
+        this.announcements = [...this.announcements ];
+        this.announcement = new Announcement();
+    }
+    this.announcemetDialog = false;
+  }
 
+
+  
+  deleteAnnouncements(announcements: Announcement | Announcement[] | null) {
+    const itemsToDelete = Array.isArray(announcements) ? announcements : [announcements];
     this.confirmationService.confirm({
       message: `Are you sure you want to delete ${itemsToDelete.length} announcement(s)?`,
       header: 'Confirm',
@@ -216,19 +210,15 @@ export class AnnouncementComponent implements OnInit {
   }
 
 
-
   hideDialog() {
     this.announcemetDialog = false;
     this.submitted = false;
   }
 
 
-
   findIndexById(id: any): number {
     return this.announcements.findIndex((p) => p.id === id);
   }
-
-
 
 
   getSeverity(status: string) {
@@ -242,7 +232,6 @@ export class AnnouncementComponent implements OnInit {
 
 
   onAnnouncementSaved(savedAnnouncement: Announcement) {
-
     if (this.isEdit) {
       const index = this.announcements.findIndex(a => a.id === savedAnnouncement.id);
       if (index !== -1) {
@@ -279,21 +268,18 @@ export class AnnouncementComponent implements OnInit {
 
   getFileType(base64: string): string {
     if (!base64) return '';
-
     // Common base64 prefixes
     if (base64.startsWith('/9j/')) return 'image/jpeg'; // JPEG
     if (base64.startsWith('iVBOR')) return 'image/png'; // PNG
     if (base64.startsWith('JVBER')) return 'application/pdf'; // PDF
     if (base64.startsWith('UEsDB')) return 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'; // DOCX
     if (base64.startsWith('0M8R4')) return 'application/msword'; // DOC
-
     return 'unknown';
   }
 
 
 
   toggleRow(announcement: Announcement, type: 'message' | 'file') {
-    // Initialize row state if it doesn't exist
     if (!this.rowToggles[announcement.id!]) {
       this.rowToggles[announcement.id!] = { message: false, file: false };
     }
@@ -316,6 +302,160 @@ export class AnnouncementComponent implements OnInit {
 
   clear(table: Table) {
     table.clear();
+  }
+
+  onImageError(event: any) {
+        console.error('Image failed to load', event);
+    }
+
+    openDialogImage() {
+        this.isDialogVisible = true;
+    }
+
+    previewPdf(file: any) {
+        if (file.pdfUrl) {
+            this.selectedPdf = file.pdfUrl;
+            this.showPdfModal = true;
+        }
+    }
+
+    downloadPdf(file: any) {
+        if (!file.pdfUrl && !file.fileType) return;
+
+        // If we have the blob stored (recommended)
+        this.fileDownloadService.fetcAnnouncementhFileByFileName(file.fileName).subscribe((blob: Blob) => {
+            const link = document.createElement('a');
+            const blobUrl = URL.createObjectURL(blob); // create object URL from blob
+            link.href = blobUrl;
+            link.download = file.fileName || 'document.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(blobUrl); 
+        });
+    }
+
+     closeModalPDF() {
+        this.showPdfModal = false;
+        this.selectedPdf = null;
+    }
+
+    downloadWord(file: any) {
+        try {
+            let byteArray: Uint8Array;
+
+            if (typeof file.file === 'string') {
+                // Remove data URL prefix if it exists
+                const base64 = file.file.includes(',') ? file.file.split(',')[1] : file.file;
+
+                // Decode base64 safely
+                const binary = atob(base64.replace(/\s/g, ''));
+                byteArray = new Uint8Array(binary.length);
+
+                for (let i = 0; i < binary.length; i++) {
+                    byteArray[i] = binary.charCodeAt(i);
+                }
+
+                // Debug: Log the decoded binary and byte array
+
+
+            } else {
+                // If it's already a Blob, use it directly
+                const blob = new Blob([file.file], { type: file.fileType });
+
+
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = file.fileName;
+                link.click();
+                window.URL.revokeObjectURL(link.href);
+                return; // Exit the function
+            }
+
+            const blob = new Blob([byteArray as any], { type: file.fileType });
+            // Debug: Log the blob size
+
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = file.fileName;
+            link.click();
+            window.URL.revokeObjectURL(link.href);
+        } catch (e) {
+            console.error('Failed to download Word file', e);
+            alert('Cannot download file. The data may be corrupted.');
+        }
+    }
+
+    onRowExpand(event: any) {
+    const announcement = event.data;
+    if (!announcement.announcementFile || announcement.announcementFile.length === 0) {
+      return;
+    }
+
+    const fileFetchPromises = announcement.announcementFile.map((file: any) => {
+      if (!file?.fileName) return Promise.resolve(null);
+
+      return this.fileDownloadService.fetcAnnouncementhFileByFileName(file.fileName).toPromise()
+        .then((blob: Blob | undefined) => {
+          if (!blob) {
+            console.warn(`No blob returned for file: ${file.fileName}`);
+            return null;
+          }
+
+          const newFile = { ...file };
+          newFile.fileType = blob.type;
+
+          // PDF
+          if (blob.type === 'application/pdf') {
+            // Revoke previous URL if exists
+            if (newFile.pdfUrl) {
+              URL.revokeObjectURL(
+                (newFile.pdfUrl as any).changingThisBreaksApplicationSecurity
+              );
+            }
+            const blobUrl = URL.createObjectURL(blob);
+            newFile.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl);
+            newFile.file = null;
+            return newFile;
+          }
+
+          // Image
+          if (blob.type.startsWith('image/')) {
+            return new Promise((resolve) => {
+              const reader = new FileReader();
+              reader.onload = (e: any) => {
+                newFile.file = e.target.result.split(',')[1]; // base64
+                newFile.pdfUrl = null;
+                resolve(newFile);
+              };
+              reader.readAsDataURL(blob);
+            });
+          }
+
+          // Word or other files
+          newFile.file = blob;
+          newFile.pdfUrl = null;
+          return newFile;
+        })
+        .catch((error) => {
+          console.error('Error fetching file:', error);
+          return null;
+        });
+    });
+
+    Promise.all(fileFetchPromises).then((results) => {
+    announcement.announcementFile = results.filter(file => file !== null);
+
+      // Force change detection for PDFs
+      setTimeout(() => {
+
+      }, 0);
+    });
+  }
+
+   onRowCollapse(event: any) {
+    const announcement = event.data;
+    delete this.expandedRows[announcement.Id];
   }
 
 

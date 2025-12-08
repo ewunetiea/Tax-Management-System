@@ -41,9 +41,9 @@ export class ManageTaxHoComponent {
   activeIndex1: number = 0;
   activeState: boolean[] = [true, false, false, false, false];
   pdfSrc: any;
-  selectedPdf: SafeResourceUrl | null = null; // PDF to preview
+  selectedPdf: SafeResourceUrl | null = null; 
   showPdfModal = false;
-    isDialogVisible = false;
+  isDialogVisible = false;
 
   constructor(
     private manageTaxHoService: ManageTaxApproverService,
@@ -237,8 +237,6 @@ export class ManageTaxHoComponent {
     }
   }
 
-
-
   closeModal() {
     this.showPdfModal = false;
     this.selectedPdf = null;
@@ -247,8 +245,6 @@ export class ManageTaxHoComponent {
 
   onRowExpand(event: any) {
     const tax = event.data;
-
-
     if (!tax.taxFile || tax.taxFile.length === 0) {
       return;
     }
@@ -256,7 +252,7 @@ export class ManageTaxHoComponent {
     const fileFetchPromises = tax.taxFile.map((file: any) => {
       if (!file?.fileName) return Promise.resolve(null);
 
-      return this.fileDownloadService.fetchFileByFileName(file.fileName).toPromise()
+      return this.fileDownloadService.fetchTaxFileByFileName(file.fileName).toPromise()
         .then((blob: Blob | undefined) => {
           if (!blob) {
             console.warn(`No blob returned for file: ${file.fileName}`);
@@ -334,7 +330,7 @@ export class ManageTaxHoComponent {
         if (!file.pdfUrl && !file.fileType) return;
 
         // If we have the blob stored (recommended)
-        this.fileDownloadService.fetchFileByFileName(file.fileName).subscribe((blob: Blob) => {
+        this.fileDownloadService.fetchTaxFileByFileName(file.fileName).subscribe((blob: Blob) => {
             const link = document.createElement('a');
             const blobUrl = URL.createObjectURL(blob); // create object URL from blob
             link.href = blobUrl;

@@ -50,6 +50,7 @@ import { FluidModule } from 'primeng/fluid';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { PopoverModule } from 'primeng/popover';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { ToggleSwitch } from 'primeng/toggleswitch';
 
 @NgModule({
     imports: [
@@ -110,7 +111,8 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
         PopoverModule,
         OverlayPanelModule,
         DynamicDialogModule,
-        Knob
+        Knob,
+        ToggleSwitch
     ],
     exports: [
         CommonModule,
@@ -172,7 +174,8 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
         PopoverModule,
         OverlayPanelModule,
         DynamicDialogModule,
-        Knob
+        Knob,
+        ToggleSwitch
     ]
 })
-export class SharedUiModule {}
+export class SharedUiModule { }

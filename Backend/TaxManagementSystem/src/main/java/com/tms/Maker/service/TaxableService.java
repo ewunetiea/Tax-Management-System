@@ -46,6 +46,8 @@ public class TaxableService {
         if (files != null && files.length > 0 && tax.getTaxFile() != null) {
             String uploadDir = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();
 
+            
+
             // String uploadDir = "\\\\10.10.101.76\\fileUploadFolder"; // Use IP upload
             // from other server
 
@@ -59,7 +61,6 @@ public class TaxableService {
                 if (!file.isEmpty()) {
                     // Check if the file already exists in the database
                     if (taxFileMapper.checkFilnameExistance(file.getOriginalFilename())) {
-
                         tax.setFileExsistance("Exists");
                         // Notify user that the file already exists
                         return tax;
@@ -97,8 +98,7 @@ public class TaxableService {
                     taxFileMapper.insertFile(tf);
 
                     User user = new User();
-                    recentActivity
-                            .setMessage("Tax  with Reference number  " + tax.getReference_number() + " is created");
+                    recentActivity.setMessage("Tax  with Reference number  " + tax.getReference_number() + " is created");
                     user.setId(tax.getUser_id());
                     recentActivity.setUser(user);
                     recentActivityMapper.addRecentActivity(recentActivity);

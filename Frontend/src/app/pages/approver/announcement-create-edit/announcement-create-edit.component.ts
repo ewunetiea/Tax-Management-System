@@ -22,12 +22,12 @@ export class AnnouncementCreateEditComponent {
   @Output() cancel = new EventEmitter<void>();
   isEdit: boolean = false;
   announcement: Announcement = new Announcement();
-  visible:boolean = false;
+  visible: boolean = false;
   minExpiryDate: Date = new Date();
   submitting = false;
 
-   @Input() passedAnnouncement: any[] = [];
-   @Output() editedAnnouncement: EventEmitter<any> = new EventEmitter();
+  @Input() passedAnnouncement: any[] = [];
+  @Output() editedAnnouncement: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private announcementService: AnnouncementService,
@@ -37,7 +37,6 @@ export class AnnouncementCreateEditComponent {
 
   ngOnInit(): void {
     this.isEdit = this.passedAnnouncement[1];
-    console.log("isEdit:", this.isEdit);
     if (this.isEdit) {
       this.editAnnouncement(this.passedAnnouncement);
     } else {
@@ -48,24 +47,24 @@ export class AnnouncementCreateEditComponent {
   openNew() {
     this.announcement = new Announcement();
   }
-  
+
   editAnnouncement(passedData: any[]) {
-      this.announcement = passedData[0];
-    }
+    this.announcement = passedData[0];
+  }
 
   onSave() {
     this.announcement.posted_by = this.storageService.getUser().id
     if (!this.isEdit) {
       if (!this.announcement.announcementFile || this.announcement.announcementFile.length === 0) {
         this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'File is not selected' });
-        return; // Exit the function early if no file is selected
+        return;
       }
     }
 
     if (this.announcement.isFileEdited) {
       if (!this.announcement.announcementFile || this.announcement.announcementFile.length === 0) {
         this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'File is not available to update' });
-        return; // Exit the function early if no file is selected
+        return;
       }
     }
 
@@ -84,16 +83,15 @@ export class AnnouncementCreateEditComponent {
     this.announcementService.createAnnouncemet(formData).subscribe({
       next: (response) => {
         const isNew = !this.announcement.id;
-        this.saved.emit(response); 
-        // close dialog and notify parent
+        this.saved.emit(response);
         this.visible = false;
         this.visibleChange.emit(this.visible);
         this.submitting = false;
         this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: isNew ? 'Announcement saved' : 'Announcement updated'
-      });
+          severity: 'success',
+          summary: 'Success',
+          detail: isNew ? 'Announcement saved' : 'Announcement updated'
+        });
       },
       error: (err: HttpErrorResponse) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message });
@@ -110,7 +108,7 @@ export class AnnouncementCreateEditComponent {
 
 
   onFileSelect(event: any) {
-    const files: File[] = Array.from(event.files); 
+    const files: File[] = Array.from(event.files);
     if (!this.announcement!.announcementFile) {
       this.announcement!.announcementFile = [];
     }
@@ -152,10 +150,6 @@ export class AnnouncementCreateEditComponent {
       detail: `${removedFile.name} has been removed.`
     });
   }
-
-  enableFileEdit() {
-  this.announcement.isFileEdited = true;
-}
 
 
 }

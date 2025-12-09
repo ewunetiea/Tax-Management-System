@@ -146,7 +146,6 @@ export class AnnouncementComponent implements OnInit {
     this.outputAnnouncement.push(this.isEdit);
     this.announcemetDialog = true;
   }
-  
 
   editAnnouncement(announcement: Announcement) {
     this.outputAnnouncement = [];

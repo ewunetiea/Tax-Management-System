@@ -50,7 +50,13 @@ export class AppMenuChecker {
                     { label: 'Settled', icon: 'pi pi-check-circle',  routerLink: ['/applayout/reviewer/manage_tax', 'settled'] },
                 ]
             },
-
+            {
+                label: 'Announcements',
+                items: [
+                    { label: 'Ongoing ', icon: 'pi pi-clock', routerLink: ['/applayout/approver/ongoing-announcement'] },
+                    { label: 'Archived', icon: 'pi pi-fw pi-trash', routerLink: ['/applayout/approver/archived-announcement'] },
+                ]
+            },
             {
                 label: 'Report',
                 items: [{ label: 'Report', icon: 'pi pi-fw pi-table', routerLink: ['/applayout/approver/report'] }  

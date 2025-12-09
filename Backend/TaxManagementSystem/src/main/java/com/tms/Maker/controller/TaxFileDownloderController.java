@@ -14,7 +14,7 @@ import com.tms.Common.FileManagement.FileStorageServiceImpl;
 import com.tms.Maker.service.FileDownloadService;
 
 @RestController
-@RequestMapping("/api/download")
+@RequestMapping("/api/maker/download")
 public class TaxFileDownloderController {
 
     @Autowired

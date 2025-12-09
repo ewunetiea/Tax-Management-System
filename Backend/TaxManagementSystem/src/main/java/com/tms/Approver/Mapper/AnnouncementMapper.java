@@ -49,19 +49,18 @@ public interface AnnouncementMapper {
         @Select("select * from announcements where id = #{id}")
         public Announcement getAnnouncementById(Long id);
 
-        @Delete("delete from announcements   where id = #{id} ")
+        @Delete("delete from announcements where id = #{id} ")
         public void deleteAnnouncement(Long id);
 
         @Delete("delete from announcement_file  where announcement_id = #{announcement_id} ")
         public void deleteAnnouncementFile(Long announcement_id);
 
-        // Insert new file detail
         @Insert("INSERT INTO announcement_file (fileName, extension, supportId, announcement_id) VALUES (#{fileName}, #{extension}, #{supportId}, #{announcement_id})")
         public void insertFile(AnnouncementFile file);
 
         @Select("SELECT CASE WHEN EXISTS (SELECT 1 FROM announcement_file WHERE FileName LIKE CONCAT(#{fileName}, '%')) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END")
         public boolean checkFileNameExistance(String fileName);
         
-        @Select("SELECT fileName, extension FROM announcement_file WHERE announcement_id = #{Id}")
+        @Select("SELECT * FROM announcement_file WHERE announcement_id = #{Id}")
         public List<AnnouncementFile> getAnnouncementFileByAnnouncementId(Long announcement_id);
 }

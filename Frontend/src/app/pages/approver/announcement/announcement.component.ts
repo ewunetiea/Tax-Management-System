@@ -88,45 +88,49 @@ export class AnnouncementComponent implements OnInit {
     this.loadAnnouncements(this.announcmentPayload);
   }
 
+loadAnnouncements(announcmentPayload: AnnouncementPayload) {
+  this.announcemetService.fetchAnnouncemets(announcmentPayload).subscribe(
+    (response) => {
+      this.announcements = (response as any).map((announcement: any) => {
 
-  loadAnnouncements(announcmentPayload: AnnouncementPayload) {
-    this.announcemetService.fetchAnnouncemets(announcmentPayload).subscribe(
-      (response) => {
-        console.log('Announcements fetched:', response);
-        this.announcements = (response as any).map((announcement: any) => {
-          // Detect file type from base64
-          const fileType = this.getFileType(announcement.image);
-          announcement.fileType = fileType;
+        // Detect file type from base64
+        const fileType = this.getFileType(announcement.image);
+        announcement.fileType = fileType;
 
-          // Prepare PDF blob URL if PDF
-          if (fileType === 'application/pdf') {
-            const byteCharacters = atob(announcement.image);
-            const byteNumbers = new Array(byteCharacters.length);
-            for (let i = 0; i < byteCharacters.length; i++) {
-              byteNumbers[i] = byteCharacters.charCodeAt(i);
-            }
-            const byteArray = new Uint8Array(byteNumbers);
-            const blob = new Blob([byteArray], { type: 'application/pdf' });
-            const url = URL.createObjectURL(blob);
-            announcement.pdfUrl = url;
-            announcement.safePdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url) as SafeResourceUrl;
+        // Prepare PDF blob URL if PDF
+        if (fileType === 'application/pdf') {
+          const byteCharacters = atob(announcement.image);
+          const byteNumbers = new Array(byteCharacters.length);
+
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
           }
 
-          return announcement;
-        });
-      },
-      (error: HttpErrorResponse) => {
-        this.messageService.add({
-          severity: 'error',
-          summary:
-            error.status === 401
-              ? 'You are not permitted to perform this action!'
-              : 'Something went wrong while fetching announcements!',
-          detail: '',
-        });
-      }
-    );
-  }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: 'application/pdf' });
+          const url = URL.createObjectURL(blob);
+
+          announcement.pdfUrl = url;
+          announcement.safePdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url) as SafeResourceUrl;
+        }
+
+        return announcement;
+      });
+    },
+
+    (error: HttpErrorResponse) => {
+      this.messageService.add({
+        severity: 'error',
+        summary:
+          error.status === 401
+            ? 'You are not permitted to perform this action!'
+            : 'Something went wrong while fetching announcements!',
+        detail: '',
+      });
+    }
+  );
+}
+
 
   closeModal() {
     this.showPdfModal = false;
@@ -146,7 +150,6 @@ export class AnnouncementComponent implements OnInit {
     this.outputAnnouncement.push(this.isEdit);
     this.announcemetDialog = true;
   }
-  
 
   editAnnouncement(announcement: Announcement) {
     this.outputAnnouncement = [];
@@ -157,19 +160,28 @@ export class AnnouncementComponent implements OnInit {
     this.outputAnnouncement.push(this.isEdit);
     this.announcemetDialog = true;
   }
-
-  
+ 
   onDataChange(data: any) {
     if (data[1]) {
-        this.announcements[this.findIndexById(data[0].id)] = data[0];
+      this.announcements[this.findIndexById(data[0].id)] = data[0];
     } else {
       this.loadAnnouncements(this.announcmentPayload);
-        this.announcements = [...this.announcements ];
-        this.announcement = new Announcement();
+      this.announcements = [...this.announcements];
+      this.announcement = new Announcement();
     }
     this.announcemetDialog = false;
   }
-
+  
+  findIndexById(id: number): number {
+    let index = -1;
+    for (let i = 0; i < this.announcements.length; i++) {
+      if (this.announcements[i].id === id) {
+        index = i;
+        break;
+      }
+    }
+    return index;
+  }
 
   
   deleteAnnouncements(announcements: Announcement | Announcement[] | null) {
@@ -214,11 +226,6 @@ export class AnnouncementComponent implements OnInit {
   hideDialog() {
     this.announcemetDialog = false;
     this.submitted = false;
-  }
-
-
-  findIndexById(id: any): number {
-    return this.announcements.findIndex((p) => p.id === id);
   }
 
 
@@ -295,11 +302,9 @@ export class AnnouncementComponent implements OnInit {
     }
   }
 
-
   toggle(index: number) {
     this.activeState = this.activeState.map((_, i) => i === index ? !this.activeState[i] : false);
   }
-
 
   clear(table: Table) {
     table.clear();
@@ -363,8 +368,6 @@ export class AnnouncementComponent implements OnInit {
             } else {
                 // If it's already a Blob, use it directly
                 const blob = new Blob([file.file], { type: file.fileType });
-
-
                 const link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
                 link.download = file.fileName;
@@ -374,8 +377,6 @@ export class AnnouncementComponent implements OnInit {
             }
 
             const blob = new Blob([byteArray as any], { type: file.fileType });
-            // Debug: Log the blob size
-
             const link = document.createElement('a');
             link.href = window.URL.createObjectURL(blob);
             link.download = file.fileName;

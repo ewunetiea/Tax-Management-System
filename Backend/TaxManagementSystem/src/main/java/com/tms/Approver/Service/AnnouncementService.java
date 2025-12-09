@@ -62,8 +62,8 @@ public class AnnouncementService {
                 announcementMapper.insertFile(af);
             }
         }
-
-        saveRecentActivity(announcement.getPosted_by(), announcement.getTitle() + " is created");
+        
+        saveRecentActivity(announcement.getPosted_by(), "Announcement titled '" + announcement.getTitle() + "' is created ");
         announcement.setFileExsistance("notExist");
 
         return announcement;
@@ -87,7 +87,7 @@ public class AnnouncementService {
                     announcementMapper.deleteAnnouncementFile(old.getAnnouncement_id());
 
                     // delete from folder
-                    boolean removed = fileStorageService.deleteFile("announcementFile", old.getFileName());
+                    boolean removed = fileStorageService.deleteFile(old.getFileName(), "announcementFile" );
                     if (!removed) {
                         throw new IOException("Failed to delete old file: " + old.getFileName());
                     }
@@ -117,8 +117,7 @@ public class AnnouncementService {
                 }
             }
         }
-
-        saveRecentActivity(announcement.getPosted_by(), announcement.getTitle() + " is updated");
+        saveRecentActivity(announcement.getPosted_by(), "Announcement titled '" + announcement.getTitle() + "' is updated ");
     }
 
     // ------------------ DELETE --------------------
@@ -135,7 +134,11 @@ public void deleteAnnouncement(Announcement announcement) {
     if (files != null && !files.isEmpty()) {
         for (AnnouncementFile oldFile : files) {
             try {
-                boolean removed = fileStorageService.deleteFile("announcementFile", oldFile.getFileName());
+                // delete from DB
+                announcementMapper.deleteAnnouncementFile(oldFile.getAnnouncement_id());
+                
+                // delete from folder
+                boolean removed = fileStorageService.deleteFile(oldFile.getFileName(), "announcementFile");
 
                 if (!removed) {
                     System.err.println("WARNING: Failed to delete file from folder: " + oldFile.getFileName());
@@ -149,10 +152,8 @@ public void deleteAnnouncement(Announcement announcement) {
     }
 
     // 4. Save activity AFTER all operations
-    saveRecentActivity(announcement.getPosted_by(), announcement.getTitle() + " is deleted"
-    );
+     saveRecentActivity(announcement.getPosted_by(), "Announcement titled '" + announcement.getTitle() + "' is deleted ");
 }
-
 
 
     // ------------------ OTHER FUNCTIONS --------------------

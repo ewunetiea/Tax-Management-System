@@ -133,10 +133,7 @@ export class MakerSearchEnginePayLoadComponent {
   this.payload.maker_date = makerFormattedDates.length === 1 ? [makerFormattedDates[0], makerFormattedDates[0]] : makerFormattedDates;
   this.payload.checked_date = approverFormattedDates.length === 1 ? [approverFormattedDates[0], approverFormattedDates[0]] : approverFormattedDates;
 
-  const serviceCall =
-    this.routeControl === "generalstatus"
-      ? this.taxService.fetchTaxProgress(this.payload)
-      : this.taxService.fetchTaxesBasedOnStatus(this.payload);
+  const serviceCall =  this.taxService.fetchTaxesBasedOnStatus(this.payload);
 
   serviceCall.subscribe({
     next: (data) => {
@@ -162,84 +159,6 @@ export class MakerSearchEnginePayLoadComponent {
     },
   });
 }
-
-//   onSubmit() {
-
-//     this.submitted = true;
-
-//     this.payload.user_id = this.storageService.getUser().id
-//     this.payload.routeControl = this.routeControl ?? '';
-//     const user = this.storageService.getUser();
-//     this.payload.user_id = user ? user.id : 0;
-
-
-
-
-//     const draftedFormattedDates = (this.payload.drafted_date || [])
-//   .filter(date => !!date)
-//   .map(date => {
-//     const d = new Date(date);
-//     return new Date(`${d.getFullYear()}-${('0' + (d.getMonth() + 1)).slice(-2)}-${('0' + d.getDate()).slice(-2)}`);
-//   });
-
-// const makerFormattedDates = (this.payload.maker_date || [])
-//   .filter(date => !!date)
-//   .map(date => {
-//     const d = new Date(date);
-//     return new Date(`${d.getFullYear()}-${('0' + (d.getMonth() + 1)).slice(-2)}-${('0' + d.getDate()).slice(-2)}`);
-//   });
-
-// const approverFormattedDates = (this.payload.checked_date || [])
-//   .filter(date => !!date)
-//   .map(date => {
-//     const d = new Date(date);
-//     return new Date(`${d.getFullYear()}-${('0' + (d.getMonth() + 1)).slice(-2)}-${('0' + d.getDate()).slice(-2)}`);
-//   });
-
-//     this.payload.maker_date = makerFormattedDates;
-
-//     this.payload.checked_date = approverFormattedDates;
-//      this.payload.drafted_date = draftedFormattedDates;
-
-
-//       const serviceCall =
-//    this.routeControl == "generalstatus"
-//       ? this.taxService.fetchTaxProgress(this.payload)
-//       : this.taxService.fetchTaxesBasedOnStatus(this.payload);
-
-//     serviceCall.subscribe({
-//       next: (data) => {
-//         this.taxes = data;
-//         this.searchResults.emit(this.taxes);
-
-//         if (this.taxes.length > 0) {
-//           this.messageService.add({
-//             severity: 'success',
-//             summary: 'Search Complete',
-//             detail: `${this.taxes.length} record(s) found.`,
-//           });
-//         } else {
-//           this.messageService.add({
-//             severity: 'info',
-//             summary: 'No Results',
-//             detail: 'No tax data found for your search criteria.',
-//           });
-//         }
-
-//         this.submitted = false;
-//         // this.payload = new MakerSearchPayload();
-//       },
-//       error: (error) => {
-//         console.error(error);
-//         this.submitted = false;
-//         this.messageService.add({
-//           severity: 'error',
-//           summary: 'Error',
-//           detail: 'Failed to fetch tax data. Please try again later.',
-//         });
-//       },
-//     });
-//   }
 
   
   onReset(): void {

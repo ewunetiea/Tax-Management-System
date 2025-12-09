@@ -11,6 +11,7 @@ import { FileDownloadService } from '../../../../service/maker/file-download-ser
 import { ButtonSeverity } from 'primeng/button';
 import { MakerSearchEnginePayLoadComponent } from '../search-engine/maker-search-payload';
 import { StorageService } from 'app/service/sharedService/storage.service';
+import { MessageModule } from 'primeng/message';
 
 interface Column {
     field: string;
@@ -27,7 +28,7 @@ interface ExportColumn {
 @Component({
     selector: 'app-manage-tax',
     standalone: true,
-    imports: [SharedUiModule, TaxCreateEditComponent, MakerSearchEnginePayLoadComponent],
+    imports: [SharedUiModule, TaxCreateEditComponent, MakerSearchEnginePayLoadComponent, MessageModule],
     templateUrl: './manage-tax.component.html',
     styleUrls: ['./manage-tax.component.css'],
     providers: [ConfirmationService, MessageService]
@@ -94,7 +95,7 @@ export class ManageTaxComponent implements OnInit {
 
     }
 
-    onTaxesaved(saveTax: Tax) { 
+    onTaxesaved(saveTax: Tax) {
 
         if (this.isEdit) {
             const index = this.taxes.findIndex(a => a.mainGuid === saveTax.mainGuid);
@@ -103,10 +104,10 @@ export class ManageTaxComponent implements OnInit {
             }
         } else {
 
-        this.taxes = [saveTax, ...this.taxes];
+            this.taxes = [saveTax, ...this.taxes];
         }
 
-    
+
 
         this.taxDialog = false;
         this.tax = {} as Tax;
@@ -131,7 +132,16 @@ export class ManageTaxComponent implements OnInit {
     }
 
     submitToBranchManager(taxes: Tax | Tax[] | null) {
+
+        if (!taxes) return;
+
         const itemsToSubmit = Array.isArray(taxes) ? taxes : [taxes];
+
+        // Assign user_id to the first item
+        if (itemsToSubmit.length > 0) {
+            itemsToSubmit[0].user_id = this.storageService?.getUser().id;
+        }
+
         this.confirmationService.confirm({
             message: `Are you sure you want to submit ${itemsToSubmit.length} tax(es)?`,
             header: 'Confirm',
@@ -165,7 +175,15 @@ export class ManageTaxComponent implements OnInit {
     }
 
     backToDraftedState(taxes: Tax | Tax[] | null) {
+
+        if (!taxes) return;
+
         const itemsToBack = Array.isArray(taxes) ? taxes : [taxes];
+
+        // Assign user_id to the first item
+        if (itemsToBack.length > 0) {
+            itemsToBack[0].user_id = this.storageService?.getUser().id;
+        }
 
         this.confirmationService.confirm({
             message: `Are you sure you want to back to drafted  state  ${itemsToBack.length} tax(es)?`,
@@ -208,10 +226,10 @@ export class ManageTaxComponent implements OnInit {
 
         const itemsToDelete = Array.isArray(taxes) ? taxes : [taxes];
 
-    // Assign user_id to the first item
-    if (itemsToDelete.length > 0) {
-        itemsToDelete[0].user_id = this.storageService?.getUser().id; 
-    }
+        // Assign user_id to the first item
+        if (itemsToDelete.length > 0) {
+            itemsToDelete[0].user_id = this.storageService?.getUser().id;
+        }
 
         this.confirmationService.confirm({
             message: `Are you sure you want to delete ${itemsToDelete.length} tax(es)?`,
@@ -453,16 +471,16 @@ export class ManageTaxComponent implements OnInit {
 
 
     private statusMap: {
-    [key: number]: { label: string; severity: ButtonSeverity; outlined: boolean }
-} = {
-    6: { label: "Not Submited", severity: "help" as ButtonSeverity, outlined: true },
-    0: { label: "Waiting for Review", severity: "primary" as ButtonSeverity, outlined: true },
-    1: { label: "Checker Sent", severity: "help" as ButtonSeverity, outlined: true },
-    2: { label: "Checker Rejected", severity: "danger" as ButtonSeverity, outlined: true },
-    3: { label: "Approver Rejected", severity: "danger" as ButtonSeverity, outlined: true },
-    // 4: { label: "Reviewed", severity: "primary" as ButtonSeverity, outlined: true },
-    5: { label: "Settled", severity: "success" as ButtonSeverity, outlined: true }
-};
+        [key: number]: { label: string; severity: ButtonSeverity; outlined: boolean }
+    } = {
+            6: { label: "Not Submited", severity: "help" as ButtonSeverity, outlined: true },
+            0: { label: "Waiting for Review", severity: "primary" as ButtonSeverity, outlined: true },
+            1: { label: "Checker Sent", severity: "help" as ButtonSeverity, outlined: true },
+            2: { label: "Checker Rejected", severity: "danger" as ButtonSeverity, outlined: true },
+            3: { label: "Approver Rejected", severity: "danger" as ButtonSeverity, outlined: true },
+            // 4: { label: "Reviewed", severity: "primary" as ButtonSeverity, outlined: true },
+            5: { label: "Settled", severity: "success" as ButtonSeverity, outlined: true }
+        };
 
 
     // private statusMap: { [key: number]: { label: string; severity: ButtonSeverity } } = {

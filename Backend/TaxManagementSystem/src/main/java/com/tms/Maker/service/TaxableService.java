@@ -1,7 +1,6 @@
 package com.tms.Maker.service;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -13,7 +12,6 @@ import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.tms.Admin.Entity.User;
@@ -24,7 +22,6 @@ import com.tms.Maker.entity.Tax;
 import com.tms.Maker.entity.TaxFile;
 import com.tms.Maker.mapper.TaxFileMapper;
 import com.tms.Maker.mapper.TaxableMapper;
-import org.springframework.core.io.Resource;
 
 @Service
 
@@ -41,6 +38,8 @@ public class TaxableService {
     private RecentActivityMapper recentActivityMapper;
 
     RecentActivity recentActivity = new RecentActivity();
+
+    User user = new User();
 
     @Value("${file.storage.root}")
     private String rootPath;
@@ -109,7 +108,6 @@ public class TaxableService {
 
                     taxFileMapper.insertFile(tf);
 
-                    User user = new User();
                     recentActivity
                             .setMessage("Tax  with Reference number  " + tax.getReference_number() + " is created");
                     user.setId(tax.getUser_id());
@@ -178,7 +176,6 @@ public class TaxableService {
             }
             // ✅ Log recent activity
 
-            User user = new User();
             user.setId(tax.getUser_id());
             recentActivity.setUser(user);
             recentActivity.setMessage("Tax with Reference number " + tax.getReference_number() + " updated");
@@ -220,13 +217,6 @@ public class TaxableService {
         }
 
         return taxableMapper.fetchTaxBasedonStatus(payload);
-    }
-
-    @Transactional
-
-    public List<Tax> fetchTaxProgress(MakerSearchPayload payload) {
-
-        return taxableMapper.fetchTaxProgress(payload);
     }
 
     private String generateReferenceNumber() {
@@ -274,7 +264,6 @@ public class TaxableService {
             System.out.println("⚠ No files found in list to delete.");
         }
 
-        User user = new User();
         user.setId(user_id);
         recentActivity.setUser(user);
         recentActivity.setMessage("Tax with Reference number " +
@@ -283,34 +272,34 @@ public class TaxableService {
 
     }
 
-    public void submitTaxToBranchManger(Long id) { // set status to 0 or waiting state
+    @Transactional
+    public void submitTaxToBranchManger(Tax tax, Long user_id) { // set status to 0 or waiting state
 
-        taxableMapper.submitToBrancManager(id);
+        taxableMapper.submitToBrancManager(tax.getId());
+        user.setId(user_id);
+        recentActivity.setUser(user);
+        recentActivity.setMessage("Tax with Reference number " +
+                tax.getReference_number() + " submited to checker");
+        recentActivityMapper.addRecentActivity(recentActivity);
+
     }
 
-    public void backTaxToDraftedState(Long id) { // set status to 6
+    public void backTaxToDraftedState(Tax tax , Long user_id) { // set status to 6
 
-        int status = taxableMapper.fetchTaxByID(id);
+        int status = taxableMapper.fetchTaxByID(tax.getId());
 
         if (status == 0 || status == 2 || status == 3) {
-            taxableMapper.backToDraftedState(id);
+            taxableMapper.backToDraftedState(tax.getId());
+
+               user.setId(user_id);
+        recentActivity.setUser(user);
+        recentActivity.setMessage("Tax with Reference number " +
+                tax.getReference_number() + " back to drafted state");
+        recentActivityMapper.addRecentActivity(recentActivity);
 
         }
     }
 
-    private final String folderPath = Paths.get(System.getProperty("user.dir"), "taxFiles").toString();
-
-    public File getFileByFileName(String fileName) throws FileNotFoundException {
-        File file = new File(folderPath, fileName);
-        if (!file.exists() || !file.isFile()) {
-            throw new FileNotFoundException("File not found: " + fileName);
-        }
-        return file;
-    }
-
-    public Resource getFileResource(String fileName) throws FileNotFoundException {
-        File file = getFileByFileName(fileName);
-        return new FileSystemResource(file);
-    }
+    
 
 }

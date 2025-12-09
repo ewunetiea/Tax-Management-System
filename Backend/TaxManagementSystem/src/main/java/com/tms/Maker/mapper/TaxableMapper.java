@@ -130,65 +130,7 @@ public interface TaxableMapper {
         })
         public List<Tax> fetchTaxBasedonStatus(MakerSearchPayload payload);
 
-        @Select({
-                        "<script>",
-                        "SELECT t.id as id, t.mainGuid, b.name as initiator_branch , b2.name as destination_branch,",
-                        "t.taxCategory, t.noOfEmployee, t.taxableAmount, t.taxWithHold, t.incometaxPoolAmount,",
-                        "t.graduatetaxPool, t.graduaTotBasSalary, t.graduateTotaEmployee, t.graduatetaxWithHold,",
-                        "t.taxCategoryList, t.Remark, t.maker_name, t.maker_date, t.checker_name, t.checked_Date,",
-                        "t.updated_user_name, t.updated_event_date, t.from_List, t.sendTo_List, t.Category_List,",
-                        " t.status, t.reference_number, t.remark,  t.drafted_date , t.maker_date, t.approved_date",
-                        "FROM tblTaxable t",
-                        "LEFT JOIN branch b ON t.from_ = b.id",
-                        "LEFT JOIN branch b2 ON t.sendTo_ = b2.id",
-
-                        "WHERE maker_id = #{user_id}",
-                        "<if test='status_id != null '>",
-                        "   <choose>",
-                        "      <when test='status_id == 2'>",
-                        "         AND t.status IN (2, 3) ",
-                        "      </when>",
-                        "      <otherwise>",
-                        "         AND t.status = #{status_id} ",
-                        "      </otherwise>",
-                        "   </choose>",
-                        "</if>",
-                        "<if test='tax_category_id != null and tax_category_id != 0'>",
-                        "   AND t.taxCategory = #{tax_category_id}",
-                        "</if>",
-
-                        "<if test= 'maker_date != null and maker_date.size() == 2 '> " +
-                                        "  AND t.maker_date BETWEEN #{maker_date[0]} AND #{maker_date[1]} " +
-                                        "   </if> ",
-
-                        "<if test= 'checked_date != null and checked_date.size() == 2 '> " +
-                                        "  AND t.checked_Date BETWEEN #{checked_date[0]} AND #{checked_date[1]} " +
-                                        "   </if> ",
-
-                        "<if test= 'rejected_date != null and rejected_date.size() == 2 '> ",
-                        "  AND t.checker_rejected_date BETWEEN #{rejected_date[0]} AND #{rejected_date[1]} ",
-                        "   </if> ",
-
-                        "<if test= 'approved_date != null and approved_date.size() == 2 '> ",
-                        "  AND t.approved_date BETWEEN #{approved_date[0]} AND #{approved_date[1]} ",
-                        "   </if> ",
-
-                        "<if test= 'reference_number != null '> ",
-                        "   AND t.reference_number = #{reference_number} ",
-                        "   </if> ",
-                              "order by t.id desc ",
-                        "</script>"
-
-        })
-
-        @Results(value = {
-                        @Result(property = "id", column = "id"),
-
-                        @Result(property = "taxFile", column = "id", many = @Many(select = "com.tms.Maker.mapper.TaxFileMapper.getFileByFileById")),
-
-        })
-
-        public List<Tax> fetchTaxProgress(MakerSearchPayload payload);
+      
 
         @Delete("delete from tblTaxable   where id  = #{id}")
 

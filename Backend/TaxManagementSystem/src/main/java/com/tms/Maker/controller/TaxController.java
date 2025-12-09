@@ -50,18 +50,6 @@ public class TaxController {
 
 	}
 
-	@PostMapping("/fetchTaxProgress")
-	public ResponseEntity<List<Tax>> fetchTaxProgress(@RequestBody MakerSearchPayload payload, HttpServletRequest request) {
-		try {
-			List<Tax> tax = new ArrayList<>();
-			tax = taxableService.fetchTaxProgress(payload);
-
-			return new ResponseEntity<>(tax, HttpStatus.OK);
-		} catch (Exception ex) {
-			logger.error("Error while fetching taxes progress", ex);
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Tax> fetchTaxById(@PathVariable("id") int id, HttpServletRequest request) {
@@ -133,8 +121,9 @@ public class TaxController {
 			HttpServletRequest request) {
 		try {
 
-			for (Tax acc : taxs) {
-				taxableService.submitTaxToBranchManger(acc.getId());
+			for (Tax tax : taxs) {
+				taxableService.submitTaxToBranchManger(tax, taxs.get(0).getUser_id());
+
 			}
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {
@@ -149,7 +138,7 @@ public class TaxController {
 		try {
 
 			for (Tax acc : taxs) {
-				taxableService.backTaxToDraftedState(acc.getId());
+				taxableService.backTaxToDraftedState(acc, taxs.get(0).getUser_id());
 			}
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {

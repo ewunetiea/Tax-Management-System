@@ -57,15 +57,7 @@ export default [
             status:'rejected'
         }
     },
-     {
-        path: 'general-tax-status', component: ManageTaxComponent,
-
-        canActivate: [AuthGuard],
-        data: {
-            roles: ['ROLE_MAKER'],
-            status:'generalstatus'
-        }
-    },
+   
     { path: 'tax', data: { breadcrumb: 'Tax Form' }, component: TaxCreateEditComponent },
 
    

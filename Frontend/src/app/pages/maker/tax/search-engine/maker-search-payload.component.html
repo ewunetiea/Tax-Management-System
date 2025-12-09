@@ -28,28 +28,17 @@
             <i class="pi pi-check-circle text-green-500"></i>
             <span>Search settled taxes</span>
         </div>
-        <div *ngIf="routeControl === 'generalstatus'"
-            class="flex items-center justify-center text-xl font-semibold text-green-600 mb-3 space-x-2">
-            <i
-                class="pi pi-spinner pi-spin bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text"></i>
-            <span>Search tax progress</span>
-        </div>
-
+       
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-            <div class="p-field" *ngIf="routeControl !='generalstatus'">
+            <div class="p-field" >
                 <label for="branch_name" class="block font-bold mb-3">Initiator Branch</label>
 
                 <input pInputText id="branch_name" name="branch_name" [(ngModel)]="payload.branch_name" type="text"
                     autocomplete="off" class="w-full h-12 " readonly />
             </div>
 
-            <div class="p-field" *ngIf="routeControl ==='generalstatus'">
-                <label for="status_id" class="block font-bold mb-3"> Status of Tax</label>
-                <p-select id="status_id" name="status_id" [options]="status" [(ngModel)]="payload.status_id"
-                    optionLabel="name" optionValue="id" [filter]="true" placeholder="Select Tax Status"
-                    class="w-full h-12 "></p-select>
-            </div>
+            
 
 
             <div class="p-field">
@@ -108,7 +97,7 @@
 
             </div>
 
-            <div class="p-field" *ngIf="routeControl ==='rejected' || routeControl ==='generalstatus' ">
+            <div class="p-field" *ngIf="routeControl ==='rejected' ">
                 <label for="maker_date" class="block font-bold mb-3">
                     <strong class="text-danger"></strong> Rejected Date
                 </label>
@@ -119,7 +108,7 @@
 
             </div>
 
-            <div class="p-field" *ngIf="routeControl ==='setteled' || routeControl ==='generalstatus' ">
+            <div class="p-field" *ngIf="routeControl ==='setteled' ">
                 <label for="maker_date" class="block font-bold mb-3">
                     <strong class="text-danger"></strong> Settled Date
                 </label>

@@ -52,6 +52,10 @@ export class AnnouncementCreateEditComponent {
     this.announcement = passedData[0];
   }
 
+  emitData(data: any[]) {
+        this.editedAnnouncement.emit(data);
+    }
+
   onSave() {
     this.announcement.posted_by = this.storageService.getUser().id
     if (!this.isEdit) {

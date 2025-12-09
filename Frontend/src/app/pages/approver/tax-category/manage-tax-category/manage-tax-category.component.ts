@@ -33,11 +33,11 @@ export class ManageTaxCategoryComponent {
     user: User = new User();
 
     constructor(
-      private taxCategoriesService: TaxCategoriesService,
-      private confirmationService: ConfirmationService,
-      private messageService: MessageService,
-      private storageService: StorageService,
-    ) {}
+        private taxCategoriesService: TaxCategoriesService,
+        private confirmationService: ConfirmationService,
+        private messageService: MessageService,
+        private storageService: StorageService,
+    ) { }
 
     ngOnInit(): void {
         this.user = this.storageService.getUser();
@@ -73,101 +73,101 @@ export class ManageTaxCategoryComponent {
     }
 
     openNew() {
-      this.outputTaxCategory = [];
-      this.taxCategory = new TaxCategory();
-      this.isEditData = false;
-      this.outputTaxCategory.push(this.taxCategory);
-      this.outputTaxCategory.push(this.isEditData);
-      this.taxCategoryDialog = true;
-  }
+        this.outputTaxCategory = [];
+        this.taxCategory = new TaxCategory();
+        this.isEditData = false;
+        this.outputTaxCategory.push(this.taxCategory);
+        this.outputTaxCategory.push(this.isEditData);
+        this.taxCategoryDialog = true;
+    }
 
-  editTaxCategory(taxCategory: TaxCategory) {
-    this.outputTaxCategory = [];
-    this.taxCategory = { ...taxCategory };
-    this.isEditData = true;
-    this.outputTaxCategory.push(this.taxCategory);
-    this.outputTaxCategory.push(this.isEditData);
-    this.taxCategoryDialog = true;
-}
+    editTaxCategory(taxCategory: TaxCategory) {
+        this.outputTaxCategory = [];
+        this.taxCategory = { ...taxCategory };
+        this.isEditData = true;
+        this.outputTaxCategory.push(this.taxCategory);
+        this.outputTaxCategory.push(this.isEditData);
+        this.taxCategoryDialog = true;
+    }
 
-onDataChange(data: any) {
-  if (data[1]) {
-      this.taxCategories[this.findIndexById(data[0].id)] = data[0];
-  } else {
-    this.getTaxCategories();
-      this.taxCategories = [...this.taxCategories];
-      this.taxCategory = new TaxCategory();
-  }
-  this.taxCategoryDialog = false;
-}
-
-findIndexById(id: number): number {
-  let index = -1;
-  for (let i = 0; i < this.taxCategories.length; i++) {
-      if (this.taxCategories[i].id === id) {
-          index = i;
-          break;
-      }
-  }
-  return index;
-}
-
-deleteSelectedTaxCategories() {
-     this.selectedTaxCategories.forEach(tax => {
-    tax.user_id = this.user.id;
-  });
-  this.confirmationService.confirm({
-      message: 'Are you sure you want to deactivate selected tax categories?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-          this.taxCategoriesService.deleteTaxCategories(this.selectedTaxCategories).subscribe({
-              next: (response) => {
-                this.getTaxCategories();
-                  this.selectedTaxCategories = [];
-                  this.messageService.add({
-                      severity: 'success',
-                      summary: 'Successful',
-                      detail: 'Tax Category Deleted',
-                      life: 3000
-                  });
-              },
-              error: () => {
-                  this.loading = false;
-              }
-          });
-      }
-  });
-}
-
-
-deleteTaxCategory(tax: TaxCategory) {
-    tax.user_id = this.user.id;
-    this.passCategory = tax;
-    this.passCategories.push(this.passCategory)
-    this.confirmationService.confirm({
-        message: 'Are you sure you want to delete the selected tax category ?',
-        header: 'Confirm',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-            this.taxCategoriesService.deleteTaxCategories(this.passCategories).subscribe({
-                next: (response) => {
-                    this.getTaxCategories();
-                    this.taxCategory = new TaxCategory();
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Successful',
-                        detail: 'Tax Category Deleted',
-                        life: 3000
-                    });
-                },
-                error: () => {
-                    this.loading = false;
-                }
-            });
+    onDataChange(data: any) {
+        if (data[1]) {
+            this.taxCategories[this.findIndexById(data[0].id)] = data[0];
+        } else {
+            this.getTaxCategories();
+            this.taxCategories = [...this.taxCategories];
+            this.taxCategory = new TaxCategory();
         }
-    });
-}
+        this.taxCategoryDialog = false;
+    }
+
+    findIndexById(id: number): number {
+        let index = -1;
+        for (let i = 0; i < this.taxCategories.length; i++) {
+            if (this.taxCategories[i].id === id) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+
+    deleteSelectedTaxCategories() {
+        this.selectedTaxCategories.forEach(tax => {
+            tax.user_id = this.user.id;
+        });
+        this.confirmationService.confirm({
+            message: 'Are you sure you want to deactivate selected tax categories?',
+            header: 'Confirm',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.taxCategoriesService.deleteTaxCategories(this.selectedTaxCategories).subscribe({
+                    next: (response) => {
+                        this.getTaxCategories();
+                        this.selectedTaxCategories = [];
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Successful',
+                            detail: 'Tax Category Deleted',
+                            life: 3000
+                        });
+                    },
+                    error: () => {
+                        this.loading = false;
+                    }
+                });
+            }
+        });
+    }
+
+
+    deleteTaxCategory(tax: TaxCategory) {
+        tax.user_id = this.user.id;
+        this.passCategory = tax;
+        this.passCategories.push(this.passCategory)
+        this.confirmationService.confirm({
+            message: 'Are you sure you want to delete the selected tax category ?',
+            header: 'Confirm',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.taxCategoriesService.deleteTaxCategories(this.passCategories).subscribe({
+                    next: (response) => {
+                        this.getTaxCategories();
+                        this.taxCategory = new TaxCategory();
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Successful',
+                            detail: 'Tax Category Deleted',
+                            life: 3000
+                        });
+                    },
+                    error: () => {
+                        this.loading = false;
+                    }
+                });
+            }
+        });
+    }
 
 
 

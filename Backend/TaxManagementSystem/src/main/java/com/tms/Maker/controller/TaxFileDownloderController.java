@@ -51,7 +51,7 @@ public class TaxFileDownloderController {
                     .body(resource);
 
         } catch (Exception ex) {
-            logger.error("Error while fetching file: " + fileName, ex);
+            logger.error("Error while fetching file: " + fileName, ex.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

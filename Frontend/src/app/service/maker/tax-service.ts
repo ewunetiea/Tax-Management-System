@@ -25,12 +25,6 @@ export class TaxService {
     
     return this.http.post<Tax[]>(baseUrl + '/fetchTaxBasedonStatus', payload);
   }
-
-  fetchTaxProgress(payload: MakerSearchPayload): Observable<Tax[]> {
-    return this.http.post<Tax[]>(baseUrl + '/fetchTaxProgress', payload);
-  }
-
-
   deleteSelectedTaxes(anoncment: Tax[]) {
     return this.http.post(baseUrl + '/delete', anoncment);
   }

@@ -54,14 +54,14 @@ export class AppMenuMaker {
                 ]
             }
             ,
-
-            {
-                label: 'Tax Progress',
-                items: [{ label: 'General Status ', icon: 'pi pi-spinner text-blue-500', routerLink: ['/applayout/maker/general-tax-status'] }
-
-                ],
-
+   {
+                label: 'Announcements ',
+                items: [
+                    { label: 'Active ', icon: 'pi pi-check-circle text-blue-500', routerLink: ['/applayout/approver/ongoing-announcement'] },
+                    { label: 'Archived', icon: 'pi pi-ban text-red-500', routerLink: ['/applayout/approver/archived-announcement'] },
+               ]
             },
+         
 
             {
                 label: 'Report',

@@ -18,7 +18,7 @@
 
       <p-button severity="help" label="Back" icon="pi pi-trash" (click)="backToDraftedState(selectedTaxes)"
         [disabled]="!selectedTaxes || !selectedTaxes.length" class="mr-2"
-        *ngIf="routeControl !=='drafted' && routeControl !='generalstatus' && routeControl !='setteled' && routeControl !='sent' " />
+        *ngIf="routeControl !=='drafted'  && routeControl !='setteled' && routeControl !='sent' " />
     </ng-template>
 
     <ng-template pTemplate="center" *ngIf="routeControl != 'sent'">
@@ -163,14 +163,14 @@
             </div>
           </th>
 
-          <th style="min-width: 10rem">
+          <!-- <th style="min-width: 10rem">
 
 
             <div class="flex items-center">
               Remark
               <p-columnFilter type="texr" field="remark" display="menu" />
             </div>
-          </th>
+          </th> -->
 
 
           <th style="min-width: 14rem" *ngIf="routeControl==='drafted' || routeControl==='submited'">
@@ -212,8 +212,7 @@
             <!-- <p-sortIcon field="status" /> -->
           </th>
 
-          <th style="min-width: 12rem"
-            *ngIf="routeControl !='setteled' && routeControl !='generalstatus' && routeControl !='sent' ">
+          <th style="min-width: 12rem" *ngIf="routeControl !='setteled'  && routeControl !='sent' ">
             Action
           </th>
         </tr>
@@ -230,14 +229,7 @@
           <td>{{ tax.initiator_branch }}</td>
           <td>{{ tax.reference_number }}</td>
           <td>{{ tax.destination_branch }}</td>
-          <!-- <td>{{ tax.taxableAmount }}</td>
-          <td>{{ tax.taxWithHold }}</td>
-          <td>{{ tax.incometaxPoolAmount }}</td>
-          <td>{{ tax.graduatetaxPool }}</td>
-          <td>{{ tax.graduaTotBasSalary }}</td>
-          <td>{{ tax.graduateTotaEmployee }}</td>
-          <td>{{ tax.noOfEmployee }}</td>
-          <td>{{ tax.graduatetaxWithHold }}</td> -->
+
 
           <td>{{ tax.taxableAmount | number:'1.0-10':'en-US' }}</td>
           <td>{{ tax.taxWithHold | number:'1.0-10':'en-US' }}</td>
@@ -249,16 +241,22 @@
           <td>{{ tax.graduatetaxWithHold | number:'1.0-10':'en-US' }}</td>
 
           <td>{{ taxCategoryMap[tax.taxCategory] || 'Unknown' }}</td>
-          <td>{{ tax.remark }}</td>
+          <!-- <td>{{ tax.remark }}</td> -->
           <td *ngIf="routeControl ==='drafted' || routeControl ==='submited' ">{{ tax.drafted_date | date:'yyyy-MM-dd'
             }}</td>
           <td *ngIf="routeControl !='drafted'">{{ tax.maker_date | date:'yyyy-MM-dd' }}</td>
-          <td *ngIf="routeControl ==='rejected'">{{ tax.checker_rejected_date | date:'yyyy-MM-dd' }}</td>
+          <td *ngIf="routeControl ==='rejected'">
 
-          <td *ngIf="routeControl ==='rejected'">{{ tax.approver_rejected_date | date:'yyyy-MM-dd' }}</td>
+            {{ tax.checker_rejected_date ? (tax.checker_rejected_date | date:'yyyy-MM-dd') : '-' }}
+
+          </td>
+
+          <td *ngIf="routeControl === 'rejected'">
+            {{ tax.approver_rejected_date ? (tax.approver_rejected_date | date:'yyyy-MM-dd') : '-' }}
+          </td>
           <td>
             <button pButton [label]="getStatusInfo(tax.status).label" [severity]="getStatusInfo(tax.status).severity"
-              class="p-button-outlined p-button-sm">
+              class=" p-button-rounded p-button-outlined p-button-sm">
             </button>
           </td>
           <td>
@@ -365,39 +363,35 @@
                   </div>
                 </p-tabPanel>
 
-                <p-tabPanel header="Remark" *ngIf="routeControl ==='rejected'">
-                  <div class="py-3 flex space-x-2">
-                    <!-- <p-button 
-                          *ngIf="tax.remark"
-                          [icon]="activeState[2] ? 'pi pi-minus' : 'pi pi-plus'" 
-                          (click)="toggle(2)"
-                          styleClass="p-button-text" 
-                          label="Maker Remark">
-                        </p-button> -->
-                    <p-button *ngIf="tax.checker_rejected_reason" [icon]="activeState[3] ? 'pi pi-minus' : 'pi pi-plus'"
-                      (click)="toggle(3)" styleClass="p-button-text" label="Reviewer Remark">
-                    </p-button>
-                    <p-button *ngIf="tax.approver_rejected_reason"
-                      [icon]="activeState[4] ? 'pi pi-minus' : 'pi pi-plus'" (click)="toggle(4)"
-                      styleClass="p-button-text" label="Approver Remark">
-                    </p-button>
-                  </div>
+                <!-- Maker Remark Tab -->
 
-                  <!-- Maker Remark Section -->
-                  <div *ngIf="tax.remark && activeState[2]" class="card p-3">
-                    <textarea rows="5" cols="30" pTextarea [(ngModel)]="tax.remark" fluid></textarea>
-                  </div>
-
-                  <!-- Reviewer Remark Section -->
-                  <div *ngIf="tax.checker_rejected_reason && activeState[3]" class="card p-3">
-                    <textarea rows="5" cols="30" pTextarea [(ngModel)]="tax.checker_rejected_reason" fluid></textarea>
-                  </div>
-
-                  <!-- Approver Remark Section -->
-                  <div *ngIf="tax.approver_rejected_reason && activeState[4]" class="card p-3">
-                    <textarea rows="5" cols="30" pTextarea [(ngModel)]="tax.approver_rejected_reason" fluid></textarea>
+                <p-tabPanel header="Maker Remark" *ngIf="tax.remark">
+                  <div class="border rounded p-3 mt-3 bg-white shadow-sm ">
+                    <p class="text-justify m-0">
+                      {{ tax.remark }}
+                    </p>
                   </div>
                 </p-tabPanel>
+
+                <!-- Reviewer Remark Tab -->
+                <p-tabPanel header="Reviewer Remark" *ngIf="tax.checker_rejected_reason && routeControl === 'rejected'">
+                  <div class="border rounded p-3 mt-3 bg-white shadow-sm">
+                    <p class="text-justify m-0">
+                      {{ tax.checker_rejected_reason }}
+                    </p>
+                  </div>
+                </p-tabPanel>
+
+                <!-- Approver Remark Tab -->
+                <p-tabPanel header="Approver Remark"
+                  *ngIf="tax.approver_rejected_reason && routeControl === 'rejected'">
+                  <div class="border rounded p-3 mt-3 bg-white shadow-sm">
+                    <p class="text-justify m-0">
+                      {{ tax.approver_rejected_reason }}
+                    </p>
+                  </div>
+                </p-tabPanel>
+
               </p-tabView>
             </div>
           </td>

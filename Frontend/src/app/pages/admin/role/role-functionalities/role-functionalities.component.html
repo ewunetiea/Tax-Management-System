@@ -139,7 +139,7 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="functionalityStatusDialog" [header]="role.name + ' Functionalities Status'" [modal]="true" styleClass="p-fluid" [maximizable]="true">
+<p-dialog [(visible)]="functionalityStatusDialog" [style]="{ width: '1000px' }" [header]="role.name + ' Functionalities Status'" [modal]="true" styleClass="p-fluid" [maximizable]="true">
     <ng-template pTemplate="content">
         <p-toolbar>
             <ng-template pTemplate="right">
@@ -242,7 +242,6 @@
                     <td>{{ functionality.method }}</td>
                     <td>
                         <button *ngIf="functionality.status == 1" pButton pRipple type="text" icon="pi pi-verified" label="Active" class="p-button-rounded p-button-success p-button-outlined p-button-sm"></button>
-
                         <button *ngIf="functionality.status == 0" pButton pRipple type="text" icon="pi pi-times" label="Inactive" class="p-button-rounded p-button-danger p-button-outlined p-button-sm"></button>
                     </td>
                 </tr>

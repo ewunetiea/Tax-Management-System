@@ -9,6 +9,7 @@ import { User } from '../../../models/admin/user';
 import { ManageTaxApproverService } from '../../../service/approver/manage-tax-ho-service';
 import { Observable } from 'rxjs';
 import { ToastModule } from 'primeng/toast';
+import { InputSanitizer } from 'app/SQLi-XSS-Prevention/InputSanitizer';
 
 @Component({
   selector: 'app-reject-checker-approver',
@@ -23,6 +24,7 @@ export class RejectCheckerApproverComponent implements OnInit {
   form!: FormGroup;
   submitted = false;
   isApprover = false;
+  tagFilter: RegExp = InputSanitizer.attackRegex;
 
 
   @Input() routeControl = "";
@@ -55,7 +57,6 @@ export class RejectCheckerApproverComponent implements OnInit {
     }
     this.setRoleValidators();
   }
-
 
   setRoleValidators() {
   if (this.isApprover) {

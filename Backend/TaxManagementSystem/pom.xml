@@ -192,6 +192,13 @@
             <optional>true</optional>
         </dependency>
 
+<!-- OWASP Java HTML Sanitizer -->
+        <dependency>
+        <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+        <artifactId>owasp-java-html-sanitizer</artifactId>
+        <version>20211018.1</version>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

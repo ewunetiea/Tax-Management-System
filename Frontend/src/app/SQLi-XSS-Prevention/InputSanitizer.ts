@@ -1,44 +1,102 @@
 export class InputSanitizer {
 
-  // 🟢 Combined XSS + SQL injection detection regex
-  private static attackRegex = new RegExp(
+  /**
+   * BLOCKLIST REGEX
+   * Detects XSS + SQLi + HTML injection patterns
+   */
+  public static attackRegex = new RegExp(
     [
-      // --- XSS Patterns ---
-      "<\\s*script\\b[^>]*>?",
-      "<\\s*/\\s*script\\b[^>]*>?",
-      "<\\s*img\\b[^>]*on\\w+\\s*=",
-      "<\\s*svg\\b[^>]*on\\w+\\s*=",
-      "on\\w+\\s*=",                    // onload=, onclick=
+      // ----------------------------
+      // 🚨 XSS ATTACKS
+      // ----------------------------
+      "<\\s*script\\b",
+      "<\\s*/\\s*script\\b",
+      "<\\s*img[^>]+on\\w+\\s*=",
+      "<\\s*svg[^>]+on\\w+\\s*=",
+      "<\\s*iframe\\b",
+      "<\\s*object\\b",
+      "<\\s*embed\\b",
+      "<\\s*link[^>]*stylesheet",
+      "on\\w+\\s*=",          // onclick= onload=
       "javascript\\s*:",
-      "document\\.cookie",
-      "window\\.location",
-      "document\\.write",
+      "data\\s*:\\s*text\\/html",
+      "vbscript\\s*:",
+      "document\\.",
+      "window\\.",
       "eval\\(",
+      "alert\\(",
+      "prompt\\(",
+      "confirm\\(",
 
-      // --- SQL Injection Patterns ---
+      // Unicode-hidden payloads
+      "[\\u202E\\u202D\\u202B\\u202A]",   // RTL override chars
+
+      // ----------------------------
+      // 🚨 SQL INJECTION
+      // ----------------------------
       "'\\s*or\\s*'1'='1",
       "\"\\s*or\\s*\"1\"=\"1",
-      "--",                            // SQL comment
+      "--",                // SQL comments
       ";\\s*waitfor\\s+delay",
-      "'\\s*--",
-      "1=1",
       "union\\s+select",
       "drop\\s+table",
       "insert\\s+into",
       "delete\\s+from",
-            "update\\s+table",
+      "update\\s+.*set",
+      "select\\s+.*from",
+      "exec\\s*\\(",
+      "declare\\s+@",
+      "cast\\s*\\(",
+      "alter\\s+table",
+      "truncate\\s+table",
+      "information_schema",
+      "xp_cmdshell",
+      "limit\\s+\\d+",
+      "offset\\s+\\d+",
 
+      // ----------------------------
+      // 🚨 HTML / BROWSER-ENGINE EXPLOITS
+      // ----------------------------
+      "<\\s*form\\b[^>]*action",
+      "<\\s*meta\\b[^>]*http-equiv",
+      "<\\s*base\\b",
+      "<\\s*style\\b",
     ].join("|"),
     "i"
   );
 
   /**
-   * Checks input for XSS or SQL Injection attempts
-   * @param value - the string to validate
-   * @returns boolean - true if invalid/malicious
+   * Detects malicious input without modifying it
    */
   static isInvalid(value: string): boolean {
     if (!value) return false;
     return this.attackRegex.test(value);
+  }
+
+  /**
+   * SANITIZER FUNCTION
+   * Safely removes HTML + risky keywords while keeping normal text intact
+   */
+  static cleanInput(value: string): string {
+    if (!value) return "";
+
+    let cleaned = value;
+
+    // Strip ALL HTML tags
+    cleaned = cleaned.replace(/<[^>]*>/g, "");
+
+    // Remove unicode-direction attacks
+    cleaned = cleaned.replace(/[\u202E\u202D\u202B\u202A]/g, "");
+
+    // Remove common XSS JS words
+    cleaned = cleaned.replace(/javascript|vbscript|script|eval|alert|prompt|confirm/gi, "");
+
+    // Remove SQL keywords
+    cleaned = cleaned.replace(/\b(select|insert|delete|update|union|drop|truncate|exec|cast|declare)\b/gi, "");
+
+    // Collapse multiple spaces
+    cleaned = cleaned.replace(/\s\s+/g, " ").trim();
+
+    return cleaned;
   }
 }

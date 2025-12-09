@@ -6,6 +6,7 @@ import { TaxCategory } from '../../../../models/maker/tax-category';
 import { MessageService } from 'primeng/api';
 import { SharedUiModule } from '../../../../../shared-ui';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { InputSanitizer } from 'app/SQLi-XSS-Prevention/InputSanitizer';
 
 @Component({
     selector: 'app-create-edit-tax-category',
@@ -20,6 +21,7 @@ export class CreateEditTaxCategoryComponent {
     submitted = false;
     loading = false;
     form!: FormGroup;
+    tagFilter: RegExp = InputSanitizer.attackRegex;
 
     @Input() passedTaxCategory: any[] = [];
     @Output() editedTaxCategory: EventEmitter<any> = new EventEmitter();
@@ -35,8 +37,8 @@ export class CreateEditTaxCategoryComponent {
         this.user = this.storageService.getUser();
 
         this.form = this.fb.group({
-            type: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-            description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(200)]],
+            type: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern(this.tagFilter)]],
+            description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(200), Validators.pattern(this.tagFilter)]],
         });
 
         this.isEditData = this.passedTaxCategory[1];

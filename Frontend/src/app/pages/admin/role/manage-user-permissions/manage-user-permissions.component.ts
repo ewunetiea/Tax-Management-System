@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { User } from '../../../../models/admin/user';
 import { Functionalities } from '../../../../models/admin/functionalities';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-
 import { Table } from 'primeng/table';
 import { UserSearchEngineComponent } from '../../user/user-search-engine/user-search-engine.component';
 import { SharedUiModule } from '../../../../../shared-ui';
@@ -15,7 +14,6 @@ import { UserFunctionalityService } from '../../../../service/admin/user-functio
   templateUrl: './manage-user-permissions.component.html',
   styleUrl: './manage-user-permissions.component.scss',
   providers: [ConfirmationService, MessageService]
-
 })
 export class ManageUserPermissionsComponent {
   user: User = new User();

@@ -204,7 +204,7 @@ currentPageReportTemplate="Showing {first} to {last} of {totalRecords} announcem
             </p-tabPanel>
             <p-tabPanel header="Message Detail">
               <div *ngIf="tax.message && activeState[0]" class="card p-3">
-                <textarea rows="5" cols="30" pTextarea [(ngModel)]="tax.message" fluid></textarea>
+                <p-editor [(ngModel)]="tax.message" [style]="{ height: '220px' }" fluid></p-editor>
               </div>
             </p-tabPanel>
           </p-tabView>

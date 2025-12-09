@@ -21,7 +21,7 @@ export class CreateEditTaxCategoryComponent {
     submitted = false;
     loading = false;
     form!: FormGroup;
-    tagFilter: RegExp = InputSanitizer.attackRegex;
+    tagFilter = InputSanitizer.attackRegex.source;
 
     @Input() passedTaxCategory: any[] = [];
     @Output() editedTaxCategory: EventEmitter<any> = new EventEmitter();

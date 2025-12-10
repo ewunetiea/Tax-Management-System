@@ -13,7 +13,6 @@ const baseUrl = `${environment.backendUrl}/report`;
 export class ReportService {
   constructor(private http: HttpClient) { }
 
-
   getTaxesForReviewer(tax: TaxableSearchEngine): Observable<Tax[]> {
     return this.http.post<Tax[]>(`${baseUrl}/reviewer`, tax);
   }
@@ -22,8 +21,7 @@ export class ReportService {
     return this.http.post<Tax[]>(`${baseUrl}/approver`, tax);
   }
 
-
-    getTaxesFormaker(tax: TaxableSearchEngine): Observable<Tax[]> {
+  getTaxesFormaker(tax: TaxableSearchEngine): Observable<Tax[]> {
     return this.http.post<Tax[]>(`${baseUrl}/maker`, tax);
   }
 

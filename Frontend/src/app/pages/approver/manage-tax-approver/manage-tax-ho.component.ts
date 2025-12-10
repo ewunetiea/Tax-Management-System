@@ -139,6 +139,8 @@ export class ManageTaxHoComponent {
 
   editTax(tax: Tax) {
     this.tax = { ...tax };
+    console.log("frommmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm:", this.tax.initiator_branch);
+
     this.taxDialog = true;
     this.isEdit = true;
   }

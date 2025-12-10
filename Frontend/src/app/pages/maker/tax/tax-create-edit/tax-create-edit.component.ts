@@ -67,7 +67,6 @@ export class TaxCreateEditComponent {
         // <-- log role
 
         if (this.role.includes("ROLE_MAKER")) {
-
             this.isMaker = true
         }
 

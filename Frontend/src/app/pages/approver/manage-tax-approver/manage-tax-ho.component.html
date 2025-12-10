@@ -439,11 +439,10 @@
   </ng-template>
 </p-dialog>
 
-<app-tax-create-edit [(visible)]="taxDialog" [tax]="tax" (saved)="onTaxesaved($event)"
+<app-tax-create-edit [(visible)]="taxDialog" 
+[tax]="tax" 
+(saved)="onTaxesaved($event)"
   (cancel)="hideDialog()"></app-tax-create-edit>
-
-
-
 
   
 <p-dialog [(visible)]="showPdfModal" modal="true" [style]="{width: '70%', height: '80%'}" (onHide)="closeModalPDF()">

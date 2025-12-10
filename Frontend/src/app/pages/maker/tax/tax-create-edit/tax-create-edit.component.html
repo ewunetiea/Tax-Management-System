@@ -4,11 +4,14 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                 <!-- Request Generated From -->
-                <div class="p-field">
-                    <label for="from_" class="block font-bold mb-3">Request Generated From<strong
-                            class="text-danger">*</strong></label>
-                    <input type="text" name="from_" id="from_" pInputText [(ngModel)]="user_branch" fluid readonly
-                        class="w-full h-12 " />
+                <div class="p-field" *ngIf="!isMaker">
+                    <label for="from_" class="block font-bold mb-3">Request Generated From<strong class="text-danger">*</strong></label>
+                    <input type="text" name="from_" id="from_" pInputText [(ngModel)]="tax.initiator_branch" fluid readonly class="w-full h-12 " />
+                </div>
+
+                <div class="p-field" *ngIf="isMaker">
+                    <label for="from_" class="block font-bold mb-3">Request Generated From<strong class="text-danger">*</strong></label>
+                    <input type="text" name="from_" id="from_" pInputText [(ngModel)]="user_branch" fluid readonly class="w-full h-12 " />
                 </div>
 
                  <!-- Income Tax Pool -->

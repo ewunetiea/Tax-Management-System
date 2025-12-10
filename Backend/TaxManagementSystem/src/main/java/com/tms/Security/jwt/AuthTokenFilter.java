@@ -70,9 +70,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     // if (functionalitiesService.verifyPermission(request, request.getRequestURI(), request.getMethod())) {
       try {
         String jwt = parseJwt(request);
-
-        
-
         if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
           String username = jwtUtils.getUserNameFromJwtToken(jwt);
           User user = userMapper.findByEmail(username);

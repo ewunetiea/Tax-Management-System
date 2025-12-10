@@ -20,7 +20,9 @@
             id="message" 
             class="w-full" 
             [style]="{ width: '100%', height: '320px' }"
-            [(ngModel)]="announcement.message" required></p-editor>
+            [(ngModel)]="announcement.message" 
+            required
+            ></p-editor>
         </div>
 
         <!-- Audience -->
@@ -50,7 +52,7 @@
             </div>
 
             <div *ngIf="announcementForm.controls['audience']?.invalid && announcementForm.submitted" class="text-danger">
-                Audience selection is required.
+                Audience selection is required!
             </div>
         </div>
 

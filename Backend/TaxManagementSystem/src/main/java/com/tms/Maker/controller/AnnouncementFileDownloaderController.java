@@ -1,4 +1,5 @@
 package com.tms.Maker.controller;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +44,8 @@ public class AnnouncementFileDownloaderController {
                     .body(resource);
 
         } catch (Exception ex) {
-            logger.error("Error while fetching file: " + fileName, ex);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            logger.error("Error while fetching file: " + fileName + " - " + ex.getMessage(), ex);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).header("X-Error-Message", ex.getMessage()).build();
         }
     }
 }
-

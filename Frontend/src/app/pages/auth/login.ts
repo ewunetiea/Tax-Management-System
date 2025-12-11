@@ -233,7 +233,7 @@ export class Login {
   registerApis() {
   this.authService.apiRegister().subscribe({
     next: (res) => {
-      console.log('APIs registered successfully', res);
+      
       alert(`APIs registered successfully: ${JSON.stringify(res)}`);
     },
     error: (err) => {

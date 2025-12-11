@@ -58,12 +58,6 @@ export class AnnouncementCreateEditComponent {
 
   onSave() {
     this.announcement.posted_by = this.storageService.getUser().id
-    if (!this.isEdit) {
-      if (!this.announcement.announcementFile || this.announcement.announcementFile.length === 0) {
-        this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'File is not selected' });
-        return;
-      }
-    }
 
     if (this.announcement.isFileEdited) {
       if (!this.announcement.announcementFile || this.announcement.announcementFile.length === 0) {

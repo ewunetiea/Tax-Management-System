@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.tms.Admin.Entity.User;
@@ -28,6 +29,9 @@ public class AnnouncementService {
 
     @Autowired
     private FileStorageServiceImpl fileStorageService;
+
+    @Value("${file.storage.root}")
+    private String rootPath;
 
     // ------------------ CREATE --------------------
     @Transactional

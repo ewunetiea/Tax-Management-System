@@ -32,8 +32,6 @@ public class FileStorageServiceImpl {
         String fileName = file.getOriginalFilename();
         Path targetPath = folderPath.resolve(fileName);
 
-         System.out.println("File saved pathhhhhhhhhhhhhhhhhhhhhh : " +  targetPath);
-
         // Copy file
         Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
 
@@ -60,7 +58,6 @@ public class FileStorageServiceImpl {
     // Delete a specific file
     public boolean deleteFile(String fileName, String folderName) throws IOException {
         Path filePath = Paths.get(rootPath, folderName).resolve(fileName);
-        System.out.println("File deleted pathhhhhhhhhhhhhhhhhhhhhh : " +  filePath);
         return Files.deleteIfExists(filePath);
     }
 

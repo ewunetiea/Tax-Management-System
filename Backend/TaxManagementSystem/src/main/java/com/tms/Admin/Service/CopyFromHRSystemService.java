@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.tms.Admin.Entity.Branch;
@@ -62,7 +63,7 @@ public class CopyFromHRSystemService {
     private static final Logger logger = LoggerFactory.getLogger(CopyFromHRSystemService.class);
 
     // @Scheduled(cron = "0 0 19 * * ?")
-    // @Scheduled(initialDelay = 50000, fixedDelay = Long.MAX_VALUE) // 50000 ms = 50 seconds
+    @Scheduled(initialDelay = 50000, fixedDelay = Long.MAX_VALUE) // 50000 ms = 50 seconds
 
     @Transactional
     public void scheduledCopyUsersFromHrSystem() {

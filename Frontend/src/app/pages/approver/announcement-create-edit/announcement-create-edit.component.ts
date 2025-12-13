@@ -28,6 +28,7 @@ export class AnnouncementCreateEditComponent {
 
   @Input() passedAnnouncement: any[] = [];
   @Output() editedAnnouncement: EventEmitter<any> = new EventEmitter();
+today = new Date();
 
   constructor(
     private announcementService: AnnouncementService,
@@ -36,6 +37,8 @@ export class AnnouncementCreateEditComponent {
   ) { }
 
   ngOnInit(): void {
+    
+
     this.isEdit = this.passedAnnouncement[1];
     if (this.isEdit) {
       this.editAnnouncement(this.passedAnnouncement);
@@ -57,6 +60,10 @@ export class AnnouncementCreateEditComponent {
     }
 
   onSave() {
+    this.announcement.created_date = this.today
+
+
+    console.log(this.announcement.created_date, "expiry date " , this.announcement.expiry_date)
     this.announcement.posted_by = this.storageService.getUser().id
 
     if (this.announcement.isFileEdited) {

@@ -17,7 +17,7 @@
           <small class="text-red-600" *ngIf="f['type'].errors['required']">Type is required</small>
           <small class="text-red-600" *ngIf="f['type'].errors['minlength']">Type must be at least {{ f['type'].errors['minlength'].requiredLength }} characters.</small>
           <small class="text-red-600" *ngIf="f['type'].errors['maxlength']">Type cannot exceed  {{ f['type'].errors['maxlength'].requiredLength }} characters.</small>
-          <small class="text-red-600" *ngIf="f['type'].errors?.['pattern']">Invalid characters detected (XSS/SQL keywords blocked)</small>
+          <small class="text-red-600" *ngIf="f['type'].errors?.['xssSqlDetected']">Invalid characters detected (XSS / SQL keywords blocked)</small>
         </div>
       </div>
 
@@ -35,7 +35,7 @@
           <small class="text-red-600" *ngIf="f['description'].errors['required']">Description is required</small>
           <small class="text-red-600" *ngIf="f['description'].errors['minlength']">Description must be at least {{ f['description'].errors['minlength'].requiredLength }} characters.</small>
           <small class="text-red-600" *ngIf="f['description'].errors['maxlength']">Description cannot exceed {{ f['description'].errors['maxlength'].requiredLength }} characters.</small>
-          <small class="text-red-600" *ngIf="f['type'].errors?.['pattern']">Invalid characters detected (XSS/SQL keywords blocked)</small>
+          <small class="text-red-600" *ngIf="f['type'].errors?.['xssSqlDetected']">Invalid characters detected (XSS / SQL keywords blocked)</small>
         </div>
       </div>
 

@@ -75,7 +75,8 @@
     <tr>
       <td>
         <p-button type="button" pRipple [pRowToggler]="announcement" [text]="true" [rounded]="true" [plain]="true"
-          [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"  pTooltip="click >  to see  message and File details"/>
+          [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+          pTooltip="click >  to see  message and File details" />
       </td>
       <td><p-tableCheckbox [value]="announcement" /></td>
       <td>{{ announcement.title }}</td>
@@ -173,7 +174,7 @@
 
 
                 <!-- <div [innerHTML]="tax.message" class="editor-body" [style]="{ height: 'auto' }"></div> -->
- <div [innerHTML]="tax.message" class="editor-body"></div>
+                <div [innerHTML]="tax.message" class="editor-body"></div>
 
 
 
@@ -186,11 +187,12 @@
   </ng-template>
 </p-table>
 
-<p-dialog [(visible)]="announcemetDialog"   [style]="{ width: '70%', maxWidth: '800px' }" 
- header="Announcement Details" [modal]="true"
-  styleClass="p-fluid" [maximizable]="true">
+<p-dialog [(visible)]="announcemetDialog" [style]="{ width: '70%', maxWidth: '800px' }" header="Announcement Details"
+  [modal]="true" styleClass="p-fluid" [maximizable]="true">
   <ng-template pTemplate="content">
-    <app-announcement-create-edit [passedAnnouncement]="outputAnnouncement" (editedAnnouncement)="onDataChange($event)">
+    <app-announcement-create-edit 
+    [passedAnnouncement]="outputAnnouncement" 
+    (saved)="onAnnouncementSaved($event)">
     </app-announcement-create-edit>
   </ng-template>
 </p-dialog>

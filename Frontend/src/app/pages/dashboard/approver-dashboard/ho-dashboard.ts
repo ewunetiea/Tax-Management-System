@@ -22,6 +22,8 @@ import { ApproverDashboardService } from 'app/service/approver/approver-dashboar
   standalone: true,
   imports: [SharedUiModule, CardSkeleton, BarAndLineChartSkeleton, PieDougnutPolarSkeleton, PieDougnutPolarSkeletonDescription, EditorModule, ChartModule],
   templateUrl: './ho-dashboard.component.html',
+        styleUrl: './ho-dashboard.component.scss'
+
 })
 export class HODashboard {
   private destroy$ = new Subject<void>();

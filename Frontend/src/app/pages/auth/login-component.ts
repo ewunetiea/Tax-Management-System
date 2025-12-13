@@ -19,7 +19,7 @@ import { AutoLogoutService } from 'app/service/sharedService/auto-logout.service
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css']
 })
-export class Login {
+export class LoginComponent {
     form: any = { username: null, password: null };
     isLoginFailed = false;
     errorMessage = '';

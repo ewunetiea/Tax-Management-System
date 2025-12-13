@@ -19,6 +19,8 @@ import { PieDougnutPolarSkeletonDescription } from 'app/pages/skeleton/dougnut-p
 @Component({
   selector: 'app-checker-dashboard',
   templateUrl: './checker-dashboard.component.html',
+        styleUrl: './checker-dashboard.component.scss',
+
   standalone: true,
   imports: [
     SharedUiModule,

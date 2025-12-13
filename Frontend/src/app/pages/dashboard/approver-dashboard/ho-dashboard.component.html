@@ -65,26 +65,48 @@
     <div class="card col-span-12 xl:col-span-12" *ngIf="announcement">
         <div class="card">
             <ng-container *ngIf="!loading; else chartBarSkeleton">
-                <div class="font-semibold text-xl mb-4">Lattest Announcement</div>
-                <p-editor [(ngModel)]="announcement.message" [readonly]="true"
-                    styleClass="w-full border rounded-md bg-surface-50 text-gray-700 max-h-70 overflow-auto">
-                    <ng-template pTemplate="header">
-                        <div class="flex justify-between items-center w-full space-x-4">
-                            <div class="font-semibold"> Subject : {{ announcement.title }}</div>
-                            <div class="font-semibold">Posted By :{{ announcement.postedBy }}
+                     <div class="nbe-formal-announcement">
+                        <div class="nbe-body">
+                            <div class="flex justify-center items-center mb-1 gap-2">
+                                <span class="font-semibold text-sm">Latest Announcement</span>
+
+
                             </div>
-                            <div class="font-semibold">Posted Date :{{ announcement.created_date | date:'yyyy-MM-dd' }}
+                            <!-- Header: Dates top-right, Subject below -->
+                            <div class="nbe-header">
+
+                                <div class="nbe-dates-right">
+                                    <div><strong>Posted Date:</strong> {{ announcement.created_date | date:'yyyy-MM-dd'
+                                        }}</div>
+                                    <div><strong>Expiry Date:</strong> {{ announcement.expiry_date | date:'yyyy-MM-dd'
+                                        }}</div>
+                                </div>
+                                <div class="nbe-subject-below">
+                                    <strong>Title:</strong> {{ announcement.title }}
+                                </div>
                             </div>
-                            <div class="font-semibold"> Expiry Date: {{ announcement.expiry_date | date:'yyyy-MM-dd' }}
+
+                            <hr class="nbe-divider">
+
+                            <div class="editor-body" [innerHTML]="announcement.message"></div>
+
+                            <div class="nbe-footer">
+                                <div class="nbe-posted-by">
+                                    <strong>Posted By:</strong> {{ announcement.postedBy }}
+                                </div>
+                            </div>
+                            <div class="flex gap-3 mt-2">
+                                <a class="p-button p-component p-button-raised p-button-rounded flex items-center justify-center bg-green-500 border-green-500 text-white hover:bg-green-600"
+                                    [routerLink]="['/applayout/approver/ongoing-announcement']">
+                                    <i class="pi pi-eye mr-2"></i>
+                                    See more new
+                                </a>
+
+                               
                             </div>
                         </div>
-                    </ng-template>
-                </p-editor>
-                <div class="mt-2">
-                    <a class="p-button p-component p-button-raised p-button-rounded flex items-center justify-center"
-                        [routerLink]="['/applayout/approver/ongoing-announcement']">
-                        <i class="pi pi-eye  mr-10 mt-2 "></i>See More</a>
-                </div>
+                    </div>
+
             </ng-container>
 
             <!-- skeleton shown while loading -->

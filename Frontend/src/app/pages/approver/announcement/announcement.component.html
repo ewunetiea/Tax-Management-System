@@ -1,18 +1,9 @@
 <p-toolbar>
   <ng-template pTemplate="start" *ngIf="announcmentPayload.role ==='ROLE_APPROVER' && announcement_type !='archived' ">
-    <p-button 
-    label="New"
-     icon="pi pi-plus" 
-     severity="secondary" 
-     class="mr-2" 
-     (onClick)="openNew()" />
-    <p-button 
-    severity="secondary" 
-    label="Delete" 
-    icon="pi pi-trash" 
-    outlined
-    (click)="deleteAnnouncements(selecteAnnouncements)"
-    [disabled]="!selecteAnnouncements || !selecteAnnouncements.length" />
+    <p-button label="New" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="openNew()" />
+    <p-button severity="secondary" label="Delete" icon="pi pi-trash" outlined
+      (click)="deleteAnnouncements(selecteAnnouncements)"
+      [disabled]="!selecteAnnouncements || !selecteAnnouncements.length" />
   </ng-template>
 
   <ng-template pTemplate="center">
@@ -25,25 +16,12 @@
 </p-toolbar>
 
 <p-toast />
-<p-table 
-#dt 
-[value]="announcements" 
-[rows]="5" 
-[columns]="cols" 
-[paginator]="true"
-[globalFilterFields]="['title', 'message', 'created_date', 'expiry_date','audience']"
-[tableStyle]="{ 'min-width': '75rem' }" 
-[(selection)]="selecteAnnouncements" 
-[rowHover]="true" 
-dataKey="id"
-currentPageReportTemplate="Showing {first} to {last} of {totalRecords} announcements" 
-[expandedRowKeys]="expandedRows"
-  (onRowExpand)="onRowExpand($event)" 
-  (onRowCollapse)="onRowCollapse($event)" 
-  [tableStyle]="{ 'min-width': '50rem' }"
-  [showCurrentPageReport]="true" 
-  [rowsPerPageOptions]="[10, 20, 30]" 
-  [size]="selectedSize">
+<p-table #dt [value]="announcements" [rows]="5" [columns]="cols" [paginator]="true"
+  [globalFilterFields]="['title', 'message', 'created_date', 'expiry_date','audience']"
+  [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selecteAnnouncements" [rowHover]="true" dataKey="id"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} announcements" [expandedRowKeys]="expandedRows"
+  (onRowExpand)="onRowExpand($event)" (onRowCollapse)="onRowCollapse($event)" [tableStyle]="{ 'min-width': '50rem' }"
+  [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 20, 30]" [size]="selectedSize">
   <ng-template #caption>
     <div class="flex items-center justify-between">
       <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)">
@@ -97,7 +75,7 @@ currentPageReportTemplate="Showing {first} to {last} of {totalRecords} announcem
     <tr>
       <td>
         <p-button type="button" pRipple [pRowToggler]="announcement" [text]="true" [rounded]="true" [plain]="true"
-          [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
+          [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"  pTooltip="click >  to see  message and File details"/>
       </td>
       <td><p-tableCheckbox [value]="announcement" /></td>
       <td>{{ announcement.title }}</td>
@@ -106,22 +84,10 @@ currentPageReportTemplate="Showing {first} to {last} of {totalRecords} announcem
       <td>{{ announcement.expiry_date | date:'yyyy-MM-dd' }}</td>
       <td>{{ announcement.postedBy }}</td>
       <td *ngIf="this.announcmentPayload.role ==='ROLE_APPROVER'">
-        <p-button 
-        icon="pi pi-pencil" 
-        class="mr-2" 
-        [rounded]="true" 
-        [outlined]="true" 
-        pTooltip="Edit"
-        tooltipPosition="bottom" 
-        (click)="editAnnouncement(announcement)" />
-        <p-button 
-        icon="pi pi-trash" 
-        severity="danger" 
-        [rounded]="true" 
-        [outlined]="true" 
-        pTooltip="Delete"
-        tooltipPosition="bottom" 
-        (click)="deleteAnnouncements(announcement)" />
+        <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" pTooltip="Edit"
+          tooltipPosition="bottom" (click)="editAnnouncement(announcement)" />
+        <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" pTooltip="Delete"
+          tooltipPosition="bottom" (click)="deleteAnnouncements(announcement)" />
       </td>
     </tr>
   </ng-template>
@@ -204,7 +170,13 @@ currentPageReportTemplate="Showing {first} to {last} of {totalRecords} announcem
             </p-tabPanel>
             <p-tabPanel header="Message Detail">
               <div *ngIf="tax.message && activeState[0]" class="card p-3">
-                <p-editor [(ngModel)]="tax.message" [style]="{ height: '220px' }" fluid></p-editor>
+
+
+                <!-- <div [innerHTML]="tax.message" class="editor-body" [style]="{ height: 'auto' }"></div> -->
+ <div [innerHTML]="tax.message" class="editor-body"></div>
+
+
+
               </div>
             </p-tabPanel>
           </p-tabView>
@@ -214,17 +186,11 @@ currentPageReportTemplate="Showing {first} to {last} of {totalRecords} announcem
   </ng-template>
 </p-table>
 
-<p-dialog 
-[(visible)]="announcemetDialog" 
-[style]="{ width: '600px' }"
- header="Announcement Details" 
- [modal]="true"
-  styleClass="p-fluid" 
-  [maximizable]="true">
+<p-dialog [(visible)]="announcemetDialog"   [style]="{ width: '70%', maxWidth: '800px' }" 
+ header="Announcement Details" [modal]="true"
+  styleClass="p-fluid" [maximizable]="true">
   <ng-template pTemplate="content">
-    <app-announcement-create-edit
-     [passedAnnouncement]="outputAnnouncement"
-      (editedAnnouncement)="onDataChange($event)">
+    <app-announcement-create-edit [passedAnnouncement]="outputAnnouncement" (editedAnnouncement)="onDataChange($event)">
     </app-announcement-create-edit>
   </ng-template>
 </p-dialog>

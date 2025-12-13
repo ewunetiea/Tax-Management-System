@@ -55,7 +55,7 @@ export class ManageUserPermissionsComponent {
     this.assignedFunctionalities = this.user.functionalities || [];
 
 
-    console.log(this.assignedFunctionalities)
+    
   }
 
   closeDialog(): void {

@@ -12,7 +12,6 @@ export const environment = {
 };
 
 
-
 // export const environment = {
 //   production: false,
 //   auditorFileApi: 'http://10.10.106.195:8443/tmsbackend/api',//to hnadle auditor uploading files

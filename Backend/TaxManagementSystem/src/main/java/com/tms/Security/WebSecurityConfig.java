@@ -69,4 +69,43 @@ public class WebSecurityConfig {
     http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     return http.build();
   }
+
+  // @Bean
+  //   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+  //       http
+  //           .cors().and() .csrf().disable() // If you use JWT, CSRF can remain disabled
+  //           .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
+  //           .and()
+  //           .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+  //           .and()
+  //           .headers(headers -> headers
+  //               .xssProtection(xss -> xss.block(true)) // Enable browser XSS filter
+  //               .contentSecurityPolicy(csp -> csp.policyDirectives(
+  //                   "default-src 'self'; " +
+  //                   "script-src 'self'; " +
+  //                   "style-src 'self' 'unsafe-inline'; " +
+  //                   "img-src 'self' data:;" +
+  //                   "font-src 'self';"
+  //               ))
+  //               .frameOptions(frame -> frame.sameOrigin())
+  //               .contentTypeOptions() // Prevent MIME sniffing
+  //           )
+  //           .authorizeHttpRequests(auth -> auth
+  //               .requestMatchers(
+  //                   "/v3/api-docs/**",
+  //                   "/swagger-ui.html",
+  //                   "/swagger-ui/**",
+  //                   "/swagger-resources/**",
+  //                   "/webjars/**"
+  //               ).permitAll()
+  //               .requestMatchers("/api/auth/**").permitAll() // Login/Register
+  //               .requestMatchers("/api/**").authenticated()
+  //               .anyRequest().authenticated()
+  //           );
+
+  //       http.authenticationProvider(authenticationProvider());
+  //       http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+  //       return http.build();
+  //   }
 }

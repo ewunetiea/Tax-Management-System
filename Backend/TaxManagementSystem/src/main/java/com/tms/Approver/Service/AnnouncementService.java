@@ -112,7 +112,6 @@ public class AnnouncementService {
                     af.setSupportId(generateGuid());
                     af.setFileName(savedName);
                     af.setExtension(getExtension(savedName));
-
                     announcementMapper.insertFile(af);
                 }
             }

@@ -5,14 +5,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import jakarta.transaction.Transactional;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
 import com.tms.Admin.Entity.Branch;
 import com.tms.Admin.Entity.JobPosition;
 import com.tms.Admin.Entity.Log;
@@ -25,9 +27,11 @@ import com.tms.Admin.Mapper.CopyHRUsersMapper;
 import com.tms.Admin.Mapper.JobPositionMapper;
 import com.tms.Admin.Mapper.LogMapper;
 import com.tms.Admin.Mapper.RegionMapper;
+import com.tms.Admin.Mapper.RoleMapper;
 import com.tms.Admin.Mapper.UserMapper;
 import com.tms.Admin.Mapper.UserRoleMapper;
-import com.tms.Admin.Mapper.RoleMapper;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class CopyFromHRSystemService {
@@ -63,10 +67,10 @@ public class CopyFromHRSystemService {
 
     // @Scheduled(cron = "0 0 19 * * ?")
     // @Scheduled(initialDelay = 50000, fixedDelay = Long.MAX_VALUE) // 50000 ms = 50 seconds
-
     @Transactional
     public void scheduledCopyUsersFromHrSystem() {
         // if (scheduleService.checkScheduleStatus("copy_users_info_hr_system")) {
+        System.out.println("HR Scheduler triggered after 50 seconds of app start");
         Date date = new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formattedDate = formatter.format(date);
@@ -74,8 +78,12 @@ public class CopyFromHRSystemService {
 
         // final String uri = "https://hr.awashbank.com/hr/api/empInfo/2020-01-01 00:00:00";
 
+        System.out.println("hr system running...");
+
         RestTemplate restTemplate = new RestTemplate();
         UserCopyFromHR[] users_copy = restTemplate.getForObject(uri, UserCopyFromHR[].class);
+
+        System.out.println("hr system copyin...");
 
         List<String> jobTitles = jobPositionMapper.getAllJobTitles();
         List<String> newJobTitles = new ArrayList<>();
@@ -196,6 +204,7 @@ public class CopyFromHRSystemService {
 
             }
         }
+        System.out.println("hr system copying done...");
         // }
 
     }

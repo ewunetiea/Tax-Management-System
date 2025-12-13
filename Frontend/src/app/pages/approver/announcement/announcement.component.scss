@@ -1,2 +1,40 @@
 
 @import 'quill/dist/quill.snow.css';
+
+
+
+.announcement-dialog .p-dialog-content {
+  overflow-x: hidden !important;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal !important;
+}
+
+
+.editor-body {
+  /* Auto-fit the content — becomes as wide as the longest line needs */
+  width: min-content;                    /* ← this is the magic */
+  min-width: 100%;                       /* never narrower than screen */
+  max-width: 100%;                       /* never wider than screen */
+  margin: 0 auto;                        /* perfect centering */
+  padding: 2rem 2.5rem;
+  background: #fff;
+  border: 2px solid #000;
+  font-family: "Times New Roman", Georgia, serif;
+  font-size: 18px;
+  line-height: 1.8;
+  text-align: justify;
+  box-sizing: border-box;
+
+  /* Force beautiful wrapping on very long parts */
+  white-space: normal !important;
+  overflow-wrap: anywhere;               /* modern & perfect wrapping */
+  word-wrap: anywhere;
+  hyphens: auto;
+}
+
+.editor-body * {
+  max-width: 100% !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+}

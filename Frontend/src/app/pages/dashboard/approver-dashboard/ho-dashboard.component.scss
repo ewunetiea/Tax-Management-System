@@ -1,0 +1,131 @@
+
+.nbe-formal-announcement {
+  max-width: 100%;
+  margin: 0 auto;
+  border: 0.1rem solid oklab(97.193% -0.00974 0.00659);            
+  border-radius: 0.75rem;                  
+  overflow: hidden;
+  background: hsl(0, 20%, 96%);
+  box-shadow: 0 0.1rem 0.5rem #ebe9e926;
+  font-family: "Times New Roman", Georgia, serif;
+}
+
+
+.nbe-body {
+  background: #fffff8;
+  padding: 3.75rem 5.625rem 4rem;          
+  position: relative;
+  /* Removed min-height: 60vh — was causing excessive height */
+  min-height: auto;                        /* Let content determine height */
+  /* Optional: Set a comfortable minimum if content is very short */
+  min-height: 40vh;                        /* Smaller, more balanced */
+                
+}
+
+
+.nbe-header {
+  position: relative;
+  margin-bottom: 2.5rem;                  
+  min-height: 5rem;                        
+}
+
+.nbe-dates-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  text-align: right;
+  font-size: 1rem;                       
+  line-height: 1.6;
+}
+
+.nbe-subject-below {
+  font-size: 2rem;
+  margin-top: 4rem;                       
+  padding-right: 15rem;                   
+}
+
+/* ===========================
+   Divider line
+   =========================== */
+.nbe-divider {
+  border: none;
+  border-top: 0.125rem solid #000;         
+  margin: 2rem 0;
+}
+
+/* ===========================
+   Editor content / dynamic HTML
+   =========================== */
+.editor-body {
+  width: min-content;
+  min-width: 80%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 1.25rem 0;                      
+
+  font-size: 1.2rem;                     
+  line-height: 1.9;
+  text-align: justify;
+
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+  word-wrap: anywhere;
+  hyphens: auto;
+}
+
+.editor-body * {
+  max-width: 100% !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+}
+
+/* ===========================
+   Links inside editor
+   =========================== */
+.editor-body a {
+  color: #000;
+  text-decoration: underline;
+}
+
+/* ===========================
+   Footer: Posted By at bottom-right
+   =========================== */
+.nbe-footer {
+  margin-top: 4rem;
+  text-align: right;
+}
+
+.nbe-posted-by {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* ===========================
+   Responsive adjustments
+   =========================== */
+@media (max-width: 48rem) { 
+  .nbe-body {
+    padding: 2.5rem 2.5rem;
+    min-height: auto;                      /* Prevent forced height on mobile */
+  }
+
+  .nbe-dates-right {
+    position: static;
+    text-align: left;
+    margin-bottom: 0.75rem;
+  }
+
+  .nbe-subject-below {
+    margin-top: 0;
+    padding-right: 0;
+  }
+
+  .nbe-divider {
+    margin: 1.5rem 0;
+  }
+
+  .editor-body {
+    font-size: 1rem;
+    min-width: 100%;
+  }
+}

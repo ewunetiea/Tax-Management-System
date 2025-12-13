@@ -22,9 +22,13 @@ import { TimelineModule } from 'primeng/timeline';
     standalone: true,
     imports: [SharedUiModule, CardSkeleton, BarAndLineChartSkeleton, EditorModule, TimelineModule],
     templateUrl: './maker-dashboard.component.html',
+      styleUrl: './maker-dashboard.component.scss'
+
+
+
 })
 export class MakerDashboard implements OnInit {
-
+today = new Date();      // For signature date
     private destroy$ = new Subject<void>();
     showAnnouncement: boolean = true; // default to Announcement
 

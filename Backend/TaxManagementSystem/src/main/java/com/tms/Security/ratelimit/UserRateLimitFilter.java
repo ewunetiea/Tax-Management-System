@@ -18,44 +18,44 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Component
+// @Component
 public class UserRateLimitFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtUtils jwtUtils;
 
     // Paths that are NOT rate-limited
-    private static final Set<String> EXCLUDED_PATHS = Set.of(
-            "/api/auth/signin",
-            "/api/auth/force-login",
-            "/api/auth/refreshtoken",
-            "/api/auth/signup",
-            "/api/checkUserEmployeeIdSystem",
-            "/api/checkUserEmployeeId",
-            "/api/region/active",
-            "/api/branch/active",
-            "/api/selected_job_position",
-            "/swagger-ui",
-            "/swagger-ui/",
-            "/v3/api-docs",
-            "/v3/api-docs/"
-    );
-
-    //  private static final Set<String> EXCLUDED_PATHS = Set.of(
-    //         "/tmsbackend/api/auth/signin",
-    //         "/tmsbackend/api/auth/force-login",
-    //         "/tmsbackend/api/auth/refreshtoken",
-    //         "/tmsbackend/api/auth/signup",
-    //         "/tmsbackend/api/checkUserEmployeeIdSystem",
-    //         "/tmsbackend/api/checkUserEmployeeId",
+    // private static final Set<String> EXCLUDED_PATHS = Set.of(
+    //         "/api/auth/signin",
+    //         "/api/auth/force-login",
+    //         "/api/auth/refreshtoken",
+    //         "/api/auth/signup",
+    //         "/api/checkUserEmployeeIdSystem",
+    //         "/api/checkUserEmployeeId",
     //         "/api/region/active",
-    //         "/tmsbackend/api/branch/active",
-    //         "/tmsbackend/api/selected_job_position",
+    //         "/api/branch/active",
+    //         "/api/selected_job_position",
     //         "/swagger-ui",
     //         "/swagger-ui/",
     //         "/v3/api-docs",
     //         "/v3/api-docs/"
     // );
+
+     private static final Set<String> EXCLUDED_PATHS = Set.of(
+            "/tmsbackend/api/auth/signin",
+            "/tmsbackend/api/auth/force-login",
+            "/tmsbackend/api/auth/refreshtoken",
+            "/tmsbackend/api/auth/signup",
+            "/tmsbackend/api/checkUserEmployeeIdSystem",
+            "/tmsbackend/api/checkUserEmployeeId",
+            "/api/region/active",
+            "/tmsbackend/api/branch/active",
+            "/tmsbackend/api/selected_job_position",
+            "/swagger-ui",
+            "/swagger-ui/",
+            "/v3/api-docs",
+            "/v3/api-docs/"
+    );
 
     // One bucket per user
     private final Map<String, Bucket> buckets = new ConcurrentHashMap<>();

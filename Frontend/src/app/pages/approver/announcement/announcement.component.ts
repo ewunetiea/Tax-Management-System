@@ -27,6 +27,7 @@ interface ExportColumn {
   dataKey: string;
 }
 
+
 @Component({
   selector: 'app-announcement',
   standalone: true,
@@ -38,6 +39,9 @@ interface ExportColumn {
 export class AnnouncementComponent implements OnInit {
   expandedRows: { [key: number]: boolean } = {};
   selectedPdf: SafeResourceUrl | null = null;
+  onlyBody = {
+    toolbar: false  // <--- removes toolbar completely
+  };
   showPdfModal = false;
   announcemetDialog: boolean = false;
   announcements: Announcement[] = [];
@@ -132,6 +136,9 @@ loadAnnouncements(announcmentPayload: AnnouncementPayload) {
 }
 
 
+noToolbar = {
+  toolbar: false
+};
   closeModal() {
     this.showPdfModal = false;
     this.selectedPdf = null;

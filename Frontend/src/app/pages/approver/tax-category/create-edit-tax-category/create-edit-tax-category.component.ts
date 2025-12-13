@@ -7,6 +7,7 @@ import { MessageService } from 'primeng/api';
 import { SharedUiModule } from '../../../../../shared-ui';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InputSanitizer } from 'app/SQLi-XSS-Prevention/InputSanitizer';
+import { xssSqlValidator } from 'app/SQLi-XSS-Prevention/xssSqlValidator';
 
 @Component({
     selector: 'app-create-edit-tax-category',
@@ -37,9 +38,26 @@ export class CreateEditTaxCategoryComponent {
         this.user = this.storageService.getUser();
 
         this.form = this.fb.group({
-            type: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern(this.tagFilter)]],
-            description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(200), Validators.pattern(this.tagFilter)]],
-        });
+  type: [
+    '',
+    [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(50),
+      xssSqlValidator
+    ]
+  ],
+  description: [
+    '',
+    [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(200),
+      xssSqlValidator
+    ]
+  ]
+});
+
 
         this.isEditData = this.passedTaxCategory[1];
         if (this.isEditData) {
@@ -48,6 +66,8 @@ export class CreateEditTaxCategoryComponent {
             this.openNew();
         }
     }
+
+    
 
     get f(): { [key: string]: AbstractControl } {
         return this.form.controls;
@@ -88,6 +108,11 @@ export class CreateEditTaxCategoryComponent {
             this.focusFirstInvalidControl();
             return;
         }
+
+        const cleanedForm = {
+    type: InputSanitizer.cleanInput(this.form.value.type),
+    description: InputSanitizer.cleanInput(this.form.value.description)
+  };
 
         this.loading = true;
 

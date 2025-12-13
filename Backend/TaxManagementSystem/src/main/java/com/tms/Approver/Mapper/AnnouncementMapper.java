@@ -11,12 +11,10 @@ public interface AnnouncementMapper {
         @Select("insert into announcements(title, message, posted_by, audience, created_date,expiry_date , image, mainGuid) output inserted.id values (#{title}, #{message}, #{posted_by}, #{audience}, CURRENT_TIMESTAMP , #{expiry_date}, #{image}, #{mainGuid})")
         public Long createCreateAnnouncement(Announcement announcement);
         
-        @Select("SELECT a.*, ur.email AS postedBy " +
-        "FROM announcements a " +
-        "INNER JOIN [user] ur ON ur.id = a.posted_by " +
-        "WHERE a.expiry_date >= GETDATE() " +
-        "AND (#{role_type} = 'ROLE_APPROVER' OR a.audience = #{role_type} OR a.audience = 'ALL') " +
-        "ORDER BY a.id DESC")
+        @Select(" SELECT a.*, ur.email AS postedBy FROM announcements a " +
+        " INNER JOIN [user] ur ON ur.id = a.posted_by " +
+        " WHERE a.expiry_date >= GETDATE() AND (#{role_type} = 'ROLE_APPROVER' OR a.audience = #{role_type} OR a.audience = 'ALL') " +
+        " ORDER BY a.id DESC ")
         @Results({
           @Result(property = "id", column = "id"),
           @Result(property = "announcementFile", column = "id", many = @Many(select = "com.tms.Approver.Mapper.AnnouncementMapper.getAnnouncementFileByAnnouncementId"))
@@ -34,9 +32,9 @@ public interface AnnouncementMapper {
         public Announcement getAnnouncementForDashBoard(String role_type);
 
         // Archived announcements
-        @Select("  SELECT a.*, ur.email AS postedBy FROM announcements a INNER JOIN [user] ur ON ur.id = a.posted_by "
-        +"  WHERE a.expiry_date < GETDATE()   AND ( #{role_type} = 'ROLE_APPROVER'   OR a.audience = #{role_type} "
-        +" OR a.audience = 'ALL' )  ORDER BY a.expiry_date DESC ")
+        @Select("  SELECT a.*, ur.email AS postedBy FROM announcements a "
+        + " INNER JOIN [user] ur ON ur.id = a.posted_by "
+        + "  WHERE a.expiry_date < GETDATE()   AND ( #{role_type} = 'ROLE_APPROVER'   OR a.audience = #{role_type} OR a.audience = 'ALL' )  ORDER BY a.expiry_date DESC ")
         @Results({
           @Result(property = "id", column = "id"),
           @Result(property = "announcementFile", column = "id", many = @Many(select = "com.tms.Approver.Mapper.AnnouncementMapper.getAnnouncementFileByAnnouncementId"))
@@ -52,7 +50,7 @@ public interface AnnouncementMapper {
         @Delete("delete from announcements where id = #{id} ")
         public void deleteAnnouncement(Long id);
 
-        @Delete("delete from announcement_file  where announcement_id = #{announcement_id} ")
+        @Delete("delete from announcement_file where announcement_id = #{announcement_id} ")
         public void deleteAnnouncementFile(Long announcement_id);
 
         @Insert("INSERT INTO announcement_file (fileName, extension, supportId, announcement_id) VALUES (#{fileName}, #{extension}, #{supportId}, #{announcement_id})")

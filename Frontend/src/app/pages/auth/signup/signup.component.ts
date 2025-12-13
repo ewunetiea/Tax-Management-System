@@ -149,7 +149,7 @@ export class SignupComponent {
 
         this.employee_id = event.target.value;
 
-        console.log(this.employee_id)
+        
 
 
         if (!this.employee_id || this.employee_id.length < 11) {
@@ -210,7 +210,7 @@ export class SignupComponent {
     processUserData() {
 
 
-        console.log(this.userFromHr)
+        
         this.user.first_name = this.userFromHr.empName.split(' ')[0];
         this.user.middle_name = this.userFromHr.empName.split(' ')[1] || '';
         this.user.last_name = this.userFromHr.empName.split(' ').slice(2).join(' ') || this.user.middle_name;

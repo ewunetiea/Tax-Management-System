@@ -304,7 +304,7 @@ export class ManageTaxComponent implements OnInit {
         const tax = event.data;
 
 
-        console.log(event.data)
+        
 
 
         if (!tax.taxFile || tax.taxFile.length === 0) {

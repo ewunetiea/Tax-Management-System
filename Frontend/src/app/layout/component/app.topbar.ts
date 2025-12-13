@@ -187,7 +187,7 @@ export class AppTopbar {
     }
 
     private handleLogoutError(err: any): void {
-        console.log("Handle Logout Error:", err);
+        
         console.error(err);
     }
 

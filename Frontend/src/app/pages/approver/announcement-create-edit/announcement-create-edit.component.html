@@ -64,7 +64,7 @@
                 id="created_date"
                 inputId="created_date"
                 class="w-full"
-                [(ngModel)]="announcement.created_date"
+                [(ngModel)]="today"
                 name="created_date"
                 dateFormat="dd-mm-yy"
                 [showIcon]="true"
@@ -75,7 +75,7 @@
     </div>
 
     <div class="col-span-6">
-        <label for="expiry_date" class="block font-bold mb-3">Expiry Date </label>
+        <label for="expiry_date" class="block font-bold mb-3">Expiry Date <strong class="text-danger">*</strong> </label>
         <p-datepicker 
             id="expiry_date"
             inputId="expiry_date"

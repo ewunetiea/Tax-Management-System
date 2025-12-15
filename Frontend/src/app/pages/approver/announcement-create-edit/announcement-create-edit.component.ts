@@ -26,7 +26,7 @@ export class AnnouncementCreateEditComponent {
   visible: boolean = false;
   minExpiryDate: Date = new Date();
   submitting = false;
-
+today = new Date()
   constructor(
     private announcementService: AnnouncementService,
     private messageService: MessageService,
@@ -34,6 +34,8 @@ export class AnnouncementCreateEditComponent {
   ) { }
 
   ngOnInit(): void {
+    
+
     this.isEdit = this.passedAnnouncement[1];
     if (this.isEdit) {
       this.editAnnouncement(this.passedAnnouncement);
@@ -54,6 +56,10 @@ export class AnnouncementCreateEditComponent {
 
 
   onSave() {
+    this.announcement.created_date = this.today
+
+
+    console.log(this.announcement.created_date, "expiry date " , this.announcement.expiry_date)
     this.announcement.posted_by = this.storageService.getUser().id
 
     if (this.announcement.isFileEdited) {

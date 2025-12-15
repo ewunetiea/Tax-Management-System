@@ -4,8 +4,7 @@
 
   <div class="mb-2">
     <p-card>
-      <app-taxable-searchengine-approver [statusRoute]="statusRoute"
-        (generatedTaxes)="onDataGenerated($any($event))"></app-taxable-searchengine-approver>
+      <app-taxable-searchengine-approver [statusRoute]="statusRoute" (generatedTaxes)="onDataGenerated($any($event))"></app-taxable-searchengine-approver>
       <div *ngIf="fetching">
         <div class="row">
           <div class="col-lg-12">

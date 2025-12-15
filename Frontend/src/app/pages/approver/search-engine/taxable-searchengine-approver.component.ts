@@ -58,7 +58,6 @@ export class TaxableSearchengineApproverComponent {
     this.paginatorPayLoad.user_id = this.user.id;
     this.roles = users.roles;
     this.isApprover = this.roles.includes('ROLE_APPROVER');
-    
 
     // ✅ Initialize form controls
     this.form = this.fb.group({

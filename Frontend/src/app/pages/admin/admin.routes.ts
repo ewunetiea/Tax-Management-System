@@ -16,6 +16,7 @@ import { ManageUserPermissionsComponent } from './role/manage-user-permissions/m
 import { MenuheadersComponent } from './menu/menuheaders/menuheaders.component';
 import { MenuitemsComponent } from './menu/menuitems/menuitems.component';
 import { AuthGuard } from '../../service/admin/auth.guard';
+import { ManageTaxComponent } from './manage-tax/manage-tax.component';
 
 export default [
     {
@@ -145,5 +146,13 @@ export default [
         data: {
             roles: ['ROLE_ADMIN'],
         }
-    }
+    },
+    {
+            path: 'manage-tax-admin/:status',
+            component: ManageTaxComponent,
+            canActivate: [AuthGuard],
+            data: {
+                 roles: ['ROLE_ADMIN'],
+            }
+        },
 ] as Routes;

@@ -16,7 +16,7 @@ import com.tms.Maker.service.TaxableSearchEngineService;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/api/search")
+@RequestMapping("/api/search") 
 public class TaxableSearchEngineController {
     @Autowired
     private TaxableSearchEngineService taxableSearchEngineService;
@@ -46,7 +46,6 @@ public class TaxableSearchEngineController {
     
     @PostMapping("/admin")
     public ResponseEntity<List<Tax>> getTaxableSearchEngineForAdmin(@RequestBody TaxableSearchEngine tax, HttpServletRequest request) {
-        System.out.println("Hello from admin controller:" + tax);
         try {
             return new ResponseEntity<>(taxableSearchEngineService.getTaxableSearchEngineForAdmin(tax), HttpStatus.OK);
         } catch (Exception ex) {

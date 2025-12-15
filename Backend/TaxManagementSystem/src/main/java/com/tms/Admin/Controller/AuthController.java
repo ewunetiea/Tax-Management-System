@@ -166,10 +166,8 @@ public class AuthController {
 
                 // Register login tracker
                 Long id_login_tracker = userTrakerMapper.registerOnlineUser( loginRequest.getUsername(), loginRequest.getUserAgent(), ipAddress);
-               
 
                 List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority()).collect(Collectors.toList());
-
                 String title = userMapper.findByFusionUsername(loginRequest.getUsername()).getJobPosition().getTitle();
                 RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId(), id_login_tracker);
                 ResponseCookie jwtRefreshCookie = jwtUtils.generateRefreshJwtCookie(refreshToken.getToken(), request);

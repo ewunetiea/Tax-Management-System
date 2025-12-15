@@ -20,29 +20,27 @@ public class ReviewerDashboardController {
     private ReviewerDashboardService reviewerDashboardService;
 
     private static final Logger logger = LoggerFactory.getLogger(ReviewerDashboardController.class);
-    
+
     @GetMapping("/tax-status-card/{id}")
-    public ResponseEntity<List<Integer>> getTaxStatusForReviewer(@PathVariable("id") Long branch_id, HttpServletRequest request) {
+    public ResponseEntity<Map<String, Object>> getTaxStatusForReviewer(@PathVariable("id") Long branch_id, HttpServletRequest request) {
         try {
-            List<Integer> tax_status = reviewerDashboardService.getTaxStatusForReviewer(branch_id);
-            return new ResponseEntity<>(tax_status, HttpStatus.OK);
+            Map<String, Object> cardData = reviewerDashboardService.getTaxStatusForReviewer(branch_id);
+            return new ResponseEntity<>(cardData, HttpStatus.OK);
         } catch (Exception ex) {
             logger.error("Error occurred while fetching tax status for reviewer dash board: {}", ex.getMessage(), ex);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-
     @GetMapping("/tax-status-stacked-bar/{id}")
-public ResponseEntity<List<Map<String, Object>>> getStackedBarTaxesStatusData(@PathVariable("id") Long branch_id) {
-    try {
-        List<Map<String, Object>> taxStatusData = reviewerDashboardService.getStackedBarTaxesStatusData(branch_id);
-        return new ResponseEntity<>(taxStatusData, HttpStatus.OK);
-    } catch (Exception ex) {
-        logger.error("Error occurred while fetching tax status for reviewer dashboard: {}", ex.getMessage(), ex);
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<List<Map<String, Object>>> getStackedBarTaxesStatusData(@PathVariable("id") Long branch_id) {
+        try {
+            List<Map<String, Object>> taxStatusData = reviewerDashboardService.getStackedBarTaxesStatusData(branch_id);
+            return new ResponseEntity<>(taxStatusData, HttpStatus.OK);
+        } catch (Exception ex) {
+            logger.error("Error occurred while fetching tax status for reviewer dashboard: {}", ex.getMessage(), ex);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-}
-
 
 }

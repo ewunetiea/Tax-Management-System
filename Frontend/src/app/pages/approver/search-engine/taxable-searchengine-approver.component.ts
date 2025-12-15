@@ -157,6 +157,10 @@ export class TaxableSearchengineApproverComponent {
     // Approver can choose a branch or leave it null
     branchId = this.form.value.branch_id ?? null;
     directorId = this.user.branch?.id ?? null;
+  } else if (roleNames.includes('ROLE_ADMIN')){
+    // Admin can choose any branch
+    branchId = this.form.value.branch_id ?? null;
+    directorId = null;
   } else {
     // Maker or reviewer — branch_id fixed to user’s own branch
     branchId = this.user.branch?.id ?? null;
@@ -194,8 +198,6 @@ export class TaxableSearchengineApproverComponent {
       })
     )
     .subscribe((data: Tax[]) => {
-
-
       console.log(data)
       this.emitData(data, true);
     });

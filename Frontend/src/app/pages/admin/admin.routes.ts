@@ -16,7 +16,7 @@ import { ManageUserPermissionsComponent } from './role/manage-user-permissions/m
 import { MenuheadersComponent } from './menu/menuheaders/menuheaders.component';
 import { MenuitemsComponent } from './menu/menuitems/menuitems.component';
 import { AuthGuard } from '../../service/admin/auth.guard';
-import { ManageTaxComponent } from './manage-tax/manage-tax.component';
+import { ManageTaxComponent } from './tax/manage-tax/manage-tax.component';
 
 export default [
     {

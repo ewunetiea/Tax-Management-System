@@ -1,29 +1,9 @@
 <form [formGroup]="form" (ngSubmit)="generateTaxes()" class="p-fluid">
-     <div *ngIf="statusRoute === 'general'"
-        class="flex items-center justify-center text-xl font-semibold text-blue-600 mb-3 space-x-2">
+     <div  class="flex items-center justify-center text-xl font-semibold text-blue-600 mb-3 space-x-2">
         <i class="pi pi-spinner text-green-500"></i>
         <span>Search on Progress taxes</span>
     </div>
 
-    <div *ngIf="statusRoute === 'sent' || statusRoute === 'pending' "
-        class="flex items-center justify-center text-xl font-semibold text-blue-600 mb-3 space-x-2">
-        <i class="pi pi-spinner text-green-500"></i>
-        <span>Search sent to approval taxes</span>
-    </div>
-
-    <div *ngIf="statusRoute === 'rejected'"
-        class="flex items-center justify-center text-xl font-semibold text-red-600 mb-3 space-x-2">
-        <i class="pi pi-times-circle text-red-500"></i>
-        <span>Search rejected taxes</span>
-    </div>
-
-    <div *ngIf="statusRoute === 'approved'"
-        class="flex items-center justify-center text-xl font-semibold text-green-600 mb-3 space-x-2">
-        <i class="pi pi-check-circle text-green-500"></i>
-        <span>Search settled (approved) taxes</span>
-    </div>
-
-  
     <div class="card flex flex-col gap-6 w-full">
         <!-- Branch & Tax Type -->
         <div class="flex flex-col md:flex-row gap-6">
@@ -68,22 +48,8 @@
                 class="w-full h-12 " />
             </div>
 
+             <!-- Created Date -->
             <div class="flex flex-wrap gap-0 w-full">
-                <label for="document_type">Document Type</label>
-                <input 
-                pInputText id="document_type" 
-                placeholder="Enter document type" 
-                formControlName="document_type"
-                type="text" 
-                autocomplete="off" 
-                class="w-full h-12 " />
-            </div>
-        </div>
-
-        <!-- Created Date & Checked Date -->
-        <div class="flex flex-col md:flex-row gap-6">
-            <!-- Created Date -->
-            <div class="flex flex-wrap gap-0 w-full md:w-1/2">
                 <label for="maked_date">Posted Date</label>
                 <p-datepicker 
                 id="maked_date" 
@@ -94,9 +60,13 @@
                 inputId="maked_date" selectionMode="range" placeholder="Select posted date" class="w-full custom-datepicker">
                 </p-datepicker>
             </div>
+        </div>
+
+        <!-- Created Date & Checked Date -->
+        <div class="flex flex-col md:flex-row gap-6">
 
             <!-- Checked Date -->
-            <div class="flex flex-wrap gap-0 w-full md:w-1/2" *ngIf="statusRoute !='rejected' &&  statusRoute !='approved' ">
+            <div class="flex flex-wrap gap-0 w-full md:w-1/2">
                 <label for="checked_date">Checked Date</label>
                 <p-datepicker 
                 id="checked_date" 
@@ -111,7 +81,7 @@
                 </p-datepicker>
             </div>
 
-            <div class="flex flex-wrap gap-0 w-full md:w-1/2" *ngIf="statusRoute !='pending' && statusRoute !='rejected' ">
+            <div class="flex flex-wrap gap-0 w-full md:w-1/2" >
                 <label for="approved_date">Approved Date</label>
                 <p-datepicker 
                 id="approved_date" 
@@ -126,7 +96,7 @@
                 </p-datepicker>
             </div>
 
-            <div class="flex flex-wrap gap-0 w-full md:w-1/2" *ngIf="statusRoute?.toLowerCase() === 'rejected'">
+            <div class="flex flex-wrap gap-0 w-full md:w-1/2" >
                 <label for="approved_date">Rejected Date</label>
                 <p-datepicker 
                 id="approved_date" 

@@ -86,21 +86,14 @@ public class CopyFromHRSystemService {
     @Transactional
     public void scheduledCopyUsersFromHrSystem() {
         // if (scheduleService.checkScheduleStatus("copy_users_info_hr_system")) {
-        System.out.println("HR Scheduler triggered after 50 seconds of app start");
         Date date = new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formattedDate = formatter.format(date);
         final String uri = "https://hr.awashbank.com/hr/api/empInfo/" + formattedDate;
 
         // final String uri = "https://hr.awashbank.com/hr/api/empInfo/2020-01-01 00:00:00";
-
-        System.out.println("hr system running...");
-
         RestTemplate restTemplate = new RestTemplate();
         UserCopyFromHR[] users_copy = restTemplate.getForObject(uri, UserCopyFromHR[].class);
-
-        System.out.println("hr system copyin...");
-
         List<String> jobTitles = jobPositionMapper.getAllJobTitles();
         List<String> newJobTitles = new ArrayList<>();
 
@@ -220,7 +213,6 @@ public class CopyFromHRSystemService {
 
             }
         }
-        System.out.println("hr system copying done...");
         // }
 
     }

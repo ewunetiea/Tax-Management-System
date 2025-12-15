@@ -41,6 +41,12 @@ export class AppMenuAdmin {
                 label: 'Home',
                 items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: '/applayout' }]
             },
+             {
+                label: 'Manage Taxes',
+                items: [
+                    { label: 'Taxes',  icon: 'pi pi-clock', routerLink: ['/applayout/admin/manage-tax-admin', 'general'] },
+                ]
+            },
             {
                 label: 'Region Management',
                 items: [

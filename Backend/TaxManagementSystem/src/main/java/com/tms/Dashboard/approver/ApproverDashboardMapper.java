@@ -9,14 +9,22 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface ApproverDashboardMapper {
 
-    // Tax status by branch
-    @Select("SELECT " +
-            "SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) AS Pending, " +
-            "SUM(CASE WHEN status = 5 THEN 1 ELSE 0 END) AS Approved, " +
-            "SUM(CASE WHEN status = 3 THEN 1 ELSE 0 END) AS Rejected " +
+
+     @Select("SELECT " +
+            "COALESCE(SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END), 0) AS Pending, " +
+            "COALESCE(SUM(CASE WHEN status = 5 THEN 1 ELSE 0 END), 0) AS Approved, " +
+            "COALESCE(SUM(CASE WHEN status = 3 THEN 1 ELSE 0 END), 0) AS Rejected, " +
             "FROM tblTaxable " +
             "WHERE sendTo_ = #{branch_id}")
-    public Map<String, Integer> getTaxStatusForApprover(Long branch_id);
+    public Map<String, Object> getTaxStatusForApprover(@Param("branch_id") Long branch_id);
+
+//      @Select("SELECT " +
+//             "COALESCE(SUM(CASE WHEN status = 0 THEN 1 ELSE 0 END), 0) AS Pending, " +
+//             "COALESCE(SUM(CASE WHEN status = 5 THEN 1 ELSE 0 END), 0) AS Approved, " +
+//             "COALESCE(SUM(CASE WHEN status = 3 THEN 1 ELSE 0 END), 0) AS Rejected, " +
+//             "FROM tblTaxable " +
+//             "WHERE sendTo_ = #{branch_id}")
+//     public Map<String, Object> getTaxStatusForApprover(@Param("branch_id") Long branch_id);
 
     // Tax status for stacked bar (monthly counts per status)
     @Select(

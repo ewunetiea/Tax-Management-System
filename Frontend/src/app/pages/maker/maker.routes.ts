@@ -39,7 +39,6 @@ export default [
     
      {
         path: 'setteled-tax', component: ManageTaxComponent,
-
         canActivate: [AuthGuard],
         data: {
             roles: ['ROLE_MAKER'],
@@ -50,7 +49,6 @@ export default [
 
      {
         path: 'rejected-tax', component: ManageTaxComponent,
-
         canActivate: [AuthGuard],
         data: {
             roles: ['ROLE_MAKER'],

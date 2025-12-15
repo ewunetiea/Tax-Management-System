@@ -257,11 +257,9 @@ public class TaxableService {
                     fileToDelete.delete();
 
                 } else {
-                    System.out.println("⚠ File not found: " + fileToDelete.getAbsolutePath());
                 }
             }
         } else {
-            System.out.println("⚠ No files found in list to delete.");
         }
 
         user.setId(user_id);

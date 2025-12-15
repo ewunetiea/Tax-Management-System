@@ -1,6 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="generateTaxes()" class="p-fluid">
-     <div  class="flex items-center justify-center text-xl font-semibold text-blue-600 mb-3 space-x-2">
-        <i class="pi pi-spinner text-green-500"></i>
+    <div class="flex items-center justify-center text-xl font-semibold text-blue-600 mb-3 space-x-2">
+        <i class="pi pi-search text-green-500"></i>
         <span>Search on Progress taxes</span>
     </div>
 
@@ -16,31 +16,55 @@
                 name="branch_id"
                 optionLabel="name" 
                 optionValue="id" 
-                [filter]="true"
+                [filter]="true" 
                 [loading]="branchLoading"
-                [placeholder]="branchLoading ? 'Loading...' : 'Select unit'" 
+                [placeholder]="branchLoading ? 'Loading...' : 'Select unit'"
                  [showClear]="true"
-                (onShow)="getBranches()"
+                (onShow)="getBranches()" 
                 class="w-full h-12 ">
                 </p-select>
             </div>
 
             <div class="flex flex-wrap gap-0 w-full">
                 <label for="tax_category_id">Tax Type</label>
-                <p-dropdown id="tax_category_id" [options]="taxCategories" formControlName="tax_category_id"
-                    optionLabel="type" optionValue="id" [filter]="true" [loading]="taxCategoryLoading"
-                    [placeholder]="taxCategoryLoading ? 'Loading...' : 'Select tax type'" (onShow)="getTaxCategories()"
-                   class="w-full h-12 ">
+                <p-dropdown 
+                id="tax_category_id"
+                 [options]="taxCategories" 
+                 formControlName="tax_category_id"
+                 optionLabel="type"
+                 optionValue="id" 
+                 [showClear]="true"
+                 [filter]="true" 
+                 [loading]="taxCategoryLoading"
+                 [placeholder]="taxCategoryLoading ? 'Loading...' : 'Select tax type'" 
+                 (onShow)="getTaxCategories()"
+                 class="w-full h-12 ">
                 </p-dropdown>
             </div>
         </div>
 
-        <!-- Status & Reference Number -->
+        <!-- status -->
         <div class="flex flex-col md:flex-row gap-6">
+            <div class="flex flex-wrap gap-0 w-full">
+                <label for="tax_category_id">Status</label>
+                <p-dropdown 
+                id="router_status"
+                 [options]="status" 
+                 formControlName="router_status"
+                 optionLabel="name"
+                 optionValue="name" 
+                 [filter]="true" 
+                 [showClear]="true"
+                 [placeholder]="'Select tax status'" 
+                 class="w-full h-12 ">
+                </p-dropdown>
+            </div>
+
             <div class="flex flex-wrap gap-0 w-full">
                 <label for="reference_number">Reference Number</label>
                 <input 
-                pInputText id="reference_number" 
+                pInputText 
+                id="reference_number" 
                 placeholder="Enter reference number"
                 formControlName="reference_number" 
                 type="text" 
@@ -48,7 +72,7 @@
                 class="w-full h-12 " />
             </div>
 
-             <!-- Created Date -->
+            <!-- Created Date -->
             <div class="flex flex-wrap gap-0 w-full">
                 <label for="maked_date">Posted Date</label>
                 <p-datepicker 
@@ -57,7 +81,10 @@
                 dateFormat="yy-mm-dd" 
                 [maxDate]="maxDate"
                 [showIcon]="true" 
-                inputId="maked_date" selectionMode="range" placeholder="Select posted date" class="w-full custom-datepicker">
+                inputId="maked_date" 
+                selectionMode="range" 
+                placeholder="Select posted date"
+                class="w-full custom-datepicker">
                 </p-datepicker>
             </div>
         </div>
@@ -67,11 +94,11 @@
 
             <!-- Checked Date -->
             <div class="flex flex-wrap gap-0 w-full md:w-1/2">
-                <label for="checked_date">Checked Date</label>
+                <label for="checked_date">Reviewed Date</label>
                 <p-datepicker 
                 id="checked_date" 
                 formControlName="checked_date" 
-                dateFormat="yy-mm-dd"
+                dateFormat="yy-mm-dd" 
                 [maxDate]="maxDate"
                 [showIcon]="true" 
                 inputId="checked_date" 
@@ -81,7 +108,7 @@
                 </p-datepicker>
             </div>
 
-            <div class="flex flex-wrap gap-0 w-full md:w-1/2" >
+            <div class="flex flex-wrap gap-0 w-full md:w-1/2">
                 <label for="approved_date">Approved Date</label>
                 <p-datepicker 
                 id="approved_date" 
@@ -96,18 +123,18 @@
                 </p-datepicker>
             </div>
 
-            <div class="flex flex-wrap gap-0 w-full md:w-1/2" >
+            <div class="flex flex-wrap gap-0 w-full md:w-1/2">
                 <label for="approved_date">Rejected Date</label>
                 <p-datepicker 
                 id="approved_date" 
-                formControlName="approved_date"
-                 dateFormat="yy-mm-dd"
-                 [maxDate]="maxDate" 
-                 [showIcon]="true" 
-                 inputId="approved_date" 
-                 selectionMode="range"
-                 placeholder="Select approved date" 
-                 class="w-full custom-datepicker">
+                formControlName="approved_date" 
+                dateFormat="yy-mm-dd"
+                [maxDate]="maxDate" 
+                [showIcon]="true" 
+                inputId="approved_date" 
+                selectionMode="range"
+                placeholder="Select approved date" 
+                class="w-full custom-datepicker">
                 </p-datepicker>
             </div>
 

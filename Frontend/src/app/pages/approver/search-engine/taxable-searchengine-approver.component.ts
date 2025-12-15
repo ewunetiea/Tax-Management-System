@@ -198,7 +198,7 @@ export class TaxableSearchengineApproverComponent {
       })
     )
     .subscribe((data: Tax[]) => {
-      console.log(data)
+
       this.emitData(data, true);
     });
 }

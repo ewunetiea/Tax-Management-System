@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.*;
-
 @Service
 public class FileStorageServiceImpl {
 
@@ -25,7 +24,6 @@ public class FileStorageServiceImpl {
         if (!Files.exists(folderPath)) {
             Files.createDirectories(folderPath);
         } else {
-            System.out.println("📁 Folder already exist: " + folderPath.toAbsolutePath());
         }
 
         // Resolve file name and target path

@@ -209,7 +209,7 @@
                     <td>{{ tax.destination_branch }}</td>
                     <td>{{ tax.reference_number }}</td>
                     <td>{{ tax.taxType}}</td>
-                    <td>{{tax.noOfEmployee}}</td>
+                    <td>{{tax.noOfEmployee | number:'1.0-2'}}</td>
                     <td>{{ tax.taxableAmount | number:'1.0-2' }}</td>
                     <td>{{tax.taxWithHold | number:'1.0-2'}}</td>
                     <td>{{tax.graduatetaxPool | number:'1.0-2'}}</td>

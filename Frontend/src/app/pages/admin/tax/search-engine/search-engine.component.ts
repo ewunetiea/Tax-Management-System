@@ -102,24 +102,37 @@ export class SearchEngineComponent {
     this.generatedTaxes.emit({ data: [], fetching: false });
   }
 
+  private emitData(data: Tax[], fetching: boolean) {
+    this.generatedTaxes.emit({ data, fetching });
+  }
+  
   // Search taxes
   generateTaxes(): void {
     this.submitted = true;
+    this.emitData([], false);
+  
+    // ✅ Construct clean payload
     const payload = { ...this.form.value };
-
+  
     // Convert empty strings to null
     Object.keys(payload).forEach(k => {
       if (payload[k] === '') payload[k] = null;
     });
-
+    
     this.taxableSearchEngineService.getTaxesforAdmin(payload).pipe(
-      finalize(() => 
-        this.submitted = false),
-      catchError(() => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to fetch taxes' });
-        this.generatedTaxes.emit({ data: [], fetching: false });
-        return of([]);
-      })
-    ).subscribe((data: Tax[]) => this.generatedTaxes.emit({ data, fetching: true }));
+      finalize(() => (this.submitted = false)),
+        catchError((error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to fetch taxes'
+          });
+          this.emitData([], false); 
+          return of([]);
+        })
+      )
+      .subscribe((data: Tax[]) => {
+        this.emitData(data, true);
+      });
   }
 }

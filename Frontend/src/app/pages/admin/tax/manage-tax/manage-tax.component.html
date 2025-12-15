@@ -216,10 +216,10 @@
                                             <p-button 
                                             type="button" 
                                             pRipple
-                                             [pRowToggler]="tax" 
-                                             [text]="true"
+                                            [pRowToggler]="tax" 
+                                            [text]="true"
                                             [rounded]="true"
-                                             [plain]="true"
+                                            [plain]="true"
                                             [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
                                             Tooltip="Click > Icon to see file details"
                                             tooltipPosition="right"
@@ -232,7 +232,7 @@
                                         <td>{{ tax.destination_branch }}</td>
                                         <td>{{ tax.reference_number }}</td>
                                         <td>{{ tax.taxType}}</td>
-                                        <td>{{tax.noOfEmployee}}</td>
+                                        <td>{{tax.noOfEmployee | number:'1.0-2'}}</td>
                                         <td>{{ tax.taxableAmount | number:'1.0-2' }}</td>
                                         <td>{{tax.taxWithHold | number:'1.0-2'}}</td>
                                         <td>{{tax.graduatetaxPool | number:'1.0-2'}}</td>

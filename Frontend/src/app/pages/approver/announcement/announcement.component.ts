@@ -167,17 +167,7 @@ noToolbar = {
     this.outputAnnouncement.push(this.isEdit);
     this.announcemetDialog = true;
   }
- 
-  onDataChange(data: any) {
-    if (data[1]) {
-      this.announcements[this.findIndexById(data[0].id)] = data[0];
-    } else {
-      this.loadAnnouncements(this.announcmentPayload);
-      this.announcements = [...this.announcements];
-      this.announcement = new Announcement();
-    }
-    this.announcemetDialog = false;
-  }
+
   
   findIndexById(id: number): number {
     let index = -1;

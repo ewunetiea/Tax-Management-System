@@ -20,16 +20,13 @@ export class AnnouncementCreateEditComponent {
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() saved = new EventEmitter<Announcement>();
   @Output() cancel = new EventEmitter<void>();
+  @Input() passedAnnouncement: any[] = [];
   isEdit: boolean = false;
   announcement: Announcement = new Announcement();
   visible: boolean = false;
   minExpiryDate: Date = new Date();
   submitting = false;
-
-  @Input() passedAnnouncement: any[] = [];
-  @Output() editedAnnouncement: EventEmitter<any> = new EventEmitter();
-today = new Date();
-
+today = new Date()
   constructor(
     private announcementService: AnnouncementService,
     private messageService: MessageService,
@@ -53,11 +50,10 @@ today = new Date();
 
   editAnnouncement(passedData: any[]) {
     this.announcement = passedData[0];
+    this.announcement.created_date = new Date(this.announcement.created_date!);
+    this.announcement.expiry_date = new Date(this.announcement.expiry_date!);
   }
 
-  emitData(data: any[]) {
-        this.editedAnnouncement.emit(data);
-    }
 
   onSave() {
     this.announcement.created_date = this.today

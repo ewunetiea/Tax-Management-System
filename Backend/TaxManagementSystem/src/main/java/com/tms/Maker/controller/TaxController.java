@@ -109,8 +109,6 @@ public class TaxController {
 			}
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception ex) {
-
-			System.out.println(ex);
 			logger.error("Error while deleting account", ex);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}

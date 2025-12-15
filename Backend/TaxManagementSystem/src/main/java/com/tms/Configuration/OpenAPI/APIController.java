@@ -17,9 +17,6 @@ public class APIController {
 
     @PostMapping("/register-apis")
     public ResponseEntity<String> registerSwaggerApis() {
-
-System.out.println("_______________api_register________");
-        
         swaggerApiRegistrar.registerSwaggerApis();
         return ResponseEntity.ok("Swagger APIs registered successfully.");
     }

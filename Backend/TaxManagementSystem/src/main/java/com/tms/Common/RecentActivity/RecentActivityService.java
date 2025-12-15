@@ -66,11 +66,7 @@ public class RecentActivityService {
 
 
 public List<RecentActivity> getRecentActivityByContentAndDate(Report report) {
-    System.out.println(report);
-    System.out.println("________________________H____________________________________");
-
     List<String> actionDates = report.getAction_date();
-    System.out.println("actionDates = " + actionDates);
 List<Date> parsedActionDates = Arrays.asList(null, null);
 
 if (actionDates != null && !actionDates.isEmpty()) {
@@ -96,11 +92,6 @@ if (actionDates != null && !actionDates.isEmpty()) {
         e.printStackTrace();
     }
 }
-
-
-
-    System.out.println("parsedActionDates = " + parsedActionDates + " size=" + parsedActionDates.size());
-
     return recentActivityMapper.generateRecentActivitiesByDateAndContent(
             report.getUser_id(),
             report.getContent(),
@@ -113,7 +104,6 @@ if (actionDates != null && !actionDates.isEmpty()) {
  public List<RecentActivity> generateRecentActivities(Report report) {
       
     List<String> actionDates = report.getAction_date();
-    System.out.println("actionDates = " + actionDates);
 List<Date> parsedActionDates = Arrays.asList(null, null);
 
 if (actionDates != null && !actionDates.isEmpty()) {

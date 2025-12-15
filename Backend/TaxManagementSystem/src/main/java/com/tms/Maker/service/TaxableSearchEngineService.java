@@ -26,4 +26,8 @@ public class TaxableSearchEngineService {
         return taxableSearchEngineMapper.getTaxableSearchEngineForApprover(tax);
     }
 
+    public List<Tax> getTaxableSearchEngineForAdmin(TaxableSearchEngine tax) {
+        return taxableSearchEngineMapper.getTaxableSearchEngineForAdmin(tax);
+    }
+
 }

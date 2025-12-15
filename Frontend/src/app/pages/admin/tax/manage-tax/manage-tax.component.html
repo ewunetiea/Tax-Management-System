@@ -8,15 +8,7 @@
                         <p-card>
                             <p-toolbar styleClass="p-mb-4">
                                 <ng-template pTemplate="left">
-                                    <!-- <button *ngIf="statusRoute !== 'approved'" 
-                                    pButton 
-                                    pRipple 
-                                    label="Approve"
-                                    icon="pi pi-verified" 
-                                    class="p-button-rounded p-button-success mr-2 "
-                                    (click)="approveSelectedTaxes()"
-                                    [disabled]="!selectedTaxes || !selectedTaxes.length">
-                                </button> -->
+                                   
                                 </ng-template>
                                 
                                 <ng-template pTemplate="right">
@@ -182,6 +174,13 @@
 
                                         <th style="min-width: 10rem">
                                             <div class="flex items-center">
+                                                Status
+                                                <p-columnFilter type="text" field="maker_name" display="menu" />
+                                            </div>
+                                        </th>
+
+                                        <th style="min-width: 10rem">
+                                            <div class="flex items-center">
                                                 Maker Name
                                                 <p-columnFilter type="text" field="maker_name" display="menu" />
                                             </div>
@@ -239,6 +238,7 @@
                                         <td>{{tax.graduaTotBasSalary | number:'1.0-2' }}</td>
                                         <td>{{tax.graduateTotaEmployee | number:'1.0-2'}}</td>
                                         <td>{{tax.graduatetaxWithHold | number:'1.0-2' }}</td>
+                                        <td>{{tax.status}}</td>
                                         <td>{{tax.maker_name}}</td>
                                         <td>{{ tax.maker_date | date:'yyyy-MM-dd' }}</td>
                                         <td>
@@ -263,35 +263,7 @@
                                                 <button pButton pRipple type="text" icon="pi pi-times" label="Unchecked" class="p-button-rounded p-button-danger p-button-outlined p-button-sm"></button>
                                             </ng-template>
                                         </td>
-                                        <!-- <td>
-                                            <button 
-                                            *ngIf="statusRoute !== 'approved'"
-                                             pButton 
-                                             pRipple
-                                            pTooltip="Preview" 
-                                            tooltipPosition="bottom" 
-                                            (click)="editTax(tax)"
-                                            icon="pi pi-eye"
-                                            class="p-button-rounded p-button-outlined p-button-info mr-2"></button>
-                                            <button 
-                                            *ngIf="statusRoute !== 'approved'" 
-                                            pButton 
-                                            pRipple
-                                            pTooltip="Approve" 
-                                            tooltipPosition="bottom" 
-                                            (click)="approveTax(tax)"
-                                            icon="pi pi-verified"
-                                            class="p-button-rounded p-button-outlined p-button-success mr-2"></button>
-                                            <button 
-                                            *ngIf="statusRoute !== 'approved'"
-                                             pButton 
-                                             pRipple 
-                                             pTooltip="Reject"
-                                            tooltipPosition="bottom"
-                                             (click)="rejectTax(tax)"
-                                            icon="pi pi-times-circle"
-                                            class="p-button-rounded p-button-outlined p-button-danger"></button>
-                                        </td> -->
+                                        
                                     </tr>
                                 </ng-template>
 

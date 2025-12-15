@@ -23,12 +23,12 @@ public class ApproverDashboardController {
     private static final Logger logger = LoggerFactory.getLogger(ApproverDashboardController.class);
 
     @GetMapping("/tax-status-card/{id}")
-    public ResponseEntity<List<Integer>> getTaxStatusForApprover(@PathVariable("id") Long branch_id, HttpServletRequest request) {
+    public ResponseEntity<Map<String, Object>> getTaxStatusForApprover(@PathVariable("id") Long branch_id, HttpServletRequest request) {
         try {
-            List<Integer> tax_status = approverDashboardService.getTaxStatusForApprover(branch_id);
-            return new ResponseEntity<>(tax_status, HttpStatus.OK);
+            Map<String, Object> cardData = approverDashboardService.getTaxStatusForApprover(branch_id);
+            return new ResponseEntity<>(cardData, HttpStatus.OK);
         } catch (Exception ex) {
-            logger.error("Error occurred while fetching tax status for reviewer dash board: {}", ex.getMessage(), ex);
+            logger.error("Error occurred while fetching tax status for reviewer dashboard: {}", ex.getMessage(), ex);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

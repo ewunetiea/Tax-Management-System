@@ -276,6 +276,7 @@ public interface TaxableSearchEngineMapper {
         })
     public List<Tax> getTaxableSearchEngineForApprover(TaxableSearchEngine tax);
     
+    
     @Select({
             "<script>",
             "SELECT",

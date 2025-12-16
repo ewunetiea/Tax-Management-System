@@ -32,6 +32,11 @@ export class SearchEngineComponent {
   taxCategoryLoading = false;
   maxDate = new Date();
 
+  // Pagination state
+  currentPage: number = 1;
+  pageSize: number = 5;
+  totalRecords: number = 0;
+
   constructor(
     private fb: FormBuilder,
     private storageService: StorageService,
@@ -50,7 +55,7 @@ export class SearchEngineComponent {
       branch_id: [],
       tax_category_id: [],
       reference_number: [],
-      router_status: [ ],
+      router_status: [],
       maked_date: [],
       checked_date: [],
       approved_date: [],
@@ -99,40 +104,54 @@ export class SearchEngineComponent {
   // Reset form
   onReset(): void {
     this.submitted = false;
-    this.generatedTaxes.emit({ data: [], fetching: false });
+    this.form.reset();
+    this.currentPage = 1;
+    this.emitData([], false);
   }
 
   private emitData(data: Tax[], fetching: boolean) {
     this.generatedTaxes.emit({ data, fetching });
   }
-  
+
+  // Handle paginator event
+  onPageChange(event: any) {
+    this.currentPage = event.page + 1; // PrimeNG paginator is zero-based
+    this.pageSize = event.rows;
+    this.generateTaxes(); // Fetch new page
+  }
+
   // Search taxes
   generateTaxes(): void {
     this.submitted = true;
     this.emitData([], false);
-  
-    // ✅ Construct clean payload
-    const payload = { ...this.form.value };
-  
+
+    // Construct payload with pagination
+    const payload = {
+      ...this.form.value,
+      currentPage: this.currentPage,
+      pageSize: this.pageSize
+    };
+
     // Convert empty strings to null
     Object.keys(payload).forEach(k => {
       if (payload[k] === '') payload[k] = null;
     });
-    
+
     this.taxableSearchEngineService.getTaxesforAdmin(payload).pipe(
-      finalize(() => (this.submitted = false)),
-        catchError((error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Failed to fetch taxes'
-          });
-          this.emitData([], false); 
-          return of([]);
-        })
-      )
-      .subscribe((data: Tax[]) => {
-        this.emitData(data, true);
-      });
+      finalize(() => this.submitted = false),
+      catchError((error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to fetch taxes'
+        });
+        this.emitData([], false);
+        return of({ data: [], totalRecords: 0 });
+      })
+    ).subscribe((res: any) => {
+      // Expect backend to return { data: Tax[], totalRecords: number }
+      this.totalRecords = res.totalRecords ?? 0;
+      this.emitData(res.data ?? [], true);
+    });
   }
 }

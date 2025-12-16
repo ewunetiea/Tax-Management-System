@@ -1,7 +1,7 @@
 export class TaxableSearchEngine {
     branch_id?:number;
     tax_category_id?:number;
-    reference_number?:number;
+    reference_number?:string;
     router_status?: string;
     maked_date?: Date[];
     checked_date?: Date[];
@@ -12,7 +12,7 @@ export class TaxableSearchEngine {
     search_by?: string; 
     director_id?: number;
 
-    // For Paginatoruser_id?: number;
+    // For Paginator
     totalRecords: number = 0;
     currentPage: number = 0; 
     pageSize: number = 5;

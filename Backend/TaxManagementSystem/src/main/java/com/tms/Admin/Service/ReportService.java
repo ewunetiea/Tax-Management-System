@@ -63,8 +63,7 @@ public class ReportService {
     public List<UserTracker> getOnlineFailedUsers(PaginatorPayLoad paginatorPayload) {
         // Ensure that pagination starts before fetching data
 
-
-        List<UserTracker> userTrackers =      userTrackerMapper.getOnlineFailedUsers();
+        List<UserTracker> userTrackers =  userTrackerMapper.getOnlineFailedUsers();
 ;
 
        

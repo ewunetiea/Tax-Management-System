@@ -26,6 +26,7 @@ public class ApproverDashboardController {
     public ResponseEntity<Map<String, Object>> getTaxStatusForApprover(@PathVariable("id") Long branch_id, HttpServletRequest request) {
         try {
             Map<String, Object> cardData = approverDashboardService.getTaxStatusForApprover(branch_id);
+
             return new ResponseEntity<>(cardData, HttpStatus.OK);
         } catch (Exception ex) {
             logger.error("Error occurred while fetching tax status for reviewer dashboard: {}", ex.getMessage(), ex);

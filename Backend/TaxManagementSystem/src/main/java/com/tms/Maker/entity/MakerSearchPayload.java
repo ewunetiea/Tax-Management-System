@@ -21,6 +21,11 @@ public class MakerSearchPayload {
     private String routeControl;
     private String user_name;
     private int status;
+    //  paginator Payload
+    private int totalRecords;
+    private int currentPage; 
+    private int pageSize;
+    // paginator pay load data
 
     private Long branch_id;
     private Long tax_category_id;

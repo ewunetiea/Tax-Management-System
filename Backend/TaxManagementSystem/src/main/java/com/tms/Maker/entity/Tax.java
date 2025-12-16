@@ -55,6 +55,7 @@ public class Tax {
     private Long maker_id;
     private Date drafted_date;
     private String fileExsistance;
+   private Long  total_records_paginator;
 
 
 }

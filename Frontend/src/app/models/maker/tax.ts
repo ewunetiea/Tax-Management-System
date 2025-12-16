@@ -47,4 +47,5 @@ export class Tax {
   isFileEdited?: boolean = false;
   drafted_date?: Date;
   maker_id?: number;
+  total_records_paginator?: number
 }

@@ -33,7 +33,13 @@
       [globalFilterFields]="['taxCategory', 'sendTo_', 'noOfEmployee', 'taxableAmount','taxWithHold', 'incometaxPoolAmount', 'graduatetaxPool',
      'graduaTotBasSalary','graduateTotaEmployee','graduatetaxWithHold', 'taxCategoryList','remark', 'maker_name','status', 'maker_date', 'initiator_branch', 'destination_branch', 'reference_number','remark']"
       [tableStyle]="{ 'min-width': '230rem' }" [(selection)]="selectedTaxes" [rowHover]="true" dataKey="id"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} taxes" [showCurrentPageReport]="true"
+     
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} taxes" 
+
+      {{}}
+      
+      
+      [showCurrentPageReport]="true"
       [rowsPerPageOptions]="[10, 20, 30]" [size]="selectedSize">
       <ng-template #caption>
         <div class="flex items-center justify-between">

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tms.Admin.Entity.JobPosition;
 import com.tms.Admin.Entity.JobPositionRole;
@@ -31,12 +32,14 @@ public class JobPositionService {
         return jobPositionMapper.getJobPositionsByRole(role);
     }
 
+    @Transactional    
     public void manageJobPositions(JobPositionRole jobPositionRole) {
         Role role = jobPositionRole.getRole();
         List<JobPosition> assignedJobPositions = jobPositionMapper.getJobPositionsByRoleIdList(jobPositionRole.getRole().getId());
         List<JobPosition> newjobPositionList = (List<JobPosition>) jobPositionRole.getRole().getJobPositions();
         List<JobPosition> removedJobPositions = new ArrayList<>();
         List<Long> newJobPositionListIDs = newjobPositionList.stream().map(JobPosition::getId).collect(Collectors.toList());
+
         for (JobPosition jobPosition : assignedJobPositions) {
             // if (!jobPositionList.contains(jobPosition)) {
             // jobPositionRest.add(jobPosition);
@@ -59,10 +62,7 @@ public class JobPositionService {
         }
 
         try {
-
-            // For every user, remove their roles and assign the new roles attached with
-            // these job positions
-
+            // For every user, remove their roles and assign the new roles attached with these job positions
             for (User user : userList) {
                 userMapper.removeAllUserRoles(user.getId());
                 userMapper.addUserRole(user.getId(), jobPositionRole.getRole());
@@ -90,10 +90,11 @@ public class JobPositionService {
                 jobPositionMapper.addJobPositionsByRole(jobPositionRole.getRole(), jobPosition2);
             }
 
+            
+
         } catch (Exception e) {
             logger.error("Error occurred during managing job positions for role ", e);
         }
-
     }
 
     public List<JobPosition> getJobPositions() {

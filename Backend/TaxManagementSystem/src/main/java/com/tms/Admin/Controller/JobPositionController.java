@@ -1,6 +1,9 @@
 package com.tms.Admin.Controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,19 +53,31 @@ public class JobPositionController {
 	}
 
 	@PostMapping("/jobPosition/manageJobPositions")
-	public ResponseEntity<?> manageJobPositions(HttpServletRequest request, @RequestBody JobPositionRole jobPositionRole) {
+	public ResponseEntity<Map<String, Object>> manageJobPositions(HttpServletRequest request,
+			@RequestBody JobPositionRole jobPositionRole) {
 		try {
 			jobPositionService.manageJobPositions(jobPositionRole);
+
 			User user = functionalitiesService.getUserFromHttpRequest(request);
-			recentActivity.setMessage(" Role: " + jobPositionRole.getRole().getName() + " mapped job positions are updated.");
+			recentActivity
+					.setMessage(" Role: " + jobPositionRole.getRole().getName() + " mapped job positions are updated.");
 			recentActivity.setUser(user);
 			recentActivityMapper.addRecentActivity(recentActivity);
-			return new ResponseEntity<>(HttpStatus.CREATED);
-		} catch (Exception e) {
-			logger.error("Error occurred during managing job position for role : {}", jobPositionRole.getRole().getCode(), e);
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
 
+			Map<String, Object> response = new HashMap<>();
+			response.put("success", true);
+			response.put("message", "Job positions mapped successfully");
+
+			return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+		} catch (Exception e) {
+			logger.error("Error occurred during managing job position for role : {}",
+					jobPositionRole.getRole().getCode(), e);
+			Map<String, Object> response = new HashMap<>();
+			response.put("success", false);
+			response.put("message", "Failed to map job positions");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+		}
 	}
 
 	@GetMapping("/selected_job_position")
@@ -75,26 +90,28 @@ public class JobPositionController {
 	}
 
 	// @GetMapping("/jobPositions")
-	// public ResponseEntity<List<JobPosition>> getMappedJobPositions(HttpServletRequest request) {
-	// 	try {
-	// 		return new ResponseEntity<>(jobPositionService.getMappedJobPositions(), HttpStatus.OK);
-	// 	} catch (Exception e) {
-	// 		
-	// 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	// 	}
+	// public ResponseEntity<List<JobPosition>>
+	// getMappedJobPositions(HttpServletRequest request) {
+	// try {
+	// return new ResponseEntity<>(jobPositionService.getMappedJobPositions(),
+	// HttpStatus.OK);
+	// } catch (Exception e) {
+	//
+	// return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	// }
 	// }
 
-	 @GetMapping("/jobPositions")
-    public ResponseEntity<List<JobPosition>> getMappedJobPositions(HttpServletRequest request) {
-        return ResponseEntity.ok(jobPositionService.getMappedJobPositions());
-    }
+	@GetMapping("/jobPositions")
+	public ResponseEntity<List<JobPosition>> getMappedJobPositions(HttpServletRequest request) {
+		return ResponseEntity.ok(jobPositionService.getMappedJobPositions());
+	}
 
 	@GetMapping("/total_job_positions")
 	public ResponseEntity<List<JobPosition>> getTotalJobPositions(HttpServletRequest request) {
 		try {
 			return new ResponseEntity<>(jobPositionService.getTotalJobPositions(), HttpStatus.OK);
 		} catch (Exception e) {
-			
+
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -104,7 +121,7 @@ public class JobPositionController {
 		try {
 			return new ResponseEntity<>(jobPositionService.getAllJobPositions(), HttpStatus.OK);
 		} catch (Exception e) {
-			
+
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}

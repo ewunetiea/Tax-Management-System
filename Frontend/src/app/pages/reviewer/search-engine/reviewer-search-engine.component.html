@@ -1,0 +1,114 @@
+<form [formGroup]="form" (ngSubmit)="generateTaxes()" class="p-fluid">
+
+  <div *ngIf="statusRoute === 'pending'"
+    class="flex items-center justify-center text-xl font-semibold text-blue-600 mb-3 space-x-2">
+    <i class="pi pi-send text-green-500"></i>
+    <span>Search waiting for review taxes</span>
+  </div>
+  <div *ngIf="statusRoute === 'sent'"
+    class="flex items-center justify-center text-xl font-semibold text-blue-600 mb-3 space-x-2">
+    <i class="pi pi-send text-green-500"></i>
+    <span>Search sent to approval taxes</span>
+  </div>
+
+  <div *ngIf="statusRoute === 'rejected'"
+    class="flex items-center justify-center text-xl font-semibold text-red-600 mb-3 space-x-2">
+    <i class="pi pi-times-circle text-red-500"></i>
+    <span>Search rejected taxes</span>
+  </div>
+  <div *ngIf="statusRoute === 'settled'"
+    class="flex items-center justify-center text-xl font-semibold text-green-600 mb-3 space-x-2">
+    <i class="pi pi-send text-green-500"></i>
+    <span>Search settled (approved) taxes</span>
+  </div>
+
+
+  <div class="card flex flex-col gap-6 w-full">
+
+    <!-- Branch & Tax Type -->
+    <div class="flex flex-col md:flex-row gap-6">
+
+
+      <div class="p-field w-full md:w-1/2">
+        <label for="tax_category_id">Tax Type</label>
+        <p-dropdown id="tax_category_id" [options]="taxCategories" formControlName="tax_category_id" optionLabel="type"
+          optionValue="id" [filter]="true" [loading]="taxCategoryLoading"
+          [placeholder]="taxCategoryLoading ? 'Loading...' : 'Select tax type'" (onShow)="getTaxCategories()"
+          class="w-full h-12 ">
+        </p-dropdown>
+      </div>
+
+      <div class="p-field w-full md:w-1/2">
+        <label for="reference_number">Reference Number</label>
+        <input pInputText id="reference_number" placeholder="Enter reference number" formControlName="reference_number"
+          type="text" autocomplete="off" class="w-full h-12 " />
+      </div>
+
+    </div>
+
+    <!-- Status & Reference Number -->
+    <div class="flex flex-col md:flex-row gap-6">
+
+      <div class="p-field w-full md:w-1/2" *ngIf="statusRoute !='rejected'">
+        <label for="maked_date">Posted Date</label>
+        <p-datepicker id="maked_date" formControlName="maked_date" dateFormat="yy-mm-dd" [maxDate]="maxDate"
+          [showIcon]="true" inputId="maked_date" selectionMode="range" placeholder="Select posted date"
+          class="w-full custom-datepicker">
+        </p-datepicker>
+      </div>
+
+      <div class="p-field w-full md:w-1/2">
+        <label for="document_type">Document Type</label>
+        <input pInputText id="document_type" placeholder="Enter document type" formControlName="document_type"
+          type="text" autocomplete="off" class="w-full h-12 " />
+      </div>
+
+
+
+
+      <!-- Rejected Date -->
+      <div class="p-field w-full md:w-1/2" *ngIf="statusRoute?.toLowerCase() === 'rejected'">
+        <label for="rejected_date">Rejected Date</label>
+        <p-datepicker id="rejected_date" formControlName="rejected_date" dateFormat="yy-mm-dd" [maxDate]="maxDate"
+          [showIcon]="true" inputId="rejected_date" [selectionMode]="'range'" placeholder="Select rejected date"
+          styleClass="w-full custom-datepicker">
+        </p-datepicker>
+      </div>
+
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-6" *ngIf="statusRoute !='rejected'">
+
+      <div class="flex flex-wrap gap-2 w-full" *ngIf="statusRoute !='pending' && statusRoute !='rejected' && statusRoute !='sent'">
+        <label for="approved_date">Approved Date</label>
+        <p-datepicker id="approved_date" formControlName="approved_date" dateFormat="yy-mm-dd" [maxDate]="maxDate"
+          [showIcon]="true" inputId="approved_date" [selectionMode]="'range'" placeholder="Select approved date"
+          class="w-full custom-datepicker">
+        </p-datepicker>
+      </div>
+
+      <div class="flex flex-wrap gap-2 w-full" *ngIf="statusRoute !='pending' && statusRoute !='rejected' ">
+        <label for="checked_date">Checked Date</label>
+        <p-datepicker id="checked_date" formControlName="checked_date" dateFormat="yy-mm-dd" [maxDate]="maxDate"
+          [showIcon]="true" inputId="checked_date" [selectionMode]="'range'" placeholder="Select checked date"
+          class="w-full custom-datepicker">
+        </p-datepicker>
+      </div>
+
+    </div>
+
+
+
+
+    <!-- Submit & Reset -->
+    <div class="flex gap-4 mt-4 justify-left">
+      <button pButton pRipple type="submit" icon="pi pi-search" label="Search" [loading]="submitted"
+        [disabled]="form.invalid" class="p-button-rounded p-button-success p-button-outlined">
+      </button>
+
+      <button pButton pRipple type="reset" icon="pi pi-times" label="Reset" (click)="onReset()"
+        class="p-button-rounded p-button-danger p-button-outlined">
+      </button>
+    </div>
+  </div>
+</form>

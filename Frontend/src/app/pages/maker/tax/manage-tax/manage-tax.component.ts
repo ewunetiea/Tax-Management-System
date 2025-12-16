@@ -12,6 +12,7 @@ import { ButtonSeverity } from 'primeng/button';
 import { MakerSearchEnginePayLoadComponent } from '../search-engine/maker-search-payload';
 import { StorageService } from 'app/service/sharedService/storage.service';
 import { MessageModule } from 'primeng/message';
+import { MakerSearchPayload } from 'app/models/payload/maker-search-payload';
 
 interface Column {
     field: string;
@@ -60,7 +61,10 @@ export class ManageTaxComponent implements OnInit {
     routeControl: string = ''
     isDialogVisible = false;
     roles: String = ''
-totalrecords = 0
+    totalRecords: number = 0
+
+    payload: MakerSearchPayload = new MakerSearchPayload();
+
     constructor(
         private taxService: TaxService,
         private messageService: MessageService,
@@ -89,11 +93,56 @@ totalrecords = 0
 
 
 
-    onSearchResults(taxes: Tax[]) { //  search results are passed from child to parent
-        this.taxes = taxes;
-        this.loading = false;
 
+
+    onSearch(payload: MakerSearchPayload) {
+        this.payload = payload;
+        this.payload.currentPage = 1; // reset to first page
+        this.payload.pageSize = 4;    // default page size
+
+        this.loadTaxes(); // fetch first page
     }
+
+
+
+    loadTaxes(event?: any) {
+        this.loading = true;
+
+        if (event) {
+            console.log("event ")
+            // Event contains first row index and rows per page
+            this.payload.currentPage = event.first / event.rows + 1;
+            this.payload.pageSize = event.rows;
+        }
+
+        this.taxService.fetchTaxesBasedOnStatus(this.payload)
+            .subscribe(res => {
+                this.taxes = res;
+                this.totalRecords = this.taxes[0]?.total_records_paginator ?? 0;
+                this.loading = false;
+            });
+    }
+
+
+
+    lazyload(event?: any) {
+
+        if (event) {
+            console.log("event ")
+            // Event contains first row index and rows per page
+            this.payload.currentPage = event.first / event.rows + 1;
+            this.payload.pageSize = event.rows;
+        }
+
+        this.taxService.fetchTaxesBasedOnStatus(this.payload)
+            .subscribe(res => {
+                this.taxes = res;
+                this.totalRecords = this.taxes[0]?.total_records_paginator ?? 0;
+
+                console.log("total records " + this.totalRecords)
+            });
+    }
+
 
     onTaxesaved(saveTax: Tax) {
 
@@ -103,7 +152,9 @@ totalrecords = 0
                 this.taxes[index] = saveTax;
 
 
-                this.totalrecords = this.taxes[0].total_records_paginator  as any
+                this.totalRecords = this.taxes[0].total_records_paginator as any
+
+                console.log("total records " + this.totalRecords)
 
             }
         } else {
@@ -308,7 +359,7 @@ totalrecords = 0
         const tax = event.data;
 
 
-        
+
 
 
         if (!tax.taxFile || tax.taxFile.length === 0) {
@@ -530,6 +581,8 @@ totalrecords = 0
         this.taxDialog = false;
         this.submitted = false;
     }
+
+
 
 
 

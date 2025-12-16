@@ -53,14 +53,12 @@ public class JobPositionController {
 	}
 
 	@PostMapping("/jobPosition/manageJobPositions")
-	public ResponseEntity<Map<String, Object>> manageJobPositions(HttpServletRequest request,
-			@RequestBody JobPositionRole jobPositionRole) {
+	public ResponseEntity<Map<String, Object>> manageJobPositions(HttpServletRequest request, @RequestBody JobPositionRole jobPositionRole) {
 		try {
 			jobPositionService.manageJobPositions(jobPositionRole);
 
 			User user = functionalitiesService.getUserFromHttpRequest(request);
-			recentActivity
-					.setMessage(" Role: " + jobPositionRole.getRole().getName() + " mapped job positions are updated.");
+			recentActivity.setMessage(" Role: " + jobPositionRole.getRole().getName() + " mapped job positions are updated.");
 			recentActivity.setUser(user);
 			recentActivityMapper.addRecentActivity(recentActivity);
 
@@ -71,8 +69,7 @@ public class JobPositionController {
 			return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
 		} catch (Exception e) {
-			logger.error("Error occurred during managing job position for role : {}",
-					jobPositionRole.getRole().getCode(), e);
+			logger.error("Error occurred during managing job position for role : {}", jobPositionRole.getRole().getCode(), e);
 			Map<String, Object> response = new HashMap<>();
 			response.put("success", false);
 			response.put("message", "Failed to map job positions");
@@ -111,7 +108,7 @@ public class JobPositionController {
 		try {
 			return new ResponseEntity<>(jobPositionService.getTotalJobPositions(), HttpStatus.OK);
 		} catch (Exception e) {
-
+			logger.error("Error occurred while fetching total job positions", e);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -121,7 +118,6 @@ public class JobPositionController {
 		try {
 			return new ResponseEntity<>(jobPositionService.getAllJobPositions(), HttpStatus.OK);
 		} catch (Exception e) {
-
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}

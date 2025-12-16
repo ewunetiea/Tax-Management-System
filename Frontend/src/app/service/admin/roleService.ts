@@ -20,9 +20,6 @@ export class RoleService {
         return this.http.post(`${rootURL}/jobPosition/manageJobPositions`, data);
     }
 
- 
-
-
     getMappedJobPositions(): Observable<any> {
         return this.http.get<any>(`${rootURL}/jobPositions`);
     }

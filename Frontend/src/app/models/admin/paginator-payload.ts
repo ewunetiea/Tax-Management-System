@@ -1,5 +1,3 @@
-import { Branch } from "./branch";
-
 export class PaginatorPayLoad {
     user_id?: number;
     totalRecords: number = 0;

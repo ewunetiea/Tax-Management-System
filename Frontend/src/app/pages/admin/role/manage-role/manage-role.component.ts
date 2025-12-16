@@ -69,7 +69,7 @@ export class ManageRoleComponent {
         private validationService: ValidationService,
         private messageService: MessageService,
         private confirmationService: ConfirmationService
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.home = { icon: 'pi pi-home', routerLink: '/' };
@@ -79,8 +79,6 @@ export class ManageRoleComponent {
             { name: 'Normal', value: 'normal' },
             { name: 'Large', value: 'large' }
         ];
-        this.retrieveRoles();
-        this.getJobPositions();
         this.cols = [
             { field: 'Name', header: 'Name' },
             { field: 'Description', header: 'Description' },
@@ -88,6 +86,7 @@ export class ManageRoleComponent {
             { field: 'Status', header: 'Status' },
             { field: 'Positions', header: 'Mapped Job Positions' }
         ];
+        this.retrieveRoles();
     }
 
     toggle(index: number) {
@@ -190,10 +189,7 @@ export class ManageRoleComponent {
     }
 
     editJobPositions() {
-        const jobPositionsByRole: JobPositionsByRole = {
-            role: this.selectedRole,
-            job_positions: this.selectedRole.jobPositions
-        };
+        const jobPositionsByRole: JobPositionsByRole = { role: this.selectedRole, job_positions: this.selectedRole.jobPositions};
         this.roleRightService.manageJobPositions(jobPositionsByRole).subscribe({
             next: (data) => {
                 this.jobDialog = false;

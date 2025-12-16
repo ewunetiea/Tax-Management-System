@@ -22,4 +22,10 @@ public class TaxableSearchEngine {
     private Long user_id;
     private String search_by;
     private Long director_id;
+
+    // for pagination
+    private int totalRecords;
+    private int currentPage;
+    private int pageSize;
+    private int event_length;
 }

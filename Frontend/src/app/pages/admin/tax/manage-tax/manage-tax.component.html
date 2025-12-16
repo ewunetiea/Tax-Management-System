@@ -238,7 +238,71 @@
                                         <td>{{tax.graduaTotBasSalary | number:'1.0-2' }}</td>
                                         <td>{{tax.graduateTotaEmployee | number:'1.0-2'}}</td>
                                         <td>{{tax.graduatetaxWithHold | number:'1.0-2' }}</td>
-                                        <td>{{tax.status}}</td>
+                                        <td>
+                                            <button
+                                            *ngIf="tax.status == 6"
+                                            pButton
+                                            pRipple
+                                            type="text"
+                                            icon="pi pi-clock"
+                                            label="Drafted"
+                                            class="p-button-rounded p-button-primary p-button-outlined"
+                                            ></button>
+                                            <button
+                                            *ngIf="tax.status == 0"
+                                            pButton
+                                            pRipple
+                                            type="text"
+                                            icon="pi pi-send"
+                                            label="Submitted"
+                                            class="p-button-rounded p-button-secondary p-button-outlined"
+                                            ></button>
+                                            <button
+                                            *ngIf="tax.status == 1"
+                                            pButton
+                                            pRipple
+                                            type="text"
+                                            icon="pi pi-check-circle"
+                                            label="Sent"
+                                            class="p-button-rounded p-button-info p-button-outlined"
+                                            ></button>
+                                            <button
+                                            *ngIf="tax.status == 2"
+                                            pButton
+                                            pRipple
+                                            type="text"
+                                            icon="pi pi-times-circle"
+                                            label="Rejected"
+                                            class="p-button-rounded p-button-danger p-button-outlined"
+                                            ></button>
+                                            <button
+                                            *ngIf="tax.status == 3"
+                                            pButton
+                                            pRipple
+                                            type="text"
+                                            icon="pi pi-times-circle"
+                                            label="Rejected"
+                                            class="p-button-rounded p-button-danger p-button-outlined"
+                                            ></button>
+                                            <button
+                                            *ngIf="tax.status == 4"
+                                            pButton
+                                            pRipple
+                                            type="text"
+                                            icon="pi pi-times"
+                                            label="N/A"
+                                            class="p-button-rounded p-button-danger p-button-outlined"
+                                            ></button>
+                                            <button
+                                            *ngIf="tax.status == 5"
+                                            pButton
+                                            pRipple
+                                            type="text"
+                                            icon="pi pi-verified"
+                                            label="Settled"
+                                            class="p-button-rounded p-button-success p-button-outlined"
+                                            ></button>
+                                        </td>
                                         <td>{{tax.maker_name}}</td>
                                         <td>{{ tax.maker_date | date:'yyyy-MM-dd' }}</td>
                                         <td>
@@ -263,7 +327,6 @@
                                                 <button pButton pRipple type="text" icon="pi pi-times" label="Unchecked" class="p-button-rounded p-button-danger p-button-outlined p-button-sm"></button>
                                             </ng-template>
                                         </td>
-                                        
                                     </tr>
                                 </ng-template>
 

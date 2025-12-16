@@ -16,10 +16,10 @@ import { SharedUiModule } from 'shared-ui';
   selector: 'app-search-engine',
   imports: [SharedUiModule],
   templateUrl: './search-engine.component.html',
-  styleUrl: './search-engine.component.scss'
+  styleUrls: ['./search-engine.component.scss']
 })
 export class SearchEngineComponent {
-  @Output() generatedTaxes = new EventEmitter<{ data: Tax[]; fetching: boolean }>();
+  @Output() generatedTaxes = new EventEmitter<{ data: Tax[]; totalRecords: number; fetching: boolean }>();
   @Input() statusRoute: string = '';
 
   form!: FormGroup;
@@ -32,6 +32,11 @@ export class SearchEngineComponent {
   taxCategoryLoading = false;
   maxDate = new Date();
 
+  // Pagination state
+  currentPage: number = 1;
+  pageSize: number = 5;
+  totalRecords: number = 0;
+
   constructor(
     private fb: FormBuilder,
     private storageService: StorageService,
@@ -39,18 +44,16 @@ export class SearchEngineComponent {
     private messageService: MessageService,
     private branchService: BranchService,
     private taxableSearchEngineService: TaxableSearchEngineService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    // Initialize user
     this.user = this.storageService.getUser();
 
-    // Initialize form
     this.form = this.fb.group({
       branch_id: [],
       tax_category_id: [],
       reference_number: [],
-      router_status: [ ],
+      router_status: [],
       maked_date: [],
       checked_date: [],
       approved_date: [],
@@ -58,11 +61,9 @@ export class SearchEngineComponent {
       user_id: [],
     });
 
-    // Pre-fetch dropdowns
     this.getBranches();
     this.getTaxCategories();
 
-    // Initialize status options
     this.status = [
       { name: 'Drafted', code: '6' },
       { name: 'Submitted', code: '0' },
@@ -72,7 +73,6 @@ export class SearchEngineComponent {
     ];
   }
 
-  // Fetch branches
   getBranches(): void {
     this.branchLoading = true;
     this.branchService.getBranches().pipe(
@@ -84,7 +84,6 @@ export class SearchEngineComponent {
     ).subscribe(data => this.branches = data);
   }
 
-  // Fetch tax categories
   getTaxCategories(): void {
     this.taxCategoryLoading = true;
     this.taxCategoriesService.getTaxCategories().pipe(
@@ -96,43 +95,43 @@ export class SearchEngineComponent {
     ).subscribe(data => this.taxCategories = data);
   }
 
-  // Reset form
   onReset(): void {
     this.submitted = false;
-    this.generatedTaxes.emit({ data: [], fetching: false });
+    this.form.reset();
+    this.currentPage = 1;
+    this.emitData([], 0, false);
   }
 
-  private emitData(data: Tax[], fetching: boolean) {
-    this.generatedTaxes.emit({ data, fetching });
+  private emitData(data: Tax[], totalRecords: number, fetching: boolean) {
+    this.generatedTaxes.emit({ data, totalRecords, fetching });
   }
-  
-  // Search taxes
+
+  onLazyLoad(event: any) {
+    this.currentPage = (event.first / event.rows) + 1;
+    this.pageSize = event.rows;
+    this.generateTaxes();
+  }
+
   generateTaxes(): void {
     this.submitted = true;
-    this.emitData([], false);
-  
-    // ✅ Construct clean payload
-    const payload = { ...this.form.value };
-  
-    // Convert empty strings to null
-    Object.keys(payload).forEach(k => {
-      if (payload[k] === '') payload[k] = null;
-    });
-    
+    this.emitData([], 0, true);
+
+    const payload = { ...this.form.value, currentPage: this.currentPage, pageSize: this.pageSize };
+    Object.keys(payload).forEach(k => { if (payload[k] === '') payload[k] = null; });
+
     this.taxableSearchEngineService.getTaxesforAdmin(payload).pipe(
-      finalize(() => (this.submitted = false)),
-        catchError((error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Failed to fetch taxes'
-          });
-          this.emitData([], false); 
-          return of([]);
-        })
-      )
-      .subscribe((data: Tax[]) => {
-        this.emitData(data, true);
-      });
+      finalize(() => this.submitted = false),
+      catchError((error) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to fetch taxes' });
+        this.emitData([], 0, false);
+        return of({ data: [], totalRecords: 0 });
+      })
+    ).subscribe((res: any) => {
+      // Expect backend to return { data: Tax[], totalRecords: number }
+      console.log('Search Result:', res);
+      this.totalRecords = res[0].total_records_paginator || 0;
+      console.log('total Length:', this.totalRecords );
+      this.emitData(res ?? [], this.totalRecords, true);
+    });
   }
 }

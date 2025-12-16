@@ -53,14 +53,6 @@ export class ManageTaxComponent implements OnInit, OnDestroy {
     this.setStatusRoute();
   }
 
-  onPage(event: any) {
-        this.paginatorPayLoad.currentPage = event.first / event.rows + 1;
-        this.paginatorPayLoad.pageSize = event.rows;
-        this.paginatorPayLoad.event_length = event.rows;
-
-        // this.generateOnlineFailedUsers(this.paginatorPayLoad);
-    }
-
   setStatusRoute() {
     const currentRoute = this.router.url.toLowerCase();
     if (currentRoute.includes('general')) this.statusRoute = 'general';
@@ -71,12 +63,23 @@ export class ManageTaxComponent implements OnInit, OnDestroy {
     this.fetching = false;
   }
 
-  onDataGenerated(event: { data: Tax[], fetching: boolean }) {
+//   onDataGenerated(event: { data: Tax[], fetching: boolean }) {
+//   this.taxes = event.data;
+//   this.fetching = event.fetching;
+//   this.totalRecords = event.data?.[0]?.total_records_paginator ?? 0;
+//   this.loading = false;
+// }
+
+onDataGenerated(event: { data: Tax[], totalRecords: number, fetching: boolean }) {
   this.taxes = event.data;
+  this.totalRecords = event.totalRecords;
   this.fetching = event.fetching;
-  this.totalRecords = event.data?.[0]?.total_records_paginator ?? 0;
   this.loading = false;
 }
+
+
+
+
 
 
   ngOnDestroy(): void {

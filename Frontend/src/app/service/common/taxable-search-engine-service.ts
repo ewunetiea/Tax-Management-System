@@ -21,7 +21,7 @@ export class TaxableSearchEngineService {
   }
 
   getTaxesforAdmin(tax: TaxableSearchEngine): Observable<Tax[]> {
-    console.log('Admin Search Payload:', tax);
+    console.log('Admin Search Payloaddddddddddddddd:', tax);
     return this.http.post<Tax[]>(`${baseUrl}/admin`, tax);
   }
 

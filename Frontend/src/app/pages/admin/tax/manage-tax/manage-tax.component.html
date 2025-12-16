@@ -25,8 +25,8 @@
                              [rows]="5" 
                              [paginator]="true" 
                              [loading]="loading"
-                              [lazy]="true"
-                               (onPage)="searchEngine.onPageChange($event)"
+                             [lazy]="true"
+                             (onLazyLoad)="searchEngine.onLazyLoad($event)"
                               [totalRecords]="totalRecords"
                             [globalFilterFields]="[
                             'mainGuid',
@@ -500,7 +500,7 @@
 
                                 <ng-template pTemplate="summary">
                                     <div class="p-d-flex p-ai-center p-jc-between">
-                                        In total there are {{ taxes ? taxes.length : 0 }} taxes.
+                                        In total there are {{ totalRecords  }} taxes.
                                     </div>
                                 </ng-template>
                             </p-table>

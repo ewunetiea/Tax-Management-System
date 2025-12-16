@@ -33,13 +33,18 @@ public class TaxableSearchEngineService {
     // }
 
     public List<Tax> getTaxableSearchEngineForAdmin(TaxableSearchEngine tax) {
-        PageHelper.startPage(tax.getCurrentPage(), tax.getPageSize());
-        List<Tax> taxes = taxableSearchEngineMapper.getTaxableSearchEngineForAdmin(tax);
-        if (!taxes.isEmpty()) {
-            Page<Tax> page = (Page<Tax>) taxes;
-            taxes.get(0).setTotal_records_paginator(page.getTotal());
-        }
-        return taxes;
+
+    PageHelper.startPage(tax.getCurrentPage(), tax.getPageSize());
+
+    List<Tax> taxes = taxableSearchEngineMapper.getTaxableSearchEngineForAdmin(tax);
+    System.out.println("Taxes Retrievedddddddddddddddddddddddddddddddddddddddddddddd: " + taxes.size());
+    if (!taxes.isEmpty()) {
+        Page<Tax> page = (Page<Tax>) taxes;
+        taxes.get(0).setTotal_records_paginator(page.getTotal());
     }
+
+    return taxes;
+}
+
 
 }

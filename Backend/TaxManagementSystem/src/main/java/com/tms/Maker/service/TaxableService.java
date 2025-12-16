@@ -14,6 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.tms.Admin.Entity.User;
 import com.tms.Common.RecentActivity.RecentActivity;
 import com.tms.Common.RecentActivity.RecentActivityMapper;
@@ -196,29 +200,123 @@ public class TaxableService {
 
     }
 
-    @Transactional
+    // @Transactional
 
-    public List<Tax> fetchTaxBasedonStatus(MakerSearchPayload payload) {
+    // public List<Tax> fetchTaxBasedonStatus(MakerSearchPayload payload) {
 
-        Map<String, Integer> statusMap = new HashMap<>();
-        statusMap.put("drafted", 6);
-        statusMap.put("submited", 0);
-        statusMap.put("sent", 1);
+    //     Map<String, Integer> statusMap = new HashMap<>();
+    //     statusMap.put("drafted", 6);
+    //     statusMap.put("submited", 0);
+    //     statusMap.put("sent", 1);
 
-        statusMap.put("setteled", 5);
-        statusMap.put("rejected", 2);
+    //     statusMap.put("setteled", 5);
+    //     statusMap.put("rejected", 2);
 
-        for (String control : statusMap.keySet()) {
-            if (payload.getRouteControl().contains(control)) {
+    //     for (String control : statusMap.keySet()) {
+    //         if (payload.getRouteControl().contains(control)) {
 
-                payload.setStatus(statusMap.get(control));
-                break; // Exit the loop once a match is found
-            }
+    //             payload.setStatus(statusMap.get(control));
+    //             break; // Exit the loop once a match is found
+    //         }
+    //     }
+
+    //     return taxableMapper.fetchTaxBasedonStatus(payload);
+
+
+
+
+    // }
+
+
+
+
+//  @Transactional
+// public List<Tax> fetchTaxBasedonStatus(MakerSearchPayload payload) {
+
+//     // Map routeControl to status
+//     Map<String, Integer> statusMap = new HashMap<>();
+//     statusMap.put("drafted", 6);
+//     statusMap.put("submited", 0);
+//     statusMap.put("sent", 1);
+//     statusMap.put("setteled", 5);
+//     statusMap.put("rejected", 2);
+
+//     for (String control : statusMap.keySet()) {
+//         if (payload.getRouteControl().contains(control)) {
+//             payload.setStatus(statusMap.get(control));
+//             break;
+//         }
+//     }
+
+//     // Start pagination BEFORE calling the mapper
+//     PageHelper.startPage(payload.getCurrentPage(), payload.getPageSize());
+
+//     // Only call the mapper once after startPage
+//     Page<Tax> taxPage = (Page<Tax>) taxableMapper.fetchTaxBasedonStatus(payload);
+
+//     List<Tax> taxes = taxPage.getResult();
+
+
+//     System.out.println("_____pages_________________");
+//     System.out.println(taxPage);
+
+//     System.out.println(taxes);
+
+//     // Optional: store total records in the first item for frontend
+//     if (!taxes.isEmpty()) {
+//         taxes.get(0).setTotal_records_paginator(taxPage.getTotal());
+//     }
+
+//     return taxes;
+// }
+
+
+
+@Transactional
+public List<Tax> fetchTaxBasedonStatus(MakerSearchPayload payload) {
+
+    // Map routeControl to status
+    Map<String, Integer> statusMap = Map.of(
+        "drafted", 6,
+        "submited", 0,
+        "sent", 1,
+        "setteled", 5,
+        "rejected", 2
+    );
+
+    for (String control : statusMap.keySet()) {
+        if (payload.getRouteControl().contains(control)) {
+            payload.setStatus(statusMap.get(control));
+            break;
         }
-
-        return taxableMapper.fetchTaxBasedonStatus(payload);
     }
 
+    // Ensure currentPage and pageSize are valid
+    int currentPage = payload.getCurrentPage() <= 0 ? 1 : payload.getCurrentPage();
+    int pageSize = payload.getPageSize() <= 0 ? 10 : payload.getPageSize();
+
+    // Start PageHelper
+    PageHelper.startPage(currentPage, pageSize);
+
+    // Fetch data
+    List<Tax> taxes = taxableMapper.fetchTaxBasedonStatus(payload);
+
+    // Wrap in PageInfo
+    PageInfo<Tax> pageInfo = new PageInfo<>(taxes);
+
+    // Store total records for frontend
+    if (!taxes.isEmpty()) {
+        taxes.get(0).setTotal_records_paginator(pageInfo.getTotal());
+    }
+
+    System.out.println("taxes");
+
+    System.out.println(taxes.size());
+
+    return taxes;
+}
+
+    
     private String generateReferenceNumber() {
         String lastRef = taxableMapper.getLastReferenceNumber();
         if (lastRef == null || lastRef.isEmpty()) {

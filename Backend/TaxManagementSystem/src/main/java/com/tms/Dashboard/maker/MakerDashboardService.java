@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import jakarta.transaction.Transactional;
 
@@ -63,28 +65,90 @@ public class MakerDashboardService {
         );
     }
 
-    @Transactional
-    public List<List<Integer>> computeBarChartDataPerMonth(Long user_id) {
-        // SINGLE QUERY - 36x faster!
-        List<BarChartRow> allData = makerDashboardMapper.countAllByStatusAndMonthGrouped(user_id);
+    // @Transactional
+    // public List<List<Integer>> computeBarChartDataPerMonth(Long user_id) {
+    //     // SINGLE QUERY - 36x faster!
+    //     List<BarChartRow> allData = makerDashboardMapper.countAllByStatusAndMonthGrouped(user_id);
 
-        // Build result map
-        Map<Integer, Map<Integer, Integer>> countsByMonth = new HashMap<>();
-        for (BarChartRow row : allData) {
-            countsByMonth.computeIfAbsent(row.getMonth(), k -> new HashMap<>())
-                    .put(row.getStatus(), row.getCount());
-        }
+    //     // Build result map
+    //     Map<Integer, Map<Integer, Integer>> countsByMonth = new HashMap<>();
+    //     for (BarChartRow row : allData) {
+    //         countsByMonth.computeIfAbsent(row.getMonth(), k -> new HashMap<>())
+    //                 .put(row.getStatus(), row.getCount());
+    //     }
 
-        List<List<Integer>> barChartData = new ArrayList<>();
-        for (int month = 1; month <= 12; month++) {
-            Map<Integer, Integer> monthCounts = countsByMonth.getOrDefault(month, new HashMap<>());
-            int waiting = monthCounts.getOrDefault(0, 0);
-            int reviewed = monthCounts.getOrDefault(1, 0);
-            int approved = monthCounts.getOrDefault(5, 0);
-            barChartData.add(Arrays.asList(waiting, reviewed, approved));
-        }
-        return barChartData;
-    }
+    //     List<List<Integer>> barChartData = new ArrayList<>();
+    //     for (int month = 1; month <= 12; month++) {
+    //         Map<Integer, Integer> monthCounts = countsByMonth.getOrDefault(month, new HashMap<>());
+    //         int waiting = monthCounts.getOrDefault(0, 0);
+    //         int reviewed = monthCounts.getOrDefault(1, 0);
+    //         int approved = monthCounts.getOrDefault(5, 0);
+    //         barChartData.add(Arrays.asList(waiting, reviewed, approved));
+    //     }
+    //     return barChartData;
+    // }
+
+
+
+// @Transactional
+// public List<List<Integer>> computeBarChartDataPerMonth(Long user_id) {
+
+//     List<BarChartRow> allData =
+//             makerDashboardMapper.countAllByStatusAndMonthGrouped(user_id);
+
+//     Map<Integer, Map<Integer, Integer>> countsByMonth = new HashMap<>();
+
+//     for (BarChartRow row : allData) {
+//         countsByMonth
+//             .computeIfAbsent(row.getMonth(), k -> new HashMap<>())
+//             .put(row.getStatus(), row.getCount());
+//     }
+
+//     List<List<Integer>> barChartData = new ArrayList<>(12);
+
+//     for (int month = 1; month <= 12; month++) {
+//         Map<Integer, Integer> monthCounts =
+//                 countsByMonth.getOrDefault(month, Map.of());
+
+//         barChartData.add(List.of(
+//             monthCounts.getOrDefault(0, 0), // Waiting
+//             monthCounts.getOrDefault(1, 0), // Reviewed
+//             monthCounts.getOrDefault(5, 0)  // Approved
+//         ));
+//     }
+
+//     return barChartData;
+// }
+
+
+@Transactional
+public List<List<Integer>> computeBarChartDataPerMonth(Long user_id) {
+    List<BarChartRow> allData = makerDashboardMapper.countAllByStatusAndMonthGrouped(user_id);
+
+    // Group by month and status using streams
+    Map<Integer, Map<Integer, Integer>> countsByMonth = allData.stream()
+        .collect(Collectors.groupingBy(
+            BarChartRow::getMonth,
+            Collectors.toMap(
+                BarChartRow::getStatus,
+                BarChartRow::getCount
+            )
+        ));
+
+    // Build the bar chart data for all 12 months
+    return IntStream.rangeClosed(1, 12)
+        .mapToObj(month -> {
+            Map<Integer, Integer> monthCounts = countsByMonth.getOrDefault(month, Map.of());
+            return List.of(
+                monthCounts.getOrDefault(0, 0), // Waiting
+                monthCounts.getOrDefault(1, 0), // Reviewed
+                monthCounts.getOrDefault(5, 0)  // Approved
+            );
+        })
+        .collect(Collectors.toList());
+}
+
+
 
     @Transactional
 

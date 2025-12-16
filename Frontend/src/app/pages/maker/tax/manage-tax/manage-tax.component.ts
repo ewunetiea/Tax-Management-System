@@ -60,7 +60,7 @@ export class ManageTaxComponent implements OnInit {
     routeControl: string = ''
     isDialogVisible = false;
     roles: String = ''
-
+totalrecords = 0
     constructor(
         private taxService: TaxService,
         private messageService: MessageService,
@@ -101,6 +101,10 @@ export class ManageTaxComponent implements OnInit {
             const index = this.taxes.findIndex(a => a.mainGuid === saveTax.mainGuid);
             if (index !== -1) {
                 this.taxes[index] = saveTax;
+
+
+                this.totalrecords = this.taxes[0].total_records_paginator  as any
+
             }
         } else {
 

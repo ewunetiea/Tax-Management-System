@@ -45,34 +45,54 @@ public Map<String, Object> fetchPolarDataSingleRow(Long user_id);
     )
     int countByStatusAndMonth(@Param("status") int status, @Param("month") int month);
 
-@Select({
-    "SELECT ",
-    "   MONTH(CASE ",
-    "       WHEN status = 0 THEN maker_date ",
-    "       WHEN status = 1 THEN checked_Date ",
-    "       WHEN status = 5 THEN approved_date ",
-    "   END) AS month, ",
-    "   status, ",
-    "   COUNT(*) AS count ",
-    "FROM tblTaxable ",
-    "WHERE status IN (0, 1, 5)   and maker_id =#{user_id}",
-    "AND YEAR(CASE ",
-    "       WHEN status = 0 THEN maker_date ",
-    "       WHEN status = 1 THEN checked_Date ",
-    "       WHEN status = 5 THEN approved_date ",
-    "   END) = YEAR(GETDATE()) ",
-    "GROUP BY ",
-    "   MONTH(CASE ",
-    "       WHEN status = 0 THEN maker_date ",
-    "       WHEN status = 1 THEN checked_Date ",
-    "       WHEN status = 5 THEN approved_date ",
-    "   END), ",
-    "   status"
-})
-List<BarChartRow> countAllByStatusAndMonthGrouped(Long user_id);
+// @Select({
+//     "SELECT ",
+//     "   MONTH(CASE ",
+//     "       WHEN status = 0 THEN maker_date ",
+//     "       WHEN status = 1 THEN checked_Date ",
+//     "       WHEN status = 5 THEN approved_date ",
+//     "   END) AS month, ",
+//     "   status, ",
+//     "   COUNT(*) AS count ",
+//     "FROM tblTaxable ",
+//     "WHERE status IN (0, 1, 5)   and maker_id =#{user_id}",
+//     "AND YEAR(CASE ",
+//     "       WHEN status = 0 THEN maker_date ",
+//     "       WHEN status = 1 THEN checked_Date ",
+//     "       WHEN status = 5 THEN approved_date ",
+//     "   END) = YEAR(GETDATE()) ",
+//     "GROUP BY ",
+//     "   MONTH(CASE ",
+//     "       WHEN status = 0 THEN maker_date ",
+//     "       WHEN status = 1 THEN checked_Date ",
+//     "       WHEN status = 5 THEN approved_date ",
+//     "   END), ",
+//     "   status"
+// })
+// List<BarChartRow> countAllByStatusAndMonthGrouped(Long user_id);
 
 
-  
+  @Select(
+    "SELECT " +
+    "   MONTH(CASE " +
+    "       WHEN status = 0 THEN maker_date " +
+    "       WHEN status = 1 THEN checked_date " +
+    "       WHEN status = 5 THEN approved_date " +
+    "   END) AS month, " +
+    "   status, " +
+    "   COUNT(*) AS count " +
+    "FROM tblTaxable " +
+    "WHERE maker_id = #{user_id} " +
+    "  AND status IN (0, 1, 5) " +
+    "GROUP BY " +
+    "   MONTH(CASE " +
+    "       WHEN status = 0 THEN maker_date " +
+    "       WHEN status = 1 THEN checked_date " +
+    "       WHEN status = 5 THEN approved_date " +
+    "   END), status"
+)
+List<BarChartRow> countAllByStatusAndMonthGrouped(@Param("user_id") Long user_id);
+
 
 
 

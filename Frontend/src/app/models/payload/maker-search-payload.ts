@@ -14,4 +14,12 @@ export class MakerSearchPayload {
    branch_name?: String
    routeControl?: string;
 
+
+
+//  paginator payload   
+    totalRecords: number = 0;
+  currentPage?: number = 0; 
+  pageSize?: number = 10;
+  event_length?: number = 0;
+
 }

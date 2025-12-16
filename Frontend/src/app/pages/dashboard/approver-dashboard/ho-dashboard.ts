@@ -64,9 +64,10 @@ export class HODashboard {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: ({ taxStatus, recentActivities, announcement, stackedBarTaxesStatusData }) => {
-          this.taxStatus = taxStatus;
+          this.taxStatus = Object.values(taxStatus);
           this.recentActivityies = recentActivities;
           this.announcement = announcement;
+
 
           // Build chart config
           const chartConfig = this.buildStackedBarChart(stackedBarTaxesStatusData);

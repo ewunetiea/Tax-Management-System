@@ -2,8 +2,8 @@
 
 <main id="main" class="main">
     <p-card>
-      <app-taxable-search-engine [statusRoute]="statusRoute"
-        (generatedTaxes)="onDataGenerated($any($event))"></app-taxable-search-engine>
+      <app-reviewer-search-engine [statusRoute]="statusRoute"
+        (generatedTaxes)="onDataGenerated($any($event))"></app-reviewer-search-engine>
    
     <div *ngIf="fetching">
     <div class="row">

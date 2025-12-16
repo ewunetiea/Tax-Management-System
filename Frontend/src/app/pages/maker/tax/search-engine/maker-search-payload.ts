@@ -10,6 +10,7 @@ import { TaxCategory } from '../../../../models/maker/tax-category';
 import { Tax } from '../../../../models/maker/tax';
 import { TaxService } from '../../../../service/maker/tax-service';
 import { MakerSearchPayload } from '../../../../models/payload/maker-search-payload';
+import { InputSanitizer } from 'app/SQLi-XSS-Prevention/InputSanitizer';
 
 @Component({
   standalone: true,
@@ -33,9 +34,15 @@ export class MakerSearchEnginePayLoadComponent {
   branchLoading = false;
   taxCategoryLoading = false;
   status: any[] | undefined;
-  @Output() searchResults = new EventEmitter<Tax[]>(); // Declare the event emitter
+  // @Output() searchResults = new EventEmitter<Tax[]>(); // Declare the event emitter
+
+  @Output() searchPayload = new EventEmitter<MakerSearchPayload>();
+
+@Output() loadingState = new EventEmitter<boolean>(); // NEW
 
   @Input() routeControl: string = ''; // Accept routeControl from parent
+  @Input() loading: boolean = false; // <-- parent controls this
+    invalidXss = false;
 
   constructor(
     private storageService: StorageService,
@@ -100,6 +107,11 @@ export class MakerSearchEnginePayLoadComponent {
 
 
   onSubmit() {
+
+    
+        if (this.invalidXss) {
+            return; // stop if form is invalid
+        }
   this.submitted = true;
 
   const user = this.storageService.getUser();
@@ -133,31 +145,34 @@ export class MakerSearchEnginePayLoadComponent {
   this.payload.maker_date = makerFormattedDates.length === 1 ? [makerFormattedDates[0], makerFormattedDates[0]] : makerFormattedDates;
   this.payload.checked_date = approverFormattedDates.length === 1 ? [approverFormattedDates[0], approverFormattedDates[0]] : approverFormattedDates;
 
-  const serviceCall =  this.taxService.fetchTaxesBasedOnStatus(this.payload);
 
-  serviceCall.subscribe({
-    next: (data) => {
-      this.taxes = data;
-      this.searchResults.emit(this.taxes);
+this.searchPayload.emit(this.payload);
 
-      this.messageService.add({
-        severity: data.length > 0 ? 'success' : 'info',
-        summary: data.length > 0 ? 'Search Complete' : 'No Results',
-        detail: data.length > 0 ? `${data.length} record(s) found.` : 'No tax data found for your search criteria.',
-      });
+  // const serviceCall =  this.taxService.fetchTaxesBasedOnStatus(this.payload);
 
-      this.submitted = false;
-    },
-    error: (error) => {
-      console.error(error);
-      this.submitted = false;
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Failed to fetch tax data. Please try again later.',
-      });
-    },
-  });
+  // serviceCall.subscribe({
+  //   next: (data) => {
+  //     this.taxes = data;
+  //     this.searchResults.emit(this.taxes);
+
+  //     this.messageService.add({
+  //       severity: data.length > 0 ? 'success' : 'info',
+  //       summary: data.length > 0 ? 'Search Complete' : 'No Results',
+  //       detail: data.length > 0 ? `${data.length} record(s) found.` : 'No tax data found for your search criteria.',
+  //     });
+
+  //     this.submitted = false;
+  //   },
+  //   error: (error) => {
+  //     console.error(error);
+  //     this.submitted = false;
+  //     this.messageService.add({
+  //       severity: 'error',
+  //       summary: 'Error',
+  //       detail: 'Failed to fetch tax data. Please try again later.',
+  //     });
+  //   },
+  // });
 }
 
   
@@ -173,5 +188,20 @@ export class MakerSearchEnginePayLoadComponent {
 
 
   }
+
+
+
+    onRemarkChange(event: any) {
+          const value = event.target.value;
+  
+          // Check if value contains XSS
+          this.invalidXss = InputSanitizer.isInvalid(value);
+  
+          // Only update model if valid
+          if (!this.invalidXss) {
+              this.payload.reference_number = value;
+          }
+  
+      }
 
 }

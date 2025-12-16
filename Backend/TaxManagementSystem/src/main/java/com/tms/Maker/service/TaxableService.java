@@ -291,20 +291,15 @@ public List<Tax> fetchTaxBasedonStatus(MakerSearchPayload payload) {
         }
     }
 
-    // Ensure currentPage and pageSize are valid
     int currentPage = payload.getCurrentPage() <= 0 ? 1 : payload.getCurrentPage();
     int pageSize = payload.getPageSize() <= 0 ? 10 : payload.getPageSize();
 
-    // Start PageHelper
     PageHelper.startPage(currentPage, pageSize);
 
-    // Fetch data
     List<Tax> taxes = taxableMapper.fetchTaxBasedonStatus(payload);
 
-    // Wrap in PageInfo
     PageInfo<Tax> pageInfo = new PageInfo<>(taxes);
 
-    // Store total records for frontend
     if (!taxes.isEmpty()) {
         taxes.get(0).setTotal_records_paginator(pageInfo.getTotal());
     }

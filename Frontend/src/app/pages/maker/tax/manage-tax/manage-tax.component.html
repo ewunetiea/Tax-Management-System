@@ -1,8 +1,12 @@
 <p-toast />
 <p-card class="mt-3 shadow-2 border-round-xl">
   <div class="mb-3">
-    <app-maker-search-payload [routeControl]="routeControl" (searchResults)="onSearchResults($event)">
+    <!-- <app-maker-search-payload [routeControl]="routeControl" (searchResults)="onSearchResults($event)">
+    </app-maker-search-payload> -->
+
+    <app-maker-search-payload [loading]="submitted" [routeControl]="routeControl" (searchPayload)="onSearch($event)">
     </app-maker-search-payload>
+
   </div>
 
   <p-toolbar class="mb-3 border-round-xl shadow-sm" *ngIf="!loading">
@@ -33,14 +37,12 @@
       [globalFilterFields]="['taxCategory', 'sendTo_', 'noOfEmployee', 'taxableAmount','taxWithHold', 'incometaxPoolAmount', 'graduatetaxPool',
      'graduaTotBasSalary','graduateTotaEmployee','graduatetaxWithHold', 'taxCategoryList','remark', 'maker_name','status', 'maker_date', 'initiator_branch', 'destination_branch', 'reference_number','remark']"
       [tableStyle]="{ 'min-width': '230rem' }" [(selection)]="selectedTaxes" [rowHover]="true" dataKey="id"
-     
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} taxes" 
-
-      {{}}
+      [totalRecords]="totalRecords" (onLazyLoad)="lazyload($event)" [loading]="loading" [lazy]="true"
+      [lazyLoadOnInit]="false" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 20, 30]"
       
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       
-      [showCurrentPageReport]="true"
-      [rowsPerPageOptions]="[10, 20, 30]" [size]="selectedSize">
+      [size]="selectedSize">
       <ng-template #caption>
         <div class="flex items-center justify-between">
           <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"

@@ -17,12 +17,12 @@ import { Role } from '../../../models/admin/role';
 import { finalize, of, catchError } from 'rxjs';
 
 @Component({
-  selector: 'app-taxable-search-engine',
+  selector: 'app-reviewer-search-engine',
   imports: [SharedUiModule],
-  templateUrl: './taxable-search-engine.component.html',
-  styleUrl: './taxable-search-engine.component.scss'
+  templateUrl: './reviewer-search-engine.component.html',
+  styleUrl: './reviewer-search-engine.component.scss'
 })
-export class TaxableSearchEngineComponent {
+export class ReviewerSearchEngineComponent {
   taxableSearchEngine: TaxableSearchEngine = new TaxableSearchEngine();
   user: User = new User();
   form!: FormGroup;

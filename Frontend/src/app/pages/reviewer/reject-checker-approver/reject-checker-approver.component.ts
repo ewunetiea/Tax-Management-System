@@ -10,6 +10,7 @@ import { ManageTaxApproverService } from '../../../service/approver/manage-tax-h
 import { Observable } from 'rxjs';
 import { ToastModule } from 'primeng/toast';
 import { InputSanitizer } from 'app/SQLi-XSS-Prevention/InputSanitizer';
+import { xssSqlValidator } from 'app/SQLi-XSS-Prevention/xssSqlValidator';
 
 @Component({
   selector: 'app-reject-checker-approver',
@@ -25,7 +26,6 @@ export class RejectCheckerApproverComponent implements OnInit {
   submitted = false;
   isApprover = false;
   tagFilter: RegExp = InputSanitizer.attackRegex;
-
 
   @Input() routeControl = "";
   @Input() passedRejectedTax: any[] = [];
@@ -61,14 +61,14 @@ export class RejectCheckerApproverComponent implements OnInit {
   setRoleValidators() {
   if (this.isApprover) {
     // Approver required
-    this.form.get('approver_rejected_reason')?.setValidators([Validators.required, Validators.minLength(3)]);
+    this.form.get('approver_rejected_reason')?.setValidators([Validators.required, Validators.minLength(3), Validators.maxLength(250), xssSqlValidator]);
 
     // Checker not required
     this.form.get('checker_rejected_reason')?.clearValidators();
     this.form.get('checker_rejected_reason')?.setValue('');
   } else {
     // Checker required
-    this.form.get('checker_rejected_reason')?.setValidators([Validators.required, Validators.minLength(3)]);
+    this.form.get('checker_rejected_reason')?.setValidators([Validators.required, Validators.minLength(3), Validators.maxLength(250), xssSqlValidator]);
 
     // Approver not required
     this.form.get('approver_rejected_reason')?.clearValidators();

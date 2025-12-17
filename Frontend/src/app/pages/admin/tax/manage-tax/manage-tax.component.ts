@@ -63,24 +63,12 @@ export class ManageTaxComponent implements OnInit, OnDestroy {
     this.fetching = false;
   }
 
-//   onDataGenerated(event: { data: Tax[], fetching: boolean }) {
-//   this.taxes = event.data;
-//   this.fetching = event.fetching;
-//   this.totalRecords = event.data?.[0]?.total_records_paginator ?? 0;
-//   this.loading = false;
-// }
-
 onDataGenerated(event: { data: Tax[], totalRecords: number, fetching: boolean }) {
   this.taxes = event.data;
   this.totalRecords = event.totalRecords;
   this.fetching = event.fetching;
   this.loading = false;
 }
-
-
-
-
-
 
   ngOnDestroy(): void {
     this.destroy$.next();

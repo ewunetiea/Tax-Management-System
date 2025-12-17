@@ -38,11 +38,29 @@
         </p-dropdown>
       </div>
 
-      <div class="p-field w-full md:w-1/2">
+      <!-- <div class="p-field w-full md:w-1/2">
         <label for="reference_number">Reference Number</label>
         <input pInputText id="reference_number" placeholder="Enter reference number" formControlName="reference_number"
           type="text" autocomplete="off" class="w-full h-12 " />
-      </div>
+      </div> -->
+
+      <div class="p-field w-full md:w-1/2">
+                <label for="reference_number">Reference Number</label>
+                <input 
+                pInputText 
+                id="reference_number" 
+                placeholder="Enter reference number"
+                formControlName="reference_number" 
+                type="text" 
+                autocomplete="off" 
+                class="w-full h-12 "
+                 [ngClass]="{ 'is-invalid': submitted && f['reference_number'].errors }" />
+                 <div *ngIf="(submitted || f['reference_number'].touched) && f['reference_number'].errors">
+                    <small class="text-red-600" *ngIf="f['reference_number'].errors['minlength']">Reference number must be at least {{ f['reference_number'].errors['minlength'].requiredLength }} characters.</small>
+                    <small class="text-red-600" *ngIf="f['reference_number'].errors['maxlength']">Reference number cannot exceed {{ f['reference_number'].errors['maxlength'].requiredLength }} characters.</small>
+                    <small class="text-red-600" *ngIf="f['reference_number'].errors?.['xssSqlDetected']">Invalid characters detected (XSS / SQL keywords blocked)</small>
+                </div>
+            </div>
 
     </div>
 
@@ -96,17 +114,26 @@
       </div>
 
     </div>
-
-
-
-
     <!-- Submit & Reset -->
     <div class="flex gap-4 mt-4 justify-left">
-      <button pButton pRipple type="submit" icon="pi pi-search" label="Search" [loading]="submitted"
-        [disabled]="form.invalid" class="p-button-rounded p-button-success p-button-outlined">
+      <button 
+      pButton 
+      pRipple 
+      type="submit" 
+      icon="pi pi-search" 
+      label="Search" 
+      [loading]="submitted"
+      [disabled]="form.invalid" 
+      class="p-button-rounded p-button-success p-button-outlined">
       </button>
 
-      <button pButton pRipple type="reset" icon="pi pi-times" label="Reset" (click)="onReset()"
+      <button 
+      pButton 
+      pRipple 
+      type="reset" 
+      icon="pi pi-times" 
+      label="Reset" 
+      (click)="onReset()"
         class="p-button-rounded p-button-danger p-button-outlined">
       </button>
     </div>

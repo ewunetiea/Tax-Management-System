@@ -44,6 +44,7 @@ export class ManageTaxHoComponent {
   selectedPdf: SafeResourceUrl | null = null; 
   showPdfModal = false;
   isDialogVisible = false;
+  totalRecords: any = 0;
 
   constructor(
     private manageTaxHoService: ManageTaxApproverService,
@@ -84,11 +85,13 @@ export class ManageTaxHoComponent {
     this.fetching = false;
   }
 
-  onDataGenerated(event: { data: Tax[]; fetching: boolean }): void {
-    this.taxes = event.data;
-    this.fetching = event.fetching;
-    this.loading = false;
-  }
+  
+onDataGenerated(event: { data: Tax[], totalRecords: number, fetching: boolean }) {
+  this.taxes = event.data;
+  this.totalRecords = event.totalRecords;
+  this.fetching = event.fetching;
+  this.loading = false;
+}
 
   /** Clear table filters */
   clear(table: Table): void {

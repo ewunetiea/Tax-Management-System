@@ -2,9 +2,7 @@
 
 <main id="main" class="main">
     <p-card>
-      <app-reviewer-search-engine [statusRoute]="statusRoute"
-        (generatedTaxes)="onDataGenerated($any($event))"></app-reviewer-search-engine>
-   
+   <app-reviewer-search-engine #searchEngine  [statusRoute]="statusRoute"  (generatedTaxes)="onDataGenerated($any($event))"> </app-reviewer-search-engine>
     <div *ngIf="fetching">
     <div class="row">
       <div class="col-lg-12">
@@ -29,7 +27,16 @@
             </ng-template>
           </p-toolbar>
 
-          <p-table #dt [value]="taxes" [rows]="5" [paginator]="true" [loading]="loading" [globalFilterFields]="[
+          <p-table 
+          #dt 
+          [value]="taxes" 
+          [rows]="5" 
+          [paginator]="true" 
+          [lazy]="true"
+          (onLazyLoad)="searchEngine.onLazyLoad($event)"
+          [totalRecords]="totalRecords"
+          [loading]="loading" 
+          [globalFilterFields]="[
               'mainGuid',
               'from_',
               'sendTo_',
@@ -422,7 +429,7 @@
 
             <ng-template pTemplate="summary">
               <div class="p-d-flex p-ai-center p-jc-between">
-                In total there are {{ taxes ? taxes.length : 0 }} taxes.
+                In total there are {{ totalRecords }} taxes.
               </div>
             </ng-template>
           </p-table>

@@ -21,30 +21,36 @@ public class TaxableSearchEngineService {
     }
 
     public List<Tax> getTaxableSearchEngineForReviewer(TaxableSearchEngine tax) {
-        return taxableSearchEngineMapper.getTaxableSearchEngineForReviewer(tax);
+        PageHelper.startPage(tax.getCurrentPage(), tax.getPageSize());
+        List<Tax> taxes = taxableSearchEngineMapper.getTaxableSearchEngineForReviewer(tax);
+        if (!taxes.isEmpty()) {
+            Page<Tax> page = (Page<Tax>) taxes;
+            taxes.get(0).setTotal_records_paginator(page.getTotal());
+        }
+
+        return taxes;
     }
 
     public List<Tax> getTaxableSearchEngineForApprover(TaxableSearchEngine tax) {
-        return taxableSearchEngineMapper.getTaxableSearchEngineForApprover(tax);
+        PageHelper.startPage(tax.getCurrentPage(), tax.getPageSize());
+        List<Tax> taxes = taxableSearchEngineMapper.getTaxableSearchEngineForApprover(tax);
+        
+        if (!taxes.isEmpty()) {
+            Page<Tax> page = (Page<Tax>) taxes;
+            taxes.get(0).setTotal_records_paginator(page.getTotal());
+        }
+        return taxes;
     }
-
-    // public List<Tax> getTaxableSearchEngineForAdmin(TaxableSearchEngine tax) {
-    //     return taxableSearchEngineMapper.getTaxableSearchEngineForAdmin(tax);
-    // }
 
     public List<Tax> getTaxableSearchEngineForAdmin(TaxableSearchEngine tax) {
+        PageHelper.startPage(tax.getCurrentPage(), tax.getPageSize());
+        List<Tax> taxes = taxableSearchEngineMapper.getTaxableSearchEngineForAdmin(tax);
+        if (!taxes.isEmpty()) {
+            Page<Tax> page = (Page<Tax>) taxes;
+            taxes.get(0).setTotal_records_paginator(page.getTotal());
+        }
 
-    PageHelper.startPage(tax.getCurrentPage(), tax.getPageSize());
-
-    List<Tax> taxes = taxableSearchEngineMapper.getTaxableSearchEngineForAdmin(tax);
-    System.out.println("Taxes Retrievedddddddddddddddddddddddddddddddddddddddddddddd: " + taxes.size());
-    if (!taxes.isEmpty()) {
-        Page<Tax> page = (Page<Tax>) taxes;
-        taxes.get(0).setTotal_records_paginator(page.getTotal());
+        return taxes;
     }
-
-    return taxes;
-}
-
 
 }

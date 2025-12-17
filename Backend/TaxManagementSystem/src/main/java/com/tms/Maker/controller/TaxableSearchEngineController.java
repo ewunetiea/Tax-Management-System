@@ -46,7 +46,6 @@ public class TaxableSearchEngineController {
     
     @PostMapping("/admin")
     public ResponseEntity<List<Tax>> getTaxableSearchEngineForAdmin(@RequestBody TaxableSearchEngine tax, HttpServletRequest request) {
-        System.out.println("Inside Admin Controller" + tax);
         try {
             return new ResponseEntity<>(taxableSearchEngineService.getTaxableSearchEngineForAdmin(tax), HttpStatus.OK);
         } catch (Exception ex) {

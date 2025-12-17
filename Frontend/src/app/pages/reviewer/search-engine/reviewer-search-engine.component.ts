@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { StorageService } from '../../../service/sharedService/storage.service';
 import { MessageService } from 'primeng/api';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TaxCategoriesService } from '../../../service/maker/tax-categories-service';
 import { TaxableSearchEngine } from '../../../models/common/taxable-search-engine';
 import { User } from '../../../models/admin/user';
@@ -15,6 +15,7 @@ import { PaginatorPayLoad } from '../../../models/admin/paginator-payload';
 import { TaxableSearchEngineService } from '../../../service/common/taxable-search-engine-service';
 import { Role } from '../../../models/admin/role';
 import { finalize, of, catchError } from 'rxjs';
+import { xssSqlValidator } from 'app/SQLi-XSS-Prevention/xssSqlValidator';
 
 @Component({
   selector: 'app-reviewer-search-engine',
@@ -37,8 +38,13 @@ export class ReviewerSearchEngineComponent {
   isApprover = false;
   roles: string[] = [];
 
- @Output() generatedTaxes = new EventEmitter<{ data: Tax[]; fetching: boolean }>();
-  @Input() statusRoute: string = '';
+  // Pagination state
+  currentPage: number = 1;
+  pageSize: number = 5;
+  totalRecords: number = 0;
+  
+ @Output() generatedTaxes = new EventEmitter<{ data: Tax[]; totalRecords: number; fetching: boolean }>();
+ @Input() statusRoute: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -63,7 +69,7 @@ export class ReviewerSearchEngineComponent {
     this.form = this.fb.group({
      branch_id: [this.user.branch?.id || ''],
       tax_category_id: [''],
-      reference_number: [''],
+      reference_number: ['', [Validators.minLength(3), Validators.maxLength(100), xssSqlValidator]],
       router_status: [''],
       maked_date: [''],
       checked_date: [''],
@@ -78,12 +84,15 @@ export class ReviewerSearchEngineComponent {
     // ✅ Automatically detect router status from route param
     this.route.paramMap.subscribe(params => {
       const status = params.get('status')?.toLowerCase() || 'pending';
-
-      
       this.onReset();
       this.form.get('router_status')?.setValue(status);
     });
   }
+
+   get f(): { [key: string]: AbstractControl } {
+      return this.form.controls;
+    }
+  
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['statusRoute'] && !changes['statusRoute'].firstChange) {
@@ -91,8 +100,8 @@ export class ReviewerSearchEngineComponent {
     }
   }
 
-   private emitData(data: Tax[], fetching: boolean) {
-    this.generatedTaxes.emit({ data, fetching });
+   private emitData(data: Tax[], totalRecords: number, fetching: boolean) {
+    this.generatedTaxes.emit({ data, totalRecords, fetching });
   }
 
   // ✅ Load branches dynamically
@@ -135,14 +144,22 @@ export class ReviewerSearchEngineComponent {
 
   // ✅ Reset form and clear data
   onReset(): void {
-    this.form.reset();
     this.submitted = false;
-    this.emitData([], false);
+    this.form.reset();
+    this.currentPage = 1;
+    this.emitData([], 0, false);
+  }
+
+  
+  onLazyLoad(event: any) {
+    this.currentPage = (event.first / event.rows) + 1;
+    this.pageSize = event.rows;
+    this.generateTaxes();
   }
 
   generateTaxes(): void {
   this.submitted = true;
-  this.emitData([], false);
+   this.emitData([], 0, true);
   const routerStatus = this.statusRoute?.toLowerCase() || 'pending';
 
   // ✅ Normalize roles
@@ -175,7 +192,8 @@ export class ReviewerSearchEngineComponent {
   });
 
   // ✅ Construct clean payload
-  const payload = { ...this.form.value };
+ const payload = { ...this.form.value, currentPage: this.currentPage, pageSize: this.pageSize };
+    Object.keys(payload).forEach(k => { if (payload[k] === '') payload[k] = null; });
 
   // Convert empty strings to null
   Object.keys(payload).forEach(k => {
@@ -185,27 +203,35 @@ export class ReviewerSearchEngineComponent {
   // ✅ Select appropriate API endpoint
  
    let  request$ = this.taxableSearchEngineService.getTaxesForReviewer(payload);
- 
 
   // ✅ Handle API result
   request$
-    .pipe(
-      finalize(() => (this.submitted = false)),
-      catchError((error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Failed to fetch taxes'
-        });
-        this.emitData([], false); 
-        return of([]);
-      })
-    )
-    .subscribe((data: Tax[]) => {
-      this.emitData(data, true);
-    });
+  .pipe(
+    finalize(() => (this.submitted = false)),
+    catchError((error) => {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Failed to fetch taxes'
+      });
+      this.emitData([], 0, false);
+      return of([]);
+    })
+  ).subscribe((res: any) => {
+    // Check if the response is valid and contains data
+    if (res.length > 0) {
+      // Expect backend to return { Tax[], totalRecords: number }
+      console.log('Search Result:', res);
+      this.totalRecords = res[0].total_records_paginator || 0;  // Adjust according to actual response structure
+      console.log('total Length:', this.totalRecords);
+      this.emitData(res ?? [], this.totalRecords, true);
+    } else {
+      // Handle the case when there are no results
+      console.log('No results found.');
+      this.totalRecords = 0;
+      this.emitData([], this.totalRecords, true);
+    }
+  });
 }
-
-
 
 }

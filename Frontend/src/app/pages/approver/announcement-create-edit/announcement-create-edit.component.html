@@ -1,15 +1,26 @@
-<form ngNativeValidate #announcementForm="ngForm" class="p-fluid w-full" (ngSubmit)="onSave()">
-    <div class="flex flex-col gap-6 w-full">
+<form [formGroup]="form" (ngSubmit)="onSave()" class="flex flex-col md:flex-row gap-8">
+    <div class="w-full">
+    <div class="card flex flex-col gap-4">
 
         <!-- Title -->
         <div class="p-field w-full">
             <label for="title" class="block font-bold mb-3">Title<strong class="text-danger">*</strong></label>
-            <input id="title" type="text" pInputText class="w-full" [(ngModel)]="announcement.title" name="title"
-                required autocomplete="off" />
-            <div *ngIf="announcementForm.controls['title']?.invalid && announcementForm.controls['title']?.touched"
-                class="text-danger">
-                Title is required.
-            </div>
+            <input 
+            id="title" 
+            type="text" 
+            pInputText 
+            class="w-full" 
+            formControlName="title" 
+            name="title"
+            required 
+            autocomplete="off" 
+            [ngClass]="{ 'p-invalid': submitted && f['title'].errors }" />
+                <div *ngIf="(submitted || f['title'].touched) && f['title'].errors">
+                    <small class="text-red-600" *ngIf="f['title'].errors['required']">Title is required</small>
+                    <small class="text-red-600" *ngIf="f['title'].errors['minlength']">Title must be at least {{ f['title'].errors['minlength'].requiredLength }} characters.</small>
+                    <small class="text-red-600" *ngIf="f['title'].errors['maxlength']">Title cannot exceed  {{ f['title'].errors['maxlength'].requiredLength }} characters.</small>
+                    <small class="text-red-600" *ngIf="f['title'].errors?.['xssSqlDetected']">Invalid characters detected (XSS / SQL keywords blocked)</small>
+                </div>
         </div>
 
         <!-- Message -->
@@ -18,11 +29,18 @@
             <p-editor 
             name="message" 
             id="message" 
-            class="w-full" 
+            class="w-full"  
+            formControlName="message" 
             [style]="{ width: '100%', height: '320px' }"
-            [(ngModel)]="announcement.message" 
+            autocomplete="off" 
             required
             ></p-editor>
+            <div *ngIf="(submitted || f['message'].touched) && f['message'].errors">
+                    <small class="text-red-600" *ngIf="f['message'].errors['required']">Message is required</small>
+                    <small class="text-red-600" *ngIf="f['message'].errors['minlength']">Message must be at least {{ f['message'].errors['minlength'].requiredLength }} characters.</small>
+                    <small class="text-red-600" *ngIf="f['message'].errors['maxlength']">Message cannot exceed  {{ f['message'].errors['maxlength'].requiredLength }} characters.</small>
+                    <small class="text-red-600" *ngIf="f['message'].errors?.['xssSqlDetected']">Invalid characters detected (XSS / SQL keywords blocked)</small>
+                </div>
         </div>
 
         <!-- Audience -->
@@ -31,28 +49,28 @@
             <!-- Flex Row -->
             <div class="flex items-center gap-6 flex-wrap">
                 <div class="flex items-center gap-2">
-                    <p-radiobutton id="category1" name="audience" value="ROLE_MAKER" [(ngModel)]="announcement.audience" required />
+                    <p-radiobutton id="category1" name="audience" value="ROLE_MAKER" formControlName="audience" required />
                     <label for="category1">Branch Users</label>
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <p-radiobutton id="category2" name="audience" value="ROLE_REVIEWER" [(ngModel)]="announcement.audience" required />
+                    <p-radiobutton id="category2" name="audience" value="ROLE_REVIEWER" formControlName="audience" required />
                     <label for="category2">Branch Managers</label>
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <p-radiobutton id="category3" name="audience" value="ROLE_APPROVER" [(ngModel)]="announcement.audience" required />
+                    <p-radiobutton id="category3" name="audience" value="ROLE_APPROVER" formControlName="audience" required />
                     <label for="category3">Ho Users</label>
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <p-radiobutton id="category4" name="audience" value="ALL" [(ngModel)]="announcement.audience"  required />
+                    <p-radiobutton id="category4" name="audience" value="ALL" formControlName="audience" required />
                     <label for="category4">All</label>
                 </div>
             </div>
 
-            <div *ngIf="announcementForm.controls['audience']?.invalid && announcementForm.submitted" class="text-danger">
-                Audience selection is required!
+            <div *ngIf="(submitted || f['audience'].touched) && f['audience'].errors">
+                <small class="text-red-600" *ngIf="f['audience'].errors['required']">Audience selection is required</small>
             </div>
         </div>
 
@@ -64,7 +82,7 @@
                 id="created_date"
                 inputId="created_date"
                 class="w-full"
-                [(ngModel)]="today"
+                formControlName="created_date"
                 name="created_date"
                 dateFormat="dd-mm-yy"
                 [showIcon]="true"
@@ -75,19 +93,18 @@
     </div>
 
     <div class="col-span-6">
-        <label for="expiry_date" class="block font-bold mb-3">Expiry Date <strong class="text-danger">*</strong> </label>
+        <label for="expiry_date" class="block font-bold mb-3">Expiry Date <strong class="text-danger">*</strong></label>
         <p-datepicker 
             id="expiry_date"
             inputId="expiry_date"
             class="w-full"
-            [(ngModel)]="announcement.expiry_date"
+            formControlName="expiry_date"
             name="expiry_date"
             dateFormat="dd-mm-yy"
             [showIcon]="true"
             [readonlyInput]="true"
             placeholder="Select expiry date"
-            [minDate]="minExpiryDate"
-            required
+            [minDate]="today"
         ></p-datepicker>
     </div>
 </div>
@@ -95,7 +112,7 @@
 <!-- File Edit Switch -->
  <div *ngIf="isEdit" class="w-full mt-4">
     <label class="block font-bold mb-3">Open switch button to update files</label>
-    <p-toggleswitch [(ngModel)]="announcement.isFileEdited" name="isFileEdited" class="w-full" />
+    <p-toggleswitch formControlName="isFileEdited" name="isFileEdited" class="w-full" />
 </div>
  
 <!-- File Upload -->
@@ -129,7 +146,7 @@
         label="Save" 
         icon="pi pi-check"
         class="p-button-rounded p-button-outlined p-button-success w-32"
-        [disabled]="announcementForm.invalid">
+        [disabled]="form.invalid">
     </button>
 
         <button 
@@ -140,5 +157,6 @@
         class="p-button-rounded p-button-outlined p-button-danger w-32"
         (click)="onCancel()">
     </button>
+    </div>
     </div>
 </form>

@@ -22,7 +22,6 @@ export class CreateEditTaxCategoryComponent {
     submitted = false;
     loading = false;
     form!: FormGroup;
-    tagFilter = InputSanitizer.attackRegex.source;
 
     @Input() passedTaxCategory: any[] = [];
     @Output() editedTaxCategory: EventEmitter<any> = new EventEmitter();
@@ -38,25 +37,9 @@ export class CreateEditTaxCategoryComponent {
         this.user = this.storageService.getUser();
 
         this.form = this.fb.group({
-  type: [
-    '',
-    [
-      Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(50),
-      xssSqlValidator
-    ]
-  ],
-  description: [
-    '',
-    [
-      Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(200),
-      xssSqlValidator
-    ]
-  ]
-});
+            type: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), xssSqlValidator]],
+            description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(200), xssSqlValidator]]
+        });
 
 
         this.isEditData = this.passedTaxCategory[1];
@@ -67,7 +50,7 @@ export class CreateEditTaxCategoryComponent {
         }
     }
 
-    
+
 
     get f(): { [key: string]: AbstractControl } {
         return this.form.controls;
@@ -110,9 +93,9 @@ export class CreateEditTaxCategoryComponent {
         }
 
         const cleanedForm = {
-    type: InputSanitizer.cleanInput(this.form.value.type),
-    description: InputSanitizer.cleanInput(this.form.value.description)
-  };
+            type: InputSanitizer.cleanInput(this.form.value.type),
+            description: InputSanitizer.cleanInput(this.form.value.description)
+        };
 
         this.loading = true;
 

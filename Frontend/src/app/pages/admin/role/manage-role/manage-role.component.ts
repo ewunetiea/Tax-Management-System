@@ -189,7 +189,7 @@ export class ManageRoleComponent {
     }
 
     editJobPositions() {
-        const jobPositionsByRole: JobPositionsByRole = { role: this.selectedRole, job_positions: this.selectedRole.jobPositions};
+        const jobPositionsByRole: JobPositionsByRole = { role: this.selectedRole, job_positions: this.selectedRole.jobPositions };
         this.roleRightService.manageJobPositions(jobPositionsByRole).subscribe({
             next: (data) => {
                 this.jobDialog = false;

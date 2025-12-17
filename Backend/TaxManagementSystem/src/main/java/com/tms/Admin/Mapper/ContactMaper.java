@@ -14,8 +14,14 @@ public interface ContactMaper {
     @Delete("delete from contact where id = #{id}")
     public void deleteContact(Contact contact);
 
-    @Select("select * from contact")
-    @Result(property = "id", column = "id")
+    // @Select("select * from contact")
+    // public List<Contact> getContacts();
+
+    @Select("select us.first_name as first_name, us.middle_name as  last_name, us.phone_number as phone_number, us.email as email, jp.title as title from [user] us " +
+            " inner join job_position jp on jp.id = us.job_position_id " +
+            " inner join user_role ur on ur.user_id = us.id " +
+            " inner join role  rl on rl.id =ur.role_id " +
+            "where rl.name = 'ROLE_ADMIN'")
     public List<Contact> getContacts();
 
     @Select("select * from contact where id=#{id}")

@@ -11,6 +11,7 @@
             #regionName="ngModel"
             (input)="checkCodeStatus($event)"
             required
+            readonly
             [class.ng-invalid]="regionName.invalid && (regionName.touched || roleForm.submitted)"
             [class.ng-dirty]="regionName.dirty || regionName.touched"
         />
@@ -34,6 +35,7 @@
                 (input)="checkNameStatus($event)"
                 #name="ngModel"
                 required
+                readonly
                 [class.ng-invalid]="name.invalid && (name.touched || roleForm.submitted)"
                 [class.ng-dirty]="name.dirty || name.touched"
             />
@@ -50,11 +52,14 @@
                 pTextarea
                 [autoResize]="true"
                 class="form-control"
-                [(ngModel)]="role.description"
+                [ngModel]="role.description"
+                (ngModelChange)="onDescriptionChange($event)"
                 name="description"
                 autocomplete="off"
                 #description="ngModel"
                 rows="5"
+                maxlength="1000"
+                minlength="3"
                 [required]="true"
                 [class.ng-invalid]="description.invalid && (description.touched || roleForm.submitted)"
                 [class.ng-dirty]="description.dirty || description.touched"
@@ -62,6 +67,9 @@
           </textarea>
         <div *ngIf="description.errors && description.touched">
             <p-message severity="error" size="small" variant="simple" *ngIf="description?.errors?.['required']">Description is required</p-message>
+            <p-message severity="error" size="small" variant="simple" *ngIf="description?.errors?.['minlength']">Description is not less than 3 characters</p-message>
+            <p-message severity="error" size="small" variant="simple" *ngIf="description?.errors?.['maxlength']">Description is not exceed  1000 characters</p-message>
+            <p-message severity="error" size="small" variant="simple" *ngIf="invalidXss">Invalid input detected! Special characters or scripts are not allowed.</p-message>
         </div>
       </div>
 

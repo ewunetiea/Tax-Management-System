@@ -7,6 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { SharedUiModule } from '../../../../../shared-ui';
 import { StorageService } from '../../../../service/sharedService/storage.service';
 import { ContactService } from '../../../../service/admin/contact-service';
+import { InputSanitizer } from 'app/SQLi-XSS-Prevention/InputSanitizer';
 
 @Component({
     selector: 'app-manage-contact',
@@ -49,6 +50,7 @@ export class ManageContactComponent {
     contact_form_loading = false;
     feedback_loading = false;
     feedback_form_loading = false;
+    invalidXss = false;
     sizes!: any[];
     selectedSize: any = 'normal';
     breadcrumbText: string = 'Manage Contacts';
@@ -60,7 +62,7 @@ export class ManageContactComponent {
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
         private contactService: ContactService
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.home = { icon: 'pi pi-home', routerLink: '/' };
@@ -170,10 +172,12 @@ export class ManageContactComponent {
     }
 
     addResponse() {
+        this.submitted = true;
         this.passFeedbacks = [];
         this.passFeedbacks.push(this.feedback);
         this.contactService.respondFeedbacks(this.passFeedbacks).subscribe({
             next: (response) => {
+                this.submitted = false;
                 this.getFeedbacks();
                 this.feedback = new Feedback();
                 this.messageService.add({
@@ -187,6 +191,7 @@ export class ManageContactComponent {
             },
             error: (error: HttpErrorResponse) => {
                 this.feedback_loading = false;
+                this.submitted = false;
                 this.messageService.add({
                     severity: 'error',
                     summary: error.status == 401 ? 'You are not permitted to perform this action!' : 'Something went wrong while adding response!',
@@ -359,5 +364,15 @@ export class ManageContactComponent {
                 });
             }
         });
+    }
+
+    onResponseChange(value: string) {
+        // Check if value contains XSS/SQL patterns
+        this.invalidXss = InputSanitizer.isInvalid(value);
+
+        // Only update model if valid; otherwise keep previous safe value
+        if (!this.invalidXss) {
+            this.feedback.response = value;
+        }
     }
 }

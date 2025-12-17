@@ -130,8 +130,13 @@ export class AnnouncementCreateEditComponent {
         });
       },
       error: (err: HttpErrorResponse) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message });
         this.submitting = false;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error occurred while saving announcement',
+          detail: '',
+          life: 3000
+        });
       }
     });
   }

@@ -85,11 +85,11 @@ export class AppTopbar {
                 icon: 'pi pi-fw pi-cog',
                 command: () => (this.showJwtModal = true) // ✅ open modal
             },
-            {
-                label: 'Log',
-                icon: 'pi pi-fw pi-inbox',
-                command: () => (this.showLogModal = true) // ✅ open modal
-            },
+            // {
+            //     label: 'Log',
+            //     icon: 'pi pi-fw pi-inbox',
+            //     command: () => (this.showLogModal = true) 
+            // },
             {
                 label: 'Contact',
                 icon: 'pi pi-fw pi-envelope',

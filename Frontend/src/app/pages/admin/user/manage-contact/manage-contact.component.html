@@ -43,7 +43,7 @@
               [rowHover]="true"
               dataKey="id"
               [rowsPerPageOptions]="[5, 10, 25, 50]"
-              [tableStyle]="{ 'min-width': '82rem' }"
+              [tableStyle]="{ 'min-width': '25rem' }"
               [size]="selectedSize"
               currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
               [showCurrentPageReport]="true"
@@ -89,7 +89,7 @@
                         <p-columnFilter type="text" field="email" display="menu" />
                     </div>
                   </th>
-                  <th>Action</th>
+                  <!-- <th>Action</th> -->
                 </tr>
               </ng-template>
 
@@ -102,7 +102,7 @@
                   <td>{{ contact.title }}</td>
                   <td>{{ contact.phone_number }}</td>
                   <td>{{ contact.email }}</td>
-                  <td>
+                  <!-- <td>
                     <button
                       pButton
                       pRipple
@@ -121,7 +121,7 @@
                       icon="pi pi-times"
                       class="p-button-rounded p-button-outlined p-button-danger"
                     ></button>
-                  </td>
+                  </td> -->
                 </tr>
               </ng-template>
 
@@ -440,10 +440,27 @@
   <form #response_feedback="ngForm" ngNativeValidate class="space-y-4">
     <div>
       <label class="form-label"><strong class="text-yellow-500">*</strong> Response</label>
-      <textarea #action_plan name="action_plan" [(ngModel)]="feedback.response" required class="w-full border rounded p-2"></textarea>
+      <textarea 
+      #action_plan="ngModel" 
+      name="action_plan" 
+      [(ngModel)]="feedback.response" 
+      (ngModelChange)="onResponseChange($event)"
+      required 
+      minlength="3"
+      maxlength="1000"
+      [class.ng-invalid]="action_plan.invalid && (action_plan.touched || response_feedback.submitted)"
+      [class.ng-dirty]="action_plan.dirty || action_plan.touched"
+      class="w-full border rounded p-2">
+    </textarea>
+    <div *ngIf="action_plan.errors && action_plan.touched">
+      <p-message severity="error" size="small" variant="simple" *ngIf="action_plan?.errors?.['required']">Response is required</p-message>
+      <p-message severity="error" size="small" variant="simple" *ngIf="action_plan?.errors?.['minlength']">Response is not less than 3 characters</p-message>
+      <p-message severity="error" size="small" variant="simple" *ngIf="action_plan?.errors?.['maxlength']">Response is not exceed  1000 characters</p-message>
+      <p-message severity="error" size="small" variant="simple" *ngIf="invalidXss">Invalid input detected! Special characters or scripts are not allowed.</p-message>
+    </div>
     </div>
     <div class="flex space-x-4">
-      <button pButton type="button" label="Save" class="p-button-rounded p-button-outlined" [disabled]="response_feedback.form.invalid" (click)="addResponse()"></button>
+      <button pButton type="button" label="Save" [loading]="feedback_form_loading" class="p-button-rounded p-button-outlined" [disabled]="response_feedback.form.invalid" (click)="addResponse()"></button>
       <button pButton type="reset" label="Reset" class="p-button-rounded p-button-outlined p-button-secondary"></button>
     </div>
   </form>

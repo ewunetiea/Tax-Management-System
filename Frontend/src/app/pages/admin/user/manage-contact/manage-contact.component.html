@@ -10,7 +10,7 @@
       <section class="section">
         <div class="w-full">
           <p-card class="shadow-lg rounded-lg">
-            <p-toolbar styleClass="mb-4">
+            <!-- <p-toolbar styleClass="mb-4">
               <ng-template pTemplate="left">
                 <button
                   pButton
@@ -30,7 +30,7 @@
                   [disabled]="!selectedContacts || !selectedContacts.length"
                 ></button>
               </ng-template>
-            </p-toolbar>
+            </p-toolbar> -->
 
             <p-table
               #contact_table
@@ -391,25 +391,80 @@
   <form ngNativeValidate #userForm="ngForm" class="p-fluid space-y-4">
     <div class="p-field">
       <label class="form-label"><strong class="text-red-600">*</strong> First Name</label>
-      <input type="text" [(ngModel)]="selectedContact.first_name" name="first_name" #first_name="ngModel" [class.border-red-600]="first_name.invalid && first_name.touched" required class="w-full border rounded p-2"/>
-      <small class="text-red-600" [class.hidden]="first_name.valid || first_name.untouched">First name is required</small>
+      <input 
+      type="text"
+       [(ngModel)]="selectedContact.first_name" 
+       name="first_name" 
+       required 
+        minlength="3"
+        maxlength="50"
+      #first_name="ngModel" 
+      (ngModelChange)="onFirstNameChange($event)"
+      [class.ng-invalid]="first_name.invalid && (first_name.touched || userForm.submitted)"
+       [class.ng-dirty]="first_name.dirty || first_name.touched"
+       class="w-full border rounded p-2"/>
+      <div *ngIf="first_name.errors && first_name.touched">
+            <p-message severity="error" size="small" variant="simple" *ngIf="first_name?.errors?.['required']">First name is required</p-message>
+            <p-message severity="error" size="small" variant="simple" *ngIf="first_name?.errors?.['minlength']">First name is not less than 3 characters</p-message>
+            <p-message severity="error" size="small" variant="simple" *ngIf="first_name?.errors?.['maxlength']">First name is not exceed  50 characters</p-message>
+            <p-message severity="error" size="small" variant="simple" *ngIf="invalidXss">Invalid input detected! Special characters or scripts are not allowed.</p-message>
+        </div>
     </div>
 
     <div class="p-field">
       <label class="form-label"><strong class="text-red-600">*</strong> Last Name</label>
-      <input type="text" [(ngModel)]="selectedContact.last_name" name="last_name" #last_name="ngModel" [class.border-red-600]="last_name.invalid && last_name.touched" required class="w-full border rounded p-2"/>
-      <small class="text-red-600" [class.hidden]="last_name.valid || last_name.untouched">Last name is required</small>
+      <input 
+      type="text" 
+      [(ngModel)]="selectedContact.last_name" 
+      name="last_name" 
+      #last_name="ngModel" 
+      (ngModelChange)="onLastNameChange($event)"
+      [class.ng-invalid]="last_name.invalid && (last_name.touched || userForm.submitted)"
+       [class.ng-dirty]="last_name.dirty || last_name.touched"
+      required 
+      minlength="3"
+      maxlength="50"
+      class="w-full border rounded p-2"/>
+      <div *ngIf="last_name.errors && last_name.touched">
+            <p-message severity="error" size="small" variant="simple" *ngIf="last_name?.errors?.['required']">Last name is required</p-message>
+            <p-message severity="error" size="small" variant="simple" *ngIf="last_name?.errors?.['minlength']">Last name is not less than 3 characters</p-message>
+            <p-message severity="error" size="small" variant="simple" *ngIf="last_name?.errors?.['maxlength']">Last name is not exceed  50 characters</p-message>
+            <p-message severity="error" size="small" variant="simple" *ngIf="invalidXss">Invalid input detected! Special characters or scripts are not allowed.</p-message>
+        </div>
     </div>
 
     <div class="p-field">
       <label class="form-label"><strong class="text-red-600">*</strong> Job Position</label>
-      <input type="text" [(ngModel)]="selectedContact.title" name="title" #title="ngModel" [class.border-red-600]="title.invalid && title.touched" required class="w-full border rounded p-2"/>
-      <small class="text-red-600" [class.hidden]="title.valid || title.untouched">Job position is required</small>
+      <input 
+      type="text" 
+      [(ngModel)]="selectedContact.title" 
+      name="title" 
+      #title="ngModel" 
+      minlength="3"
+      maxlength="1000"
+      (ngModelChange)="onTitleChange($event)"
+      [class.ng-invalid]="title.invalid && (title.touched || userForm.submitted)"
+       [class.ng-dirty]="title.dirty || title.touched"
+      required 
+      class="w-full border rounded p-2"/>
+      <div *ngIf="title.errors && title.touched">
+            <p-message severity="error" size="small" variant="simple" *ngIf="title?.errors?.['required']">Job position is required</p-message>
+            <p-message severity="error" size="small" variant="simple" *ngIf="title?.errors?.['minlength']">Job position is not less than 3 characters</p-message>
+            <p-message severity="error" size="small" variant="simple" *ngIf="title?.errors?.['maxlength']">Job position is not exceed  1000 characters</p-message>
+            <p-message severity="error" size="small" variant="simple" *ngIf="invalidXss">Invalid input detected! Special characters or scripts are not allowed.</p-message>
+        </div>
     </div>
 
     <div class="p-field">
-      <label class="form-label"><strong class="text-red-600">*</strong> Phone Number</label>
-      <input type="tel" [(ngModel)]="selectedContact.phone_number" name="phone_number" #phone="ngModel" pattern="(\+251|0)(9|7)\d{8}" required class="w-full border rounded p-2"/>
+      <label class="form-label"><strong class="text-red-600">*</strong>Phone Number</label>
+      <input 
+      type="tel" 
+      [(ngModel)]="selectedContact.phone_number" 
+      name="phone_number" 
+      #phone="ngModel" 
+      pattern="(\+251|0)(9|7)\d{8}" 
+      required 
+      class="w-full border rounded p-2"/>
       <div *ngIf="phone.errors && phone.touched">
         <small class="text-red-600" *ngIf="phone.errors['required']">Phone number is required</small>
         <small class="text-red-600" *ngIf="phone.errors['pattern']">Phone number not valid (should start with +251 or 09)</small>

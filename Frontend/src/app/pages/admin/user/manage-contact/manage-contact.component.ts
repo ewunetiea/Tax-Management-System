@@ -375,4 +375,34 @@ export class ManageContactComponent {
             this.feedback.response = value;
         }
     }
+
+     onFirstNameChange(value: string) {
+        // Check if value contains XSS/SQL patterns
+        this.invalidXss = InputSanitizer.isInvalid(value);
+
+        // Only update model if valid; otherwise keep previous safe value
+        if (!this.invalidXss) {
+            this.selectedContact.first_name = value;
+        }
+    }
+
+    onLastNameChange(value: string) {
+        // Check if value contains XSS/SQL patterns
+        this.invalidXss = InputSanitizer.isInvalid(value);
+
+        // Only update model if valid; otherwise keep previous safe value
+        if (!this.invalidXss) {
+            this.selectedContact.last_name = value;
+        }
+    }
+
+    onTitleChange(value: string) {
+        // Check if value contains XSS/SQL patterns
+        this.invalidXss = InputSanitizer.isInvalid(value);
+
+        // Only update model if valid; otherwise keep previous safe value
+        if (!this.invalidXss) {
+            this.selectedContact.title = value;
+        }
+    }
 }

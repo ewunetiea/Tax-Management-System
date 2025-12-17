@@ -9,9 +9,8 @@ import { MaxFailedAndJwtControlService } from '../../../service/admin/max-failed
 @Component({
     standalone: true,
     selector: 'app-setting-configuration',
-    imports: [SharedUiModule],         // ✅ Must be here
-
-    
+    imports: [SharedUiModule],         
+    providers: [MessageService, ConfirmationService],
     templateUrl: './setting-configuration.component.html',
     styleUrls: ['./setting-configuration.component.css'],
 })

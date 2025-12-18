@@ -121,14 +121,43 @@ export const httpRequestInterceptor: HttpInterceptorFn = (req, next) => {
             }
 
             // 🔹 Unauthorized request
-            if (error instanceof HttpErrorResponse && error.status === 401) {
-                const customError = new HttpErrorResponse({
-                    error: new Error('Unauthorized. Please login again!'),
-                    status: 400
-                });
-                showToast(messageService, customError.error.message, 'error');
-                return throwError(() => customError);
-            }
+//             if (error instanceof HttpErrorResponse && error.status === 401) {
+
+// console.log("____________________badd__Credr_______________________")
+//                 console.log(error.message)
+//                 const customError = new HttpErrorResponse({
+//                     error: new Error('Unauthorized. Please login again!'),
+//                     status: 400
+//                 });
+//                 showToast(messageService, customError.error.message, 'error');
+//                 return throwError(() => customError);
+//             }
+
+
+
+
+
+if (error instanceof HttpErrorResponse && error.status === 401) {
+
+    const backendMessage = error.error?.message;
+
+    if (backendMessage === 'Bad credentials') {
+        showToast(
+            messageService,
+            'Invalid username or password',
+            'error'
+        );
+    } else {
+        showToast(
+            messageService,
+            'Unauthorized. Please login again!',
+            'error'
+        );
+    }
+
+    return throwError(() => error);
+}
+
 
             // 🔹 Forbidden request
             if (error instanceof HttpErrorResponse && error.status === 403) {

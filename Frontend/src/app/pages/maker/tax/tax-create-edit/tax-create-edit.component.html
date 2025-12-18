@@ -165,7 +165,7 @@
                     <label for="remark" class="block font-bold mb-3">Remark</label>
 
                     <input type="text" id="remark" name="remark" pInputText class="w-full h-12" [(ngModel)]="tax.remark"
-                        (input)="onRemarkChange($event)" />
+                        (input)="onRemarkChange($event)" maxlength="200" />
 
                     <small *ngIf="invalidXss" class="text-danger">
                         ❌ Invalid input detected! Special characters or scripts are not allowed.

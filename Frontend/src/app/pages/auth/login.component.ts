@@ -11,6 +11,7 @@ import { StorageService } from '../../service/sharedService/storage.service';
 import { PasswordService } from '../../service/admin/password.service';
 import { WebSocketService } from '../../service/sharedService/WebSocketService';
 import { AutoLogoutService } from 'app/service/sharedService/auto-logout.service';
+import { InputSanitizer } from 'app/SQLi-XSS-Prevention/InputSanitizer';
 
 @Component({
     selector: 'app-login',
@@ -33,6 +34,8 @@ export class LoginComponent {
     userAgent?: string;
     is_password_matched = true;
     checked = false;
+invalidXssPassword = false;
+invalidXssUserName = false;
 
     constructor(
         private authService: AuthService,
@@ -242,5 +245,20 @@ export class LoginComponent {
     }
   });
 }
+
+
+ validateXssAuth(event: Event, field: 'username' | 'password') {
+    const value = (event.target as HTMLInputElement).value;
+    const isInvalid = InputSanitizer.isInvalid(value);
+
+    if (field === 'username') {
+        this.invalidXssUserName = isInvalid;
+    } else if (field === 'password') {
+        this.invalidXssPassword = isInvalid;
+    }
+}
+
+
+
 
 }

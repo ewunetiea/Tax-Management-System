@@ -14,6 +14,7 @@ import { catchError, of, switchMap } from 'rxjs';
 import { ValidationService } from '../../../../service/sharedService/validationService';
 import { StorageService } from '../../../../service/sharedService/storage.service';
 import { AuthService } from '../../../../service/sharedService/auth.service';
+import { InputSanitizer } from 'app/SQLi-XSS-Prevention/InputSanitizer';
 
 interface AwashId {
     id_no: string;
@@ -76,6 +77,14 @@ export class CreateEditUserComponent {
     @Input() passedUser: any[] = [];
     @Output() editedUser: EventEmitter<any> = new EventEmitter();
     radioValue: any = null;
+invalidXssFname = false
+
+invalidXssMname = false
+invalidXssLname = false
+invalidXssPhone = false
+invalidXssAwashId = false
+invalidXssEmail = false
+invalidXssUsername = false
 
     constructor(
         private branchService: BranchService,
@@ -482,4 +491,51 @@ export class CreateEditUserComponent {
             Math.random() * 1000 + 250
         );
     }
+
+
+
+
+      // In your component (.ts file)
+genericInputValidation(event: any, fieldName: string) {
+  const value = event.target.value.trim(); // optional: trim spaces
+
+  let isInvalid = false;
+
+  // Use your existing sanitizer
+  if (InputSanitizer.isInvalid(value)) {
+    isInvalid = true;
+  }
+
+  // Optionally: add extra client-side checks if needed (e.g. length, special chars)
+  // Example: if (value.length > 50) isInvalid = true;
+
+  // Dynamically set the corresponding flag
+  switch (fieldName) {
+    case 'first_name':
+      this.invalidXssFname = isInvalid;
+      break;
+    case 'middle_name':
+      this.invalidXssMname = isInvalid;
+      break;
+    case 'last_name':
+      this.invalidXssLname = isInvalid;
+      break;
+    case 'employee_id':
+      this.invalidXssAwashId = isInvalid;
+      break;
+    case 'email':
+      this.invalidXssEmail = isInvalid;
+      break;
+    case 'phone_number':
+      this.invalidXssPhone = isInvalid;
+      break;
+       case 'user_name':
+      this.invalidXssUsername = isInvalid;
+      break;
+    default:
+      console.warn('Unknown field:', fieldName);
+  }
+}
+
+
 }

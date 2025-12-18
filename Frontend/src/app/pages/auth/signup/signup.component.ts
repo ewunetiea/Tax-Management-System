@@ -13,11 +13,12 @@ import { BranchService } from '../../../service/admin/branchService';
 import { RegionService } from '../../../service/admin/regionService';
 import { ValidationService } from '../../../service/sharedService/validationService';
 import { AuthService } from '../../../service/sharedService/auth.service';
+import { InputSanitizer } from 'app/SQLi-XSS-Prevention/InputSanitizer';
 
 @Component({
     selector: 'app-signup',
     imports: [SharedUiModule, AppFloatingConfigurator],
-    
+
     templateUrl: './signup.component.html',
     styleUrl: './signup.component.scss'
 })
@@ -45,6 +46,15 @@ export class SignupComponent {
     authenthicationOptions?: any[];
     account_created = false;
 
+    invalidXssFname = false
+
+    invalidXssMname = false
+    invalidXssLname = false
+    invalidXssPhone = false
+    invalidXssAwashId = false
+    invalidXssEmail = false
+    invalidXssUsername = false
+
     constructor(
         private branchService: BranchService,
         private regionService: RegionService,
@@ -53,7 +63,7 @@ export class SignupComponent {
         private confirmationService: ConfirmationService,
         private authService: AuthService,
         private router: Router
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.authenthicationOptions = [
@@ -80,7 +90,7 @@ export class SignupComponent {
             next: (data) => {
                 this.job_positions = data;
             },
-            error: (e) => {}
+            error: (e) => { }
         });
     }
     getRegions() {
@@ -106,7 +116,32 @@ export class SignupComponent {
                 if (res) {
                     this.email_status = true;
                 } else {
+
+
+
+
+
+
+
                     this.email_status = false;
+
+
+
+
+                    if (this.user.email) {
+                        const atIndex = this.user.email.indexOf('@');
+                        if (atIndex > 0) {
+                            // Extract everything before @
+                            const extractedUsername = this.user.email.substring(0, atIndex).trim();
+
+                            // Only update if it's different (to avoid infinite loops or overwriting user edits)
+                            if (this.user.username !== extractedUsername) {
+                                this.user.username = extractedUsername;
+                            }
+                        }
+                    }
+
+
                 }
             },
             error: (error: HttpErrorResponse) => {
@@ -149,7 +184,7 @@ export class SignupComponent {
 
         this.employee_id = event.target.value;
 
-        
+
 
 
         if (!this.employee_id || this.employee_id.length < 11) {
@@ -210,7 +245,7 @@ export class SignupComponent {
     processUserData() {
 
 
-        
+
         this.user.first_name = this.userFromHr.empName.split(' ')[0];
         this.user.middle_name = this.userFromHr.empName.split(' ')[1] || '';
         this.user.last_name = this.userFromHr.empName.split(' ').slice(2).join(' ') || this.user.middle_name;
@@ -237,7 +272,7 @@ export class SignupComponent {
                 this.confrimationDialog = false;
                 this.submitted = true;
                 this.errorMessage = '';
-              
+
                 if (this.user.authenthication_media) {
                     this.messageService.add({
                         severity: 'success',
@@ -256,7 +291,7 @@ export class SignupComponent {
 
 
                         this.account_created = true;
-                            this.router.navigateByUrl('/');
+                        this.router.navigateByUrl('/');
 
                     }, 4000);
                 }
@@ -286,4 +321,37 @@ export class SignupComponent {
             behavior: 'smooth'
         });
     }
+
+
+
+
+    // In your component (.ts file)
+    genericInputValidation(event: any, fieldName: string) {
+
+        const value = event.target.value.trim(); // optional: trim spaces
+
+        let isInvalid = false;
+
+        if (InputSanitizer.isInvalid(value)) {
+            isInvalid = true;
+        }
+
+        switch (fieldName) {
+
+            case 'employee_id':
+                this.invalidXssAwashId = isInvalid;
+                break;
+            case 'email':
+                this.invalidXssEmail = isInvalid;
+                break;
+            case 'phone_number':
+                this.invalidXssPhone = isInvalid;
+                break;
+            case 'user_name':
+                this.invalidXssUsername = isInvalid;
+                break;
+            default:
+        }
+    }
+
 }

@@ -45,3 +45,10 @@
     opacity: 0;
   }
 }
+
+
+
+.text-danger {
+    color: #dc3545; /* Bootstrap-like danger red */
+    font-weight: bold; /* optional */
+}

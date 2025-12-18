@@ -12,6 +12,8 @@ export class ReviewerDashboardService {
     constructor(private http: HttpClient) { }
 
     getTaxStatusForReviewer(branch_id?: number): Observable<number[]> {
+
+        console.log(branch_id)
         return this.http.get<number[]>(`${apiUrl}/tax-status-card/${branch_id}`);
     }
 

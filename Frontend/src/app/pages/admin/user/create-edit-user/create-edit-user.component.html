@@ -4,7 +4,7 @@
         <input pInputText type="text" #employee_id="ngModel"
             [ngClass]="{ 'border-red-500': employee_id.invalid && employee_id.touched }" id="employee_id"
             placeholder="Staff ID" [(ngModel)]="user.employee_id" name="employee_id"
-            (blur)="checkAwashBankIdStatus($event)" required="true" pattern="^(AB|AIB)\/(\d{1,7})\/(19|20|21)\d{2}$" />
+            (blur)="checkAwashBankIdStatus($event)" required="true" pattern="^(AB|AIB)\/(\d{1,7})\/(19|20|21)\d{2}$" maxlength="30" (input)="genericInputValidation($event, 'employee_id')" />
         <div *ngIf="employee_id.errors && employee_id.touched">
             <small class="text-red-600" *ngIf="employee_id.errors['required']">Awash Bank ID is required</small>
             <small class="text-red-600" *ngIf="employee_id.errors['pattern']">Awash ID Incorrect</small>
@@ -15,6 +15,10 @@
         <div *ngIf="employee_id_status_system">
             <small class="text-red-600">User Already registered!</small>
         </div>
+
+           <div> <small *ngIf="invalidXssAwashId" class="text-danger">
+      Invalid input detected! (possible malicious content)
+                            </small></div>
     </div>
 
 
@@ -24,7 +28,7 @@
             <label for="email"><strong class="text-red-600">*</strong>Outlook Address</label>
             <input type="text" #email="ngModel" [ngClass]="{ 'border-red-500': email.invalid && email.touched }"
                 pInputText id="email" [(ngModel)]="user.email" name="email" (blur)="checkEmailStatus($event)"
-                required="true" pattern="\w+@awashbank\.com$" class="w-full" />
+                required="true" pattern="\w+@awashbank\.com$" class="w-full" (input)="genericInputValidation($event, 'email')" />
 
             <div *ngIf="email_status">
                 <small class="text-red-600">Outlook Address Already Exists</small>
@@ -34,6 +38,9 @@
                 <small class="text-red-600" *ngIf="email.errors['pattern']">Outlook Address should end with
                     &#64;awashbank.com</small>
             </div>
+              <div> <small *ngIf="invalidXssEmail" class="text-danger">
+      Invalid input detected! (possible malicious content)
+                            </small></div>
         </div>
 
         <div class="flex flex-col gap-2">
@@ -41,13 +48,17 @@
             <input type="text" #username="ngModel"
                 [ngClass]="{ 'border-red-500': username.invalid && username.touched }"
                 (blur)="checkUsernameStatus($event)" pInputText id="username" [(ngModel)]="user.username"
-                name="username" [required]="true" class="w-full" />
+                name="username" [required]="true" class="w-full" maxlength="30" (input)="genericInputValidation($event, 'user_name')" />
             <small class="text-red-600" [class.hidden]="username.valid || username.untouched">Username is
                 required<br /></small>
 
             <div *ngIf="user_name_status">
                 <small class="text-red-600">Username Already Exists</small>
             </div>
+
+               <div> <small *ngIf="invalidXssUsername" class="text-danger">
+      Invalid input detected! (possible malicious content)
+                            </small></div>
         </div>
     </div>
 
@@ -57,14 +68,14 @@
             <label for="first_name">First Name</label>
             <input type="text" #first_name="ngModel"
                 [ngClass]="{ 'border-red-500': first_name.invalid && first_name.touched }" pInputText id="first_name"
-                [(ngModel)]="user.first_name" name="first_name" class="w-full" />
+                [(ngModel)]="user.first_name" name="first_name" class="w-full" readonly />
         </div>
 
         <div class="flex flex-col gap-2">
             <label for="middle_name">Middle Name</label>
             <input type="text" #middle_name="ngModel"
                 [ngClass]="{ 'border-red-500': middle_name.invalid && middle_name.touched }" pInputText id="middle_name"
-                [(ngModel)]="user.middle_name" name="middle_name" class="w-full" />
+                [(ngModel)]="user.middle_name" name="middle_name" class="w-full" readonly />
         </div>
     </div>
 
@@ -74,7 +85,7 @@
             <label for="last_name">Last Name</label>
             <input type="text" #last_name="ngModel"
                 [ngClass]="{ 'border-red-500': last_name.invalid && last_name.touched }" pInputText id="last_name"
-                [(ngModel)]="user.last_name" name="last_name" />
+                [(ngModel)]="user.last_name" name="last_name"  readonly/>
         </div>
 
         <div class="flex flex-col gap-2 w-1/2">
@@ -82,7 +93,7 @@
             <input type="tel" #phone_number="ngModel"
                 [ngClass]="{ 'border-red-500': phone_number.invalid && phone_number.touched }" pInputText
                 pattern="(\+251|0)(9|7)\d{8}" id="phone_number" (blur)="checkPhoneNumberStatus($event)"
-                [(ngModel)]="user.phone_number" name="phone_number" required="true" />
+                [(ngModel)]="user.phone_number" name="phone_number" required="true" maxlength="14" (input)="genericInputValidation($event, 'phone_number')"  />
             <div *ngIf="phone_number_status">
                 <small class="text-red-600">Phone Number Already Exists</small>
             </div>
@@ -91,6 +102,10 @@
                 <small class="text-red-600" *ngIf="phone_number.errors['pattern']"> Phone number not valid or should
                     start with +251, 09 or 07 </small>
             </div>
+
+             <div> <small *ngIf="invalidXssPhone" class="text-danger">
+      Invalid input detected! (possible malicious content)
+                            </small></div>
         </div>
     </div>
 
@@ -118,9 +133,7 @@
         <div class="flex flex-col gap-2 mb-4">
             <label for="jobPosition">Job Title</label>
             <p-dropdown class="w-full" [options]="job_positions" optionLabel="title" inputId="jobPosition"
-                [disabled]="!!user.jobPosition"
-                
-                name="jobPosition" #job_position="ngModel"
+                [disabled]="!!user.jobPosition" name="jobPosition" #job_position="ngModel"
                 [ngClass]="{ 'border-red-500': job_position.invalid && job_position.touched }"
                 [(ngModel)]="user.jobPosition" placeholder="Select Job Title" [filter]="true" [virtualScroll]="true"
                 [virtualScrollItemSize]="38"></p-dropdown>

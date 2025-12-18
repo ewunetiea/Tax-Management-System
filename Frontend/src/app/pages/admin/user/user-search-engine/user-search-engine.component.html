@@ -1,4 +1,4 @@
-<form ngNativeValidate #SearchEngineForm="ngForm" class="flex flex-col gap-8">
+<!-- <form ngNativeValidate #SearchEngineForm="ngForm" class="flex flex-col gap-8">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="flex flex-col gap-2">
             <label for="first_name" class="font-medium">First Name</label>
@@ -109,5 +109,188 @@
     <div class="flex flex-row gap-4">
         <button pButton pRipple [loading]="loading" label="Generate" icon="pi pi-check-circle" severity="info" class="border rounded-md p-2 bg-blue-500 text-white hover:bg-blue-600" (click)="generateUsers()"></button>
         <button pButton pRipple type="reset" label="Reset" icon="pi pi-times" severity="danger" class="border rounded-md p-2 bg-red-500 text-white hover:bg-red-600" (click)="filteredBranches = allBranches"></button>
+    </div>
+</form> -->
+
+
+<form #SearchEngineForm="ngForm" class="flex flex-col gap-8" (ngSubmit)="generateUsers()">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="flex flex-col gap-2">
+            <label for="first_name" class="font-medium">First Name </label>
+            <input type="text" #first_name="ngModel" id="first_name" name="first_name" [(ngModel)]="user.first_name"
+                pInputText class="w-full" maxlength="30" pattern="^[A-Za-zÀ-ÖØ-öø-ÿ '.\\/-]+$"
+               (input)="genericInputValidation($event, 'first_name')"
+                [class.border-red-500]="first_name.invalid && (first_name.dirty || first_name.touched || SearchEngineForm.submitted)" />
+
+         
+            <small class="text-red-600"
+                *ngIf="first_name.hasError('pattern') && (first_name.dirty || first_name.touched || SearchEngineForm.submitted)">
+                Only letters, spaces, hyphens (-), apostrophes ('), dots (.), and slashes (/) are allowed.
+            </small>
+            <small class="text-red-600" *ngIf="invalidXssFname">
+                Invalid input detected! (possible malicious content)
+            </small>
+        </div>
+
+        <!-- Middle Name (Optional, but validated if filled) -->
+        <div class="flex flex-col gap-2">
+            <label for="middle_name" class="font-medium">Middle Name</label>
+            <input type="text" #middle_name="ngModel" id="middle_name" name="middle_name" [(ngModel)]="user.middle_name"
+                pInputText class="w-full" maxlength="30" pattern="^[A-Za-zÀ-ÖØ-öø-ÿ '.\\/-]+$"
+                [class.border-red-500]="middle_name.invalid && (middle_name.dirty || middle_name.touched || SearchEngineForm.submitted)" 
+                (input)="genericInputValidation($event, 'middle_name')"
+                />
+
+            <small class="text-red-600"
+                *ngIf="middle_name.invalid && (middle_name.dirty || middle_name.touched || SearchEngineForm.submitted)">
+                Only letters, spaces, hyphens (-), apostrophes ('), dots (.), and slashes (/) are allowed.
+            </small>
+            <small class="text-red-600" *ngIf="invalidXssMname">
+                Invalid input detected! (possible malicious content)
+            </small>
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <label for="last_name" class="font-medium">Last Name </label>
+            <input type="text" #last_name="ngModel" id="last_name" name="last_name" [(ngModel)]="user.last_name"
+                pInputText class="w-full" maxlength="30"  pattern="^[A-Za-zÀ-ÖØ-öø-ÿ '.\\/-]+$"               [class.border-red-500]="last_name.invalid && (last_name.dirty || last_name.touched || SearchEngineForm.submitted)"
+                
+                (input)="genericInputValidation($event, 'last_name')"
+                />
+
+          
+            <small class="text-red-600"
+                *ngIf="last_name.hasError('pattern') && (last_name.dirty || last_name.touched || SearchEngineForm.submitted)">
+                Only letters, spaces, hyphens (-), apostrophes ('), dots (.), and slashes (/) are allowed.
+            </small>
+            <small class="text-red-600" *ngIf="invalidXssLname">
+                Invalid input detected! (possible malicious content)
+            </small>
+        </div>
+    </div>
+
+    <!-- Contact & ID Fields -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="flex flex-col gap-2">
+            <label for="phone_number" class="font-medium">Phone Number</label>
+            <input type="tel" #phone_number="ngModel" id="phone_number" name="phone_number"
+                [(ngModel)]="user.phone_number" pInputText class="w-full" maxlength="14" 
+                
+                (input)="genericInputValidation($event, 'phone_number')"
+                pattern="^(\+?251|0)?[7-9][0-9]{8}$"
+
+                placeholder="e.g. 0911223344 or 0711223344 or +251911223344"
+                />
+                <!-- Error message -->
+  <small class="text-red-600"
+         *ngIf="phone_number.hasError('pattern') && (phone_number.dirty || phone_number.touched || SearchEngineForm.submitted)">
+    Please enter a valid Ethiopian mobile number.<br>
+    Examples: 0911223344 (Ethio Telecom), 0711223344 (Safaricom), or +251911223344.
+  </small>
+
+  <!-- XSS warning -->
+  <small class="text-red-600" *ngIf="invalidXssPhone">
+    Invalid input detected! (possible malicious content)
+  </small>
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <label for="employee_id" class="font-medium">Awash Bank ID </label>
+            <input type="text" #employee_id="ngModel" id="employee_id" name="employee_id" [(ngModel)]="user.employee_id"
+                pInputText class="w-full" maxlength="20"  pattern="^(AB|AIB)\/(\d{1,7})\/(19|20|21)\d{2}$"
+                placeholder=" e.g AIB/21037/2040"
+
+                     (input)="genericInputValidation($event, 'employee_id')"
+
+                [class.border-red-500]="employee_id.invalid && (employee_id.dirty || employee_id.touched || SearchEngineForm.submitted)" />
+
+           
+            <small class="text-red-600"
+                *ngIf="employee_id.hasError('pattern') && (employee_id.dirty || employee_id.touched || SearchEngineForm.submitted)">
+                Invalid format. Use: valid awashbank id
+            </small>
+        </div>
+
+        <!-- Outlook Address (Optional but validated if filled) -->
+        <div class="flex flex-col gap-2">
+            <label for="email" class="font-medium">Outlook Address</label>
+            <input type="text" #email="ngModel" id="email" name="email" [(ngModel)]="user.email" pInputText
+                class="w-full" maxlength="50" pattern="\w+@awashbank\.com$" placeholder="username{{ '@' }}awashbank.com"
+                [class.border-red-500]="email.invalid && email.dirty && email.value?.length > 0"
+                
+                (input)="genericInputValidation($event, 'email')"
+
+                
+                />
+
+            <small class="text-red-600" *ngIf="email.invalid && email.dirty && email.value?.length > 0">
+                Email must end with {{ '@' }}awashbank.com (e.g., john.doe{{ '@' }}awashbank.com)
+            </small>
+        </div>
+    </div>
+
+    <!-- Dropdowns -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="flex flex-col gap-2">
+            <label for="jobPosition" class="font-medium">Job Title </label>
+            <p-dropdown [options]="job_positions" optionLabel="title" inputId="jobPosition" name="jobPosition"
+                #job_position="ngModel" [(ngModel)]="user.jobPosition" placeholder="Select Job Title" [filter]="true"
+                [virtualScroll]="true" [virtualScrollItemSize]="38" [lazy]="true" [showClear]="true"
+                (onLazyLoad)="onDropdownLoad($event, 'Job')"
+                [virtualScrollOptions]="{ showLoader: true, loading: loading_dropdown, delay: 250 }" 
+                [class.p-invalid]="job_position.invalid && (job_position.dirty || job_position.touched || SearchEngineForm.submitted)">
+            </p-dropdown>
+
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <label for="region" class="font-medium">Region </label>
+            <p-dropdown [options]="allRegions" optionLabel="name" inputId="region" name="region" #regions="ngModel"
+                [(ngModel)]="user.region" placeholder="Select Region" [filter]="true" [showClear]="true" 
+                (onChange)="onSelectRegion($event.value)"
+                [class.p-invalid]="regions.invalid && (regions.dirty || regions.touched || SearchEngineForm.submitted)">
+            </p-dropdown>
+
+          
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <label for="branch" class="font-medium">Branch </label>
+            <p-dropdown [options]="filteredBranches" optionLabel="name" inputId="branch" name="branch" #branch="ngModel"
+                [(ngModel)]="user.branch" placeholder="Select Branch" [filter]="true" [showClear]="true" 
+                [class.p-invalid]="branch.invalid && (branch.dirty || branch.touched || SearchEngineForm.submitted)">
+            </p-dropdown>
+
+         
+        </div>
+    </div>
+
+    <!-- Gender -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="flex flex-col gap-2">
+            <label class="font-medium">Gender</label>
+            <div class="flex gap-6">
+                <div class="flex items-center gap-2">
+                    <p-radioButton name="gender" value="Male" [(ngModel)]="user.gender"></p-radioButton>
+                    <label>Male</label>
+                </div>
+                <div class="flex items-center gap-2">
+                    <p-radioButton name="gender" value="Female" [(ngModel)]="user.gender"></p-radioButton>
+                    <label>Female</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-row gap-4 mt-6">
+        <button pButton pRipple type="submit" [loading]="loading" [disabled]="SearchEngineForm.invalid" label="Generate"
+            icon="pi pi-check-circle" severity="info">
+        </button>
+
+        <button pButton pRipple type="reset" label="Reset" icon="pi pi-times" severity="danger"
+            class="border rounded-md p-2 bg-red-500 text-white hover:bg-red-600"
+            (click)="filteredBranches = allBranches"></button>
+
     </div>
 </form>

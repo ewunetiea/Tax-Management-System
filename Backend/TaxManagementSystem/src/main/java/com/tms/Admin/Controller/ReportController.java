@@ -58,9 +58,7 @@ public class ReportController {
     }
 
     @PostMapping("/loginStatus")
-    public ResponseEntity<List<UserTracker>> getOnlineOfflineUsers(HttpServletRequest request,
-            @RequestBody PaginatorPayLoad paginatorPayLoad) {
-
+    public ResponseEntity<List<UserTracker>> getOnlineOfflineUsers(HttpServletRequest request, @RequestBody PaginatorPayLoad paginatorPayLoad) {
         try {
             // refreshTokenService.verifyOnlineUsers();
             List<UserTracker> userTracker = reportService.getOnlineFailedUsers(paginatorPayLoad);

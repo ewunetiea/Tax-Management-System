@@ -16,6 +16,7 @@ import { MessageModule } from 'primeng/message';
 import { Select } from 'primeng/select';
 import { RoleFunctionalityService } from '../../../../service/admin/roleFunctionalityService';
 import { StorageService } from '../../../../service/sharedService/storage.service';
+import { InputSanitizer } from 'app/SQLi-XSS-Prevention/InputSanitizer';
 
 @Component({
     selector: 'app-create-edit-functionalities',
@@ -42,6 +43,8 @@ export class CreateEditFunctionalitiesComponent {
         { label: 'DELETE', value: 'DELETE' }
     ];
 
+    invalidXssName = false
+     invalidXssDescription = false
     @Input() passedFunctionality: any[] = [];
     @Output() editedFunctionality: EventEmitter<any> = new EventEmitter();
 
@@ -178,4 +181,34 @@ export class CreateEditFunctionalitiesComponent {
         }
         });
     }
+
+
+validateXss(event: Event, field: 'name' | 'description') {
+    const value = (event.target as HTMLInputElement).value;
+    const isInvalid = InputSanitizer.isInvalid(value);
+
+    if (field === 'name') {
+        this.invalidXssName = isInvalid;
+    } else if (field === 'description') {
+        this.invalidXssDescription = isInvalid;
+    }
+}
+
+
+
+    get categoriesControl() {
+  return this.functionalityForm.get('categories')!;
+}
+
+get methodControl() {
+  return this.functionalityForm.get('method')!;
+}
+
+get nameControl() {
+  return this.functionalityForm.get('name')!;
+}
+
+get descriptionControl() {
+  return this.functionalityForm.get('description')!;
+}
 }

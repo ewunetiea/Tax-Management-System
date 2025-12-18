@@ -4,12 +4,12 @@ import { SharedUiModule } from '../../../../shared-ui';
 import { MakerDashboard } from '../maker-dashboard/maker-dashboard';
 import { StorageService } from '../../../service/sharedService/storage.service';
 import { HODashboard } from '../approver-dashboard/ho-dashboard';
-import { CheckerDashboardComponent } from '../reviewer-dashboard/checker-dashboard.component';
+import { ReviewerDashboardComponent } from '../reviewer-dashboard/reviewer-dashboard.component';
 
 @Component({
     standalone: true,
     selector: 'app-dashboard-container',
-    imports: [SharedUiModule, AdminDashboardComponent, MakerDashboard, CheckerDashboardComponent, HODashboard],
+    imports: [SharedUiModule, AdminDashboardComponent, MakerDashboard, ReviewerDashboardComponent, HODashboard],
     templateUrl: './dashboard-container.component.html'
 })
 export class DashboardContainerComponent {
@@ -21,7 +21,6 @@ export class DashboardContainerComponent {
     reviewer = false;
     auditee = false;
     auditee_division = false;
-    checker = false;
     ho = false;
     approver_reviewer = false;
     higher_official = false;
@@ -35,7 +34,7 @@ export class DashboardContainerComponent {
             this.roles = user.roles;
             this.admin = this.roles.includes('ROLE_ADMIN');
             this.ho = this.roles.includes('ROLE_APPROVER') ;
-            this.checker = this.roles.includes('ROLE_REVIEWER');
+            this.reviewer = this.roles.includes('ROLE_REVIEWER');
             this.maker = this.roles.includes('ROLE_MAKER');
            
             if (this.approver && this.reviewer) {

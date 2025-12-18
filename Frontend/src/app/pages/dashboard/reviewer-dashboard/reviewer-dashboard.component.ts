@@ -17,9 +17,9 @@ import { PieDougnutPolarSkeleton } from 'app/pages/skeleton/dougnut-polar-chart/
 import { PieDougnutPolarSkeletonDescription } from 'app/pages/skeleton/dougnut-polar-chart/polar-pie-dougnut-title';
 
 @Component({
-  selector: 'app-checker-dashboard',
-  templateUrl: './checker-dashboard.component.html',
-        styleUrl: './checker-dashboard.component.scss',
+  selector: 'app-reviewer-dashboard',
+  templateUrl: './reviewer-dashboard.component.html',
+        styleUrl: './reviewer-dashboard.component.scss',
 
   standalone: true,
   imports: [
@@ -32,7 +32,7 @@ import { PieDougnutPolarSkeletonDescription } from 'app/pages/skeleton/dougnut-p
     ChartModule
   ]
 })
-export class CheckerDashboardComponent implements OnInit, OnDestroy {
+export class ReviewerDashboardComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   subscription: Subscription;
   loading = true;
@@ -69,7 +69,9 @@ announcmentavailable : boolean = false
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next: ({ taxStatus, announcement, stackedBarTaxesStatusData }) => {
-        this.taxStatus = taxStatus;
+
+        this.taxStatus = Object.values(taxStatus);
+
         this.announcement = announcement;
 
         if( this.announcement )

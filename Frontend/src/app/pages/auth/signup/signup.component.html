@@ -1,7 +1,8 @@
 <app-floating-configurator />
 <p-toast></p-toast>
 
-<div class="bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-[60vw] overflow-hidden">
+<div
+    class="bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-[60vw] overflow-hidden">
     <ul class="circles">
         <li></li>
         <li></li>
@@ -15,11 +16,13 @@
         <li></li>
     </ul>
     <div class="flex flex-col items-center justify-center">
-        <div style="border-radius: 56px; padding: 0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)">
+        <div
+            style="border-radius: 56px; padding: 0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)">
             <div class="w-full bg-surface-0 dark:bg-surface-900 py-20 px-8 sm:px-20" style="border-radius: 53px">
                 <div class="pt-3 pb-2 text-center">
                     <a routerLink="/" class="card-title text-center pb-0 fs-3">
-                        <img class="img-responsive awash-bank-login-logo w-3/5 mx-auto" src="assets/img/awashbank.png" alt="awashbank logo" />
+                        <img class="img-responsive awash-bank-login-logo w-3/5 mx-auto" src="assets/img/awashbank.png"
+                            alt="awashbank logo" />
                     </a>
                 </div>
                 <div class="pt-4">
@@ -34,22 +37,17 @@
                     <form ngNativeValidate #userForm="ngForm" class="space-y-4">
                         <div class="flex flex-col gap-2">
                             <label for="employee_id"><strong class="text-red-600">*</strong>Awash Bank ID</label>
-                            <input
-                                pInputText
-                                type="text"
-                                #employee_id="ngModel"
+                            <input pInputText type="text" #employee_id="ngModel"
                                 [ngClass]="{ 'border-red-500': employee_id.invalid && employee_id.touched }"
-                                id="employee_id"
-                                placeholder="Staff ID"
-                                [(ngModel)]="user.employee_id"
-                                name="employee_id"
-                                (blur)="checkAwashBankIdStatus($event)"
-                                required="true"
-                                pattern="^(AB|AIB)\/(\d{1,7})\/(19|20|21)\d{2}$"
-                            />
+                                id="employee_id" placeholder="Staff ID" [(ngModel)]="user.employee_id"
+                                name="employee_id" (blur)="checkAwashBankIdStatus($event)" required="true"
+                                pattern="^(AB|AIB)\/(\d{1,7})\/(19|20|21)\d{2}$" maxlength="30"
+                                (input)="genericInputValidation($event, 'employee_id')" />
                             <div *ngIf="employee_id.errors && employee_id.touched">
-                                <small class="text-red-600" *ngIf="employee_id.errors['required']">Awash Bank ID is required</small>
-                                <small class="text-red-600" *ngIf="employee_id.errors['pattern']">Awash ID Incorrect</small>
+                                <small class="text-red-600" *ngIf="employee_id.errors['required']">Awash Bank ID is
+                                    required</small>
+                                <small class="text-red-600" *ngIf="employee_id.errors['pattern']">Awash ID
+                                    Incorrect</small>
                             </div>
                             <div *ngIf="employee_id_status">
                                 <small class="text-red-600">This ID Does not exist!</small>
@@ -57,54 +55,60 @@
                             <div *ngIf="employee_id_status_system">
                                 <small class="text-red-600">User Already registered!</small>
                             </div>
+
+
+                            <div> <small *ngIf="invalidXssAwashId" class="text-danger">
+                                    Invalid input detected! (possible malicious content)
+                                </small></div>
                         </div>
 
 
-                        <div *ngIf="!employee_id_status && !employee_id_status_system && proceed && !(employee_id.errors && employee_id.touched)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div *ngIf="!employee_id_status && !employee_id_status_system && proceed && !(employee_id.errors && employee_id.touched)"
+                            class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="flex flex-col gap-2">
                                 <label for="email"><strong class="text-red-600">*</strong>Outlook Address</label>
-                                <input
-                                    type="text"
-                                    #email="ngModel"
-                                    [ngClass]="{ 'border-red-500': email.invalid && email.touched }"
-                                    pInputText
-                                    id="email"
-                                    [(ngModel)]="user.email"
-                                    name="email"
-                                    (blur)="checkEmailStatus($event)"
-                                    required="true"
-                                    pattern="\w+@awashbank\.com$"
-                                    class="w-full"
-                                />
+                                <input type="text" #email="ngModel"
+                                    [ngClass]="{ 'border-red-500': email.invalid && email.touched }" pInputText
+                                    id="email" [(ngModel)]="user.email" name="email" (blur)="checkEmailStatus($event)"
+                                    required="true" pattern="\w+@awashbank\.com$" class="w-full" maxlength="30"
+                                    (input)="genericInputValidation($event, 'email')" />
 
                                 <div *ngIf="email_status">
                                     <small class="text-red-600">Outlook Address Already Exists</small>
                                 </div>
                                 <div *ngIf="email.errors && email.touched">
-                                    <small class="text-red-600" *ngIf="email.errors['required']">Outlook Address is required</small>
-                                    <small class="text-red-600" *ngIf="email.errors['pattern']">Outlook Address should end with &#64;awashbank.com</small>
+                                    <small class="text-red-600" *ngIf="email.errors['required']">Outlook Address is
+                                        required</small>
+                                    <small class="text-red-600" *ngIf="email.errors['pattern']">Outlook Address should
+                                        end with &#64;awashbank.com</small>
                                 </div>
+
+
+                                <div> <small *ngIf="invalidXssEmail" class="text-danger">
+                                        Invalid input detected! (possible malicious content)
+                                    </small></div>
                             </div>
 
                             <div class="flex flex-col gap-2">
-                                <label for="username"><strong class="text-red-600">*</strong>Fusion Essence Username</label>
-                                <input
-                                    type="text"
-                                    #username="ngModel"
+                                <label for="username"><strong class="text-red-600">*</strong>Fusion Essence
+                                    Username</label>
+                                <input type="text" #username="ngModel"
                                     [ngClass]="{ 'border-red-500': username.invalid && username.touched }"
-                                    (blur)="checkUsernameStatus($event)"
-                                    pInputText
-                                    id="username"
-                                    [(ngModel)]="user.username"
-                                    name="username"
-                                    [required]="true"
-                                    class="w-full"
-                                />
-                                <small class="text-red-600" [class.hidden]="username.valid || username.untouched">Username is required<br /></small>
+                                    (blur)="checkUsernameStatus($event)" pInputText id="username"
+                                    [(ngModel)]="user.username" name="username" [required]="true" class="w-full"
+                                    maxlength="30" (input)="genericInputValidation($event, 'username')" />
+                                <small class="text-red-600"
+                                    [class.hidden]="username.valid || username.untouched">Username is
+                                    required<br /></small>
 
                                 <div *ngIf="user_name_status">
                                     <small class="text-red-600">Username Already Exists</small>
                                 </div>
+
+
+                                <div> <small *ngIf="invalidXssUsername" class="text-danger">
+                                        Invalid input detected! (possible malicious content)
+                                    </small></div>
                             </div>
                         </div>
 
@@ -112,12 +116,18 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div class="flex flex-col gap-2">
                                 <label for="first_name">First Name</label>
-                                <input type="text" #first_name="ngModel" [ngClass]="{ 'border-red-500': first_name.invalid && first_name.touched }" pInputText id="first_name" [(ngModel)]="user.first_name" name="first_name" class="w-full" />
+                                <input type="text" #first_name="ngModel"
+                                    [ngClass]="{ 'border-red-500': first_name.invalid && first_name.touched }"
+                                    pInputText id="first_name" [(ngModel)]="user.first_name" name="first_name"
+                                    class="w-full" maxlength="30" readonly />
                             </div>
 
                             <div class="flex flex-col gap-2">
                                 <label for="middle_name">Middle Name</label>
-                                <input type="text" #middle_name="ngModel" [ngClass]="{ 'border-red-500': middle_name.invalid && middle_name.touched }" pInputText id="middle_name" [(ngModel)]="user.middle_name" name="middle_name" class="w-full" />
+                                <input type="text" #middle_name="ngModel"
+                                    [ngClass]="{ 'border-red-500': middle_name.invalid && middle_name.touched }"
+                                    pInputText id="middle_name" [(ngModel)]="user.middle_name" name="middle_name"
+                                    class="w-full" maxlength="30" readonly />
                             </div>
                         </div>
 
@@ -125,30 +135,33 @@
                         <div class="flex flex-row gap-4">
                             <div class="flex flex-col gap-2 w-1/2">
                                 <label for="last_name">Last Name</label>
-                                <input type="text" #last_name="ngModel" [ngClass]="{ 'border-red-500': last_name.invalid && last_name.touched }" pInputText id="last_name" [(ngModel)]="user.last_name" name="last_name" />
+                                <input type="text" #last_name="ngModel"
+                                    [ngClass]="{ 'border-red-500': last_name.invalid && last_name.touched }" pInputText
+                                    id="last_name" [(ngModel)]="user.last_name" name="last_name" maxlength="30"
+                                    readonly />
                             </div>
 
                             <div class="flex flex-col gap-2 w-1/2">
                                 <label for="phone_number"> <strong class="text-red-600">*</strong> Phone Number </label>
-                                <input
-                                    type="tel"
-                                    #phone_number="ngModel"
+                                <input type="tel" #phone_number="ngModel"
                                     [ngClass]="{ 'border-red-500': phone_number.invalid && phone_number.touched }"
-                                    pInputText
-                                    pattern="(\+251|0)(9|7)\d{8}"
-                                    id="phone_number"
-                                    (blur)="checkPhoneNumberStatus($event)"
-                                    [(ngModel)]="user.phone_number"
-                                    name="phone_number"
-                                    required="true"
-                                />
+                                    pInputText pattern="(\+251|0)(9|7)\d{8}" id="phone_number"
+                                    (blur)="checkPhoneNumberStatus($event)" [(ngModel)]="user.phone_number"
+                                    name="phone_number" required="true"
+                                    (input)="genericInputValidation($event, 'phone_number')" />
                                 <div *ngIf="phone_number_status">
                                     <small class="text-red-600">Phone Number Already Exists</small>
                                 </div>
                                 <div *ngIf="phone_number.errors && phone_number.touched">
-                                    <small class="text-red-600" *ngIf="phone_number.errors['required']"> Phone number is required </small>
-                                    <small class="text-red-600" *ngIf="phone_number.errors['pattern']"> Phone number not valid or should start with +251, 09 or 07 </small>
+                                    <small class="text-red-600" *ngIf="phone_number.errors['required']"> Phone number is
+                                        required </small>
+                                    <small class="text-red-600" *ngIf="phone_number.errors['pattern']"> Phone number not
+                                        valid or should start with +251, 09 or 07 </small>
                                 </div>
+
+                                <div> <small *ngIf="invalidXssPhone" class="text-danger">
+                                        Invalid input detected! (possible malicious content)
+                                    </small></div>
                             </div>
                         </div>
 
@@ -156,78 +169,54 @@
                             <label class="p-mb-3"><strong class="text-red-600">*</strong>Gender</label>
                             <div class="flex flex-col md:flex-row gap-4">
                                 <div class="flex items-center">
-                                    <p-radioButton id="male" name="gender" value="Male" #gender="ngModel" required="true" [ngClass]="{ 'border-red-500': gender.invalid && gender.touched }" [(ngModel)]="user.gender"></p-radioButton>
+                                    <p-radioButton id="male" name="gender" value="Male" #gender="ngModel"
+                                        required="true"
+                                        [ngClass]="{ 'border-red-500': gender.invalid && gender.touched }"
+                                        [(ngModel)]="user.gender"></p-radioButton>
                                     <label for="male">Male</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <p-radioButton id="female" name="gender" value="Female" #gender="ngModel" required="true" [ngClass]="{ 'border-red-500': gender.invalid && gender.touched }" [(ngModel)]="user.gender"></p-radioButton>
+                                    <p-radioButton id="female" name="gender" value="Female" #gender="ngModel"
+                                        required="true"
+                                        [ngClass]="{ 'border-red-500': gender.invalid && gender.touched }"
+                                        [(ngModel)]="user.gender"></p-radioButton>
                                     <label for="female">Female</label>
                                 </div>
-                                <small class="text-red-600" [class.hidden]="gender.valid || gender.untouched">Gender is required<br /></small>
+                                <small class="text-red-600" [class.hidden]="gender.valid || gender.untouched">Gender is
+                                    required<br /></small>
                             </div>
                         </div>
 
                         <div *ngIf="proceed && !(employee_id.errors && employee_id.touched)">
                             <div class="flex flex-col gap-2 mb-4">
                                 <label for="jobPosition">Job Title</label>
-                                <p-dropdown
-                                    class="w-full"
-                                    [options]="job_positions"
-                                    optionLabel="title"
-                                    inputId="jobPosition"
-                                    [disabled]="true"
-                                    name="jobPosition"
-                                    #job_position="ngModel"
+                                <p-dropdown class="w-full" [options]="job_positions" optionLabel="title"
+                                    inputId="jobPosition" [disabled]="true" name="jobPosition" #job_position="ngModel"
                                     [ngClass]="{ 'border-red-500': job_position.invalid && job_position.touched }"
-                                    [(ngModel)]="user.jobPosition"
-                                    placeholder="Select Job Title"
-                                    [filter]="true"
-                                    [virtualScroll]="true"
-                                    [virtualScrollItemSize]="38"
-                                ></p-dropdown>
+                                    [(ngModel)]="user.jobPosition" placeholder="Select Job Title" [filter]="true"
+                                    [virtualScroll]="true" [virtualScrollItemSize]="38"></p-dropdown>
                             </div>
 
                             <div class="flex flex-col gap-2 mb-4">
                                 <label for="region">Region</label>
-                                <p-dropdown
-                                    class="w-full"
-                                    [options]="regions"
-                                    optionLabel="name"
-                                    inputId="region"
-                                    [disabled]="true"
-                                    name="region"
-                                    #region="ngModel"
+                                <p-dropdown class="w-full" [options]="regions" optionLabel="name" inputId="region"
+                                    [disabled]="true" name="region" #region="ngModel"
                                     [ngClass]="{ 'border-red-500': region.invalid && region.touched }"
-                                    [(ngModel)]="user.region"
-                                    placeholder="Select Region"
-                                    [filter]="true"
-                                    filterValue="name"
-                                    filterPlaceholder="Filter by name"
-                                    [virtualScroll]="true"
-                                    [virtualScrollItemSize]="20"
-                                ></p-dropdown>
+                                    [(ngModel)]="user.region" placeholder="Select Region" [filter]="true"
+                                    filterValue="name" filterPlaceholder="Filter by name" [virtualScroll]="true"
+                                    [virtualScrollItemSize]="20"></p-dropdown>
                             </div>
 
                             <div class="flex flex-col gap-2 mb-4">
                                 <label for="branch">Unit</label>
-                                <p-dropdown
-                                    class="w-full"
-                                    [options]="allBranches"
-                                    optionLabel="name"
-                                    inputId="branch"
-                                    [disabled]="true"
-                                    name="branch"
-                                    #branch="ngModel"
+                                <p-dropdown class="w-full" [options]="allBranches" optionLabel="name" inputId="branch"
+                                    [disabled]="true" name="branch" #branch="ngModel"
                                     [ngClass]="{ 'border-red-500': branch.invalid && branch.touched }"
-                                    [(ngModel)]="user.branch"
-                                    placeholder="Select Branch"
-                                    [filter]="true"
-                                    [virtualScroll]="true"
-                                    [virtualScrollItemSize]="38"
-                                ></p-dropdown>
+                                    [(ngModel)]="user.branch" placeholder="Select Branch" [filter]="true"
+                                    [virtualScroll]="true" [virtualScrollItemSize]="38"></p-dropdown>
                             </div>
                         </div>
-                   
+
                         <!-- <div class="flex flex-col gap-2" *ngIf="proceed">
                             <label class="ml-3"> <strong class="text-red-600">*</strong> Authentication Media </label>
                             <div class="col-span-6 mb-1">
@@ -249,23 +238,20 @@
 
                         <div class="grid grid-cols-12 gap-4 mt-4">
                             <div class="col-span-3 mb-2 mr-2">
-                                <button
-                                    pButton
-                                    pRipple
-                                    label="Save"
+                                <button pButton pRipple label="Save"
                                     [disabled]="userForm.form.invalid || !proceed || phone_number_status || email_status || user_name_status"
-                                    icon="pi pi-check"
-                                    class="p-button-rounded p-button-outlined"
-                                    (click)="openModal()"
-                                ></button>
+                                    icon="pi pi-check" class="p-button-rounded p-button-outlined"
+                                    (click)="openModal()"></button>
                             </div>
                             <div class="col-span-3">
-                                <button class="col-md-3" pButton pRipple type="reset" label="Reset" icon="pi pi-times" class="p-button-outlined p-button-danger p-button-rounded"></button>
+                                <button class="col-md-3" pButton pRipple type="reset" label="Reset" icon="pi pi-times"
+                                    class="p-button-outlined p-button-danger p-button-rounded"></button>
                             </div>
                         </div>
                     </form>
                     <div class="w-full text-center mt-4">
-                        <p class="text-sm mb-0">Already have an account? <a routerLink="/" class="text-primary underline"> Go to Sign in</a></p>
+                        <p class="text-sm mb-0">Already have an account? <a routerLink="/"
+                                class="text-primary underline"> Go to Sign in</a></p>
                     </div>
                 </div>
             </div>
@@ -273,79 +259,56 @@
     </div>
 </div>
 
-<p-dialog [(visible)]="confrimationDialog" header="Confirm User's information" [modal]="true" styleClass="p-fluid" [maximizable]="true"     [style]="{ width: '500px' }"
->
+<p-dialog [(visible)]="confrimationDialog" header="Confirm User's information" [modal]="true" styleClass="p-fluid"
+    [maximizable]="true" [style]="{ width: '500px' }">
     <ng-template pTemplate="content">
         <div class="col-md-12">
-            <label class="Form-label"
-                >First name: <b>{{ user.first_name }}</b></label
-            >
+            <label class="Form-label">First name: <b>{{ user.first_name }}</b></label>
         </div>
         <div class="col-md-12">
-            <label class="Form-label"
-                >Middle name: <b>{{ user.middle_name }}</b></label
-            >
+            <label class="Form-label">Middle name: <b>{{ user.middle_name }}</b></label>
         </div>
         <div class="col-md-12">
-            <label class="Form-label"
-                >Last name: <b>{{ user.last_name }}</b></label
-            >
+            <label class="Form-label">Last name: <b>{{ user.last_name }}</b></label>
         </div>
 
         <div class="col-md-12">
-            <label class="Form-label"
-                >Username: <b>{{ user.username }}</b></label
-            >
+            <label class="Form-label">Username: <b>{{ user.username }}</b></label>
         </div>
 
         <div class="col-md-12">
-            <label class="Form-label"
-                >Gender: <b>{{ user.gender }}</b></label
-            >
+            <label class="Form-label">Gender: <b>{{ user.gender }}</b></label>
         </div>
         <div class="col-md-12">
-            <label class="Form-label"
-                >Phone number: <b>{{ user.phone_number }}</b></label
-            >
+            <label class="Form-label">Phone number: <b>{{ user.phone_number }}</b></label>
         </div>
         <div class="col-md-12">
-            <label class="Form-label"
-                >Employee Id: <b>{{ user.employee_id }}</b></label
-            >
+            <label class="Form-label">Employee Id: <b>{{ user.employee_id }}</b></label>
         </div>
         <div class="col-md-12">
-            <label class="Form-label"
-                >Email address: <b>{{ user.email }}</b></label
-            >
+            <label class="Form-label">Email address: <b>{{ user.email }}</b></label>
         </div>
         <div class="col-md-12">
-            <label class="Form-label"
-                >Job Title: <b>{{ user.jobPosition?.title }}</b></label
-            >
+            <label class="Form-label">Job Title: <b>{{ user.jobPosition?.title }}</b></label>
         </div>
         <div class="col-md-12">
-            <label class="Form-label" *ngIf="user.region?.name"
-                >Place of Work: <b>{{ user.region?.name }}</b></label
-            >
+            <label class="Form-label" *ngIf="user.region?.name">Place of Work: <b>{{ user.region?.name }}</b></label>
         </div>
         <div class="col-md-12">
-            <label class="Form-label" *ngIf="user.branch?.name"
-                >Place of Work: <b>{{ user.branch?.name }}</b></label
-            >
+            <label class="Form-label" *ngIf="user.branch?.name">Place of Work: <b>{{ user.branch?.name }}</b></label>
         </div>
-       
+
 
         <div class="col-md-12">
-            <label *ngIf="user.authenthication_media" class="Form-label"
-                >Authentication Media: <b>{{ user.email }}</b></label
-            >
-            <label *ngIf="!user.authenthication_media" class="Form-label"
-                >Authentication Media: <b>{{ user.phone_number }}</b></label
-            >
+            <label *ngIf="user.authenthication_media" class="Form-label">Authentication Media: <b>{{ user.email
+                    }}</b></label>
+            <label *ngIf="!user.authenthication_media" class="Form-label">Authentication Media: <b>{{ user.phone_number
+                    }}</b></label>
         </div>
     </ng-template>
     <ng-template pTemplate="footer">
-        <button *ngIf="!loading" pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="addUser()"></button>
+        <button *ngIf="!loading" pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+            (click)="addUser()"></button>
         <button *ngIf="loading" type="button" disabled class="btn btn-primary">
             Loading...
 

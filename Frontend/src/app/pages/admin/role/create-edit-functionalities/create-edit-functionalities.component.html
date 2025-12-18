@@ -1,92 +1,128 @@
-<form (ngSubmit)="saveFunctionality()" [formGroup]="functionalityForm" class="flex flex-col gap-8"> 
-     <div class="flex flex-col gap-2">
-            <label for="categories"><strong class="text-red-500">*</strong>Category</label>
-            <p-multiSelect
-                inputId="categories"
-                formControlName="categories"
-                [options]="categories"
-                [filter]="true"
-                display="chip"
-                optionLabel="label"
-                optionValue="value"
-                placeholder="Select categories"
-                [class.ng-invalid]="{'p-invalid': functionalityForm.get('categories')?.invalid && (functionalityForm.get('categories')?.dirty || functionalityForm.get('categories')?.touched) }"
-                class="w-full"
-            ></p-multiSelect>
-             <div *ngIf="functionalityForm.get('categories')?.invalid && (functionalityForm.get('categories')?.dirty || functionalityForm.get('categories')?.touched)">
-            <p-message severity="error" size="small" variant="simple" >At least one category is required </p-message>
-        </div>
-        </div>
-        
-        <div class="field p-col-12 p-md-6">
-           <label for="methods"><strong class="text-red-500">*</strong>Method</label>
-            <p-select
-                inputId="method"
-                formControlName="method"
-                [options]="methods"
-                (onChange)="checkNameExists()"
-                optionLabel="label"
-                optionValue="value"
-                placeholder="Select method"
-                [filter]="true"
-                [class.ng-invalid] = "{'p-invalid': (functionalityForm.get('method')?.invalid && (functionalityForm.get('method')?.dirty || functionalityForm.get('method')?.touched)) || nameExists }"
-                class="w-full"
-            />
-            <div *ngIf="functionalityForm.get('categories')?.invalid && (functionalityForm.get('categories')?.dirty || functionalityForm.get('categories')?.touched)">
-            <p-message severity="error" size="small" variant="simple" *ngIf="functionalityForm.get('method')?.invalid && (functionalityForm.get('method')?.dirty || functionalityForm.get('method')?.touched)">Method is required </p-message>
-            <p-message severity="error" size="small" variant="simple" *ngIf="nameExists">Functionality with this name and method already exists </p-message>
-        </div>
+<form (ngSubmit)="saveFunctionality()" [formGroup]="functionalityForm" class="flex flex-col gap-8">
+
+  <!-- Category -->
+  <div class="flex flex-col gap-2">
+    <label for="categories"><strong class="text-red-500">*</strong> Category</label>
+    <p-multiSelect
+      inputId="categories"
+      formControlName="categories"
+      [options]="categories"
+      [filter]="true"
+      display="chip"
+      optionLabel="label"
+      optionValue="value"
+      placeholder="Select categories"
+      class="w-full"
+      [class.p-invalid]="categoriesControl.touched && categoriesControl.invalid">
+    </p-multiSelect>
+
+    <p-message severity="error" size="small" variant="simple"
+      *ngIf="categoriesControl.touched && categoriesControl.invalid">
+      At least one category is required
+    </p-message>
+  </div>
+
+  <!-- Method -->
+  <div class="flex flex-col gap-2">
+    <label for="method"><strong class="text-red-500">*</strong> Method</label>
+    <p-select
+      inputId="method"
+      formControlName="method"
+      [options]="methods"
+      optionLabel="label"
+      optionValue="value"
+      placeholder="Select method"
+      [filter]="true"
+      (onChange)="checkNameExists()"
+      class="w-full"
+      [class.p-invalid]="methodControl.touched && methodControl.invalid || nameExists">
+    </p-select>
+
+    <div *ngIf="methodControl.touched && methodControl.invalid">
+      <p-message severity="error" size="small" variant="simple">Method is required</p-message>
     </div>
-        
-        <div class="field p-col-12 p-md-12">
-            <label for="name"><strong class="text-red-500">*</strong>Name</label>
-            <input
-                pInputText
-                id="name"
-                formControlName="name"
-                placeholder="Enter functionality name"
-                (blur)="checkNameExists()"
-                [class.ng-invalid] = "{ 'p-invalid': (functionalityForm.get('name')?.invalid && nameTouched) || nameExists }"
-                class="w-full"
-            />
-            <div *ngIf="functionalityForm.get('name')?.invalid && (functionalityForm.get('name')?.dirty || functionalityForm.get('name')?.touched)">
-            <p-message severity="error" size="small" variant="simple" *ngIf="functionalityForm.get('name')?.invalid && (functionalityForm.get('name')?.dirty || functionalityForm.get('name')?.touched)">Method is required </p-message>
-            <p-message severity="error" size="small" variant="simple" *ngIf="nameExists">Functionality with this name and method already exists </p-message>
-        </div>
-        </div>
+    <p-message severity="error" size="small" variant="simple" *ngIf="nameExists">
+      Functionality with this name and method already exists
+    </p-message>
+  </div>
 
-        <div class="field p-col-12 p-md-12">
-           <label for="description"><strong class="text-red-500">*</strong>Description</label>
-            <textarea
-                pInputTextarea
-                id="description"
-                formControlName="description"
-                placeholder="Enter functionality description"
-                rows="3"
-                [class.ng-invalid] = "{ 'p-invalid': functionalityForm.get('description')?.invalid && (functionalityForm.get('description')?.dirty || functionalityForm.get('description')?.touched) }"
-                class="w-full"
-            ></textarea>
-            <div *ngIf="functionalityForm.get('description')?.invalid && (functionalityForm.get('description')?.dirty || functionalityForm.get('description')?.touched)">
-            <p-message severity="error" size="small" variant="simple" *ngIf="functionalityForm.get('description')?.invalid && (functionalityForm.get('description')?.dirty || functionalityForm.get('description')?.touched)">Description is required </p-message>
-        </div>
+  <!-- Name -->
+  <div class="flex flex-col gap-2">
+    <label for="name"><strong class="text-red-500">*</strong> API Name</label>
+    <input
+      pInputText
+      id="name"
+      formControlName="name"
+      placeholder="Enter functionality name"
+      pattern="[a-zA-Z\/_\-]+"
+      (blur)="checkNameExists()"
+     (input)="validateXss($event, 'name')"
+      maxlength="60"
+      class="w-full"
+      title="Only letters, /, -, _ allowed"
+      [class.p-invalid]="nameControl.touched && nameControl.invalid || nameExists"
+    />
+
+    <div *ngIf="nameControl.touched && nameControl.invalid">
+      <p-message severity="error" size="small" variant="simple"
+        *ngIf="nameControl.errors?.['required']">Name is required</p-message>
+      <p-message severity="error" size="small" variant="simple"
+        *ngIf="nameControl.errors?.['pattern']">Only letters, /, -, and _ are allowed</p-message>
     </div>
 
-    <div class="mt-4 flex gap-2">
-        <div class="w-1/4">
-            <button
-                pButton
-                type="submit"
-                label="Save"
-                icon="pi pi-check"
-                class="p-button-rounded p-button-outlined p-button-success"
-                style="min-width: 100px"
-                [loading]="functionalityLoading"
-                [disabled]="functionalityForm.invalid || nameExists"
-            ></button>
-        </div>
+    <p-message severity="error" size="small" variant="simple" *ngIf="nameExists">
+      Functionality with this name and method already exists
+    </p-message>
 
-         <div class="w-1/4">
-            <button pButton type="button" label="Cancel" icon="pi pi-times" class="p-button-outlined p-button-rounded p-button-danger" style="min-width: 100px" (click)="hideDialog()"></button>
-        </div>
-        </div>
-    </form>
+    <small *ngIf="invalidXssName" class="text-red-600 block font-medium">
+      Invalid input detected! (possible malicious content)
+    </small>
+  </div>
+
+  <!-- Description -->
+  <div class="flex flex-col gap-2">
+    <label for="description"><strong class="text-red-500">*</strong> Description</label>
+    <textarea
+      pInputTextarea
+      id="description"
+      formControlName="description"
+      placeholder="Enter functionality description"
+      rows="3"
+      maxlength="150"
+      (input)="validateXss($event, 'description')"
+      class="w-full"
+      [class.p-invalid]="descriptionControl.touched && descriptionControl.invalid">
+    </textarea>
+
+    <p-message severity="error" size="small" variant="simple"
+      *ngIf="descriptionControl.touched && descriptionControl.invalid">
+      Description is required
+    </p-message>
+  
+    <small *ngIf="invalidXssDescription" class="text-red-600 block font-medium">
+      Invalid input detected! (possible malicious content)
+    </small>
+  </div>
+
+  <!-- Buttons -->
+  <div class="mt-6 flex gap-4 justify-start">
+    <button
+      pButton
+      type="submit"
+      label="Save"
+      icon="pi pi-check"
+      class="p-button-success p-button-rounded"
+      [loading]="functionalityLoading"
+      [disabled]="functionalityForm.invalid || nameExists || invalidXssName || invalidXssDescription">
+    </button>
+
+    <button
+      pButton
+      type="button"
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-danger p-button-rounded"
+      (click)="hideDialog()">
+    </button>
+  </div>
+</form>

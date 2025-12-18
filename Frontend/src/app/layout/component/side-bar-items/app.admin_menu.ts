@@ -32,7 +32,7 @@ export class AppMenuAdmin {
     constructor(
         private storageService: StorageService,
         public router: Router
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.isLoggedIn = this.storageService.isLoggedIn();
@@ -41,10 +41,10 @@ export class AppMenuAdmin {
                 label: 'Home',
                 items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: '/applayout' }]
             },
-             {
+            {
                 label: 'Manage Taxes',
                 items: [
-                    { label: 'Taxes',  icon: 'pi pi-clock', routerLink: ['/applayout/admin/manage-tax-admin', 'general'] },
+                    { label: 'Taxes', icon: 'pi pi-clock', routerLink: ['/applayout/admin/manage-tax-admin', 'general'] },
                 ]
             },
             {
@@ -70,27 +70,41 @@ export class AppMenuAdmin {
                     }
                 ]
             },
+
+
+
+
             {
-                label: 'Permissions',
-                icon: 'pi pi-fw pi-user',
+                label: 'Permissions Managment',
+                icon: 'pi pi-fw pi-lock',
                 items: [
                     {
-                        label: 'Role Permissions',
-                        icon: 'pi pi-verified',
-                        routerLink: ['/applayout/admin/role_functionalities']
-                    },
-                    {
-                        label: 'Manage Permissions',
-                        icon: 'pi pi-verified',
-                        routerLink: ['/applayout/admin/manage_role_functionalities']
-                    },
-                    {
-                        label: 'Manage User Permissions',
-                        icon: 'pi pi-verified',
-                        routerLink: ['/applayout/admin/manage_user_permissions']
+                        label: 'Permission ',
+                        icon: 'pi pi-fw pi-users',
+                        items: [
+                            {
+                                label: 'Role Permissions',
+                                icon: 'pi pi-check-circle',
+                                routerLink: ['/applayout/admin/role_functionalities']
+                            },
+                            {
+                                label: 'Manage Permissions',
+                                icon: 'pi pi-cog',
+                                routerLink: ['/applayout/admin/manage_role_functionalities']
+                            },
+                            {
+                                label: 'User Permissions',
+                                icon: 'pi pi-user-edit',
+                                routerLink: ['/applayout/admin/manage_user_permissions']
+                            }
+                        ]
                     }
                 ]
-            },
+            }
+            ,
+
+
+
             {
                 label: 'User Management',
                 icon: 'pi pi-fw pi-briefcase',
@@ -179,17 +193,17 @@ export class AppMenuAdmin {
                 ]
             },
 
-            {
-                label: 'Schedule Management',
-                icon: 'pi pi-fw pi-user',
-                items: [
-                    {
-                        label: 'Schedule',
-                        icon: 'pi pi-fw pi-stopwatch',
-                        routerLink: ['/applayout/admin/manage-schedules']
-                    }
-                ]
-            }
+            // {
+            //     label: 'Schedule Management',
+            //     icon: 'pi pi-fw pi-user',
+            //     items: [
+            //         {
+            //             label: 'Schedule',
+            //             icon: 'pi pi-fw pi-stopwatch',
+            //             routerLink: ['/applayout/admin/manage-schedules']
+            //         }
+            //     ]
+            // }
         ];
 
         this.general_items = [

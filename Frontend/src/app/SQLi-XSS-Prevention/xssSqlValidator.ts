@@ -5,7 +5,5 @@ export function xssSqlValidator(control: AbstractControl): ValidationErrors | nu
   const value = control.value;
   if (!value) return null;
 
-  return InputSanitizer.isInvalid(value)
-    ? { xssSqlDetected: true }
-    : null;
+  return InputSanitizer.isInvalid(value) ? { xssSqlDetected: true } : null;
 }

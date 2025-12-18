@@ -47,7 +47,8 @@ export class ManagetaxComponent implements OnInit {
   selectedPdf: SafeResourceUrl | null = null;
   showPdfModal = false;
   isDialogVisible  = false;
-  routeControl = ''
+  routeControl = '';
+  totalRecords: any = 0;
 
   constructor(
     private manageTaxService: ManageTaxService,
@@ -90,18 +91,19 @@ export class ManagetaxComponent implements OnInit {
     else this.statusRoute = 'pending';
 
     // 🧹 reset when route changes
-    this.routeControl = this.statusRoute
-
+    this.routeControl = this.statusRoute;
     this.taxes = [];
     this.fetching = false;
 
   }
 
-  onDataGenerated(event: { data: Tax[]; fetching: boolean }): void {
-    this.taxes = event.data;
-    this.fetching = event.fetching;
-    this.loading = false;
-  }
+ 
+onDataGenerated(event: { data: Tax[], totalRecords: number, fetching: boolean }) {
+  this.taxes = event.data;
+  this.totalRecords = event.totalRecords;
+  this.fetching = event.fetching;
+  this.loading = false;
+}
 
   /** Fetch taxes by status type */
   getTaxes(): void {

@@ -33,6 +33,11 @@
        <div class="flex flex-wrap gap-2 w-full">
         <label for="reference_number">Reference Number</label>
         <input pInputText id="reference_number" placeholder="Enter reference number" formControlName="reference_number" type="text" autocomplete="off" class="w-full" />
+        <div *ngIf="(submitted || f['reference_number'].touched) && f['reference_number'].errors">
+                    <small class="text-red-600" *ngIf="f['reference_number'].errors['minlength']">Reference number must be at least {{ f['reference_number'].errors['minlength'].requiredLength }} characters.</small>
+                    <small class="text-red-600" *ngIf="f['reference_number'].errors['maxlength']">Reference number cannot exceed {{ f['reference_number'].errors['maxlength'].requiredLength }} characters.</small>
+                    <small class="text-red-600" *ngIf="f['reference_number'].errors?.['xssSqlDetected']">Invalid characters detected (XSS / SQL keywords blocked)</small>
+                </div>
       </div>
 
       <div class="flex flex-wrap gap-2 w-full">

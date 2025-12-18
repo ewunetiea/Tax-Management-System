@@ -11,11 +11,12 @@ import { StorageService } from '../../../../service/sharedService/storage.servic
 import { PasswordService } from '../../../../service/admin/password.service';
 import { ValidationService } from '../../../../service/sharedService/validationService';
 import { AuthService } from '../../../../service/sharedService/auth.service';
+import { InputSanitizer } from 'app/SQLi-XSS-Prevention/InputSanitizer';
 
 @Component({
     selector: 'app-user-profile',
     imports: [SharedUiModule],
-    
+
     templateUrl: './user-profile.component.html',
     styleUrl: './user-profile.component.scss'
 })
@@ -47,6 +48,7 @@ export class UserProfileComponent {
     breadcrumbText: string = 'My Profile';
     items: MenuItem[] | undefined;
     home: MenuItem | undefined;
+    invalidXss = false;
 
     constructor(
         private storageService: StorageService,
@@ -236,4 +238,36 @@ export class UserProfileComponent {
             }
         });
     }
+
+    onFirstNameChange(value: string) {
+        // Check if value contains XSS/SQL patterns
+        this.invalidXss = InputSanitizer.isInvalid(value);
+
+        // Only update model if valid; otherwise keep previous safe value
+        if (!this.invalidXss) {
+            this.userData.first_name = value;
+        }
+    }
+
+    onMiddleNameChange(value: string) {
+        // Check if value contains XSS/SQL patterns
+        this.invalidXss = InputSanitizer.isInvalid(value);
+
+        // Only update model if valid; otherwise keep previous safe value
+        if (!this.invalidXss) {
+            this.userData.middle_name = value;
+        }
+    }
+
+    onLastNameChange(value: string) {
+        // Check if value contains XSS/SQL patterns
+        this.invalidXss = InputSanitizer.isInvalid(value);
+
+        // Only update model if valid; otherwise keep previous safe value
+        if (!this.invalidXss) {
+            this.userData.last_name = value;
+        }
+    }
+
+
 }

@@ -8,6 +8,9 @@ import { StorageService } from '../../../service/sharedService/storage.service';
 import { FileUpload } from 'primeng/fileupload';
 import { EditorModule } from 'primeng/editor';
 import { AnnouncementFile } from 'app/models/approver/announcementFile';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { xssSqlValidator } from 'app/SQLi-XSS-Prevention/xssSqlValidator';
+import { User } from 'app/models/admin/user';
 
 @Component({
   standalone: true,
@@ -21,27 +24,47 @@ export class AnnouncementCreateEditComponent {
   @Output() saved = new EventEmitter<Announcement>();
   @Output() cancel = new EventEmitter<void>();
   @Input() passedAnnouncement: any[] = [];
-  isEdit: boolean = false;
+
   announcement: Announcement = new Announcement();
+  user: User = new User();
+  isEdit: boolean = false;
   visible: boolean = false;
-  minExpiryDate: Date = new Date();
   submitting = false;
-today = new Date()
+  today = new Date();
+  form!: FormGroup;
+  submitted = false;
+
   constructor(
     private announcementService: AnnouncementService,
     private messageService: MessageService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
-    
-
     this.isEdit = this.passedAnnouncement[1];
+    this.user = this.storageService.getUser();
+    this.form = this.fb.group({
+      title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(200), xssSqlValidator]],
+      message: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(4000), xssSqlValidator]],
+      audience: ['', [Validators.required]],
+      created_date: [{ value: this.today, disabled: true }, Validators.required],
+      expiry_date: ['', Validators.required],
+      isFileEdited: [false]
+    });
+    // Keep announcement.isFileEdited in sync with the reactive form control
+    this.form.get('isFileEdited')?.valueChanges.subscribe((v: boolean) => {
+      this.announcement.isFileEdited = !!v;
+    });
     if (this.isEdit) {
       this.editAnnouncement(this.passedAnnouncement);
     } else {
       this.openNew();
     }
+  }
+
+  get f(): { [key: string]: AbstractControl } {
+    return this.form.controls;
   }
 
   openNew() {
@@ -52,15 +75,27 @@ today = new Date()
     this.announcement = passedData[0];
     this.announcement.created_date = new Date(this.announcement.created_date!);
     this.announcement.expiry_date = new Date(this.announcement.expiry_date!);
+
+    // Patch form with announcement values
+    this.form.patchValue({
+      title: this.announcement.title,
+      message: this.announcement.message,
+      audience: this.announcement.audience,
+      created_date: this.announcement.created_date,
+      expiry_date: this.announcement.expiry_date,
+      isFileEdited: !!this.announcement.isFileEdited
+    });
   }
 
 
   onSave() {
-    this.announcement.created_date = this.today
+    this.submitted = true;
+    if (this.form.invalid) return;
 
-
-    console.log(this.announcement.created_date, "expiry date " , this.announcement.expiry_date)
-    this.announcement.posted_by = this.storageService.getUser().id
+    // Update announcement from form
+    Object.assign(this.announcement, this.form.value);
+    this.announcement.created_date = this.today;
+    this.announcement.posted_by = this.user.id;
 
     if (this.announcement.isFileEdited) {
       if (!this.announcement.announcementFile || this.announcement.announcementFile.length === 0) {
@@ -95,8 +130,13 @@ today = new Date()
         });
       },
       error: (err: HttpErrorResponse) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message });
         this.submitting = false;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error occurred while saving announcement',
+          detail: '',
+          life: 3000
+        });
       }
     });
   }

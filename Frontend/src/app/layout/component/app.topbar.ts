@@ -80,28 +80,28 @@ export class AppTopbar {
                 routerLink: '/applayout'
             },
 
-            {
-                label: 'JWT',
-                icon: 'pi pi-fw pi-cog',
-                command: () => (this.showJwtModal = true) // ✅ open modal
-            },
-            {
-                label: 'Log',
-                icon: 'pi pi-fw pi-inbox',
-                command: () => (this.showLogModal = true) // ✅ open modal
-            },
+            // {
+            //     label: 'JWT',
+            //     icon: 'pi pi-fw pi-cog',
+            //     command: () => (this.showJwtModal = true) // ✅ open modal
+            // },
+            // {
+            //     label: 'Log',
+            //     icon: 'pi pi-fw pi-inbox',
+            //     command: () => (this.showLogModal = true) 
+            // },
             {
                 label: 'Contact',
                 icon: 'pi pi-fw pi-envelope',
                 routerLink: ['/applayout/manage-contact']
             },
-            {
-                label: 'Notification',
-                icon: 'pi pi-fw pi-bell',
-                badge: this.check_notification_list.length > 0 ? this.check_notification_list.length.toString() : undefined,
-                badgeStyleClass: 'p-badge-danger' ,
-                command: () => (this.showNotificationModal = true)
-            },
+            // {
+            //     label: 'Notification',
+            //     icon: 'pi pi-fw pi-bell',
+            //     badge: this.check_notification_list.length > 0 ? this.check_notification_list.length.toString() : undefined,
+            //     badgeStyleClass: 'p-badge-danger' ,
+            //     command: () => (this.showNotificationModal = true)
+            // },
             {
                 label: 'Profile',
                 icon: 'pi pi-fw pi-user',

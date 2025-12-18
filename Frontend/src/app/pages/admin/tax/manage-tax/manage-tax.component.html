@@ -1,7 +1,6 @@
 <main id="main" class="main">
     <div class="mb-2">
         <p-card>
-            <!-- <app-search-engine [statusRoute]="statusRoute" (generatedTaxes)="onDataGenerated($any($event))"></app-search-engine> -->
              <app-search-engine #searchEngine  [statusRoute]="statusRoute"  (generatedTaxes)="onDataGenerated($any($event))"> </app-search-engine>
             <div *ngIf="fetching">
                 <div class="row">

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Branch } from 'app/models/admin/branch';
 import { User } from 'app/models/admin/user';
 import { Tax } from 'app/models/maker/tax';
@@ -8,6 +8,7 @@ import { BranchService } from 'app/service/admin/branchService';
 import { TaxableSearchEngineService } from 'app/service/common/taxable-search-engine-service';
 import { TaxCategoriesService } from 'app/service/maker/tax-categories-service';
 import { StorageService } from 'app/service/sharedService/storage.service';
+import { xssSqlValidator } from 'app/SQLi-XSS-Prevention/xssSqlValidator';
 import { MessageService } from 'primeng/api';
 import { finalize, catchError, of } from 'rxjs';
 import { SharedUiModule } from 'shared-ui';
@@ -44,7 +45,7 @@ export class SearchEngineComponent {
     private messageService: MessageService,
     private branchService: BranchService,
     private taxableSearchEngineService: TaxableSearchEngineService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.user = this.storageService.getUser();
@@ -52,7 +53,7 @@ export class SearchEngineComponent {
     this.form = this.fb.group({
       branch_id: [],
       tax_category_id: [],
-      reference_number: [],
+      reference_number: ['', [Validators.minLength(3), Validators.maxLength(100), xssSqlValidator]],
       router_status: [],
       maked_date: [],
       checked_date: [],
@@ -63,7 +64,6 @@ export class SearchEngineComponent {
 
     this.getBranches();
     this.getTaxCategories();
-
     this.status = [
       { name: 'Drafted', code: '6' },
       { name: 'Submitted', code: '0' },
@@ -71,6 +71,10 @@ export class SearchEngineComponent {
       { name: 'Settled', code: '5' },
       { name: 'Rejected', code: '2' }
     ];
+  }
+
+  get f(): { [key: string]: AbstractControl } {
+    return this.form.controls;
   }
 
   getBranches(): void {
@@ -127,11 +131,19 @@ export class SearchEngineComponent {
         return of({ data: [], totalRecords: 0 });
       })
     ).subscribe((res: any) => {
-      // Expect backend to return { data: Tax[], totalRecords: number }
-      console.log('Search Result:', res);
-      this.totalRecords = res[0].total_records_paginator || 0;
-      console.log('total Length:', this.totalRecords );
-      this.emitData(res ?? [], this.totalRecords, true);
+      // Check if the response is valid and contains data
+      if (res.length > 0) {
+        // Expect backend to return { Tax[], totalRecords: number }
+        console.log('Search Result:', res);
+        this.totalRecords = res[0].total_records_paginator || 0;
+        console.log('total Length:', this.totalRecords);
+        this.emitData(res ?? [], this.totalRecords, true);
+      } else {
+        // Handle the case when there are no results
+        console.log('No results found.');
+        this.totalRecords = 0;
+        this.emitData([], this.totalRecords, true);
+      }
     });
   }
 }

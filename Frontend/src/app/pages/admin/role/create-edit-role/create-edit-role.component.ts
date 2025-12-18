@@ -15,6 +15,7 @@ import { ToggleSwitch } from 'primeng/toggleswitch';
 import { TextareaModule } from 'primeng/textarea';
 import { MessageModule } from 'primeng/message';
 import { ValidationService } from '../../../../service/sharedService/validationService';
+import { InputSanitizer } from 'app/SQLi-XSS-Prevention/InputSanitizer';
 
 @Component({
     selector: 'app-create-edit-role',
@@ -35,6 +36,7 @@ export class CreateEditRoleComponent {
     selectedItems: any = [];
     confrimationDialog = false;
     loading = false;
+    invalidXss = false;
 
     @Input() passedRole: any[] = [];
     @Output() editedRole: EventEmitter<any> = new EventEmitter();
@@ -44,7 +46,7 @@ export class CreateEditRoleComponent {
         private roleRightService: RoleService,
         private validationService: ValidationService,
         private messageService: MessageService
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.isEditData = this.passedRole[1];
@@ -57,8 +59,6 @@ export class CreateEditRoleComponent {
 
     editRole(passedData: any[]) {
         this.role = passedData[0];
-        // this.role_name_status = true;
-        // this.role_code_status = true;
     }
 
     openNew() {
@@ -97,9 +97,9 @@ export class CreateEditRoleComponent {
                 this.passedRole.push(this.isEditData);
                 this.emitData(this.passedRole);
             },
-             error: () => {
-            this.loading = false;
-        }
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 
@@ -114,8 +114,8 @@ export class CreateEditRoleComponent {
                 }
             },
             error: () => {
-            this.loading = false;
-        }
+                this.loading = false;
+            }
         });
     }
 
@@ -129,9 +129,19 @@ export class CreateEditRoleComponent {
                     this.role_code_status = false;
                 }
             },
-             error: () => {
-            this.loading = false;
-        }
+            error: () => {
+                this.loading = false;
+            }
         });
+    }
+
+    onDescriptionChange(value: string) {
+        // Check if value contains XSS/SQL patterns
+        this.invalidXss = InputSanitizer.isInvalid(value);
+
+        // Only update model if valid; otherwise keep previous safe value
+        if (!this.invalidXss) {
+            this.role.description = value;
+        }
     }
 }

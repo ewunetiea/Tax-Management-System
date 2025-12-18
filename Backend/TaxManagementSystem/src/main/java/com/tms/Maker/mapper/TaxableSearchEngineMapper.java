@@ -1,14 +1,11 @@
 package com.tms.Maker.mapper;
 
 import java.util.List;
-
-import org.antlr.v4.runtime.atn.SemanticContext.AND;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
-
 import com.tms.Maker.entity.Tax;
 import com.tms.Maker.entity.TaxableSearchEngine;
 

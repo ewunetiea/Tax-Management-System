@@ -23,8 +23,8 @@ public interface AnnouncementMapper {
         
         // Latest one for dashboard
         @Select(" SELECT TOP 1 a.*, ur.email AS postedBy  FROM announcements a  " +
-        "  INNER JOIN [user] ur ON ur.id = a.posted_by   WHERE a.expiry_date >= GETDATE() " +
-        "  AND (  #{role_type} = 'ROLE_APPROVER' OR a.audience = #{role_type}  OR a.audience = 'ALL') ORDER BY a.created_date DESC ")
+        "  INNER JOIN [user] ur ON ur.id = a.posted_by  " 
+        + " WHERE a.expiry_date >= GETDATE()  AND (#{role_type} = 'ROLE_APPROVER' OR a.audience = #{role_type}  OR a.audience = 'ALL') ORDER BY a.id DESC ")
         @Results({
           @Result(property = "id", column = "id"),
           @Result(property = "announcementFile", column = "id", many = @Many(select = "com.tms.Approver.Mapper.AnnouncementMapper.getAnnouncementFileByAnnouncementId"))

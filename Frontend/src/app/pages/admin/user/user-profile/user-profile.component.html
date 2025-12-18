@@ -129,14 +129,19 @@
                         [(ngModel)]="userData.first_name"
                         #first_name="ngModel"
                         required
-                        [class.border-red-500]="first_name.invalid && first_name.touched"
+                        minlength="3"
+                        maxlength="50"
+                        (ngModelChange)="onFirstNameChange($event)"
+                        [class.ng-invalid]="first_name.invalid && (first_name.touched || userForm.submitted)"
+                        [class.ng-dirty]="first_name.dirty || first_name.touched"
                         class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
-                      <small
-                        *ngIf="first_name.invalid && first_name.touched"
-                        class="text-red-600"
-                        >First name is required</small
-                      >
+                      <div *ngIf="first_name.errors && first_name.touched">
+                        <p-message severity="error" size="small" variant="simple" *ngIf="first_name?.errors?.['required']">First name is required</p-message>
+                        <p-message severity="error" size="small" variant="simple" *ngIf="first_name?.errors?.['minlength']">First name is not less than 3 characters</p-message>
+                        <p-message severity="error" size="small" variant="simple" *ngIf="first_name?.errors?.['maxlength']">First name is not exceed  50 characters</p-message>
+                        <p-message severity="error" size="small" variant="simple" *ngIf="invalidXss">Invalid input detected! Special characters or scripts are not allowed.</p-message>
+                      </div>
                     </div>
 
                     <!-- Middle Name -->
@@ -149,14 +154,19 @@
                         [(ngModel)]="userData.middle_name"
                         #middle_name="ngModel"
                         required
-                        [class.border-red-500]="middle_name.invalid && middle_name.touched"
+                        minlength="3"
+                        maxlength="50"
+                        (ngModelChange)="onMiddleNameChange($event)"
+                        [class.ng-invalid]="middle_name.invalid && (middle_name.touched || userForm.submitted)"
+                        [class.ng-dirty]="middle_name.dirty || middle_name.touched"
                         class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
-                      <small
-                        *ngIf="middle_name.invalid && middle_name.touched"
-                        class="text-red-600"
-                        >Middle name is required</small
-                      >
+                      <div *ngIf="middle_name.errors && middle_name.touched">
+                        <p-message severity="error" size="small" variant="simple" *ngIf="middle_name?.errors?.['required']">Middle name is required</p-message>
+                        <p-message severity="error" size="small" variant="simple" *ngIf="middle_name?.errors?.['minlength']">Middle name is not less than 3 characters</p-message>
+                        <p-message severity="error" size="small" variant="simple" *ngIf="middle_name?.errors?.['maxlength']">Middle name is not exceed  50 characters</p-message>
+                        <p-message severity="error" size="small" variant="simple" *ngIf="invalidXss">Invalid input detected! Special characters or scripts are not allowed.</p-message>
+                      </div>
                     </div>
 
                     <!-- Last Name -->
@@ -169,14 +179,19 @@
                         [(ngModel)]="userData.last_name"
                         #last_name="ngModel"
                         required
-                        [class.border-red-500]="last_name.invalid && last_name.touched"
+                        minlength="3"
+                        maxlength="50"
+                       (ngModelChange)="onLastNameChange($event)"
+                        [class.ng-invalid]="middle_name.invalid && (middle_name.touched || userForm.submitted)"
+                        [class.ng-dirty]="middle_name.dirty || middle_name.touched"
                         class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
-                      <small
-                        *ngIf="last_name.invalid && last_name.touched"
-                        class="text-red-600"
-                        >Last name is required</small
-                      >
+                      <div *ngIf="last_name.errors && last_name.touched">
+                        <p-message severity="error" size="small" variant="simple" *ngIf="last_name?.errors?.['required']">Last name is required</p-message>
+                        <p-message severity="error" size="small" variant="simple" *ngIf="last_name?.errors?.['minlength']">Last name is not less than 3 characters</p-message>
+                        <p-message severity="error" size="small" variant="simple" *ngIf="last_name?.errors?.['maxlength']">Last name is not exceed  50 characters</p-message>
+                        <p-message severity="error" size="small" variant="simple" *ngIf="invalidXss">Invalid input detected! Special characters or scripts are not allowed.</p-message>
+                      </div>
                     </div>
 
                     <!-- Phone Number -->

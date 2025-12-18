@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Branch } from 'app/models/admin/branch';
 import { PaginatorPayLoad } from 'app/models/admin/paginator-payload';
 import { Role } from 'app/models/admin/role';
@@ -11,6 +11,7 @@ import { BranchService } from 'app/service/admin/branchService';
 import { ReportService } from 'app/service/common/report-service';
 import { TaxCategoriesService } from 'app/service/maker/tax-categories-service';
 import { StorageService } from 'app/service/sharedService/storage.service';
+import { xssSqlValidator } from 'app/SQLi-XSS-Prevention/xssSqlValidator';
 import { MessageService } from 'primeng/api';
 import { finalize, catchError, of } from 'rxjs';
 import { SharedUiModule } from 'shared-ui';
@@ -66,7 +67,7 @@ export class ReportSearchEngineComponent {
     this.form = this.fb.group({
       branch_id: [''],
       tax_category_id: [''],
-      reference_number: [''],
+      reference_number: ['', [Validators.minLength(3), Validators.maxLength(100), xssSqlValidator]],
       router_status: [''],
       maked_date: [''],
       checked_date: [''],
@@ -119,6 +120,10 @@ export class ReportSearchEngineComponent {
     this.generatedTaxes.emit({ data, fetching });
   }
 
+  get f(): { [key: string]: AbstractControl } {
+    return this.form.controls;
+  }
+
   getBranches() {
     this.branchLoading = true;
     this.branchService.getBranches().subscribe({
@@ -160,12 +165,12 @@ export class ReportSearchEngineComponent {
     this.form.reset();
     this.submitted = false;
     this.taxes = [];
-    this.emitData([], false); // unified event to parent
+    this.emitData([], false); 
   }
 
   generateTaxes(): void {
     this.submitted = true;
-    this.emitData([], false); // 🔥 tell parent fetching = true before API call
+    this.emitData([], false); 
 
     const normalizedRoles: Role[] = (this.user?.roles ?? []).map(r =>
       typeof r === 'string' ? ({ name: r } as Role) : r
@@ -202,7 +207,6 @@ export class ReportSearchEngineComponent {
     } else if (roleNames.includes('ROLE_REVIEWER')) {
       request$ = this.reportService.getTaxesForReviewer(payload);
     } else {
-
       request$ = this.reportService.getTaxesFormaker(payload);
     }
 

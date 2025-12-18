@@ -56,15 +56,17 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     String originHeader = request.getHeader("Origin");
     String remoteAddr = request.getRemoteAddr();
 
+    System.out.println( request.getRequestURI()+ "method is "+ request.getMethod() + " address is" + remoteAddr + " header is " +  hostHeader + " origin is " +  originHeader);
+
     logger.info("tms API URI: {} Method: {} Remote: {} Host: {} Origin: {}",
         request.getRequestURI(), request.getMethod(), remoteAddr, hostHeader, originHeader);
 
     // 🔒 Block if not from allowed hosts/origins/IPs
-    // if (!isAllowed(hostHeader, originHeader, remoteAddr)) {
-    //   logger.warn("Blocked request from disallowed source. Host={} Origin={} IP={}", hostHeader, originHeader, remoteAddr);
-    //   response.sendError(HttpServletResponse.SC_FORBIDDEN, "Blocked by strict origin/IP policy");
-    //   return;
-    // }
+    if (!isAllowed(hostHeader, originHeader, remoteAddr)) {
+      logger.warn("Blocked request from disallowed source. Host={} Origin={} IP={}", hostHeader, originHeader, remoteAddr);
+      response.sendError(HttpServletResponse.SC_FORBIDDEN, "Blocked by strict origin/IP policy");
+      return;
+    }
 
     // ✅ Permission + JWT check
     // if (functionalitiesService.verifyPermission(request, request.getRequestURI(), request.getMethod())) {

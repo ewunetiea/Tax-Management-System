@@ -9,7 +9,6 @@ import { ManageRoleFunctionalitiesComponent } from './role/manage-role-functiona
 import { ManageUserComponent } from './user/manage-user/manage-user.component';
 import { ManageUserStatusComponent } from './user/manage-user-status/manage-user-status/manage-user-status.component';
 import { ReplaceHRDataComponent } from './user/replaceHRData/replace-hrdata/replace-hrdata.component';
-import { UserActivityComponent } from './user/user-activity/user-activity/user-activity.component';
 import { UserRecentActivityComponent } from './user/user-recent-activity/user-recent-activity/user-recent-activity.component';
 import { BackupComponent } from './backup/backup/backup.component';
 import { ManageUserPermissionsComponent } from './role/manage-user-permissions/manage-user-permissions.component';
@@ -17,6 +16,7 @@ import { MenuheadersComponent } from './menu/menuheaders/menuheaders.component';
 import { MenuitemsComponent } from './menu/menuitems/menuitems.component';
 import { AuthGuard } from '../../service/admin/auth.guard';
 import { ManageTaxComponent } from './tax/manage-tax/manage-tax.component';
+import { UserActivityComponent } from './user/user-login-status/user-login-status/user-activity.component';
 
 export default [
     {

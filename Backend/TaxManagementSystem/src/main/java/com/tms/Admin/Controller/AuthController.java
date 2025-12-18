@@ -101,9 +101,7 @@ public class AuthController {
         private LDAPProductionService lDAPProductionService;
 
         @PostMapping("/signin")
-        public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
-                        HttpServletRequest request) throws Exception {
-
+        public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, HttpServletRequest request) throws Exception {
 
                 // Step 1: AD authentication
                
@@ -154,8 +152,6 @@ public class AuthController {
                 //         logger.error("Error checking user credential expiration for username: {}", loginRequest.getUsername(), e);
                 // }
 
-
-        System.out.println(encoder.encode(loginRequest.getPassword()));
                 Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -194,14 +190,12 @@ public class AuthController {
                         return doLogin(loginRequest, request);
                 } catch (Exception e) {
                         logger.error("Force login failed for username: {}", loginRequest.getUsername(), e);
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                        .body(new MessageResponse("Force login failed. Please try again."));
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Force login failed. Please try again."));
                 }
         }
 
         @GetMapping("/signout/{id_login_tracker}")
-        public ResponseEntity<?> logoutUser(@PathVariable("id_login_tracker") Long id_login_tracker,
-                        HttpServletRequest request) {
+        public ResponseEntity<?> logoutUser(@PathVariable("id_login_tracker") Long id_login_tracker, HttpServletRequest request) {
                 try {
                         Object principle = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -225,8 +219,7 @@ public class AuthController {
                                         .body(new MessageResponse("You've been signed out!"));
                 } catch (Exception e) {
                         logger.error("Logout failed for tracker: {}", id_login_tracker, e);
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                        .body(new MessageResponse("Logout failed. Please try again."));
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Logout failed. Please try again."));
                 }
         }
 

@@ -22,47 +22,37 @@
 
               <ng-template pTemplate="right">
                 <div class="flex">
-                  <button
-                    type="button"
-                    pButton
-                    pRipple
-                    icon="pi pi-file"
-                    (click)="dt.exportCSV()"
-                    class="mr-2"
-                    pTooltip="CSV"
-                    tooltipPosition="bottom"
-                  ></button>
-                  <button
-                    type="button"
-                    pButton
-                    pRipple
-                    icon="pi pi-file-excel"
-                    (click)="excelExport()"
-                    class="p-button-success mr-2"
-                    pTooltip="XLS"
-                    tooltipPosition="bottom"
-                  ></button>
-                  <!-- <button
-                    type="button"
-                    pButton
-                    pRipple
-                    icon="pi pi-file-pdf"
-                    (click)="exportPdf()"
-                    class="p-button-warning mr-2"
-                    pTooltip="PDF"
-                    tooltipPosition="bottom"
-                  ></button> -->
-                  <button
-                    type="button"
-                    pButton
-                    pRipple
-                    icon="pi pi-filter"
-                    (click)="dt.exportCSV({ selectionOnly: true })"
-                    class="p-button-info ml-auto"
-                    pTooltip="Selection Only"
-                    tooltipPosition="bottom"
-                  ></button>
-                </div>
+                <button
+                  type="button"
+                  pButton
+                  pRipple
+                  icon="pi pi-file-excel"
+                  (click)="exportExcel()"
+                  class="p-button-success mr-2"
+                  pTooltip="XLS"
+                  tooltipPosition="bottom"
+                ></button>
+                 <button
+                  type="button"
+                  pButton
+                  pRipple
+                  icon="pi pi-file-word"
+                  (click)="exportWord()"
+                  class="p-button-info mr-2"
+                  pTooltip="DOC"
+                  tooltipPosition="bottom"
+                ></button>
+                <button
+                  type="button"
+                  pButton
+                  pRipple
+                  icon="pi pi-file-pdf"
+                  (click)="exportPDF()"
+                  class="p-button-danger mr-2"
+                  pTooltip="PDF"
+                  tooltipPosition="bottom"
+                ></button>
+              </div>
               </ng-template>
             </p-toolbar>
 
@@ -203,8 +193,7 @@
 
               <ng-template pTemplate="summary">
                 <div class="p-d-flex p-ai-center p-jc-between">
-                  In total there are
-                  {{ onlineFailedUsers ? onlineFailedUsers.length : 0 }} login status.
+                  In total there are {{ totalRecords }} login status.
                 </div>
               </ng-template>
             </p-table>

@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.tms.Admin.Entity.AdminReport;
 import com.tms.Admin.Entity.Region;
 import com.tms.Admin.Entity.UserTracker;
@@ -14,6 +16,8 @@ import com.tms.Admin.Mapper.RegionMapper;
 import com.tms.Admin.Mapper.UserMapper;
 import com.tms.Admin.Mapper.UserTrackerMapper;
 import com.tms.Common.Entity.PaginatorPayLoad;
+import com.tms.Maker.entity.Tax;
+import com.tms.Maker.entity.TaxableSearchEngine;
 
 
 @Service
@@ -60,14 +64,20 @@ public class ReportService {
         }
     }
 
-    public List<UserTracker> getOnlineFailedUsers(PaginatorPayLoad paginatorPayload) {
-        // Ensure that pagination starts before fetching data
+    // public List<UserTracker> getOnlineFailedUsers(PaginatorPayLoad paginatorPayload) {
+    //     List<UserTracker> userTrackers =  userTrackerMapper.getOnlineFailedUsers();
+    //     return userTrackers;
+    // }
 
-        List<UserTracker> userTrackers =  userTrackerMapper.getOnlineFailedUsers();
-;
-
-       
+   public List<UserTracker> getOnlineFailedUsers(PaginatorPayLoad paginatorPayload) {
+        PageHelper.startPage(paginatorPayload.getCurrentPage(), paginatorPayload.getPageSize());
+        List<UserTracker> userTrackers = userTrackerMapper.getOnlineFailedUsers();
+        if (!userTrackers.isEmpty()) {
+            Page<UserTracker> page = (Page<UserTracker>) userTrackers;
+            userTrackers.get(0).setTotal_records_paginator(page.getTotal());
+        }
         return userTrackers;
     }
+
 
 }

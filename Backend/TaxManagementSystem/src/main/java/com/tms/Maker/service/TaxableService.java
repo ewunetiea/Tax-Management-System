@@ -303,11 +303,6 @@ public List<Tax> fetchTaxBasedonStatus(MakerSearchPayload payload) {
     if (!taxes.isEmpty()) {
         taxes.get(0).setTotal_records_paginator(pageInfo.getTotal());
     }
-
-    System.out.println("taxes");
-
-    System.out.println(taxes.size());
-
     return taxes;
 }
 

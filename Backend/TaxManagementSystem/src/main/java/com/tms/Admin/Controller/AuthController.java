@@ -233,23 +233,17 @@ public class AuthController {
                                                 .map(RefreshToken::getUser)
                                                 .map(user -> {
                                                         user.setUsername(user.getEmail());
-                                                        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(user,
-                                                                        request);
+                                                        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(user, request);
                                                         return ResponseEntity.ok()
-                                                                        .header(HttpHeaders.SET_COOKIE,
-                                                                                        jwtCookie.toString())
-                                                                        .body(new MessageResponse(
-                                                                                        "JWT is refreshed successfully!"));
+                                                                        .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                                                                        .body(new MessageResponse("JWT is refreshed successfully!"));
                                                 })
-                                                .orElseThrow(() -> new TokenRefreshException(refreshToken,
-                                                                "Refresh token is not in database!"));
+                                                .orElseThrow(() -> new TokenRefreshException(refreshToken, "Refresh token is not in database!"));
                         }
-                        return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                                        .body(new MessageResponse("Refresh Token is empty!"));
+                        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageResponse("Refresh Token is empty!"));
                 } catch (Exception e) {
                         logger.error("Error occurred during token refresh", e);
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse(
-                                        "An error occurred during token refresh. Please try again later."));
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("An error occurred during token refresh. Please try again later."));
                 }
         }
 

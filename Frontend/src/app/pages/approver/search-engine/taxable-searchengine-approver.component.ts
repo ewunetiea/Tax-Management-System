@@ -217,13 +217,10 @@ export class TaxableSearchengineApproverComponent {
       // Check if the response is valid and contains data
     if (res.length > 0) {
       // Expect backend to return { Tax[], totalRecords: number }
-      console.log('Search Result:', res);
       this.totalRecords = res[0].total_records_paginator || 0;  
-      console.log('total Length:', this.totalRecords);
       this.emitData(res ?? [], this.totalRecords, true);
     } else {
       // Handle the case when there are no results
-      console.log('No results found.');
       this.totalRecords = 0;
       this.emitData([], this.totalRecords, true);
     }

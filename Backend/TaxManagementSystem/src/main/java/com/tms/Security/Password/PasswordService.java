@@ -60,11 +60,9 @@ public class PasswordService {
     }
 
     public Boolean passwordMatchesOldPassword(ChangeMyPasswordDto passDto) {
-
         boolean flag;
         String oldPassword = mapper.getUserPassword(passDto.getId());
         flag = passwordEncoder.matches(passDto.getOldPassword(), oldPassword);
-        
         return flag;
     }
 

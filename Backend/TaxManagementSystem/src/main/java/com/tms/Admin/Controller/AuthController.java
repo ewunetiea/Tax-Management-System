@@ -108,25 +108,7 @@ public class AuthController {
     
 
         @PostMapping("/signin")
-
-
-
-        
-
-
-        public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
-                        HttpServletRequest request) throws Exception {
-
-System.out.println("______FF______________");
-                                
-
-// uhXWUyaLl0ha59QJfz+wXQ==
-        //  logger.info("Enrypted Text: " + encryptionService.encrypt("Django$$1219$$", "AzuFronhw55vN2b8IX9KdxuR25KeHDiz7vACN3qOfSY=", "Mp29MFyvaTylvRA45cDQCVnkKkWnA+1nHCo1O5lHGyI="));
-
-//        System.out.println(encryptionService.decrypt("776FHCFuvgLvDP85R2HuFg==", "AzuFronhw55vN2b8IX9KdxuR25KeHDiz7vACN3qOfSY=", "Mp29MFyvaTylvRA45cDQCVnkKkWnA+1nHCo1O5lHGyI="));
-
-
-
+        public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, HttpServletRequest request) throws Exception {
 
                 // Step 1: AD authentication
                
@@ -177,8 +159,6 @@ System.out.println("______FF______________");
                         logger.error("Error checking user credential expiration for username: {}", loginRequest.getUsername(), e);
                 }
 
-
-        System.out.println(encoder.encode(loginRequest.getPassword()));
                 Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -217,14 +197,12 @@ System.out.println("______FF______________");
                         return doLogin(loginRequest, request);
                 } catch (Exception e) {
                         logger.error("Force login failed for username: {}", loginRequest.getUsername(), e);
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                        .body(new MessageResponse("Force login failed. Please try again."));
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Force login failed. Please try again."));
                 }
         }
 
         @GetMapping("/signout/{id_login_tracker}")
-        public ResponseEntity<?> logoutUser(@PathVariable("id_login_tracker") Long id_login_tracker,
-                        HttpServletRequest request) {
+        public ResponseEntity<?> logoutUser(@PathVariable("id_login_tracker") Long id_login_tracker, HttpServletRequest request) {
                 try {
                         Object principle = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -248,8 +226,7 @@ System.out.println("______FF______________");
                                         .body(new MessageResponse("You've been signed out!"));
                 } catch (Exception e) {
                         logger.error("Logout failed for tracker: {}", id_login_tracker, e);
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                        .body(new MessageResponse("Logout failed. Please try again."));
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Logout failed. Please try again."));
                 }
         }
 
@@ -263,23 +240,17 @@ System.out.println("______FF______________");
                                                 .map(RefreshToken::getUser)
                                                 .map(user -> {
                                                         user.setUsername(user.getEmail());
-                                                        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(user,
-                                                                        request);
+                                                        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(user, request);
                                                         return ResponseEntity.ok()
-                                                                        .header(HttpHeaders.SET_COOKIE,
-                                                                                        jwtCookie.toString())
-                                                                        .body(new MessageResponse(
-                                                                                        "JWT is refreshed successfully!"));
+                                                                        .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                                                                        .body(new MessageResponse("JWT is refreshed successfully!"));
                                                 })
-                                                .orElseThrow(() -> new TokenRefreshException(refreshToken,
-                                                                "Refresh token is not in database!"));
+                                                .orElseThrow(() -> new TokenRefreshException(refreshToken, "Refresh token is not in database!"));
                         }
-                        return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                                        .body(new MessageResponse("Refresh Token is empty!"));
+                        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageResponse("Refresh Token is empty!"));
                 } catch (Exception e) {
                         logger.error("Error occurred during token refresh", e);
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse(
-                                        "An error occurred during token refresh. Please try again later."));
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("An error occurred during token refresh. Please try again later."));
                 }
         }
 

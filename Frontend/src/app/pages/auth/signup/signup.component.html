@@ -37,17 +37,24 @@
                     <form ngNativeValidate #userForm="ngForm" class="space-y-4">
                         <div class="flex flex-col gap-2">
                             <label for="employee_id"><strong class="text-red-600">*</strong>Awash Bank ID</label>
-                            <input pInputText type="text" #employee_id="ngModel"
-                                [ngClass]="{ 'border-red-500': employee_id.invalid && employee_id.touched }"
-                                id="employee_id" placeholder="Staff ID" [(ngModel)]="user.employee_id"
-                                name="employee_id" (blur)="checkAwashBankIdStatus($event)" required="true"
-                                pattern="^(AB|AIB)\/(\d{1,7})\/(19|20|21)\d{2}$" maxlength="30"
-                                (input)="genericInputValidation($event, 'employee_id')" />
+                            <input 
+                            pInputText 
+                            type="text" 
+                            #employee_id="ngModel"
+                             [ngClass]="{ 'border-red-500': employee_id.invalid && employee_id.touched }"
+                             id="employee_id" 
+                             placeholder="Staff ID" 
+                             [(ngModel)]="user.employee_id"
+                            name="employee_id" 
+                            autocomplete="off"
+                            (blur)="checkAwashBankIdStatus($event)" 
+                            required="true"
+                            pattern="^(AB|AIB)\/(\d{1,7})\/(19|20|21)\d{2}$"
+                             maxlength="30"
+                            (input)="genericInputValidation($event, 'employee_id')" />
                             <div *ngIf="employee_id.errors && employee_id.touched">
-                                <small class="text-red-600" *ngIf="employee_id.errors['required']">Awash Bank ID is
-                                    required</small>
-                                <small class="text-red-600" *ngIf="employee_id.errors['pattern']">Awash ID
-                                    Incorrect</small>
+                                <small class="text-red-600" *ngIf="employee_id.errors['required']">Awash Bank ID is required</small>
+                                <small class="text-red-600" *ngIf="employee_id.errors['pattern']">Awash ID Incorrect</small>
                             </div>
                             <div *ngIf="employee_id_status">
                                 <small class="text-red-600">This ID Does not exist!</small>
@@ -55,13 +62,10 @@
                             <div *ngIf="employee_id_status_system">
                                 <small class="text-red-600">User Already registered!</small>
                             </div>
-
-
-                            <div> <small *ngIf="invalidXssAwashId" class="text-danger">
-                                    Invalid input detected! (possible malicious content)
-                                </small></div>
+                            <div> 
+                                <small *ngIf="invalidXssAwashId" class="text-danger"> Invalid input detected! (possible malicious content)</small>
+                            </div>
                         </div>
-
 
                         <div *ngIf="!employee_id_status && !employee_id_status_system && proceed && !(employee_id.errors && employee_id.touched)"
                             class="grid grid-cols-1 md:grid-cols-2 gap-4">

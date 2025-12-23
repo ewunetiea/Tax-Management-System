@@ -55,9 +55,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     String hostHeader = request.getHeader("Host");
     String originHeader = request.getHeader("Origin");
     String remoteAddr = request.getRemoteAddr();
-
-    System.out.println( request.getRequestURI()+ "method is "+ request.getMethod() + " address is" + remoteAddr + " header is " +  hostHeader + " origin is " +  originHeader);
-
     logger.info("tms API URI: {} Method: {} Remote: {} Host: {} Origin: {}",
         request.getRequestURI(), request.getMethod(), remoteAddr, hostHeader, originHeader);
 

@@ -109,7 +109,6 @@ export class ManageTaxComponent implements OnInit {
         this.loading = true;
 
         if (event) {
-            console.log("event ")
             // Event contains first row index and rows per page
             this.payload.currentPage = event.first / event.rows + 1;
             this.payload.pageSize = event.rows;
@@ -129,7 +128,6 @@ export class ManageTaxComponent implements OnInit {
     lazyload(event?: any) {
 
         if (event) {
-            console.log("event ")
             // Event contains first row index and rows per page
             this.payload.currentPage = event.first / event.rows + 1;
             this.payload.pageSize = event.rows;
@@ -139,8 +137,6 @@ export class ManageTaxComponent implements OnInit {
             .subscribe(res => {
                 this.taxes = res;
                 this.totalRecords = this.taxes[0]?.total_records_paginator ?? 0;
-
-                console.log("total records " + this.totalRecords)
             });
     }
 
@@ -154,9 +150,6 @@ export class ManageTaxComponent implements OnInit {
 
 
                 this.totalRecords = this.taxes[0].total_records_paginator as any
-
-                console.log("total records " + this.totalRecords)
-
             }
         } else {
 

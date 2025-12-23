@@ -41,19 +41,27 @@
                             <small *ngIf="usernameModel.errors?.['required']">fussion username is required.</small>
                         </div>
                         <div> <small *ngIf="invalidXssUserName" class="text-danger">
-      Invalid input detected! (possible malicious content)
+                             Invalid input detected! (possible malicious content)
                             </small></div>
 
                         <label for="password1"
                             class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Password</label>
-                        <p-password name="password" [(ngModel)]="form.password" placeholder="Password"
-                            [toggleMask]="true" [feedback]="false" required #passwordModel="ngModel"
-                            styleClass="w-full  mb-2" inputStyleClass="h-14 w-full" (input)="validateXssAuth($event, 'password')" 
-                            maxlength="50" aria-autocomplete="false" />
+                        <p-password 
+                        name="password" 
+                        [(ngModel)]="form.password" 
+                        placeholder="Password"
+                        [toggleMask]="true" 
+                        [feedback]="false" 
+                        required 
+                        #passwordModel="ngModel"
+                        styleClass="w-full  mb-2" 
+                        inputStyleClass="h-14 w-full" 
+                        autocomplete="off"
+                        (input)="validateXssAuth($event, 'password')" 
+                        maxlength="50" 
+                        aria-autocomplete="false" />
                         <div *ngIf="f.submitted && passwordModel.invalid" class="text-red-500 mb-2">
                             <small *ngIf="passwordModel.errors?.['required']">Password is required.</small>
-
-
                         </div>
 
                         <div> <small *ngIf="invalidXssPassword" class="text-danger">

@@ -141,23 +141,23 @@ public class AuthController {
         }
 
         private ResponseEntity<?> doLogin(LoginRequest loginRequest, HttpServletRequest request) {
-                try {
-                        User user = userService.findByFusionUsername(loginRequest.getUsername());
-                        if (user != null) {
-                                ChangeMyPasswordDto passDto = new ChangeMyPasswordDto();
-                                passDto.setId(user.getId());
-                                passDto.setPassword(loginRequest.getPassword());
-                                passDto.setOldPassword(user.getPassword());
+                // try {
+                //         User user = userService.findByFusionUsername(loginRequest.getUsername());
+                //         if (user != null) {
+                //                 ChangeMyPasswordDto passDto = new ChangeMyPasswordDto();
+                //                 passDto.setId(user.getId());
+                //                 passDto.setPassword(loginRequest.getPassword());
+                //                 passDto.setOldPassword(user.getPassword());
 
-                                if (passwordService.passwordDoesnotMatchWithNewPasswordAD(passDto)) {
-                                        passwordService.changeMyPassword(passDto);
-                                }
+                //                 if (passwordService.passwordDoesnotMatchWithNewPasswordAD(passDto)) {
+                //                         passwordService.changeMyPassword(passDto);
+                //                 }
 
                                
-                        }
-                } catch (Exception e) {
-                        logger.error("Error checking user credential expiration for username: {}", loginRequest.getUsername(), e);
-                }
+                //         }
+                // } catch (Exception e) {
+                //         logger.error("Error checking user credential expiration for username: {}", loginRequest.getUsername(), e);
+                // }
 
                 Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
                 SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -8,12 +8,12 @@ import { UserService } from '../../../../../service/admin/user.service';
 
 @Component({
     standalone : true,
-  selector: 'app-add-user-security',
+  selector: 'app-user-status-control',
   imports : [SharedUiModule],
-  templateUrl: './add-user-security.component.html',
-  styleUrls: ['./add-user-security.component.css'],
+  templateUrl: './user-status-control.component.html',
+  styleUrls: ['./user-status-control.component.css'],
 })
-export class AddUserSecurityComponent implements OnInit {
+export class UserStatusControlComponent implements OnInit {
     
   user_sec = new User();
   loading = false;

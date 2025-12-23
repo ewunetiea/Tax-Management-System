@@ -18,21 +18,21 @@ import { ChartModule } from 'primeng/chart';
 import { ApproverDashboardService } from 'app/service/approver/approver-dashboard-service';
 
 @Component({
-  selector: 'app-ho-dashboard',
+  selector: 'app-approver-dashboard',
   standalone: true,
   imports: [SharedUiModule, CardSkeleton, BarAndLineChartSkeleton, PieDougnutPolarSkeleton, PieDougnutPolarSkeletonDescription, EditorModule, ChartModule],
-  templateUrl: './ho-dashboard.component.html',
-        styleUrl: './ho-dashboard.component.scss'
+  templateUrl: './approver-dashboard.component.html',
+        styleUrl: './approver-dashboard.component.scss'
 
 })
-export class HODashboard {
+export class ApproverDashboard {
   private destroy$ = new Subject<void>();
   subscription: Subscription;
   loading = true;
   user: User = new User();
   announcement: Announcement = new Announcement();
   reviewerDashboard: ReviewerDashboard = new ReviewerDashboard();
-  taxStatus: number[] = [];
+  taxStatus: any;
   recentActivityies: RecentActivity[] = [];
   branch_id?: number;
   stackedBarTaxesStatusData: any;
@@ -64,7 +64,12 @@ export class HODashboard {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: ({ taxStatus, recentActivities, announcement, stackedBarTaxesStatusData }) => {
-          this.taxStatus = Object.values(taxStatus);
+          this.taxStatus = taxStatus;
+
+          console.log(taxStatus)
+
+
+
           this.recentActivityies = recentActivities;
           this.announcement = announcement;
 

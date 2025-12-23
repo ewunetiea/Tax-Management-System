@@ -311,7 +311,7 @@
 
 <p-dialog [(visible)]="userStatusDialog" header="User Status Configuration" [modal]="true" styleClass="p-fluid" [maximizable]="true">
     <ng-template pTemplate="content">
-        <app-add-user-security [passedUser]="outputUser" (editedUser)="onDataChange($event)"></app-add-user-security>
+        <app-user-status-control [passedUser]="outputUser" (editedUser)="onDataChange($event)"></app-user-status-control>
     </ng-template>
 </p-dialog>
 

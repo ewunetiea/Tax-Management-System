@@ -39,7 +39,7 @@ export class ReviewerDashboardComponent implements OnInit, OnDestroy {
   user: User = new User();
   announcement: Announcement = new Announcement();
   reviewerDashboard: ReviewerDashboard = new ReviewerDashboard();
-  taxStatus: number[] = [];
+  taxStatus: any;
   branch_id?: number;
   stackedBarTaxesStatusData: any;
   stackedBarOptions: any;
@@ -57,6 +57,8 @@ announcmentavailable : boolean = false
   ngOnInit() {
     this.user = this.storageService.getUser();
     this.branch_id = this.user.branch?.id;
+
+    console.log("branch id " + this.branch_id)
     this.loadReviewerDashboards();
   }
 
@@ -70,7 +72,8 @@ announcmentavailable : boolean = false
     .subscribe({
       next: ({ taxStatus, announcement, stackedBarTaxesStatusData }) => {
 
-        this.taxStatus = Object.values(taxStatus);
+        this.taxStatus = taxStatus;
+
 
         this.announcement = announcement;
 

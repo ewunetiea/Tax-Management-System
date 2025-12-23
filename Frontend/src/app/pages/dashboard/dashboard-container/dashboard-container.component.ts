@@ -3,25 +3,24 @@ import { AdminDashboardComponent } from '../admin-dashboard/admin-dashboard.comp
 import { SharedUiModule } from '../../../../shared-ui';
 import { MakerDashboard } from '../maker-dashboard/maker-dashboard';
 import { StorageService } from '../../../service/sharedService/storage.service';
-import { HODashboard } from '../approver-dashboard/ho-dashboard';
 import { ReviewerDashboardComponent } from '../reviewer-dashboard/reviewer-dashboard.component';
+import { ApproverDashboard } from '../approver-dashboard/approver-dashboard';
 
 @Component({
     standalone: true,
     selector: 'app-dashboard-container',
-    imports: [SharedUiModule, AdminDashboardComponent, MakerDashboard, ReviewerDashboardComponent, HODashboard],
+    imports: [SharedUiModule, AdminDashboardComponent, MakerDashboard, ReviewerDashboardComponent, ApproverDashboard],
     templateUrl: './dashboard-container.component.html'
 })
 export class DashboardContainerComponent {
     isLoggedIn = false;
     private roles: string[] = [];
     admin = false;
-    approver = false;
     maker = false;
     reviewer = false;
     auditee = false;
     auditee_division = false;
-    ho = false;
+    approver = false;
     approver_reviewer = false;
     higher_official = false;
 
@@ -33,7 +32,7 @@ export class DashboardContainerComponent {
             const user = this.storageService.getUser();
             this.roles = user.roles;
             this.admin = this.roles.includes('ROLE_ADMIN');
-            this.ho = this.roles.includes('ROLE_APPROVER') ;
+            this.approver = this.roles.includes('ROLE_APPROVER') ;
             this.reviewer = this.roles.includes('ROLE_REVIEWER');
             this.maker = this.roles.includes('ROLE_MAKER');
            

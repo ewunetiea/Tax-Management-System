@@ -122,6 +122,8 @@ invalidXssUsername = false
 
     editAudit(passedData: any[]) {
         this.user = passedData[0];
+console.log("user information")
+        console.log(this.user)
         this.proceed = true;
         this.showJobPosition = true;
         if (this.user.region) {

@@ -49,12 +49,17 @@ public class MakerDashboardService {
     public List<Integer> computeCardData(Long user_id) {
         // description
         // 6 : drafted
-        // 0 : waiting for approval
-        // 1 : branch manager approved
+        // 0 : waiting for review
+        // 1 : sent to  approval
         // 2 : branch manager rejeced
+         // 3 : approver rejcted
+        // 5 : settled
+
+
 
         int status2 = makerDashboardMapper.getCardDataTaxStatus(2, user_id);
         int status3 = makerDashboardMapper.getCardDataTaxStatus(3,user_id);
+        System.out.println("_______________" + status2 + " stattt " + " " + status3);
         return List.of(
                 makerDashboardMapper.getCardDataTaxStatus(6, user_id),
                 makerDashboardMapper.getCardDataTaxStatus(0, user_id),
@@ -65,61 +70,7 @@ public class MakerDashboardService {
         );
     }
 
-    // @Transactional
-    // public List<List<Integer>> computeBarChartDataPerMonth(Long user_id) {
-    //     // SINGLE QUERY - 36x faster!
-    //     List<BarChartRow> allData = makerDashboardMapper.countAllByStatusAndMonthGrouped(user_id);
-
-    //     // Build result map
-    //     Map<Integer, Map<Integer, Integer>> countsByMonth = new HashMap<>();
-    //     for (BarChartRow row : allData) {
-    //         countsByMonth.computeIfAbsent(row.getMonth(), k -> new HashMap<>())
-    //                 .put(row.getStatus(), row.getCount());
-    //     }
-
-    //     List<List<Integer>> barChartData = new ArrayList<>();
-    //     for (int month = 1; month <= 12; month++) {
-    //         Map<Integer, Integer> monthCounts = countsByMonth.getOrDefault(month, new HashMap<>());
-    //         int waiting = monthCounts.getOrDefault(0, 0);
-    //         int reviewed = monthCounts.getOrDefault(1, 0);
-    //         int approved = monthCounts.getOrDefault(5, 0);
-    //         barChartData.add(Arrays.asList(waiting, reviewed, approved));
-    //     }
-    //     return barChartData;
-    // }
-
-
-
-// @Transactional
-// public List<List<Integer>> computeBarChartDataPerMonth(Long user_id) {
-
-//     List<BarChartRow> allData =
-//             makerDashboardMapper.countAllByStatusAndMonthGrouped(user_id);
-
-//     Map<Integer, Map<Integer, Integer>> countsByMonth = new HashMap<>();
-
-//     for (BarChartRow row : allData) {
-//         countsByMonth
-//             .computeIfAbsent(row.getMonth(), k -> new HashMap<>())
-//             .put(row.getStatus(), row.getCount());
-//     }
-
-//     List<List<Integer>> barChartData = new ArrayList<>(12);
-
-//     for (int month = 1; month <= 12; month++) {
-//         Map<Integer, Integer> monthCounts =
-//                 countsByMonth.getOrDefault(month, Map.of());
-
-//         barChartData.add(List.of(
-//             monthCounts.getOrDefault(0, 0), // Waiting
-//             monthCounts.getOrDefault(1, 0), // Reviewed
-//             monthCounts.getOrDefault(5, 0)  // Approved
-//         ));
-//     }
-
-//     return barChartData;
-// }
-
+   
 
 @Transactional
 public List<List<Integer>> computeBarChartDataPerMonth(Long user_id) {

@@ -132,6 +132,15 @@ export class InputSanitizer {
       "alert\\(",
       "prompt\\(",
       "confirm\\(",
+      // ----------------------------
+      // 🚨 SQL INJECTION - TAUTOLOGIES
+      // ----------------------------
+      "'?\\s*or\\s*'?1'?\\s*=\\s*'?1'?",       // OR '1'='1
+      "\"?\\s*or\\s*\"?1\"?\\s*=\\s*\"?1\"?",  // OR "1"="1"
+      "'?\\s*and\\s*'?1'?\\s*=\\s*'?1'?",      // AND '1'='1
+      "\"?\\s*and\\s*\"?1\"?\\s*=\\s*\"?1\"?", // AND "1"="1"
+      "1\\s*=\\s*1",                           // bare 1=1
+
 
       // Unicode-hidden payloads
       "[\\u202E\\u202D\\u202B\\u202A]",   // RTL override chars

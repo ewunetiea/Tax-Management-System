@@ -31,6 +31,7 @@ import com.tms.Admin.utilis.HttpUtils;
 import com.tms.Payload.request.LoginRequest;
 import com.tms.Payload.response.MessageResponse;
 import com.tms.Payload.response.UserInfoResponse;
+import com.tms.Security.EncryptionService;
 import com.tms.Security.UserDetailsImpl;
 import com.tms.Security.Password.ChangeMyPasswordDto;
 import com.tms.Security.Password.PasswordService;
@@ -100,9 +101,31 @@ public class AuthController {
         @Autowired
         private LDAPProductionService lDAPProductionService;
 
+        
+         @Autowired
+    private EncryptionService encryptionService;
+
+    
+
         @PostMapping("/signin")
+
+
+
+        
+
+
         public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
                         HttpServletRequest request) throws Exception {
+
+System.out.println("______FF______________");
+                                
+
+// uhXWUyaLl0ha59QJfz+wXQ==
+        //  logger.info("Enrypted Text: " + encryptionService.encrypt("Django$$1219$$", "AzuFronhw55vN2b8IX9KdxuR25KeHDiz7vACN3qOfSY=", "Mp29MFyvaTylvRA45cDQCVnkKkWnA+1nHCo1O5lHGyI="));
+
+//        System.out.println(encryptionService.decrypt("776FHCFuvgLvDP85R2HuFg==", "AzuFronhw55vN2b8IX9KdxuR25KeHDiz7vACN3qOfSY=", "Mp29MFyvaTylvRA45cDQCVnkKkWnA+1nHCo1O5lHGyI="));
+
+
 
 
                 // Step 1: AD authentication
@@ -136,23 +159,23 @@ public class AuthController {
         }
 
         private ResponseEntity<?> doLogin(LoginRequest loginRequest, HttpServletRequest request) {
-                // try {
-                //         User user = userService.findByFusionUsername(loginRequest.getUsername());
-                //         if (user != null) {
-                //                 ChangeMyPasswordDto passDto = new ChangeMyPasswordDto();
-                //                 passDto.setId(user.getId());
-                //                 passDto.setPassword(loginRequest.getPassword());
-                //                 passDto.setOldPassword(user.getPassword());
+                try {
+                        User user = userService.findByFusionUsername(loginRequest.getUsername());
+                        if (user != null) {
+                                ChangeMyPasswordDto passDto = new ChangeMyPasswordDto();
+                                passDto.setId(user.getId());
+                                passDto.setPassword(loginRequest.getPassword());
+                                passDto.setOldPassword(user.getPassword());
 
-                //                 if (passwordService.passwordDoesnotMatchWithNewPasswordAD(passDto)) {
-                //                         passwordService.changeMyPassword(passDto);
-                //                 }
+                                if (passwordService.passwordDoesnotMatchWithNewPasswordAD(passDto)) {
+                                        passwordService.changeMyPassword(passDto);
+                                }
 
                                
-                //         }
-                // } catch (Exception e) {
-                //         logger.error("Error checking user credential expiration for username: {}", loginRequest.getUsername(), e);
-                // }
+                        }
+                } catch (Exception e) {
+                        logger.error("Error checking user credential expiration for username: {}", loginRequest.getUsername(), e);
+                }
 
 
         System.out.println(encoder.encode(loginRequest.getPassword()));

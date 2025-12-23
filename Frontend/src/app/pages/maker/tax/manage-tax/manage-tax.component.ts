@@ -98,7 +98,7 @@ export class ManageTaxComponent implements OnInit {
     onSearch(payload: MakerSearchPayload) {
         this.payload = payload;
         this.payload.currentPage = 1; // reset to first page
-        this.payload.pageSize = 4;    // default page size
+        this.payload.pageSize = 5;    // default page size
 
         this.loadTaxes(); // fetch first page
     }
@@ -118,6 +118,7 @@ export class ManageTaxComponent implements OnInit {
         this.taxService.fetchTaxesBasedOnStatus(this.payload)
             .subscribe(res => {
                 this.taxes = res;
+                
                 this.totalRecords = this.taxes[0]?.total_records_paginator ?? 0;
                 this.loading = false;
             });

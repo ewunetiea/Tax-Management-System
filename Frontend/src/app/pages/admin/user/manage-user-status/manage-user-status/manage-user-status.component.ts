@@ -4,13 +4,13 @@ import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
 import { User } from '../../../../../models/admin/user';
 import { UserSearchEngineComponent } from '../../user-search-engine/user-search-engine.component';
 import { SharedUiModule } from '../../../../../../shared-ui';
-import { AddUserSecurityComponent } from "../../security/add-user-security/add-user-security.component";
 import { Table } from 'primeng/table';
 import { UserService } from '../../../../../service/admin/user.service';
+import { UserStatusControlComponent } from '../../security/user-status-control/user-status-control.component';
 
 @Component({
     selector: 'app-manage-user-status',
-    imports: [UserSearchEngineComponent, SharedUiModule, AddUserSecurityComponent],
+    imports: [UserSearchEngineComponent, SharedUiModule, UserStatusControlComponent],
     templateUrl: './manage-user-status.component.html',
     styleUrl: './manage-user-status.component.scss',
     providers: [MessageService, ConfirmationService]

@@ -99,21 +99,19 @@
                     <label for="graduatetaxWithHold" class="block font-bold mb-3">Graduate Tax With Hold<strong
                             class="text-danger">*</strong></label>
                     <p-inputnumber [(ngModel)]="tax.graduatetaxWithHold" name="graduatetaxWithHold"
-                        inputId="graduatetaxWithHold" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="5"
+                        inputId="graduatetaxWithHold" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="6"
                         required autocomplete="off" fluid class="w-full h-12 " />
                     <span
                         *ngIf="taxForm.controls['graduatetaxWithHold']?.invalid && (taxForm.controls['graduatetaxWithHold']?.touched || submitted)"
                         class="text-danger">Graduate Tax With Hold is required.</span>
                 </div>
               
-               
-
 
                   <div class="p-field">
                     <label for="noOfEmployee" class="block font-bold mb-3">Number of Employee<strong
                             class="text-danger">*</strong></label>
                     <p-inputnumber [(ngModel)]="tax.noOfEmployee" name="noOfEmployee"
-                        inputId="noOfEmployee" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="5"
+                        inputId="noOfEmployee" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="6"
                         required autocomplete="off" fluid class="w-full h-12 " />
                     <span
                         *ngIf="taxForm.controls['noOfEmployee']?.invalid && (taxForm.controls['noOfEmployee']?.touched || submitted)"
@@ -137,7 +135,7 @@
                     <label for="graduateTotaEmployee" class="block font-bold mb-3">Graduate Total Employee<strong
                             class="text-danger">*</strong></label>
                     <p-inputnumber [(ngModel)]="tax.graduateTotaEmployee" name="graduateTotaEmployee"
-                        inputId="graduateTotaEmployee" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="5"
+                        inputId="graduateTotaEmployee" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="6"
                         required autocomplete="off" fluid class="w-full h-12 " />
                     <span
                         *ngIf="taxForm.controls['graduateTotaEmployee']?.invalid && (taxForm.controls['graduateTotaEmployee']?.touched || submitted)"
